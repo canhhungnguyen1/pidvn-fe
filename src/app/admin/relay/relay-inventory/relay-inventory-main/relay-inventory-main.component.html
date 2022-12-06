@@ -1,0 +1,20 @@
+<nz-breadcrumb>
+  <nz-breadcrumb-item> Relay </nz-breadcrumb-item>
+  <nz-breadcrumb-item> Kho trung chuyển </nz-breadcrumb-item>
+  <nz-breadcrumb-item> Kiểm kê menu </nz-breadcrumb-item>
+</nz-breadcrumb>
+<br />
+<nz-table #menuTable [nzData]="menu" nzBordered nzFrontPagination="false">
+  <thead>
+    <tr>
+      <th>STT</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of menuTable.data; index as i">
+      <td style="width: 100px; text-align: center;">{{i+1}}</td>
+      <td [routerLink]="data.route"><a>{{data.name}}</a></td>
+    </tr>
+  </tbody>
+</nz-table>

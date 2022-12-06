@@ -1,0 +1,14 @@
+<div class="wrapper">
+  <h1 class="text-center">Panasonic Industrial Devices Vietnam</h1>
+  <h5>Hưng Test</h5>
+  <br />
+
+  <div *ngIf="weatherInfo">
+    <span>{{ weatherInfo?.city_name }}: {{ weatherInfo?.temp }}°C</span>
+    <img
+      [src]="weatherUrl + weatherInfo?.weather.icon + '.png'"
+      width="50px"
+      style="margin-left: 5px"
+    />
+  </div>
+</div>

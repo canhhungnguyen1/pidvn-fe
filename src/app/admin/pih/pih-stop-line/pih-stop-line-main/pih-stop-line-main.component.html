@@ -1,0 +1,308 @@
+<nz-breadcrumb>
+  <nz-breadcrumb-item> PIH </nz-breadcrumb-item>
+  <nz-breadcrumb-item> Stop Line </nz-breadcrumb-item>
+</nz-breadcrumb>
+<nz-collapse style="margin-top: 5px">
+  <nz-collapse-panel nzHeader="Search" [nzActive]="true" [nzShowArrow]="true">
+    <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+      <div nz-col nzXs="12" nzSm="12" nzLg="5">
+        <label nzXs="24" nzSm="24" nzLg="24">Date</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <nz-range-picker nzFormat="yyyy-MM-dd" nzMode="date">
+          </nz-range-picker>
+        </div>
+      </div>
+
+      <div nz-col nzXs="12" nzSm="12" nzLg="4">
+        <label nzXs="24" nzSm="24" nzLg="24">Line</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <nz-select
+            nzPlaceHolder="Line"
+            nzAllowClear
+            [nzDropdownMatchSelectWidth]="false"
+          >
+          </nz-select>
+        </div>
+      </div>
+
+      <div nz-col nzXs="12" nzSm="12" nzLg="4">
+        <label nzXs="24" nzSm="24" nzLg="24">Shift</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <nz-select
+            nzPlaceHolder="Shift"
+            nzAllowClear
+            [nzDropdownMatchSelectWidth]="false"
+          >
+          </nz-select>
+        </div>
+      </div>
+
+      <div nz-col nzXs="12" nzSm="12" nzLg="4">
+        <label nzXs="24" nzSm="24" nzLg="24">Type</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <nz-select
+            nzPlaceHolder="Type"
+            nzAllowClear
+            [nzDropdownMatchSelectWidth]="false"
+          >
+          </nz-select>
+        </div>
+      </div>
+
+      <div nz-col nzXs="12" nzSm="12" nzLg="4">
+        <label nzXs="24" nzSm="24" nzLg="24">Group</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <nz-select
+            nzPlaceHolder="Group"
+            nzAllowClear
+            [nzDropdownMatchSelectWidth]="false"
+          >
+          </nz-select>
+        </div>
+      </div>
+
+      <div nz-col nzXs="12" nzSm="12" nzLg="3">
+        <label nzXs="24" nzSm="24" nzLg="24">&nbsp;</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <button nz-button nzType="primary" style="float: right">
+            Search
+          </button>
+        </div>
+      </div>
+    </div>
+  </nz-collapse-panel>
+</nz-collapse>
+<br />
+<dx-data-grid
+  keyExpr="id"
+  [dataSource]="stopTimes"
+  [showColumnLines]="true"
+  [showRowLines]="true"
+  [showBorders]="true"
+  [allowColumnResizing]="true"
+  [columnAutoWidth]="true"
+  [rowAlternationEnabled]="true"
+  (onExporting)="onExportClient($event)"
+>
+  <dxo-export [enabled]="true"></dxo-export>
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
+  <dxo-paging [pageSize]="10"></dxo-paging>
+  <dxo-pager
+    [showPageSizeSelector]="true"
+    [allowedPageSizes]="[10, 25, 50, 100]"
+  ></dxo-pager>
+  
+  <dxo-toolbar>
+    <dxi-item location="before">
+      <dx-button
+        stylingMode="contained"
+        type="success"
+        icon="plus"
+        text="Add Stop Time"
+        (onClick)="openModal('insert', null)"
+      >
+      </dx-button>
+    </dxi-item>
+    <dxi-item name="exportButton"></dxi-item>
+  </dxo-toolbar>
+
+  <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+  <dxi-column
+    dataField="date"
+    dataType="date"
+    caption="Date"
+    format="yyyy-MM-dd"
+  ></dxi-column>
+  <dxi-column dataField="shiftName" caption="Shift"></dxi-column>
+  <dxi-column dataField="lineName" caption="Line"></dxi-column>
+
+  <dxi-column dataField="groupName" caption="Group"></dxi-column>
+  <dxi-column dataField="typeName" caption="Type"></dxi-column>
+  <dxi-column dataField="itemName" caption="Item"></dxi-column>
+  <dxi-column
+    dataField="startTime"
+    dataType="date"
+    caption="Start Time"
+    format="HH:mm"
+  ></dxi-column>
+  <dxi-column
+    dataField="stopTime"
+    dataType="date"
+    caption="End Time"
+    format="HH:mm"
+  ></dxi-column>
+  <dxi-column dataField="totalStopTime" caption="Total Stop"></dxi-column>
+  <dxi-column dataField="employee" caption="Employee"></dxi-column>
+  <dxi-column dataField="remark" caption="Remark"></dxi-column>
+  <dxi-column
+    caption="Action"
+    cellTemplate="cellTemplate"
+    alignment="center"
+    [fixed]="true"
+    fixedPosition="right"
+  >
+  </dxi-column>
+  <div *dxTemplate="let cell of 'cellTemplate'" style="text-align: center">
+    <a style="color: green" (click)="openModal('update', cell.data)">
+      Update
+    </a> | 
+    <a
+      style="color: red"
+      nz-popconfirm
+      nzPopconfirmTitle="Are you sure delete this one?"
+      (nzOnConfirm)="deleteStopTime(cell)"
+    >
+      Delete
+    </a>
+  </div>
+</dx-data-grid>
+
+<nz-modal [(nzVisible)]="isOpenModal" [nzTitle]="modalTitle" nzWidth="980px">
+  <ng-container *nzModalContent>
+    <nz-alert
+      *ngIf="errorMsg"
+      id="error-msg"
+      nzBanner
+      nzShowIcon
+      nzType="error"
+      [nzMessage]="errorMsg"
+    >
+    </nz-alert>
+    <nz-table
+      #basicTable
+      [nzData]="['']"
+      nzFrontPagination="false"
+      nzBordered
+      nzSize="small"
+      style="margin-top: 5px"
+    >
+      <tbody>
+        <tr>
+          <td><label>Type</label><span class="required">*</span></td>
+          <td>
+            <nz-select
+              nzShowSearch
+              nzAllowClear
+              [(ngModel)]="stopTimeSelected.type"
+              (ngModelChange)="onChangeStopTypes($event)"
+              nzPlaceHolder="Chọn Type"
+            >
+              <nz-option
+                *ngFor="let type of types"
+                [nzValue]="type.id"
+                [nzLabel]="type.name"
+              >
+              </nz-option>
+            </nz-select>
+          </td>
+          <td><label>Group</label><span class="required">*</span></td>
+          <td>
+            <nz-select
+              nzShowSearch
+              nzAllowClear
+              [(ngModel)]="stopTimeSelected.group"
+              (ngModelChange)="onChangeStopGroups($event)"
+              nzPlaceHolder="Chọn Group"
+            >
+              <nz-option
+                *ngFor="let group of stopGroups"
+                [nzValue]="group.id"
+                [nzLabel]="group.name"
+              >
+              </nz-option>
+            </nz-select>
+          </td>
+        </tr>
+        <tr>
+          <td><label>Item</label><span class="required">*</span></td>
+          <td colspan="3">
+            <nz-select
+              nzShowSearch
+              nzAllowClear
+              [(ngModel)]="stopTimeSelected.item"
+              nzPlaceHolder="Chọn Item"
+            >
+              <nz-option
+                *ngFor="let item of stopItems"
+                [nzValue]="item.id"
+                [nzLabel]="item.name"
+              >
+              </nz-option>
+            </nz-select>
+          </td>
+        </tr>
+        <tr>
+          <td><label>Time</label><span class="required">*</span></td>
+          <td colspan="3">
+            <nz-date-picker
+              nzPlaceHolder="Select Date"
+              (ngModelChange)="onChangeDate($event)"
+              [(ngModel)]="stopTimeSelected.date"
+            >
+            </nz-date-picker>
+            &nbsp;
+            <nz-time-picker
+              nzFormat="HH:mm"
+              nzPlaceHolder="Start time"
+              [(ngModel)]="stopTimeSelected.startTime"
+              (ngModelChange)="onChangeStartTime($event)"
+            >
+            </nz-time-picker>
+            -
+            <nz-time-picker
+              nzFormat="HH:mm"
+              nzPlaceHolder="End time"
+              [(ngModel)]="stopTimeSelected.stopTime"
+              (ngModelChange)="onChangeStopTime($event)"
+            >
+            </nz-time-picker>
+          </td>
+        </tr>
+        <tr>
+          <td><label>Line</label><span class="required">*</span></td>
+          <td>
+            <nz-select
+              nzShowSearch
+              nzAllowClear
+              [(ngModel)]="stopTimeSelected.line"
+            >
+              <nz-option
+                *ngFor="let line of lines"
+                [nzValue]="line.id"
+                [nzLabel]="line.name"
+              >
+              </nz-option>
+            </nz-select>
+          </td>
+          <td><label>Shift</label><span class="required">*</span></td>
+          <td>
+            <nz-select
+              nzShowSearch
+              nzAllowClear
+              [(ngModel)]="stopTimeSelected.shift"
+            >
+              <nz-option
+                *ngFor="let shift of shifts"
+                [nzValue]="shift.id"
+                [nzLabel]="shift.name"
+              >
+              </nz-option>
+            </nz-select>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label>Remark</label>
+          </td>
+          <td colspan="3">
+            <textarea rows="3" nz-input [(ngModel)]="stopTimeSelected.remark"></textarea>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="onCancel()">Hủy</button>
+    <button nz-button nzType="primary" (click)="onSave()">Lưu</button>
+  </div>
+</nz-modal>

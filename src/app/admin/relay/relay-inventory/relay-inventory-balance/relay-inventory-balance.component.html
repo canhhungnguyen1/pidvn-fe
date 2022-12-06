@@ -1,0 +1,120 @@
+<ul style="margin-left: -20px">
+  <li>Request No: {{ ivtReq?.reqNo }}</li>
+  <li>Cut Off: {{ ivtReq?.cutOff | date: "yyyy-MM-dd" }}</li>
+  <li>Inventory Date: {{ ivtReq?.inventoryDate | date: "yyyy-MM-dd" }}</li>
+</ul>
+
+<nz-tabset>
+  <nz-tab nzTitle="Chênh lệch Lý thuyết và Thực tế">
+    <nz-spin nzTip="Hệ thống đang tính toán chênh lệch..." *ngIf="isShowSpin">
+      <nz-alert
+        nzType="info"
+        nzMessage="Tính toán chênh lệch"
+        nzDescription="Hệ thống đang xử lý tính toán dữ liệu chênh lệch"
+      >
+      </nz-alert>
+    </nz-spin>
+    <dx-data-grid
+      *ngIf="!isShowSpin"
+      [dataSource]="balances"
+      keyExpr="id"
+      [showColumnLines]="true"
+      [showRowLines]="true"
+      [showBorders]="true"
+      [allowColumnResizing]="true"
+      [columnAutoWidth]="true"
+      [rowAlternationEnabled]="true"
+      (onExporting)="onExportBalance($event)"
+    >
+      <dxo-export [enabled]="true"></dxo-export>
+      <dxo-paging [pageSize]="15"></dxo-paging>
+      <dxo-filter-row [visible]="true"></dxo-filter-row>
+
+      <dxi-column dataField="partNo" caption="Part No"></dxi-column>
+      <dxi-column dataField="lotNo" caption="Lot No"></dxi-column>
+      <dxi-column
+        dataField="systemStock"
+        caption="Stock (Hệ thống)"
+        dataType="number"
+        format="#,##0"
+      ></dxi-column>
+      <dxi-column
+        dataField="actualStock"
+        caption="Stock (Thực tế)"
+        dataType="number"
+        format="#,##0"
+      ></dxi-column>
+      <dxi-column
+        dataField="balance"
+        caption="Chênh lệch"
+        dataType="number"
+        format="#,##0"
+      ></dxi-column>
+      <dxi-column dataField="line" caption="Line"></dxi-column>
+      <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
+
+      <dxo-pager
+        [showPageSizeSelector]="true"
+        [allowedPageSizes]="[10, 25, 50, 100]"
+      >
+      </dxo-pager>
+    </dx-data-grid>
+  </nz-tab>
+  <nz-tab nzTitle="Dữ liệu kiểm kê thực tế">
+    <dx-data-grid
+      [dataSource]="inventories"
+      keyExpr="id"
+      [showColumnLines]="true"
+      [showRowLines]="true"
+      [showBorders]="true"
+      [allowColumnResizing]="true"
+      [columnAutoWidth]="true"
+      [rowAlternationEnabled]="true"
+      (onExporting)="onExportInventory($event)"
+    >
+      <dxo-export [enabled]="true"></dxo-export>
+      <dxo-paging [pageSize]="15"></dxo-paging>
+      <dxo-filter-row [visible]="true"></dxo-filter-row>
+
+      <dxi-column
+        dataField="partNo"
+        caption="Part No"
+        [groupIndex]="0"
+      ></dxi-column>
+      <dxi-column dataField="lotNo" caption="Lot No"></dxi-column>
+      <dxi-column
+        dataField="qty"
+        caption="Qty"
+        dataType="number"
+        format="#,##0"
+      ></dxi-column>
+      <dxi-column dataField="line" caption="Line"></dxi-column>
+
+      <dxo-summary>
+        <dxi-group-item
+          column="partNo"
+          summaryType="count"
+          displayFormat="{0} parts"
+        >
+        </dxi-group-item>
+        <dxi-group-item
+          column="qty"
+          summaryType="sum"
+          [showInGroupFooter]="false"
+          [alignByColumn]="true"
+        >
+        </dxi-group-item>
+      </dxo-summary>
+
+      <dxi-sort-by-group-summary-info
+        summaryItem="count"
+      ></dxi-sort-by-group-summary-info>
+
+      <dxo-pager
+        [showPageSizeSelector]="true"
+        [allowedPageSizes]="[10, 25, 50, 100]"
+      >
+      </dxo-pager>
+    </dx-data-grid>
+  </nz-tab>
+</nz-tabset>

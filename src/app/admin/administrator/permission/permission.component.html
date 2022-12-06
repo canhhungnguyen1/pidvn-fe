@@ -1,0 +1,83 @@
+<nz-breadcrumb>
+  <nz-breadcrumb-item> Administrator </nz-breadcrumb-item>
+  <nz-breadcrumb-item> Permissions </nz-breadcrumb-item>
+</nz-breadcrumb>
+
+<h2 style="text-align: center">Danh sách các quyền trong hệ thống</h2>
+
+<div nz-row nzJustify="end" nzAlign="middle" [nzGutter]="24">
+  <div nz-col nzXs="24" nzSm="24" nzLg="24">
+    <button nz-button nzType="primary" (click)="isVisibleCreateForm = true">
+      Thêm mới
+    </button>
+  </div>
+</div>
+
+<nz-table
+  style="margin-top: 10px"
+  nzBordered
+  nzSize="small"
+  #permissionTable
+  [nzData]="permissions"
+>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Label</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of permissionTable.data">
+      <td>{{ data.name }}</td>
+      <td>{{ data.label }}</td>
+      <td>{{ data.description }}</td>
+    </tr>
+  </tbody>
+</nz-table>
+
+<nz-modal
+  [(nzVisible)]="isVisibleCreateForm"
+  nzTitle="Tạo mới Permission"
+  (nzOnOk)="createPermission()"
+  (nzOnCancel)="resetForm()"
+>
+  <ng-container *nzModalContent>
+    <form nz-form [formGroup]="createForm" (ngSubmit)="submitCreateForm()">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="6">Name</nz-form-label>
+        <nz-form-control nzErrorTip="Giá trị không hợp lệ">
+          <input
+            type="text"
+            nz-input
+            formControlName="name"
+            placeholder="Name"
+            pattern="[_a-z]{3,}"
+          />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="6">Label</nz-form-label>
+        <nz-form-control nzErrorTip="Giá trị không hợp lệ">
+          <input
+            type="text"
+            nz-input
+            formControlName="label"
+            placeholder="Label"
+          />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="6">Description</nz-form-label>
+        <nz-form-control nzErrorTip="Bắt buộc nhập">
+          <input
+            type="text"
+            nz-input
+            formControlName="description"
+            placeholder="Description"
+          />
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </ng-container>
+</nz-modal>

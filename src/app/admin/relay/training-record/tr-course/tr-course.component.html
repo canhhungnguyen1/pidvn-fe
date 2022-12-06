@@ -1,0 +1,50 @@
+<nz-breadcrumb>
+  <nz-breadcrumb-item> Relay Factory</nz-breadcrumb-item>
+  <nz-breadcrumb-item> Training Record </nz-breadcrumb-item>
+  <nz-breadcrumb-item> Khóa học </nz-breadcrumb-item>
+</nz-breadcrumb>
+<dx-data-grid
+  style="margin-top: 10px"
+  [dataSource]="courses"
+  [showColumnLines]="true"
+  [showRowLines]="true"
+  [showBorders]="true"
+  (onSaved)="onSaved($event)"
+>
+  <dxo-toolbar>
+    <dxi-item location="before" name="addRowButton" showText="always">
+    </dxi-item>
+  </dxo-toolbar>
+  <dxo-editing
+    mode="popup"
+    [allowUpdating]="true"
+    [allowAdding]="true"
+    [allowDeleting]="true"
+  >
+    <dxo-popup title="Khóa học" [showTitle]="true" [width]="525" [height]="400">
+    </dxo-popup>
+    <dxo-form>
+      <dxi-item itemType="group" [colCount]="1" [colSpan]="2">
+        <dxi-item dataField="name"></dxi-item>
+        <dxi-item dataField="type"> </dxi-item>
+      </dxi-item>
+    </dxo-form>
+  </dxo-editing>
+
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
+  <dxi-column caption="Name" dataField="name" alignment="left">
+    <dxi-validation-rule type="required"></dxi-validation-rule>
+  </dxi-column>
+  <dxi-column dataField="type" caption="Type">
+    <dxi-validation-rule type="required"></dxi-validation-rule>
+    <dxo-lookup [dataSource]="courseTypies" displayExpr="name" valueExpr="id">
+    </dxo-lookup>
+  </dxi-column>
+  <dxi-column
+    dataField="createdAt"
+    alignment="center"
+    dataType="date"
+    format="yyyy-MM-dd"
+  >
+  </dxi-column>
+</dx-data-grid>

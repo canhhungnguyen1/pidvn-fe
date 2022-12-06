@@ -1,0 +1,123 @@
+<label>Đổi model</label>
+<nz-table
+  id="infoTbl"
+  #infoTbl
+  [nzData]="['']"
+  nzBordered
+  nzSize="small"
+  nzFrontPagination="false"
+>
+  <tbody>
+    <tr>
+      <td style="width: 10%"><label>User ID</label></td>
+      <td style="width: 20%">
+        <input
+          #userIpt
+          nz-input
+          placeholder="Scan User ID"
+          (keydown.enter)="scanUser($event)"
+          (click)="userIpt.select()"
+          [(ngModel)]="scanner.userId"
+        />
+      </td>
+      <td style="width: 10%"><label>Tem</label></td>
+      <td>
+        <input
+          #labelIpt
+          nz-input
+          placeholder="Scan tem NVL"
+          (keydown.enter)="scanLabel($event)"
+          (click)="labelIpt.select()"
+          [(ngModel)]="scanner.label"
+        />
+      </td>
+      <td style="text-align: center; width: 10%">
+        <button nz-button [nzType]="'primary'" (click)="showModal()">
+          <span>Setup vị trí</span>
+        </button>
+      </td>
+    </tr>
+    <tr *ngIf="isError">
+      <td colspan="5">
+        <nz-alert
+          class="error"
+          nzBanner
+          nzType="error"
+          [nzMessage]="errMsg"
+          nzCloseable
+        ></nz-alert>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
+
+<nz-table
+  id="materialTbl"
+  #materialTbl
+  [nzData]="materials"
+  nzBordered
+  nzSize="small"
+  nzFrontPagination="false"
+>
+  <thead>
+    <tr>
+      <th>Lot No</th>
+      <th>Qty</th>
+      <th>Vị trí</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of materialTbl.data">
+      <td>{{ data.clotno }}</td>
+      <td style="text-align: center;">{{ data.qty | number: "1.0-3" }}</td>
+      <td style="text-align: center;" >{{ data.windingBobbin }}</td>
+      <td style="text-align: center;"><a>Sửa</a></td>
+    </tr>
+  </tbody>
+</nz-table>
+
+<nz-modal
+  [(nzVisible)]="isVisible"
+  nzTitle="Setup vị trí khi đổi Model"
+>
+  <ng-container *nzModalContent>
+    <nz-table
+      id="lotsTbl"
+      #lotsTbl
+      [nzData]="lots"
+      nzBordered
+      nzSize="small"
+      nzFrontPagination="true"
+      [nzPageSize]="10"
+    >
+      <thead>
+        <tr>
+          <th>
+            <input
+              #coilIpt
+              nz-input
+              placeholder="Scan cuộn COIL"
+              (keydown.enter)="scanCoil($event)"
+              (click)="coilIpt.select()"
+            />
+          </th>
+          <th>Số lượng: {{ lots.length }}</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr style="font-weight: bold">
+          <td colspan="2">Lot No</td>
+        </tr>
+        <tr *ngFor="let data of lotsTbl.data; index as i">
+          <td colspan="2">{{ data }}</td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="handleCancel()">Hủy</button>
+    <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="isLoading">Lưu</button>
+  </div>
+</nz-modal>

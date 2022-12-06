@@ -1,0 +1,61 @@
+span.attention {
+  font-style: italic;
+  color: red;
+}
+
+nz-select {
+  width: 100%;
+}
+
+nz-radio-group {
+  label {
+    font-weight: bold;
+  }
+}
+
+nz-table {
+  width: 100%;
+  ul {
+    margin-left: -34px;
+  }
+
+  td.ant-table-cell {
+    vertical-align: top;
+  }
+
+  label {
+    font-weight: bold;
+    color: blue;
+  }
+}
+
+#error-msg {
+  border: 1px solid red;
+  font-weight: bold;
+  width: 100%;
+  span {
+    color: red;
+  }
+}
+
+#infoIpt {
+  font-weight: bold;
+  font-weight: bold;
+}
+
+#infoTbl {
+  label {
+    color: black;
+    font-weight: bold;
+  }
+  span {
+    font-weight: bold;
+    color: blue;
+  }
+}
+
+#materialEditTbl {
+  td {
+    font-weight: bold;
+  }
+}

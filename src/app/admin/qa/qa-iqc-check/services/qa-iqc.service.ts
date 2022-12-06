@@ -1,0 +1,60 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class QaIqcService {
+  constructor(private httpClient: HttpClient) { }
+
+  private baseUrl = environment.baseUrl;
+
+  public getIqcRequests(searchVo: any): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/QA/IqcCheck/Requests`, searchVo);
+  }
+
+  public handleIqcRequest(iqcRequest: any): Observable<any> {
+    return this.httpClient.put(`${this.baseUrl}/QA/IqcCheck/Request`, iqcRequest)
+  }
+
+  public getIqcDataMaster(searchVo: any): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/QA/IqcCheck/IqcDataMaster`, searchVo);
+  }
+
+  public getIqcDataDetail(searchVo: any): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/QA/IqcCheck/IqcDataDetail`, searchVo);
+  }
+
+  public saveIqcData(iqcData: any): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/QA/IqcCheck/SaveIqcData`, iqcData);
+  }
+
+  public saveIqcDataMaster(iqcData: any): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/QA/IqcCheck/SaveIqcDataMaster`, iqcData);
+  }
+
+  public saveIqcDataDetail(iqcData: any): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/QA/IqcCheck/SaveIqcDataDetail`, iqcData);
+  }
+
+  public evaluateGeneral(iqcRequest: any): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/QA/IqcCheck/EvaluateGeneral`, iqcRequest);
+  }
+
+  public updateIqcRequest(requestNo: string, status: number ): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/QA/IqcCheck/UpdateIqcRequest?requestNo=${requestNo}&status=${status}`);
+  }
+
+  public deleteIqcDataDetail(id: number ): Observable<any> {
+    return this.httpClient.delete(`${this.baseUrl}/QA/IqcCheck/DeleteIqcDataDetail?id=${id}`);
+  }
+
+  public exportExcel(requestNo: string, invoice: string): Observable<any> {
+    return this.httpClient.get(
+      `${this.baseUrl}/QA/IqcCheck/ExportExcel?requestNo=${requestNo}&invoice=${invoice}`,
+      { responseType: 'blob' }
+    );
+  }
+}

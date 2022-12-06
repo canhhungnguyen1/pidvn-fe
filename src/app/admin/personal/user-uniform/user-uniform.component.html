@@ -1,0 +1,107 @@
+<!-- <nz-tabset>
+  <nz-tab nzTitle="Đồng phục">
+    <ng-container *ngTemplateOutlet="uniformTable"></ng-container>
+  </nz-tab>
+  <nz-tab nzTitle="History">
+    <ng-container *ngTemplateOutlet="history"></ng-container>
+  </nz-tab>
+</nz-tabset>
+<ng-template #uniformTable></ng-template>
+<ng-template #history>
+  <h1>Tab2</h1>
+</ng-template> -->
+
+<nz-breadcrumb>
+  <nz-breadcrumb-item> Cá nhân </nz-breadcrumb-item>
+  <nz-breadcrumb-item> Đồng phục </nz-breadcrumb-item>
+</nz-breadcrumb>
+
+<div nz-row nzJustify="start" [nzGutter]="24">
+  <div nz-col nzXs="24" nzSm="24" nzLg="12">
+    <nz-collapse>
+      <nz-collapse-panel
+        nzHeader="Dữ liệu nhận đồng phục"
+        [nzActive]="true"
+        [nzShowArrow]="true"
+      >
+        <nz-table
+          #uniformTable
+          nzBordered
+          nzSize="small"
+          [nzData]="userUniforms"
+          nzFrontPagination="false"
+        >
+          <thead>
+            <tr>
+              <th>Loại đồng phục</th>
+              <th>Kích cỡ</th>
+              <th>Số lượng</th>
+              <th>Ngày cấp</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of uniformTable.data">
+              <td>{{ data.uniformTypeName }}</td>
+              <td style="text-align: center">{{ data.size }}</td>
+              <td style="text-align: center">{{ data.qty }}</td>
+              <td style="text-align: center">
+                {{ data.date | date: "yyyy-MM-dd" }}
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </nz-collapse-panel>
+    </nz-collapse>
+  </div>
+  <div nz-col nzXs="24" nzSm="24" nzLg="12">
+    <nz-collapse>
+      <nz-collapse-panel
+        nzHeader="Thông tin Size"
+        [nzActive]="true"
+        [nzShowArrow]="true"
+      >
+        <nz-table
+          #uniformSizeTable
+          nzBordered
+          nzSize="small"
+          [nzData]="userUniformSizes"
+          nzFrontPagination="false"
+        >
+          <thead>
+            <tr>
+              <th style="width: 50%">Loại</th>
+              <th style="width: 50%">Kích cỡ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of uniformSizeTable.data">
+              <td>{{ data.sizeTypeName }}</td>
+              <td>
+                <nz-select
+                  nzShowSearch
+                  nzAllowClear
+                  nzPlaceHolder="Chọn kích cỡ"
+                  [(ngModel)]="data.size"
+                >
+                  <nz-option
+                    *ngFor="let size of data.valueType == 'number' ? numberSizes : textSizes"
+                    [nzValue]="size.value"
+                    [nzLabel]="size.label"
+                  >
+                  </nz-option>
+                </nz-select>
+              </td>
+            </tr>
+
+            <tr>
+              <td></td>
+              <td>
+                <button nz-button [nzLoading]="isLoading" nzType="primary" (click)="updateUserUniformSize(uniformSizeTable.data)">Lưu thông tin</button>
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </nz-collapse-panel>
+    </nz-collapse>
+  </div>
+</div>

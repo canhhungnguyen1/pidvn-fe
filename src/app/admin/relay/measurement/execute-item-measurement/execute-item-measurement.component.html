@@ -1,0 +1,243 @@
+<nz-breadcrumb>
+  <nz-breadcrumb-item> Manufacturing </nz-breadcrumb-item>
+  <nz-breadcrumb-item> Measurement </nz-breadcrumb-item>
+  <nz-breadcrumb-item> Hạng mục </nz-breadcrumb-item>
+  <nz-breadcrumb-item> Đo đạc </nz-breadcrumb-item>
+</nz-breadcrumb>
+
+<br />
+<div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+  <div nz-col nzXs="24" nzSm="24" nzLg="24">
+    <nz-tag [nzColor]="'blue'">Hạng mục : {{ itemName }} </nz-tag>
+    <nz-tag *ngIf="standard" [nzColor]="'green'">Mã quản lý: {{standard.mngCode}} </nz-tag>
+  </div>
+</div>
+<br />
+<nz-collapse>
+  <nz-collapse-panel
+    nzHeader="Thông tin bắt buộc"
+    [nzActive]="true"
+    [nzShowArrow]="true"
+  >
+    <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+      <div nz-col nzXs="12" nzSm="12" nzLg="6">
+        <label nzXs="24" nzSm="24" nzLg="24">QA Card</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <nz-select
+            id="qaCard"
+            nzShowSearch
+            nzAllowClear
+            nzPlaceHolder="Chọn QA Card"
+            [(ngModel)]="searchParams.qaCard"
+            (ngModelChange)="onChangeQaCard($event)"
+          >
+            <nz-option
+              class="option"
+              *ngFor="let qaCard of qaCards"
+              [nzValue]="qaCard.qaCard"
+              [nzLabel]="qaCard.qaCard"
+            >
+            </nz-option>
+          </nz-select>
+        </div>
+      </div>
+      <div nz-col nzXs="12" nzSm="12" nzLg="6">
+        <label nzXs="24" nzSm="24" nzLg="24">Line</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <nz-select
+            nzPlaceHolder="Chọn Line"
+            [(ngModel)]="searchParams.line"
+          >
+            <nz-option
+              *ngFor="let line of lines"
+              [nzValue]="line.value"
+              [nzLabel]="line.label"
+            >
+            </nz-option>
+          </nz-select>
+        </div>
+      </div>
+
+      <div nz-col nzXs="12" nzSm="12" nzLg="6">
+        <label nzXs="24" nzSm="24" nzLg="24">Dòng sản phẩm</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <nz-select
+            nzPlaceHolder="Chọn dòng sản phẩm"
+            (ngModelChange)="onChangeModelType($event)"
+            [(ngModel)]="searchParams.modelType"
+          >
+            <nz-option
+              *ngFor="let type of modelTypes"
+              [nzValue]="type.value"
+              [nzLabel]="type.label"
+            >
+            </nz-option>
+          </nz-select>
+        </div>
+      </div>
+
+      <div nz-col nzXs="12" nzSm="12" nzLg="6" *ngIf="isShowSearch && searchParams.modelType== 'TE' && this.isCheckMold">
+        <label nzXs="24" nzSm="24" nzLg="24">Khuôn</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <nz-select
+            nzPlaceHolder="Chọn khuôn"
+            (ngModelChange)="onChangeMold($event)"
+            [(ngModel)]="searchParams.mold"
+          >
+            <nz-option
+              *ngFor="let type of molds"
+              [nzValue]="type.value"
+              [nzLabel]="type.label"
+            >
+            </nz-option>
+          </nz-select>
+        </div>
+      </div>
+    </div>
+
+    <br />
+
+    <div
+      *ngIf="isShowSearch"
+      nz-row
+      nzJustify="start"
+      nzAlign="middle"
+      [nzGutter]="24"
+    >
+      <div nz-col nzXs="12" nzSm="12" nzLg="6">
+        <label nzXs="24" nzSm="24" nzLg="24">Model</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <nz-select
+            nzPlaceHolder="Chọn Model"
+            nzShowSearch
+            nzAllowClear
+            [(ngModel)]="searchParams.model"
+            (ngModelChange)="onChangeModel($event)"
+          >
+            <nz-option
+              *ngFor="let model of models"
+              [nzValue]="model.name"
+              [nzLabel]="model.name"
+            ></nz-option>
+          </nz-select>
+        </div>
+      </div>
+      <div nz-col nzXs="12" nzSm="12" nzLg="6">
+        <label nzXs="24" nzSm="24" nzLg="24">Người thực hiện</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <nz-select
+            nzPlaceHolder="Chọn nhân viên"
+            nzShowSearch
+            nzAllowClear
+            [(ngModel)]="searchParams.user"
+            (ngModelChange)="onChangeUser($event)"
+          >
+            <nz-option
+              *ngFor="let user of users"
+              [nzValue]="user.username"
+              [nzLabel]="user.name + ' - ' + user.username"
+            >
+            </nz-option>
+          </nz-select>
+        </div>
+      </div>
+      <div nz-col nzXs="12" nzSm="12" nzLg="6">
+        <label nzXs="24" nzSm="24" nzLg="24">Ca làm việc</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <nz-select
+            nzPlaceHolder="Chọn ca làm việc"
+            nzAllowClear
+            [(ngModel)]="searchParams.shift"
+            (ngModelChange)="onChangeShift($event)"
+          >
+            <nz-option
+              *ngFor="let shift of shifts"
+              [nzValue]="shift.value"
+              [nzLabel]="shift.label"
+            ></nz-option>
+          </nz-select>
+        </div>
+      </div>
+      <div nz-col nzXs="12" nzSm="12" nzLg="6">
+        <label nzXs="24" nzSm="24" nzLg="24">Lý do</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <nz-select
+            nzPlaceHolder="Chọn lý do"
+            nzAllowClear
+            [(ngModel)]="searchParams.reason"
+            (ngModelChange)="onChangeReason($event)"
+          >
+            <nz-option
+              *ngFor="let reason of reasons"
+              [nzValue]="reason.id"
+              [nzLabel]="reason.name"
+            ></nz-option>
+          </nz-select>
+        </div>
+      </div>
+    </div>
+  </nz-collapse-panel>
+</nz-collapse>
+
+<nz-skeleton
+  *ngIf="isShowLoading"
+  [nzActive]="true"
+  [nzParagraph]="{ rows: 4 }"
+></nz-skeleton>
+
+<!-- Hiển thị form NORMAL -->
+<ng-template [ngIf]="isShowNormalForm">
+  <container-element [ngSwitch]="standard.type">
+    <app-mea-exe-type1
+      *ngSwitchCase="1"
+      [item]="item"
+      [images]="itemImages"
+      [standard]="standard"
+      [searchParams]="searchParams"
+    ></app-mea-exe-type1>
+
+    <app-mea-exe-type2
+      *ngSwitchCase="2"
+      [item]="item"
+      [images]="itemImages"
+      [standard]="standard"
+      [searchParams]="searchParams"
+    ></app-mea-exe-type2>
+
+    <app-mea-exe-type3
+      *ngSwitchCase="3"
+      [item]="item"
+      [images]="itemImages"
+      [standard]="standard"
+      [searchParams]="searchParams"
+    ></app-mea-exe-type3>
+    <app-mea-exe-type4
+      *ngSwitchCase="4"
+      [item]="item"
+      [images]="itemImages"
+      [standard]="standard"
+      [searchParams]="searchParams"
+    >
+    </app-mea-exe-type4>
+    <app-mea-exe-type5
+      *ngSwitchCase="5"
+      [item]="item"
+      [images]="itemImages"
+      [standard]="standard"
+      [searchParams]="searchParams"
+    >
+    </app-mea-exe-type5>
+  </container-element>
+</ng-template>
+
+<!-- Hiển thị form CHECK_SHEET -->
+<ng-template [ngIf]="isShowCheckSheetForm">
+  <app-mea-exe-check-sheet
+    [item]="item"
+    [modelType]="modelTypeSelected"
+    [images]="itemImages"
+    [standard]="standard"
+    [searchParams]="searchParams"
+  >
+  </app-mea-exe-check-sheet>
+</ng-template>

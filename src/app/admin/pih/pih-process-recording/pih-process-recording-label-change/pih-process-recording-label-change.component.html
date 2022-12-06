@@ -1,0 +1,60 @@
+<label>Thay tem hàng ngày </label>
+
+<nz-table
+  id="infoTbl"
+  #infoTbl
+  [nzData]="['']"
+  nzBordered
+  nzSize="small"
+  nzFrontPagination="false"
+>
+  <tbody>
+    <tr>
+      <td><label>User ID</label></td>
+      <td colspan="3">
+        <input
+          #userIpt
+          nz-input
+          placeholder="Scan mã nhân viên"
+          (keydown.enter)="scanUser($event)"
+          [(ngModel)]="scanner.userId"
+          (click)="userIpt.select()"
+        />
+      </td>
+      <td rowspan="2">
+        <button
+          nz-button
+          nzType="primary"
+          style="width: 100%; height: 80px !important; font-weight: bold"
+          (click)="changeLabel()"
+        >
+          Lưu
+        </button>
+      </td>
+    </tr>
+    <tr>
+      <td><label>Tem mới</label></td>
+      <td>
+        <input
+          #newLabelIpt
+          nz-input
+          placeholder="Scan tem mới"
+          (keydown.enter)="scanNewLabel($event)"
+          (click)="newLabelIpt.select()"
+          [(ngModel)]="scanner.newLabel"
+        />
+      </td>
+      <td><label>Tem cũ</label></td>
+      <td>
+        <input
+          #oldLabelIpt
+          nz-input
+          placeholder="Scan tem cũ"
+          (keydown.enter)="scanOldLabel($event)"
+          (click)="oldLabelIpt.select()"
+          [(ngModel)]="scanner.oldLabel"
+        />
+      </td>
+    </tr>
+  </tbody>
+</nz-table>

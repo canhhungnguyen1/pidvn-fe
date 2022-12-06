@@ -1,0 +1,276 @@
+<div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+  <div nz-col nzXs="12" nzSm="18" nzLg="18">
+    <span class="attention"
+      >* Lưu ý: Scan theo thứ tự User ID, QA card, Process</span
+    >
+  </div>
+  <div nz-col nzXs="4" nzSm="6" nzLg="6">
+    <a
+      style="float: right"
+      nz-button
+      nzType="link"
+      routerLink="/admin/relay/material-management/relay-mapping-qacard"
+    >
+      Nhập QA Card
+    </a>
+  </div>
+  <div nz-col nzXs="24" nzSm="24" nzLg="24">
+    <nz-table
+      id="infoTbl"
+      #infoTbl
+      [nzData]="['']"
+      nzBordered
+      nzSize="small"
+      nzFrontPagination="false"
+    >
+      <thead>
+        <tr>
+          <th colspan="3">
+            <input
+              id="infoIpt"
+              #infoIpt
+              nz-input
+              placeholder="Scan theo thứ tự User ID, QA card, Process"
+              (keydown.enter)="scanInfo($event)"
+              (click)="infoIpt.select()"
+              autocomplete="off"
+            />
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td width="33%">
+            <label>Model: </label>
+            <span>{{ infoScan.model }}</span>
+          </td>
+          <td width="33%">
+            <label>Line: </label>
+            <span>{{ infoScan.line }}</span>
+          </td>
+          <td width="33%">
+            <label>Date: </label>
+            <span>{{ infoScan.date }}</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label>User: </label>
+            <span>{{ infoScan.user }}</span>
+          </td>
+          <td>
+            <label>Shift: </label>
+            <span>{{ infoScan.shift }}</span>
+          </td>
+          <td>
+            <label>Process: </label>
+            <span>{{ infoScan.processName }}</span>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>
+
+<nz-table
+  #lotTbl
+  [nzData]="materials"
+  nzBordered
+  nzSize="small"
+  nzFrontPagination="false"
+  style="margin-top: -25px"
+>
+  <thead>
+    <tr>
+      <th>Part No</th>
+      <th>Lot No (Đã nhập vào LINE)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of lotTbl.data">
+      <td>
+        <span style="color: #0039b8; font-weight: bold">{{ data.partNo }}</span>
+        <span style="margin-left: 3px; color: green"
+          >(Qty: {{ data.qty | number: "1.0-3" }})</span
+        >
+      </td>
+      <td>
+        <ul>
+          <li *ngFor="let lot of data.lots">
+            <span style="font-weight: bold">{{ lot.lotNo }}</span>
+            <span style="margin-left: 3px; color: green"
+              >(Qty: {{ lot.qty | number: "1.0-3" }})</span
+            >
+            <span
+              style="margin-left: 8px; color: blue"
+              (click)="openEditMaterialModal(lot)"
+              >Sửa</span
+            >
+            <span style="margin-left: 8px; color: black">|</span>
+            <span
+              style="margin-left: 8px; color: red"
+              nz-popconfirm
+              nzPopconfirmTitle="Bạn có muốn xóa không ?"
+              nzPopconfirmPlacement="top"
+              (nzOnConfirm)="deleteMaterial(lot)"
+            >
+              Xóa</span
+            >
+          </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
+
+<nz-modal
+  id="importMaterialModal"
+  [(nzVisible)]="isOpenScanQRCodeModal"
+  [nzTitle]="nzTitleScanQRCodeModal"
+  nzWidth="750px"
+>
+  <ng-container *nzModalContent>
+    <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+      <input
+        nz-input
+        #qrCodeIpt
+        placeholder="Scan mã QR nguyên vật liệu"
+        (keydown.enter)="scanQRCode($event)"
+        (click)="qrCodeIpt.select()"
+        autocomplete="off"
+        style="font-weight: bold"
+      />
+      <nz-alert
+        *ngIf="lotErrMsg"
+        id="error-msg"
+        nzBanner
+        nzShowIcon
+        style="margin-top: 10px"
+        nzType="error"
+        [nzMessage]="lotErrMsg"
+      >
+      </nz-alert>
+      <nz-table
+        #qrTbl
+        [nzData]="listLotsScanned"
+        style="margin-top: 15px"
+        nzBordered
+        nzSize="small"
+        [nzFrontPagination]="true"
+        [nzPageSize]="5"
+      >
+        <thead>
+          <tr>
+            <th>Part No</th>
+            <th>Lot No</th>
+            <th>Qty (Nhập line)</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of qrTbl.data">
+            <td>
+              <label>{{ data.partNo }}</label>
+            </td>
+            <td>
+              <label>{{ data.lotNo }}</label>
+              <span style="color: green; margin-left: 5px">
+                (Qty: {{ data.originQty | number: "1.0-3" }})
+              </span>
+            </td>
+            <td class="editable-row" style="text-align: right">
+              <div
+                class="editable-cell"
+                [hidden]="lotNoEdit === data.lotNo"
+                (click)="startEdit(data)"
+              >
+                {{ data.qty | number: "1.0-3" }}
+              </div>
+              <input
+                #importQtyIpt
+                [hidden]="lotNoEdit !== data.lotNo"
+                type="number"
+                nz-input
+                [(ngModel)]="data.qty"
+                (blur)="stopEdit()"
+              />
+            </td>
+            <td
+              style="text-align: center"
+              nz-popconfirm
+              nzPopconfirmTitle="Có chắc chắn xóa không ?"
+              (nzOnConfirm)="deleteQRCodeScanned(data)"
+              nzPopconfirmPlacement="top"
+              nzRight
+            >
+              <a style="color: red; font-weight: bold">Xóa</a>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </ng-container>
+  <ng-template [nzModalFooter]>
+    <button nz-button nzType="default" (click)="isOpenScanQRCodeModal = false">
+      Hủy
+    </button>
+    <button
+      nz-button
+      nzType="primary"
+      [nzLoading]="isLoadingSaveBtn"
+      (click)="sendToLine()"
+    >
+      Lưu
+    </button>
+  </ng-template>
+</nz-modal>
+
+<nz-modal
+  id="importMaterialModal"
+  [(nzVisible)]="isOpenEditMaterialModal"
+  nzTitle="Sửa số lượng NVL nhập vào LINE"
+>
+  <ng-container *nzModalContent>
+    <nz-table
+      id="materialEditTbl"
+      [nzData]="['']"
+      nzBordered
+      nzFrontPagination="false"
+      nzSize="small"
+    >
+      <tbody>
+        <tr>
+          <td>Part No</td>
+          <td>{{ materialEdit.partNo }}</td>
+        </tr>
+        <tr>
+          <td>Lot No</td>
+          <td>{{ materialEdit.lotNo }}</td>
+        </tr>
+        <tr>
+          <td>Qty</td>
+          <td>
+            <input nz-input [(ngModel)]="materialEdit.qty" />
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
+  <ng-template [nzModalFooter]>
+    <button
+      nz-button
+      nzType="default"
+      (click)="isOpenEditMaterialModal = false"
+    >
+      Hủy
+    </button>
+    <button
+      nz-button
+      nzType="primary"
+      [nzLoading]="isLoadingSaveBtn"
+      (click)="editMaterial()"
+    >
+      Lưu
+    </button>
+  </ng-template>
+</nz-modal>

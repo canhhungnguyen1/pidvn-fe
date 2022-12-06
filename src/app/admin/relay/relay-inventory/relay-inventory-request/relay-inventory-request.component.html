@@ -1,0 +1,112 @@
+<nz-breadcrumb>
+  <nz-breadcrumb-item> Relay </nz-breadcrumb-item>
+  <nz-breadcrumb-item> Kiểm kê NVL </nz-breadcrumb-item>
+  <nz-breadcrumb-item> Phiếu kiểm kê </nz-breadcrumb-item>
+</nz-breadcrumb>
+
+<dx-data-grid
+  [dataSource]="requests"
+  keyExpr="id"
+  [showColumnLines]="true"
+  [showRowLines]="true"
+  [showBorders]="true"
+  [allowColumnResizing]="true"
+  [columnAutoWidth]="true"
+  [rowAlternationEnabled]="true"
+>
+  <dxo-toolbar>
+    <dxi-item location="before">
+      <dx-button
+        stylingMode="contained"
+        type="success"
+        icon="plus"
+        text="Tạo phiếu kiểm kê"
+        (onClick)="isOpenIvtCreateModal = true"
+      >
+      </dx-button>
+    </dxi-item>
+  </dxo-toolbar>
+
+  <dxo-paging [pageSize]="10"></dxo-paging>
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
+
+  <dxi-column dataField="reqNo" caption="Request No"></dxi-column>
+  <dxi-column
+    dataField="cutOff"
+    dataType="date"
+    caption="Cut Off"
+    format="yyyy-MM-dd"
+  >
+  </dxi-column>
+  <dxi-column
+    dataField="inventoryDate"
+    dataType="date"
+    caption="Ngày kiểm kê"
+    format="yyyy-MM-dd"
+  ></dxi-column>
+  <dxi-column dataField="createdBy" caption="Người tạo"></dxi-column>
+
+  <dxi-column caption="Action" cellTemplate="cellTemplate" alignment="center">
+  </dxi-column>
+  <div *dxTemplate="let cell of 'cellTemplate'" style="text-align: center">
+    <div *ngIf="cell.data.expired; then inventory; else balance">
+      This content is not shown
+    </div>
+    <ng-template #inventory>
+      <a
+        [routerLink]="['/admin/relay/relay-inventory/execute', cell.data.id]"
+        style="color: blue"
+      >
+        Kiểm kê
+      </a>
+    </ng-template>
+
+    <ng-template #balance>
+      <a
+        [routerLink]="['/admin/relay/relay-inventory/balance', cell.data.id]"
+        style="color: green"
+        nz-tooltip
+        [nzTooltipTitle]="'Hiển thị chênh lệch lý thuyết và thực tế'"
+        [nzTooltipColor]="'green'"
+      >
+        Balance
+      </a>
+    </ng-template>
+
+  </div>
+
+  <dxo-pager
+    [showPageSizeSelector]="true"
+    [allowedPageSizes]="[10, 25, 50, 100]"
+  >
+  </dxo-pager>
+</dx-data-grid>
+
+<nz-modal [(nzVisible)]="isOpenIvtCreateModal" nzTitle="Tạo phiếu kiểm kê">
+  <ng-container *nzModalContent>
+    <nz-table
+      [nzData]="['']"
+      nzBordered
+      nzSize="small"
+      nzFrontPagination="false"
+    >
+      <tbody>
+        <tr>
+          <td><label style="font-weight: bold">Cut Off</label></td>
+          <td>
+            <nz-date-picker
+              style="width: 100%"
+              [(ngModel)]="cutOffDate"
+              (ngModelChange)="onChange($event)"
+              [nzDisabledDate]="disabledDate"
+            ></nz-date-picker>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="cancelRequest()">Hủy</button>
+    <button nz-button nzType="primary" (click)="createRequest()">Lưu</button>
+  </div>
+</nz-modal>

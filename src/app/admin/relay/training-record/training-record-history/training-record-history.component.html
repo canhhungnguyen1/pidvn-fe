@@ -1,0 +1,27 @@
+<nz-breadcrumb>
+  <nz-breadcrumb-item> Relay Factory</nz-breadcrumb-item>
+  <nz-breadcrumb-item> Training Record </nz-breadcrumb-item>
+  <nz-breadcrumb-item> Lịch sử đào tạo </nz-breadcrumb-item>
+</nz-breadcrumb>
+<br />
+
+<dx-data-grid
+  style="margin-top: 10px"
+  id="gridMaster"
+  [dataSource]="histories"
+  [showColumnLines]="true"
+  [showRowLines]="true"
+  [showBorders]="true"
+  [rowAlternationEnabled]="true"
+  [allowColumnResizing]="true"
+  [columnResizingMode]="'widget'"
+  [allowColumnReordering]="true"
+>
+  <dxi-column caption="ID" dataField="username" alignment="left"></dxi-column>
+  <dxi-column caption="Name" dataField="name" alignment="left"></dxi-column>
+  <dxi-column caption="Section" dataField="subsectionName" alignment="left"></dxi-column>
+  <dxi-column caption="Position" dataField="positionName" alignment="left"></dxi-column>
+  <dxi-column caption="Date" dataField="date" alignment="left"></dxi-column>
+  <dxi-column caption="Course" dataField="courseName" alignment="left"></dxi-column>
+  <dxi-column caption="Result" dataField="testResult" alignment="left"></dxi-column>
+</dx-data-grid>

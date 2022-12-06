@@ -1,0 +1,160 @@
+<nz-breadcrumb>
+  <nz-breadcrumb-item>Relay Factory</nz-breadcrumb-item>
+  <nz-breadcrumb-item>NVL trả về kho trung chuyển (RE-WH)</nz-breadcrumb-item>
+</nz-breadcrumb>
+<br />
+<div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+  <div nz-col nzXs="12" nzSm="6" nzLg="6">
+    <nz-select
+      #userIpt
+      [nzAutoFocus]="true"
+      nzShowSearch
+      nzAllowClear
+      nzPlaceHolder="Chọn người giao"
+      [(ngModel)]="sender"
+      (keydown.enter)="scanUser($event)"
+    >
+      <nz-option
+        class="option"
+        *ngFor="let user of users"
+        [nzValue]="user.username"
+        [nzLabel]="user.name + ' - ' + user.username"
+      >
+      </nz-option>
+    </nz-select>
+  </div>
+  <div nz-col nzXs="12" nzSm="6" nzLg="6">
+    <nz-select
+      #userIpt
+      [nzAutoFocus]="true"
+      nzShowSearch
+      nzAllowClear
+      nzPlaceHolder="Chọn người nhận"
+      [(ngModel)]="receiver"
+      (keydown.enter)="scanUser($event)"
+    >
+      <nz-option
+        class="option"
+        *ngFor="let user of users"
+        [nzValue]="user.username"
+        [nzLabel]="user.name + ' - ' + user.username"
+      >
+      </nz-option>
+    </nz-select>
+  </div>
+
+  <div nz-col nzXs="12" nzSm="6" nzLg="6">
+    <nz-select
+    nzPlaceHolder="Line"
+    nzAllowClear
+    [(ngModel)]="line"
+  >
+    <nz-option
+      *ngFor="let line of lines"
+      [nzValue]="line.name"
+      [nzLabel]="line.name"
+    >
+    </nz-option>
+  </nz-select>
+  </div>
+
+  <div nz-col nzXs="12" nzSm="6" nzLg="6">
+    <button
+      nz-button
+      nzType="primary"
+      (click)="showModal()"
+      style="margin-right: 5px"
+    >
+      Nhận NVL từ LINE trả
+    </button>
+  </div>
+</div>
+
+<nz-modal
+  [(nzVisible)]="isOpenScanQRCodeModal"
+  nzTitle="Nhận nguyên vật liệu LINE trả"
+  nzWidth="850px"
+>
+  <ng-container *nzModalContent>
+    <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+      <input
+        id="qrCodeIpt"
+        nz-input
+        #qrCodeIpt
+        placeholder="Scan QR Code"
+        (keydown.enter)="scanQRCode($event)"
+        (click)="qrCodeIpt.select()"
+        autocomplete="off"
+      />
+      <nz-alert
+        *ngIf="lotErrMsg"
+        id="error-msg"
+        nzBanner
+        nzShowIcon
+        style="margin-top: 10px"
+        nzType="error"
+        [nzMessage]="lotErrMsg"
+      >
+      </nz-alert>
+      <nz-table
+        #qrTbl
+        [nzData]="listLotsScanned"
+        style="margin-top: 15px"
+        nzBordered
+        nzSize="small"
+        [nzFrontPagination]="false"
+      >
+        <thead>
+          <tr>
+            <th>Part No</th>
+            <th>Lot No</th>
+            <th>Qty</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of qrTbl.data">
+            <td>{{ data.partNo }}</td>
+            <td>{{ data.lotNo }}</td>
+            <td class="editable-row" style="text-align: right">
+              <div
+                class="editable-cell"
+                [hidden]="lotNoEdit === data.lotNo"
+                (click)="startEdit(data)"
+              >
+                {{ data.qty | number: "1.0-3" }}
+              </div>
+              <input
+                #importQtyIpt
+                [hidden]="lotNoEdit !== data.lotNo"
+                type="number"
+                nz-input
+                [(ngModel)]="data.qty"
+                (blur)="stopEdit()"
+              />
+            </td>
+            <td
+              style="text-align: center"
+              nz-popconfirm
+              nzPopconfirmTitle="Có chắc chắn xóa không ?"
+              (nzOnConfirm)="deleteQRCodeScanned(data)"
+              nzPopconfirmPlacement="top"
+              nzRight
+            >
+              <a style="color: red; font-weight: bold">Xóa</a>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="isOpenScanQRCodeModal = false">
+      Hủy
+    </button>
+    <button nz-button nzType="primary" (click)="receiveLotsFromLineWh()">
+      Lưu
+    </button>
+  </div>
+</nz-modal>
+

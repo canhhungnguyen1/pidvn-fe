@@ -1,0 +1,61 @@
+<button nz-button style="margin-bottom: 10px" (click)="onExportBtn()">
+  Export
+</button>
+
+<nz-table #detailTable nzBordered nzSize="small" [nzData]="detailsData" [nzFrontPagination]="true">
+  <thead>
+    <tr>
+      <th class="text-center">Line</th>
+      <th class="text-center">Master</th>
+      <th class="text-center">Model Type</th>
+      <th class="text-center">Model</th>
+      <th class="text-center">Lý do</th>
+      <th class="text-center">Thực hiện</th>
+      <th class="text-center">{{ valueNames[0] }}</th>
+      <th class="text-center">{{ valueNames[1] }}</th>
+      <th class="text-center">Thời gian</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of detailTable.data">
+      <td>{{ data.line }}</td>
+      <td>{{ data.master }}</td>
+      <td>{{ data.modelType }}</td>
+      <td>{{ data.model }}</td>
+      <td>{{ data.reasonName }}</td>
+      <td>{{ data.userName }}</td>
+
+      <td *ngIf="data.itemUnit == 1" [ngClass]="{
+          'text-right': true,
+          invalid:
+            data.b1 < data.b1Min || data.b1 > data.b1Max
+        }">
+        {{ data.b1 | number: "1.0-3" }}
+      </td>
+      <td *ngIf="data.itemUnit == 2" [ngClass]="{
+          'text-center': true,
+          invalid: data.b1 == 'NG'
+        }">
+        {{ data.b1 }}
+      </td>
+
+      <td *ngIf="data.itemUnit == 1" [ngClass]="{
+          'text-right': true,
+          invalid:
+            data.b2 < data.b2Min || data.b2 > data.b2Max
+        }">
+        {{ data.b2 | number: "1.0-3" }}
+      </td>
+      <td *ngIf="data.itemUnit == 2" [ngClass]="{
+            'text-center': true,
+            invalid: data.b2 == 'NG'
+          }">
+        {{ data.b2 }}
+      </td>
+
+      <td class="text-center">
+        {{ data.createdAt | date: "yyyy-MM-dd HH:mm:ss" }} - ({{ data.shift }})
+      </td>
+    </tr>
+  </tbody>
+</nz-table>

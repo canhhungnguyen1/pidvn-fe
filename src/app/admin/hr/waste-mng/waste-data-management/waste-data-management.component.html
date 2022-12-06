@@ -1,0 +1,63 @@
+<nz-tabset>
+  <nz-tab nzTitle="Dữ liệu">
+    <nz-collapse>
+      <nz-collapse-panel
+        nzHeader="Tìm kiếm"
+        [nzActive]="true"
+        [nzShowArrow]="true"
+      >
+        <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+          <div nz-col nzXs="12" nzSm="12" nzLg="6">
+            <label nzXs="24" nzSm="24" nzLg="24">Nhóm chất thải</label>
+            <div nzXs="24" nzSm="24" nzLg="24">
+              <nz-select
+                nzShowSearch
+                nzAllowClear
+                nzPlaceHolder="Chọn nhóm chất thải"
+                [(ngModel)]="wasteSearchVo.wasteGroup"
+              >
+                <nz-option
+                  *ngFor="let group of wasteGroups"
+                  [nzValue]="group.id"
+                  [nzLabel]="group.name"
+                >
+                </nz-option>
+              </nz-select>
+            </div>
+          </div>
+          <div nz-col nzXs="12" nzSm="12" nzLg="6">
+            <label nzXs="24" nzSm="24" nzLg="24">Thời gian</label>
+            <div nzXs="24" nzSm="24" nzLg="24">
+              <nz-range-picker nzMode="month" [(ngModel)]="date" (ngModelChange)="onChangeTime($event)">
+              </nz-range-picker>
+            </div>
+          </div>
+          <div nz-col nzXs="12" nzSm="24" nzLg="12">
+            <label nzXs="24" nzSm="24" nzLg="24">&nbsp;</label>
+            <div nzXs="24" nzSm="24" nzLg="24">
+              <button nz-button nzType="primary" style="float: right;" (click)="onSearch()">
+                <i nz-icon nzType="search"></i>
+                Search
+              </button>
+            </div>
+          </div>
+        </div>
+      </nz-collapse-panel>
+    </nz-collapse>
+    <br />
+    <dx-pivot-grid
+      rowHeaderLayout="tree"
+      [height]="650"
+      [showBorders]="true"
+      [dataSource]="dataSource"
+    >
+      <dxo-field-chooser [enabled]="true"></dxo-field-chooser>
+      <dxo-export [enabled]="true"></dxo-export>
+    </dx-pivot-grid>
+
+  </nz-tab>
+  <nz-tab nzTitle="Tổng hợp năm">
+    
+  </nz-tab>
+  <nz-tab nzTitle="Phân tích">Phân tích</nz-tab>
+</nz-tabset>

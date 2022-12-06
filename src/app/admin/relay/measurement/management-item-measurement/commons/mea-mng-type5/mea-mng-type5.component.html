@@ -1,0 +1,106 @@
+<div nz-row nzJustify="end" nzAlign="middle" [nzGutter]="24">
+  <div nz-col nzXs="6" nzSm="6" nzLg="6">
+    <nz-range-picker
+      nzFormat="yyyy-MM-dd"
+      [(ngModel)]="date"
+      (ngModelChange)="onDateChange($event)"
+      (nzOnCalendarChange)="onCalendarChange($event)"
+    >
+    </nz-range-picker>
+  </div>
+  <div nz-col nzXs="3" nzSm="3" nzLg="3">
+    <div nz-row nzJustify="end" nzAlign="middle">
+      <button nz-button nzType="primary" (click)="onSearch()">
+        <i nz-icon nzType="search"></i>
+        Search
+      </button>
+    </div>
+  </div>
+</div>
+<br />
+<div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+  <div nz-col nzXs="24" nzSm="24" nzLg="24">
+    <nz-table
+      #detailTable
+      nzBordered
+      nzSize="small"
+      [nzData]="detailsData"
+      [nzFrontPagination]="true"
+      [nzScroll]="{ x: '1200px' }"
+    >
+      <thead>
+        <tr>
+          <th class="text-center" style="width: 200px">QA Card</th>
+          <th class="text-center">Line</th>
+          <th class="text-center">Master</th>
+          <th class="text-center">Model Type</th>
+          <th class="text-center">Model</th>
+          <th class="text-center">Lý do</th>
+          <th class="text-center">Thực hiện</th>
+          <th class="text-center">{{ valueNames[0] }}</th>
+          <th class="text-center">{{ valueNames[1] }}</th>
+          <th class="text-center">{{ valueNames[2] }}</th>
+          <th class="text-center">{{ valueNames[3] }}</th>
+          <th class="text-center">{{ valueNames[4] }}</th>
+          <th class="text-center">Thời gian</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of detailTable.data">
+          <td>{{ data.qaCard }}</td>
+          <td>{{ data.line }}</td>
+          <td>{{ data.master }}</td>
+          <td>{{ data.modelType }}</td>
+          <td>{{ data.model }}</td>
+          <td>{{ data.reasonName }}</td>
+          <td>{{ data.userName }}</td>
+          <td
+            [ngClass]="{
+              'text-right': true,
+              invalid: data.e1 < standard.e1Min || data.e1 > standard.e1Max
+            }"
+          >
+            {{ data.e1 | number: "1.3" }}
+          </td>
+          <td
+            [ngClass]="{
+              'text-right': true,
+              invalid: data.e2 < standard.e2Min || data.e2 > standard.e2Max
+            }"
+          >
+            {{ data.e2 | number: "1.3" }}
+          </td>
+          <td
+            [ngClass]="{
+              'text-right': true,
+              invalid: data.e3 < standard.e3Min || data.e3 > standard.e3Max
+            }"
+          >
+            {{ data.e3 | number: "1.3" }}
+          </td>
+          <td
+            [ngClass]="{
+              'text-right': true,
+              invalid: data.e4 < standard.e4Min || data.e4 > standard.e4Max
+            }"
+          >
+            {{ data.e4 | number: "1.3" }}
+          </td>
+          <td
+            [ngClass]="{
+              'text-right': true,
+              invalid: data.e5 < standard.e5Min || data.e5 > standard.e5Max
+            }"
+          >
+            {{ data.e5 | number: "1.3" }}
+          </td>
+          <td class="text-center">
+            {{ data.createdAt | date: "yyyy-MM-dd HH:mm:ss" }} - ({{
+              data.shift
+            }})
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>

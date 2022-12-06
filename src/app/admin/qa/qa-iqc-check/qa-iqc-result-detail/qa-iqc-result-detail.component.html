@@ -1,0 +1,246 @@
+<nz-breadcrumb>
+  <nz-breadcrumb-item> QA </nz-breadcrumb-item>
+  <nz-breadcrumb-item> IQC Request</nz-breadcrumb-item>
+  <nz-breadcrumb-item> IQC Result Master</nz-breadcrumb-item>
+  <nz-breadcrumb-item> IQC Result Detail</nz-breadcrumb-item>
+</nz-breadcrumb>
+<br />
+<button nz-button nzType="primary" (click)="lotGroupEvaluate()">
+  Đánh giá | Lot Group: {{ lotGroup }}
+</button>
+<nz-table
+  #iqcResultDetailTable
+  nzSize="small"
+  [nzBordered]="true"
+  [nzData]="iqcDataDetails"
+  style="margin-top: 5px"
+  [nzScroll]="{ x: '1500px' }"
+>
+  <thead>
+    <tr>
+      <th class="text-center" rowspan="2" nzLeft style="width: 200px;">Lot No</th>
+      <th class="text-center" rowspan="2">Model</th>
+      <th class="text-center" rowspan="2">Qty</th>
+      <th class="text-center" colspan="3">Kết quả kiểm tra</th>
+      <th class="text-center" rowspan="2">
+        Thông tin <br />
+        NG hoặc CA
+      </th>
+      <th class="text-center" rowspan="2">Người<br />kiểm tra</th>
+      <th class="text-center" rowspan="2">Thời gian</th>
+      <th class="text-center" rowspan="2" nzRight>Action</th>
+    </tr>
+    <tr>
+      <th class="text-center" rowspan="2">GP</th>
+      <th class="text-center" rowspan="2">Ngoại quan</th>
+      <th class="text-center" rowspan="2">Kích thước</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of iqcResultDetailTable.data">
+      <td nzLeft  style="width: 200px;">{{ item.lotNo }}</td>
+      <td>{{ item.model }}</td>
+      <td>{{ item.qty | number: "1.0-3" }}</td>
+      <td
+        [ngClass]="{
+          'text-center': true,
+          'text-danger': item.result1 == 'NG',
+          'text-success': item.result1 == 'OK',
+          'text-primary': item.result1 == 'CA'
+        }"
+        style="font-weight: bold"
+      >
+        {{ item.result1 }}
+      </td>
+      <td
+        [ngClass]="{
+          'text-center': true,
+          'text-danger': item.result2 == 'NG',
+          'text-success': item.result2 == 'OK',
+          'text-primary': item.result2 == 'CA'
+        }"
+        style="font-weight: bold"
+      >
+        {{ item.result2 }}
+      </td>
+      <td
+        [ngClass]="{
+          'text-center': true,
+          'text-danger': item.result3 == 'NG',
+          'text-success': item.result3 == 'OK',
+          'text-primary': item.result3 == 'CA'
+        }"
+        style="font-weight: bold"
+      >
+        {{ item.result3 }}
+      </td>
+      <td>{{ item.remark }}</td>
+      <td>{{ item.createdByName }}</td>
+      <td class="text-center">
+        {{ item.iqcAt | date: "yyyy-MM-dd HH:mm" }}
+      </td>
+      <td nzRight class="text-center">
+        <a nz-button nzType="link" (click)="openLotNoEvaluate(item)"
+          >Đánh giá</a
+        >
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
+
+<nz-modal [(nzVisible)]="isOpenMasterModal" nzTitle="Đánh giá chung">
+  <ng-container *nzModalContent>
+    <nz-table
+      nzSize="small"
+      [nzBordered]="true"
+      [nzData]="['']"
+      [nzFrontPagination]="false"
+    >
+      <tbody>
+        <tr>
+          <td><label>Lot Group</label></td>
+          <td>{{ lotGroupSelected.lotGroup }}</td>
+        </tr>
+        <tr>
+          <td><label>Model</label></td>
+          <td>{{ lotGroupSelected.model }}</td>
+        </tr>
+        <tr>
+          <td><label>Qty</label></td>
+          <td>{{ lotGroupSelected.qty | number: '1.0-3' }}</td>
+        </tr>
+        <tr>
+          <td><label>Số kiện</label></td>
+          <td>{{ lotGroupSelected.amount }}</td>
+        </tr>
+        <tr>
+          <td><label>GP</label></td>
+          <td>
+            <nz-radio-group [(ngModel)]="lotGroupSelected.result1">
+              <label nz-radio nzValue="OK" style="color: green">OK</label>
+              <label nz-radio nzValue="NG" style="color: red">NG</label>
+            </nz-radio-group>
+          </td>
+        </tr>
+        <tr>
+          <td><label>Ngoại quan</label></td>
+          <td>
+            <nz-radio-group [(ngModel)]="lotGroupSelected.result2">
+              <label nz-radio nzValue="OK" style="color: green">OK</label>
+              <label nz-radio nzValue="NG" style="color: red">NG</label>
+              <label nz-radio nzValue="CA" style="color: black">CA</label>
+            </nz-radio-group>
+          </td>
+        </tr>
+        <tr>
+          <td><label>Kích thước</label></td>
+          <td>
+            <nz-radio-group [(ngModel)]="lotGroupSelected.result3">
+              <label nz-radio nzValue="OK" style="color: green">OK</label>
+              <label nz-radio nzValue="NG" style="color: red">NG</label>
+              <label nz-radio nzValue="CA" style="color: black">CA</label>
+            </nz-radio-group>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label>Thông tin <br />NG hoặc CA</label>
+          </td>
+          <td>
+            <textarea
+              rows="3"
+              nz-input
+              [(ngModel)]="lotGroupSelected.remark"
+            ></textarea>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
+  <ng-template [nzModalFooter]>
+    <button nz-button nzType="default" (click)="this.isOpenMasterModal = false">
+      Đóng
+    </button>
+    <button nz-button nzType="primary" (click)="saveIqcDataMaster()">
+      Lưu
+    </button>
+  </ng-template>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="isOpenDetailModal" nzTitle="Đánh giá chi tiết">
+  <ng-container *nzModalContent>
+    <nz-table
+      nzSize="small"
+      [nzBordered]="true"
+      [nzData]="['']"
+      [nzFrontPagination]="false"
+    >
+      <tbody>
+        <tr>
+          <td><label>Lot No</label></td>
+          <td>{{ lotNoSelected.lotNo }}</td>
+        </tr>
+        <tr>
+          <td><label>Model</label></td>
+          <td>{{ lotNoSelected.model }}</td>
+        </tr>
+        <tr>
+          <td><label>Qty</label></td>
+          <td>{{ lotNoSelected.qty | number: "1.0-3" }}</td>
+        </tr>
+        <tr>
+          <td><label>GP</label></td>
+          <td>
+            <nz-radio-group [(ngModel)]="lotNoSelected.result1">
+              <label nz-radio nzValue="OK" style="color: green">OK</label>
+              <label nz-radio nzValue="NG" style="color: red">NG</label>
+            </nz-radio-group>
+          </td>
+        </tr>
+        <tr>
+          <td><label>Ngoại quan</label></td>
+          <td>
+            <nz-radio-group [(ngModel)]="lotNoSelected.result2">
+              <label nz-radio nzValue="OK" style="color: green">OK</label>
+              <label nz-radio nzValue="NG" style="color: red">NG</label>
+              <label nz-radio nzValue="CA" style="color: black">CA</label>
+            </nz-radio-group>
+          </td>
+        </tr>
+        <tr>
+          <td><label>Kích thước</label></td>
+          <td>
+            <nz-radio-group [(ngModel)]="lotNoSelected.result3">
+              <label nz-radio nzValue="OK" style="color: green">OK</label>
+              <label nz-radio nzValue="NG" style="color: red">NG</label>
+              <label nz-radio nzValue="CA" style="color: black">CA</label>
+            </nz-radio-group>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label>Thông tin <br />NG hoặc CA</label>
+          </td>
+          <td>
+            <textarea
+              rows="3"
+              nz-input
+              [(ngModel)]="lotNoSelected.remark"
+            ></textarea>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
+  <ng-template [nzModalFooter]>
+    <button nz-button nzType="default" nzDanger style="float: left;" (click)="onDelete()">
+      Xóa dữ liệu
+    </button>
+    <button nz-button nzType="default" (click)="this.isOpenDetailModal = false">
+      Đóng
+    </button>
+    <button nz-button nzType="primary" (click)="saveIqcDataDetail()">
+      Lưu
+    </button>
+  </ng-template>
+</nz-modal>

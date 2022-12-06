@@ -1,0 +1,49 @@
+<nz-breadcrumb>
+  <nz-breadcrumb-item> VR-ENC </nz-breadcrumb-item>
+  <nz-breadcrumb-item> Process Recording </nz-breadcrumb-item>
+</nz-breadcrumb>
+
+<br />
+<div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="8">
+  <div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="6">
+    <div
+      class="item import"
+      routerLink="/admin/relay/vr-enc-process-recording/insert"
+    >
+      <img src="./../../../../../../assets/images/scanner.png" alt="" />
+      <h6>Scan tem NVL</h6>
+      <h4>Scanner label</h4>
+    </div>
+  </div>
+  <div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="6">
+    <div
+      class="item qa-card"
+      routerLink="/admin/relay/vr-enc-process-recording/qa-card"
+    >
+      <img src="./../../../../../../assets/images/printer.png" alt="" />
+      <h6>QA card</h6>
+      <h4>QA card</h4>
+    </div>
+  </div>
+  <div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="6">
+    <div
+      class="item return"
+      
+      (click)="redirectReturnWh()"
+    >
+      <img src="./../../../../../../assets/images/return.png" alt="" />
+      <h6>Trả NVL</h6>
+      <h4>Return</h4>
+    </div>
+  </div>
+  <div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="6">
+    <div
+      class="item data"
+      routerLink="/admin/relay/vr-enc-process-recording/traceability"
+    >
+      <img src="./../../../../../../assets/images/traceability.png" alt="" />
+      <h6>Truy vết dữ liệu</h6>
+      <h4>Traceability</h4>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,46 @@
+<nz-breadcrumb>
+  <nz-breadcrumb-item>Relay</nz-breadcrumb-item>
+  <nz-breadcrumb-item>Kho trung chuyển</nz-breadcrumb-item>
+  <nz-breadcrumb-item>Phiếu xuất kho</nz-breadcrumb-item>
+</nz-breadcrumb>
+
+<br />
+<dx-data-grid
+  style="margin-top: 10px"
+  id="gridMaster"
+  [dataSource]="slips"
+  [showColumnLines]="true"
+  [showRowLines]="true"
+  [showBorders]="true"
+  (onRowClick)="onRowClick($event)"
+>
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
+  <dxi-column caption="Số phiếu" dataField="slipNo"></dxi-column>
+  <dxi-column
+    caption="Ngày tạo"
+    dataField="date"
+    dataType="date"
+    format="yyyy-MM-dd"
+  >
+  </dxi-column>
+  <dxi-column
+    caption="Số lot đã nhận"
+    cellTemplate="amountTemplate"
+  ></dxi-column>
+  <div
+    [ngClass]="item.data.receive == item.data.amount ? 'ok' : 'not-yet'"
+    *dxTemplate="let item of 'amountTemplate'"
+  >
+    <span>
+      {{ item.data.receive ? item.data.receive : 0 }} / {{ item.data.amount }}
+    </span>
+  </div>
+
+  <dxi-column caption="Trạng thái" cellTemplate="statusTemplate"></dxi-column>
+  <div
+    [ngClass]="item.data.receive == item.data.amount ? 'ok' : 'not-yet'"
+    *dxTemplate="let item of 'statusTemplate'"
+  >
+    <span>{{ item.data.receive == item.data.amount ? "Đã nhận đủ" : "Not yet" }}</span>
+  </div>
+</dx-data-grid>

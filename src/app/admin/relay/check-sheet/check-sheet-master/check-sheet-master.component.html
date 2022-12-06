@@ -1,0 +1,224 @@
+<nz-breadcrumb>
+  <nz-breadcrumb-item> Relay Factory</nz-breadcrumb-item>
+  <nz-breadcrumb-item> Check Sheet </nz-breadcrumb-item>
+  <nz-breadcrumb-item> Master </nz-breadcrumb-item>
+</nz-breadcrumb>
+<br />
+<nz-collapse>
+  <nz-collapse-panel nzHeader="Tìm kiếm" [nzActive]="true" [nzShowArrow]="true">
+    <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+      <!-- <div nz-col nzXs="12" nzSm="12" nzLg="4">
+        <label nzXs="24" nzSm="24" nzLg="24">QA Card</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <input nz-input [(ngModel)]="searchVo.qaCard" />
+        </div>
+      </div> -->
+      <div nz-col nzXs="12" nzSm="12" nzLg="4">
+        <label nzXs="24" nzSm="24" nzLg="24">Line</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <nz-select
+            nzPlaceHolder="Line"
+            [(ngModel)]="searchVo.line"
+            nzAllowClear
+          >
+            <nz-option nzValue="TB1" nzLabel="TB1"></nz-option>
+            <nz-option nzValue="TB2" nzLabel="TB2"></nz-option>
+            <nz-option nzValue="TB3" nzLabel="TB3"></nz-option>
+            <nz-option nzValue="TB4" nzLabel="TB4"></nz-option>
+            <nz-option nzValue="TE1" nzLabel="TE1"></nz-option>
+            <nz-option nzValue="TE2" nzLabel="TE2"></nz-option>
+            <nz-option nzValue="TL1" nzLabel="TL1"></nz-option>
+            <nz-option nzValue="Tl2" nzLabel="TL2"></nz-option>
+          </nz-select>
+        </div>
+      </div>
+      <div nz-col nzXs="12" nzSm="12" nzLg="4">
+        <label nzXs="24" nzSm="24" nzLg="24">Model</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <input nz-input [(ngModel)]="searchVo.model" />
+        </div>
+      </div>
+      <div nz-col nzXs="12" nzSm="12" nzLg="4">
+        <label nzXs="24" nzSm="24" nzLg="24">Shift</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <nz-select
+            nzPlaceHolder="Shift"
+            [(ngModel)]="searchVo.shift"
+            nzAllowClear
+          >
+            <nz-option nzValue="A8" nzLabel="A8"></nz-option>
+            <nz-option nzValue="B8" nzLabel="B8"></nz-option>
+            <nz-option nzValue="C8" nzLabel="C8"></nz-option>
+            <nz-option nzValue="A10" nzLabel="A10"></nz-option>
+            <nz-option nzValue="B10" nzLabel="B10"></nz-option>
+            <nz-option nzValue="A12" nzLabel="A12"></nz-option>
+            <nz-option nzValue="B12" nzLabel="B12"></nz-option>
+          </nz-select>
+        </div>
+      </div>
+
+      <div nz-col nzXs="12" nzSm="12" nzLg="4">
+        <label nzXs="24" nzSm="24" nzLg="24">Approved</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <nz-select
+            nzPlaceHolder="Approved"
+            [(ngModel)]="searchVo.approved"
+            nzAllowClear
+          >
+            <nz-option nzValue="YES" nzLabel="YES"></nz-option>
+            <nz-option nzValue="NO" nzLabel="NO"></nz-option>
+          </nz-select>
+        </div>
+      </div>
+
+      <div nz-col nzXs="12" nzSm="12" nzLg="8">
+        <label nzXs="24" nzSm="24" nzLg="24">Date</label>
+        <nz-range-picker
+          nzFormat="yyyy-MM-dd"
+          ngModel
+          (ngModelChange)="onChange($event)"
+          (nzOnCalendarChange)="onCalendarChange($event)"
+          (nzOnOk)="onOk($event)"
+        >
+        </nz-range-picker>
+      </div>
+    </div>
+    <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+      <div nz-col nzXs="24" nzSm="24" nzLg="24">
+        <button
+          style="float: right; margin-top: 15px"
+          nz-button
+          nzType="primary"
+          (click)="onSearch()"
+        >
+          Search
+        </button>
+      </div>
+    </div>
+  </nz-collapse-panel>
+</nz-collapse>
+<br />
+<nz-table
+  #masterTable
+  [nzData]="masters"
+  nzSize="small"
+  nzBordered
+  [nzScroll]="{ x: '1100px' }"
+>
+  <thead>
+    <tr>
+      <th class="text-center" style="width: 80px" nzLeft>Status</th>
+      <th class="text-center" style="width: 250px">QA Card</th>
+      <th class="text-center" style="width: 80px">Line</th>
+      <th class="text-center" style="width: 160px">Model</th>
+      <th class="text-center" style="width: 100px">Date</th>
+      <th class="text-center" style="width: 80px">Shift</th>
+      <th class="text-center" style="width: 180px">Người xác nhận</th>
+      <th class="text-center" style="width: 150px">Thời gian</th>
+      <th class="text-center" style="width: 100px">Đã check</th>
+      <th class="text-center" style="width: 100px">OK / NG</th>
+      <th class="text-center" style="width: 180px" nzRight>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of masterTable.data">
+      <td class="text-center" nzLeft>
+        <img
+          *ngIf="data.approveStatus == 'OK'"
+          src="./../../../../../assets/images/face-icon/Good1.png"
+          width="40%"
+        />
+        <img
+          *ngIf="data.approveStatus == 'NG'"
+          src="./../../../../../assets/images/face-icon/Bad1.png"
+          width="40%"
+        />
+        <span *ngIf="!data.approveStatus">-</span>
+      </td>
+      <td>{{ data.qaCard }}</td>
+      <td class="text-center">{{ data.line }}</td>
+      <td>{{ data.model }}</td>
+      <td class="text-center">{{ data.date }}</td>
+      <td class="text-center">{{ data.shift }}</td>
+      <td>{{ data.approveByName }}</td>
+      <td class="text-center">
+        {{ data.createdAt | date: "yyyy-MM-dd HH:mm:ss" }}
+      </td>
+      <td
+        [ngClass]="{
+          'text-center': true,
+          invalid: data.checkedAmount < data.itemTotal,
+          valid: data.checkedAmount == data.itemTotal
+        }"
+      >
+        {{ data.checkedAmount }} / {{ data.itemTotal }}
+      </td>
+
+      <td class="text-center">{{ data.okTotal }} / {{ data.ngTotal }}</td>
+      <td class="text-center" nzRight>
+        <a (click)="openApproveModal(data)">Approve</a> |
+        <a (click)="redirectToProcess(data)">Detail</a> |
+        <a (click)="onExportData(data)">Export</a>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
+
+<nz-modal
+  [(nzVisible)]="isOpenApproveModal"
+  nzTitle="Xác nhận Check Sheet"
+  (nzOnCancel)="onCancelApprove()"
+  (nzOnOk)="onApprove()"
+>
+  <ng-container *nzModalContent>
+    <nz-table
+      nzBordered
+      nzSize="small"
+      [nzFrontPagination]="false"
+      [nzData]="['']"
+    >
+      <tbody>
+        <tr>
+          <td>QA Card</td>
+          <td>{{ masterSelected.qaCard }}</td>
+        </tr>
+        <tr>
+          <td>Line</td>
+          <td>{{ masterSelected.line }}</td>
+        </tr>
+        <tr>
+          <td>Model</td>
+          <td>{{ masterSelected.model }}</td>
+        </tr>
+        <tr>
+          <td>Ca làm việc</td>
+          <td>{{ masterSelected.shift }}</td>
+        </tr>
+        <tr>
+          <td>Thời gian</td>
+          <td>{{ masterSelected.createdAt | date: "yyyy-MM-dd HH:mm:ss" }}</td>
+        </tr>
+        <tr>
+          <td>Đánh giá</td>
+          <td>
+            <nz-radio-group [(ngModel)]="masterSelected.approveStatus">
+              <label nz-radio nzValue="OK" style="color: green">OK</label>
+              <label nz-radio nzValue="NG" style="color: red">NG</label>
+            </nz-radio-group>
+          </td>
+        </tr>
+        <tr>
+          <td>Xác nhận</td>
+          <td>
+            <textarea
+              rows="2"
+              nz-input
+              placeholder="Nhập nội dung xác nhận"
+              [(ngModel)]="masterSelected.remark"
+            ></textarea>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
+</nz-modal>

@@ -1,0 +1,332 @@
+<nz-tabset>
+  <nz-tab nzTitle="Đo đạc">
+    <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+      <div nz-col nzXs="24" nzSm="24" nzLg="24">
+        <nz-collapse>
+          <nz-collapse-panel
+            nzHeader="Thực hiện"
+            [nzActive]="true"
+            [nzShowArrow]="true"
+          >
+            <container-element [ngSwitch]="item.unit">
+              <!-- Nhập giá trị -->
+              <div
+                *ngSwitchCase="1"
+                nz-row
+                nzJustify="start"
+                nzAlign="middle"
+                [nzGutter]="24"
+              >
+                <label nz-col nzXs="2" nzSm="2" nzLg="2">Giá trị</label>
+                <div nz-col nzXs="3" nzSm="3" nzLg="3">
+                  <input
+                    #value1Input
+                    nz-input
+                    type="number"
+                    [(ngModel)]="value1"
+                    (keypress)="onKeyPressValue1($event)"
+                  />
+                </div>
+                <div nz-col nzXs="3" nzSm="3" nzLg="3">
+                  <button nz-button nzType="primary" (click)="onAddBtn()">
+                    Add
+                  </button>
+                </div>
+              </div>
+
+              <!-- Nhập OK/NG -->
+              <div
+                *ngSwitchCase="2"
+                nz-row
+                nzJustify="start"
+                nzAlign="middle"
+                [nzGutter]="24"
+              >
+                <label nz-col nzXs="2" nzSm="2" nzLg="2">Giá trị</label>
+                <div nz-col nzXs="4" nzSm="4" nzLg="4">
+                  <nz-radio-group [(ngModel)]="value1">
+                    <label nz-radio nzValue="OK">OK</label>
+                    <label class="invalid" nz-radio nzValue="NG">NG</label>
+                  </nz-radio-group>
+                </div>
+                <div nz-col nzXs="3" nzSm="3" nzLg="3">
+                  <button nz-button nzType="primary" (click)="onAddBtn()">
+                    Add
+                  </button>
+                </div>
+              </div>
+              <br />
+              <div nz-row nzJustify="start" nzAlign="top" [nzGutter]="24">
+                <div nz-col nzXs="24" nzSm="24" nzLg="8">
+                  <textarea nz-input placeholder="Nhập ghi chú" nzAutosize [(ngModel)]="note"></textarea>
+                </div>
+              </div>
+            </container-element>
+
+            <br />
+            <div
+              nz-row
+              nzJustify="start"
+              nzAlign="top"
+              [nzGutter]="24"
+              *ngIf="insertData.length"
+            >
+              <div nz-col nzXs="24" nzSm="24" nzLg="12">
+                <nz-table
+                  #insertTable
+                  nzBordered
+                  nzSize="small"
+                  [nzData]="insertData"
+                  [nzFrontPagination]="false"
+                >
+                  <thead>
+                    <tr>
+                      <th class="text-center">Lần đo</th>
+                      <th class="text-center">{{ valueNames[0] }}</th>
+                      <th class="text-center">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let data of insertTable.data; let i = index">
+                      <td class="text-center">{{ i + 1 }}</td>
+                      <td
+                        *ngIf="item.unit == 1"
+                        [ngClass]="{
+                          'text-center': true,
+                          invalid:
+                            data.a1 < standard.a1Min || data.a1 > standard.a1Max
+                        }"
+                      >
+                        {{ data.a1 | number: "1.0-4" }}
+                      </td>
+                      <td
+                        *ngIf="item.unit == 2"
+                        [ngClass]="{
+                          'text-center': true,
+                          invalid: data.a1 == 'NG'
+                        }"
+                      >
+                        {{ data.a1 }}
+                      </td>
+                      <td class="text-center" (click)="onDeleteValue(data)">
+                        Xóa
+                      </td>
+                    </tr>
+                  </tbody>
+                </nz-table>
+              </div>
+              <div nz-col nzXs="24" nzSm="24" nzLg="12">
+                <button nz-button nzType="primary" [nzLoading]="isLoading" (click)="onSaveBtn()" >Lưu</button>
+              </div>
+            </div>
+          </nz-collapse-panel>
+        </nz-collapse>
+      </div>
+    </div>
+  </nz-tab>
+  <nz-tab nzTitle="Dữ liệu">
+    <nz-table
+      #detailTable
+      nzBordered
+      nzSize="small"
+      [nzData]="detailsData"
+      [nzFrontPagination]="true"
+      [nzScroll]="{ x: '1200px' }"
+    >
+      <thead>
+        <tr>
+          <th class="text-center" style="width: 200px">QA Card</th>
+          <th class="text-center">Line</th>
+          <th class="text-center">Master</th>
+          <th class="text-center">Khuôn</th>
+          <th class="text-center">Model</th>
+          <th class="text-center">Lý do</th>
+          <th class="text-center">Thực hiện</th>
+          <th class="text-center">{{ valueNames[0] }}</th>
+          <th class="text-center">Thời gian</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of detailTable.data">
+          <td>{{ data.qaCard }}</td>
+          <td>{{ data.line }}</td>
+          <td>{{ data.master }}</td>
+          <td>{{ data.mold }}</td>
+          <td>{{ data.model }}</td>
+          <td>{{ data.reasonName }}</td>
+          <td>{{ data.userName }}</td>
+          <td
+            *ngIf="item.unit == 1"
+            [ngClass]="{
+              'text-center': true,
+              invalid: data.a1 < standard.a1Min || data.a1 > standard.a1Max
+            }"
+          >
+            {{ data.a1 | number: "1.0-3" }}
+          </td>
+          <td
+            *ngIf="item.unit == 2"
+            [ngClass]="{
+              'text-center': true,
+              invalid: data.a1 == 'NG'
+            }"
+          >
+            {{ data.a1 }}
+          </td>
+          <td class="text-center">
+            {{ data.createdAt | date: "yyyy-MM-dd HH:mm:ss" }} - ({{
+              data.shift
+            }})
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </nz-tab>
+  <nz-tab nzTitle="Tiêu chuẩn">
+    <nz-table
+      nzBordered
+      nzSize="small"
+      [nzData]="['']"
+      [nzFrontPagination]="false"
+    >
+      <tbody>
+        <tr>
+          <td class="item-img" rowspan="7">
+            <img nz-image [nzSrc]="baseUrl + images[0]?.imageUrl" />
+          </td>
+          <td width="100px">Hạng mục:</td>
+          <td>
+            <nz-tag [nzColor]="'red'">{{ item.name }}</nz-tag>
+          </td>
+        </tr>
+        <tr>
+          <td>Công đoạn:</td>
+          <td>
+            <nz-tag [nzColor]="'green'">{{ standard.process }}</nz-tag>
+          </td>
+        </tr>
+        <tr>
+          <td>Dụng cụ:</td>
+          <td>
+            <nz-tag [nzColor]="'cyan'">{{ standard.tool }}</nz-tag>
+          </td>
+        </tr>
+        <tr>
+          <td>Mã dụng cụ:</td>
+          <td>
+            <nz-tag [nzColor]="'orange'">{{ standard.toolCode }}</nz-tag>
+          </td>
+        </tr>
+        <tr>
+          <td>Tiêu chuẩn:</td>
+          <td>
+            <nz-tag [nzColor]="'blue'">{{ standard.standard }}</nz-tag>
+          </td>
+        </tr>
+        <tr>
+          <td>Đơn vị đo:</td>
+          <td>
+            <nz-tag [nzColor]="'geekblue'">{{ standard.unit }}</nz-tag>
+          </td>
+        </tr>
+        <tr>
+          <td>Công thức:</td>
+          <td>
+            <nz-tag [nzColor]="'purple'">{{ standard.formula }}</nz-tag>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </nz-tab>
+  <nz-tab nzTitle="Hình ảnh">
+    <nz-image-group nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+      <div
+        nz-col
+        nzXs="24"
+        nzSm="12"
+        nzMd="8"
+        nzLg="6"
+        *ngFor="let image of images"
+      >
+        <nz-card class="item-img">
+          <img nz-image [nzSrc]="baseUrl + image.imageUrl" />
+        </nz-card>
+      </div>
+    </nz-image-group>
+  </nz-tab>
+</nz-tabset>
+
+<nz-modal nzTitle="Dữ liệu đo đạc" [(nzVisible)]="isShowModal">
+  <ng-container *nzModalContent>
+    <ul class="info">
+      <li>
+        <nz-tag [nzColor]="'red'">Line: {{ responseData[0].line }}</nz-tag>
+      </li>
+      <li>
+        <nz-tag [nzColor]="'green'">Model: {{ responseData[0].model }}</nz-tag>
+      </li>
+      <li>
+        <nz-tag [nzColor]="'cyan'"
+          >Thực hiện: {{ responseData[0].user }}</nz-tag
+        >
+      </li>
+      <li>
+        <nz-tag [nzColor]="'blue'"
+          >Ca làm việc: {{ responseData[0].shift }}</nz-tag
+        >
+      </li>
+      <li>
+        <nz-tag [nzColor]="'geekblue'"
+          >Lý do: {{ responseData[0].reasonName }}</nz-tag
+        >
+      </li>
+      <li>
+        <nz-tag [nzColor]="'purple'"
+          >Thời gian:
+          {{ responseData[0].createdAt | date: "yyyy-MM-dd HH:mm:ss" }}</nz-tag
+        >
+      </li>
+    </ul>
+
+    <nz-table
+      #responseTable
+      nzBordered
+      nzSize="small"
+      [nzData]="responseData"
+      [nzFrontPagination]="false"
+    >
+      <thead>
+        <tr>
+          <th class="text-center" style="width: 100px">STT</th>
+          <th class="text-center">{{ valueNames[0] }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of responseTable.data; let i = index">
+          <td class="text-center">{{ i + 1 }}</td>
+          <td
+            *ngIf="item.unit == 1"
+            [ngClass]="{
+              'text-center': true,
+              invalid: data.a1 < standard.a1Min || data.a1 > standard.a1Max
+            }"
+          >
+            {{ data.a1 | number: "1.0-3" }}
+          </td>
+          <td
+            *ngIf="item.unit == 2"
+            [ngClass]="{
+              'text-center': true,
+              invalid: data.a1 == 'NG'
+            }"
+          >
+            {{ data.a1 }}
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
+  <ng-template [nzModalFooter]>
+    <button nz-button nzType="primary" (click)="isShowModal = false">OK</button>
+  </ng-template>
+</nz-modal>

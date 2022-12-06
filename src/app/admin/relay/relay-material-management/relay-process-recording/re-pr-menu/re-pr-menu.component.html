@@ -1,0 +1,51 @@
+<nz-breadcrumb>
+  <nz-breadcrumb-item> Relay Factory</nz-breadcrumb-item>
+  <nz-breadcrumb-item> Phòng Sạch </nz-breadcrumb-item>
+</nz-breadcrumb>
+<br />
+<div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="8">
+  <div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="6">
+    <div
+      class="item import"
+      routerLink="/admin/relay/material-management/lwh-send-line"
+    >
+      <img src="./../../../../../../assets/images/import.png" alt="" />
+      <h6>Nhập NVL vào LINE</h6>
+      <h4>Import to LINE</h4>
+    </div>
+  </div>
+
+  <div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="6">
+    <div
+      class="item return"
+      routerLink="/admin/relay/material-management/rwh-receive-lwh"
+    >
+      <img src="./../../../../../../assets/images/return.png" alt="" />
+      <h6>Trả kho trung chuyển</h6>
+      <h4>Return RE-WH</h4>
+    </div>
+  </div>
+
+  <div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="6">
+    <div
+      class="item inventory"
+      routerLink="/admin/relay/relay-inventory/requests"
+    >
+      <img src="./../../../../../../assets/images/inventory.png" alt="" />
+      <h6>Kiểm kê NVL</h6>
+      <h4>Inventory</h4>
+    </div>
+  </div>
+
+  <div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="6">
+    <div
+      class="item date-code"
+      routerLink="/admin/relay/relay-datecode"
+    >
+      <img src="./../../../../../../assets/images/add-calendar.png" alt="" />
+      <h6>Nhập Date Code</h6>
+      <h4>Insert Date Code</h4>
+    </div>
+  </div>
+  
+</div>

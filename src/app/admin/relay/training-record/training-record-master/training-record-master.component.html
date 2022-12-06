@@ -1,0 +1,172 @@
+<nz-breadcrumb>
+  <nz-breadcrumb-item> Relay Factory</nz-breadcrumb-item>
+  <nz-breadcrumb-item> Training Record </nz-breadcrumb-item>
+  <nz-breadcrumb-item> Lịch đào tạo </nz-breadcrumb-item>
+</nz-breadcrumb>
+<br />
+
+<div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+  <div nz-col nzXs="12" nzSm="12" nzLg="12"></div>
+  <div nz-col nzXs="12" nzSm="12" nzLg="12">
+    <label style="float: right"
+      ><a (click)="showGuideline()">Hướng dẫn sử dụng</a></label
+    >
+  </div>
+</div>
+
+<dx-data-grid
+  style="margin-top: 10px"
+  id="gridMaster"
+  [dataSource]="trainingRecordMasters"
+  [showColumnLines]="true"
+  [showRowLines]="true"
+  [showBorders]="true"
+  [rowAlternationEnabled]="true"
+  [allowColumnResizing]="true"
+  [columnResizingMode]="'widget'"
+  [allowColumnReordering]="true"
+  (onRowClick)="onRowClick($event)"
+  (onSaved)="onSaved($event)"
+>
+  <dxo-toolbar>
+    <dxi-item location="before" name="addRowButton" showText="always">
+    </dxi-item>
+  </dxo-toolbar>
+
+  <dxo-editing
+    mode="popup"
+    [allowUpdating]="true"
+    [allowAdding]="true"
+    [allowDeleting]="true"
+  >
+    <dxo-popup title="Ca học" [showTitle]="true" [width]="525" [height]="400">
+    </dxo-popup>
+    <dxo-form>
+      <dxi-item itemType="group" [colCount]="1" [colSpan]="2">
+        <dxi-item dataField="course"></dxi-item>
+        <dxi-item dataField="trainer"></dxi-item>
+        <dxi-item dataField="date"></dxi-item>
+      </dxi-item>
+      <dxi-item itemType="group" [colCount]="2" [colSpan]="2">
+        <dxi-item dataField="scoreOfMax"></dxi-item>
+        <dxi-item dataField="scoreOfPass"></dxi-item>
+      </dxi-item>
+    </dxo-form>
+  </dxo-editing>
+
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
+
+  <dxi-column dataField="course" caption="Course">
+    <dxi-validation-rule type="required"></dxi-validation-rule>
+    <dxo-lookup [dataSource]="courses" displayExpr="name" valueExpr="id">
+    </dxo-lookup>
+  </dxi-column>
+  <dxi-column dataField="trainer" caption="Trainer">
+    <dxo-lookup [dataSource]="users" displayExpr="name" valueExpr="username">
+    </dxo-lookup>
+  </dxi-column>
+
+  <dxi-column
+    dataField="date"
+    alignment="center"
+    dataType="date"
+    format="yyyy-MM-dd"
+  >
+  </dxi-column>
+
+  <dxi-column caption="Approval" dataField="approvalByName" alignment="left">
+  </dxi-column>
+  <dxi-column dataField="scoreOfPass" alignment="right"> </dxi-column>
+  <dxi-column dataField="scoreOfMax" alignment="right"> </dxi-column>
+</dx-data-grid>
+
+<!-- <nz-modal [(nzVisible)]="isVisible" nzTitle="Training Master">
+  <ng-container *nzModalContent>
+    <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24">
+        <label nzXs="24" nzSm="24" nzLg="24">Course Title</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <input
+            nz-input
+            placeholder="Course Name"
+            [(ngModel)]="trainingRecordMaster.courseName"
+          />
+        </div>
+      </div>
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24">
+        <label nzXs="24" nzSm="24" nzLg="24">Training Type</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <nz-select
+            nzShowSearch
+            nzAllowClear
+            nzPlaceHolder="Trainer"
+            [(ngModel)]="trainingRecordMaster.trainingRecordType"
+          >
+            <nz-option
+              *ngFor="let type of trainingRecordType"
+              [nzValue]="type.id"
+              [nzLabel]="type.name"
+            >
+            </nz-option>
+          </nz-select>
+        </div>
+      </div>
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24">
+        <label nzXs="24" nzSm="24" nzLg="24">Trainer</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <nz-select
+            nzShowSearch
+            nzAllowClear
+            nzPlaceHolder="Chọn người trainer"
+            [(ngModel)]="trainingRecordMaster.trainer"
+          >
+            <nz-option
+              *ngFor="let user of users"
+              [nzValue]="user.username"
+              [nzLabel]="user.name + ' - ' + user.username"
+            >
+            </nz-option>
+          </nz-select>
+        </div>
+      </div>
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24">
+        <label nzXs="24" nzSm="24" nzLg="24">Date</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <nz-date-picker
+            [(ngModel)]="trainingRecordMaster.date"
+          ></nz-date-picker>
+        </div>
+      </div>
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24">
+        <label nzXs="24" nzSm="24" nzLg="24">Score Of Max</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <input
+            type="number"
+            nz-input
+            placeholder="Score Of Max"
+            [(ngModel)]="trainingRecordMaster.scoreOfMax"
+          />
+        </div>
+      </div>
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24">
+        <label nzXs="24" nzSm="24" nzLg="24">Score Of Pass</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <input
+            type="number"
+            nz-input
+            placeholder="Score Of Pass"
+            [(ngModel)]="trainingRecordMaster.scoreOfPass"
+          />
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template [nzModalFooter]>
+    <button nz-button nzType="default" (click)="isVisible = false">
+      Cancel
+    </button>
+    <button nz-button nzType="primary" (click)="createTrainingRecord()">
+      OK
+    </button>
+  </ng-template>
+</nz-modal> -->

@@ -1,0 +1,40 @@
+<nz-breadcrumb>
+  <nz-breadcrumb-item>HR & GA</nz-breadcrumb-item>
+  <nz-breadcrumb-item>
+    <a>Khóa học</a>
+  </nz-breadcrumb-item>
+  <nz-breadcrumb-item>Danh mục khóa học</nz-breadcrumb-item>
+</nz-breadcrumb>
+
+<dx-data-grid
+  id="gridContainer"
+  [dataSource]="dataSource"
+  [remoteOperations]="false"
+  [allowColumnReordering]="true"
+  [rowAlternationEnabled]="true"
+  [showBorders]="true"
+>
+  <dxo-filter-row [visible]="true"> </dxo-filter-row>
+  <dxo-export [enabled]="true"></dxo-export>
+  <dxo-paging [pageSize]="10"></dxo-paging>
+  <dxo-pager
+    [showPageSizeSelector]="true"
+    [allowedPageSizes]="[10, 25, 50, 100]"
+  ></dxo-pager>
+
+  <dxo-toolbar>
+    <dxi-item location="before">
+      <dx-button
+        stylingMode="outlined"
+        type="success"
+        icon="upload"
+        text="Thêm mới"
+      >
+      </dx-button>
+    </dxi-item>
+  </dxo-toolbar>
+
+  <dxi-column dataField="courseName" caption="Khóa học"></dxi-column>
+  <dxi-column dataField="forecast" caption="Thời gian dự kiến"></dxi-column>
+  <dxi-column dataField="status" caption="Trạng thái"></dxi-column>
+</dx-data-grid>

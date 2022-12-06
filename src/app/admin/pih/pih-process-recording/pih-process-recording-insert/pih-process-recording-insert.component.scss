@@ -1,0 +1,18 @@
+label {
+  font-weight: bold;
+}
+nz-select {
+  width: 100%;
+}
+
+input,
+nz-select {
+  font-weight: bold;
+  color: green;
+}
+
+.error {
+  border: 1px solid red;
+  font-weight: bold;
+  padding: 5px;
+}

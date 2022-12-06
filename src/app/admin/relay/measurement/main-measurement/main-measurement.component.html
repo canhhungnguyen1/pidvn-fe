@@ -1,0 +1,43 @@
+<nz-breadcrumb>
+  <nz-breadcrumb-item> Manufacturing </nz-breadcrumb-item>
+  <nz-breadcrumb-item> Measurement </nz-breadcrumb-item>
+</nz-breadcrumb>
+<br />
+
+<div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="8">
+  <div nz-col nzXs="24" nzSm="12" nzMd="8" nzLg="6">
+    <div class="item measure" (click)="clickBtnItem()">
+      <i nz-icon nzType="bg-colors" nzTheme="outline"></i>
+      <h5>Measure Item</h5>
+      <h6>Hạng mục đo đạc</h6>
+    </div>
+  </div>
+  <div nz-col nzXs="24" nzSm="12" nzMd="8" nzLg="6">
+    <div class="item data" (click)="clickBtnData()">
+      <i nz-icon nzType="database" nzTheme="outline"></i>
+      <h5>Measure Data</h5>
+      <h6>Edit, Approve, ...</h6>
+    </div>
+  </div>
+  <div nz-col nzXs="24" nzSm="12" nzMd="8" nzLg="6">
+    <div class="item export" (click)="clickBtnDataExport()">
+      <i nz-icon nzType="export" nzTheme="outline"></i>
+      <h5>Data Export</h5>
+      <h6>Trích xuất dữ liệu</h6>
+    </div>
+  </div>
+  <div nz-col nzXs="24" nzSm="12" nzMd="8" nzLg="6">
+    <div class="item report" (click)="clickBtnXbarChart()">
+      <i nz-icon nzType="bar-chart" nzTheme="outline"></i>
+      <h5>Xbar-R Chart</h5>
+      <h6>Biểu đồ Xbar-R</h6>
+    </div>
+  </div>
+  <div nz-col nzXs="24" nzSm="12" nzMd="8" nzLg="6">
+    <div class="item guideline" (click)="showGuideline()">
+      <i nz-icon nzType="book" nzTheme="outline"></i>
+      <h5>Guidelines</h5>
+      <h6>Hướng dẫn sử dụng</h6>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,39 @@
+.item {
+  text-align: center;
+  border: 1px solid #ccc;
+  padding: 15px 10px;
+
+  h4 {
+    text-transform: uppercase;
+    font-weight: bold;
+    color: white;
+  }
+
+  h6 {
+    margin-top: 15px;
+    font-size: 18px;
+    color: white;
+    font-weight: bold;
+  }
+}
+
+.import {
+  background: #e07e37;
+  cursor: pointer;
+}
+
+.new {
+  background: #63d171;
+  cursor: pointer;
+}
+
+.change-model {
+  background: #086aa3c7;
+  cursor: pointer;
+}
+
+.traceability {
+  background: #959595c7;
+  cursor: pointer;
+}
+

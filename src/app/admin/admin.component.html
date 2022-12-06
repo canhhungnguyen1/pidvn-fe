@@ -1,0 +1,488 @@
+<nz-layout class="app-layout">
+  <nz-sider
+    class="menu-sidebar"
+    nzCollapsible
+    nzWidth="256px"
+    nzBreakpoint="md"
+    [(nzCollapsed)]="isCollapsed"
+    [nzTrigger]="null"
+    [nzCollapsedWidth]="0"
+  >
+    <div class="sidebar-logo">
+      {{ isCollapsed ? "P" : "PIDVN" }}
+    </div>
+    <ul
+      nz-menu
+      nzTheme="dark"
+      nzMode="inline"
+      [nzInlineCollapsed]="isCollapsed"
+    >
+      <li nz-menu-item nzTooltipPlacement="right" nzMatchRouter>
+        <i nz-icon nzType="bank"></i>
+        <span>
+          <a
+            href="https://10.92.176.57:8080"
+            (click)="onHideSidebar()"
+            target="_blank"
+          >
+            FDCS (Server 1)
+          </a>
+        </span>
+      </li>
+      <li nz-menu-item nzTooltipPlacement="right" nzMatchRouter>
+        <i nz-icon nzType="dashboard"></i>
+        <span>
+          <a routerLink="/admin/dashboard/menu" (click)="onHideSidebar()">Dashboard</a>
+        </span>
+      </li>
+      <li nz-submenu nzTitle="IS" nzIcon="laptop">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a
+              routerLink="/admin/is/device-management/list"
+              (click)="onHideSidebar()"
+              >Quản lý thiết bị</a
+            >
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu nzTitle="RELAY" nzIcon="tool">
+        <ul>
+          <li nz-submenu nzTitle="Relay Process Recording">
+            <ul>
+              <li
+                nz-menu-item
+                nzMatchRouter
+                [routerLink]="['/admin/relay/material-management/re-wh-menu']"
+                (click)="onHideSidebar()"
+              >
+                Kho trung chuyển
+              </li>
+              <li
+                nz-menu-item
+                nzMatchRouter
+                [routerLink]="['/admin/relay/material-management/re-pr-menu']"
+                (click)="onHideSidebar()"
+              >
+                Phòng sạch
+              </li>
+              <li
+                nz-menu-item
+                nzMatchRouter
+                [routerLink]="[
+                  '/admin/relay/material-management/relay-material-traceability'
+                ]"
+                (click)="onHideSidebar()"
+              >
+                Truy vết NVL
+              </li>
+              <li
+                nz-menu-item
+                nzMatchRouter
+                [routerLink]="['/admin/relay/relay-inventory/main']"
+                (click)="onHideSidebar()"
+              >
+                Kiểm kê
+              </li>
+            </ul>
+          </li>
+          <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
+            <a routerLink="/admin/relay/relay-datecode">Quản lý Date Code</a>
+          </li>
+          <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
+            <a routerLink="/admin/relay/check-sheet/main">Check Sheet</a>
+          </li>
+          <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
+            <a routerLink="/admin/relay/measurement/main">Đo đạc</a>
+          </li>
+          <li nz-submenu nzTitle="Training Records">
+            <ul>
+              <li
+                nz-menu-item
+                nzMatchRouter
+                [routerLink]="['/admin/relay/training-record/courses']"
+                (click)="onHideSidebar()"
+              >
+                Khóa học
+              </li>
+              <li
+                nz-menu-item
+                nzMatchRouter
+                [routerLink]="['/admin/relay/training-record/masters']"
+                (click)="onHideSidebar()"
+              >
+                Lịch đào tạo
+              </li>
+              <li
+                nz-menu-item
+                nzMatchRouter
+                [routerLink]="['/admin/relay/training-record/history']"
+                (click)="onHideSidebar()"
+              >
+                Lịch sử đào tạo
+              </li>
+            </ul>
+          </li>
+
+          <li nz-submenu nzTitle="Skill Map">
+            <ul>
+              <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
+                <a [href]="checkExpiryDateRelayLink">Danh sách hết hạn đánh giá</a>
+              </li>
+              <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
+                <a [href]="listOpLine">Lịch sử OP trên line</a>
+              </li>
+              <li nz-submenu nzTitle="Line">
+                <ul>
+                  <li
+                    *ngFor="let item of skillMapRelayLinks"
+                    nz-menu-item
+                    nzMatchRouter
+                    (click)="onHideSidebar()"
+                  >
+                    <a [href]="item.link" target="blank">{{ item.line }}</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+
+          <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
+            <a routerLink="/admin/relay/cqmr/main">CQMR</a>
+          </li>
+
+          <li nz-menu-item nzMatchRouter>
+            <a
+              [href]="examTestRelayLink"
+              target="_blank"
+              (click)="onHideSidebar()">Exam Test Relay</a>
+          </li>
+
+          <li nz-menu-item nzMatchRouter>
+            <a
+              [href]="checkExpiryDateRelayLink"
+              target="_blank"
+              (click)="onHideSidebar()">Check Expiry Date</a>
+          </li>
+
+        </ul>
+      </li>
+      <li nz-submenu nzTitle="VR-ENC" nzIcon="code-sandbox">
+        <ul>
+          <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
+            <a routerLink="/admin/relay/vr-enc-process-recording/menu"
+              >VR-ENC Process Recording</a
+            >
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a
+              [href]="examTestVrEncLink"
+              target="_blank"
+              (click)="onHideSidebar()">Exam Test</a>
+          </li>
+
+          <li nz-menu-item nzMatchRouter>
+            <a
+              [href]="checkExpiryDateVrEncLink"
+              target="_blank"
+              (click)="onHideSidebar()">Check Expiry Date</a>
+          </li>
+
+          <li nz-submenu nzTitle="Skill Map">
+            <ul>
+              <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
+                <a [href]="checkExpiryDateVrEncLink">Danh sách hết hạn đánh giá</a>
+              </li>
+              <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
+                <a [href]="listOpLine">Lịch sử OP trên line</a>
+              </li>
+              <li nz-submenu nzTitle="Line">
+                <ul>
+                  <li
+                    *ngFor="let item of skillMapVrEncLinks"
+                    nz-menu-item
+                    nzMatchRouter
+                    (click)="onHideSidebar()"
+                  >
+                    <a [href]="item.link" target="blank">{{ item.line }}</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu nzTitle="ACCOUNTING" nzIcon="wallet">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a [href]="contractLink" target="blank">Contract</a>
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu nzTitle="HR & GA" nzIcon="usergroup-add">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/admin/hr/hr-emp-mng/menu" (click)="onHideSidebar()"
+              >Dữ liệu nhân viên</a
+            >
+          </li>
+          <li nz-submenu nzTitle="Quản lý chất thải">
+            <ul>
+              <li
+                nz-menu-item
+                nzMatchRouter
+                [routerLink]="['/admin/hr/waste-mng/master']"
+                [queryParams]="{ type: 'USER' }"
+                (click)="onHideSidebar()"
+              >
+                Nhập dữ liệu
+              </li>
+              <li
+                nz-menu-item
+                nzMatchRouter
+                routerLink="/admin/hr/waste-mng/main"
+                (click)="onHideSidebar()"
+              >
+                Quản lý dữ liệu
+              </li>
+            </ul>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <i nz-icon nzType="check-square"></i>
+            <span><a [href]="eCommitLink" target="blank">E-Commit</a></span>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <i nz-icon nzType="clock-circle"></i>
+            <span><a [href]="eLeaveLink" target="blank">E-Leave</a></span>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <i nz-icon nzType="sound"></i>
+            <span
+              ><a [href]="eConfirmCheckInLink" target="blank"
+                >E-Confirm In/Out</a
+              ></span
+            >
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu nzTitle="WAREHOUSE" nzIcon="home">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a
+              routerLink="/admin/warehouse/material-receipt"
+              (click)="onHideSidebar()"
+              >Nhập kho NVL</a
+            >
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a
+              routerLink="/admin/warehouse/iqc-request"
+              (click)="onHideSidebar()"
+              >IQC Request</a
+            >
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu nzTitle="QA" nzIcon="security-scan">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a
+              routerLink="/admin/qa/qa-iqc-check/iqc-request"
+              (click)="onHideSidebar()"
+              >IQC Check</a
+            >
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a [href]="qmsLink" target="blank">QMS</a>
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu nzTitle="SALES & ISP" nzIcon="red-envelope">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a
+              [href]="fgWarehouseLink"
+              target="blank"
+              (click)="onHideSidebar()"
+            >
+              FG Warehouse</a
+            >
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu nzTitle="PIH" nzIcon="block">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a
+              routerLink="/admin/pih/pih-process-recording/main"
+              (click)="onHideSidebar()"
+              >Process Recording</a
+            >
+          </li>
+          <li nz-submenu nzTitle="Quản lý dừng Line">
+            <ul>
+              <li
+                nz-menu-item
+                nzMatchRouter
+                [routerLink]="['/admin/pih/pih-stop-line/main']"
+                (click)="onHideSidebar()"
+              >
+                Add Stop Time
+              </li>
+              <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
+                <a href="https://10.92.176.57:8080/stop_items" target="_blank"
+                  >Stop Item Setup</a
+                >
+              </li>
+              <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
+                <a
+                  href="https://10.92.176.57:8080/stop_times_summary"
+                  target="_blank"
+                  >Stop Time Summary</a
+                >
+              </li>
+            </ul>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a [href]="bangQuanLyKyNangPIHLink" target="blank">Bảng quản lý kỹ năng</a>
+          </li>
+        </ul>
+      </li>
+
+      <li nz-submenu nzTitle="SURVEY" nzIcon="question-circle">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a
+              [href]="surveyLink"
+              target="_blank"
+              (click)="onHideSidebar()">COI</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header>
+      <div nz-row>
+        <div nz-col nzXs="12" nzAlign="middle">
+          <div nz-row nzJustify="start" nzAlign="middle">
+            <i
+              class="trigger header-trigger"
+              nz-icon
+              [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+              (click)="isCollapsed = !isCollapsed"
+            ></i>
+            <span class="greeting" translate>common.greeting</span>
+            <span class="employeeName">: {{ employeeName }}</span>
+          </div>
+        </div>
+        <div nz-col nzXs="12">
+          <div nz-row nzJustify="end" nzAlign="middle">
+            <img
+              class="supporter"
+              src="./../../assets/images/supporter.png"
+              width="35px"
+              (click)="info()"
+            />
+            <!-- <nz-badge class="notification" [nzCount]="6"><i nz-icon nzType="bell" nzTheme="twotone"></i></nz-badge> -->
+            <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu">
+              <nz-avatar
+                [nzGap]="4"
+                [ngStyle]="{ 'background-color': colorAvatar }"
+                [nzText]="textAvatar"
+                style="vertical-align: middle; margin-top: -5px"
+              ></nz-avatar>
+            </a>
+            <nz-dropdown-menu #menu="nzDropdownMenu" class="drop-menu">
+              <ul nz-menu>
+                <li nz-menu-item routerLink="/admin/personal/menu" translate>
+                  common.personal-information
+                </li>
+                <li nz-menu-item routerLink="/auth/change-password" translate>
+                  common.change-password
+                </li>
+                <li nz-menu-divider></li>
+                <li nz-menu-item (click)="logout()" translate>common.logout</li>
+              </ul>
+            </nz-dropdown-menu>
+            <i
+              class="drawer-menu"
+              nz-icon
+              nzType="menu"
+              nzTheme="outline"
+              style="font-size: 20px; font-weight: bold; margin-left: 10px"
+              (click)="visibleDrawerMenu = true"
+            ></i>
+          </div>
+        </div>
+      </div>
+    </nz-header>
+
+    <nz-drawer
+      id="right-menu"
+      [nzClosable]="false"
+      [nzVisible]="visibleDrawerMenu"
+      nzPlacement="right"
+      nzTitle="Panasonic Vietnam (PIDVN)"
+      [nzWidth]="350"
+      (nzOnClose)="visibleDrawerMenu = false"
+    >
+      <ng-container *nzDrawerContent>
+        <!-- <ul>
+          <li><a href="https://10.92.176.57:8080" target="_blank">FDCS (Server 1)</a></li>
+        </ul> -->
+        <ul nz-menu nzMode="inline">
+          <li nz-menu-item nz-tooltip nzTooltipPlacement="right">
+            <i nz-icon nzType="bank"></i>
+            <span
+              ><a href="https://10.92.176.57:8080" target="_blank"
+                >FDCS (Server 1)</a
+              ></span
+            >
+          </li>
+          <!-- <li nz-submenu nzTitle="E-leave" nzIcon="send" nzOpen="true">
+            <ul>
+              <li nz-menu-item>
+                <a [href]="eLeaveLink" target="blank">Tạo request xin nghỉ</a>
+              </li>
+              <li nz-menu-item>
+                <a [href]="eConfirmCheckInLink" target="blank"
+                  >Xác nhận Check-In / Check-Out</a
+                >
+              </li>
+            </ul>
+          </li> -->
+        </ul>
+      </ng-container>
+    </nz-drawer>
+
+    <nz-content>
+      <div class="inner-content" (click)="onHideSidebar()">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+    <div style="padding: 10px 20px">
+      <div nz-row nzJustify="start" nzAlign="middle">
+        <div nz-col nzXs="12" nzAlign="middle">
+          <!-- Panasonic Industrial Devices Vietnam (PIDVN) ©2022 -->
+          <nz-select
+            nzSize="small"
+            ngModel="vi"
+            style="width: 110px; margin-right: 15px"
+            (ngModelChange)="changeDefaultLanguage($event)"
+          >
+            <nz-option nzValue="en" nzLabel="English"></nz-option>
+            <nz-option nzValue="vi" nzLabel="Tiếng Việt"></nz-option>
+          </nz-select>
+        </div>
+        <div nz-col nzXs="12" nzAlign="middle">
+          <div style="float: right" *ngIf="weatherInfo">
+            <span>{{ weatherInfo?.city_name }}: {{ weatherInfo?.temp }}°C</span>
+            <!-- <img [src]="weatherUrlIcon" width="40px" style="margin-left: 5px" /> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </nz-layout>
+</nz-layout>
+<nz-back-top></nz-back-top>

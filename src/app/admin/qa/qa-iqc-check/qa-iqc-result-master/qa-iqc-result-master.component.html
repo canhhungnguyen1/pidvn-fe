@@ -1,0 +1,149 @@
+<nz-breadcrumb>
+  <nz-breadcrumb-item> QA </nz-breadcrumb-item>
+  <nz-breadcrumb-item> IQC Request</nz-breadcrumb-item>
+  <nz-breadcrumb-item> IQC Result Master</nz-breadcrumb-item>
+</nz-breadcrumb>
+<br />
+<nz-collapse>
+  <nz-collapse-panel nzHeader="Thông tin request" [nzActive]="true" [nzShowArrow]="true">
+    <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+      <div nz-col nzXs="12" nzSm="12" nzLg="3">
+        <label nzXs="24" nzSm="24" nzLg="24">Request No</label>
+      </div>
+      <div nz-col nzXs="12" nzSm="12" nzLg="5">
+        <input type="text" nz-input [disabled]="true" [ngModel]="iqcRequest?.requestNo" />
+      </div>
+      <div nz-col nzXs="12" nzSm="12" nzLg="3">
+        <label nzXs="24" nzSm="24" nzLg="24">Invoice</label>
+      </div>
+      <div nz-col nzXs="12" nzSm="12" nzLg="5">
+        <input type="text" nz-input [disabled]="true" [ngModel]="iqcRequest?.invoice" />
+      </div>
+      <div nz-col nzXs="12" nzSm="12" nzLg="3">
+        <label nzXs="24" nzSm="24" nzLg="24">Supplier</label>
+      </div>
+      <div nz-col nzXs="12" nzSm="12" nzLg="5">
+        <input type="text" nz-input [disabled]="true" [ngModel]="iqcRequest?.supplier" />
+      </div>
+    </div>
+
+    <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24" style="margin-top: 10px">
+      <div nz-col nzXs="12" nzSm="12" nzLg="3">
+        <label nzXs="24" nzSm="24" nzLg="24">Người request</label>
+      </div>
+      <div nz-col nzXs="12" nzSm="12" nzLg="5">
+        <input type="text" nz-input [disabled]="true" [ngModel]="iqcRequest?.requestedByName" />
+      </div>
+      <div nz-col nzXs="12" nzSm="12" nzLg="3">
+        <label nzXs="24" nzSm="24" nzLg="24">Ngày request</label>
+      </div>
+      <div nz-col nzXs="12" nzSm="12" nzLg="5">
+        <input type="text" nz-input [disabled]="true" [ngModel]="iqcRequest?.createdAt | date: 'yyyy-MM-dd HH:mm'" />
+      </div>
+      <div nz-col nzXs="12" nzSm="12" nzLg="3">
+        <label nzXs="24" nzSm="24" nzLg="24">Trạng thái</label>
+      </div>
+      <div nz-col nzXs="12" nzSm="12" nzLg="5">
+        <input type="text" nz-input [disabled]="true" [ngModel]="iqcRequest?.statusName" />
+      </div>
+    </div>
+    <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24" style="margin-top: 15px">
+      <div nz-col nzXs="12" nzSm="12" nzLg="5">
+        <label nz-checkbox [(ngModel)]="isHandeled" (ngModelChange)="updateRequest($event)" style="color: #007bff">Đánh
+          dấu đã xử lý</label>
+      </div>
+    </div>
+  </nz-collapse-panel>
+</nz-collapse>
+<br />
+
+<div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+  <div nz-col nzXs="12" nzSm="6" nzLg="6">
+    <input nz-input placeholder="Lot No" [(ngModel)]="searchVo.lotNo" />
+  </div>
+  <div nz-col nzXs="12" nzSm="6" nzLg="6">
+    <button nz-button nzType="primary" (click)="onSearch()">Search</button>
+  </div>
+  <div nz-col nzXs="12" nzSm="12" nzLg="12">
+    <button nz-button nz-dropdown [nzDropdownMenu]="menu4" style="float: right;">
+      Export
+      <i nz-icon nzType="download"></i>
+    </button>
+    <nz-dropdown-menu #menu4="nzDropdownMenu">
+      <ul nz-menu>
+        <li nz-menu-item (click)="exportExcel()"><i nz-icon nzType="file-excel" style="margin-right: 15px;"></i>Excel
+        </li>
+        <li nz-menu-item (click)="exportPdf()"><i nz-icon nzType="file-pdf" style="margin-right: 15px;"></i>Pdf</li>
+      </ul>
+    </nz-dropdown-menu>
+  </div>
+</div>
+
+<br />
+<nz-table #iqcResultMasterTable nzSize="small" [nzBordered]="true" [nzData]="iqcDataMasters"
+  [nzScroll]="{ x: '1500px' }">
+  <thead>
+    <tr>
+      <th class="text-center" rowspan="2" nzLeft style="width: 200px;">Lot Group</th>
+      <th class="text-center" rowspan="2">Model</th>
+      <th class="text-center" rowspan="2">Qty</th>
+      <th class="text-center" rowspan="2">Số kiện</th>
+      <th class="text-center" rowspan="2">Ngày đánh giá</th>
+      <th class="text-center" colspan="3">Kết quả IQC</th>
+      <th class="text-center" rowspan="2">
+        Số LotNo <br />
+        Đã check
+      </th>
+      <th class="text-center" rowspan="2">
+        Thông tin <br />
+        NG hoặc CA
+      </th>
+      <th class="text-center" rowspan="2" nzRight>Action</th>
+    </tr>
+    <tr>
+      <th class="text-center" rowspan="2">GP</th>
+      <th class="text-center" rowspan="2">Ngoại quan</th>
+      <th class="text-center" rowspan="2">Kích thước</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of iqcResultMasterTable.data">
+      <td nzLeft style="width: 200px;">{{ item.lotGroup }}</td>
+      <td>{{ item.model }}</td>
+      <td class="text-right">{{ item.qty | number: "1.0-3" }}</td>
+      <td class="text-center">{{ item.amount }}</td>
+      <td class="text-center">
+        {{ item.iqcAt | date: "yyyy-MM-dd HH:mm" }}
+      </td>
+      <td [ngClass]="{
+          'text-center': true,
+          'text-danger': item.result1 == 'NG',
+          'text-success': item.result1 == 'OK',
+          'text-primary': item.result1 == 'CA'
+        }" style="font-weight: bold">
+        {{ item.result1 }}
+      </td>
+      <td [ngClass]="{
+          'text-center': true,
+          'text-danger': item.result2 == 'NG',
+          'text-success': item.result2 == 'OK',
+          'text-primary': item.result2 == 'CA'
+        }" style="font-weight: bold">
+        {{ item.result2 }}
+      </td>
+      <td [ngClass]="{
+          'text-center': true,
+          'text-danger': item.result3 == 'NG',
+          'text-success': item.result3 == 'OK',
+          'text-primary': item.result3 == 'CA'
+        }" style="font-weight: bold">
+        {{ item.result3 }}
+      </td>
+      <td class="text-center">{{ item.checkedAmount }}</td>
+      <td>{{ item.remark }}</td>
+      <td nzRight class="text-center">
+        <a nz-button nzType="link" (click)="redirectDetailData(item)">Chi tiết</a>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>

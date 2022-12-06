@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Panasonic Vietnam (PIDVN)</title>
+    <base href="/" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <link rel="icon" type="image/x-icon" href="favicon.png" />
+    <style type="text/css">
+      body,
+      html {
+        height: 100%;
+        overscroll-behavior-y: contain;
+      }
+
+      .app-loading {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+      }
+
+      .app-loading .spinner {
+        height: 300px;
+        width: 300px;
+        animation: rotate 2s linear infinite;
+        transform-origin: center center;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+      }
+
+      .app-loading .spinner .path {
+        stroke-dasharray: 1, 200;
+        stroke-dashoffset: 0;
+        animation: dash 1.5s ease-in-out infinite;
+        stroke-linecap: round;
+        stroke: #a11136;
+      }
+
+      @keyframes rotate {
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes dash {
+        0% {
+          stroke-dasharray: 89, 200;
+          stroke-dashoffset: 0;
+        }
+
+        50% {
+          stroke-dasharray: 89, 200;
+          stroke-dashoffset: -35px;
+        }
+
+        100% {
+          stroke-dasharray: 89, 200;
+          stroke-dashoffset: -124px;
+        }
+      }
+
+      /*Custom scrollbar*/
+      ::-webkit-scrollbar {
+        width: 5px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: rgb(233, 233, 233)
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: rgb(235, 142, 2);
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: rgb(0, 172, 29);
+      }
+
+    </style>
+  </head>
+  <body>
+    <app-root>
+      <div class="app-loading">
+        <div class="logo">
+          <!-- <img style="width:100px;height:100px" src="assets/images/angular.png"/> -->
+          <img src="./assets/images/log.svg" alt="logo" />
+        </div>
+        <svg class="spinner" viewBox="50 50 100 100">
+          <circle
+            class="path"
+            cx="100"
+            cy="100"
+            r="40"
+            fill="none"
+            stroke-width="2"
+            stroke-miterlimit="10"
+          />
+        </svg>
+      </div>
+    </app-root>
+  </body>
+</html>

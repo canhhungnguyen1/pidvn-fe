@@ -1,0 +1,25 @@
+nz-table {
+    tr:hover {
+      cursor: pointer;
+    }
+    .text-center {
+      text-align: center;
+    }
+    .text-right {
+      text-align: right;
+    }
+    label {
+      font-weight: bold;
+    }
+  
+    .invalid {
+      color: red;
+      font-weight: bold;
+    }
+  
+    .valid {
+      color: green;
+      font-weight: bold;
+    }
+}
+  

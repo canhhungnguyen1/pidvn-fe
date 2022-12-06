@@ -1,0 +1,174 @@
+<nz-tabset>
+  <nz-tab nzTitle="Hạng mục">
+    <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+      <div nz-col nzXs="4" nzSm="4" nzMd="4" nzLg="4">
+        <label>Số lượng</label>
+        <input
+          type="number"
+          nz-input
+          placeholder="Số mẫu kiểm tra"
+          [(ngModel)]="standard.measureAmount"
+        />
+      </div>
+      <div nz-col nzXs="6" nzSm="6" nzMd="6" nzLg="6">
+        <label>Ghi chú</label>
+        <textarea nz-input placeholder="Nhập ghi chú" nzAutosize [(ngModel)]="note"></textarea>
+      </div>
+      <div nz-col nzXs="14" nzSm="14" nzMd="14" nzLg="14">
+        <div nz-row nzJustify="end" nzAlign="middle">
+          <label>&nbsp;</label>
+          <button
+            nz-button
+            nzType="primary"
+            [nzLoading]="isSaveLoading"
+            (click)="onSaveBtn()"
+          >
+            Lưu
+          </button>
+        </div>
+      </div>
+    </div>
+    <br />
+    <nz-table
+      #childItemTable
+      nzBordered
+      [nzData]="childItems"
+      [nzLoading]="isChildItemTableLoading"
+      [nzFrontPagination]="false"
+    >
+      <thead>
+        <tr>
+          <th class="text-center">Hạng mục</th>
+          <th class="text-center">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of childItemTable.data">
+          <td>{{ data.name }}</td>
+          <td class="text-center">
+            <nz-radio-group [(ngModel)]="data.value">
+              <label style="color: green" nz-radio nzValue="OK">OK</label>
+              <label style="color: red" nz-radio nzValue="NG">NG</label>
+            </nz-radio-group>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </nz-tab>
+  <nz-tab nzTitle="Dữ liệu">
+    <nz-table
+      #masterTable
+      nzBordered
+      nzSize="small"
+      [nzData]="mastersData"
+      [nzFrontPagination]="true"
+    >
+    <thead>
+      <tr>
+        <th class="text-center">Master</th>
+        <th class="text-center">Line</th>
+        <th class="text-center">Model</th>
+        <th class="text-center">Lý do</th>
+        <th class="text-center">Thực hiện</th>
+        <th class="text-center">Ghi chú</th>
+        <th class="text-center">Thời gian</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of masterTable.data"  (click)="showDetailData(data)">
+        <td>{{ data.id }}</td>
+        <td>{{ data.line }}</td>
+        <td>{{ data.model }}</td>
+        <td>{{ data.reasonName }}</td>
+        <td>{{ data.userName }}</td>
+        <td>{{ data.note }}</td>
+        <td class="text-center">
+          {{ data.createdAt | date: "yyyy-MM-dd HH:mm:ss" }} - ({{
+            data.shift
+          }})
+        </td>
+      </tr>
+    </tbody>
+    </nz-table>
+  </nz-tab>
+  <nz-tab nzTitle="Hình ảnh">
+    <nz-image-group nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+      <div
+        nz-col
+        nzXs="24"
+        nzSm="12"
+        nzMd="8"
+        nzLg="6"
+        *ngFor="let image of images"
+      >
+        <nz-card class="item-img">
+          <img nz-image [nzSrc]="baseUrl + image.imageUrl" />
+        </nz-card>
+      </div>
+    </nz-image-group>
+  </nz-tab>
+</nz-tabset>
+
+<nz-modal nzTitle="Dữ liệu đo đạc" [(nzVisible)]="isShowModal">
+  <ng-container *nzModalContent>
+    <ul class="info">
+      <li>
+        <nz-tag [nzColor]="'red'">Line: {{ responseData[0].line }}</nz-tag>
+      </li>
+      <li>
+        <nz-tag [nzColor]="'green'">Model: {{ responseData[0].model }}</nz-tag>
+      </li>
+      <li>
+        <nz-tag [nzColor]="'cyan'"
+          >Thực hiện: {{ responseData[0].user }}</nz-tag
+        >
+      </li>
+      <li>
+        <nz-tag [nzColor]="'blue'"
+          >Ca làm việc: {{ responseData[0].shift }}</nz-tag
+        >
+      </li>
+      <li>
+        <nz-tag [nzColor]="'geekblue'"
+          >Lý do: {{ responseData[0].reasonName }}</nz-tag
+        >
+      </li>
+      <li>
+        <nz-tag [nzColor]="'purple'"
+          >Thời gian:
+          {{ responseData[0].createdAt | date: "yyyy-MM-dd HH:mm:ss" }}</nz-tag
+        >
+      </li>
+    </ul>
+    <nz-table
+      #responseTable
+      nzBordered
+      nzSize="small"
+      [nzData]="responseData"
+      [nzFrontPagination]="true"
+    >
+      <thead>
+        <tr>
+          <th class="text-center">Hạng mục</th>
+          <th class="text-center">{{ valueNames[0] }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of responseTable.data">
+          <td>{{ data.childItemName }}</td>
+          <td
+            [ngClass]="{
+              'text-center': true,
+              invalid: data.a1 == 'NG'
+            }"
+          >
+            {{ data.a1 }}
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
+  <ng-template [nzModalFooter]>
+    <button nz-button nzType="primary" (click)="isShowModal = false">OK</button>
+  </ng-template>
+</nz-modal>

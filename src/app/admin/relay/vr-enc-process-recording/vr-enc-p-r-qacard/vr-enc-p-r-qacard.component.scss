@@ -1,0 +1,15 @@
+nz-select,
+nz-date-picker {
+  width: 100%;
+}
+
+nz-table {
+  label {
+    font-weight: bold;
+  }
+  .error {
+    border: 1px solid red;
+    font-weight: bold;
+    padding: 5px;
+  }
+}

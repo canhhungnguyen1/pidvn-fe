@@ -1,0 +1,21 @@
+<div class="wrapper">
+    <nz-breadcrumb>
+        <nz-breadcrumb-item> Relay </nz-breadcrumb-item>
+        <nz-breadcrumb-item> Site Map </nz-breadcrumb-item>
+        <nz-breadcrumb-item> {{type == 'worker' ? 'Công nhân' : 'Quản lý'}} </nz-breadcrumb-item>
+    </nz-breadcrumb>
+    <br />
+
+    <nz-table #basicTable [nzData]="dataSource">
+        <thead>
+            <tr>
+                <th style="text-align: center;">Dự án</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of basicTable.data" style="font-weight: bold;">
+                <td (click)="onRowClick(data)"><a>{{data.name}}</a></td>
+            </tr>
+        </tbody>
+    </nz-table>
+</div>

@@ -1,0 +1,70 @@
+<button nz-button nzType="primary" (click)="isOpenUploadFileModal = true">
+  Upload Hồ sơ / Giấy tờ
+</button>
+
+<nz-collapse style="margin-top: 10px" *ngFor="let item of userFiles">
+  <nz-collapse-panel
+    [nzHeader]="item.name"
+    [nzActive]="true"
+    [nzShowArrow]="true"
+  >
+    <nz-image-group nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+      <div
+        class="file"
+        *ngFor="let file of item.files"
+        style="padding: 5px; border: 1px solid #ccc; margin-right: 5px"
+      >
+        <img
+          nz-image
+          width="50px"
+          height="50px"
+          [nzSrc]="baseUrl + '/Personal/Images/' + file.username + '/' + file.fileName"
+          (click)="fileClick(file)"
+          nz-popover
+          [nzPopoverContent]="contentTemplate"
+          [nzFallback]="fallback"
+        />
+        <ng-template #contentTemplate>
+          <a (click)="deleteFile(file)" style="color: red">Xóa file</a>
+        </ng-template>
+      </div>
+    </nz-image-group>
+  </nz-collapse-panel>
+</nz-collapse>
+
+<nz-modal [(nzVisible)]="isOpenUploadFileModal" nzTitle="Hồ sơ / Giấy tờ">
+  <ng-container *nzModalContent>
+    <span style="color: red; font-weight: bold">* &nbsp;</span
+    ><label>Loại giấy tờ</label>
+    <nz-select
+      nzPlaceHolder="Chọn loại giấy tờ"
+      nzShowSearch
+      nzAllowClear
+      [(ngModel)]="selectedFileType"
+      (ngModelChange)="onChangeFileType($event)"
+    >
+      <nz-option
+        *ngFor="let fileType of userFileTypes"
+        [nzValue]="fileType.code"
+        [nzLabel]="fileType.name"
+      ></nz-option>
+    </nz-select>
+
+    <nz-upload
+      [nzAction]="uploadFileApi"
+      nzListType="picture"
+      [nzBeforeUpload]="beforeUpload"
+    >
+      <button nz-button style="margin-top: 10px">
+        <i nz-icon nzType="upload"></i>
+        Upload
+      </button>
+    </nz-upload>
+  </ng-container>
+
+  <ng-container *nzModalFooter>
+    <button nz-button nzType="primary" (click)="closeUploadFileModal()">
+      Đóng
+    </button>
+  </ng-container>
+</nz-modal>

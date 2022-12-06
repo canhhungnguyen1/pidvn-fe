@@ -1,0 +1,230 @@
+<label>Thay cuộn dây: </label>
+<label style="color: red"> Scan theo thứ tự: ID, Tem, Coil mới, Coil cũ</label>
+<nz-table
+  id="infoTbl"
+  #infoTbl
+  [nzData]="['']"
+  nzBordered
+  nzSize="small"
+  nzFrontPagination="false"
+>
+  <tbody>
+    <tr>
+      <td style="width: 10%"><label>User ID</label></td>
+      <td style="width: 50%">
+        <input
+          #userIpt
+          nz-input
+          placeholder="Scan mã nhân viên"
+          (keydown.enter)="scanUser($event)"
+          (click)="userIpt.select()"
+          [(ngModel)]="scanner.userId"
+        />
+      </td>
+      <td style="width: 10%"><label>Lot mới</label></td>
+      <td style="width: 30%">
+        <input
+          #newCoilIpt
+          nz-input
+          placeholder="Scan cuộn dây mới"
+          (keydown.enter)="scanNewCoil($event)"
+          (click)="newCoilIpt.select()"
+          [(ngModel)]="scanner.newCoil"
+        />
+      </td>
+      <td rowspan="2" style="width: 10%">
+        <button
+          nz-button
+          nzType="primary"
+          style="width: 100%; height: 80px !important"
+          (click)="onSave()"
+          [nzLoading]="isLoading"
+        >
+          Lưu
+        </button>
+      </td>
+    </tr>
+    <tr>
+      <td style="width: 10%"><label>Tem</label></td>
+      <td style="width: 50%">
+        <input
+          #labelIpt
+          nz-input
+          placeholder="Scan tem thành phẩm"
+          (keydown.enter)="scanLabel($event)"
+          (click)="labelIpt.select()"
+          [(ngModel)]="scanner.label"
+        />
+      </td>
+      <td style="width: 10%"><label>Lot cũ</label></td>
+      <td style="width: 30%">
+        <input
+          #oldCoilIpt
+          nz-input
+          placeholder="Scan cuộn dây cũ"
+          (keydown.enter)="scanOldCoil($event)"
+          (click)="oldCoilIpt.select()"
+          [(ngModel)]="scanner.oldCoil"
+        />
+      </td>
+    </tr>
+    <tr *ngIf="isError">
+      <td colspan="5">
+        <!-- <nz-alert
+          style="color: red;"
+          class="error"
+          nzBanner
+          nzType="error"
+          [nzMessage]="errMsg"
+          nzCloseable
+        ></nz-alert> -->
+        <div class="error">
+          <span
+            style="color: red"
+            nz-icon
+            nzType="warning"
+            nzTheme="outline"
+          ></span>
+          <span style="color: red; margin-left: 5px">{{ errMsg }}</span>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
+<div style="margin-top: -25px">
+  <a (click)="openManualModal()">Trường hợp bị lỗi</a>
+</div>
+<div>
+  <label *ngIf="label">Dữ liệu tem: </label
+  ><span style="color: blue">{{ label }}</span>
+</div>
+<nz-table #coilTable [nzData]="materials" nzBordered nzSize="small">
+  <thead>
+    <tr>
+      <th>Lot No</th>
+      <th>Qty</th>
+      <th>From Box</th>
+      <th>To Box</th>
+      <th>Vị trí</th>
+      <th>Thời gian</th>
+      <th>Nhân viên</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of coilTable.data">
+      <td>{{ data.clotno }}</td>
+      <td style="text-align: right">{{ data.qty | number: "1.0-3" }}</td>
+      <td style="text-align: center">{{ data.frBox }}</td>
+      <td style="text-align: center">{{ data.toBox }}</td>
+      <td style="text-align: center">{{ data.windingBobbin }}</td>
+      <td style="text-align: center">
+        {{ data.createdAt | date: "yyyy-MM-dd HH:mm" }}
+      </td>
+      <td>{{ data.employee }}</td>
+    </tr>
+  </tbody>
+</nz-table>
+
+<nz-modal [(nzVisible)]="isOpenManualModal" nzTitle="Thay cuộn dây đồng" nzWidth="700px">
+  <ng-container *nzModalContent>
+    <nz-table
+      [nzData]="['']"
+      nzBordered
+      nzSize="small"
+      nzFrontPagination="false"
+    >
+      <tbody>
+        <tr>
+          <td style="width: 10%"><label>User ID</label></td>
+          <td style="width: 40%">
+            <input
+              #userIpt2
+              nz-input
+              placeholder="Scan mã nhân viên"
+              (keydown.enter)="scanUserIpt2($event)"
+              (click)="userIpt2.select()"
+            />
+          </td>
+          <td style="width: 10%"><label>Tem</label></td>
+          <td style="width: 40%">
+            <input
+              #labelIpt2
+              nz-input
+              placeholder="Scan tem"
+              (keydown.enter)="scanLabelIpt2($event)"
+              (click)="labelIpt2.select()"
+              [(ngModel)]="scanner2.label"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td><label>Coil</label></td>
+          <td>
+            <input
+              #newCoilIpt2
+              nz-input
+              placeholder="Scan mã dây đồng"
+              (click)="newCoilIpt2.select()"
+              [(ngModel)]="scanner2.newCoil"
+            />
+          </td>
+          <td><label>Vị trí</label></td>
+          <td>
+            <nz-select nzAllowClear nzShowSearch [(ngModel)]="scanner2.position">
+              <nz-option
+                *ngFor="let position of positions"
+                [nzValue]="position.value"
+                [nzLabel]="position.label"
+              ></nz-option>
+            </nz-select>
+          </td>
+        </tr>
+        <tr *ngIf="isError2">
+          <td colspan="5">
+            <div class="error">
+              <span
+                style="color: red"
+                nz-icon
+                nzType="warning"
+                nzTheme="outline"
+              ></span>
+              <span style="color: red; margin-left: 5px">{{ errMsg }}</span>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="isOpenManualModal = false">Hủy</button>
+    <button nz-button nzType="primary" (click)="onSave2()">Lưu</button>
+  </div>
+</nz-modal>
+
+
+<nz-modal [(nzVisible)]="isOpenEditModal" nzTitle="Sửa số lượng">
+  <ng-container *nzModalContent>
+    <nz-table
+      [nzData]="['']"
+      nzBordered
+      nzSize="small"
+      nzFrontPagination="false"
+    >
+      <tbody>
+        <tr>
+          <td>Lot No</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Qty</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="isOpenEditModal = false">Hủy</button>
+    <button nz-button nzType="primary">Update</button>
+  </div>
+</nz-modal>
+

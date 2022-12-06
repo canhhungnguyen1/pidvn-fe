@@ -1,0 +1,26 @@
+label {
+  font-weight: bold;
+}
+
+nz-select,
+input {
+  width: 100%;
+}
+
+nz-table {
+  tr:hover {
+    cursor: pointer;
+  }
+  .text-center {
+    text-align: center;
+  }
+  .text-right {
+    text-align: right;
+  }
+}
+
+.m-signature-pad {
+  position: relative;
+  border: 1px solid #ccc;
+  width: 100%;
+}

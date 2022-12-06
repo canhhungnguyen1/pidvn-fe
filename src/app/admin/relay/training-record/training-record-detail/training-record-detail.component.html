@@ -1,0 +1,346 @@
+<nz-breadcrumb>
+  <nz-breadcrumb-item> Relay Factory</nz-breadcrumb-item>
+  <nz-breadcrumb-item> Training Record </nz-breadcrumb-item>
+  <nz-breadcrumb-item> Detail </nz-breadcrumb-item>
+</nz-breadcrumb>
+<br />
+
+<nz-collapse>
+  <nz-collapse-panel nzHeader="Master" [nzActive]="true" [nzShowArrow]="true">
+    <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+      <div nz-col nzXs="12" nzSm="12" nzLg="3">
+        <label nzXs="24" nzSm="24" nzLg="24">Course Name</label>
+      </div>
+      <div nz-col nzXs="12" nzSm="12" nzLg="5">
+        <input
+          type="text"
+          nz-input
+          [disabled]="true"
+          [ngModel]="trainingRecordMaster?.courseName"
+        />
+      </div>
+      <div nz-col nzXs="12" nzSm="12" nzLg="3">
+        <label nzXs="24" nzSm="24" nzLg="24">Course Type</label>
+      </div>
+      <div nz-col nzXs="12" nzSm="12" nzLg="5">
+        <input
+          type="text"
+          nz-input
+          [disabled]="true"
+          [ngModel]="trainingRecordMaster?.courseTypeName"
+        />
+      </div>
+      <div nz-col nzXs="12" nzSm="12" nzLg="3">
+        <label nzXs="24" nzSm="24" nzLg="24">Trainer</label>
+      </div>
+      <div nz-col nzXs="12" nzSm="12" nzLg="5">
+        <input
+          type="text"
+          nz-input
+          [disabled]="true"
+          [ngModel]="trainingRecordMaster?.trainerName?.split('-')[0]"
+        />
+      </div>
+    </div>
+
+    <div
+      nz-row
+      nzJustify="start"
+      nzAlign="middle"
+      [nzGutter]="24"
+      style="margin-top: 10px"
+    >
+      <div nz-col nzXs="12" nzSm="12" nzLg="3">
+        <label nzXs="24" nzSm="24" nzLg="24">Date</label>
+      </div>
+      <div nz-col nzXs="12" nzSm="12" nzLg="5">
+        <input
+          type="text"
+          nz-input
+          [disabled]="true"
+          [ngModel]="trainingRecordMaster?.date | date: 'yyyy-MM-dd'"
+        />
+      </div>
+      <div nz-col nzXs="12" nzSm="12" nzLg="3">
+        <label nzXs="24" nzSm="24" nzLg="24">Approval By</label>
+      </div>
+      <div nz-col nzXs="12" nzSm="12" nzLg="5">
+        <input
+          type="text"
+          nz-input
+          [disabled]="true"
+          [ngModel]="trainingRecordMaster?.approvalByName?.split('-')[0]"
+        />
+      </div>
+      <div nz-col nzXs="12" nzSm="12" nzLg="3">
+        <label nzXs="24" nzSm="24" nzLg="24">Score Of Pass</label>
+      </div>
+      <div nz-col nzXs="12" nzSm="12" nzLg="5">
+        <input
+          type="text"
+          nz-input
+          [disabled]="true"
+          [ngModel]="
+            trainingRecordMaster?.scoreOfPass +
+            ' / ' +
+            trainingRecordMaster?.scoreOfMax
+          "
+        />
+      </div>
+    </div>
+  </nz-collapse-panel>
+</nz-collapse>
+
+<br />
+
+<dx-data-grid
+  id="gridContainer"
+  [dataSource]="trainingRecordDetail"
+  [showBorders]="true"
+  [showColumnLines]="true"
+  [showRowLines]="true"
+  [showBorders]="true"
+  [columnAutoWidth]="true"
+  [allowColumnResizing]="true"
+  [columnResizingMode]="'widget'"
+  [allowColumnReordering]="true"
+  [rowAlternationEnabled]="true"
+  (onFocusedCellChanging)="onFocusedCellChanging($event)"
+  (onSaved)="onSaved($event)"
+  (onExporting)="onExporting($event)"
+>
+  <dxo-filter-row [visible]="true"> </dxo-filter-row>
+  <dxo-export [enabled]="true"></dxo-export>
+  <dxo-paging [pageSize]="10"></dxo-paging>
+  <dxo-pager
+    [showPageSizeSelector]="true"
+    [allowedPageSizes]="[10, 25, 50, 100]"
+  ></dxo-pager>
+  <dxo-editing
+    mode="cell"
+    [allowUpdating]="true"
+    [allowAdding]="true"
+    [allowDeleting]="true"
+    startEditAction="click"
+  >
+  </dxo-editing>
+
+  <dxo-keyboard-navigation
+    [editOnKeyPress]="true"
+    [enterKeyAction]="'startEdit'"
+    [enterKeyDirection]="'column'"
+  >
+  </dxo-keyboard-navigation>
+
+  <dxi-column
+    caption="Id"
+    dataField="username"
+    [width]="150"
+    [allowFiltering]="false"
+    editCellTemplate="singleDropDownBoxEditor"
+  >
+    <dxo-lookup
+      [dataSource]="users"
+      displayExpr="username"
+      valueExpr="username"
+    >
+    </dxo-lookup>
+    <dxi-validation-rule type="required"></dxi-validation-rule>
+  </dxi-column>
+  <dxi-column
+    dataField="name"
+    caption="Name"
+    [allowEditing]="false"
+  ></dxi-column>
+  <dxi-column
+    dataField="subsectionName"
+    caption="Section"
+    [allowFiltering]="false"
+    [allowEditing]="false"
+  ></dxi-column>
+  <dxi-column
+    dataField="positionName"
+    caption="Position"
+    [allowFiltering]="false"
+    [allowEditing]="false"
+  ></dxi-column>
+
+  <dxi-column caption="Signature">
+    <dxi-column dataField="attendance" caption="Attendance">
+      <dxo-lookup [dataSource]="options" displayExpr="value" valueExpr="value">
+      </dxo-lookup>
+    </dxi-column>
+    <dxi-column dataField="materialReceived" caption="Material Received">
+      <dxo-lookup [dataSource]="options" displayExpr="value" valueExpr="value">
+      </dxo-lookup>
+    </dxi-column>
+  </dxi-column>
+
+  <dxi-column caption="Test Result">
+    <dxi-column dataField="score" caption="Score" [allowEditing]="(trainingRecordMaster?.scoreOfMax && trainingRecordMaster?.scoreOfPass) != null ? true : false"></dxi-column>
+    <dxi-column dataField="testResult" caption="Result" [allowEditing]="(trainingRecordMaster.scoreOfMax || trainingRecordMaster.scoreOfPass) == null ? true : false">
+      <dxo-lookup
+        [dataSource]="testResult"
+        displayExpr="value"
+        valueExpr="value"
+      >
+      </dxo-lookup>
+    </dxi-column>
+  </dxi-column>
+
+  <dxi-column
+    dataField="remark"
+    caption="Remark"
+    [allowEditing]="true"
+  ></dxi-column>
+
+  <div *dxTemplate="let cellInfo of 'singleDropDownBoxEditor'">
+    <dx-drop-down-box
+      [dropDownOptions]="{ width: 500 }"
+      [dataSource]="users"
+      [(value)]="cellInfo.value"
+      displayExpr="username"
+      valueExpr="username"
+      contentTemplate="contentTemplate"
+    >
+      <div *dxTemplate="let e of 'contentTemplate'">
+        <dx-data-grid
+          keyExpr="username"
+          [dataSource]="users"
+          [remoteOperations]="true"
+          [height]="250"
+          [selectedRowKeys]="[cellInfo.value]"
+          [focusedRowEnabled]="true"
+          [focusedRowKey]="cellInfo.value"
+          [hoverStateEnabled]="true"
+          (onSelectionChanged)="
+            onSelectionChanged($event.selectedRowKeys, cellInfo, e.component)
+          "
+        >
+          <dxo-filter-row [visible]="true"></dxo-filter-row>
+          <dxi-column dataField="username"></dxi-column>
+          <dxi-column dataField="name"></dxi-column>
+          <dxo-paging [enabled]="true" [pageSize]="10"></dxo-paging>
+          <dxo-scrolling mode="virtual"></dxo-scrolling>
+          <dxo-selection mode="single"></dxo-selection>
+        </dx-data-grid>
+      </div>
+    </dx-drop-down-box>
+  </div>
+
+  <dxo-toolbar>
+    <dxi-item location="before">
+      <dx-button
+        stylingMode="outlined"
+        type="default"
+        icon="inserttable"
+        text="Thêm Users"
+        (onClick)="openAddUserModal()"
+      >
+      </dx-button>
+    </dxi-item>
+    <dxi-item location="before">
+      <dx-button
+        stylingMode="outlined"
+        type="success"
+        icon="group"
+        text="Điểm danh"
+        (onClick)="onOpenAttendanceModal()"
+      >
+      </dx-button>
+    </dxi-item>
+    <dxi-item
+      location="before"
+      name="addRowButton"
+      showText="always"
+    ></dxi-item>
+    <dxi-item location="after">
+      <dx-button
+        stylingMode="outlined"
+        type="default"
+        icon="fieldchooser"
+        text="Approve"
+        nz-popconfirm
+        nzPopconfirmTitle="Are you sure approve"
+        nzPopconfirmPlacement="topLeft"
+        (nzOnConfirm)="onApprove()"
+      >
+      </dx-button>
+    </dxi-item>
+    <dxi-item name="exportButton"></dxi-item>
+  </dxo-toolbar>
+</dx-data-grid>
+
+<nz-modal
+  [(nzVisible)]="isOpenAddUserModal"
+  nzTitle="Add Users"
+  (nzOnOk)="uploadUsers()"
+  (nzOnCancel)="isOpenAddUserModal = false"
+>
+  <ng-container *nzModalContent>
+    <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+      <div nz-col nzXs="12" nzSm="12" nzLg="12">
+        <nz-upload [nzAction]="usersUploadApi">
+          <button nz-button>
+            <i nz-icon nzType="upload"></i>
+            Click to Upload
+          </button>
+        </nz-upload>
+      </div>
+      <div nz-col nzXs="12" nzSm="12" nzLg="12">
+        <label (click)="openGuideline()">Guideline</label>
+      </div>
+    </div>
+  </ng-container>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="isOpenAttendanceModal"
+  nzTitle="Attendance"
+  (nzOnCancel)="isOpenAttendanceModal = false"
+  (nzOnOk)="onCloseAttendanceModal()"
+>
+  <ng-container *nzModalContent>
+    <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24">
+        <div nzXs="24" nzSm="12" nzLg="24">
+          <input
+            nz-input
+            placeholder="ID QR Code"
+            (keydown.enter)="attendanceUser($event)"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      style="margin-top: 5px"
+      nz-row
+      nzJustify="start"
+      nzAlign="middle"
+      [nzGutter]="24"
+    >
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24">
+        <label>Attendance List</label>
+        <nz-table
+          #attendanceTable
+          nzBordered
+          [nzData]="attendanceUsers"
+          [nzSize]="'small'"
+        >
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of attendanceTable.data">
+              <td>{{ data.username }}</td>
+              <td>{{ data.name }}</td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </div>
+    </div>
+  </ng-container>
+</nz-modal>

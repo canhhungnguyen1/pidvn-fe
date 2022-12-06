@@ -1,0 +1,192 @@
+<nz-breadcrumb>
+  <nz-breadcrumb-item>Relay Factory</nz-breadcrumb-item>
+  <nz-breadcrumb-item>Kho trung chuyển</nz-breadcrumb-item>
+  <nz-breadcrumb-item>Chuyển NVL vào LINE-WH</nz-breadcrumb-item>
+</nz-breadcrumb>
+<br />
+<div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+  <div nz-col nzXs="12" nzSm="7" nzLg="6">
+    <nz-select
+      #userIpt
+      [nzAutoFocus]="true"
+      nzShowSearch
+      nzAllowClear
+      ngModel="lucy"
+      nzPlaceHolder="Người thực hiện"
+      [(ngModel)]="username"
+      (keydown.enter)="scanUser($event)"
+    >
+      <nz-option
+        class="option"
+        *ngFor="let user of users"
+        [nzValue]="user.username"
+        [nzLabel]="user.name + ' - ' + user.username"
+      >
+      </nz-option>
+    </nz-select>
+  </div>
+  <div nz-col nzXs="12" nzSm="10" nzLg="6">
+    <nz-input-group [nzSuffix]="qaCardIptTpl">
+      <input
+        nz-input
+        #qaCardIpt
+        placeholder="QA Card"
+        [(ngModel)]="qaCard"
+        (keydown.enter)="scanQACard($event)"
+        (click)="qaCardIpt.select()"
+      />
+      <ng-template #qaCardIptTpl>
+        <i
+          nz-icon
+          class="ant-input-clear-icon"
+          nzTheme="fill"
+          nzType="close-circle"
+          *ngIf="qaCard"
+          (click)="qaCard = ''"
+        ></i>
+      </ng-template>
+    </nz-input-group>
+  </div>
+  <div nz-col nzXs="12" nzSm="3" nzLg="4">
+    <button nz-button nzType="primary" (click)="openScanQRCodeModal()">
+      Chuyển NVL vào LINE-WH
+    </button>
+  </div>
+</div>
+
+<nz-divider nzText="Danh sách NVL đã chuyển vào LINE-WH" nzOrientation="left"></nz-divider>
+
+<nz-table
+  #lineWhRecordTbl
+  [nzData]="purWhRecords"
+  nzBordered
+  nzSize="small"
+  nzFrontPagination="false"
+>
+  <thead>
+    <tr>
+      <th>Part No</th>
+      <th>Lot Group</th>
+      <th>Lot No</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of lineWhRecordTbl.data">
+      <td style="font-weight: bold">
+        {{ data.model }}
+        <span class="qty">(Qty: {{ data.qty | number: "1.0-3" }})</span>
+      </td>
+      <td style="font-weight: bold">
+        <ul>
+          <li *ngFor="let lotGroup of data.lotGroups">
+            {{ lotGroup.lotGroup }} -
+            <span class="qty">(Qty: {{ lotGroup.qty | number: "1.0-3" }})</span>
+          </li>
+        </ul>
+      </td>
+      <td style="font-weight: bold">
+        <ul>
+          <li *ngFor="let lotNo of data.lots">
+            <span>{{ lotNo.lotNo }}</span> -
+            <span class="qty">(Qty: {{ lotNo.qty | number: "1.0-3" }})</span>
+            <i
+              nz-icon
+              nzType="minus-circle"
+              nzTheme="outline"
+              style="color: red; margin-left: 5px"
+              nz-popconfirm
+              nzPopconfirmTitle="Bạn có chắc chắn xóa ?"
+              (nzOnConfirm)="deleteRecord(lotNo)"
+            ></i>
+          </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
+
+<nz-modal
+  [(nzVisible)]="isOpenScanQRCodeModal"
+  nzTitle="Chuyển NVL lên xe (LINE-WH)"
+  nzWidth="750px"
+>
+  <ng-container *nzModalContent>
+    <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+      <input
+        nz-input
+        #qrCodeIpt
+        placeholder="Scan QR Code"
+        (keydown.enter)="scanQRCode($event)"
+        (click)="qrCodeIpt.select()"
+        style="font-weight: bold;"
+      />
+      <nz-alert
+        *ngIf="lotErrMsg"
+        id="error-msg"
+        nzBanner
+        nzShowIcon
+        style="margin-top: 10px"
+        nzType="error"
+        [nzMessage]="lotErrMsg"
+      >
+      </nz-alert>
+      <nz-table
+        #qrTbl
+        [nzData]="listLotsScanned"
+        style="width: 100%; margin-top: 15px"
+        nzBordered
+        nzSize="small"
+        [nzFrontPagination]="true"
+        [nzPageSize]="10"
+      >
+        <thead>
+          <tr>
+            <th>Part No</th>
+            <th>Lot No</th>
+            <th>Qty còn lại</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of qrTbl.data">
+            <td>
+              <span style="color: black; font-weight: bold;">{{ data.partNo }}</span>
+            </td>
+            <td>
+              <span style="color: black; font-weight: bold;">{{ data.lotNo }}</span>
+              <span style="color: green; margin-left: 3px;">(Qty: {{ data.originQty | number: "1.0-3" }})</span>
+            </td>
+            <td class="editable-row" style="text-align: right">
+              <div
+                class="editable-cell"
+                [hidden]="lotNoEdit === data.lotNo"
+                (click)="startEdit(data)"
+              >
+                {{ data.qty | number: "1.0-3" }}
+              </div>
+              <input
+                #importQtyIpt
+                [hidden]="lotNoEdit !== data.lotNo"
+                type="number"
+                nz-input
+                [(ngModel)]="data.qty"
+                (blur)="stopEdit()"
+              />
+            </td>
+            <td style="text-align: center">
+              <a style="color: red" (click)="deleteQRCodeScanned(data)">Xóa</a>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="isOpenScanQRCodeModal = false">
+      Hủy
+    </button>
+    <button nz-button nzType="primary" (click)="sendMaterialToLineWh()">
+      Lưu
+    </button>
+  </div>
+</nz-modal>

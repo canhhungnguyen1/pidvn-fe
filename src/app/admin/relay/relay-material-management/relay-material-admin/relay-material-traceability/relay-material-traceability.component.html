@@ -1,0 +1,163 @@
+<nz-breadcrumb>
+  <nz-breadcrumb-item> Relay Factory</nz-breadcrumb-item>
+  <nz-breadcrumb-item> Quản lý NVL </nz-breadcrumb-item>
+  <nz-breadcrumb-item> Truy vết </nz-breadcrumb-item>
+</nz-breadcrumb>
+<nz-collapse>
+  <nz-collapse-panel nzHeader="Tìm kiếm" [nzActive]="true" [nzShowArrow]="true">
+    <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+      <div nz-col nzXs="12" nzSm="12" nzLg="5">
+        <label nzXs="24" nzSm="24" nzLg="24">Type</label>
+        <span>(Loại)</span>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <nz-select
+            nzPlaceHolder="Loại"
+            nzAllowClear
+            [(ngModel)]="searchVo.recordType"
+            [nzDropdownMatchSelectWidth]="false"
+          >
+            <nz-option nzValue="RNP" nzLabel="NVL nhận từ kho"></nz-option>
+            <nz-option nzValue="RDC" nzLabel="NVL nhập vào QA Card"></nz-option>
+            <nz-option nzValue="CDL" nzLabel="NVL nhập vào LINE"></nz-option>
+            <nz-option
+              nzValue="CTR"
+              nzLabel="NVL trả kho trung chuyển RE-WH"
+            ></nz-option>
+            <nz-option nzValue="MRTW" nzLabel="NVL trả kho PUR-WH"></nz-option>
+          </nz-select>
+        </div>
+      </div>
+
+      <div nz-col nzXs="12" nzSm="12" nzLg="3">
+        <label nzXs="24" nzSm="24" nzLg="24">Line</label>
+        <span>(Dây truyền)</span>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <nz-select
+            nzPlaceHolder="Line"
+            nzAllowClear
+            [(ngModel)]="searchVo.line"
+          >
+            <nz-option
+              *ngFor="let line of lines"
+              [nzValue]="line.name"
+              [nzLabel]="line.name"
+            >
+            </nz-option>
+          </nz-select>
+        </div>
+      </div>
+
+      <div nz-col nzXs="12" nzSm="12" nzLg="5">
+        <label nzXs="24" nzSm="24" nzLg="24">Date</label><span>(QA card)</span>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <nz-range-picker
+            nzFormat="yyyy-MM-dd"
+            nzMode="date"
+            [(ngModel)]="date"
+            (ngModelChange)="onChangeTime($event)"
+          >
+          </nz-range-picker>
+        </div>
+      </div>
+
+      <div nz-col nzXs="12" nzSm="12" nzLg="5">
+        <label nzXs="24" nzSm="24" nzLg="24">QA Card</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <nz-select
+            nzPlaceHolder="QA cards"
+            nzShowSearch 
+            nzAllowClear
+            [(ngModel)]="searchVo.qaCard"
+            [nzDropdownMatchSelectWidth]="false"
+          >
+            <nz-option
+              *ngFor="let item of qaCards"
+              [nzValue]="item.qaCard"
+              [nzLabel]="item.qaCard"
+            >
+            </nz-option>
+          </nz-select>
+        </div>
+      </div>
+
+      <div nz-col nzXs="12" nzSm="12" nzLg="4">
+        <label nzXs="24" nzSm="24" nzLg="24">&nbsp;</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <button nz-button (click)="onExport()">
+            Export
+          </button>
+          <button
+            nz-button
+            nzType="primary"
+            style="margin-left: 5px"
+            (click)="onSearch()"
+          >
+            Search
+          </button>
+        </div>
+      </div>
+    </div>
+  </nz-collapse-panel>
+</nz-collapse>
+<br />
+<dx-data-grid
+  [dataSource]="records"
+  keyExpr="id"
+  [showColumnLines]="true"
+  [showRowLines]="true"
+  [showBorders]="true"
+  [allowColumnResizing]="true"
+  [columnAutoWidth]="true"
+  [rowAlternationEnabled]="true"
+  (onExporting)="onExportClient($event)"
+>
+  <dxo-export [enabled]="true"></dxo-export>
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
+
+  <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+  
+  <dxi-column dataField="model" caption="Model"></dxi-column>
+  <dxi-column dataField="partNo" caption="Part No"></dxi-column>
+  <dxi-column dataField="lotNo" caption="Lot No"></dxi-column>
+  <dxi-column
+    dataField="qty"
+    caption="Qty"
+    dataType="number"
+    format="#,##0"
+  ></dxi-column>
+  <dxi-column dataField="line" caption="Line"></dxi-column>
+  <dxi-column dataField="shift" caption="Shift"></dxi-column>
+  <dxi-column
+    dataField="date"
+    dataType="date"
+    caption="Date"
+    format="yyyy-MM-dd"
+  ></dxi-column>
+  <dxi-column dataField="qaCard" coption="QA Card"></dxi-column>
+  <dxi-column [dataField]="employee" caption="User"></dxi-column>
+  <dxi-column
+    dataField="createdAt"
+    dataType="date"
+    caption="Created At"
+    format="yyyy-MM-dd HH:mm"
+  >
+  </dxi-column>
+
+  <dxi-column caption="Action" cellTemplate="cellTemplate" alignment="center" alignment="center" [fixed]="true" fixedPosition="right">
+  </dxi-column>
+  <div *dxTemplate="let cell of 'cellTemplate'" style="text-align: center">
+    <a style="color: blue;" (click)="editQty(cell.data)" >Sửa</a>
+  </div>
+
+  <dxo-summary>
+    <dxi-total-item column="lotNo" summaryType="count"></dxi-total-item>
+    <dxi-total-item column="qty" summaryType="sum" valueFormat="#,##0"></dxi-total-item>
+  </dxo-summary>
+
+  <dxo-paging [pageSize]="10"></dxo-paging>
+  <dxo-pager
+    [showPageSizeSelector]="true"
+    [allowedPageSizes]="[10, 25, 50, 100]"
+  >
+  </dxo-pager>
+</dx-data-grid>

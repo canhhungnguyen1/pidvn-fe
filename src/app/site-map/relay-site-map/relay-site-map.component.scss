@@ -1,0 +1,58 @@
+.wrapper {
+    padding: 10px;
+}
+
+.item {
+    text-align: center;
+    border: 1px solid #ccc;
+    padding: 15px 10px;
+
+    i {
+        font-size: 30px;
+        color: white;
+    }
+
+    h3 {
+        margin-top: 15px;
+        text-transform: uppercase;
+        font-weight: bold;
+        color: white;
+    }
+
+    h4 {
+        font-size: 15px;
+        color: white;
+    }
+}
+
+.measure {
+    background: #2ecc71;
+}
+
+.data {
+    background: #3498db;
+}
+
+.export {
+    background: #f5791f;
+}
+
+.report {
+    background: #9ea9b4;
+}
+
+.guideline {
+    background: #7d6259;
+}
+
+.measure,
+.data,
+.export,
+.report,
+.guideline {
+    margin-bottom: 10px;
+}
+
+.item:hover {
+    cursor: pointer;
+}

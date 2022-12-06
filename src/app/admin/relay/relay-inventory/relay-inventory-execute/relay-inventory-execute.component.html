@@ -1,0 +1,218 @@
+<div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+  <div nz-col nzXs="24" nzSm="24" nzLg="24">
+    <nz-table
+      id="infoTbl"
+      #infoTbl
+      [nzData]="['']"
+      nzBordered
+      nzSize="small"
+      nzFrontPagination="false"
+    >
+      <thead>
+        <tr>
+          <th width="33%">
+            <label>Request: </label>
+            <span>{{ reqNo }}</span>
+          </th>
+          <th width="33%">
+            <label>User: </label>
+            <span>{{ infoScan.username }}</span>
+          </th>
+          <th width="33%">
+            <label>Vị trí: </label>
+            <span>{{ infoScan.position }}</span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colspan="3">
+            <input
+              style="font-weight: bold"
+              id="infoIpt"
+              #infoIpt
+              nz-input
+              placeholder="Scan người kiểm kê và vị trí kiểm kê"
+              (keydown.enter)="scanInfo($event)"
+              (click)="infoIpt.select()"
+              autocomplete="off"
+            />
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>
+<div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24" style="margin-top: -25px;">
+  <div nz-col nzXs="24" nzSm="24" nzLg="24">
+    <dx-data-grid
+      [dataSource]="relayInventories"
+      keyExpr="id"
+      [showColumnLines]="true"
+      [showRowLines]="true"
+      [showBorders]="true"
+      [allowColumnResizing]="true"
+      [columnAutoWidth]="true"
+      [rowAlternationEnabled]="true"
+      (onExporting)="onExportClient($event)"
+    >
+      <dxo-export [enabled]="true"></dxo-export>
+      <dxo-toolbar>
+        <dxi-item location="before">
+          <span class="ivt-data">Danh sách NVL thực tế kiểm kê</span>
+        </dxi-item>
+
+        <dxi-item>
+          <span
+            class="balance"
+            [routerLink]="[
+              '/admin/relay/relay-inventory/balance',
+              route.snapshot.paramMap.get('id')
+            ]">Xem chênh lệch
+          </span>
+        </dxi-item>
+        <dxi-item name="exportButton"></dxi-item>
+      </dxo-toolbar>
+
+      <dxo-paging [pageSize]="10"></dxo-paging>
+
+      <dxo-filter-row [visible]="true"></dxo-filter-row>
+
+      <dxi-column dataField="partNo" caption="Part No"></dxi-column>
+      <dxi-column dataField="lotNo" caption="Lot No"></dxi-column>
+      <dxi-column
+        dataField="qty"
+        caption="Qty"
+        dataType="number"
+        format="#,##0"
+      ></dxi-column>
+      <dxi-column dataField="line" caption="Vị trí"></dxi-column>
+      <dxi-column
+        caption="Action"
+        cellTemplate="cellTemplate"
+        alignment="center"
+      >
+      </dxi-column>
+      <div
+        *dxTemplate="let cell of 'cellTemplate'"
+        style="text-align: center"
+        (click)="openDetailModal(cell.data)"
+      >
+        <a>Sửa</a>
+      </div>
+
+      <dxo-paging [pageSize]="10"></dxo-paging>
+      <dxo-pager
+        [showPageSizeSelector]="true"
+        [allowedPageSizes]="[10, 25, 50, 100]"
+      >
+      </dxo-pager>
+    </dx-data-grid>
+  </div>
+</div>
+
+<nz-modal
+  [(nzVisible)]="isOpenScanMaterialModal"
+  nzTitle="Scan kiểm kê NVL"
+  nzWidth="750px"
+>
+  <ng-container *nzModalContent>
+    <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+      <input
+        nz-input
+        #qrCodeIpt
+        placeholder="Scan mã QR nguyên vật liệu"
+        (keydown.enter)="scanMaterial($event)"
+        (click)="qrCodeIpt.select()"
+        style="font-weight: bold"
+      />
+      <nz-alert
+        *ngIf="lotErrMsg"
+        id="error-msg"
+        nzBanner
+        nzShowIcon
+        style="margin-top: 10px"
+        nzType="error"
+        [nzMessage]="lotErrMsg"
+      >
+      </nz-alert>
+      <nz-table
+        id="scannedTbl"
+        #scannedTbl
+        [nzData]="materialScanned"
+        nzBordered
+        nzSize="small"
+        nzFrontPagination="true"
+        style="margin-top: 15px"
+      >
+        <thead>
+          <tr>
+            <th>Part No</th>
+            <th>Lot No</th>
+            <th>Qty</th>
+            <th>Vị trí</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of scannedTbl.data">
+            <td>{{ data.partNo }}</td>
+            <td>{{ data.lotNo }}</td>
+            <td>{{ data.qty | number: "1.0-3" }}</td>
+            <td>{{ data.line }}</td>
+            <td style="text-align: center" (click)="openDetailModal(data)">
+              <a>Sửa</a>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button nzType="primary" (click)="closeScanMaterialModal()">
+      OK
+    </button>
+  </div>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="isOpenLotDetailModal"
+  nzTitle="Thông tin NVL"
+  nzWidth="750px"
+>
+  <ng-container *nzModalContent>
+    <nz-table
+      id="detailTbl"
+      #detailTbl
+      [nzData]="['']"
+      nzBordered
+      nzSize="small"
+      nzFrontPagination="false"
+    >
+      <tbody>
+        <tr>
+          <td><label>Part No</label></td>
+          <td>{{ lotSelected.partNo }}</td>
+        </tr>
+        <tr>
+          <td><label>Lot No</label></td>
+          <td>{{ lotSelected.lotNo }}</td>
+        </tr>
+        <tr>
+          <td><label>Qty</label></td>
+          <td>
+            <input nz-input type="number" [(ngModel)]="lotSelected.qty" />
+          </td>
+        </tr>
+        <tr>
+          <td><label>Line</label></td>
+          <td>{{ lotSelected.line }}</td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="cancelEdit()">Hủy</button>
+    <button nz-button nzType="primary" (click)="saveChange()">Lưu</button>
+  </div>
+</nz-modal>

@@ -1,0 +1,77 @@
+<nz-breadcrumb>
+  <nz-breadcrumb-item> Manufacturing </nz-breadcrumb-item>
+  <nz-breadcrumb-item> Measurement </nz-breadcrumb-item>
+  <nz-breadcrumb-item> Hạng mục </nz-breadcrumb-item>
+</nz-breadcrumb>
+<br />
+<h3>Hạng mục đo đạc</h3>
+
+<nz-table #itemsTable nzBordered [nzLoading]="isLoading" [nzData]="items" nzSize="small" [nzFrontPagination]="false">
+  <thead>
+    <tr>
+      <th class="text-center">#</th>
+      <th class="text-center">Hạng mục</th>
+      <th class="text-center">Lần đo / Ngày</th>
+      <th class="text-center">Đơn vị</th>
+      <th class="text-center">Type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of itemsTable.data">
+      <td>{{ data.ordinalNumber }}</td>
+      <td (click)="onClickRow(data)">{{ data.name }}</td>
+      <td [ngClass]="{
+          'text-center': true,
+          invalid: data.times == 0,
+          valid: data.times > 0
+        }" (click)="thongKeSoLuongDoDac(data)">
+        {{ data.times == 0 ? "Chưa đo" : data.times }}
+      </td>
+      <td>{{ data.unitName }}</td>
+      <td class="text-center">{{ data.form }}</td>
+    </tr>
+  </tbody>
+</nz-table>
+
+
+<nz-modal [(nzVisible)]="isShowModal" [nzTitle]="modalTitle" nzWidth="900px">
+  <ng-container *nzModalContent>
+    <h3>Thống kê số lần đo theo Line và Reason</h3>
+    <nz-table id="reportTable" #reportTable nzBordered [nzLoading]="isLoading" [nzData]="meaReportData" nzSize="small"
+      [nzFrontPagination]="false">
+      <thead>
+        <tr>
+          <th class="text-center">Line</th>
+          <th class="text-center">Đầu ca</th>
+          <th class="text-center">Giữa ca</th>
+          <th class="text-center">Sửa máy</th>
+          <th class="text-center">Đổi Lot</th>
+          <th class="text-center">Bất thường</th>
+          <th class="text-center">Đo lại</th>
+          <th class="text-center">Đổi Model</th>
+          <th class="text-center">Test</th>
+          <th class="text-center">Sau nghỉ dài</th>
+          <th class="text-center">Sau bảo dưỡng</th>
+        </tr>
+      </thead>
+      <tbody style="font-weight: bold; color: green;">
+        <tr *ngFor="let data of reportTable.data">
+          <td class="text-center" style="color: rgb(0, 153, 255);">{{ data.line }}</td>
+          <td class="text-center">{{ data.reason1 }}</td>
+          <td class="text-center">{{ data.reason2 }}</td>
+          <td class="text-center">{{ data.reason3 }}</td>
+          <td class="text-center">{{ data.reason4 }}</td>
+          <td class="text-center">{{ data.reason5 }}</td>
+          <td class="text-center">{{ data.reason6 }}</td>
+          <td class="text-center">{{ data.reason7 }}</td>
+          <td class="text-center">{{ data.reason8 }}</td>
+          <td class="text-center">{{ data.reason9 }}</td>
+          <td class="text-center">{{ data.reason10 }}</td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button nzType="primary" (click)="isShowModal = false">Đóng</button>
+  </div>
+</nz-modal>

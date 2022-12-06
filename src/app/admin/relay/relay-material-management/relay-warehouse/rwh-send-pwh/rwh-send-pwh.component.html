@@ -1,0 +1,263 @@
+<nz-breadcrumb>
+  <nz-breadcrumb-item>Relay Factory</nz-breadcrumb-item>
+  <nz-breadcrumb-item>Kho trung chuyển</nz-breadcrumb-item>
+  <nz-breadcrumb-item>Trả hàng về kho</nz-breadcrumb-item>
+</nz-breadcrumb>
+<br />
+<div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+  <div nz-col nzXs="12" nzSm="8" nzLg="5">
+    <nz-select
+      #userIpt
+      [nzAutoFocus]="true"
+      nzShowSearch
+      nzAllowClear
+      nzPlaceHolder="Chọn người giao"
+      [(ngModel)]="sender"
+    >
+      <nz-option
+        class="option"
+        *ngFor="let user of users"
+        [nzValue]="user.username"
+        [nzLabel]="user.name + ' - ' + user.username"
+      >
+      </nz-option>
+    </nz-select>
+  </div>
+
+  <div nz-col nzXs="12" nzSm="8" nzLg="5">
+    <nz-select
+      #userIpt
+      [nzAutoFocus]="true"
+      nzShowSearch
+      nzAllowClear
+      nzPlaceHolder="Chọn người nhận"
+      [(ngModel)]="receiver"
+    >
+      <nz-option
+        class="option"
+        *ngFor="let user of users"
+        [nzValue]="user.username"
+        [nzLabel]="user.name + ' - ' + user.username"
+      >
+      </nz-option>
+    </nz-select>
+  </div>
+
+  <div nz-col nzXs="12" nzSm="8" nzLg="6">
+    <button
+      nz-button
+      nzType="primary"
+      style="margin-right: 5px"
+      (click)="openScanQRCodeModal()"
+    >
+      Trả NVL về kho
+    </button>
+  </div>
+</div>
+
+<br />
+
+<dx-data-grid
+  style="margin-top: 10px"
+  id="gridMaster"
+  [dataSource]="slips"
+  [showColumnLines]="true"
+  [showRowLines]="true"
+  [showBorders]="true"
+>
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
+  <dxi-column
+    caption="Số phiếu"
+    dataField="slipNo"
+    cellTemplate="slipNoTemplate"
+  ></dxi-column>
+  <div *dxTemplate="let item of 'slipNoTemplate'" (click)="onRowClick(item)">
+    <span>{{ item.data.slipNo }}</span>
+  </div>
+  <dxi-column
+    caption="Ngày tạo"
+    dataField="date"
+    dataType="date"
+    format="yyyy-MM-dd"
+  >
+  </dxi-column>
+  <dxi-column caption="Action" cellTemplate="actionTemplate"></dxi-column>
+  <div *dxTemplate="let item of 'actionTemplate'">
+    <span class="excel" (click)="onExportExcel(item)">Xuất Excel</span>
+  </div>
+</dx-data-grid>
+
+<nz-modal
+  [(nzVisible)]="isOpenScanQRCodeModal"
+  nzTitle="Trả NVL về Kho"
+  nzWidth="850px"
+>
+  <ng-container *nzModalContent>
+    <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+      <div nz-col nzXs="24" nzSm="24" nzLg="24">
+        <label *ngIf="slipNoSelected">Số phiếu: {{ slipNoSelected }}</label>
+        <input
+          id="qrCodeIpt"
+          nz-input
+          #qrCodeIpt
+          placeholder="Scan QR Code"
+          (keydown.enter)="scanQRCode($event)"
+          (click)="qrCodeIpt.select()"
+        />
+      </div>
+      <nz-alert
+        *ngIf="lotErrMsg"
+        id="error-msg"
+        nzBanner
+        nzShowIcon
+        style="margin-top: 10px"
+        nzType="error"
+        [nzMessage]="lotErrMsg"
+      >
+      </nz-alert>
+      <nz-table
+        #qrTbl
+        [nzData]="listLotsScanned"
+        style="margin-top: 15px"
+        nzBordered
+        nzSize="small"
+        [nzFrontPagination]="false"
+      >
+        <thead>
+          <tr>
+            <th>Part No</th>
+            <th>Lot No</th>
+            <th>Qty</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of qrTbl.data">
+            <td>{{ data.partNo }}</td>
+            <td>{{ data.lotNo }}</td>
+            <td class="editable-row" style="text-align: right">
+              <div
+                class="editable-cell"
+                [hidden]="lotNoEdit === data.lotNo"
+                (click)="startEdit(data)"
+              >
+                {{ data.qty | number: "1.0-3" }}
+              </div>
+              <input
+                #importQtyIpt
+                [hidden]="lotNoEdit !== data.lotNo"
+                type="number"
+                nz-input
+                [(ngModel)]="data.qty"
+                (blur)="stopEdit()"
+              />
+            </td>
+            <td
+              style="text-align: center"
+              nz-popconfirm
+              nzPopconfirmTitle="Có chắc chắn xóa không ?"
+              (nzOnConfirm)="deleteQRCodeScanned(data)"
+              nzPopconfirmPlacement="top"
+              nzRight
+            >
+              <a style="color: red; font-weight: bold">Xóa</a>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="cancelSendLotToPWH()">
+      Hủy
+    </button>
+    <button
+      nz-button
+      nzType="primary"
+      (click)="sendLotToPWH()"
+      [nzLoading]="isLoading"
+    >
+      Lưu
+    </button>
+  </div>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="isOpenDetailModal"
+  nzTitle="Danh sách NVL trả kho"
+  nzWidth="1100px"
+>
+  <ng-container *nzModalContent>
+    <div>
+      <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+        <div nz-col nzXs="12" nzSm="6" nzLg="12">
+          <label>Số phiếu: </label><span>{{ slipNoSelected }}</span>
+        </div>
+        <div nz-col nzXs="12" nzSm="6" nzLg="12">
+          <button
+            nz-button
+            nzType="primary"
+            style="float: right"
+            (click)="openScanQRCodeModal()"
+          >
+            Thêm NVL trả kho
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <nz-table
+      style="margin-top: 15px"
+      #basicTable
+      nzBordered=""
+      nzSize="small"
+      [nzData]="lots"
+      nzFrontPagination="false"
+    >
+      <thead>
+        <tr>
+          <th>Part No</th>
+          <th>Lot Group</th>
+          <th>Lot No</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of basicTable.data">
+          <td style="font-weight: bold">
+            {{ data.partNo }}
+            <span class="qty">(Qty: {{ data.qty | number: "1.0-3" }})</span>
+          </td>
+          <td style="font-weight: bold">
+            <ul>
+              <li *ngFor="let lotGroup of data.lotGroups">
+                {{ lotGroup.lotGroup }}
+                <span class="qty"
+                  >(Qty: {{ lotGroup.qty | number: "1.0-3" }})</span
+                >
+              </li>
+            </ul>
+          </td>
+          <td style="font-weight: bold">
+            <ul>
+              <li *ngFor="let lotNo of data.lots">
+                {{ lotNo.lotNo }}
+                <span class="qty">(Qty: {{ lotNo.qty | number: "1.0-3" }})</span> - 
+                <span
+                  style="color: red;"
+                  nz-popconfirm
+                  [nzPopconfirmTitle]="'Xóa: ' + lotNo.lotNo"
+                  (nzOnConfirm)="deleteLot(lotNo)"
+                >
+                  Xóa
+                </span>
+              </li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="closeDetailModal()">Hủy</button>
+  </div>
+</nz-modal>

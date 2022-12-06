@@ -1,0 +1,49 @@
+<nz-breadcrumb>
+  <nz-breadcrumb-item> Relay Factory</nz-breadcrumb-item>
+  <nz-breadcrumb-item> Phòng Sạch </nz-breadcrumb-item>
+  <nz-breadcrumb-item> Trả NVL về LINE-WH </nz-breadcrumb-item>
+</nz-breadcrumb>
+
+<nz-table #lotTbl [nzData]="lots" nzBordered nzSize="small">
+  <thead>
+    <tr>
+      <th>Part No</th>
+      <th>Lot</th>
+      <th>LINE Input</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of lotTbl.data">
+      <td>{{ data.model }}</td>
+      <td>
+        <ul>
+          <li>{{ data.lotNo }}</li>
+          <span style="color: green; font-weight: bold"
+            >(Qty: {{ data.qty | number: "1.0-3" }})</span
+          >
+        </ul>
+      </td>
+      <td>
+        <ul>
+          <li *ngFor="let item of data.lineInputRecords; index as i">
+            <span>{{ item.createdAt | date: "yyyy-MM-dd HH:mm" }}</span>
+            <span style="color: green; font-weight: bold">
+              Input: {{ item.qty | number: "1.0-3" }}
+            </span>
+            <span> ({{item.wip}})</span>
+            <i
+              nz-icon
+              nzType="minus-circle"
+              nzTheme="outline"
+              style="margin-left: 5px; color: red; font-weight: bold"
+              nz-popconfirm
+              nzPopconfirmTitle="Bạn có muốn xóa không ?"
+              (nzOnConfirm)="deleteHistory(item)"
+              nzPopconfirmPlacement="left"
+            ></i>
+          </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>

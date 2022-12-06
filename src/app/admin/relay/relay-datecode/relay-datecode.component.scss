@@ -1,0 +1,35 @@
+nz-table {
+    width: 100%;
+}
+
+#infoTbl {
+    label {
+        font-weight: bold;
+        color: blue;
+    }
+    span {
+        font-weight: bold;
+        color: green;
+    }
+}
+
+#dateCodeTbl {
+    .edit {
+        color: blue;
+    }
+    .delete {
+        color: red;
+    }
+    .edit:hover {
+        cursor: pointer;
+    }
+    .delete:hover {
+        cursor: pointer;
+    }
+}
+
+#addTbl {
+    label {
+        font-weight: bold;
+    }
+}

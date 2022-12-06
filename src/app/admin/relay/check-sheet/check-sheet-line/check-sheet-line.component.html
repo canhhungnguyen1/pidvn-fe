@@ -1,0 +1,22 @@
+<nz-breadcrumb>
+    <nz-breadcrumb-item> Relay Factory</nz-breadcrumb-item>
+    <nz-breadcrumb-item> Check Sheet </nz-breadcrumb-item>
+    <nz-breadcrumb-item> Create Item </nz-breadcrumb-item>
+    <nz-breadcrumb-item> Line </nz-breadcrumb-item>
+  </nz-breadcrumb>
+  <br />
+
+<nz-table #lineTable [nzData]="lines">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let data of lineTable.data" (click)="rowClick(data)">
+            <td>{{data.name}}</td>
+            <td>{{data.description}}</td>
+        </tr>
+    </tbody>
+</nz-table>

@@ -1,0 +1,179 @@
+<nz-breadcrumb>
+  <nz-breadcrumb-item> Relay Factory</nz-breadcrumb-item>
+  <nz-breadcrumb-item> Phòng Sạch </nz-breadcrumb-item>
+  <nz-breadcrumb-item> Mapping QA Card </nz-breadcrumb-item>
+</nz-breadcrumb>
+<nz-collapse>
+  <nz-collapse-panel
+    nzHeader="Mapping QA Card"
+    [nzActive]="true"
+    [nzShowArrow]="true"
+  >
+    <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+      <div nz-col nzXs="12" nzSm="12" nzLg="12">
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <label>QA Card Parent </label><span>(Hiên tại đang chạy)</span>
+        </div>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <input
+            #parentQaCardIpt
+            nz-input
+            placeholder="QA Card Parent"
+            (keydown.enter)="scanInspectQACard($event)"
+            (click)="parentQaCardIpt.select()"
+            style="font-weight: bold;"
+          />
+        </div>
+      </div>
+      <div nz-col nzXs="12" nzSm="12" nzLg="12">
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <label>QA Card Child </label><span>(QA Card được thêm vào)</span>
+        </div>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <input
+            #childQaCardIpt
+            nz-input
+            placeholder="QA Card Child"
+            (keydown.enter)="scanChildQACard($event)"
+            (click)="childQaCardIpt.select()"
+            style="font-weight: bold;"
+          />
+        </div>
+      </div>
+      <div></div>
+      <div nz-col nzXs="12" nzSm="12" nzLg="12">
+        <table *ngIf="parentQaCard">
+          <tbody>
+            <tr>
+              <td class="label">Model</td>
+              <td class="info">{{ parentQaCard.split("*")[0] }}</td>
+              <td class="label">Line</td>
+              <td class="info">{{ parentQaCard.split("*")[1] }}</td>
+            </tr>
+            <tr>
+              <td class="label">Date</td>
+              <td class="info">{{ parentQaCard.split("*")[2] }}</td>
+              <td class="label">Shift</td>
+              <td class="info">{{ parentQaCard.split("*")[3] }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div nz-col nzXs="12" nzSm="12" nzLg="12">
+        <table *ngIf="childQaCard">
+          <tbody>
+            <tr>
+              <td class="label">Model</td>
+              <td class="info">{{ childQaCard.split("*")[0] }}</td>
+              <td class="label">Line</td>
+              <td class="info">{{ childQaCard.split("*")[1] }}</td>
+            </tr>
+            <tr>
+              <td class="label">Date</td>
+              <td class="info">{{ childQaCard.split("*")[2] }}</td>
+              <td class="label">Shift</td>
+              <td class="info">{{ childQaCard.split("*")[3] }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </nz-collapse-panel>
+</nz-collapse>
+
+<nz-table
+  id="childQACardTbl"
+  #childQACard
+  nzBordered
+  nzSize="small"
+  [nzData]="qaCards"
+>
+  <thead>
+    <tr>
+      <th style="width: 5%">STT</th>
+      <th style="width: 45%">QA Card child</th>
+      <th style="width: 15%">Qty</th>
+      <th style="width: 25%">Date</th>
+      <th style="width: 10%">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of childQACard.data; index as i">
+      <td style="text-align: center">{{ i + 1 }}</td>
+      <td>{{ data.clotno }}</td>
+      <td style="text-align: right">{{ data.qty | number: "1.0-3" }}</td>
+      <td style="text-align: center">
+        {{ data.createdAt | date: "yyyy-MM-dd HH:mm" }}
+      </td>
+      <td
+        style="text-align: center"
+        nz-popconfirm
+        nzPopconfirmTitle="Are you sure delete this QA Card?"
+        (nzOnConfirm)="deleteQACard(data)"
+        nzPopconfirmPlacement="left"
+      >
+        <a style="color: red">Xóa</a>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
+
+<nz-modal [(nzVisible)]="isVisibleModal" nzTitle="Mapping QA Card">
+  <ng-container *nzModalContent>
+    <table *ngIf="childQaCard">
+      <tbody>
+        <tr>
+          <td class="label">Model</td>
+          <td class="info">{{ childQaCard.split("*")[0] }}</td>
+          <td class="label">Line</td>
+          <td class="info">{{ childQaCard.split("*")[1] }}</td>
+        </tr>
+        <tr>
+          <td class="label">Date</td>
+          <td class="info">{{ childQaCard.split("*")[2] }}</td>
+          <td class="label">Shift</td>
+          <td class="info">{{ childQaCard.split("*")[3] }}</td>
+        </tr>
+        <tr>
+          <td class="label">Process</td>
+          <td colspan="3">
+            <nz-select
+              #processIpt
+              [nzAutoFocus]="true"
+              nzShowSearch
+              nzAllowClear
+              ngModel="lucy"
+              nzPlaceHolder="Process"
+              [(ngModel)]="processId"
+              (keydown.enter)="scanProcess($event)"
+            >
+              <nz-option
+                class="option"
+                *ngFor="let process of processes"
+                [nzValue]="process.id"
+                [nzLabel]="process.name"
+              >
+              </nz-option>
+            </nz-select>
+          </td>
+        </tr>
+        <tr>
+          <td class="label">Qty</td>
+          <td colspan="3">
+            <input
+              #qtyIpt
+              nz-input
+              type="number"
+              placeholder="Nhập số lượng"
+              [(ngModel)]="qty"
+            />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="handleCancel()">Hủy</button>
+    <button nz-button nzType="primary" (click)="handleSave()">Lưu</button>
+  </div>
+</nz-modal>

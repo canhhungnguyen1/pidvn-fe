@@ -1,0 +1,28 @@
+<nz-breadcrumb>
+    <nz-breadcrumb-item> HR </nz-breadcrumb-item>
+    <nz-breadcrumb-item> Quản lý rác </nz-breadcrumb-item>
+</nz-breadcrumb>
+<br />
+<div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="8">
+    <div nz-col nzXs="24" nzSm="12" nzMd="8" nzLg="6">
+        <div class="item insert" [routerLink]="['/admin/hr/waste-mng/master']" [queryParams]="{type:'MANAGER'}">
+            <i nz-icon nzType="dashboard" nzTheme="outline"></i>
+            <h5>Data Insert</h5>
+            <h6>Nhập dữ liệu</h6>
+        </div>
+    </div>
+    <div nz-col nzXs="24" nzSm="12" nzMd="8" nzLg="6">
+        <div class="item management" routerLink="/admin/hr/waste-mng/data-management">
+            <i nz-icon nzType="rest" nzTheme="outline"></i>
+            <h5>Data Manage</h5>
+            <h6>Quản lý dữ liệu</h6>
+        </div>
+    </div>
+    <div nz-col nzXs="24" nzSm="12" nzMd="8" nzLg="6">
+        <div class="item price" routerLink="/admin/hr/waste-mng/data-management">
+            <i nz-icon nzType="transaction" nzTheme="outline"></i>
+            <h5>Unit Price</h5>
+            <h6>Điều chỉnh đơn giá</h6>
+        </div>
+    </div>
+</div>

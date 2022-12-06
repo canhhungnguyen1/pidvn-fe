@@ -1,0 +1,20 @@
+<nz-breadcrumb>
+    <nz-breadcrumb-item> Manufacturing </nz-breadcrumb-item>
+    <nz-breadcrumb-item> Measurement </nz-breadcrumb-item>
+    <nz-breadcrumb-item> Xbar Chart </nz-breadcrumb-item>
+</nz-breadcrumb>
+
+<br />
+
+<nz-table #basicTable [nzData]="items" [nzFrontPagination]="false">
+    <thead>
+        <tr>
+            <th>Hạng mục</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let data of basicTable.data" (click)="onRowClick(data)">
+            <td>{{data.name}}</td>
+        </tr>
+    </tbody>
+</nz-table>

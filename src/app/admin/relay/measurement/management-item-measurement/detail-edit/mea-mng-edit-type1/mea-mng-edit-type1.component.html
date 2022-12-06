@@ -1,0 +1,89 @@
+<ul>
+  <li>Hạng mục: {{ item.name }} - (Line: {{ masterData.line }})</li>
+  <li>Model: {{ masterData.model }}</li>
+  <li>Thực hiện: {{ masterData.userName }}</li>
+  <li>Lý do: {{ masterData.reasonName }}</li>
+  <li>Thời gian: {{ masterData.createdAt | date: "yyyy-MM-dd HH:mm:ss" }}</li>
+  <li>
+    Xác nhận:
+    <label
+      nz-checkbox
+      [(ngModel)]="isApprove"
+      style="margin-right: 20px"
+    ></label>
+    <button
+      nz-button
+      nz-popconfirm
+      nzPopconfirmTitle="Bạn có chắc chắn không ?"
+      [nzType]="'primary'"
+      [nzSize]="'small'"
+      (nzOnConfirm)="confirmApprove()"
+      nzPopconfirmPlacement="right"
+    >
+      {{ !isApprove ? "Xác nhận" : "Hủy xác nhận" }}
+    </button>
+  </li>
+</ul>
+<div nz-row nzJustify="end" nzAlign="middle" [nzGutter]="24">
+  <div nz-col nzXs="24" nzSm="24" nzLg="24">
+    <button
+      nz-button
+      [nzLoading]="isLoading"
+      (click)="commitDataChange()"
+      [nzType]="'primary'"
+      style="background-color: #87d068; float: right"
+    >
+      Lưu thay đổi
+    </button>
+  </div>
+</div>
+
+<br />
+
+<nz-table
+  #editRowTable
+  nzBordered
+  [nzData]="detailsData"
+  nzTableLayout="fixed"
+  [nzFrontPagination]="false"
+>
+  <thead>
+    <tr>
+      <th class="text-center">{{ valueNames[0] }}</th>
+      <th class="text-center">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of editRowTable.data">
+      <ng-container *ngIf="!editCache[data.id].edit; else editTemplate">
+        <td class="text-center">{{ data.a1 }}</td>
+        <td class="text-center"><a (click)="startEdit(data.id)">Edit</a></td>
+      </ng-container>
+      <ng-template #editTemplate>
+        <td class="text-center">
+          <input
+          *ngIf="item.unit == 1"
+            type="number"
+            nz-input
+            [(ngModel)]="editCache[data.id].data.a1"
+          />
+          <nz-radio-group *ngIf="item.unit == 2" [(ngModel)]="editCache[data.id].data.a1">
+            <label nz-radio nzValue="OK">OK</label>
+            <label class="invalid" nz-radio nzValue="NG">NG</label>
+          </nz-radio-group>
+        </td>
+        <td class="text-center">
+          <a
+            nz-popconfirm
+            nzPopconfirmTitle="Chắc chắn lưu ?"
+            (nzOnConfirm)="saveEdit(data.id)"
+          >
+            Lưu
+          </a>
+          |
+          <a (click)="cancelEdit(data.id)">Hủy</a>
+        </td>
+      </ng-template>
+    </tr>
+  </tbody>
+</nz-table>

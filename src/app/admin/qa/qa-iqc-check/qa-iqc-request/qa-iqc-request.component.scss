@@ -1,0 +1,34 @@
+label {
+  font-weight: bold;
+}
+
+nz-input, nz-select, nz-range-picker {
+  width: 100%;
+}
+
+nz-table {
+  tr:hover {
+    cursor: pointer;
+  }
+  .text-center {
+    text-align: center;
+  }
+  .text-right {
+    text-align: right;
+  }
+  .text-left {
+    text-align: left;
+  }
+
+  .text-primary {
+    color: #007bff;
+  }
+
+  .text-success {
+    color: #28a745;
+  }
+
+  .text-danger {
+    color: #dc3545;
+  }
+}

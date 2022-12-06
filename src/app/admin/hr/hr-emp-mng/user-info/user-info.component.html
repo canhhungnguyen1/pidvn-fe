@@ -1,0 +1,545 @@
+<nz-tabset>
+  <nz-tab nzTitle="Thông tin cá nhân">
+    <nz-divider nzText="Thông tin cơ bản" nzOrientation="left"></nz-divider>
+    <div nz-row nzJustify="start" [nzGutter]="24">
+      <div nz-col nzXs="24" nzSm="12" nzLg="6">
+        <nz-card>
+          <img
+            nz-image
+            width="100%"
+            nzSrc="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+            alt=""
+          />
+        </nz-card>
+      </div>
+      <div nz-col nzXs="24" nzSm="12" nzLg="18">
+        <div nz-row nzJustify="start" [nzGutter]="24">
+          <div nz-col nzXs="12" nzSm="12" nzLg="12">
+            <label nzXs="24" nzSm="24" nzLg="24">Họ tên</label>
+            <div nzXs="24" nzSm="24" nzLg="24">
+              <input type="text" nz-input [(ngModel)]="userBasicInfo.name" />
+            </div>
+          </div>
+
+          <div nz-col nzXs="12" nzSm="12" nzLg="12">
+            <label nzXs="24" nzSm="24" nzLg="24">Email công ty</label>
+            <div nzXs="24" nzSm="24" nzLg="24">
+              <input
+                type="text"
+                nz-input
+                placeholder="Email công ty"
+                [(ngModel)]="userBasicInfo.email"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div nz-row nzJustify="start" [nzGutter]="24">
+          <div nz-col nzXs="12" nzSm="12" nzLg="6">
+            <label nzXs="24" nzSm="24" nzLg="24">Khối</label>
+            <div nzXs="24" nzSm="24" nzLg="24">
+              <nz-select
+                nzShowSearch
+                nzAllowClear
+                nzPlaceHolder="Khối"
+                [(ngModel)]="userBasicInfo.sectionId"
+              >
+                <nz-option
+                  *ngFor="let section of sections"
+                  [nzValue]="section.id"
+                  [nzLabel]="section.name"
+                >
+                </nz-option>
+              </nz-select>
+            </div>
+          </div>
+
+          <div nz-col nzXs="12" nzSm="12" nzLg="6">
+            <label nzXs="24" nzSm="24" nzLg="24">Phòng ban</label>
+            <div nzXs="24" nzSm="24" nzLg="24">
+              <nz-select
+                nzShowSearch
+                nzAllowClear
+                nzPlaceHolder="Phòng ban"
+                [(ngModel)]="userBasicInfo.subsectionId"
+              >
+                <nz-option
+                  *ngFor="let subsection of subsections"
+                  [nzValue]="subsection.id"
+                  [nzLabel]="subsection.name"
+                >
+                </nz-option>
+              </nz-select>
+            </div>
+          </div>
+
+          <div nz-col nzXs="12" nzSm="12" nzLg="6">
+            <label nzXs="24" nzSm="24" nzLg="24">Vị trí</label>
+            <div nzXs="24" nzSm="24" nzLg="24">
+              <nz-select
+                nzShowSearch
+                nzAllowClear
+                nzPlaceHolder="Vị trí"
+                [(ngModel)]="userBasicInfo.positionId"
+              >
+                <nz-option
+                  *ngFor="let position of positions"
+                  [nzValue]="position.id"
+                  [nzLabel]="position.name"
+                >
+                </nz-option>
+              </nz-select>
+            </div>
+          </div>
+
+          <div nz-col nzXs="12" nzSm="12" nzLg="6">
+            <label nzXs="24" nzSm="24" nzLg="24">Mã nhân viên</label>
+            <div nzXs="24" nzSm="24" nzLg="24">
+              <input
+                type="text"
+                nz-input
+                [(ngModel)]="userBasicInfo.username"
+                [readonly]="true"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div nz-row nzJustify="start" [nzGutter]="24">
+          <div nz-col nzXs="12" nzSm="12" nzLg="6">
+            <label nzXs="24" nzSm="24" nzLg="24">Ngày sinh</label>
+            <div nzXs="24" nzSm="24" nzLg="24">
+              <nz-date-picker [(ngModel)]="userBasicInfo.dob"></nz-date-picker>
+            </div>
+          </div>
+
+          <div nz-col nzXs="12" nzSm="12" nzLg="6">
+            <label nzXs="24" nzSm="24" nzLg="24">Giới tính</label>
+            <div nzXs="24" nzSm="24" nzLg="24">
+              <nz-select ngModel="lucy">
+                <nz-option nzValue="Nam" nzLabel="Nam"></nz-option>
+                <nz-option nzValue="Nữ" nzLabel="Nữ"></nz-option>
+                <nz-option nzValue="Khác" nzLabel="Khác"></nz-option>
+              </nz-select>
+            </div>
+          </div>
+
+          <div nz-col nzXs="12" nzSm="12" nzLg="6">
+            <label nzXs="24" nzSm="24" nzLg="24">Điện thoại công ty</label>
+            <div nzXs="24" nzSm="24" nzLg="24">
+              <input type="text" nz-input placeholder="" />
+            </div>
+          </div>
+
+          <div nz-col nzXs="12" nzSm="12" nzLg="6">
+            <label nzXs="24" nzSm="24" nzLg="24">Ngày vào công ty</label>
+            <div nzXs="24" nzSm="24" nzLg="24">
+              <nz-date-picker
+                [(ngModel)]="userBasicInfo.joinDate"
+              ></nz-date-picker>
+            </div>
+          </div>
+        </div>
+
+        <div nz-row nzJustify="start" [nzGutter]="24">
+          <div nz-col nzXs="12" nzSm="12" nzLg="6">
+            <button nz-button nzType="primary" (click)="updateUserBasicInfo()">
+              Cập nhật thông tin
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <nz-divider nzText="Thông tin khác" nzOrientation="left"></nz-divider>
+
+    <div nz-row nzJustify="start" [nzGutter]="24">
+      <div nz-col nzXs="12" nzSm="12" nzLg="8">
+        <div nz-row nzJustify="start" [nzGutter]="24" nzAlign="middle">
+          <div nz-col nzXs="12" nzSm="12" nzLg="8">
+            <label nzXs="24" nzSm="24" nzLg="24">Số CCCD/CMND</label>
+          </div>
+          <div nz-col nzXs="12" nzSm="12" nzLg="16">
+            <input
+              type="text"
+              nz-input
+              placeholder="Số CCCD / CMND"
+              [(ngModel)]="userOtherInfo.soCccd"
+            />
+          </div>
+          <div nz-col nzXs="12" nzSm="12" nzLg="8">
+            <label nzXs="24" nzSm="24" nzLg="24">Ngày cấp</label>
+          </div>
+          <div nz-col nzXs="12" nzSm="12" nzLg="16">
+            <nz-date-picker
+              nzPlaceHolder="Ngày cấp CCCD/CMND"
+              [(ngModel)]="userOtherInfo.ngaycapCccd"
+            ></nz-date-picker>
+          </div>
+          <div nz-col nzXs="12" nzSm="12" nzLg="8">
+            <label nzXs="24" nzSm="24" nzLg="24">Nơi cấp</label>
+          </div>
+          <div nz-col nzXs="12" nzSm="12" nzLg="16">
+            <input
+              type="text"
+              nz-input
+              placeholder="Nơi cấp"
+              [(ngModel)]="userOtherInfo.noicapCccd"
+            />
+          </div>
+        </div>
+      </div>
+      <div nz-col nzXs="12" nzSm="12" nzLg="8">
+        <div nz-row nzJustify="start" [nzGutter]="24" nzAlign="middle">
+          <div nz-col nzXs="12" nzSm="12" nzLg="8">
+            <label nzXs="24" nzSm="24" nzLg="24">Số hộ chiếu</label>
+          </div>
+          <div nz-col nzXs="12" nzSm="12" nzLg="16">
+            <input
+              type="text"
+              nz-input
+              placeholder="Số hộ chiếu"
+              [(ngModel)]="userOtherInfo.soPassport"
+            />
+          </div>
+          <div nz-col nzXs="12" nzSm="12" nzLg="8">
+            <label nzXs="24" nzSm="24" nzLg="24">Ngày cấp</label>
+          </div>
+          <div nz-col nzXs="12" nzSm="12" nzLg="16">
+            <nz-date-picker
+              nzPlaceHolder="Ngày cấp hộ chiếu"
+              [(ngModel)]="userOtherInfo.ngaycapPassport"
+            ></nz-date-picker>
+          </div>
+          <div nz-col nzXs="12" nzSm="12" nzLg="8">
+            <label nzXs="24" nzSm="24" nzLg="24">Ngày hết hạn</label>
+          </div>
+          <div nz-col nzXs="12" nzSm="12" nzLg="16">
+            <nz-date-picker
+              nzPlaceHolder="Ngày hết hạn hộ chiếu"
+              [(ngModel)]="userOtherInfo.ngayhethanPassport"
+            ></nz-date-picker>
+          </div>
+          <div nz-col nzXs="12" nzSm="12" nzLg="8">
+            <label nzXs="24" nzSm="24" nzLg="24">Nơi cấp</label>
+          </div>
+          <div nz-col nzXs="12" nzSm="12" nzLg="16">
+            <input
+              type="text"
+              nz-input
+              placeholder="Nơi cấp hộ chiếu"
+              [(ngModel)]="userOtherInfo.noicapPassport"
+            />
+          </div>
+        </div>
+      </div>
+      <div nz-col nzXs="12" nzSm="12" nzLg="8">
+        <div nz-row nzJustify="start" [nzGutter]="24" nzAlign="middle">
+          <div nz-col nzXs="12" nzSm="12" nzLg="8">
+            <label nzXs="24" nzSm="24" nzLg="24">Số CMND cũ</label>
+          </div>
+          <div nz-col nzXs="12" nzSm="12" nzLg="16">
+            <input
+              type="text"
+              nz-input
+              placeholder="Số CMND cũ"
+              [(ngModel)]="userOtherInfo.soCmnd"
+            />
+          </div>
+          <div nz-col nzXs="12" nzSm="12" nzLg="8">
+            <label nzXs="24" nzSm="24" nzLg="24">Ngày cấp TCC</label>
+          </div>
+          <div nz-col nzXs="12" nzSm="12" nzLg="16">
+            <nz-date-picker
+              nzPlaceHolder="Ngày cấp TCC"
+              [(ngModel)]="userOtherInfo.ngaycapTcc"
+            ></nz-date-picker>
+          </div>
+          <div nz-col nzXs="12" nzSm="12" nzLg="8">
+            <label nzXs="24" nzSm="24" nzLg="24">Ngày hết hạn</label>
+          </div>
+          <div nz-col nzXs="12" nzSm="12" nzLg="16">
+            <nz-date-picker
+              nzPlaceHolder="Ngày hết hạn TCC"
+              [(ngModel)]="userOtherInfo.ngayhethanTcc"
+            ></nz-date-picker>
+          </div>
+          <div nz-col nzXs="12" nzSm="12" nzLg="8">
+            <label nzXs="24" nzSm="24" nzLg="24">Nơi cấp</label>
+          </div>
+          <div nz-col nzXs="12" nzSm="12" nzLg="16">
+            <input
+              type="text"
+              nz-input
+              placeholder="Nơi cấp TCC"
+              [(ngModel)]="userOtherInfo.noicapTcc"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <nz-divider></nz-divider>
+    <div nz-row nzJustify="start" [nzGutter]="24">
+      <div nz-col nzXs="12" nzSm="12" nzLg="8">
+        <div nz-row nzJustify="start" [nzGutter]="24" nzAlign="middle">
+          <div nz-col nzXs="12" nzSm="12" nzLg="8">
+            <label nzXs="24" nzSm="24" nzLg="24">T.T hôn nhân</label>
+          </div>
+          <div nz-col nzXs="12" nzSm="12" nzLg="16">
+            <input
+              type="text"
+              nz-input
+              placeholder="Tình trạng hôn nhân"
+              [(ngModel)]="userOtherInfo.maritalStatus"
+            />
+          </div>
+          <div nz-col nzXs="12" nzSm="12" nzLg="8">
+            <label nzXs="24" nzSm="24" nzLg="24">Nơi sinh</label>
+          </div>
+          <div nz-col nzXs="12" nzSm="12" nzLg="16">
+            <input
+              type="text"
+              nz-input
+              placeholder="Nơi sinh"
+              [(ngModel)]="userOtherInfo.noisinh"
+            />
+          </div>
+          <div nz-col nzXs="12" nzSm="12" nzLg="8">
+            <label nzXs="24" nzSm="24" nzLg="24">Nguyên quán</label>
+          </div>
+          <div nz-col nzXs="12" nzSm="12" nzLg="16">
+            <input
+              type="text"
+              nz-input
+              placeholder="Nguyên quán"
+              [(ngModel)]="userOtherInfo.nguyenquan"
+            />
+          </div>
+          <div nz-col nzXs="12" nzSm="12" nzLg="8">
+            <label nzXs="24" nzSm="24" nzLg="24">Quốc tịch</label>
+          </div>
+          <div nz-col nzXs="12" nzSm="12" nzLg="16">
+            <input
+              type="text"
+              nz-input
+              placeholder="Quốc tịch"
+              [(ngModel)]="userOtherInfo.nationality"
+            />
+          </div>
+          <div nz-col nzXs="12" nzSm="12" nzLg="8">
+            <label nzXs="24" nzSm="24" nzLg="24">Dân tộc</label>
+          </div>
+          <div nz-col nzXs="12" nzSm="12" nzLg="16">
+            <input
+              type="text"
+              nz-input
+              placeholder="Dân tộc"
+              [(ngModel)]="userOtherInfo.dantoc"
+            />
+          </div>
+          <div nz-col nzXs="12" nzSm="12" nzLg="8">
+            <label nzXs="24" nzSm="24" nzLg="24">Tôn giáo</label>
+          </div>
+          <div nz-col nzXs="12" nzSm="12" nzLg="16">
+            <input
+              type="text"
+              nz-input
+              placeholder="Tôn giáo"
+              [(ngModel)]="userOtherInfo.tongiao"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div nz-col nzXs="12" nzSm="12" nzLg="8">
+        <div nz-row nzJustify="start" [nzGutter]="24" nzAlign="middle">
+          <div nz-col nzXs="12" nzSm="12" nzLg="8">
+            <label nzXs="24" nzSm="24" nzLg="24">Trình độ văn hóa</label>
+          </div>
+          <div nz-col nzXs="12" nzSm="12" nzLg="16">
+            <input
+              type="text"
+              nz-input
+              placeholder="Trình độ văn hóa"
+              [(ngModel)]="userOtherInfo.trinhdoVanhoa"
+            />
+          </div>
+          <div nz-col nzXs="12" nzSm="12" nzLg="8">
+            <label nzXs="24" nzSm="24" nzLg="24">Trình độ học vấn</label>
+          </div>
+          <div nz-col nzXs="12" nzSm="12" nzLg="16">
+            <input
+              type="text"
+              nz-input
+              placeholder="Trình độ học vấn"
+              [(ngModel)]="userOtherInfo.trinhdoHocvan"
+            />
+          </div>
+          <div nz-col nzXs="12" nzSm="12" nzLg="8">
+            <label nzXs="24" nzSm="24" nzLg="24">Email cá nhân</label>
+          </div>
+          <div nz-col nzXs="12" nzSm="12" nzLg="16">
+            <input
+              type="text"
+              nz-input
+              placeholder="Email cá nhân"
+              [(ngModel)]="userOtherInfo.email"
+            />
+          </div>
+          <div nz-col nzXs="12" nzSm="12" nzLg="8">
+            <label nzXs="24" nzSm="24" nzLg="24">Điện thoại</label>
+          </div>
+          <div nz-col nzXs="12" nzSm="12" nzLg="16">
+            <input
+              type="text"
+              nz-input
+              placeholder="Điện thoại cá nhân"
+              [(ngModel)]="userOtherInfo.phone"
+            />
+          </div>
+          <div nz-col nzXs="12" nzSm="12" nzLg="8">
+            <label nzXs="24" nzSm="24" nzLg="24">Facebook</label>
+          </div>
+          <div nz-col nzXs="12" nzSm="12" nzLg="16">
+            <input
+              type="text"
+              nz-input
+              placeholder="Facebook"
+              [(ngModel)]="userOtherInfo.facebook"
+            />
+          </div>
+          <div nz-col nzXs="12" nzSm="12" nzLg="8">
+            <label nzXs="24" nzSm="24" nzLg="24">Zalo</label>
+          </div>
+          <div nz-col nzXs="12" nzSm="12" nzLg="16">
+            <input
+              type="text"
+              nz-input
+              placeholder="Zalo"
+              [(ngModel)]="userOtherInfo.zalo"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div nz-col nzXs="12" nzSm="12" nzLg="8">
+        <div nz-row nzJustify="start" [nzGutter]="24">
+          <div nz-col nzXs="12" nzSm="12" nzLg="8">
+            <label nzXs="24" nzSm="24" nzLg="24">Đ/c thường trú</label>
+          </div>
+          <div nz-col nzXs="12" nzSm="12" nzLg="16">
+            <textarea
+              rows="4"
+              nz-input
+              [(ngModel)]="userOtherInfo.diachiThuongtru"
+            ></textarea>
+          </div>
+          <div nz-col nzXs="12" nzSm="12" nzLg="8">
+            <label nzXs="24" nzSm="24" nzLg="24">Đ/c tạm trú</label>
+          </div>
+          <div nz-col nzXs="12" nzSm="12" nzLg="16">
+            <textarea
+              rows="4"
+              nz-input
+              [(ngModel)]="userOtherInfo.diachiTamtru"
+            ></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div nz-row nzJustify="start" [nzGutter]="24">
+      <div nz-col nzXs="12" nzSm="12" nzLg="6">
+        <button nz-button nzType="primary" (click)="updateUserOtherInfo()">
+          Cập nhật thông tin
+        </button>
+      </div>
+    </div>
+  </nz-tab>
+
+  <nz-tab nzTitle="Hồ sơ / Giấy tờ">
+    <button nz-button nzType="primary" (click)="isOpenUploadFileModal = true">
+      Upload Hồ sơ / Giấy tờ
+    </button>
+
+    <nz-collapse style="margin-top: 10px" *ngFor="let item of userFiles">
+      <nz-collapse-panel
+        [nzHeader]="item.name"
+        [nzActive]="true"
+        [nzShowArrow]="true"
+      >
+        <nz-image-group
+          nz-row
+          nzJustify="start"
+          nzAlign="middle"
+          [nzGutter]="24"
+        >
+          <div
+            class="file"
+            *ngFor="let file of item.files"
+            style="padding: 5px; border: 1px solid #ccc; margin-right: 5px"
+          >
+            <img
+              nz-image
+              width="50px"
+              height="50px"
+              [nzSrc]="baseUrl + file.url"
+              (click)="fileClick(file)"
+              [nzFallback]="fallback"
+            />
+            <span
+              id="delete-img"
+              nz-icon
+              nzType="close-circle"
+              nzTheme="outline"
+              style="color: red; margin-left: 15px; font-size: 18px"
+              nz-popover
+              [nzPopoverContent]="contentTemplate"
+            ></span>
+            <ng-template #contentTemplate>
+              <a (click)="deleteFile(file)" style="color: red">Xóa file</a>
+            </ng-template>
+          </div>
+        </nz-image-group>
+      </nz-collapse-panel>
+    </nz-collapse>
+  </nz-tab>
+</nz-tabset>
+
+<nz-modal [(nzVisible)]="isOpenUploadFileModal" nzTitle="Hồ sơ / Giấy tờ">
+  <ng-container *nzModalContent>
+    <span style="color: red; font-weight: bold">* &nbsp;</span
+    ><label>Loại giấy tờ</label>
+    <nz-select
+      nzPlaceHolder="Chọn loại giấy tờ"
+      nzShowSearch
+      nzAllowClear
+      [(ngModel)]="selectedFileType"
+      (ngModelChange)="onChangeFileType($event)"
+    >
+      <nz-option
+        *ngFor="let fileType of userFileTypes"
+        [nzValue]="fileType.code"
+        [nzLabel]="fileType.name"
+      ></nz-option>
+    </nz-select>
+
+    <nz-upload
+      [nzAction]="uploadFileApi"
+      nzListType="picture"
+      [nzBeforeUpload]="beforeUpload"
+    >
+      <button nz-button style="margin-top: 10px">
+        <i nz-icon nzType="upload"></i>
+        Upload
+      </button>
+    </nz-upload>
+  </ng-container>
+
+  <ng-container *nzModalFooter>
+    <button nz-button nzType="primary" (click)="closeUploadFileModal()">
+      Đóng
+    </button>
+  </ng-container>
+</nz-modal>

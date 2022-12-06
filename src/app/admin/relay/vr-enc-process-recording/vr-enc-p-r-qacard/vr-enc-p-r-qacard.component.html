@@ -1,0 +1,203 @@
+<nz-collapse>
+  <nz-collapse-panel nzHeader="Tìm kiếm" [nzActive]="true" [nzShowArrow]="true">
+    <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+      <div nz-col nzXs="12" nzSm="12" nzLg="6">
+        <label nzXs="24" nzSm="24" nzLg="24">Line</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <nz-select nzPlaceHolder="Line" [(ngModel)]="searchVo.line">
+            <nz-option
+              *ngFor="let line of lines"
+              [nzValue]="line.name"
+              [nzLabel]="line.description"
+            >
+            </nz-option>
+          </nz-select>
+        </div>
+      </div>
+
+      <div nz-col nzXs="12" nzSm="12" nzLg="6">
+        <label nzXs="24" nzSm="24" nzLg="24">Date</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <nz-date-picker
+            [(ngModel)]="searchVo.date"
+          ></nz-date-picker>
+        </div>
+      </div>
+
+      <div nz-col nzXs="12" nzSm="12" nzLg="6">
+        <label nzXs="24" nzSm="24" nzLg="24">Shift</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <nz-select nzPlaceHolder="Shifts" [(ngModel)]="searchVo.shift">
+            <nz-option
+              *ngFor="let shift of shifts"
+              [nzValue]="shift.code"
+              [nzLabel]="shift.name"
+            >
+            </nz-option>
+          </nz-select>
+        </div>
+      </div>
+
+      <div nz-col nzXs="12" nzSm="12" nzLg="6">
+        <label nzXs="24" nzSm="24" nzLg="24">&nbsp;</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <button nz-button nzType="primary" (click)="onSearch()">
+            Search
+          </button>
+          <button
+            nz-button
+            nzType="primary"
+            style="background: green; margin-left: 5px"
+            (click)="openQACardModal()"
+          >
+            Tạo QA card
+          </button>
+        </div>
+      </div>
+    </div>
+  </nz-collapse-panel>
+</nz-collapse>
+<br />
+<dx-data-grid
+  [dataSource]="qaCards"
+  [showColumnLines]="true"
+  [showRowLines]="true"
+  [showBorders]="true"
+  [allowColumnResizing]="true"
+  [columnAutoWidth]="true"
+  [rowAlternationEnabled]="true"
+>
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
+
+  <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+
+  <dxi-column dataField="line" caption="Line"></dxi-column>
+  <dxi-column dataField="model" caption="Product"></dxi-column>
+  <dxi-column dataField="shift" caption="Shift"></dxi-column>
+  <dxi-column
+    dataField="date"
+    dataType="date"
+    caption="Date"
+    format="yyyy-MM-dd"
+  ></dxi-column>
+  <!-- <dxi-column dataField="lotNo" caption="QA Card"></dxi-column> -->
+  <dxi-column caption="Trạng thái" cellTemplate="statusTemplate"></dxi-column>
+  <div
+    *dxTemplate="let item of 'statusTemplate'"
+    style="text-align: center; color: green"
+  >
+    <!-- <a nz-button style="color: green" (click)="downloadQaCard(item)">Download</a> -->
+    <a
+      nz-button
+      style="color: blue"
+      [routerLink]="['/admin/relay/vr-enc-process-recording/insert']"
+      [queryParams]="{ qaCard: item.data.lotNo }"
+      >Scan NVL</a
+    >
+  </div>
+
+  <dxo-summary>
+    <dxi-total-item column="lotNo" summaryType="count"></dxi-total-item>
+    <dxi-total-item
+      column="qty"
+      summaryType="sum"
+      valueFormat="#,##0"
+    ></dxi-total-item>
+  </dxo-summary>
+
+  <dxo-paging [pageSize]="10"></dxo-paging>
+  <dxo-pager
+    [showPageSizeSelector]="true"
+    [allowedPageSizes]="[10, 25, 50, 100]"
+  >
+  </dxo-pager>
+</dx-data-grid>
+
+<nz-modal [(nzVisible)]="isOpenModalLoading" nzTitle="Download QA card">
+  <ng-container *nzModalContent>
+    <nz-spin nzTip="Downloading...">
+      <nz-alert
+        nzType="info"
+        nzMessage="Downloading"
+        nzDescription="Bạn vui lòng chờ để hệ thống download QA card"
+      ></nz-alert>
+    </nz-spin>
+  </ng-container>
+  <div *nzModalFooter></div>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="isOpenQAModal"
+  nzTitle="Tạo QA card"
+  nzWidth="750px"
+>
+  <ng-container *nzModalContent>
+    <nz-table [nzData]="['']" nzBordered nzFrontPagination="false">
+      <tbody>
+        <tr>
+          <td><label>Ngày sản xuất</label></td>
+          <td><nz-date-picker [(ngModel)]="qaCard.date"></nz-date-picker></td>
+          <td><label>Ca làm việc</label></td>
+          <td>
+            <nz-select nzPlaceHolder="Shifts" [(ngModel)]="qaCard.shift" nzAllowClear nzShowSearch>
+              <nz-option
+                *ngFor="let shift of shifts"
+                [nzValue]="shift.code"
+                [nzLabel]="shift.name"
+              >
+              </nz-option>
+            </nz-select>
+          </td>
+        </tr>
+        <tr>
+          <td><label>Line</label></td>
+          <td>
+            <nz-select nzPlaceHolder="Line" [(ngModel)]="qaCard.line" nzAllowClear nzShowSearch>
+              <nz-option
+                *ngFor="let line of lines"
+                [nzValue]="line.name"
+                [nzLabel]="line.description"
+              >
+              </nz-option>
+            </nz-select>
+          </td>
+          <td><label>Part No</label></td>
+          <td>
+            <nz-select nzPlaceHolder="Model" [(ngModel)]="qaCard.model" nzAllowClear nzShowSearch>
+              <nz-option
+                *ngFor="let model of models"
+                [nzValue]="model.name"
+                [nzLabel]="model.name"
+              >
+              </nz-option>
+            </nz-select>
+          </td>
+        </tr>
+        <tr>
+          <td><label>Marking</label></td>
+          <td><input nz-input [disabled]="true" /></td>
+          <td><label>Ghi chú</label></td>
+          <td><input nz-input placeholder="Nhập ghi chú" [(ngModel)]="qaCard.remark"/></td>
+        </tr>
+        <tr *ngIf="errorMsg">
+          <td colspan="4">
+            <div class="error">
+              <span
+                style="color: red"
+                nz-icon
+                nzType="warning"
+                nzTheme="outline"
+              ></span>
+              <span style="color: red; margin-left: 5px">{{ errorMsg }}</span>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="cancelQACard()" >Hủy</button>
+    <button nz-button nzType="primary" (click)="createQACard()">Tạo mới</button>
+  </div>
+  
+</nz-modal>

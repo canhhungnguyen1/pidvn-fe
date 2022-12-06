@@ -1,0 +1,27 @@
+
+<div class="wrapper">
+    <nz-breadcrumb>
+        <nz-breadcrumb-item> Relay </nz-breadcrumb-item>
+        <nz-breadcrumb-item> Site Map </nz-breadcrumb-item>
+    </nz-breadcrumb>
+    <br />
+    
+    <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="8">
+        <div nz-col nzXs="24" nzSm="12" nzMd="8" nzLg="6" [routerLink]="['../relay-projects']" [queryParams]="{type: 'worker'}">
+            <div class="item measure">
+                <!-- <i nz-icon nzType="bg-colors" nzTheme="outline"></i> -->
+                <img src="../../../assets/images/worker.png" width="30%"/>
+                <h3>Dành cho Công nhân</h3>
+                <h4>Worker</h4>
+            </div>
+        </div>
+        <div nz-col nzXs="24" nzSm="12" nzMd="8" nzLg="6" [routerLink]="['../relay-projects']" [queryParams]="{type: 'manager'}">
+            <div class="item data">
+                <!-- <i nz-icon nzType="database" nzTheme="outline"></i> -->
+                <img src="../../../assets/images/manager.png" width="30%"/>
+                <h3>Dành cho Quản lý</h3>
+                <h4>Manager</h4>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,130 @@
+<nz-breadcrumb>
+  <nz-breadcrumb-item> PIH</nz-breadcrumb-item>
+  <nz-breadcrumb-item> Quản lý NVL (Dây đồng) </nz-breadcrumb-item>
+  <nz-breadcrumb-item> Truy vết </nz-breadcrumb-item>
+</nz-breadcrumb>
+
+<nz-collapse>
+  <nz-collapse-panel nzHeader="Tìm kiếm" [nzActive]="true" [nzShowArrow]="true">
+    <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+      <!-- <div nz-col nzXs="12" nzSm="12" nzLg="6">
+        <label nzXs="24" nzSm="24" nzLg="24">Type</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <nz-select
+            nzPlaceHolder="Loại"
+            nzAllowClear
+            [nzDropdownMatchSelectWidth]="false"
+          >
+            <nz-option
+              nzValue="PIC"
+              nzLabel="Cuộn đồng sử dụng (Process Recording)"
+            ></nz-option>
+            <nz-option nzValue="PRTW" nzLabel="Cuộn đồng trả kho"></nz-option>
+          </nz-select>
+        </div>
+      </div> -->
+
+      <div nz-col nzXs="12" nzSm="12" nzLg="6">
+        <label nzXs="24" nzSm="24" nzLg="24">Line</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <nz-select
+            nzPlaceHolder="Line"
+            nzAllowClear
+            nzShowSearch
+            [(ngModel)]="searchVo.line"
+          >
+            <nz-option
+              *ngFor="let line of lines"
+              [nzValue]="line.name"
+              [nzLabel]="line.description"
+            >
+            </nz-option>
+          </nz-select>
+        </div>
+      </div>
+
+      <div nz-col nzXs="12" nzSm="12" nzLg="6">
+        <label nzXs="24" nzSm="24" nzLg="24">Date</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <nz-range-picker
+            nzFormat="yyyy-MM-dd"
+            nzMode="date"
+            [(ngModel)]="date"
+            (ngModelChange)="onChangeTime($event)"
+          >
+          </nz-range-picker>
+        </div>
+      </div>
+
+      <div nz-col nzXs="12" nzSm="12" nzLg="6">
+        <label nzXs="24" nzSm="24" nzLg="24">&nbsp;</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <button nz-button nzType="primary" (click)="onSearch()">Search</button>
+        </div>
+      </div>
+    </div>
+  </nz-collapse-panel>
+</nz-collapse>
+<br />
+<dx-data-grid
+  [dataSource]="materials"
+  keyExpr="id"
+  [showColumnLines]="true"
+  [showRowLines]="true"
+  [showBorders]="true"
+  [allowColumnResizing]="true"
+  [columnAutoWidth]="true"
+  [rowAlternationEnabled]="true"
+  (onExporting)="onExportClient($event)"
+>
+  <dxo-export [enabled]="true"></dxo-export>
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
+
+  <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+
+  <dxi-column dataField="line" caption="Line"></dxi-column>
+  <dxi-column dataField="plotno" caption="Model"></dxi-column>
+  <dxi-column dataField="ppn" caption="Part No"></dxi-column>
+  <dxi-column dataField="clotno" caption="Lot No"></dxi-column>
+  <dxi-column dataField="cpn" caption="Label"></dxi-column>
+  <dxi-column dataField="frBox" caption="From Box"></dxi-column>
+  <dxi-column dataField="toBox" caption="To Box"></dxi-column>
+  <dxi-column dataField="windingBobbin" caption="Position"></dxi-column>
+  
+  <dxi-column
+    dataField="qty"
+    caption="Qty"
+    dataType="number"
+  ></dxi-column>
+  
+  <dxi-column
+    dataField="date"
+    dataType="date"
+    caption="Date"
+    format="yyyy-MM-dd"
+  ></dxi-column>
+  <dxi-column dataField="employee" caption="User"></dxi-column>
+  <dxi-column
+    dataField="createdAt"
+    dataType="date"
+    caption="Created At"
+    format="yyyy-MM-dd HH:mm"
+  >
+  </dxi-column>
+
+  <dxo-summary>
+    <dxi-total-item column="lotNo" summaryType="count"></dxi-total-item>
+    <dxi-total-item
+      column="qty"
+      summaryType="sum"
+      valueFormat="#,##0"
+    ></dxi-total-item>
+  </dxo-summary>
+
+  <dxo-paging [pageSize]="10"></dxo-paging>
+  <dxo-pager
+    [showPageSizeSelector]="true"
+    [allowedPageSizes]="[10, 25, 50, 100]"
+  >
+  </dxo-pager>
+</dx-data-grid>

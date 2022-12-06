@@ -1,0 +1,124 @@
+<nz-breadcrumb>
+  <nz-breadcrumb-item> HR & GA</nz-breadcrumb-item>
+  <nz-breadcrumb-item> Dữ liệu nhân viên </nz-breadcrumb-item>
+  <nz-breadcrumb-item> Hồ sơ </nz-breadcrumb-item>
+</nz-breadcrumb>
+<br />
+
+<dx-data-grid
+  #userGrid
+  id="userGrid"
+  [dataSource]="users"
+  [showBorders]="true"
+  [showColumnLines]="true"
+  [showRowLines]="true"
+  [showBorders]="true"
+  [columnAutoWidth]="true"
+  [allowColumnResizing]="true"
+  [columnResizingMode]="'widget'"
+  [allowColumnReordering]="true"
+  [rowAlternationEnabled]="true"
+  (onRowClick)="onRowClick($event)"
+>
+  >
+  <dxo-selection
+    [selectAllMode]="'allPages'"
+    [showCheckBoxesMode]="'always'"
+    mode="multiple"
+  ></dxo-selection>
+
+  <dxo-filter-row [visible]="true"> </dxo-filter-row>
+  <dxo-export [enabled]="true"></dxo-export>
+  <dxo-paging [pageSize]="10"></dxo-paging>
+  <dxo-pager
+    [showPageSizeSelector]="true"
+    [allowedPageSizes]="[10, 25, 50, 100]"
+  ></dxo-pager>
+
+  <dxi-column dataField="name" caption="Name"></dxi-column>
+  <dxi-column dataField="username" caption="ID"></dxi-column>
+  <dxi-column dataField="section" caption="Section"></dxi-column>
+  <dxi-column dataField="subsection" caption="SubSection"></dxi-column>
+  <dxi-column dataField="position" caption="Vị trí"></dxi-column>
+</dx-data-grid>
+
+<nz-modal
+  [(nzVisible)]="isOpenFileModal"
+  [nzTitle]="
+    'Hồ sơ nhân viên: ' +
+    userSelected?.name +
+    ' (' +
+    userSelected?.username +
+    ')'
+  "
+  nzWidth="90%"
+  (nzOnOk)="isOpenFileModal = false"
+>
+  <ng-container *nzModalContent>
+    <!-- <input type="file" (change)="fileChangeHandler($event)" />
+    <img [src]="output?.base64" alt="" /> -->
+
+    <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+      <nz-table
+        #basicTable
+        [nzData]="userFiles"
+        style="width: 100%"
+        nzFrontPagination="false"
+        nzBordered
+        nzSize="small"
+      >
+        <tbody>
+          <tr *ngFor="let item of basicTable.data">
+            <td style="font-weight: bold">{{ item.fileType }}</td>
+            <td style="padding-left: 25px">
+              <nz-image-group
+                nz-row
+                nzJustify="start"
+                nzAlign="middle"
+                [nzGutter]="24"
+              >
+                <div
+                  class="file"
+                  *ngFor="let file of item.files"
+                  style="
+                    padding: 5px;
+                    border: 1px solid #ccc;
+                    margin-right: 5px;
+                  "
+                >
+                  <nz-badge [nzCount]="iconTemplate">
+                    <img
+                      nz-image
+                      width="50px"
+                      height="50px"
+                      [nzSrc]="
+                        baseUrl +
+                        '/Personal/Images/' +
+                        file.username +
+                        '/' +
+                        file.fileName
+                      "
+                      [nzFallback]="fallback"
+                    />
+                  </nz-badge>
+                  <ng-template #iconTemplate>
+                    <span id="delete-icon"
+                      nz-icon
+                      nz-popconfirm
+                      nzPopconfirmTitle="Bạn có chắc chắn xóa ?"
+                      (nzOnConfirm)="deleteFile(file)"
+                      nzPopconfirmPlacement="topLeft"
+                      nzType="close-circle"
+                      class="ant-scroll-number-custom-component"
+                    ></span>
+                  </ng-template>
+                </div>
+                
+              </nz-image-group>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </ng-container>
+</nz-modal>

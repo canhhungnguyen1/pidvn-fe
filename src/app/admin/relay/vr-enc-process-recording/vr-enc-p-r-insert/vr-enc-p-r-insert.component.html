@@ -1,0 +1,259 @@
+<div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+  <div nz-col nzXs="12" nzSm="18" nzLg="18">
+    <span class="attention"
+      >* Hướng dẫn VR-ENC Process Recording: Scan lần lượt QA card, User ID, Tem
+      NVL</span
+    >
+  </div>
+
+  <div nz-col nzXs="24" nzSm="24" nzLg="24">
+    <nz-table
+      id="infoTbl"
+      #infoTbl
+      [nzData]="['']"
+      nzBordered
+      nzSize="small"
+      nzFrontPagination="false"
+    >
+      <tbody>
+        <tr>
+          <td><label>Scanner</label></td>
+          <td>
+            <input
+              id="infoIpt"
+              #infoIpt
+              nz-input
+              nzSize="small"
+              placeholder="Scan User ID, QA card"
+              (keydown.enter)="scanInfo($event)"
+              (click)="infoIpt.select()"
+              autocomplete="off"
+            />
+          </td>
+          <td><label>User ID</label></td>
+          <td>{{ infoScan.user }}</td>
+        </tr>
+        <tr>
+          <td><label>Product</label></td>
+          <td>{{ infoScan.model }}</td>
+          <td><label>Line</label></td>
+          <td>{{ infoScan.line }}</td>
+        </tr>
+        <tr>
+          <td><label>Date</label></td>
+          <td>{{ infoScan.date }}</td>
+          <td><label>Shift</label></td>
+          <td>{{ infoScan.shift }}</td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>
+
+<nz-table
+  #materialsTable
+  nzSize="small"
+  nzBordered
+  [nzData]="materials"
+  style="margin-top: -25px"
+  [nzPageSize]="20"
+>
+  <thead>
+    <tr>
+      <th>Part No</th>
+      <th>Lot No (Đã nhập vào LINE)</th>
+      <th>Qty</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of materialsTable.data">
+      <td>{{ data.cpn }}</td>
+      <td>{{ data.clotno }}</td>
+      <td style="text-align: right">{{ data.qty | number: "1.0-3" }}</td>
+      <td style="text-align: center">
+        <a (click)="openEditQtyModal(data)">Sửa</a> |
+        <a style="color: red">Xóa</a>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
+
+<nz-modal
+  id="importMaterialModal"
+  [(nzVisible)]="isOpenScanLabelModal"
+  nzTitle="Scan tem NVL"
+  nzWidth="750px"
+>
+  <ng-container *nzModalContent>
+    <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+      <nz-table
+        id="materialEditTbl"
+        [nzData]="['']"
+        nzBordered
+        nzFrontPagination="false"
+        nzSize="small"
+        style="margin-top: -15px"
+      >
+        <thead>
+          <tr>
+            <th style="width: 60%">
+              <input
+                id="labelIpt"
+                #labelIpt
+                nz-input
+                placeholder="Scan tem NVL"
+                (keydown.enter)="scanLabel($event)"
+                (click)="labelIpt.select()"
+                autocomplete="off"
+              />
+            </th>
+            <th style="width: 40%">
+              <nz-select
+                nzPlaceHolder="Chọn công đoạn"
+                nzAllowClear
+                nzShowSearch
+                nzNotFoundContent
+                [nzAutoFocus]="true"
+                [nzStatus]="'warning'"
+                (ngModelChange)="onChangeProcess($event)"
+                [(ngModel)]="process"
+              >
+                <nz-option
+                  *ngFor="let process of processes"
+                  [nzLabel]="process.name"
+                  [nzValue]="process.id"
+                >
+                </nz-option>
+              </nz-select>
+            </th>
+          </tr>
+        </thead>
+        <tbody *ngIf="lotErrMsg">
+          <tr>
+            <td colspan="2">
+              <nz-alert
+                id="error-msg"
+                nzBanner
+                nzShowIcon
+                nzType="error"
+                [nzMessage]="lotErrMsg"
+              >
+              </nz-alert>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+
+      <nz-table
+        #labelTable
+        nzSize="small"
+        nzBordered
+        [nzData]="listLotsScanned"
+        style="margin-top: -20px"
+      >
+        <thead>
+          <tr>
+            <th>Part No</th>
+            <th>Lot No</th>
+            <th>Qty (Nhập line)</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of labelTable.data">
+            <td>
+              <label>{{ data.cpn }}</label>
+            </td>
+            <td>
+              <label>{{ data.clotno }}</label>
+              <!-- <span style="color: green; margin-left: 5px">
+                (Qty: {{ data.originQty | number: "1.0-3" }})
+              </span> -->
+            </td>
+            <td class="editable-row" style="text-align: right">
+              <div
+                class="editable-cell"
+                [hidden]="lotNoEdit === data.clotno"
+                (click)="startEdit(data)"
+              >
+                {{ data.qty | number: "1.0-3" }}
+              </div>
+              <input
+                #importQtyIpt
+                [hidden]="lotNoEdit !== data.clotno"
+                type="number"
+                nz-input
+                [(ngModel)]="data.qty"
+                (blur)="stopEdit()"
+              />
+            </td>
+            <td
+              style="text-align: center"
+              nz-popconfirm
+              nzPopconfirmTitle="Có chắc chắn xóa không ?"
+              (nzOnConfirm)="deleteLabelScanned(data)"
+              nzPopconfirmPlacement="top"
+              nzRight
+            >
+              <a style="color: red; font-weight: bold">Xóa</a>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </ng-container>
+  <ng-template [nzModalFooter]>
+    <button nz-button nzType="default" (click)="closeScanLabelModal()">
+      Hủy
+    </button>
+    <button
+      nz-button
+      nzType="primary"
+      [nzLoading]="isLoadingSaveBtn"
+      (click)="insertMaterials()"
+    >
+      Lưu
+    </button>
+  </ng-template>
+</nz-modal>
+
+<nz-modal id="editQty" [(nzVisible)]="isOpenEditQtyModal" nzTitle="Update Qty">
+  <ng-container *nzModalContent>
+    <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+      <nz-table #qtyEditTable nzSize="small" nzBordered [nzData]="['']" nzFrontPagination="false">
+        <tbody>
+          <tr>
+            <td><label>Part No</label></td>
+            <td>{{materialSelected.cpn}}</td>
+          </tr>
+          <tr>
+            <td><label>Lot No</label></td>
+            <td>{{materialSelected.clotno}}</td>
+          </tr>
+          <tr>
+            <td><label>Qty</label></td>
+            <td><input nz-input type="number" [(ngModel)]="materialSelected.qty" /></td>
+          </tr>
+          <tr>
+            <td><label>Remark</label></td>
+            <td><input nz-input [(ngModel)]="materialSelected.remark" placeholder="Nhập ghi chú" /></td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </ng-container>
+  <ng-template [nzModalFooter]>
+    <button nz-button nzType="default" (click)="isOpenEditQtyModal = false">
+      Hủy
+    </button>
+    <button
+      nz-button
+      nzType="primary"
+      [nzLoading]="isLoadingSaveBtn"
+      (click)="updateQty()"
+    >
+      Lưu
+    </button>
+  </ng-template>
+</nz-modal>

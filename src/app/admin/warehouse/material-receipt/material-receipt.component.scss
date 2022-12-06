@@ -1,0 +1,22 @@
+label {
+  font-weight: bold;
+}
+
+#clearQR:hover {
+  cursor: pointer;
+}
+
+nz-table {
+  tr:hover {
+    cursor: pointer;
+  }
+  .text-center {
+    text-align: center;
+  }
+  .text-right {
+    text-align: right;
+  }
+  .text-left {
+    text-align: left;
+  }
+}

@@ -1,0 +1,416 @@
+<nz-breadcrumb>
+  <nz-breadcrumb-item> Manufacturing </nz-breadcrumb-item>
+  <nz-breadcrumb-item> Measurement </nz-breadcrumb-item>
+  <nz-breadcrumb-item> Hạng mục </nz-breadcrumb-item>
+  <nz-breadcrumb-item> Quản lý dữ liệu </nz-breadcrumb-item>
+</nz-breadcrumb>
+
+<br />
+<div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+  <div nz-col nzXs="24" nzSm="24" nzLg="24">
+    <nz-tag [nzColor]="'blue'">Hạng mục : {{ itemName }} </nz-tag>
+  </div>
+</div>
+<br />
+<nz-collapse>
+  <nz-collapse-panel
+    nzHeader="Thông tin bắt buộc"
+    [nzActive]="true"
+    [nzShowArrow]="true"
+  >
+    <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+      <div nz-col nzXs="12" nzSm="12" nzLg="6">
+        <label nzXs="24" nzSm="24" nzLg="24">Line</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <nz-select
+            nzPlaceHolder="Chọn Line"
+            (ngModelChange)="onChangeLine($event)"
+            [(ngModel)]="searchParams.line"
+          >
+            <nz-option
+              *ngFor="let line of lines"
+              [nzValue]="line.value"
+              [nzLabel]="line.label"
+            >
+            </nz-option>
+          </nz-select>
+        </div>
+      </div>
+
+      <div nz-col nzXs="12" nzSm="12" nzLg="6">
+        <label nzXs="24" nzSm="24" nzLg="24">Dòng sản phẩm</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <nz-select
+            nzPlaceHolder="Chọn dòng sản phẩm"
+            (ngModelChange)="onChangeModelType($event)"
+            [(ngModel)]="searchParams.modelType"
+          >
+            <nz-option
+              *ngFor="let type of modelTypes"
+              [nzValue]="type.value"
+              [nzLabel]="type.label"
+            >
+            </nz-option>
+          </nz-select>
+        </div>
+      </div>
+    </div>
+
+    <br />
+
+    <div
+      *ngIf="isShowSearch"
+      nz-row
+      nzJustify="start"
+      nzAlign="middle"
+      [nzGutter]="24"
+    >
+      <div nz-col nzXs="12" nzSm="12" nzLg="6">
+        <label nzXs="24" nzSm="24" nzLg="24">Model</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <nz-select
+            nzPlaceHolder="Chọn Model"
+            nzShowSearch
+            nzAllowClear
+            [(ngModel)]="searchParams.model"
+          >
+            <nz-option
+              *ngFor="let model of models"
+              [nzValue]="model.name"
+              [nzLabel]="model.name"
+            ></nz-option>
+          </nz-select>
+        </div>
+      </div>
+      <div nz-col nzXs="12" nzSm="12" nzLg="6">
+        <label nzXs="24" nzSm="24" nzLg="24">Người thực hiện</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <nz-select
+            nzPlaceHolder="Chọn nhân viên"
+            nzShowSearch
+            nzAllowClear
+            [(ngModel)]="searchParams.user"
+          >
+            <nz-option
+              *ngFor="let user of users"
+              [nzValue]="user.username"
+              [nzLabel]="user.name + ' - ' + user.username"
+            >
+            </nz-option>
+          </nz-select>
+        </div>
+      </div>
+      <div nz-col nzXs="12" nzSm="12" nzLg="6">
+        <label nzXs="24" nzSm="24" nzLg="24">Ca làm việc</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <nz-select
+            nzPlaceHolder="Chọn ca làm việc"
+            nzAllowClear
+            [(ngModel)]="searchParams.shift"
+          >
+            <nz-option
+              *ngFor="let shift of shifts"
+              [nzValue]="shift.value"
+              [nzLabel]="shift.label"
+            ></nz-option>
+          </nz-select>
+        </div>
+      </div>
+      <div nz-col nzXs="12" nzSm="12" nzLg="6">
+        <label nzXs="24" nzSm="24" nzLg="24">Lý do</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <nz-select
+            nzPlaceHolder="Chọn lý do"
+            nzAllowClear
+            [(ngModel)]="searchParams.reason"
+          >
+            <nz-option
+              *ngFor="let reason of reasons"
+              [nzValue]="reason.id"
+              [nzLabel]="reason.name"
+            ></nz-option>
+          </nz-select>
+        </div>
+      </div>
+    </div>
+  </nz-collapse-panel>
+</nz-collapse>
+
+<nz-skeleton
+  *ngIf="isShowLoading"
+  [nzActive]="true"
+  [nzParagraph]="{ rows: 4 }"
+></nz-skeleton>
+
+<nz-tabset *ngIf="isShowTab">
+  <nz-tab nzTitle="Master Data">
+    <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+      <div nz-col nzXs="3" nzSm="3" nzLg="3">
+        <button
+          nz-popconfirm
+          nzPopconfirmTitle="Bạn có chắc chắn phê duyệt các dữ liệu này ?"
+          (nzOnConfirm)="quickApprove()"
+          nzPopconfirmPlacement="topLeft"
+          nz-button
+        >
+          Quick Approve
+        </button>
+      </div>
+      <div nz-col nzXs="6" nzSm="6" nzLg="6">
+        <nz-range-picker
+          nzFormat="yyyy-MM-dd"
+          [(ngModel)]="date"
+          (ngModelChange)="onDateChange($event)"
+          (nzOnCalendarChange)="onCalendarChange($event)"
+        >
+        </nz-range-picker>
+      </div>
+      <div nz-col nzXs="3" nzSm="3" nzLg="3">
+        <div nz-row nzJustify="end" nzAlign="middle">
+          <button nz-button nzType="primary" (click)="onSearch()">
+            <i nz-icon nzType="search"></i>
+            Search
+          </button>
+        </div>
+      </div>
+    </div>
+    <br />
+    <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+      <div nz-col nzXs="24" nzSm="24" nzLg="24">
+        <nz-table
+          #masterTable
+          nzBordered
+          nzSize="small"
+          [nzData]="mastersData"
+          [nzFrontPagination]="true"
+          [nzScroll]="{ x: '1200px' }"
+        >
+          <thead>
+            <tr>
+              <th class="text-center">Id</th>
+              <th class="text-center" style="width: 200px">QA Card</th>
+              <th class="text-center">Line</th>
+              <th class="text-center">Khuôn</th>
+              <th class="text-center">Model</th>
+              <th class="text-center">Lý do</th>
+              <th class="text-center">Thực hiện</th>
+              <th class="text-center">Xác nhận</th>
+              <th class="text-center">Thời gian</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let data of masterTable.data"
+              (click)="onClickRowMaster(data)"
+            >
+              <td>{{ data.id }}</td>
+              <td>{{ data.qaCard }}</td>
+              <td>{{ data.line }}</td>
+              <td>{{ data.mold }}</td>
+              <td>{{ data.model }}</td>
+              <td>{{ data.reasonName }}</td>
+              <td>{{ data.userName }}</td>
+              <td>{{ data.approverName }}</td>
+              <td class="text-center">
+                {{ data.createdAt | date: "yyyy-MM-dd HH:mm:ss" }} - ({{
+                  data.shift
+                }})
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </div>
+    </div>
+  </nz-tab>
+  <nz-tab nzTitle="Detail Data" *ngIf="form != 'CHECK_SHEET'">
+    <container-element [ngSwitch]="standard.type">
+      <app-mea-mng-type1
+        *ngSwitchCase="1"
+        [item]="item"
+        [images]="itemImages"
+        [standard]="standard"
+        [searchParams]="searchParams"
+      >
+      </app-mea-mng-type1>
+      <app-mea-mng-type2
+        *ngSwitchCase="2"
+        [item]="item"
+        [images]="itemImages"
+        [standard]="standard"
+        [searchParams]="searchParams"
+      >
+      </app-mea-mng-type2>
+      <app-mea-mng-type3
+        *ngSwitchCase="3"
+        [item]="item"
+        [images]="itemImages"
+        [standard]="standard"
+        [searchParams]="searchParams"
+      >
+      </app-mea-mng-type3>
+      <app-mea-mng-type4
+        *ngSwitchCase="4"
+        [item]="item"
+        [images]="itemImages"
+        [standard]="standard"
+        [searchParams]="searchParams"
+      >
+      </app-mea-mng-type4>
+      <app-mea-mng-type5
+        *ngSwitchCase="5"
+        [item]="item"
+        [images]="itemImages"
+        [standard]="standard"
+        [searchParams]="searchParams"
+      >
+      </app-mea-mng-type5>
+    </container-element>
+  </nz-tab>
+  <nz-tab nzTitle="Tiêu chuẩn">
+    <nz-table
+      nzBordered
+      nzSize="small"
+      [nzData]="['']"
+      [nzFrontPagination]="false"
+    >
+      <tbody>
+        <tr>
+          <td class="item-img" rowspan="6">
+            <img nz-image [nzSrc]="baseUrl + itemImages[0]?.imageUrl" />
+          </td>
+          <td width="100px">Hạng mục:</td>
+          <td>
+            <nz-tag [nzColor]="'red'">{{ item?.name }}</nz-tag>
+          </td>
+        </tr>
+        <tr>
+          <td>Công đoạn:</td>
+          <td>
+            <nz-tag [nzColor]="'green'">{{ standard?.process }}</nz-tag>
+          </td>
+        </tr>
+        <tr>
+          <td>Công cụ:</td>
+          <td>
+            <nz-tag [nzColor]="'cyan'">{{ standard?.tool }}</nz-tag>
+          </td>
+        </tr>
+        <tr>
+          <td>Tiêu chuẩn:</td>
+          <td>
+            <nz-tag [nzColor]="'blue'">{{ standard?.standard }}</nz-tag>
+          </td>
+        </tr>
+        <tr>
+          <td>Đơn vị đo:</td>
+          <td>
+            <nz-tag [nzColor]="'geekblue'">{{ standard?.unit }}</nz-tag>
+          </td>
+        </tr>
+        <tr>
+          <td>Công thức:</td>
+          <td>
+            <nz-tag [nzColor]="'purple'">{{ standard?.formula }}</nz-tag>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </nz-tab>
+  <nz-tab nzTitle="Hình ảnh">
+    <a nz-button nzType="link" (click)="openUploadImageModal()">Upload ảnh</a>
+    <nz-image-group nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+      <div
+        nz-col
+        nzXs="24"
+        nzSm="12"
+        nzMd="8"
+        nzLg="6"
+        *ngFor="let image of itemImages"
+      >
+        <nz-card class="item-img" style="margin-bottom: 10px">
+          <img nz-image [nzSrc]="baseUrl + image?.imageUrl" />
+          <span class="remove" style="float: right" (click)="removeImage(image)"
+            >Xóa</span
+          >
+        </nz-card>
+      </div>
+    </nz-image-group>
+  </nz-tab>
+</nz-tabset>
+
+<nz-modal nzTitle="Detail" [(nzVisible)]="isShowDetailModal">
+  <ng-container *nzModalContent>
+    <ng-template [ngIf]="form != 'CHECK_SHEET'">
+      <container-element [ngSwitch]="standard.type">
+        <app-mea-mng-edit-type1
+          *ngSwitchCase="1"
+          [item]="item"
+          [masterData]="masterData"
+          [standard]="standard"
+          (approveEmit)="handleApproveEmit()"
+        >
+        </app-mea-mng-edit-type1>
+        <app-mea-mng-edit-type2
+          *ngSwitchCase="2"
+          [item]="item"
+          [masterData]="masterData"
+          [standard]="standard"
+          (approveEmit)="handleApproveEmit()"
+        >
+        </app-mea-mng-edit-type2>
+        <app-mea-mng-edit-type3
+          *ngSwitchCase="3"
+          [item]="item"
+          [masterData]="masterData"
+          [standard]="standard"
+          (approveEmit)="handleApproveEmit()"
+        >
+        </app-mea-mng-edit-type3>
+        <app-mea-mng-edit-type4
+          *ngSwitchCase="4"
+          [item]="item"
+          [masterData]="masterData"
+          [standard]="standard"
+          (approveEmit)="handleApproveEmit()"
+        >
+        </app-mea-mng-edit-type4>
+        <app-mea-mng-edit-type5
+          *ngSwitchCase="5"
+          [item]="item"
+          [masterData]="masterData"
+          [standard]="standard"
+          (approveEmit)="handleApproveEmit()"
+        >
+        </app-mea-mng-edit-type5>
+      </container-element>
+    </ng-template>
+    <ng-template [ngIf]="form == 'CHECK_SHEET'">
+      <h1>Form checksheet</h1>
+    </ng-template>
+  </ng-container>
+  <ng-template [nzModalFooter]>
+    <button nz-button nzType="default" (click)="isShowDetailModal = false">
+      Đóng
+    </button>
+  </ng-template>
+</nz-modal>
+
+<nz-modal nzTitle="Upload Image" [(nzVisible)]="isShowUploadImageModal">
+  <ng-container *nzModalContent>
+    <nz-upload
+      [nzAction]="uploadImageURL"
+      [nzBeforeUpload]="beforeUpload"
+      nzListType="picture"
+    >
+      <button nz-button>
+        <i nz-icon nzType="upload"></i>
+        Click to Upload
+      </button>
+    </nz-upload>
+  </ng-container>
+  <ng-template [nzModalFooter]>
+    <button nz-button nzType="default" (click)="closeUploadImageModal()">
+      Đóng
+    </button>
+  </ng-template>
+</nz-modal>
