@@ -3,7 +3,7 @@
   <nz-breadcrumb-item> Stop Line </nz-breadcrumb-item>
 </nz-breadcrumb>
 <nz-collapse style="margin-top: 5px">
-  <nz-collapse-panel nzHeader="Search" [nzActive]="true" [nzShowArrow]="true">
+  <nz-collapse-panel nzHeader="Search" [nzActive]="false" [nzShowArrow]="true">
     <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
       <div nz-col nzXs="12" nzSm="12" nzLg="5">
         <label nzXs="24" nzSm="24" nzLg="24">Date</label>
@@ -65,7 +65,7 @@
         <label nzXs="24" nzSm="24" nzLg="24">&nbsp;</label>
         <div nzXs="24" nzSm="24" nzLg="24">
           <button nz-button nzType="primary" style="float: right">
-            Search
+            Tìm kiếm
           </button>
         </div>
       </div>
@@ -91,14 +91,14 @@
     [showPageSizeSelector]="true"
     [allowedPageSizes]="[10, 25, 50, 100]"
   ></dxo-pager>
-  
+
   <dxo-toolbar>
     <dxi-item location="before">
       <dx-button
         stylingMode="contained"
         type="success"
         icon="plus"
-        text="Add Stop Time"
+        text="Nhập thời gian dừng máy"
         (onClick)="openModal('insert', null)"
       >
       </dx-button>
@@ -110,30 +110,31 @@
   <dxi-column
     dataField="date"
     dataType="date"
-    caption="Date"
+    caption="Ngày"
     format="yyyy-MM-dd"
   ></dxi-column>
-  <dxi-column dataField="shiftName" caption="Shift"></dxi-column>
+
   <dxi-column dataField="lineName" caption="Line"></dxi-column>
 
-  <dxi-column dataField="groupName" caption="Group"></dxi-column>
-  <dxi-column dataField="typeName" caption="Type"></dxi-column>
-  <dxi-column dataField="itemName" caption="Item"></dxi-column>
+  <dxi-column dataField="groupName" caption="Nhóm"></dxi-column>
+  <dxi-column dataField="typeName" caption="Loại"></dxi-column>
+  <dxi-column dataField="itemName" caption="Hạng mục"></dxi-column>
   <dxi-column
     dataField="startTime"
     dataType="date"
     caption="Start Time"
-    format="HH:mm"
+    format="yyyy-MM-dd HH:mm"
   ></dxi-column>
   <dxi-column
     dataField="stopTime"
     dataType="date"
     caption="End Time"
-    format="HH:mm"
+    format="yyyy-MM-dd HH:mm"
   ></dxi-column>
-  <dxi-column dataField="totalStopTime" caption="Total Stop"></dxi-column>
-  <dxi-column dataField="employee" caption="Employee"></dxi-column>
-  <dxi-column dataField="remark" caption="Remark"></dxi-column>
+  <dxi-column dataField="totalStopTime" caption="Thời gian dừng"></dxi-column>
+  <dxi-column dataField="shiftName" caption="Ca"></dxi-column>
+  <dxi-column dataField="employee" caption="Nhân viên"></dxi-column>
+  <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
   <dxi-column
     caption="Action"
     cellTemplate="cellTemplate"
@@ -143,16 +144,15 @@
   >
   </dxi-column>
   <div *dxTemplate="let cell of 'cellTemplate'" style="text-align: center">
-    <a style="color: green" (click)="openModal('update', cell.data)">
-      Update
-    </a> | 
+    <a style="color: green" (click)="openModal('update', cell.data)"> Sửa </a>
+    |
     <a
       style="color: red"
       nz-popconfirm
-      nzPopconfirmTitle="Are you sure delete this one?"
+      nzPopconfirmTitle="Bạn có chắc chắn muốn xóa không ?"
       (nzOnConfirm)="deleteStopTime(cell)"
     >
-      Delete
+      Xóa
     </a>
   </div>
 </dx-data-grid>
@@ -178,7 +178,60 @@
     >
       <tbody>
         <tr>
-          <td><label>Type</label><span class="required">*</span></td>
+          <td><label>Khu vực</label></td>
+          <td>
+            <nz-select
+              nzShowSearch
+              nzAllowClear
+              [(ngModel)]="productTypeSelected"
+              (ngModelChange)="onChangeProductTypes($event)"
+              nzPlaceHolder="Chọn khu vực"
+            >
+              <nz-option
+                *ngFor="let productType of productTypes"
+                [nzValue]="productType.id"
+                [nzLabel]="productType.name"
+              >
+              </nz-option>
+            </nz-select>
+          </td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><label>Máy</label><span class="required">*</span></td>
+          <td>
+            <nz-select
+              nzShowSearch
+              nzAllowClear
+              [(ngModel)]="stopTimeSelected.line"
+            >
+              <nz-option
+                *ngFor="let line of lines"
+                [nzValue]="line.id"
+                [nzLabel]="line.name"
+              >
+              </nz-option>
+            </nz-select>
+          </td>
+          <td><label>Ca</label><span class="required">*</span></td>
+          <td>
+            <nz-select
+              nzShowSearch
+              nzAllowClear
+              [(ngModel)]="stopTimeSelected.shift"
+            >
+              <nz-option
+                *ngFor="let shift of shifts"
+                [nzValue]="shift.id"
+                [nzLabel]="shift.name"
+              >
+              </nz-option>
+            </nz-select>
+          </td>
+        </tr>
+        <tr>
+          <td><label>Loại</label><span class="required">*</span></td>
           <td>
             <nz-select
               nzShowSearch
@@ -186,16 +239,17 @@
               [(ngModel)]="stopTimeSelected.type"
               (ngModelChange)="onChangeStopTypes($event)"
               nzPlaceHolder="Chọn Type"
+              nzDisabled
             >
               <nz-option
-                *ngFor="let type of types"
+                *ngFor="let type of stopTypes"
                 [nzValue]="type.id"
                 [nzLabel]="type.name"
               >
               </nz-option>
             </nz-select>
           </td>
-          <td><label>Group</label><span class="required">*</span></td>
+          <td><label>Nhóm</label><span class="required">*</span></td>
           <td>
             <nz-select
               nzShowSearch
@@ -203,6 +257,7 @@
               [(ngModel)]="stopTimeSelected.group"
               (ngModelChange)="onChangeStopGroups($event)"
               nzPlaceHolder="Chọn Group"
+              nzDisabled
             >
               <nz-option
                 *ngFor="let group of stopGroups"
@@ -214,13 +269,14 @@
           </td>
         </tr>
         <tr>
-          <td><label>Item</label><span class="required">*</span></td>
+          <td><label>Hạng mục</label><span class="required">*</span></td>
           <td colspan="3">
             <nz-select
               nzShowSearch
               nzAllowClear
               [(ngModel)]="stopTimeSelected.item"
-              nzPlaceHolder="Chọn Item"
+              (ngModelChange)="onChangeStopItems($event)"
+              nzPlaceHolder="Chọn hạng mục"
             >
               <nz-option
                 *ngFor="let item of stopItems"
@@ -232,9 +288,9 @@
           </td>
         </tr>
         <tr>
-          <td><label>Time</label><span class="required">*</span></td>
+          <td><label>Thời gian</label><span class="required">*</span></td>
           <td colspan="3">
-            <nz-date-picker
+            <!-- <nz-date-picker
               nzPlaceHolder="Select Date"
               (ngModelChange)="onChangeDate($event)"
               [(ngModel)]="stopTimeSelected.date"
@@ -255,47 +311,33 @@
               [(ngModel)]="stopTimeSelected.stopTime"
               (ngModelChange)="onChangeStopTime($event)"
             >
-            </nz-time-picker>
+            </nz-time-picker> -->
+            <nz-date-picker
+              nzShowTime
+              nzFormat="yyyy-MM-dd HH:mm"
+              [(ngModel)]="stopTimeSelected.startTime"
+              nzPlaceHolder="Thời gian bắt đầu"
+            ></nz-date-picker>
+            ->
+            <nz-date-picker
+              nzShowTime
+              nzFormat="yyyy-MM-dd HH:mm"
+              [(ngModel)]="stopTimeSelected.stopTime"
+              nzPlaceHolder="Thời gian kết thúc"
+            ></nz-date-picker>
           </td>
         </tr>
-        <tr>
-          <td><label>Line</label><span class="required">*</span></td>
-          <td>
-            <nz-select
-              nzShowSearch
-              nzAllowClear
-              [(ngModel)]="stopTimeSelected.line"
-            >
-              <nz-option
-                *ngFor="let line of lines"
-                [nzValue]="line.id"
-                [nzLabel]="line.name"
-              >
-              </nz-option>
-            </nz-select>
-          </td>
-          <td><label>Shift</label><span class="required">*</span></td>
-          <td>
-            <nz-select
-              nzShowSearch
-              nzAllowClear
-              [(ngModel)]="stopTimeSelected.shift"
-            >
-              <nz-option
-                *ngFor="let shift of shifts"
-                [nzValue]="shift.id"
-                [nzLabel]="shift.name"
-              >
-              </nz-option>
-            </nz-select>
-          </td>
-        </tr>
+
         <tr>
           <td>
-            <label>Remark</label>
+            <label>Ghi chú</label>
           </td>
           <td colspan="3">
-            <textarea rows="3" nz-input [(ngModel)]="stopTimeSelected.remark"></textarea>
+            <textarea
+              rows="3"
+              nz-input
+              [(ngModel)]="stopTimeSelected.remark"
+            ></textarea>
           </td>
         </tr>
       </tbody>

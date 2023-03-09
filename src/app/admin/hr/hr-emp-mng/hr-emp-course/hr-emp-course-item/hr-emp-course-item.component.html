@@ -13,6 +13,7 @@
   [allowColumnReordering]="true"
   [rowAlternationEnabled]="true"
   [showBorders]="true"
+  [columnAutoWidth]="true"
 >
   <dxo-filter-row [visible]="true"> </dxo-filter-row>
   <dxo-export [enabled]="true"></dxo-export>
@@ -34,7 +35,7 @@
     </dxi-item>
   </dxo-toolbar>
 
-  <dxi-column dataField="courseName" caption="Khóa học"></dxi-column>
-  <dxi-column dataField="forecast" caption="Thời gian dự kiến"></dxi-column>
-  <dxi-column dataField="status" caption="Trạng thái"></dxi-column>
+  <dxi-column dataField="id" caption="ID"></dxi-column>
+  <dxi-column dataField="nameCourse" caption="Tên khóa học"></dxi-column>
+  <dxi-column dataField="description" caption="Mô tả khóa học"></dxi-column>
 </dx-data-grid>

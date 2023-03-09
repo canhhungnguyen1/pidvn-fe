@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { DxDataGridComponent } from 'devextreme-angular';
 import { ReMatAdmService } from '../services/re-mat-adm.service';
 
 @Component({
@@ -7,6 +8,9 @@ import { ReMatAdmService } from '../services/re-mat-adm.service';
   styleUrls: ['./relay-material-traceability.component.scss'],
 })
 export class RelayMaterialTraceabilityComponent implements OnInit {
+
+  @ViewChild(DxDataGridComponent, { static: false }) dataGrid!: DxDataGridComponent
+
   lines: any;
   records: any;
   qaCards: any;
@@ -40,6 +44,7 @@ export class RelayMaterialTraceabilityComponent implements OnInit {
   }
 
   onSearch() {
+
     if (
       this.searchVo.recordType == 'RDC' ||
       this.searchVo.recordType == 'RNP'
@@ -48,12 +53,14 @@ export class RelayMaterialTraceabilityComponent implements OnInit {
     } else {
       this.employee = 'sender';
     }
-
+    
+    this.dataGrid.instance.beginCustomLoading("Loading...");
     this.reMatAdmSvc
       .materialTraceability(this.searchVo)
       .subscribe((response) => {
         this.records = response;
         console.log('DATAS: ', this.records);
+        this.dataGrid.instance.endCustomLoading();
       });
   }
 

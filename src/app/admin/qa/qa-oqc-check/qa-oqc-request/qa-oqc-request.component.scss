@@ -1,0 +1,4 @@
+.dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused):not(.dx-row-removed) > td {
+    background-color: red;
+    color: unset;
+}

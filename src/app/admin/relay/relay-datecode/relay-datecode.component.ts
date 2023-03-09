@@ -9,7 +9,7 @@ import { RelayDateCodeService } from './relay-datecode.service';
   styleUrls: ['./relay-datecode.component.scss'],
 })
 export class RelayDatecodeComponent implements OnInit, AfterViewInit {
-  @ViewChild('infoIpt') infoIpt!: ElementRef;
+  // @ViewChild('infoIpt') infoIpt!: ElementRef;
   @ViewChild('dateCodeIpt') dateCodeIpt!: ElementRef;
   @ViewChild('qtyIpt') qtyIpt!: ElementRef;
 
@@ -51,9 +51,11 @@ export class RelayDatecodeComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.infoIpt.nativeElement.focus();
-    }, 0);
+    // setTimeout(() => {
+    //   this.infoIpt.nativeElement.focus();
+    // }, 0);
+
+    this.getQaCards();
   }
 
   dataSanXuat: any;
@@ -67,22 +69,29 @@ export class RelayDatecodeComponent implements OnInit, AfterViewInit {
     )
   }
 
+  test(event: any) {
+    console.log('AAA : ',event);
+    
+  }
+
+  //qaCardSelected: any;
+
   scanInfo(event: any) {
-    let data = event.target.value;
+    let data = event;
     this.qaCardInfo.value = data;
     let arr = data.split('*');
 
-    if (arr.length !== 5 || !data.includes('*')) {
-      this.toastr.warning('QA card không đúng định dạng','Warning');
-      return
-    }
+    // if (arr.length !== 5 || !data.includes('*')) {
+    //   this.toastr.warning('QA card không đúng định dạng','Warning');
+    //   return
+    // }
 
     this.qaCardInfo.model = arr[0];
     this.qaCardInfo.line = arr[1];
     this.qaCardInfo.date = arr[2];
     this.qaCardInfo.shift = arr[3];
 
-    this.infoIpt.nativeElement.select();
+    //this.infoIpt.nativeElement.select();
 
     this.getDateCodes(data);
   }

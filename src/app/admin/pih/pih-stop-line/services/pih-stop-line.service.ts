@@ -12,7 +12,11 @@ export class PihStopLineService {
 
   private baseUrl = environment.baseUrl;
 
-  
+  public getProductTypes(productId: number): Observable<any> {
+    return this.httpClient.get(
+      `${this.baseUrl}/PIH/StopLine/ProductTypes?productId=${productId}`
+    );
+  }
 
   public getLines(): Observable<any> {
     return this.httpClient.get(

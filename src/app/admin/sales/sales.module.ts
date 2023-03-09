@@ -6,6 +6,14 @@ import { SalesComponent } from './sales.component';
 import { SalesRoutingModule } from './sales-routing.module';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzTagModule } from 'ng-zorro-antd/tag';
+import { FormsModule } from '@angular/forms';
+
 @NgModule({
   declarations: [
     SalesComponent,
@@ -14,9 +22,16 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
   ],
   imports: [
     CommonModule,
+    FormsModule,
     SalesRoutingModule,
     NzBreadCrumbModule,
-    NzButtonModule
+    NzButtonModule,
+    NzGridModule,
+    NzTabsModule,
+    NzCardModule,
+    NzInputModule,
+    NzTableModule,
+    NzTagModule
   ]
 })
 export class SalesModule { }

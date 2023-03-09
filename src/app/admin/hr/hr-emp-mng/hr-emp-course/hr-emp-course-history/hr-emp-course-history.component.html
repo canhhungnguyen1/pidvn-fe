@@ -1,1 +1,93 @@
-<p>hr-emp-course-history works!</p>
+<nz-breadcrumb>
+  <nz-breadcrumb-item> HR & GA </nz-breadcrumb-item>
+  <nz-breadcrumb-item> Dữ liệu nhân viên </nz-breadcrumb-item>
+  <nz-breadcrumb-item> Khóa đào tạo </nz-breadcrumb-item>
+  <nz-breadcrumb-item> Lịch sử </nz-breadcrumb-item>
+</nz-breadcrumb>
+<br />
+<!-- <nz-collapse>
+    <nz-collapse-panel nzHeader="Tìm kiếm" [nzActive]="true" [nzShowArrow]="true">
+
+    </nz-collapse-panel>
+</nz-collapse> -->
+<dx-data-grid
+  style="margin-top: 10px"
+  id="gridMaster"
+  [dataSource]="histories"
+  [showColumnLines]="true"
+  [showRowLines]="true"
+  [showBorders]="true"
+  [rowAlternationEnabled]="true"
+  [allowColumnResizing]="true"
+  [columnResizingMode]="'widget'"
+  [allowColumnReordering]="true"
+  [columnAutoWidth]="true"
+>
+  <dxo-export [enabled]="true"></dxo-export>
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
+  <dxo-paging [pageSize]="10"></dxo-paging>
+  <dxo-pager
+    [showPageSizeSelector]="true"
+    [allowedPageSizes]="[10, 25, 50, 100]"
+  ></dxo-pager>
+
+  <dxi-column caption="ID" dataField="id" alignment="left"></dxi-column>
+  <dxi-column
+    caption="User Name"
+    dataField="username"
+    alignment="left"
+  ></dxi-column>
+  <dxi-column caption="Name" dataField="name" alignment="left"></dxi-column>
+  <dxi-column
+    caption="ID Course Groups"
+    dataField="idCourseGroups"
+    alignment="left"
+  ></dxi-column>
+  <dxi-column
+    caption="ID Course"
+    dataField="idCourse"
+    alignment="left"
+  ></dxi-column>
+  <dxi-column
+    caption="Name Course"
+    dataField="nameCourse"
+    alignment="left"
+  ></dxi-column>
+  <dxi-column caption="Status" dataField="status" alignment="left"></dxi-column>
+  <dxi-column
+    caption="Time Attendance"
+    dataField="timeAttendance"
+    alignment="left"
+  ></dxi-column>
+  <dxi-column
+    caption="Date Start"
+    dataField="dateStart"
+    alignment="left"
+    format="yyyy-MM-dd"
+    dataType="date"
+  ></dxi-column>
+  <dxi-column
+    caption="Time Start"
+    dataField="timeStart"
+    alignment="left"
+  ></dxi-column>
+  <dxi-column
+    caption="Date Finish"
+    dataField="dateFinish"
+    alignment="left"
+    format="yyyy-MM-dd"
+    dataType="date"
+  ></dxi-column>
+  <dxi-column
+    caption="Time Finish"
+    dataField="timeFinish"
+    alignment="left"
+  ></dxi-column>
+  <dxi-column caption="Method" dataField="method" alignment="left"></dxi-column>
+  <dxi-column caption="Place" dataField="place" alignment="left"></dxi-column>
+  <dxi-column
+    caption="Teacher"
+    dataField="teacher"
+    alignment="left"
+  ></dxi-column>
+</dx-data-grid>

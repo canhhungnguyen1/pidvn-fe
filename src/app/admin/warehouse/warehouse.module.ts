@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
@@ -21,12 +21,14 @@ import { WhIqcRequestComponent } from './wh-iqc-request/wh-iqc-request.component
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { DxDataGridModule } from 'devextreme-angular';
+import { CheckDateIqcComponent } from './check-date-iqc/check-date-iqc.component';
 
 @NgModule({
   declarations: [
     WarehouseComponent,
     MaterialReceiptComponent,
     WhIqcRequestComponent,
+    CheckDateIqcComponent,
   ],
   imports: [
     CommonModule,
@@ -49,5 +51,6 @@ import { DxDataGridModule } from 'devextreme-angular';
     NzSelectModule,
     DxDataGridModule
   ],
+  providers: [DatePipe]
 })
 export class WarehouseModule {}

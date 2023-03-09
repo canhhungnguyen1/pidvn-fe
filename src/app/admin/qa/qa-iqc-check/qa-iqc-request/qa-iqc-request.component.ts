@@ -17,13 +17,16 @@ export class QaIqcRequestComponent implements OnInit {
 
   iqcRequests: any;
 
+  isAudit: boolean = false;
+
   ngOnInit(): void {
     // this.requestSubscription = interval(5000).subscribe(
     //   (val) => {
     //     this.getIqcRequests()
     //   });
 
-      this.getIqcRequests()
+      this.getConfigAudit();
+      this.getIqcRequests();
   }
 
   onSearch() {
@@ -61,5 +64,25 @@ export class QaIqcRequestComponent implements OnInit {
   onCalendarChange(result: Array<Date | null>): void {
     this.searchVo.fromDate = result[0];
     this.searchVo.toDate = result[1];
+  }
+
+  changeAuditConfig(event: any) {
+    console.log('changeAuditConfig: ',event);
+
+    let configValue = event == true ? 'TRUE' : 'FALSE';
+
+    this.qaIqcSvc.changeConfigAudit(configValue).subscribe(
+      response => {
+        this.getIqcRequests();
+      }
+    )
+  }
+
+  getConfigAudit() {
+    this.qaIqcSvc.getConfigAudit().subscribe(
+      response => {
+        this.isAudit = response.configValue == 'TRUE' ? true : false
+      }
+    )
   }
 }

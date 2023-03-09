@@ -1,0 +1,31 @@
+#subtitleTbl {
+    tr.active td {
+        background-color:#ffa500
+    }
+    ul {
+        li {
+            list-style: none;
+            margin-left: -40px;
+            font-size: 18px;
+        }
+
+        .en-sub {}
+
+        .vn-sub {
+            opacity: 0.85;
+            font-style: italic;
+            font-size: 95%;
+        }
+
+    }
+
+    .time {
+        font-size: 70%;
+        float: right;
+        color: green;
+    }
+    #subTitle:hover {
+        cursor: pointer;
+    }
+}
+

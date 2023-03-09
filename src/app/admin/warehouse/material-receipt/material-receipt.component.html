@@ -140,7 +140,7 @@
         <div nz-col nzXs="12" nzSm="12" nzLg="12">
           <div nz-row nzJustify="end">
             <label style="color: #2196f3">
-              Total Qty: {{ totalQtyScanned | number: "1.3" }}
+              Total Qty: {{ totalQtyScanned | number : "1.3" }}
             </label>
           </div>
         </div>
@@ -356,11 +356,11 @@
           Total Record: {{ recordTotal | number }}
         </label>
         <label style="color: #2196f3; float: right">
-          Total Qty: {{ totalQtySearch | number: "1.3" }}
+          Total Qty: {{ totalQtySearch | number : "1.3" }}
         </label>
       </div>
     </div>
-    <nz-table
+    <!-- <nz-table
       id="purWhRecordsTable"
       #purWhRecordsTable
       nzSize="small"
@@ -405,8 +405,8 @@
           </td>
         </tr>
       </tbody>
-    </nz-table>
-    <nz-pagination
+    </nz-table> -->
+    <!-- <nz-pagination
       style="text-align: right"
       [nzPageIndex]="1"
       [nzTotal]="searchVo.recordTotal"
@@ -415,11 +415,75 @@
       (nzPageIndexChange)="nzPageIndexChange($event)"
       (nzPageSizeChange)="nzPageSizeChange($event)"
     >
-    </nz-pagination>
+    </nz-pagination> -->
+
+    <dx-data-grid
+      keyExpr="id"
+      [dataSource]="purWhRecords"
+      [showColumnLines]="true"
+      [showRowLines]="true"
+      [showBorders]="true"
+      [allowColumnResizing]="true"
+      [columnAutoWidth]="true"
+      [rowAlternationEnabled]="true"
+      (onExporting)="onExportClient($event)"
+    >
+      <dxo-export [enabled]="true"></dxo-export>
+      <dxo-filter-row [visible]="true"></dxo-filter-row>
+
+      <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+
+      <dxi-column dataField="model" caption="PartNo"></dxi-column>
+      <dxi-column dataField="lotNo" caption="LotNo"></dxi-column>
+      <dxi-column
+        dataField="qty"
+        dataType="number"
+        format="#,##0"
+        caption="Qty"
+      ></dxi-column>
+
+      <dxi-column dataField="vendorCode" caption="Vendor"></dxi-column>
+      <dxi-column
+        dataField="createdAt"
+        dataType="date"
+        format="yyyy-MM-dd HH:mm:ss"
+        caption="Date"
+      ></dxi-column>
+      <dxi-column dataField="slipNo" caption="Slip"></dxi-column>
+      <dxi-column dataField="invoice" caption="Invoice"></dxi-column>
+      <dxi-column
+        caption="Action"
+        cellTemplate="actionTemplate"
+      >
+        <div *dxTemplate="let item of 'actionTemplate'" style="text-align: center">
+          <a style="color: red" (click)="deleteRecord(item.data)">Xóa</a>
+        </div>
+      </dxi-column>
+
+      <dxo-summary>
+        <dxi-total-item column="lotNo" summaryType="count"></dxi-total-item>
+        <dxi-total-item
+          column="qty"
+          summaryType="sum"
+          valueFormat="#,##0"
+        ></dxi-total-item>
+      </dxo-summary>
+
+      <dxo-paging [pageSize]="10"></dxo-paging>
+      <dxo-pager
+        [showPageSizeSelector]="true"
+        [allowedPageSizes]="[10, 25, 50, 100]"
+      >
+      </dxo-pager>
+    </dx-data-grid>
   </nz-tab>
 </nz-tabset>
 
-<nz-modal [(nzVisible)]="isShowBigBoxDetailModal" nzTitle="Danh sách hộp con" nzWidth="900px">
+<nz-modal
+  [(nzVisible)]="isShowBigBoxDetailModal"
+  nzTitle="Danh sách hộp con"
+  nzWidth="900px"
+>
   <ng-container *nzModalContent>
     <div nz-row nzJustify="end" nzAlign="middle" [nzGutter]="24">
       <div nz-col nzXs="24" nzSm="24" nzLg="24">
@@ -427,7 +491,7 @@
           Total Record: {{ listBigBoxDetail.length | number }}
         </label>
         <label style="color: #2196f3; float: right">
-          Total Qty: {{ totalQtyDetailBigBox | number: "1.0-3" }}
+          Total Qty: {{ totalQtyDetailBigBox | number : "1.0-3" }}
         </label>
       </div>
     </div>
@@ -458,19 +522,10 @@
       <dxo-selection mode="single"></dxo-selection>
 
       <dxi-column dataField="lotGroup" [groupIndex]="0"></dxi-column>
-      <dxi-column
-        dataField="lotNo"
-        caption="Lot No"
-      ></dxi-column>
-      <dxi-column
-        dataField="model"
-        caption="Model"
-      ></dxi-column>
-      
-      <dxi-column
-        dataField="qty"
-        alignment="right"
-      ></dxi-column>
+      <dxi-column dataField="lotNo" caption="Lot No"></dxi-column>
+      <dxi-column dataField="model" caption="Model"></dxi-column>
+
+      <dxi-column dataField="qty" alignment="right"></dxi-column>
 
       <dxo-summary>
         <dxi-group-item
@@ -486,7 +541,6 @@
           [alignByColumn]="true"
         >
         </dxi-group-item>
-        
       </dxo-summary>
 
       <dxi-sort-by-group-summary-info

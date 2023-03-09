@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   baseUrl: 'http://localhost:8889',
+  baseUrlPhp: 'https://10.92.176.57:8080',
   weatherbit:'https://api.weatherbit.io/v2.0/current?key=ec87ff6a58bf4f92969b0fd823bdc686'
 };
 

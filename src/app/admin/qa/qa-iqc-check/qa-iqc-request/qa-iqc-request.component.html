@@ -49,21 +49,49 @@
       <div nz-col nzXs="12" nzSm="12" nzLg="6">
         <label nzXs="24" nzSm="24" nzLg="24">Ngày tạo</label>
         <div nzXs="24" nzSm="24" nzLg="24">
-          <nz-range-picker nzFormat="yyyy-MM-dd" ngModel (ngModelChange)="onChange($event)"
-            (nzOnCalendarChange)="onCalendarChange($event)">
+          <nz-range-picker
+            nzFormat="yyyy-MM-dd"
+            ngModel
+            (ngModelChange)="onChange($event)"
+            (nzOnCalendarChange)="onCalendarChange($event)"
+          >
           </nz-range-picker>
         </div>
       </div>
     </div>
     <div
       nz-row
-      nzJustify="end"
+      nzJustify="space-between"
       nzAlign="middle"
       [nzGutter]="24"
-      style="margin-top: 10px"
+      style="margin-top: 10px;"
     >
-      <div nz-col nzXs="24" nzSm="24" nzLg="24">
-        <button nz-button nzType="primary" style="float: right" (click)="onSearch()">Search</button>
+      <div nz-col nzXs="6" nzSm="6" nzLg="6">
+          <label style="color: #8f1db5;">Config</label>
+          <nz-switch
+            [ngModel]="isAudit"
+            nzCheckedChildren="Bật"
+            nzUnCheckedChildren="Tắt"
+            style="margin-left: 5px;"
+            (ngModelChange)="changeAuditConfig($event)"
+          >
+          </nz-switch>
+          <ng-template #checkedTemplate><span nz-icon nzType="check"></span></ng-template>
+          <ng-template #unCheckedTemplate><span nz-icon nzType="close"></span></ng-template>
+        
+        
+        
+      </div>
+      <div nz-col nzXs="16" nzSm="16" nzLg="16"></div>
+      <div nz-col nzXs="2" nzSm="2" nzLg="2">
+        <button
+          nz-button
+          nzType="primary"
+          (click)="onSearch()"
+          style="float: right;"
+        >
+          Search
+        </button>
       </div>
     </div>
   </nz-collapse-panel>
@@ -94,7 +122,9 @@
   </thead>
   <tbody>
     <tr *ngFor="let item of iqcRequestTable.data">
-      <td (click)=" item.status != 1 ? redirectResultMaster(item) : ''">{{ item.requestNo }}</td>
+      <td (click)="item.status != 1 ? redirectResultMaster(item) : ''">
+        {{ item.requestNo }}
+      </td>
       <td>{{ item.invoice }}</td>
       <td>{{ item.supplier }}</td>
       <td
@@ -109,13 +139,24 @@
       </td>
       <td>{{ item.requestedByName }}</td>
       <td class="text-center">
-        {{ item.createdAt | date: "yyyy-MM-dd HH:mm" }}
+        {{ item.createdAt | date : "yyyy-MM-dd HH:mm" }}
       </td>
       <td class="text-center">
-        <button *ngIf="item.status == 1" nz-button nzType="default" (click)="handleRequest(item)">
+        <button
+          *ngIf="item.status == 1"
+          nz-button
+          nzType="default"
+          (click)="handleRequest(item)"
+        >
           Tiếp nhận
         </button>
-        <a *ngIf="item.status != 1" nz-button nzType="link" (click)="redirectResultMaster(item)">Chi tiết</a>
+        <a
+          *ngIf="item.status != 1"
+          nz-button
+          nzType="link"
+          (click)="redirectResultMaster(item)"
+          >Chi tiết</a
+        >
       </td>
     </tr>
   </tbody>

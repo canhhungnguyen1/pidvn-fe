@@ -1,0 +1,38 @@
+<nz-collapse>
+  <nz-collapse-panel nzHeader="Scan tem thiết bị" [nzActive]="true">
+    <nz-table #basicTable [nzData]="['']" nzBordered nzFrontPagination="false" style="width: 50%;">
+      <tbody>
+        <tr>
+          <td><label style="font-weight: bold;">Mã QR code</label></td>
+          <td>
+            <input nz-input placeholder="Scan mã QR code" (keydown.enter)="scanLabel($event)"/>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </nz-collapse-panel>
+</nz-collapse>
+<dx-data-grid
+  [dataSource]="devices"
+  keyExpr="id"
+  [showColumnLines]="true"
+  [showRowLines]="true"
+  [showBorders]="true"
+  [allowColumnResizing]="true"
+  [columnAutoWidth]="true"
+  [rowAlternationEnabled]="true"
+  (onRowClick)="onRowClick($event)"
+  style="margin-top: 15px;"
+>
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
+
+  <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+
+  <dxi-column dataField="deviceNo" caption="Device No"></dxi-column>
+  <dxi-column dataField="name" caption="Tên"></dxi-column>
+  <dxi-column dataField="model" caption="Model"></dxi-column>
+  <dxi-column dataField="serialNo" caption="Serial No"></dxi-column>
+  <dxi-column dataField="marker" caption="Marker"></dxi-column>
+  <dxi-column dataField="position" caption="Vị trí"></dxi-column>
+  
+</dx-data-grid>

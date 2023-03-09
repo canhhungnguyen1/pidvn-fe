@@ -18,6 +18,7 @@ import { FormsModule } from '@angular/forms';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { TranslateModule } from '@ngx-translate/core';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzTreeModule } from 'ng-zorro-antd/tree';
 @NgModule({
   declarations: [
     AdminComponent,
@@ -40,7 +41,8 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
     NzBackTopModule,
     NzBadgeModule,
     NzButtonModule,
-    NzSelectModule
+    NzSelectModule,
+    NzTreeModule
   ]
 })
 export class AdminModule { }

@@ -13,6 +13,8 @@ import { FormsModule } from '@angular/forms';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { DxDataGridModule } from 'devextreme-angular';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+
 @NgModule({
   declarations: [
     RelayDatecodeComponent
@@ -29,7 +31,8 @@ import { DxDataGridModule } from 'devextreme-angular';
     NzButtonModule,
     NzPopconfirmModule,
     NzInputModule,
-    NzTabsModule
+    NzTabsModule,
+    NzSelectModule
   ]
 })
 export class RelayDatecodeModule { }

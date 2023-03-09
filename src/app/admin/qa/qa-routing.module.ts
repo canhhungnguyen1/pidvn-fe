@@ -14,6 +14,21 @@ const routes: Routes = [
             (m) => m.QaIqcCheckModule
           ),
       },
+      {
+        path: 'qa-oqc-check',
+        loadChildren: () =>
+          import('./qa-oqc-check/qa-oqc-check.module').then(
+            (m) => m.QaOqcCheckModule
+          ),
+      },
+      {
+        path: 'qa-oqc-document',
+        loadChildren: () => import('./qa-oqc-document/qa-oqc-document.module').then(m => m.QaOqcDocumentModule)
+      },
+      {
+        path: 'qa-equipment-mng',
+        loadChildren: () => import('./qa-equipment-mng/qa-equipment-mng.module').then(m => m.QaEquipmentMngModule)
+      }
     ],
   },
 ];
@@ -22,4 +37,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class QaRoutingModule {}
+export class QaRoutingModule { }

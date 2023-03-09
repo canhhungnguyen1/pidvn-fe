@@ -1,0 +1,146 @@
+<nz-tabset>
+  <nz-tab nzTitle="Thông tin thiết bị">
+    <nz-collapse>
+      <nz-collapse-panel nzHeader="Thông tin thiết bị" [nzActive]="true">
+        <nz-table
+          nzBordered
+          nzSize="small"
+          [nzFrontPagination]="false"
+          [nzData]="['']"
+        >
+          <tbody>
+            <tr>
+              <td>Device No</td>
+              <td>{{ device?.deviceNo }}</td>
+              <td>Name</td>
+              <td>{{ device?.name }}</td>
+              <td>Serial</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Marker</td>
+              <td></td>
+              <td>Vị trí</td>
+              <td></td>
+              <td>Spec</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </nz-collapse-panel>
+    </nz-collapse>
+  </nz-tab>
+
+  <nz-tab nzTitle="Tài liệu liên quan">
+    <dx-data-grid
+      style="margin-top: 15px"
+      [dataSource]="docs"
+      keyExpr="id"
+      [showColumnLines]="true"
+      [showRowLines]="true"
+      [showBorders]="true"
+      [allowColumnResizing]="true"
+      [columnAutoWidth]="true"
+      [rowAlternationEnabled]="true"
+    >
+      <dxo-filter-row [visible]="true"></dxo-filter-row>
+
+      <dxo-toolbar>
+        <dxi-item location="before">
+          <dx-button
+            stylingMode="outlined"
+            type="success"
+            icon="plus"
+            text="Thêm mới"
+            (click)="openUploadModal()"
+          >
+          </dx-button>
+        </dxi-item>
+      </dxo-toolbar>
+
+      <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+
+      <dxi-column dataField="fileName" caption="Tên"></dxi-column>
+      <dxi-column dataField="fileTypeName" caption="Loại tài liệu"></dxi-column>
+      <dxi-column dataField="createdByName" caption="Người upload"></dxi-column>
+      <dxi-column
+        dataField="createdAt"
+        dataType="date"
+        caption="Thời gian"
+        format="yyyy-MM-dd HH:mm"
+      ></dxi-column>
+      <dxi-column caption="Action" cellTemplate="actionTemplate">
+        <div *dxTemplate="let item of 'actionTemplate'">
+          <a (click)="downloadDocument(item)">Tải xuống</a>
+    
+          <a
+            *ngIf="item.data.fileFormat === 'application/pdf'"
+            (click)="previewFile(item)"
+            style="color: green"
+          >
+            | Preview
+          </a>
+        </div>
+      </dxi-column>
+    </dx-data-grid>
+  </nz-tab>
+</nz-tabset>
+
+<nz-modal [nzVisible]="isOpenUploadModal" nzTitle="Upload file lên hệ thống">
+  <ng-container *nzModalContent>
+    <nz-table
+      id="upload-tbl"
+      [nzData]="['']"
+      nzBordered
+      nzFrontPagination="false"
+      nzSize="small"
+    >
+      <tbody>
+        <tr>
+          <td width="30%"><label>Loại tài liệu</label></td>
+          <td>
+            <nz-select
+              [(ngModel)]="fileTypeSelected"
+              nzPlaceHolder="Chọn loại tài liệu"
+              style="width: 100%"
+              (ngModelChange)="onChangeFileType($event)"
+            >
+              <nz-option
+                *ngFor="let type of fileTypes"
+                [nzValue]="type.id"
+                [nzLabel]="type.name"
+              >
+              </nz-option>
+            </nz-select>
+          </td>
+        </tr>
+        <tr>
+          <td><label>File upload</label></td>
+          <td>
+            <nz-upload
+              [nzAction]="fileUploadApi"
+              [nzHeaders]="{ authorization: 'authorization-text' }"
+              [nzDisabled]="fileTypeSelected ? false : true"
+              [nzShowUploadList]="{
+                showPreviewIcon: false,
+                showRemoveIcon: false,
+                showDownloadIcon: false
+              }"
+              (nzChange)="nzChangeUpload($event)"
+            >
+              <button nz-button>
+                <span nz-icon nzType="upload"></span>
+                Chọn file upload lên hệ thống
+              </button>
+            </nz-upload>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
+  <ng-template [nzModalFooter]>
+    <button nz-button nzType="default" (click)="closeUploadModal()">
+      Đóng
+    </button>
+  </ng-template>
+</nz-modal>

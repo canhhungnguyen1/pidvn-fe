@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NzFormatEmitEvent } from 'ng-zorro-antd/tree';
 import { TranslateConfigService } from 'src/app/services/translate-config.service';
 import { WelcomeService } from './welcome.service';
 
@@ -23,5 +24,9 @@ export class WelcomeComponent implements OnInit {
     this.welcomeSvc.getTemp().subscribe((response) => {
       this.weatherInfo = response.data[0];
     });
+  }
+
+  nzEvent(event: NzFormatEmitEvent): void {
+    console.log(event);
   }
 }

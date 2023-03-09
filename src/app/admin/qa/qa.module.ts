@@ -13,6 +13,7 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { QaIqcCheckComponent } from './qa-iqc-check/qa-iqc-check.component';
 import { QaRoutingModule } from './qa-routing.module';
 
+
 @NgModule({
   declarations: [QaIqcCheckComponent],
   imports: [

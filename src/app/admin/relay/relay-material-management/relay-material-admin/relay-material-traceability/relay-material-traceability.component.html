@@ -65,7 +65,7 @@
         <div nzXs="24" nzSm="24" nzLg="24">
           <nz-select
             nzPlaceHolder="QA cards"
-            nzShowSearch 
+            nzShowSearch
             nzAllowClear
             [(ngModel)]="searchVo.qaCard"
             [nzDropdownMatchSelectWidth]="false"
@@ -83,9 +83,7 @@
       <div nz-col nzXs="12" nzSm="12" nzLg="4">
         <label nzXs="24" nzSm="24" nzLg="24">&nbsp;</label>
         <div nzXs="24" nzSm="24" nzLg="24">
-          <button nz-button (click)="onExport()">
-            Export
-          </button>
+          <button nz-button (click)="onExport()">Export</button>
           <button
             nz-button
             nzType="primary"
@@ -101,6 +99,7 @@
 </nz-collapse>
 <br />
 <dx-data-grid
+  #dataGrid
   [dataSource]="records"
   keyExpr="id"
   [showColumnLines]="true"
@@ -111,11 +110,12 @@
   [rowAlternationEnabled]="true"
   (onExporting)="onExportClient($event)"
 >
+  <dxo-load-panel [enabled]="true"> </dxo-load-panel>
   <dxo-export [enabled]="true"></dxo-export>
   <dxo-filter-row [visible]="true"></dxo-filter-row>
 
   <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
-  
+
   <dxi-column dataField="model" caption="Model"></dxi-column>
   <dxi-column dataField="partNo" caption="Part No"></dxi-column>
   <dxi-column dataField="lotNo" caption="Lot No"></dxi-column>
@@ -143,15 +143,26 @@
   >
   </dxi-column>
 
-  <dxi-column caption="Action" cellTemplate="cellTemplate" alignment="center" alignment="center" [fixed]="true" fixedPosition="right">
+  <dxi-column
+    caption="Action"
+    cellTemplate="cellTemplate"
+    alignment="center"
+    alignment="center"
+    [fixed]="true"
+    fixedPosition="right"
+  >
   </dxi-column>
   <div *dxTemplate="let cell of 'cellTemplate'" style="text-align: center">
-    <a style="color: blue;" (click)="editQty(cell.data)" >Sửa</a>
+    <a style="color: blue" (click)="editQty(cell.data)">Sửa</a>
   </div>
 
   <dxo-summary>
     <dxi-total-item column="lotNo" summaryType="count"></dxi-total-item>
-    <dxi-total-item column="qty" summaryType="sum" valueFormat="#,##0"></dxi-total-item>
+    <dxi-total-item
+      column="qty"
+      summaryType="sum"
+      valueFormat="#,##0"
+    ></dxi-total-item>
   </dxo-summary>
 
   <dxo-paging [pageSize]="10"></dxo-paging>

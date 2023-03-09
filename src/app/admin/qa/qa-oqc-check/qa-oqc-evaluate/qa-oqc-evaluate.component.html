@@ -1,0 +1,256 @@
+<nz-breadcrumb>
+  <nz-breadcrumb-item> QA </nz-breadcrumb-item>
+  <nz-breadcrumb-item> OQC</nz-breadcrumb-item>
+  <nz-breadcrumb-item> Evaluate</nz-breadcrumb-item>
+</nz-breadcrumb>
+<br />
+<nz-collapse>
+  <nz-collapse-panel [nzHeader]="headerTitle" [nzActive]="true">
+    <table id="infoTable">
+      <tbody>
+        <tr>
+          <td><label>QA Card</label></td>
+          <td>{{ requestInfo?.qaCard }}</td>
+          <td><label>Số lượng</label></td>
+          <td>{{ requestInfo?.qty | number : "1.0-3" }}</td>
+          <td
+            *ngIf="requestInfo?.judgment"
+            id="evaluate"
+            rowspan="2"
+            style="font-size: 20px"
+            [style.background]="
+              requestInfo?.judgment == 'OK' ? '#1bc742' : 'red'
+            "
+          >
+            {{ requestInfo?.judgment }}
+          </td>
+        </tr>
+        <tr>
+          <td><label>Date Code</label></td>
+          <td>{{ requestInfo?.dateCode }}</td>
+          <td><label>Ngày check</label></td>
+          <td>{{ requestInfo?.oqcDate | date : "yyyy-MM-dd HH:mm:ss" }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <nz-modal [(nzVisible)]="isOpenModalHandleRequest" nzTitle="Nhập thông tin">
+      <ng-container *nzModalContent>
+        <nz-table
+          nzBordered
+          nzFrontPagination="false"
+          nzSize="small"
+          [nzData]="['']"
+        >
+          <tbody>
+            <tr>
+              <td style="font-weight: bold">Nhiệt độ</td>
+              <td><input nz-input placeholder="Nhiệt độ" /></td>
+            </tr>
+            <tr>
+              <td style="font-weight: bold">Độ ẩm</td>
+              <td><input nz-input placeholder="Độ ẩm" /></td>
+            </tr>
+          </tbody>
+        </nz-table>
+        <div *nzModalFooter>
+          <button nz-button nzType="default">Hủy</button>
+          <button nz-button nzType="primary">Lưu</button>
+        </div>
+      </ng-container>
+    </nz-modal>
+  </nz-collapse-panel>
+</nz-collapse>
+
+<nz-tabset
+  [nzType]="'line'"
+  (nzSelectedIndexChange)="nzSelectedIndexChange($event)"
+>
+  <!-- <nz-tab nzTitle="Master Data">
+    <ng-container *ngTemplateOutlet="masterData"></ng-container>
+  </nz-tab> -->
+  <!-- <nz-tab nzTitle="Nhập dữ liệu"> </nz-tab> -->
+
+  <nz-tab nzTitle="Dữ liệu kiểm tra">
+    <ng-container *ngTemplateOutlet="dataFile"></ng-container>
+  </nz-tab>
+  <nz-tab nzTitle="Document">
+    <ng-container *ngTemplateOutlet="document"></ng-container>
+  </nz-tab>
+</nz-tabset>
+
+<ng-template #masterData>
+  <nz-table
+    #masterDataTable
+    nzSize="small"
+    nzBordered
+    nzFrontPagination="false"
+    [nzData]="oqcMasterData"
+  >
+    <thead>
+      <tr>
+        <th style="text-align: center">Check Item</th>
+        <th style="text-align: center">Number of sampling</th>
+        <th style="text-align: center">Reject number</th>
+        <th style="text-align: center">Judgment</th>
+        <th style="text-align: center">Remark</th>
+        <th style="text-align: center">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of masterDataTable.data">
+        <td>
+          <label style="color: green; font-weight: bold">{{
+            data.viName
+          }}</label>
+        </td>
+        <td>
+          <input
+            nz-input
+            type="number"
+            placeholder="Number of sampling"
+            [(ngModel)]="data.numberOfSampling"
+            style="text-align: center"
+          />
+        </td>
+        <td>
+          <input
+            nz-input
+            type="number"
+            placeholder="Reject number"
+            [(ngModel)]="data.rejectNumber"
+            style="text-align: center"
+          />
+        </td>
+        <td style="text-align: center; font-weight: bold">
+          <nz-radio-group [(ngModel)]="data.value">
+            <label nz-radio nzValue="OK" style="color: green">OK</label>
+            <label nz-radio nzValue="NG" style="color: red">NG</label>
+            <label nz-radio nzValue="NA">NA</label>
+          </nz-radio-group>
+        </td>
+        <td>
+          <input nz-input placeholder="Ghi chú" [(ngModel)]="data.remark" />
+        </td>
+        <td style="text-align: center">
+          <nz-space>
+            <button nz-button nzType="primary" nzSize="small" *nzSpaceItem>
+              Lưu
+            </button>
+            <button
+              nz-button
+              nzType="default"
+              nzDanger
+              nzSize="small"
+              *nzSpaceItem
+            >
+              Xóa
+            </button>
+            <button nz-button nzType="default" nzSize="small" *nzSpaceItem>
+              Detail
+            </button>
+          </nz-space>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</ng-template>
+
+<ng-template #document>
+  <dx-data-grid
+    id="gridContainer"
+    [dataSource]="documents"
+    [remoteOperations]="false"
+    [allowColumnReordering]="true"
+    [rowAlternationEnabled]="true"
+    [allowColumnResizing]="true"
+    [columnAutoWidth]="true"
+    [showColumnLines]="true"
+    [showRowLines]="true"
+    [showBorders]="true"
+    [hoverStateEnabled]="false"
+  >
+    <dxo-filter-row [visible]="true"></dxo-filter-row>
+
+    <dxi-column caption="Tên file" dataField="fileName"></dxi-column>
+    <dxi-column
+      caption="Loại tài liệu"
+      dataField="documentTypeName"
+    ></dxi-column>
+    <!-- <dxi-column caption="Người upload" dataField="createdByName"></dxi-column> -->
+    <!-- <dxi-column
+      caption="Thời gian"
+      dataField="createdAt"
+      dataType="date"
+      format="yyyy-MM-dd HH:mm"
+    ></dxi-column> -->
+    <dxi-column caption="Action" cellTemplate="actionTemplate">
+      <div *dxTemplate="let item of 'actionTemplate'">
+        <a (click)="downloadDocument(item)">Tải xuống</a>
+
+        <a
+          *ngIf="item.data.fileFormat === 'application/pdf'"
+          (click)="previewFile(item)"
+          style="color: green"
+        >
+          | Preview
+        </a>
+      </div>
+    </dxi-column>
+  </dx-data-grid>
+</ng-template>
+
+<ng-template #dataFile>
+  <div nz-row nzJustify="start" nzAlign="top" [nzGutter]="24">
+    <div nz-col nzXs="12" nzSm="12" nzLg="12">
+      <button nz-button [nzType]="'primary'" (click)="openUploadFileModal()">
+        Upload dữ liệu
+      </button>
+      <nz-table
+        #oqcDataFileTable
+        nzSize="small"
+        nzBordered
+        [nzData]="oqcDataFiles"
+      >
+        <thead>
+          <tr>
+            <th>File Name</th>
+            <th>Created At</th>
+            <th>Upload By</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of oqcDataFileTable.data">
+            <td>
+              <span nz-icon nzType="paper-clip" nzTheme="outline"></span>
+              <a (click)="fileClick(data)"> {{ data.fileName }}</a>
+            </td>
+            <td style="text-align: center">
+              {{ data.createdAt | date : "yyyy-MM-dd HH:mm" }}
+            </td>
+            <td style="text-align: center">{{ data.createdBy }}</td>
+            <td style="text-align: center"><a style="color: red">Xóa</a></td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+    <div nz-col nzXs="12" nzSm="12" nzLg="12"></div>
+  </div>
+
+  <nz-modal [(nzVisible)]="isShowUploadFileModal" nzTitle="Upload file">
+    <ng-container *nzModalContent>
+      <nz-upload [nzAction]="uploadFileApi">
+        <button nz-button>
+          <span nz-icon nzType="upload"></span>
+          Click to Upload
+        </button>
+      </nz-upload>
+    </ng-container>
+    <div *nzModalFooter>
+      <button nz-button nzType="primary" (click)="closeUploadFileModal()">
+        Đóng
+      </button>
+    </div>
+  </nz-modal>
+</ng-template>

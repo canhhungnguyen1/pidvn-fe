@@ -1,0 +1,35 @@
+<nz-breadcrumb>
+    <nz-breadcrumb-item> WAREHOUSE </nz-breadcrumb-item>
+    <nz-breadcrumb-item> Kiểm tra hàng IQC quá 6 tháng </nz-breadcrumb-item>
+</nz-breadcrumb>
+<br />
+<dx-data-grid
+  #dataGrid
+  id="gridContainer"
+  [dataSource]="data"
+  [remoteOperations]="false"
+  [allowColumnReordering]="true"
+  [rowAlternationEnabled]="true"
+  [showBorders]="true"
+  [columnAutoWidth]="true"
+>
+  <dxo-load-panel
+  [height]="100"
+  [width]="250">
+  </dxo-load-panel>
+  <dxo-filter-row [visible]="true"> </dxo-filter-row>
+  <dxo-export [enabled]="true"></dxo-export>
+  <dxo-paging [pageSize]="10"></dxo-paging>
+  <dxo-pager
+    [showPageSizeSelector]="true"
+    [allowedPageSizes]="[10, 25, 50, 100]"
+  ></dxo-pager>
+
+  <dxi-column dataField="month" caption="Tháng kiểm kê"></dxi-column>
+  <dxi-column dataField="date" caption="Ngày IQC IPH" format="yyyy-MM-dd" dataType="date"></dxi-column>
+  <dxi-column dataField="model" caption="Model"></dxi-column>
+  <dxi-column dataField="lotNo" caption="Lot No"></dxi-column>
+  <dxi-column dataField="qty" caption="Qty"></dxi-column>
+  <dxi-column dataField="lotGroup" caption="Lot Groups"></dxi-column>
+  <dxi-column dataField="updateAt" caption="Ngày IQC Outside" format="yyyy-MM-dd" dataType="date"></dxi-column>
+</dx-data-grid>

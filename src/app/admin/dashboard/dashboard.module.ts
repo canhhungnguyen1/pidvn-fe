@@ -8,6 +8,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { DashboardMenuComponent } from './dashboard-menu/dashboard-menu.component';
 import { DashboardTraceabilityComponent } from './dashboard-traceability/dashboard-traceability.component';
 import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -20,6 +21,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
     NzTimelineModule,
     NzIconModule,
     NzGridModule,
+    NzCollapseModule
   ],
 })
 export class DashboardModule {}

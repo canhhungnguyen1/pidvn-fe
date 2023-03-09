@@ -402,12 +402,12 @@ form.sign-in-form {
 }
 
 
-#login2 {
+.login2 {
   color: green;
   font-style: italic;
-  font-size: 12px;
+  font-size: 16px;
 }
-#login2:hover {
+.login2:hover {
   font-style: normal;
   text-decoration: underline;
 }

@@ -1,0 +1,113 @@
+<nz-breadcrumb>
+  <nz-breadcrumb-item>QA</nz-breadcrumb-item>
+  <nz-breadcrumb-item>Document</nz-breadcrumb-item>
+  <nz-breadcrumb-item>{{ model }}</nz-breadcrumb-item>
+</nz-breadcrumb>
+
+<dx-data-grid
+  id="gridContainer"
+  [dataSource]="documents"
+  [remoteOperations]="false"
+  [allowColumnReordering]="true"
+  [rowAlternationEnabled]="true"
+  [allowColumnResizing]="true"
+  [columnAutoWidth]="true"
+  [showColumnLines]="true"
+  [showRowLines]="true"
+  [showBorders]="true"
+  [hoverStateEnabled]="false"
+>
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
+
+  <dxo-toolbar>
+    <dxi-item location="before">
+      <dx-button
+        stylingMode="outlined"
+        type="success"
+        icon="plus"
+        text="Thêm mới"
+        (click)="openUploadModal()"
+      >
+      </dx-button>
+    </dxi-item>
+  </dxo-toolbar>
+
+  <dxi-column caption="Tên file" cellTemplate="fileTemplate">
+    <div *dxTemplate="let item of 'fileTemplate'">
+      <a style="color: blue" (click)="previewFile(item)" >{{item.data.fileName}}</a>
+    </div>
+  </dxi-column>
+  <dxi-column caption="Loại tài liệu" dataField="documentTypeName"></dxi-column>
+  <dxi-column caption="Người upload" dataField="createdByName"></dxi-column>
+  <dxi-column
+    caption="Thời gian"
+    dataField="createdAt"
+    dataType="date"
+    format="yyyy-MM-dd HH:mm"
+  ></dxi-column>
+  <dxi-column caption="Action" cellTemplate="actionTemplate">
+    <div *dxTemplate="let item of 'actionTemplate'" style="text-align: center">
+      <a style="color: red" (click)="deleteDocument(item)">Xóa</a>
+    </div>
+  </dxi-column>
+</dx-data-grid>
+
+<nz-modal [nzVisible]="isOpenUploadModal" nzTitle="Upload file lên hệ thống">
+  <ng-container *nzModalContent>
+    <nz-table
+      id="upload-tbl"
+      [nzData]="['']"
+      nzBordered
+      nzFrontPagination="false"
+      nzSize="small"
+    >
+      <tbody>
+        <tr>
+          <td width="30%"><label>Loại tài liệu</label></td>
+          <td>
+            <nz-select
+              [(ngModel)]="fileTypeSelected"
+              nzPlaceHolder="Chọn loại tài liệu"
+              style="width: 100%"
+              (ngModelChange)="onChangeFileType($event)"
+            >
+              <nz-option
+                *ngFor="let type of fileTypes"
+                [nzValue]="type.id"
+                [nzLabel]="type.name"
+              >
+              </nz-option>
+            </nz-select>
+          </td>
+        </tr>
+        <tr>
+          <td><label>File upload</label></td>
+          <td>
+            <nz-upload
+              [nzAction]="fileUploadApi"
+              [nzHeaders]="{ authorization: 'authorization-text' }"
+              [nzDisabled]="fileTypeSelected ? false : true"
+              [nzShowUploadList]="{
+                showPreviewIcon: false,
+                showRemoveIcon: false,
+                showDownloadIcon: false
+              }"
+              (nzChange)="nzChangeUpload($event)"
+              [nzBeforeUpload]="beforeUpload"
+            >
+              <button nz-button>
+                <span nz-icon nzType="upload"></span>
+                Chọn file upload lên hệ thống
+              </button>
+            </nz-upload>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
+  <ng-template [nzModalFooter]>
+    <button nz-button nzType="default" (click)="closeUploadModal()">
+      Đóng
+    </button>
+  </ng-template>
+</nz-modal>

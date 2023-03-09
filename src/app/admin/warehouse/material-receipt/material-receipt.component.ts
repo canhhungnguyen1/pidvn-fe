@@ -62,7 +62,7 @@ export class MaterialReceiptComponent implements OnInit {
   loadingBtnSaveBigBox = false;
 
   ngOnInit(): void {
-    this.getMaterials(this.searchVo);
+    //this.getMaterials(this.searchVo);
   }
 
   /**
@@ -434,4 +434,6 @@ export class MaterialReceiptComponent implements OnInit {
         this.getMaterials(this.searchVo);
       });
   }
+
+  onExportClient(event: any) {}
 }

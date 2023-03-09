@@ -15,19 +15,25 @@ export class PihStopLineMainComponent implements OnInit {
     private jwtHelperSvc: JwtHelperService
   ) {}
 
-  types: any = [];
-  groups: any = [];
+  productTypes: any = [];
+  productTypeSelected: any;
+
+  //types: any = [];
+  // groups = new Array();
   items: any = [];
   lines: any = [];
   shifts: any = [];
-  stopTimes: any;
+  
 
   isOpenModal: boolean = false;
   modalTitle!: string;
 
   errorMsg: string | null = null;
+  stopTypes = new Array();
   stopGroups = new Array();
   stopItems = new Array();
+
+  stopTimes: any;
 
   stopTimeSelected: any = {
     id: null,
@@ -45,12 +51,21 @@ export class PihStopLineMainComponent implements OnInit {
   
 
   ngOnInit(): void {
+    this.getProductTypes(4);
     this.getLines();
     this.getShifts();
     this.getStopTypes();
     this.getStopGroups();
     this.getStopItems();
     this.getStopTimes();
+  }
+
+  getProductTypes(productId: number) {
+    this.pihStopLineSvc.getProductTypes(productId).subscribe(
+      response => {
+        this.productTypes = response
+      }
+    )
   }
 
   getLines() {
@@ -67,14 +82,15 @@ export class PihStopLineMainComponent implements OnInit {
   getStopTimes() {
     this.pihStopLineSvc.getStopTimes({}).subscribe((response) => {
       this.stopTimes = response;
-      console.log('Data: ', response);
+      // console.log('stopTimes: ', response);
     });
   }
 
   getStopTypes() {
     this.pihStopLineSvc.getStopTypes().subscribe(
       response => {
-        this.types = response
+        this.stopTypes = response
+        console.log('stopTypes: ', response);
       }
     )
   }
@@ -82,7 +98,7 @@ export class PihStopLineMainComponent implements OnInit {
   getStopGroups() {
     this.pihStopLineSvc.getStopGroups().subscribe(
       response => {
-        this.groups = response
+        this.stopGroups = response
       }
     )
   }
@@ -113,7 +129,7 @@ export class PihStopLineMainComponent implements OnInit {
       this.stopTimeSelected.type = data.typeId;
 
       this.stopGroups = new Array();
-      for (const group of this.groups) {
+      for (const group of this.stopGroups) {
         if (group.stopTypeId == data.typeId) {
           this.stopGroups.push(group);
         }
@@ -139,25 +155,79 @@ export class PihStopLineMainComponent implements OnInit {
     this.isOpenModal = true;
   }
 
-  onChangeStopTypes($event: any) {
-    this.stopGroups = new Array();
-    for (const group of this.groups) {
-      if (group.stopTypeId == $event) {
-        this.stopGroups.push(group);
-      }
-    }
-    console.log('listStopGroup: ', this.stopGroups);
-  }
 
-  onChangeStopGroups($event: any) {
-    console.log('onChangeStopGroups');
+  onChangeProductTypes($event: any) {
+    console.log('onChangeProductTypes: ', $event);
+
     this.stopItems = new Array();
+
+    this.productTypeSelected = $event;
+
     for (const item of this.items) {
-      if (item.stopGroupId == $event) {
+      if (!item.productTypes) {
+        continue;
+      }
+
+      let productTypes = item.productTypes?.split(',');
+
+      if (productTypes.includes(this.productTypeSelected.toString())) {
         this.stopItems.push(item);
       }
     }
+
     console.log('listStopItems: ', this.stopItems);
+
+
+  }
+
+  onChangeStopTypes($event: any) {
+    // console.log('onChangeStopTypes: ', $event);
+    // this.stopGroups = new Array();
+    // for (const group of this.groups) {
+    //   if (group.stopTypeId == $event) {
+    //     this.stopGroups.push(group);
+    //   }
+    // }
+    // console.log('listStopGroup: ', this.stopGroups);
+  }
+
+  onChangeStopGroups($event: any) {
+    // console.log('onChangeStopGroups: ', $event);
+    // this.stopItems = new Array();
+
+    // for (const item of this.items) {
+
+    //   if (!item.productTypes) {
+    //     continue;
+    //   }
+
+    //   let productTypes = item.productTypes?.split(',');
+
+
+    //   if (item.stopGroupId == $event && productTypes.includes(this.productTypeSelected.toString())) {
+    //     this.stopItems.push(item);
+    //   }
+    // }
+    // console.log('listStopItems: ', this.stopItems);
+  }
+
+  onChangeStopItems($event: any) {
+    console.log($event);
+
+    let stopItem = this.stopItems.find(item => {
+      return item.id == $event
+    })
+
+    console.log(stopItem);
+    
+    this.stopTimeSelected.group = stopItem.stopGroupId;
+
+    let stopGroup = this.stopGroups.find(item => {
+      return item.id == stopItem.stopGroupId
+    })
+
+    this.stopTimeSelected.type = stopGroup.stopTypeId;
+
   }
 
   onSave() {
@@ -201,8 +271,8 @@ export class PihStopLineMainComponent implements OnInit {
         this.getStopTimes();
         this.stopTimeSelected.startTime = null
         this.stopTimeSelected.stopTime = null
-        // this.isOpenModal = false;
-        //this.resetData();
+        this.isOpenModal = false;
+        this.resetData();
       }
     )
 
@@ -243,10 +313,10 @@ export class PihStopLineMainComponent implements OnInit {
       this.errorMsg = 'Item không được để trống';
       return;
     }
-    if (obj.date == null || obj.startTime == null || obj.stopTime == null) {
-      this.errorMsg = 'Time không được để trống';
-      return;
-    }
+    // if (obj.date == null || obj.startTime == null || obj.stopTime == null) {
+    //   this.errorMsg = 'Time không được để trống';
+    //   return;
+    // }
 
     if (obj.line == null) {
       this.errorMsg = 'Line không được để trống';

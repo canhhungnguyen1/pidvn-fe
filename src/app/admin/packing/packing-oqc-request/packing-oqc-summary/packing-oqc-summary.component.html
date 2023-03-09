@@ -1,0 +1,80 @@
+<nz-breadcrumb>
+  <nz-breadcrumb-item> Packing </nz-breadcrumb-item>
+  <nz-breadcrumb-item> Summary</nz-breadcrumb-item>
+</nz-breadcrumb>
+<br />
+
+<nz-collapse>
+  <nz-collapse-panel
+    *ngFor="let panel of panels"
+    [nzHeader]="panel.name"
+    [nzActive]="panel.active"
+    [nzDisabled]="panel.disabled"
+  >
+    <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+      <div nz-col nzXs="12" nzSm="12" nzLg="5">
+        <label nzXs="24" nzSm="24" nzLg="24">Type</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <nz-select
+            nzPlaceHolder="Type"
+            nzShowSearch
+            nzAllowClear
+            [(ngModel)]="searchVo.type"
+          >
+            <nz-option
+              [nzValue]="1"
+              [nzLabel]="'Tổng hợp data từ WIP 4'"
+            ></nz-option>
+            <nz-option
+              [nzValue]="2"
+              [nzLabel]="'Thống kê hàng OK / NG'"
+            ></nz-option>
+          </nz-select>
+        </div>
+      </div>
+      <div nz-col nzXs="12" nzSm="12" nzLg="5">
+        <label nzXs="24" nzSm="24" nzLg="24">Date</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <nz-range-picker
+            nzFormat="yyyy-MM-dd"
+            nzMode="date"
+            [(ngModel)]="date"
+            (ngModelChange)="onChangeTime($event)"
+          >
+          </nz-range-picker>
+        </div>
+      </div>
+      <div nz-col nzXs="12" nzSm="12" nzLg="14">
+        <label nzXs="24" nzSm="24" nzLg="24">&nbsp;</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <button nz-button nzType="primary" (click)="onSearch()">
+            Search
+          </button>
+        </div>
+      </div>
+    </div>
+  </nz-collapse-panel>
+</nz-collapse>
+
+<dx-data-grid
+  *ngIf="typeSearch == 2"
+  [dataSource]="dataSummary"
+  [showColumnLines]="true"
+  [showRowLines]="true"
+  [showBorders]="true"
+  [allowColumnResizing]="true"
+  [columnAutoWidth]="true"
+  [rowAlternationEnabled]="true"
+>
+  <dxo-export [enabled]="true"></dxo-export>
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
+
+  <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+
+  <dxi-column dataField="model" caption="Model"></dxi-column>
+  <dxi-column dataField="ok" caption="OK" dataType="number" format="#,##0"></dxi-column>
+  <dxi-column dataField="ng" caption="NG" dataType="number" format="#,##0"></dxi-column>
+  <dxi-column dataField="na" caption="NA" dataType="number" format="#,##0"></dxi-column>
+
+  
+</dx-data-grid>

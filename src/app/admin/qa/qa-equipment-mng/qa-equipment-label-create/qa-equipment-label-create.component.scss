@@ -1,0 +1,26 @@
+/*----------------------*/
+
+.calibration-label {
+    border: 1px solid black;
+    border-collapse: collapse;
+    // th, td {
+    //   border: 1px solid black;
+    //   border-collapse: collapse;
+    // }
+    font-size: 8px;
+    float: left;
+    margin: 2px;
+    
+    width: 150px;
+
+    .header {
+        background: red;
+        color: white;
+        print-color-adjust: exact;
+    }
+
+    .value {
+        color: blue;
+        font-style: italic;
+    }
+}

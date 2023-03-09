@@ -1,0 +1,91 @@
+<nz-breadcrumb>
+  <nz-breadcrumb-item> QA </nz-breadcrumb-item>
+  <nz-breadcrumb-item> OQC</nz-breadcrumb-item>
+  <nz-breadcrumb-item> Request</nz-breadcrumb-item>
+</nz-breadcrumb>
+<br />
+
+<dx-data-grid
+  id="gridContainer"
+  [dataSource]="oqcRequests"
+  [remoteOperations]="false"
+  [allowColumnReordering]="true"
+  [rowAlternationEnabled]="true"
+  [allowColumnResizing]="true"
+  [columnAutoWidth]="true"
+  [showColumnLines]="true"
+  [showRowLines]="true"
+  [showBorders]="true"
+  (onRowPrepared)="onRowPrepared($event)"
+>
+  <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
+  <dxi-column caption="Mã request" dataField="reqNo"></dxi-column>
+  <dxi-column caption="QA card" dataField="qaCard"></dxi-column>
+  <dxi-column caption="Date Code" dataField="dateCode"></dxi-column>
+  <dxi-column
+    caption="Số lượng"
+    dataField="qty"
+    dataType="number"
+    format="#,##0"
+  ></dxi-column>
+  <dxi-column caption="Người request" dataField="createdByName"></dxi-column>
+  <dxi-column
+    caption="Ngày request"
+    dataField="createdAt"
+    dataType="date"
+    format="yyyy-MM-dd"
+  ></dxi-column>
+
+  <dxi-column
+    caption="Status"
+    dataField="requestStatusId"
+    cellTemplate="statusTemplate"
+  ></dxi-column>
+  <div *dxTemplate="let item of 'statusTemplate'" style="text-align: center">
+    <span>{{ item.data.requestStatusName }}</span>
+  </div>
+  <dxi-column
+    caption="Kết quả"
+    dataField="judgment"
+    cellTemplate="judgmentTemplate"
+  >
+    <div
+      *dxTemplate="let item of 'judgmentTemplate'"
+      style="text-align: center; font-weight: bold;"
+    >
+      <span>{{ item.data.judgment }}</span>
+    </div>
+  </dxi-column>
+  <dxi-column caption="Độ ưu tiên" dataField="priorityName"></dxi-column>
+  <dxi-column
+    caption="Action"
+    cellTemplate="actionTemplate"
+    [fixed]="true"
+    fixedPosition="right"
+  >
+    <div *dxTemplate="let item of 'actionTemplate'" style="text-align: center">
+      <a
+        *ngIf="item.data.requestStatusId != 1"
+        [routerLink]="['/admin/qa/qa-oqc-check/oqc-evaluate']"
+        [queryParams]="{
+          reqNo: item.data.reqNo,
+          qaCard: item.data.qaCard,
+          requestStatus: item.data.requestStatusId
+        }"
+        style="color: blue"
+      >
+        Đánh giá
+      </a>
+      <button
+        *ngIf="item.data.requestStatusId == 1"
+        nz-button
+        nzType="default"
+        (click)="handleRequest(item)"
+      >
+        Tiếp nhận xử lý
+      </button>
+    </div>
+  </dxi-column>
+</dx-data-grid>

@@ -1,0 +1,32 @@
+<nz-breadcrumb>
+    <nz-breadcrumb-item>QA</nz-breadcrumb-item>
+    <nz-breadcrumb-item>Document</nz-breadcrumb-item>
+</nz-breadcrumb>
+
+<dx-data-grid
+  id="gridContainer"
+  [dataSource]="models"
+  [remoteOperations]="false"
+  [allowColumnReordering]="true"
+  [rowAlternationEnabled]="true"
+  [allowColumnResizing]="true"
+  [columnAutoWidth]="true"
+  [showColumnLines]="true"
+  [showRowLines]="true"
+  [showBorders]="true"
+  [hoverStateEnabled]="false"
+>
+    <dxo-filter-row [visible]="true"></dxo-filter-row>
+    <dxi-column caption="Models" dataField="name"></dxi-column>
+    <dxi-column
+        caption="Action"
+        cellTemplate="actionTemplate"
+    >
+        <div *dxTemplate="let item of 'actionTemplate'" style="text-align: center">
+            <a
+                [routerLink]="['/admin/qa/qa-oqc-document/detail']" 
+                [queryParams]="{model: item.data.name}">Chi tiết
+            </a>
+        </div>
+    </dxi-column>
+</dx-data-grid>

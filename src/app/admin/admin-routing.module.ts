@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { RoleGuard } from '../guards/role.guard';
 import { AdminComponent } from './admin.component';
+import { BalanceSheetComponent } from './purchase-datas/balance-sheet/balance-sheet.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 
 const routes: Routes = [
@@ -77,6 +78,19 @@ const routes: Routes = [
         data: {
           roles: ['super_admin', 'PIH MA Basic'],
         }
+      },
+      {
+        // path:'balance-sheet' , component:BalanceSheetComponent
+        path: 'purchase-datas',
+        loadChildren: () => import('./purchase-datas/purchase-datas.module').then(m => m.PurchaseDatasModule),
+        canActivate: [],
+        // data: {
+        //   roles: ['super_admin', 'PIH MA Basic'],
+        // }
+      },
+      {
+        path: 'packing',
+        loadChildren: () => import('./packing/packing.module').then(m => m.PackingModule)
       },
       {
         path: 'welcome',

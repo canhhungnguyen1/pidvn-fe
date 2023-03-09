@@ -38,8 +38,9 @@
           />
           <a style="margin-left: 10px;" [routerLink]="['../../auth/forgot-password']">Quên mật khẩu</a>
         </div>
-        <div>
-          <a id="login2" href="http://10.92.176.50:4201">Đăng nhập lại ở đây nếu thời gian đợi quá lâu</a>
+        <div style="margin-top: 20px;">
+          <a class="login2" href="http://10.92.176.50:4201" style="margin-right: 10px;">Server 50</a>
+          <a class="login2" href="http://10.92.176.57:4201" style="margin-left: 10px;">Server 57</a>
         </div>
 
         <nz-spin *ngIf="isLoading" nzSimple [nzSize]="'large'"></nz-spin>

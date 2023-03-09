@@ -4,7 +4,13 @@
       <div nz-col nzXs="12" nzSm="12" nzLg="6">
         <label nzXs="24" nzSm="24" nzLg="24">Line</label>
         <div nzXs="24" nzSm="24" nzLg="24">
-          <nz-select nzPlaceHolder="Line" [(ngModel)]="searchVo.line">
+          <nz-select
+            nzPlaceHolder="Line"
+            [(ngModel)]="searchVo.line"
+            [nzSize]="'large'"
+            nzShowSearch
+            nzAllowClear
+          >
             <nz-option
               *ngFor="let line of lines"
               [nzValue]="line.name"
@@ -19,6 +25,7 @@
         <label nzXs="24" nzSm="24" nzLg="24">Date</label>
         <div nzXs="24" nzSm="24" nzLg="24">
           <nz-date-picker
+            [nzSize]="'large'"
             [(ngModel)]="searchVo.date"
           ></nz-date-picker>
         </div>
@@ -27,7 +34,13 @@
       <div nz-col nzXs="12" nzSm="12" nzLg="6">
         <label nzXs="24" nzSm="24" nzLg="24">Shift</label>
         <div nzXs="24" nzSm="24" nzLg="24">
-          <nz-select nzPlaceHolder="Shifts" [(ngModel)]="searchVo.shift">
+          <nz-select
+            nzPlaceHolder="Shifts"
+            [(ngModel)]="searchVo.shift"
+            [nzSize]="'large'"
+            nzShowSearch
+            nzAllowClear
+          >
             <nz-option
               *ngFor="let shift of shifts"
               [nzValue]="shift.code"
@@ -41,11 +54,18 @@
       <div nz-col nzXs="12" nzSm="12" nzLg="6">
         <label nzXs="24" nzSm="24" nzLg="24">&nbsp;</label>
         <div nzXs="24" nzSm="24" nzLg="24">
-          <button nz-button nzType="primary" (click)="onSearch()">
-            Search
-          </button>
           <button
             nz-button
+            nzType="primary"
+            (click)="onSearch()"
+            [nzSize]="'large'"
+          >
+            Tìm kiếm
+          </button>
+
+          <button
+            nz-button
+            [nzSize]="'large'"
             nzType="primary"
             style="background: green; margin-left: 5px"
             (click)="openQACardModal()"
@@ -126,11 +146,7 @@
   <div *nzModalFooter></div>
 </nz-modal>
 
-<nz-modal
-  [(nzVisible)]="isOpenQAModal"
-  nzTitle="Tạo QA card"
-  nzWidth="750px"
->
+<nz-modal [(nzVisible)]="isOpenQAModal" nzTitle="Tạo QA card" nzWidth="750px">
   <ng-container *nzModalContent>
     <nz-table [nzData]="['']" nzBordered nzFrontPagination="false">
       <tbody>
@@ -139,7 +155,12 @@
           <td><nz-date-picker [(ngModel)]="qaCard.date"></nz-date-picker></td>
           <td><label>Ca làm việc</label></td>
           <td>
-            <nz-select nzPlaceHolder="Shifts" [(ngModel)]="qaCard.shift" nzAllowClear nzShowSearch>
+            <nz-select
+              nzPlaceHolder="Shifts"
+              [(ngModel)]="qaCard.shift"
+              nzAllowClear
+              nzShowSearch
+            >
               <nz-option
                 *ngFor="let shift of shifts"
                 [nzValue]="shift.code"
@@ -152,7 +173,12 @@
         <tr>
           <td><label>Line</label></td>
           <td>
-            <nz-select nzPlaceHolder="Line" [(ngModel)]="qaCard.line" nzAllowClear nzShowSearch>
+            <nz-select
+              nzPlaceHolder="Line"
+              [(ngModel)]="qaCard.line"
+              nzAllowClear
+              nzShowSearch
+            >
               <nz-option
                 *ngFor="let line of lines"
                 [nzValue]="line.name"
@@ -163,7 +189,12 @@
           </td>
           <td><label>Part No</label></td>
           <td>
-            <nz-select nzPlaceHolder="Model" [(ngModel)]="qaCard.model" nzAllowClear nzShowSearch>
+            <nz-select
+              nzPlaceHolder="Model"
+              [(ngModel)]="qaCard.model"
+              nzAllowClear
+              nzShowSearch
+            >
               <nz-option
                 *ngFor="let model of models"
                 [nzValue]="model.name"
@@ -177,7 +208,13 @@
           <td><label>Marking</label></td>
           <td><input nz-input [disabled]="true" /></td>
           <td><label>Ghi chú</label></td>
-          <td><input nz-input placeholder="Nhập ghi chú" [(ngModel)]="qaCard.remark"/></td>
+          <td>
+            <input
+              nz-input
+              placeholder="Nhập ghi chú"
+              [(ngModel)]="qaCard.remark"
+            />
+          </td>
         </tr>
         <tr *ngIf="errorMsg">
           <td colspan="4">
@@ -196,8 +233,7 @@
     </nz-table>
   </ng-container>
   <div *nzModalFooter>
-    <button nz-button nzType="default" (click)="cancelQACard()" >Hủy</button>
+    <button nz-button nzType="default" (click)="cancelQACard()">Hủy</button>
     <button nz-button nzType="primary" (click)="createQACard()">Tạo mới</button>
   </div>
-  
 </nz-modal>

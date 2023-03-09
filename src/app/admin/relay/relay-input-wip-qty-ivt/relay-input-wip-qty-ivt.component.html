@@ -1,0 +1,111 @@
+<nz-tabset>
+  <nz-tab nzTitle="Input Data">
+    <nz-collapse>
+      <nz-collapse-panel [nzHeader]="'Thông tin'" [nzActive]="true">
+        <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+          <div nz-col nzXs="24" nzSm="24" nzLg="24">
+            <table id="infoTbl" #infoTbl nzBordered nzSize="small" nzFrontPagination="false">
+              <tbody>
+                <tr>
+                  <td><label style="color: black">QA Card</label></td>
+                  <td colSpan="2">
+                    <nz-select ngModel="lucy" nzPlaceHolder="Scan / Chọn QA card" nzShowSearch nzAllowClear>
+                      <!-- <nz-option
+                              *ngFor="let qa of qaCards"
+                              [nzValue]="qa.qaCard"
+                              [nzLabel]="qa.qaCard"
+                            ></nz-option> -->
+                    </nz-select>
+                    <ng-template #suffixIconSearch>
+                      <i nz-icon nzType="search"></i>
+                    </ng-template>
+                  </td>
+                  <td>
+                    <nz-select ngModel="lucy" nzPlaceHolder="Chọn WIP" nzShowSearch nzAllowClear></nz-select>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="width: 25%">
+                    <label>Model:</label>&nbsp;<span>ACTB3CR2A59P</span>
+                  </td>
+                  <td style="width: 25%">
+                    <label>Line:</label>&nbsp;<span>TB2</span>
+                  </td>
+                  <td style="width: 25%">
+                    <label>Date:</label>&nbsp;<span>2023-02-14</span>
+                  </td>
+                  <td style="width: 25%">
+                    <label>Shift:</label>&nbsp;<span>B</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label style="color: black">Date Code</label>
+                  </td>
+                  <td>
+                    <input nz-input placeholder="Nhập Date Code" />
+                  </td>
+                  <td>
+                    <label style="color: black">Số lượng</label>
+                  </td>
+                  <td>
+                    <input nz-input placeholder="Nhập số lượng" />
+                  </td>
+                </tr>
+                <tr>
+                  <td colSpan="4">
+                    <button nz-button nzType="primary" style="float: right">
+                      <span nz-icon nzType="save" style="color: white"></span>
+                      Lưu lại
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </nz-collapse-panel>
+    </nz-collapse>
+  </nz-tab>
+  <nz-tab nzTitle="Search Condition"></nz-tab>
+</nz-tabset>
+
+<div id="printLabel">
+
+
+  <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+    <div nz-col nzXs="5" nzSm="5" nzLg="5">
+      <table class="calibration-label">
+        <thead>
+          <th colSpan="5">
+            <div class="header">CALIBRATION</div>
+          </th>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="title">ID: </span><span class="value">RE-MA-69-04</span></td>
+            <td style="border-left: 1px solid #ccc;"><span class="title" >By: </span><span class="value">PIDVN</span></td>
+          </tr>
+          <tr>
+            <td class="title"><span class="title">Date: </span><span class="value">24-Nov-2022</span></td>
+            <td class="value" rowspan="2" style="border-top: 1px solid #ccc; border-left: 1px solid #ccc; text-align: center;">
+              <qrcode [qrdata]="'ACD-SPIH-15'" [allowEmptyString]="true" [cssClass]="'center'" [elementType]="'img'"
+                [errorCorrectionLevel]="'M'" [margin]="4" [scale]="1" [width]="20"></qrcode>
+            </td>
+          </tr>
+          <tr>
+            <td class="title"><span class="title">Due: </span><span class="value">24-Nov-2023</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+
+
+
+  </div>
+
+
+</div>
+<button printSectionId="printLabel" ngxPrint [useExistingCss]="true">Print</button>

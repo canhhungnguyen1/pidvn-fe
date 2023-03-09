@@ -56,6 +56,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'relay-input-wip-qty-ivt',
+        loadChildren: () =>
+          import(
+            './relay-input-wip-qty-ivt/relay-input-wip-qty-ivt.module'
+          ).then((m) => m.RelayInputWipQtyIvtModule),
+      },
+      {
         path: 'vr-enc-process-recording',
         loadChildren: () =>
           import(

@@ -15,7 +15,7 @@
             <tr>
               <th><label style="color: black">QA Card</label></th>
               <th colSpan="4">
-                <nz-input-group [nzSuffix]="suffixIconSearch">
+                <!-- <nz-input-group [nzSuffix]="suffixIconSearch">
                   <input
                     #infoIpt
                     type="text"
@@ -26,7 +26,20 @@
                     (click)="infoIpt.select()"
                     style="font-weight: bold"
                   />
-                </nz-input-group>
+                </nz-input-group> -->
+                <nz-select
+                  ngModel="lucy"
+                  nzShowSearch
+                  nzAllowClear
+                  [(ngModel)]="qaCard"
+                  (ngModelChange)="scanInfo(qaCard)"
+                >
+                  <nz-option
+                    *ngFor="let qa of qaCards"
+                    [nzValue]="qa.qaCard"
+                    [nzLabel]="qa.qaCard"
+                  ></nz-option>
+                </nz-select>
                 <ng-template #suffixIconSearch>
                   <i nz-icon nzType="search"></i>
                 </ng-template>
@@ -86,7 +99,7 @@
             <tr *ngFor="let data of dateCodeTbl.data">
               <td>{{ data.dateCode }}</td>
               <td style="text-align: right">
-                {{ data.qty | number: "1.0-3" }}
+                {{ data.qty | number : "1.0-3" }}
               </td>
               <td>{{ data.employeeName }}</td>
               <td style="text-align: center">
@@ -214,7 +227,5 @@
       ></dxo-pager>
     </dx-data-grid>
   </nz-tab>
-  <nz-tab nzTitle="Dữ liệu Packing">
-
-  </nz-tab>
+  <nz-tab nzTitle="Dữ liệu Packing"> </nz-tab>
 </nz-tabset>

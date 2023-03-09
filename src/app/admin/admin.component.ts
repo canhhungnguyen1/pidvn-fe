@@ -36,6 +36,8 @@ export class AdminComponent implements OnInit {
   eConfirmCheckInLink!: string;
   qmsLink!: string;
   contractLink!: string;
+  paymentLink!: string;
+  
   listExpired!: string;
   listOpLine!: string;
   skillMapRelayLinks = [
@@ -79,13 +81,61 @@ export class AdminComponent implements OnInit {
       line: 'TE2',
       link: `http://10.92.176.57:6969/Manufacturing/Monitoring/skillmap/checkskill?line=TE2`
     },
+    {
+      line: 'TE3',
+      link: `http://10.92.176.57:6969/Manufacturing/Monitoring/skillmap/checkskill?line=TE3`
+    },
+    {
+      line: 'TC1',
+      link: `http://10.92.176.57:6969/Manufacturing/Monitoring/skillmap/checkskill?line=TC1`
+    },
   ];
 
   skillMapVrEncLinks = [
     {
+      line: '11G2-1',
+      link: `http://10.92.176.57:6969/Manufacturing/Monitoring/skillmap/checkskill?line=11G2-1`
+    },
+    {
+      line: '11G2-2',
+      link: `http://10.92.176.57:6969/Manufacturing/Monitoring/skillmap/checkskill?line=11G2-2`
+    },
+    {
+      line: '11G2-3',
+      link: `http://10.92.176.57:6969/Manufacturing/Monitoring/skillmap/checkskill?line=11G2-3`
+    },
+    {
+      line: '11GS-1',
+      link: `http://10.92.176.57:6969/Manufacturing/Monitoring/skillmap/checkskill?line=11GS-1`
+    },
+    {
       line: '11GS-2',
       link: `http://10.92.176.57:6969/Manufacturing/Monitoring/skillmap/checkskill?line=11GS-2`
-    }
+    },
+    {
+      line: '11GS-3',
+      link: `http://10.92.176.57:6969/Manufacturing/Monitoring/skillmap/checkskill?line=11GS-3`
+    },
+    {
+      line: '11GS-4',
+      link: `http://10.92.176.57:6969/Manufacturing/Monitoring/skillmap/checkskill?line=11GS-4`
+    },
+    {
+      line: 'SWB G1-1',
+      link: `http://10.92.176.57:6969/Manufacturing/Monitoring/skillmap/checkskill?line=SWB G1-1`
+    },
+    {
+      line: 'SWB G1-2',
+      link: `http://10.92.176.57:6969/Manufacturing/Monitoring/skillmap/checkskill?line=SWB G1-2`
+    },
+    {
+      line: 'SWB G2-3',
+      link: `http://10.92.176.57:6969/Manufacturing/Monitoring/skillmap/checkskill?line=SWB G2-3`
+    },
+    {
+      line: 'SWB G2-4',
+      link: `http://10.92.176.57:6969/Manufacturing/Monitoring/skillmap/checkskill?line=SWB G2-4`
+    },
   ]
 
   fgWarehouseLink!: string;
@@ -109,6 +159,9 @@ export class AdminComponent implements OnInit {
     this.eConfirmCheckInLink = `http://10.92.176.57:6969/Leave/Handle/confirm_in/menu?accessToken=${accessToken}`
     this.qmsLink = `http://10.92.176.57:6969/QMS/Handle/QMS/menu?accessToken=${accessToken}`
     this.contractLink = `http://10.92.176.57:6969/Contract/Handle/contract/menu?accessToken=${accessToken}`
+    this.paymentLink = `http://10.92.176.57:6969/Payment/Handle/payment/menu?accessToken=${accessToken}`
+
+    
     //this.listExpired = `http://10.92.176.57:6969/Manufacturing/Monitoring/MA/exam/list_expired`;
     this.listOpLine = `http://10.92.176.57:6969/Manufacturing/Monitoring/MA/exam/list_op_inline`;
     this.fgWarehouseLink = `http://10.92.176.57:6969/Manufacturing/Monitoring/fg?accessToken=${accessToken}`
@@ -117,7 +170,7 @@ export class AdminComponent implements OnInit {
     this.checkExpiryDateRelayLink = `http://10.92.176.57:6969/Manufacturing/Monitoring/MA/exam/list_expired?area=Relay`
     this.examTestVrEncLink = `http://10.92.176.57:6969/Manufacturing/Monitoring/MA/exam?area=EMC`
     this.checkExpiryDateVrEncLink = `http://10.92.176.57:6969/Manufacturing/Monitoring/MA/exam/list_expired?area=EMC`
-    this.bangQuanLyKyNangPIHLink = `http://10.92.176.57:6969/PIH/Monitoring/exam/skill_control`
+    this.bangQuanLyKyNangPIHLink = `http://10.92.176.57:6969/PIH/Monitoring/exam/skill_control?accessToken=${accessToken}`
   }
 
   weatherInfo: any;

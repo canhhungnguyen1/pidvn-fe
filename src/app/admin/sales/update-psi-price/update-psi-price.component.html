@@ -1,6 +1,92 @@
 <nz-breadcrumb>
-  <nz-breadcrumb-item>Sales</nz-breadcrumb-item>
-  <nz-breadcrumb-item>Update PSI price</nz-breadcrumb-item>
+  <nz-breadcrumb-item>Home</nz-breadcrumb-item>
+  <nz-breadcrumb-item>English Conversation</nz-breadcrumb-item>
+  <nz-breadcrumb-item>Cảnh Hưng (Test)</nz-breadcrumb-item>
+  
 </nz-breadcrumb>
-<br />
-<button nz-button nzType="primary">Update PSI price</button>
+
+<div nz-row nzJustify="start" nzAlign="top" [nzGutter]="24">
+  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="16">
+    <nz-card>
+      <video
+        id="video-media"
+        width="100%"
+        controls
+        #videoPlayer
+        src="https://storage.googleapis.com/media-session/caminandes/short.mp4" crossorigin="anonymous" preload="metadata"
+      >
+      <track kind="captions" srclang="en" src="https://static.3playmedia.com/p/files/6157318/threeplay_transcripts/18335056.vtt?project_id=10127&format_id=51&refresh=1620709875" default="" />
+      <track kind="captions" srclang="en-GB" src="https://static.3playmedia.com/p/files/6157318/threeplay_transcripts/18335056.vtt?project_id=10127&format_id=51&refresh=1620709875" />
+    </video>
+    </nz-card>
+  </div>
+  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="8">
+    <nz-card>
+      <nz-tabset [nzSize]="'default'">
+        <nz-tab nzTitle="Đoạn hội thoại">
+          <nz-table
+            #subTitleTable
+            id="subtitleTbl"
+            [nzData]="subTitles"
+            nzBordered
+            nzSize="small"
+            nzFrontPagination="false"
+            [nzScroll]="{ x: '900', y: '510px' }"
+          >
+            <tbody>
+              <tr
+                id="subTitle"
+                *ngFor="let data of subTitleTable.data; let i = index"
+                (click)="subtitleClick(data,i)"
+                [class.active]="i == highlightRow"
+              >
+                <td
+                  style="width: 10%"
+                  [nzShowCheckbox]="true"
+                  (nzCheckedChange)="onItemChecked(data.id, $event)"
+                  [nzChecked]="setOfCheckedId.has(data.id)"
+                ></td>
+                <td>
+                  <div nz-row nzJustify="end" [nzGutter]="24">
+                    <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12">
+                      
+                    </div>
+                    <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12">
+                      <!-- <nz-tag class="time" [nzColor]="'geekblue'">{{ data.id }}</nz-tag> -->
+                      <nz-tag class="time">{{ data.startTime }} - {{ data.endTime }}</nz-tag>
+                    </div>
+                  </div>
+                  <div nz-row nzJustify="start" [nzGutter]="24">
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24">
+                      <ul>
+                        <li class="en-sub">{{ data.enSub }}</li>
+                        <li class="vn-sub">{{ data.vnSub }}</li>
+                      </ul>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </nz-table>
+          <div nz-row nzJustify="start" nzAlign="top" [nzGutter]="24">
+            <div nz-col nzXs="18" nzSm="18" nzMd="18" nzLg="18">
+              <input nz-input placeholder="Tên đoạn hội thoại" [(ngModel)]="conversationName" />
+            </div>
+            <div nz-col nzXs="6" nzSm="6" nzMd="6" nzLg="6">
+              <button
+                nz-button
+                nzType="primary"
+                style="width: 100%"
+                (click)="onCreate()"
+              >
+                Tạo mới
+              </button>
+            </div>
+          </div>
+        </nz-tab>
+
+        <nz-tab nzTitle="Đoạn đã lưu">Đoạn đã lưu</nz-tab>
+      </nz-tabset>
+    </nz-card>
+  </div>
+</div>

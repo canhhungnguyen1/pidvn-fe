@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { HrEmpCourseService } from '../../services/hr-emp-course.service';
 
 @Component({
   selector: 'app-hr-emp-course-item',
@@ -7,17 +9,30 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HrEmpCourseItemComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private hrEmpCourseSvc: HrEmpCourseService,
+    private jwtHelperService: JwtHelperService
+  ) { }
+
+  dataSource: any;
 
   ngOnInit(): void {
+    this.getCourseGroups();
   }
 
-  dataSource = [
-    {
-      courseName: 'Đào tạo an toàn khi thực hiện 5S',
-      
-    }
-  ]
+  getCourseGroups() {
+    let username = this.jwtHelperService.decodeToken(
+      localStorage.getItem('accessToken')?.toString()
+    ).Username;
+
+    this.hrEmpCourseSvc.getCourseGroups().subscribe(
+      response => {
+        this.dataSource = response
+      }
+    )
+  }
+
+  
 
 
 

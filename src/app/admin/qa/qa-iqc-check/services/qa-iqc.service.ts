@@ -57,4 +57,13 @@ export class QaIqcService {
       { responseType: 'blob' }
     );
   }
+
+  public getConfigAudit(): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/QA/IqcCheck/ConfigAudit`);
+  }
+
+  public changeConfigAudit(configValue: string): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/QA/IqcCheck/ChangeConfigAudit?configValue=${configValue}`);
+  }
+
 }
