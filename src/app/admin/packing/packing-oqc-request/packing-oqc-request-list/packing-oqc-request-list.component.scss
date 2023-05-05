@@ -3,6 +3,10 @@
     color: unset;
 }
 
+nz-select {
+    width: 100%;
+}
+
 #infoTbl, #detailTbl {
     label {
         font-weight: bold;
@@ -18,3 +22,8 @@
     }
 }
 
+// #dateCodeTbl {
+//     #sorting {
+//         background: goldenrod;
+//     }
+// }

@@ -1,4 +1,23 @@
+// Style cho dòng NG
 .dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused):not(.dx-row-removed) > td {
     background-color: red;
     color: unset;
 }
+
+
+// 
+nz-collapse {
+    label {
+        font-weight: bold;
+    }
+    nz-select {
+        width: 100%;
+    }
+}
+
+
+// ::ng-deep .delivery-date-column {
+//     color: blue;
+// }
+
+

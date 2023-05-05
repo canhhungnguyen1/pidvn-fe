@@ -108,12 +108,12 @@ export class PihProcessRecordingInsertComponent implements OnInit {
     this.scanner.qty = Number(result[2]);
     this.scanner.label = result[3];
 
-    let cpn = result[3].split('*');
-    this.label = `${cpn[0]}*${cpn[1]}*${cpn[2]}*${cpn[3]}`;
-    this.scanner.sequence = parseInt(cpn[4]);
+    let plotno = result[3].split('*');
+    this.label = `${plotno[0]}*${plotno[1]}*${plotno[2]}*${plotno[3]}`;
+    this.scanner.sequence = parseInt(plotno[4]);
 
     let searchVo = {
-      cpn: this.label,
+      plotno: this.label,
       recordType: 'PIC',
     };
     this.pihPRSvc.getMaterials(searchVo).subscribe((response) => {
@@ -138,9 +138,11 @@ export class PihProcessRecordingInsertComponent implements OnInit {
     this.pihPRSvc.scanCoil(params).subscribe((response: any) => {
       console.log(response);
       if (response.status == 'ERROR') {
+        debugger
         this.isError = true;
         this.errMsg = response.message;
         this.newCoilIpt.nativeElement.select();
+        this.scanner.newCoil = ''
         return;
       }
 

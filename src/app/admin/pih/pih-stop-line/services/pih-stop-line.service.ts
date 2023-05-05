@@ -64,4 +64,12 @@ export class PihStopLineService {
     return this.httpClient.delete(`${this.baseUrl}/PIH/StopLine/StopTime/${id}`)
   }
 
+  public getProductTypeIdByUser(username: string): Observable<any> {
+    return this.httpClient.get(
+      `${this.baseUrl}/PIH/StopLine/ProductTypeIdByUser?username=${username}`
+    );
+  }
+
+
+
 }

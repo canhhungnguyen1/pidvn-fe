@@ -5,6 +5,7 @@ import { PackingRoutingModule } from './packing-routing.module';
 import { PackingComponent } from './packing.component';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 
+
 @NgModule({
   declarations: [
     PackingComponent,
@@ -12,7 +13,7 @@ import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
   imports: [
     CommonModule,
     PackingRoutingModule,
-    NzBreadCrumbModule
+    NzBreadCrumbModule,
   ]
 })
 export class PackingModule { }

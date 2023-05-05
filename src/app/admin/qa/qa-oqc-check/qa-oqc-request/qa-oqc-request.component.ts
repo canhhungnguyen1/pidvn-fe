@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { QaOqcService } from '../services/qa-oqc.service';
+import notify from 'devextreme/ui/notify';
 
 @Component({
   selector: 'app-qa-oqc-request',
@@ -8,19 +9,47 @@ import { QaOqcService } from '../services/qa-oqc.service';
   styleUrls: ['./qa-oqc-request.component.scss'],
 })
 export class QaOqcRequestComponent implements OnInit {
-  constructor(private router: Router, private qaOqcSvc: QaOqcService) {}
+  constructor(private router: Router, private qaOqcSvc: QaOqcService) {
+    this.settingsButtonOptions = {
+      text: 'Settings',
+      onClick: () => {
+        notify('Settings option has been clicked!');
+      },
+    };
 
-  searchVo: any;
+    this.printButtonOptions = {
+      text: 'Print',
+      onClick: () => {
+        notify('Print option has been clicked!');
+      },
+    };
+  }
+
+  searchParams = {
+    requestStatusList: [],
+    requestDateRange: [new Date().setDate(new Date().getDate()-7), new Date()]
+  }
+
+  settingsButtonOptions: any;
+  printButtonOptions: any
 
   ngOnInit(): void {
-    this.getOqcRequests({});
+    this.getOqcRequests(this.searchParams);
   }
 
   oqcRequests: any;
 
-  getOqcRequests(filter: any) {
-    this.qaOqcSvc.getOqcRequests(filter).subscribe((response) => {
+  status: any = [
+    { id: 1, value: 'Chờ xử lý' },
+    { id: 2, value: 'Đang xử lý' },
+    { id: 3, value: 'Đã xử lý' },
+  ];
+
+  getOqcRequests(searchVo: any) {
+    this.qaOqcSvc.getOqcRequests(searchVo).subscribe((response) => {
       this.oqcRequests = response;
+      console.log('oqcRequests: ', this.oqcRequests);
+      
     });
   }
 
@@ -46,17 +75,34 @@ export class QaOqcRequestComponent implements OnInit {
   }
 
   onRowPrepared(event: any) {
-    if (event.rowType === 'data') { 
+    if (event.rowType === 'data') {
       if (event.key.judgment === 'NG') {
         event.rowElement.style.backgroundColor = 'red';
-          // or
-          event.rowElement.classList.add('my-class');
-          // to override alternation color
-          event.rowElement.className = event.rowElement.className.replace(
-            'dx-row-alt',
-            ''
-          );
+        // or
+        event.rowElement.classList.add('my-class');
+        // to override alternation color
+        event.rowElement.className = event.rowElement.className.replace(
+          'dx-row-alt',
+          ''
+        );
       }
     }
+  }
+
+  onExportClient(event: any) {}
+
+  onSearch() {
+    console.log('searchParams: ', this.searchParams);
+    
+    this.qaOqcSvc.getOqcRequests(this.searchParams).subscribe(
+      response => {
+        this.oqcRequests = response
+      }
+    ); 
+
+
+
+
+
   }
 }

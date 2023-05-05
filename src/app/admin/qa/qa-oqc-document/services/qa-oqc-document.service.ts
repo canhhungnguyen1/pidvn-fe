@@ -26,6 +26,16 @@ export class QaOqcDocumentService {
     });
   }
 
+  /**
+   * Lấy các tài liệu của PE phát thành theo model
+   * @param model 
+   * @returns 
+   */
+  public getDocumentsPE(model: string): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/QA/OqcDocument/DocumentsPE?model=${model}`)
+  }
+
+
   public deleteDocument(id: number): Observable<any> { 
     return this.httpClient.delete(`${this.baseUrl}/QA/OqcDocument/Document/${id}`);
   }
@@ -37,6 +47,21 @@ export class QaOqcDocumentService {
   public previewFile(file: any) {
     return this.httpClient.post<any>(
       `${this.baseUrl}/QA/OqcDocument/Preview`,
+      file,
+      {
+        responseType: 'arraybuffer' as 'json',
+      }
+    );
+  }
+
+  /**
+   * Xem tài liêu PE phát hành
+   * @param file 
+   * @returns 
+   */
+  public previewDocumentPE(file: any) {
+    return this.httpClient.post<any>(
+      `${this.baseUrl}/QA/OqcDocument/PreviewDocumentPE`,
       file,
       {
         responseType: 'arraybuffer' as 'json',

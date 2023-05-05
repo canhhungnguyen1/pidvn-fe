@@ -34,6 +34,7 @@ export class RelayDatecodeComponent implements OnInit, AfterViewInit {
 
   isOpenModal: boolean = false;
   isLoading: boolean = false;
+  customerCode: any;
 
   dateCodeSave = {
     qaCard: null,
@@ -76,6 +77,10 @@ export class RelayDatecodeComponent implements OnInit, AfterViewInit {
 
   //qaCardSelected: any;
 
+  /**
+   * Scan QA card, lấy dữ liệu DateCode và Customer Code
+   * @param event 
+   */
   scanInfo(event: any) {
     let data = event;
     this.qaCardInfo.value = data;
@@ -94,12 +99,22 @@ export class RelayDatecodeComponent implements OnInit, AfterViewInit {
     //this.infoIpt.nativeElement.select();
 
     this.getDateCodes(data);
+    this.getCustomerCodeByQACard(data);
   }
 
   getDateCodes(qaCard: string | null) {
     this.reDateCodeSvc.getDateCodes(qaCard).subscribe((response) => {
       this.dateCodes = response;
     });
+  }
+
+  getCustomerCodeByQACard(qaCard: string) {
+    this.reDateCodeSvc.getQACardByValue(qaCard).subscribe(
+      response => {
+        console.log('getQACardByValue: ', response);
+        this.customerCode = response.customerCode
+      }
+    )
   }
 
   onCancel() {

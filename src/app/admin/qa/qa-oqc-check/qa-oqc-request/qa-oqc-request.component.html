@@ -5,8 +5,48 @@
 </nz-breadcrumb>
 <br />
 
+<nz-collapse>
+  <nz-collapse-panel nzHeader="Tìm kiếm" [nzActive]="true" [nzShowArrow]="true">
+    <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+      <div nz-col nzXs="12" nzSm="12" nzLg="5">
+        <label nzXs="24" nzSm="24" nzLg="24">Trạng thái</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <nz-select
+            nzPlaceHolder="Trạng thái"
+            nzAllowClear
+            nzMode="multiple"
+            [nzMaxTagCount]="3"
+            [(ngModel)]="searchParams.requestStatusList"
+            [nzDropdownMatchSelectWidth]="false"
+          >
+            <nz-option [nzValue]="1" nzLabel="Chờ xử lý"></nz-option>
+            <nz-option [nzValue]="2" nzLabel="Đang xử lý"></nz-option>
+            <nz-option [nzValue]="3" nzLabel="Đã xử lý"></nz-option>
+          </nz-select>
+          <!-- <ng-template #tagPlaceHolder let-selectedList>and {{ selectedList.length }} more selected</ng-template> -->
+        </div>
+      </div>
+
+      <div nz-col nzXs="12" nzSm="12" nzLg="5">
+        <label nzXs="24" nzSm="24" nzLg="24">Ngày request</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <nz-range-picker [(ngModel)]="searchParams.requestDateRange" nzFormat="yyyy-MM-dd" nzMode="date">
+          </nz-range-picker>
+        </div>
+      </div>
+      <div nz-col nzXs="12" nzSm="12" nzLg="5">
+        <label nzXs="24" nzSm="24" nzLg="24">&nbsp;</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <button nz-button nzType="primary" (click)="onSearch()">Search</button>
+        </div>
+      </div>
+    </div>
+  </nz-collapse-panel>
+</nz-collapse>
+
 <dx-data-grid
   id="gridContainer"
+  style="margin-top: 5px"
   [dataSource]="oqcRequests"
   [remoteOperations]="false"
   [allowColumnReordering]="true"
@@ -17,48 +57,122 @@
   [showRowLines]="true"
   [showBorders]="true"
   (onRowPrepared)="onRowPrepared($event)"
+  (onExporting)="onExportClient($event)"
 >
   <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+  <dxo-export [enabled]="true"></dxo-export>
+  <dxo-column-chooser #columnChooser [enabled]="true" [mode]="'select'">
+  </dxo-column-chooser>
+
+  <dxo-toolbar>
+    <dxi-item name="exportButton"></dxi-item>
+    <dxi-item name="columnChooserButton"></dxi-item>
+    <dxi-item
+      widget="dxButton"
+      locateInMenu="always"
+      [options]="printButtonOptions"
+    >
+    </dxi-item>
+    <dxi-item
+      widget="dxButton"
+      locateInMenu="always"
+      [options]="settingsButtonOptions"
+    >
+    </dxi-item>
+  </dxo-toolbar>
 
   <dxo-filter-row [visible]="true"></dxo-filter-row>
   <dxi-column caption="Mã request" dataField="reqNo"></dxi-column>
-  <dxi-column caption="QA card" dataField="qaCard"></dxi-column>
+  <dxi-column
+    caption="QA card"
+    dataField="qaCard"
+    [visible]="false"
+  ></dxi-column>
+  <dxi-column caption="Model" dataField="model"></dxi-column>
+  <dxi-column caption="Shift" dataField="shift" alignment="center" width="45"></dxi-column>
   <dxi-column caption="Date Code" dataField="dateCode"></dxi-column>
   <dxi-column
-    caption="Số lượng"
+    caption="Qty"
     dataField="qty"
     dataType="number"
     format="#,##0"
+    width="60"
   ></dxi-column>
-  <dxi-column caption="Người request" dataField="createdByName"></dxi-column>
   <dxi-column
-    caption="Ngày request"
+    caption="Người request"
+    dataField="createdByName"
+    [visible]="false"
+  ></dxi-column>
+  <dxi-column
+    caption="Ngày tạo"
     dataField="createdAt"
     dataType="date"
     format="yyyy-MM-dd"
+    alignment="center"
+    width="88"
   ></dxi-column>
 
   <dxi-column
-    caption="Status"
-    dataField="requestStatusId"
-    cellTemplate="statusTemplate"
-  ></dxi-column>
-  <div *dxTemplate="let item of 'statusTemplate'" style="text-align: center">
-    <span>{{ item.data.requestStatusName }}</span>
-  </div>
+    caption="Ngày xuất"
+    dataField="deliveryDate"
+    dataType="date"
+    format="yyyy-MM-dd"
+    alignment="center"
+    cellTemplate="deliveryDateTemplate"
+    width="85"
+  >
+    <div
+      *dxTemplate="let item of 'deliveryDateTemplate'"
+      style="text-align: center; color: blue;"
+    >
+      <span>{{ item.data.deliveryDate | date: "yyyy-MM-dd" }}</span>
+    </div>
+  </dxi-column>
+
+  
+
+  <dxi-column caption="Remark" dataField="remark" width="100"></dxi-column>
+
   <dxi-column
-    caption="Kết quả"
+    [fixed]="true"
+    fixedPosition="right"
+    caption="Result"
     dataField="judgment"
     cellTemplate="judgmentTemplate"
+    width="60"
   >
     <div
       *dxTemplate="let item of 'judgmentTemplate'"
-      style="text-align: center; font-weight: bold;"
+      style="text-align: center; font-weight: bold"
     >
       <span>{{ item.data.judgment }}</span>
     </div>
   </dxi-column>
-  <dxi-column caption="Độ ưu tiên" dataField="priorityName"></dxi-column>
+  <dxi-column caption="Status" dataField="requestStatusName" alignment="center">
+    <dxo-lookup
+      [dataSource]="[
+        { id: 1, value: 'Chờ xử lý' },
+        { id: 2, value: 'Đang xử lý' },
+        { id: 3, value: 'Đã xử lý' }
+      ]"
+      displayExpr="value"
+      valueExpr="value"
+    >
+    </dxo-lookup>
+  </dxi-column>
+  <dxi-column
+    [fixed]="true"
+    fixedPosition="right"
+    caption="Độ ưu tiên"
+    dataField="priorityName"
+    alignment="center"
+    width="85"
+  >
+    <div *dxTemplate="let item of 'statusTemplate'">
+      <i nz-icon nzType="caret-up" nzTheme="outline" *ngIf=""></i>
+      <span>{{ item.data.requestStatusName }}</span>
+    </div>
+  </dxi-column>
   <dxi-column
     caption="Action"
     cellTemplate="actionTemplate"
@@ -74,7 +188,7 @@
           qaCard: item.data.qaCard,
           requestStatus: item.data.requestStatusId
         }"
-        style="color: blue"
+        style="color: green"
       >
         Đánh giá
       </a>
@@ -84,8 +198,24 @@
         nzType="default"
         (click)="handleRequest(item)"
       >
-        Tiếp nhận xử lý
+        Tiếp nhận
       </button>
     </div>
   </dxi-column>
+
+  <dxo-paging [pageSize]="20"></dxo-paging>
+  <dxo-pager
+    [showPageSizeSelector]="true"
+    [allowedPageSizes]="[10, 15, 20, 25, 50, 100]"
+  >
+  </dxo-pager>
+
+  <dxo-summary>
+    <dxi-total-item column="reqNo" summaryType="count"></dxi-total-item>
+    <dxi-total-item
+      column="qty"
+      summaryType="sum"
+      valueFormat="#,##0"
+    ></dxi-total-item>
+  </dxo-summary>
 </dx-data-grid>

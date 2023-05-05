@@ -15,6 +15,10 @@ export class PackingOqcRequestService {
     return this.httpClient.post(`${this.baseUrl}/Packing/OqcRequest/Request`, oqcReq)
   }
 
+  public updateOqcRequest(oqcReq: any) : Observable<any> {
+    return this.httpClient.put(`${this.baseUrl}/Packing/OqcRequest/Request`, oqcReq)
+  }
+
   public getOqcRequestStatus(): Observable<any> {
     return this.httpClient.get(`${this.baseUrl}/Api/OqcRequestStatus/All`)
   }

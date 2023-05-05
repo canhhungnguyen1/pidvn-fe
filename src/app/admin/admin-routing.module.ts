@@ -93,6 +93,14 @@ const routes: Routes = [
         loadChildren: () => import('./packing/packing.module').then(m => m.PackingModule)
       },
       {
+        path: 'accounting',
+        loadChildren: () => import('./accounting/accounting.module').then(m => m.AccountingModule)
+      },
+      {
+        path: 'pe',
+        loadChildren: () => import('./pe/pe.module').then(m => m.PeModule)
+      },
+      {
         path: 'welcome',
         component: WelcomeComponent,
         canActivate: [],

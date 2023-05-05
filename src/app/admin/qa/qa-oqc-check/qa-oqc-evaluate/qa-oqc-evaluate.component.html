@@ -6,7 +6,7 @@
 <br />
 <nz-collapse>
   <nz-collapse-panel [nzHeader]="headerTitle" [nzActive]="true">
-    <table id="infoTable">
+    <table id="infoTable" *ngIf="requestInfo">
       <tbody>
         <tr>
           <td><label>QA Card</label></td>
@@ -16,7 +16,7 @@
           <td
             *ngIf="requestInfo?.judgment"
             id="evaluate"
-            rowspan="2"
+            rowspan="3"
             style="font-size: 20px"
             [style.background]="
               requestInfo?.judgment == 'OK' ? '#1bc742' : 'red'
@@ -30,6 +30,17 @@
           <td>{{ requestInfo?.dateCode }}</td>
           <td><label>Ngày check</label></td>
           <td>{{ requestInfo?.oqcDate | date : "yyyy-MM-dd HH:mm:ss" }}</td>
+        </tr>
+        <tr>
+          <td><label>Trạng thái</label></td>
+          <td>
+            <nz-radio-group [ngModel]="requestInfo.requestStatusId" (ngModelChange)="changeRequestStatus($event)">
+              <div nz-radio [nzValue]="2">Đang xử lý</div>
+              <div nz-radio [nzValue]="3">Đã xử lý</div>
+            </nz-radio-group>
+          </td>
+          <td></td>
+          <td></td>
         </tr>
       </tbody>
     </table>
@@ -65,6 +76,7 @@
 <nz-tabset
   [nzType]="'line'"
   (nzSelectedIndexChange)="nzSelectedIndexChange($event)"
+  [nzSelectedIndex]="1"
 >
   <!-- <nz-tab nzTitle="Master Data">
     <ng-container *ngTemplateOutlet="masterData"></ng-container>
@@ -74,9 +86,13 @@
   <nz-tab nzTitle="Dữ liệu kiểm tra">
     <ng-container *ngTemplateOutlet="dataFile"></ng-container>
   </nz-tab>
+  <nz-tab nzTitle="Tài liệu PE phát hành">
+    <ng-container *ngTemplateOutlet="documentPE"></ng-container>
+  </nz-tab>
   <nz-tab nzTitle="Document">
     <ng-container *ngTemplateOutlet="document"></ng-container>
   </nz-tab>
+  
 </nz-tabset>
 
 <ng-template #masterData>
@@ -253,4 +269,36 @@
       </button>
     </div>
   </nz-modal>
+</ng-template>
+
+<ng-template #documentPE>
+  <dx-data-grid
+    id="gridContainer"
+    [dataSource]="documentsPE"
+    [remoteOperations]="false"
+    [allowColumnReordering]="true"
+    [rowAlternationEnabled]="true"
+    [allowColumnResizing]="true"
+    [columnAutoWidth]="true"
+    [showColumnLines]="true"
+    [showRowLines]="true"
+    [showBorders]="true"
+  >
+    <dxo-filter-row [visible]="true"></dxo-filter-row>
+
+    <dxi-column caption="Issue No" dataField="issueNo"></dxi-column>
+    <dxi-column
+      caption="Doc Group"
+      dataField="docGroupName"
+    ></dxi-column>
+    <!-- <dxi-column caption="Doc Type" dataField="docTypeName"></dxi-column> -->
+    <dxi-column caption="Name" dataField="title"></dxi-column>
+
+
+    <dxi-column caption="Action" cellTemplate="actionTemplate" alignment="center">
+      <div *dxTemplate="let item of 'actionTemplate'">
+        <a (click)="previewDocumentPE(item)" style="color: green">Xem</a>
+      </div>
+    </dxi-column>
+  </dx-data-grid>
 </ng-template>

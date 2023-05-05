@@ -117,6 +117,7 @@
       <th class="text-center">IQC Status</th>
       <th class="text-center">Người request</th>
       <th class="text-center">Ngày tạo</th>
+      <th class="text-center">Ghi chú</th>
       <th class="text-center">Action</th>
     </tr>
   </thead>
@@ -141,6 +142,7 @@
       <td class="text-center">
         {{ item.createdAt | date : "yyyy-MM-dd HH:mm" }}
       </td>
+      <td>{{ item.remark }}</td>
       <td class="text-center">
         <button
           *ngIf="item.status == 1"

@@ -1,8 +1,8 @@
 <nz-tabset>
   <nz-tab nzTitle="Thêm Date Code">
     <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
-      <div nz-col nzXs="24" nzSm="2" nzLg="2"></div>
-      <div nz-col nzXs="24" nzSm="20" nzLg="20">
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="2"></div>
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="20">
         <nz-table
           id="infoTbl"
           #infoTbl
@@ -14,19 +14,7 @@
           <thead>
             <tr>
               <th><label style="color: black">QA Card</label></th>
-              <th colSpan="4">
-                <!-- <nz-input-group [nzSuffix]="suffixIconSearch">
-                  <input
-                    #infoIpt
-                    type="text"
-                    nz-input
-                    placeholder="Scan mã QA Card"
-                    [(ngModel)]="qaCard"
-                    (keydown.enter)="scanInfo($event)"
-                    (click)="infoIpt.select()"
-                    style="font-weight: bold"
-                  />
-                </nz-input-group> -->
+              <th colSpan="5">
                 <nz-select
                   ngModel="lucy"
                   nzShowSearch
@@ -48,27 +36,30 @@
           </thead>
           <tbody>
             <tr>
-              <td style="width: 25%">
+              <td style="width: 20%">
                 <label>Model:</label>&nbsp;<span>{{ qaCardInfo.model }}</span>
               </td>
-              <td style="width: 25%">
+              <td style="width: 20%">
                 <label>Line:</label>&nbsp;<span>{{ qaCardInfo.line }}</span>
               </td>
-              <td style="width: 25%">
+              <td style="width: 20%">
                 <label>Date:</label>&nbsp;<span>{{ qaCardInfo.date }}</span>
               </td>
-              <td style="width: 25%">
+              <td style="width: 20%">
                 <label>Shift:</label>&nbsp;<span>{{ qaCardInfo.shift }}</span>
+              </td>
+              <td style="width: 20%">
+                <label>Customer:</label>&nbsp;<span>{{ customerCode }}</span>
               </td>
             </tr>
           </tbody>
         </nz-table>
       </div>
-      <div nz-col nzXs="24" nzSm="2" nzLg="2"></div>
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="2"></div>
     </div>
     <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
-      <div nz-col nzXs="24" nzSm="2" nzLg="2"></div>
-      <div nz-col nzXs="24" nzSm="20" nzLg="20">
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="2"></div>
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="20">
         <nz-table
           id="dateCodeTbl"
           #dateCodeTbl
@@ -117,7 +108,7 @@
           </tbody>
         </nz-table>
       </div>
-      <div nz-col nzXs="24" nzSm="2" nzLg="2"></div>
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="2"></div>
     </div>
 
     <nz-modal
@@ -136,6 +127,10 @@
               nzFrontPagination="false"
             >
               <tbody>
+                <tr>
+                  <td><label>Customer Code</label></td>
+                  <td style="color: green; font-weight: bold;">{{customerCode}}</td>
+                </tr>
                 <tr>
                   <td>
                     <label>Date Code</label>

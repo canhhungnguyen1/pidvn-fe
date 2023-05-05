@@ -17,16 +17,26 @@ export class QaOqcService {
     );
   }
 
-  public getOqcRequests(filter: any): Observable<any> {
-    let params = new HttpParams();
-    Object.keys(filter).forEach(
-      (key) => filter[key] && (params = params.append(key, filter[key]))
-    );
+  // public getOqcRequests(filter: any): Observable<any> {
+  //   let params = new HttpParams();
+  //   Object.keys(filter).forEach(
+  //     (key) => filter[key] && (params = params.append(key, filter[key]))
+  //   );
 
-    return this.httpClient.get(`${this.baseUrl}/QA/OqcCheck/Requests`, {
-      params: params,
-    });
+  //   return this.httpClient.get(`${this.baseUrl}/QA/OqcCheck/Requests`, {
+  //     params: params,
+  //   });
+  // }
+
+  /**
+   * 
+   * @param searchVo 
+   * @returns 
+   */
+  public getOqcRequests(searchVo: any): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/QA/OqcCheck/Requests`, searchVo);
   }
+  
 
   public updateOqcRequest(oqcReqVo: any): Observable<any> {
     return this.httpClient.put(`${this.baseUrl}/QA/OqcCheck/Request`, oqcReqVo);

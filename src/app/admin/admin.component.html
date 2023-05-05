@@ -30,6 +30,9 @@
           <li nz-menu-item nzMatchRouter>
             <a routerLink="/admin/is/device-management/list" (click)="onHideSidebar()">Quản lý thiết bị</a>
           </li>
+          <li nz-menu-item nzMatchRouter>
+            <a [href]="itRequestLink" target="blank" (click)="onHideSidebar()">IT Request</a>
+          </li>
         </ul>
       </li>
       <li nz-submenu nzTitle="RELAY" nzIcon="tool">
@@ -87,7 +90,7 @@
                 <a [href]="checkExpiryDateRelayLink">Danh sách hết hạn đánh giá</a>
               </li>
               <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
-                <a [href]="listOpLine">Lịch sử OP trên line</a>
+                <a [href]="listOpLineRelay">Lịch sử OP trên line Relay</a>
               </li>
               <li nz-submenu nzTitle="Line">
                 <ul>
@@ -131,7 +134,7 @@
                 <a [href]="checkExpiryDateVrEncLink">Danh sách hết hạn đánh giá</a>
               </li>
               <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
-                <a [href]="listOpLine">Lịch sử OP trên line</a>
+                <a [href]="listOpLineVR">Lịch sử OP trên line VR</a>
               </li>
               <li nz-submenu nzTitle="Line">
                 <ul>
@@ -147,6 +150,9 @@
       <li nz-submenu nzTitle="ACCOUNTING" nzIcon="wallet">
         <ul>
           <li nz-menu-item nzMatchRouter>
+            <a routerLink="accounting/stk-payment" (click)="onHideSidebar()">Account Payment</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
             <a [href]="contractLink" target="blank">E-Contract</a>
           </li>
           <li nz-menu-item nzMatchRouter>
@@ -154,6 +160,7 @@
           </li>
         </ul>
       </li>
+      
       <li nz-submenu nzTitle="HR & GA" nzIcon="usergroup-add">
         <ul>
           <li nz-menu-item nzMatchRouter>
@@ -217,6 +224,16 @@
           </li>
           <li nz-menu-item nzMatchRouter>
             <a [href]="qmsLink" target="blank">QMS</a>
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu nzTitle="PE" nzIcon="api">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a [href]="eDummyLink" target="blank">E-Dummy</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/admin/pe/std-dummy">Dummy Manager</a>
           </li>
         </ul>
       </li>

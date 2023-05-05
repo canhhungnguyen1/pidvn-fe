@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { LwhChangeQacardComponent } from '../relay-material-management/relay-process-recording/lwh-change-qacard/lwh-change-qacard.component';
 
 @Injectable({
   providedIn: 'root',
@@ -33,5 +34,9 @@ export class RelayDateCodeService {
 
   public getQACards(): Observable<any> {
     return this.httpClient.get(`${this.baseUrl}/Relay/DateCodeMng/QACards`)
+  }
+
+  public getQACardByValue(qaCard: string): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/Relay/DateCodeMng/QACard?qaCard=${qaCard}`)
   }
 }
