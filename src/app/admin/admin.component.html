@@ -316,7 +316,7 @@
         <div nz-col nzXs="12">
           <div nz-row nzJustify="end" nzAlign="middle">
             <img class="supporter" src="./../../assets/images/supporter.png" width="35px" (click)="info()" />
-            <!-- <nz-badge class="notification" [nzCount]="6"><i nz-icon nzType="bell" nzTheme="twotone"></i></nz-badge> -->
+            <nz-badge class="notification" [nzCount]="6"><i nz-icon nzType="bell" nzTheme="twotone"></i></nz-badge>
             <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu">
               <nz-avatar [nzGap]="4" [ngStyle]="{ 'background-color': colorAvatar }" [nzText]="textAvatar"
                 style="vertical-align: middle; margin-top: -5px"></nz-avatar>
@@ -351,18 +351,6 @@
             <i nz-icon nzType="bank"></i>
             <span><a href="https://10.92.176.57:8080" target="_blank">FDCS (Server 1)</a></span>
           </li>
-          <!-- <li nz-submenu nzTitle="E-leave" nzIcon="send" nzOpen="true">
-            <ul>
-              <li nz-menu-item>
-                <a [href]="eLeaveLink" target="blank">Tạo request xin nghỉ</a>
-              </li>
-              <li nz-menu-item>
-                <a [href]="eConfirmCheckInLink" target="blank"
-                  >Xác nhận Check-In / Check-Out</a
-                >
-              </li>
-            </ul>
-          </li> -->
         </ul>
       </ng-container>
     </nz-drawer>
@@ -380,12 +368,14 @@
             (ngModelChange)="changeDefaultLanguage($event)">
             <nz-option nzValue="en" nzLabel="English"></nz-option>
             <nz-option nzValue="vi" nzLabel="Tiếng Việt"></nz-option>
+            <nz-option nzValue="jp" nzLabel="Japanese"></nz-option>
+            <nz-option nzValue="arab" nzLabel="Ả rập xê út"></nz-option>
+            <nz-option nzValue="cn" nzLabel="Tung Của"></nz-option>
           </nz-select>
         </div>
         <div nz-col nzXs="12" nzAlign="middle">
-          <div style="float: right" *ngIf="weatherInfo">
-            <span>{{ weatherInfo?.city_name }}: {{ weatherInfo?.temp }}°C</span>
-            <!-- <img [src]="weatherUrlIcon" width="40px" style="margin-left: 5px" /> -->
+          <div style="float: right">
+            <a id="author" href="https://canhhungnguyen1.github.io/cv-online" target="_blank">Author</a>
           </div>
         </div>
       </div>

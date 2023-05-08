@@ -251,7 +251,7 @@ export class AdminComponent implements OnInit {
           <li>Mr. Thắng: 076 620 2368</li>
           <li>Ms. Yên: 0989 554 217</li>
           <li>Mr. Hà: 0888 694 234</li>
-          <li>Mr. Hưng: 0966 939 859</li>
+          <li><a href='https://canhhungnguyen1.github.io/cv-online' target="_blank">Mr. Hưng: 0966 939 859</a></li>
         </ul>
       `,
     });
