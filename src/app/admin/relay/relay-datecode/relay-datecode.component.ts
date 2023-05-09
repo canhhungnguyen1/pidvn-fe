@@ -34,7 +34,7 @@ export class RelayDatecodeComponent implements OnInit, AfterViewInit {
 
   isOpenModal: boolean = false;
   isLoading: boolean = false;
-  customerCode: any;
+  customerCodes: any;
 
   dateCodeSave = {
     qaCard: null,
@@ -44,7 +44,8 @@ export class RelayDatecodeComponent implements OnInit, AfterViewInit {
     model: null,
     line: null,
     date: new Date(),
-    shift: null
+    shift: null,
+    customerCode: null
   };
 
   ngOnInit(): void {
@@ -112,19 +113,24 @@ export class RelayDatecodeComponent implements OnInit, AfterViewInit {
     this.reDateCodeSvc.getQACardByValue(qaCard).subscribe(
       response => {
         console.log('getQACardByValue: ', response);
-        this.customerCode = response.customerCode
+        this.customerCodes = response.customerCode
+        if (!response.customerCode) {
+          return
+        }
+        this.customerCodes = response.customerCode.split(';');
       }
     )
   }
 
   onCancel() {
+    this.resetModal();
     this.isOpenModal = false;
   }
 
   onSave() {
 
-    if (!this.dateCodeSave.dateCode || !this.dateCodeSave.dateCode) {
-      this.toastr.warning('Cần nhập Date Code và Qty','Warning')
+    if (!this.dateCodeSave.dateCode || !this.dateCodeSave.dateCode || !this.dateCodeSave.customerCode) {
+      this.toastr.warning('Cần nhập DateCode; CustomerCode; Qty','Warning')
       return
     }
 
@@ -146,6 +152,10 @@ export class RelayDatecodeComponent implements OnInit, AfterViewInit {
     this.dateCodeSave.line = this.qaCardInfo.line;
     this.dateCodeSave.shift = this.qaCardInfo.shift;
     this.dateCodeSave.date = new Date(this.qaCardInfo.date);
+    
+
+    console.log('AAA: ', this.dateCodeSave);
+    
 
 
     this.reDateCodeSvc.createDateCode(this.dateCodeSave).subscribe(
@@ -162,9 +172,15 @@ export class RelayDatecodeComponent implements OnInit, AfterViewInit {
         this.isLoading = false;
       }
     )
+
+
+
+
+
   }
 
   resetModal() {
+    this.dateCodeSave.customerCode = null;
     this.dateCodeSave.dateCode = null;
     this.dateCodeSave.qty = 0;
   }
@@ -191,10 +207,18 @@ export class RelayDatecodeComponent implements OnInit, AfterViewInit {
 
     let arr = this.qaCard.split("*");
 
+    // Kiểm tra định dạng QA card
     if (arr.length !== 5 || !this.qaCard.includes('*')) {
       this.toastr.warning('QA card không đúng định dạng','Warning');
       return
     }
+
+    // Kiểm tra QA card đã có customer code chưa
+    if (!this.customerCodes) {
+      this.toastr.warning('QA card không có Customer Code','Warning');
+      return
+    }
+
 
 
     this.isOpenModal = true
