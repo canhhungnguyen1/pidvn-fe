@@ -129,8 +129,13 @@ export class RelayDatecodeComponent implements OnInit, AfterViewInit {
 
   onSave() {
 
-    if (!this.dateCodeSave.dateCode || !this.dateCodeSave.dateCode || !this.dateCodeSave.customerCode) {
-      this.toastr.warning('Cần nhập DateCode; CustomerCode; Qty','Warning')
+    // if (!this.dateCodeSave.dateCode || !this.dateCodeSave.dateCode || !this.dateCodeSave.customerCode) {
+    //   this.toastr.warning('Cần nhập DateCode; CustomerCode; Qty','Warning')
+    //   return
+    // }
+
+    if (!this.dateCodeSave.dateCode || !this.dateCodeSave.dateCode) {
+      this.toastr.warning('Cần nhập DateCode; Qty','Warning')
       return
     }
 
@@ -214,10 +219,10 @@ export class RelayDatecodeComponent implements OnInit, AfterViewInit {
     }
 
     // Kiểm tra QA card đã có customer code chưa
-    if (!this.customerCodes) {
-      this.toastr.warning('QA card không có Customer Code','Warning');
-      return
-    }
+    // if (!this.customerCodes) {
+    //   this.toastr.warning('QA card không có Customer Code','Warning');
+    //   return
+    // }
 
 
 

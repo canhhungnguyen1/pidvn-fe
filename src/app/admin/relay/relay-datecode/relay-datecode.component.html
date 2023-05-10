@@ -7,7 +7,7 @@
           <thead>
             <tr>
               <th><label style="color: black">QA Card</label></th>
-              <th colSpan="4">
+              <th colSpan="2">
                 <nz-select ngModel="lucy" nzShowSearch nzAllowClear [(ngModel)]="qaCard"
                   (ngModelChange)="scanInfo(qaCard)">
                   <nz-option *ngFor="let qa of qaCards" [nzValue]="qa.qaCard" [nzLabel]="qa.qaCard"></nz-option>
@@ -16,6 +16,7 @@
                   <i nz-icon nzType="search"></i>
                 </ng-template>
               </th>
+              <th><label>Code:</label>&nbsp;<span>{{customerCodes}}</span></th>
             </tr>
           </thead>
           <tbody>

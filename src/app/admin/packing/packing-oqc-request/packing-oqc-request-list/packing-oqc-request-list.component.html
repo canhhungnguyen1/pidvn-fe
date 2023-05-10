@@ -241,6 +241,7 @@
         <thead>
           <tr>
             <th>Date Code</th>
+            <th>Customer Code</th>
             <th>Qty</th>
             <th>Người tạo</th>
             <th>Created At</th>
@@ -249,6 +250,7 @@
         <tbody>
           <tr *ngFor="let data of dateCodeTbl.data">
             <td>{{ data.dateCode }}</td>
+            <td>{{ data.customerCode }}</td>
             <td style="text-align: right">
               {{ data.qty | number : "1.0-3" }}
             </td>
@@ -256,7 +258,7 @@
             <td>{{ data.createdAt | date : "yyyy-MM-dd HH:mm" }}</td>
           </tr>
           <tr id="sorting" *ngIf="requestCreate.qaCard">
-            <td><label style="font-weight: bold">Tổng số</label></td>
+            <td colspan="2"><label style="font-weight: bold">Tổng số</label></td>
             <td style="text-align: right">
               <label
                 style="color: green; font-weight: bold"

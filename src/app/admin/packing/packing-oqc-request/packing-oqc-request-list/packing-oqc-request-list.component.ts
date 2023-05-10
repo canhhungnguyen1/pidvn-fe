@@ -160,6 +160,9 @@ export class PackingOqcRequestListComponent implements OnInit {
     this.reDateCodeSvc.getDateCodes(qaCard).subscribe((response) => {
       this.requestCreate.dateCodes = response;
 
+      console.log('dateCodes: ', this.requestCreate.dateCodes);
+      
+
       let totalQty = 0;
 
       this.requestCreate.dateCodes.forEach((element: any) => {
