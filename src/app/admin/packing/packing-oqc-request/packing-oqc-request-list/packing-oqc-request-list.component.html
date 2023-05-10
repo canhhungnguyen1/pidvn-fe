@@ -29,14 +29,20 @@
       <div nz-col nzXs="12" nzSm="12" nzLg="5">
         <label nzXs="24" nzSm="24" nzLg="24">Ngày request</label>
         <div nzXs="24" nzSm="24" nzLg="24">
-          <nz-range-picker [(ngModel)]="searchParams.requestDateRange" nzFormat="yyyy-MM-dd" nzMode="date">
+          <nz-range-picker
+            [(ngModel)]="searchParams.requestDateRange"
+            nzFormat="yyyy-MM-dd"
+            nzMode="date"
+          >
           </nz-range-picker>
         </div>
       </div>
       <div nz-col nzXs="12" nzSm="12" nzLg="5">
         <label nzXs="24" nzSm="24" nzLg="24">&nbsp;</label>
         <div nzXs="24" nzSm="24" nzLg="24">
-          <button nz-button nzType="primary" (click)="onSearch()">Search</button>
+          <button nz-button nzType="primary" (click)="onSearch()">
+            Search
+          </button>
         </div>
       </div>
     </div>
@@ -258,7 +264,9 @@
             <td>{{ data.createdAt | date : "yyyy-MM-dd HH:mm" }}</td>
           </tr>
           <tr id="sorting" *ngIf="requestCreate.qaCard">
-            <td colspan="2"><label style="font-weight: bold">Tổng số</label></td>
+            <td colspan="2">
+              <label style="font-weight: bold">Tổng số</label>
+            </td>
             <td style="text-align: right">
               <label
                 style="color: green; font-weight: bold"

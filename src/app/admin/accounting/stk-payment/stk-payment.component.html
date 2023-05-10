@@ -45,7 +45,6 @@
   <dxi-column caption="Bank" dataField="bank"></dxi-column>
   <dxi-column caption="Branch Name" dataField="branchName"></dxi-column>
 
-
   <dxi-column
     caption="Ngày tạo"
     dataField="createtime"
@@ -65,9 +64,9 @@
         style="color: red"
         nz-popconfirm
         nzPopconfirmTitle="Bạn có chắc chắn xóa không ?"
-        >
+      >
         Xóa
-    </a>
+      </a>
     </div>
   </dxi-column>
 
@@ -95,7 +94,14 @@
           </th>
           <th>Type</th>
           <th>
-            <input nz-input placeholder="Type" [(ngModel)]="stkPayment.type" />
+            <!-- <input nz-input placeholder="Type" [(ngModel)]="stkPayment.type" /> -->
+
+            <nz-select style="width: 100%;"
+              [(ngModel)]="stkPayment.type"
+            >
+              <nz-option nzValue="pana" nzLabel="pana"></nz-option>
+              <nz-option nzValue="outside" nzLabel="outside"></nz-option>
+            </nz-select>
           </th>
         </tr>
         <tr>
@@ -105,7 +111,11 @@
           </th>
           <th>Branch Name</th>
           <th>
-            <input nz-input placeholder="Branch Name" [(ngModel)]="stkPayment.branchName" />
+            <input
+              nz-input
+              placeholder="Branch Name"
+              [(ngModel)]="stkPayment.branchName"
+            />
           </th>
         </tr>
         <tr>
@@ -117,10 +127,16 @@
           <th>
             <input nz-input placeholder="STK" [(ngModel)]="stkPayment.stk" />
           </th>
-        </tr> 
+        </tr>
         <tr>
           <th>Currency</th>
-          <th><input nz-input placeholder="Currency" [(ngModel)]="stkPayment.currency" /></th>
+          <th>
+            <input
+              nz-input
+              placeholder="Currency"
+              [(ngModel)]="stkPayment.currency"
+            />
+          </th>
           <th></th>
           <th></th>
         </tr>

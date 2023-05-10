@@ -3,20 +3,38 @@
     <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
       <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="2"></div>
       <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="20">
-        <nz-table id="infoTbl" #infoTbl [nzData]="['']" nzBordered nzSize="small" nzFrontPagination="false">
+        <nz-table
+          id="infoTbl"
+          #infoTbl
+          [nzData]="['']"
+          nzBordered
+          nzSize="small"
+          nzFrontPagination="false"
+        >
           <thead>
             <tr>
               <th><label style="color: black">QA Card</label></th>
               <th colSpan="2">
-                <nz-select ngModel="lucy" nzShowSearch nzAllowClear [(ngModel)]="qaCard"
-                  (ngModelChange)="scanInfo(qaCard)">
-                  <nz-option *ngFor="let qa of qaCards" [nzValue]="qa.qaCard" [nzLabel]="qa.qaCard"></nz-option>
+                <nz-select
+                  ngModel="lucy"
+                  nzShowSearch
+                  nzAllowClear
+                  [(ngModel)]="qaCard"
+                  (ngModelChange)="scanInfo(qaCard)"
+                >
+                  <nz-option
+                    *ngFor="let qa of qaCards"
+                    [nzValue]="qa.qaCard"
+                    [nzLabel]="qa.qaCard"
+                  ></nz-option>
                 </nz-select>
                 <ng-template #suffixIconSearch>
                   <i nz-icon nzType="search"></i>
                 </ng-template>
               </th>
-              <th><label>Code:</label>&nbsp;<span>{{customerCodes}}</span></th>
+              <th>
+                <label>Code:</label>&nbsp;<span>{{ customerCodes }}</span>
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -42,16 +60,27 @@
     <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
       <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="2"></div>
       <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="20">
-        <nz-table id="dateCodeTbl" #dateCodeTbl [nzData]="dateCodes" nzBordered nzSize="small"
-          nzFrontPagination="false">
+        <nz-table
+          id="dateCodeTbl"
+          #dateCodeTbl
+          [nzData]="dateCodes"
+          nzBordered
+          nzSize="small"
+          nzFrontPagination="false"
+        >
           <thead>
             <tr>
-              <th style="font-weight: bold;">Date Code</th>
-              <th style="font-weight: bold;">Customer Code</th>
-              <th style="font-weight: bold;">Qty</th>
-              <th style="font-weight: bold;">Người tạo</th>
+              <th style="font-weight: bold">Date Code</th>
+              <th style="font-weight: bold">Customer Code</th>
+              <th style="font-weight: bold">Qty</th>
+              <th style="font-weight: bold">Người tạo</th>
               <th style="text-align: center">
-                <button *ngIf="qaCardInfo.value" nz-button nzType="primary" (click)="addDateCode()">
+                <button
+                  *ngIf="qaCardInfo.value"
+                  nz-button
+                  nzType="primary"
+                  (click)="addDateCode()"
+                >
                   <i nz-icon nzType="plus"></i>
                   Thêm Date Code
                 </button>
@@ -68,8 +97,12 @@
               <td>{{ data.employeeName }}</td>
               <td style="text-align: center">
                 <!-- <span class="edit">Sửa</span> | -->
-                <span class="delete" (nzOnConfirm)="deleteDatCode(data)" nz-popconfirm
-                  nzPopconfirmTitle="Bạn chắc chắn xóa Date Code này ?">
+                <span
+                  class="delete"
+                  (nzOnConfirm)="deleteDatCode(data)"
+                  nz-popconfirm
+                  nzPopconfirmTitle="Bạn chắc chắn xóa Date Code này ?"
+                >
                   Xóa
                 </span>
               </td>
@@ -80,38 +113,73 @@
       <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="2"></div>
     </div>
 
-    <nz-modal [(nzVisible)]="isOpenModal" nzTitle="Thêm Date Code cho QA card" nzWidth="650px">
+    <nz-modal
+      [(nzVisible)]="isOpenModal"
+      nzTitle="Thêm Date Code cho QA card"
+      nzWidth="650px"
+    >
       <ng-container *nzModalContent>
         <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
           <div nz-col nzXs="24" nzSm="24" nzLg="24">
-            <nz-table id="addTbl" [nzData]="['']" nzBordered nzSize="small" nzFrontPagination="false">
+            <nz-table
+              id="addTbl"
+              [nzData]="['']"
+              nzBordered
+              nzSize="small"
+              nzFrontPagination="false"
+            >
               <tbody>
                 <tr>
-                  <td><label>Customer Code</label><span style="color: red;">&nbsp;(*)</span></td>
                   <td>
-                    <nz-select nzPlaceHolder="Customer Code" nzShowSearch nzAllowClear
-                      [(ngModel)]="dateCodeSave.customerCode">
-                      <nz-option *ngFor="let code of customerCodes" [nzLabel]="code" [nzValue]="code">
+                    <label>Customer Code</label
+                    ><span style="color: red">&nbsp;(*)</span>
+                  </td>
+                  <td>
+                    <nz-select
+                      nzPlaceHolder="Customer Code"
+                      nzShowSearch
+                      nzAllowClear
+                      [(ngModel)]="dateCodeSave.customerCode"
+                    >
+                      <nz-option
+                        *ngFor="let code of customerCodes"
+                        [nzLabel]="code"
+                        [nzValue]="code"
+                      >
                       </nz-option>
                     </nz-select>
                   </td>
                 </tr>
                 <tr>
                   <td>
-                    <label>Date Code</label><span style="color: red;">&nbsp;(*)</span>
+                    <label>Date Code</label
+                    ><span style="color: red">&nbsp;(*)</span>
                   </td>
                   <td>
-                    <input #dateCodeIpt nz-input placeholder="Date Code" [(ngModel)]="dateCodeSave.dateCode"
-                      (ngModelChange)="onChangeDateCode($event)" (click)="dateCodeIpt.select()" maxlength="7" />
+                    <input
+                      #dateCodeIpt
+                      nz-input
+                      placeholder="Date Code"
+                      [(ngModel)]="dateCodeSave.dateCode"
+                      (ngModelChange)="onChangeDateCode($event)"
+                      (click)="dateCodeIpt.select()"
+                      maxlength="7"
+                    />
                   </td>
                 </tr>
                 <tr>
                   <td>
-                    <label>Qty</label><span style="color: red;">&nbsp;(*)</span>
+                    <label>Qty</label><span style="color: red">&nbsp;(*)</span>
                   </td>
                   <td>
-                    <input #qtyIpt nz-input type="number" placeholder="Qty" [(ngModel)]="dateCodeSave.qty"
-                      (click)="qtyIpt.select()" />
+                    <input
+                      #qtyIpt
+                      nz-input
+                      type="number"
+                      placeholder="Qty"
+                      [(ngModel)]="dateCodeSave.qty"
+                      (click)="qtyIpt.select()"
+                    />
                   </td>
                 </tr>
               </tbody>
@@ -121,31 +189,57 @@
       </ng-container>
       <ng-template [nzModalFooter]>
         <button nz-button nzType="default" (click)="onCancel()">Hủy</button>
-        <button nz-button nzType="primary" (click)="onSave()" [nzLoading]="isLoading">
+        <button
+          nz-button
+          nzType="primary"
+          (click)="onSave()"
+          [nzLoading]="isLoading"
+        >
           Lưu
         </button>
       </ng-template>
     </nz-modal>
   </nz-tab>
   <nz-tab nzTitle="Dữ liệu sản xuất">
-    <dx-data-grid [dataSource]="dataSanXuat" keyExpr="id" [showColumnLines]="true" [showRowLines]="true"
-      [showBorders]="true" [allowColumnResizing]="true" [columnAutoWidth]="true" [rowAlternationEnabled]="true"
-      (onExporting)="onExportClient($event)">
+    <dx-data-grid
+      [dataSource]="dataSanXuat"
+      keyExpr="id"
+      [showColumnLines]="true"
+      [showRowLines]="true"
+      [showBorders]="true"
+      [allowColumnResizing]="true"
+      [columnAutoWidth]="true"
+      [rowAlternationEnabled]="true"
+      (onExporting)="onExportClient($event)"
+    >
       <dxo-export [enabled]="true"></dxo-export>
       <dxo-filter-row [visible]="true"></dxo-filter-row>
 
       <dxi-column dataField="qaCard" caption="QA Card"></dxi-column>
       <dxi-column dataField="dateCode" caption="Date Code"></dxi-column>
-      <dxi-column dataField="qty" caption="Qty" dataType="number" format="#,##0"></dxi-column>
+      <dxi-column
+        dataField="qty"
+        caption="Qty"
+        dataType="number"
+        format="#,##0"
+      ></dxi-column>
       <dxi-column dataField="model" caption="Model"></dxi-column>
       <dxi-column dataField="line" caption="Line"></dxi-column>
       <dxi-column dataField="shift" caption="Shift"></dxi-column>
 
       <dxi-column dataField="employeeName" caption="User"></dxi-column>
-      <dxi-column dataField="createdAt" dataType="date" caption="Created At" format="yyyy-MM-dd HH:mm"></dxi-column>
+      <dxi-column
+        dataField="createdAt"
+        dataType="date"
+        caption="Created At"
+        format="yyyy-MM-dd HH:mm"
+      ></dxi-column>
 
       <dxo-paging [pageSize]="10"></dxo-paging>
-      <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 25, 50, 100]"></dxo-pager>
+      <dxo-pager
+        [showPageSizeSelector]="true"
+        [allowedPageSizes]="[10, 25, 50, 100]"
+      ></dxo-pager>
     </dx-data-grid>
   </nz-tab>
   <nz-tab nzTitle="Dữ liệu Packing"> </nz-tab>

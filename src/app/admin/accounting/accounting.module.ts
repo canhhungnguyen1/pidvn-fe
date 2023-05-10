@@ -19,6 +19,7 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 @NgModule({
   declarations: [
     AccountingComponent,
@@ -39,7 +40,8 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     NzTableModule,
     NzInputModule,
     NzFormModule,
-    NzButtonModule
+    NzButtonModule,
+    NzSelectModule
   ]
 })
 export class AccountingModule { }

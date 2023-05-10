@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { ToastrService } from 'ngx-toastr';
 import { RelayDateCodeService } from './relay-datecode.service';
@@ -45,7 +51,7 @@ export class RelayDatecodeComponent implements OnInit, AfterViewInit {
     line: null,
     date: new Date(),
     shift: null,
-    customerCode: null
+    customerCode: null,
   };
 
   ngOnInit(): void {
@@ -63,24 +69,21 @@ export class RelayDatecodeComponent implements OnInit, AfterViewInit {
   dataSanXuat: any;
 
   getAllDateCode() {
-    this.reDateCodeSvc.getAllDateCode().subscribe(
-      response => {
-        console.log(response);
-        this.dataSanXuat = response;
-      }
-    )
+    this.reDateCodeSvc.getAllDateCode().subscribe((response) => {
+      console.log(response);
+      this.dataSanXuat = response;
+    });
   }
 
   test(event: any) {
-    console.log('AAA : ',event);
-    
+    console.log('AAA : ', event);
   }
 
   //qaCardSelected: any;
 
   /**
    * Scan QA card, lấy dữ liệu DateCode và Customer Code
-   * @param event 
+   * @param event
    */
   scanInfo(event: any) {
     let data = event;
@@ -110,16 +113,14 @@ export class RelayDatecodeComponent implements OnInit, AfterViewInit {
   }
 
   getCustomerCodeByQACard(qaCard: string) {
-    this.reDateCodeSvc.getQACardByValue(qaCard).subscribe(
-      response => {
-        console.log('getQACardByValue: ', response);
-        this.customerCodes = response.customerCode
-        if (!response.customerCode) {
-          return
-        }
-        this.customerCodes = response.customerCode.split(';');
+    this.reDateCodeSvc.getQACardByValue(qaCard).subscribe((response) => {
+      console.log('getQACardByValue: ', response);
+      this.customerCodes = response.customerCode;
+      if (!response.customerCode) {
+        return;
       }
-    )
+      this.customerCodes = response.customerCode.split(';');
+    });
   }
 
   onCancel() {
@@ -128,60 +129,51 @@ export class RelayDatecodeComponent implements OnInit, AfterViewInit {
   }
 
   onSave() {
-
     // if (!this.dateCodeSave.dateCode || !this.dateCodeSave.dateCode || !this.dateCodeSave.customerCode) {
     //   this.toastr.warning('Cần nhập DateCode; CustomerCode; Qty','Warning')
     //   return
     // }
 
     if (!this.dateCodeSave.dateCode || !this.dateCodeSave.dateCode) {
-      this.toastr.warning('Cần nhập DateCode; Qty','Warning')
-      return
+      this.toastr.warning('Cần nhập DateCode; Qty', 'Warning');
+      return;
     }
 
-    const regex = /[0-9](0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1])[A-Z][0-9]/
+    const regex = /[0-9](0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1])[A-Z][0-9]/;
 
     if (!regex.test(this.dateCodeSave.dateCode!)) {
-      this.toastr.warning('Date Code không đúng định dạng','Warning')
-      return
+      this.toastr.warning('Date Code không đúng định dạng', 'Warning');
+      return;
     }
 
-
-
     this.isLoading = true;
-    this.dateCodeSave.userCode = Number(this.jwtHelperSvc.decodeToken(
-      localStorage.getItem('accessToken')?.toString()
-    ).UserId)
+    this.dateCodeSave.userCode = Number(
+      this.jwtHelperSvc.decodeToken(
+        localStorage.getItem('accessToken')?.toString()
+      ).UserId
+    );
     this.dateCodeSave.qaCard = this.qaCardInfo.value;
     this.dateCodeSave.model = this.qaCardInfo.model;
     this.dateCodeSave.line = this.qaCardInfo.line;
     this.dateCodeSave.shift = this.qaCardInfo.shift;
     this.dateCodeSave.date = new Date(this.qaCardInfo.date);
-    
 
     console.log('AAA: ', this.dateCodeSave);
-    
-
 
     this.reDateCodeSvc.createDateCode(this.dateCodeSave).subscribe(
-      response => {
-        this.toastr.success('Thêm Date Code thành công','OK')
+      (response) => {
+        this.toastr.success('Thêm Date Code thành công', 'OK');
         this.resetModal();
-        this.getDateCodes(this.qaCardInfo.value)
+        this.getDateCodes(this.qaCardInfo.value);
         this.isOpenModal = false;
         this.isLoading = false;
       },
-      error => {
+      (error) => {
         this.resetModal();
         this.isLoading = false;
         this.isLoading = false;
       }
-    )
-
-
-
-
-
+    );
   }
 
   resetModal() {
@@ -192,30 +184,25 @@ export class RelayDatecodeComponent implements OnInit, AfterViewInit {
 
   deleteDatCode(data: any) {
     console.log('Xóa: ', data);
-    this.reDateCodeSvc.deleteDateCode(data.id).subscribe(
-      response => {
-        this.toastr.success('Xóa thành công','OK');
-        this.getDateCodes(this.qaCardInfo.value);
-      }
-    )
+    this.reDateCodeSvc.deleteDateCode(data.id).subscribe((response) => {
+      this.toastr.success('Xóa thành công', 'OK');
+      this.getDateCodes(this.qaCardInfo.value);
+    });
   }
 
   onChangeDateCode(event: any) {
     this.dateCodeSave.dateCode = event.toUpperCase();
   }
 
-  onExportClient(event: any) {
-
-  }
+  onExportClient(event: any) {}
 
   addDateCode() {
-
-    let arr = this.qaCard.split("*");
+    let arr = this.qaCard.split('*');
 
     // Kiểm tra định dạng QA card
     if (arr.length !== 5 || !this.qaCard.includes('*')) {
-      this.toastr.warning('QA card không đúng định dạng','Warning');
-      return
+      this.toastr.warning('QA card không đúng định dạng', 'Warning');
+      return;
     }
 
     // Kiểm tra QA card đã có customer code chưa
@@ -224,16 +211,12 @@ export class RelayDatecodeComponent implements OnInit, AfterViewInit {
     //   return
     // }
 
-
-
-    this.isOpenModal = true
+    this.isOpenModal = true;
   }
 
   getQaCards() {
-    this.reDateCodeSvc.getQACards().subscribe(
-      response => {
-        this.qaCards = response
-      }
-    )
+    this.reDateCodeSvc.getQACards().subscribe((response) => {
+      this.qaCards = response;
+    });
   }
 }
