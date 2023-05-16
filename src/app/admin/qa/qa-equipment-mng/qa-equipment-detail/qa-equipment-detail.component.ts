@@ -91,7 +91,7 @@ export class QaEquipmentDetailComponent implements OnInit {
   }
 
   onChangeFileType(event: any) {
-    this.fileUploadApi = `${this.baseUrl}/Qa/EquipmentMng/Upload?deviceNo=${this.device?.deviceNo}&deviceId=${this.device?.id}&fileType=${this.fileTypeSelected}&createdBy=${this.user}`;
+    this.fileUploadApi = `${this.baseUrl}/Qa/EquipmentMng/Upload?controlNo=${this.device?.controlNo}&deviceId=${this.device?.id}&fileType=${this.fileTypeSelected}&createdBy=${this.user}`;
   }
 
   downloadDocument(event: any) {

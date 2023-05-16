@@ -65,4 +65,11 @@ export class QaEquipmentMngService {
       { responseType: 'blob' }
     );
   }
+
+  public getDeviceInfo(controlNo: string) : Observable<any> {
+    return this.httpClient.get(
+      `${this.baseUrl}/Qa/EquipmentMng/DeviceInfo?controlNo=${controlNo}`
+    );
+  }
+  
 }

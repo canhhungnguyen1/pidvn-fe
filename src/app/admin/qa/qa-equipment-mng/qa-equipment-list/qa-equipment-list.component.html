@@ -1,38 +1,200 @@
 <nz-collapse>
   <nz-collapse-panel nzHeader="Scan tem thiết bị" [nzActive]="true">
-    <nz-table #basicTable [nzData]="['']" nzBordered nzFrontPagination="false" style="width: 50%;">
+    <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+      <div nz-col nzXs="24" nzSm="24" nzLg="12">
+        <table id="scanTbl">
+          <tbody>
+            <tr>
+              <td><label style="font-weight: bold">Mã QR code</label></td>
+              <td>
+                <input
+                  #qrIpt
+                  nz-input
+                  placeholder="Scan mã QR code"
+                  (keydown.enter)="scanLabel($event)"
+                  (click)="qrIpt.select()"
+                  autocomplete="off"
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </nz-collapse-panel>
+</nz-collapse>
+
+<nz-tabset *ngIf="deviceInfo?.info">
+  <nz-tab nzTitle="Thông tin">
+    <!-- <dx-data-grid
+      [dataSource]="devices"
+      keyExpr="id"
+      [showColumnLines]="true"
+      [showRowLines]="true"
+      [showBorders]="true"
+      [allowColumnResizing]="true"
+      [columnAutoWidth]="true"
+      [rowAlternationEnabled]="true"
+      (onRowClick)="onRowClick($event)"
+      style="margin-top: 15px"
+    >
+      <dxo-filter-row [visible]="true"></dxo-filter-row>
+
+      <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+      <dxi-column dataField="controlNo" caption="Control No"></dxi-column>
+      <dxi-column
+        dataField="equipmentName"
+        caption="Equipment Name"
+      ></dxi-column>
+      <dxi-column dataField="serialNo" caption="Serial No"></dxi-column>
+      <dxi-column dataField="typeNo" caption="Type No"></dxi-column>
+      <dxi-column dataField="manufacturer" caption="Manufacturer"></dxi-column>
+      <dxi-column
+        dataField="rangeOfMeasuring"
+        caption="Range of Measuring"
+      ></dxi-column>
+      <dxi-column
+        dataField="distributionLocation"
+        caption="Distribution location"
+      ></dxi-column>
+    </dx-data-grid> -->
+    <nz-table
+      id="infoTable"
+      [nzData]="['']"
+      nzBordered
+      nzSize="small"
+      nzFrontPagination="false"
+    >
       <tbody>
         <tr>
-          <td><label style="font-weight: bold;">Mã QR code</label></td>
+          <td><label>Control No</label></td>
+          <td>{{ deviceInfo.info.controlNo }}</td>
+          <td><label>Name</label></td>
+          <td>{{ deviceInfo.info.equipmentName }}</td>
+          <td><label>Serial No</label></td>
+          <td>{{ deviceInfo.info.serialNo }}</td>
+        </tr>
+        <tr>
+          <td><label>Type No</label></td>
+          <td>{{ deviceInfo.info.serialNo }}</td>
+          <td><label>Manufacturer</label></td>
+          <td>{{ deviceInfo.info.typeNo }}</td>
+          <td><label>Measuring's Range</label></td>
+          <td>{{ deviceInfo.info.rangeOfMeasuring }}</td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </nz-tab>
+
+  <nz-tab nzTitle="Report">
+    <dx-data-grid
+      style="margin-top: 15px"
+      [dataSource]="deviceInfo.documents"
+      keyExpr="id"
+      [showColumnLines]="true"
+      [showRowLines]="true"
+      [showBorders]="true"
+      [allowColumnResizing]="true"
+      [columnAutoWidth]="true"
+      [rowAlternationEnabled]="true"
+    >
+      <dxo-filter-row [visible]="true"></dxo-filter-row>
+
+      <dxo-toolbar>
+        <dxi-item location="before">
+          <dx-button
+            stylingMode="outlined"
+            type="success"
+            icon="plus"
+            text="Thêm mới"
+            (click)="openUploadModal()"
+          >
+          </dx-button>
+        </dxi-item>
+      </dxo-toolbar>
+
+      <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+
+      <dxi-column dataField="fileName" caption="Tên"></dxi-column>
+      <dxi-column dataField="fileTypeName" caption="Loại tài liệu"></dxi-column>
+      <dxi-column dataField="createdByName" caption="Người upload"></dxi-column>
+      <dxi-column
+        dataField="createdAt"
+        dataType="date"
+        caption="Thời gian"
+        format="yyyy-MM-dd HH:mm"
+      ></dxi-column>
+      <dxi-column caption="Action" cellTemplate="actionTemplate">
+        <div *dxTemplate="let item of 'actionTemplate'">
+          <a (click)="downloadDocument(item)">Tải xuống</a>
+
+          <a
+            *ngIf="item.data.fileFormat === 'application/pdf'"
+            (click)="previewFile(item)"
+            style="color: green"
+          >
+            | Preview
+          </a>
+        </div>
+      </dxi-column>
+    </dx-data-grid>
+  </nz-tab>
+</nz-tabset>
+
+<nz-modal [nzVisible]="isOpenUploadModal" nzTitle="Upload file lên hệ thống">
+  <ng-container *nzModalContent>
+    <nz-table
+      id="upload-tbl"
+      [nzData]="['']"
+      nzBordered
+      nzFrontPagination="false"
+      nzSize="small"
+    >
+      <tbody>
+        <tr>
+          <td width="30%"><label>Loại tài liệu</label></td>
           <td>
-            <input nz-input placeholder="Scan mã QR code" (keydown.enter)="scanLabel($event)"/>
+            <nz-select
+              [(ngModel)]="fileTypeSelected"
+              nzPlaceHolder="Chọn loại tài liệu"
+              style="width: 100%"
+              (ngModelChange)="onChangeFileType($event)"
+            >
+              <nz-option
+                *ngFor="let type of fileTypes"
+                [nzValue]="type.id"
+                [nzLabel]="type.name"
+              >
+              </nz-option>
+            </nz-select>
+          </td>
+        </tr>
+        <tr>
+          <td><label>File upload</label></td>
+          <td>
+            <nz-upload
+              [nzAction]="fileUploadApi"
+              [nzHeaders]="{ authorization: 'authorization-text' }"
+              [nzDisabled]="fileTypeSelected ? false : true"
+              [nzShowUploadList]="{
+                showPreviewIcon: false,
+                showRemoveIcon: false,
+                showDownloadIcon: false
+              }"
+            >
+              <button nz-button>
+                <span nz-icon nzType="upload"></span>
+                Chọn file upload lên hệ thống
+              </button>
+            </nz-upload>
           </td>
         </tr>
       </tbody>
     </nz-table>
-  </nz-collapse-panel>
-</nz-collapse>
-<dx-data-grid
-  [dataSource]="devices"
-  keyExpr="id"
-  [showColumnLines]="true"
-  [showRowLines]="true"
-  [showBorders]="true"
-  [allowColumnResizing]="true"
-  [columnAutoWidth]="true"
-  [rowAlternationEnabled]="true"
-  (onRowClick)="onRowClick($event)"
-  style="margin-top: 15px;"
->
-  <dxo-filter-row [visible]="true"></dxo-filter-row>
-
-  <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
-
-  <dxi-column dataField="deviceNo" caption="Device No"></dxi-column>
-  <dxi-column dataField="name" caption="Tên"></dxi-column>
-  <dxi-column dataField="model" caption="Model"></dxi-column>
-  <dxi-column dataField="serialNo" caption="Serial No"></dxi-column>
-  <dxi-column dataField="marker" caption="Marker"></dxi-column>
-  <dxi-column dataField="position" caption="Vị trí"></dxi-column>
-  
-</dx-data-grid>
+  </ng-container>
+  <ng-template [nzModalFooter]>
+    <button nz-button nzType="default" (click)="closeUploadModal()">
+      Đóng
+    </button>
+  </ng-template>
+</nz-modal>

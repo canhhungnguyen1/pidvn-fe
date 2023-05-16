@@ -38,6 +38,7 @@ export class AdminComponent implements OnInit {
   qmsLink!: string;
   contractLink!: string;
   paymentLink!: string;
+  priceLink!:string;
   eDummyLink!: string;
   
   listExpired!: string;
@@ -195,6 +196,7 @@ export class AdminComponent implements OnInit {
     this.qmsLink = `${this.baseUrlJava}/QMS/Handle/QMS/menu?accessToken=${accessToken}`
     this.contractLink = `${this.baseUrlJava}/Contract/Handle/contract/menu?accessToken=${accessToken}`
     this.paymentLink = `${this.baseUrlJava}/Payment/Handle/payment/menu?accessToken=${accessToken}`
+    this.priceLink = `${this.baseUrlJava}/Price/Handle/price/menu?accessToken=${accessToken}`
 
     this.eDummyLink = `${this.baseUrlJava}/Dummy/Handle/dummy/menu?accessToken=${accessToken}`
     
@@ -251,7 +253,7 @@ export class AdminComponent implements OnInit {
           <li>Mr. Thắng: 076 620 2368</li>
           <li>Ms. Yên: 0989 554 217</li>
           <li>Mr. Hà: 0888 694 234</li>
-          <li><a href='https://canhhungnguyen1.github.io/cv-online' target="_blank">Mr. Hưng: 0966 939 859</a></li>
+          <li><a href='#' target="_blank">Mr. Hưng: 0966 939 859</a></li>
         </ul>
       `,
     });

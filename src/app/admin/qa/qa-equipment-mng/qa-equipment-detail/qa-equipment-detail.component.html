@@ -2,31 +2,30 @@
   <nz-tab nzTitle="Thông tin thiết bị">
     <nz-collapse>
       <nz-collapse-panel nzHeader="Thông tin thiết bị" [nzActive]="true">
-        <nz-table
+        <table
+          id="infoTable"
           nzBordered
           nzSize="small"
-          [nzFrontPagination]="false"
-          [nzData]="['']"
         >
           <tbody>
             <tr>
-              <td>Device No</td>
-              <td>{{ device?.deviceNo }}</td>
-              <td>Name</td>
-              <td>{{ device?.name }}</td>
-              <td>Serial</td>
-              <td></td>
+              <td><label>Control No</label></td>
+              <td>{{ device?.controlNo }}</td>
+              <td><label>Name</label></td>
+              <td>{{ device?.equipmentName }}</td>
+              <td><label>Serial No</label></td>
+              <td>{{ device?.serialNo }}</td>
             </tr>
             <tr>
-              <td>Marker</td>
-              <td></td>
-              <td>Vị trí</td>
-              <td></td>
-              <td>Spec</td>
-              <td></td>
+              <td><label>Type No</label></td>
+              <td>{{ device?.typeNo }}</td>
+              <td><label>Manufacturer</label></td>
+              <td>{{ device?.manufacturer }}</td>
+              <td><label>Measuring's Range</label></td>
+              <td>{{ device?.rangeOfMeasuring }}</td>
             </tr>
           </tbody>
-        </nz-table>
+        </table>
       </nz-collapse-panel>
     </nz-collapse>
   </nz-tab>
