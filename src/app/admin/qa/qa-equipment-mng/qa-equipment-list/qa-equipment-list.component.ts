@@ -11,7 +11,7 @@ import { environment } from 'src/environments/environment';
 })
 export class QaEquipmentListComponent implements OnInit {
 
-  @ViewChild('qrIpt') infoIpt!: ElementRef;
+  @ViewChild('qrIpt') qrIpt!: ElementRef;
 
   constructor(private qaEquipmentMngSvc: QaEquipmentMngService,private router: Router, private jwtHelperSvc: JwtHelperService) { }
 
@@ -57,6 +57,8 @@ export class QaEquipmentListComponent implements OnInit {
     this.qaEquipmentMngSvc.getDeviceInfo(event.target.value).subscribe(
       response => {
         this.deviceInfo = response;
+
+        this.qrIpt.nativeElement.select();
       }
     )
   }
