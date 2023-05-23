@@ -1,27 +1,36 @@
 <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="8">
   <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12">
     <button
+      (click)="printLabel()"
       nz-button
       [nzType]="'primary'"
       printSectionId="printLabel"
       ngxPrint
       [useExistingCss]="true"
-      style="background: green;"
+      style="background: green"
       *ngIf="labels"
     >
       <span nz-icon nzType="printer"></span> In tem
     </button>
 
-    <button nz-button [nzType]="'primary'" (click)="openUploadDataLabelModal()" style="margin-left: 5px;">
+    <button
+      nz-button
+      [nzType]="'primary'"
+      (click)="openUploadDataLabelModal()"
+      style="margin-left: 5px"
+    >
       <span>Upload dữ liệu tem</span>
     </button>
-    <button nz-button [nzType]="'default'" style="margin-left: 5px;" (click)="downloadTemplateCreateLabel()">
+    <button
+      nz-button
+      [nzType]="'default'"
+      style="margin-left: 5px"
+      (click)="downloadTemplateCreateLabel()"
+    >
       <span nz-icon nzType="cloud-download"></span> Download template
     </button>
   </div>
-  <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12">
-    
-  </div>
+  <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12"></div>
 </div>
 
 <nz-modal

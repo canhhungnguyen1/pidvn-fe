@@ -71,5 +71,13 @@ export class QaEquipmentMngService {
       `${this.baseUrl}/Qa/EquipmentMng/DeviceInfo?controlNo=${controlNo}`
     );
   }
-  
+
+  /**
+   * In tem
+   */
+  public printLabel(labels: any, userId: number): Observable<any> {
+    return this.httpClient.post(
+      `${this.baseUrl}/Qa/EquipmentMng/PrintLabel?userId=${userId}`, labels
+    );
+  }
 }
