@@ -333,9 +333,13 @@ export class PihStopLineMainComponent implements OnInit {
     this.stopTimeSelected.date = $event;
   }
 
-  onChangeStartTime($event: any) {}
+  onChangeStartTime($event: any) {
+    this.stopTimeSelected.startTime = $event
+  }
 
-  onChangeStopTime($event: any) {}
+  onChangeStopTime($event: any) {
+    this.stopTimeSelected.stopTime = $event
+  }
 
   validateData(obj: any) {
     if (obj.stopItemId == null) {

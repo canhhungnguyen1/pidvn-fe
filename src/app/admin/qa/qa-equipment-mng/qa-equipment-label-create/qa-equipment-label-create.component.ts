@@ -33,7 +33,7 @@ export class QaEquipmentLabelCreateComponent implements OnInit {
   }
 
   onUploadDataLabel(event: any) {
-    console.log(event);
+    console.log('Data in tem',event);
     
     this.labels = event.file.response
   }

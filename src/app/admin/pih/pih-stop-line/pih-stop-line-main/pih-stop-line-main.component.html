@@ -325,6 +325,7 @@
               nzFormat="yyyy-MM-dd HH:mm"
               [(ngModel)]="stopTimeSelected.startTime"
               nzPlaceHolder="Thời gian bắt đầu"
+              (nzOnOk)="onChangeStartTime($event)"
             ></nz-date-picker>
             ->
             <nz-date-picker
@@ -332,6 +333,7 @@
               nzFormat="yyyy-MM-dd HH:mm"
               [(ngModel)]="stopTimeSelected.stopTime"
               nzPlaceHolder="Thời gian kết thúc"
+              (nzOnOk)="onChangeStopTime($event)"
             ></nz-date-picker>
           </td>
         </tr>
