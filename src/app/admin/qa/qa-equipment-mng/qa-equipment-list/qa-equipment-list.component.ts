@@ -22,6 +22,8 @@ export class QaEquipmentListComponent implements OnInit {
 
     this.getDocTypeDevices();
 
+    
+
     //this.getQaDevices()
   }
 
@@ -34,9 +36,9 @@ export class QaEquipmentListComponent implements OnInit {
 
   fileUploadApi: any;
 
-  fileTypeSelected: any;
+  fileTypeSelected: any = 1;
 
-  fileTypes: any;
+  fileTypes: any 
 
   isOpenUploadModal: boolean = false;
 
@@ -57,8 +59,8 @@ export class QaEquipmentListComponent implements OnInit {
     this.qaEquipmentMngSvc.getDeviceInfo(event.target.value).subscribe(
       response => {
         this.deviceInfo = response;
-
         this.qrIpt.nativeElement.select();
+        this.fileUploadApi = `${this.baseUrl}/Qa/EquipmentMng/Upload?controlNo=${this.deviceInfo?.info.controlNo}&deviceId=${this.deviceInfo?.info.id}&fileType=${this.fileTypeSelected}&createdBy=${this.user}`;
       }
     )
   }
@@ -124,7 +126,7 @@ export class QaEquipmentListComponent implements OnInit {
     this.isOpenUploadModal = false;
 
     this.fileUploadApi = '';
-    this.fileTypeSelected = null;
+    //this.fileTypeSelected = null;
     // this.getQaDocDevices(this.device.id);
 
 
@@ -145,6 +147,9 @@ export class QaEquipmentListComponent implements OnInit {
     });
   }
 
+  deleteFile(item: any) {
+    console.log('deleteFile: ', item.data)
+  }
   
 
   

@@ -22,6 +22,7 @@
       <th class="text-center" rowspan="2">Model</th>
       <th class="text-center" rowspan="2">Qty</th>
       <th class="text-center" colspan="3">Kết quả kiểm tra</th>
+      <th class="text-center" colspan="2">Mức kiểm soát</th>
       <th class="text-center" rowspan="2">
         Thông tin <br />
         NG hoặc CA
@@ -32,6 +33,8 @@
     </tr>
     <tr>
       <th class="text-center" rowspan="2">GP</th>
+      <th class="text-center" rowspan="2">Ngoại quan</th>
+      <th class="text-center" rowspan="2">Kích thước</th>
       <th class="text-center" rowspan="2">Ngoại quan</th>
       <th class="text-center" rowspan="2">Kích thước</th>
     </tr>
@@ -74,6 +77,8 @@
       >
         {{ item.result3 }}
       </td>
+      <td></td>
+      <td></td>
       <td>{{ item.remark }}</td>
       <td>{{ item.createdByName }}</td>
       <td class="text-center">
@@ -167,7 +172,7 @@
   </ng-template>
 </nz-modal>
 
-<nz-modal [(nzVisible)]="isOpenDetailModal" nzTitle="Đánh giá chi tiết">
+<nz-modal [(nzVisible)]="isOpenDetailModal" nzTitle="Đánh giá chi tiết" [nzWidth]="'900px'">
   <ng-container *nzModalContent>
     <nz-table
       nzSize="small"
@@ -178,19 +183,19 @@
       <tbody>
         <tr>
           <td><label>Lot No</label></td>
-          <td>{{ lotNoSelected.lotNo }}</td>
+          <td colspan="3">{{ lotNoSelected.lotNo }}</td>
         </tr>
         <tr>
           <td><label>Model</label></td>
-          <td>{{ lotNoSelected.model }}</td>
+          <td colspan="3">{{ lotNoSelected.model }}</td>
         </tr>
         <tr>
           <td><label>Qty</label></td>
-          <td>{{ lotNoSelected.qty | number: "1.0-3" }}</td>
+          <td colspan="3">{{ lotNoSelected.qty | number: "1.0-3" }}</td>
         </tr>
         <tr>
           <td><label>GP</label></td>
-          <td>
+          <td colspan="3">
             <nz-radio-group [(ngModel)]="lotNoSelected.result1">
               <label nz-radio nzValue="OK" style="color: green">OK</label>
               <label nz-radio nzValue="NG" style="color: red">NG</label>
@@ -206,6 +211,8 @@
               <label nz-radio nzValue="CA" style="color: black">CA</label>
             </nz-radio-group>
           </td>
+          <td><label>Mức kiểm soát</label></td>
+          <td><input nz-input placeholder="Mức kiểm soát ngoại quan" /></td>
         </tr>
         <tr>
           <td><label>Kích thước</label></td>
@@ -216,12 +223,14 @@
               <label nz-radio nzValue="CA" style="color: black">CA</label>
             </nz-radio-group>
           </td>
+          <td><label>Mức kiểm soát</label></td>
+          <td><input nz-input placeholder="Mức kiểm soát kích thước" /></td>
         </tr>
         <tr>
           <td>
             <label>Thông tin <br />NG hoặc CA</label>
           </td>
-          <td>
+          <td colspan="3">
             <textarea
               rows="3"
               nz-input

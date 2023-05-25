@@ -86,9 +86,9 @@
           <td><label>Location</label></td>
           <td>{{ deviceInfo.info.distributionLocation }}</td>
           <td><label>Date</label></td>
-          <td>{{ deviceInfo.info.date | date: "dd-MMM-yyyy" }}</td>
+          <td>{{ deviceInfo.info.date | date : "dd-MMM-yyyy" }}</td>
           <td><label>Due</label></td>
-          <td>{{ deviceInfo.info.due | date: "dd-MMM-yyyy" }}</td>
+          <td>{{ deviceInfo.info.due | date : "dd-MMM-yyyy" }}</td>
         </tr>
         <tr>
           <td><label>Calibration Unit</label></td>
@@ -139,14 +139,24 @@
       <dxi-column caption="Action" cellTemplate="actionTemplate">
         <div *dxTemplate="let item of 'actionTemplate'">
           <a (click)="downloadDocument(item)">Tải xuống</a>
-
+          |
           <a
             *ngIf="item.data.fileFormat === 'application/pdf'"
             (click)="previewFile(item)"
             style="color: green"
           >
-            | Preview
+            Preview
           </a>
+          |
+          <a
+            style="color: red"
+            nz-popconfirm
+            nzPopconfirmTitle="Bạn có chắc chắn muốn xóa ?"
+            nzPopconfirmPlacement="topRight"
+            (nzOnConfirm)="deleteFile(item)"
+          >
+            Xóa</a
+          >
         </div>
       </dxi-column>
     </dx-data-grid>
@@ -178,6 +188,20 @@
                 [nzLabel]="type.name"
               >
               </nz-option>
+              
+              <!-- <nz-select
+                ngModel="1"
+                nzPlaceHolder="Chọn loại tài liệu"
+                style="width: 100%"
+                (ngModelChange)="onChangeFileType($event)"
+                [(ngModel)]="fileTypeSelected"
+              >
+                <nz-option
+                  [nzValue]="1"
+                  [nzLabel]="'Report'"
+                >
+                </nz-option> -->
+
             </nz-select>
           </td>
         </tr>

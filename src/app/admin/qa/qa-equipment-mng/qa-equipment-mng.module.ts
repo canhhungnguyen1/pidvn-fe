@@ -25,6 +25,7 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { FormsModule } from '@angular/forms';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 @NgModule({
   declarations: [
     QaEquipmentMngComponent,
@@ -51,7 +52,8 @@ import { NzInputModule } from 'ng-zorro-antd/input';
     NzTableModule,
     NzTabsModule,
     NzSelectModule,
-    NzInputModule
+    NzInputModule,
+    NzPopconfirmModule
   ],
 })
 export class QaEquipmentMngModule {}
