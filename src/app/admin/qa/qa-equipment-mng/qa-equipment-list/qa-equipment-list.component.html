@@ -109,6 +109,7 @@
       [allowColumnResizing]="true"
       [columnAutoWidth]="true"
       [rowAlternationEnabled]="true"
+      (onRowPrepared)="onRowPrepared($event)"
     >
       <dxo-filter-row [visible]="true"></dxo-filter-row>
 
@@ -138,26 +139,37 @@
       ></dxi-column>
       <dxi-column caption="Action" cellTemplate="actionTemplate">
         <div *dxTemplate="let item of 'actionTemplate'">
-          <a (click)="downloadDocument(item)">Tải xuống</a>
-          |
-          <a
-            *ngIf="item.data.fileFormat === 'application/pdf'"
-            (click)="previewFile(item)"
-            style="color: green"
-          >
-            Preview
-          </a>
-          |
-          <a
-            style="color: red"
-            nz-popconfirm
-            nzPopconfirmTitle="Bạn có chắc chắn muốn xóa ?"
-            nzPopconfirmPlacement="topRight"
-            (nzOnConfirm)="deleteFile(item)"
-          >
-            Xóa</a
-          >
+
+          <div *ngIf="item.data.isDelete !== 1">
+            <a (click)="downloadDocument(item)">Tải xuống</a>
+            |
+            <a
+              *ngIf="item.data.fileFormat === 'application/pdf'"
+              (click)="previewFile(item)"
+              style="color: green"
+            >
+              Preview
+            </a>
+            |
+            <a
+              style="color: red"
+              nz-popconfirm
+              nzPopconfirmTitle="Bạn có chắc chắn muốn xóa ?"
+              nzPopconfirmPlacement="topRight"
+              (nzOnConfirm)="deleteFile(item)"
+            >
+              Xóa
+            </a>
+          </div>
+
+          <div *ngIf="item.data.isDelete == 1">
+            <a style="color: #939393">File đã bị xóa</a>
+          </div>
+          
+
+          
         </div>
+
       </dxi-column>
     </dx-data-grid>
   </nz-tab>

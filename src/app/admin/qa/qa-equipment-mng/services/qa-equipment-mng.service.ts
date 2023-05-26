@@ -80,4 +80,11 @@ export class QaEquipmentMngService {
       `${this.baseUrl}/Qa/EquipmentMng/PrintLabel?userId=${userId}`, labels
     );
   }
+
+
+  public deleteQaDocDevice(docDeviceId: string) : Observable<any> {
+    return this.httpClient.delete(
+      `${this.baseUrl}/Qa/EquipmentMng/QaDocDevices?docDeviceId=${docDeviceId}`
+    );
+  }
 }

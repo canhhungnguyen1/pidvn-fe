@@ -149,6 +149,40 @@ export class QaEquipmentListComponent implements OnInit {
 
   deleteFile(item: any) {
     console.log('deleteFile: ', item.data)
+
+    this.qaEquipmentMngSvc.deleteQaDocDevice(item.data.id).subscribe(
+      response => {
+        let event = {
+          target: {
+            value: this.deviceInfo?.info.controlNo
+          }
+        }
+        this.scanLabel(event);
+      }
+    )
+
+
+
+  }
+
+  onRowPrepared(event: any) {
+
+    console.log('onRowPrepared: ', event)
+
+
+    if (event.rowType === 'data') {
+      if (event.data.isDelete === 1) {
+        event.rowElement.style.backgroundColor = '#ccc';
+        event.rowElement.style.color = '#939393';
+        // or
+        event.rowElement.classList.add('my-class');
+        // to override alternation color
+        event.rowElement.className = event.rowElement.className.replace(
+          'dx-row-alt',
+          ''
+        );
+      }
+    }
   }
   
 

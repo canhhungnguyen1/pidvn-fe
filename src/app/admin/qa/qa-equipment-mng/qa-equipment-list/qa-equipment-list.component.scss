@@ -1,3 +1,8 @@
+.dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused):not(.dx-row-removed) > td {
+  background-color: #ccc;
+  color: red;
+}
+
 #scanTbl {
   width: 100%;
   td {
