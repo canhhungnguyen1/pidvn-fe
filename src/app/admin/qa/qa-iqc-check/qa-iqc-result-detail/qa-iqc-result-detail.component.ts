@@ -182,4 +182,9 @@ export class QaIqcResultDetailComponent implements OnInit {
         });
     }
   }
+
+
+  onDeleteCheckMaster() {
+    
+  }
 }

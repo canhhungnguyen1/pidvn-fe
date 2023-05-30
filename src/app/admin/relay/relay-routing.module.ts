@@ -15,13 +15,13 @@ const routes: Routes = [
             (m) => m.MeasurementModule
           ),
       },
-      {
-        path: 'check-sheet',
-        loadChildren: () =>
-          import('./check-sheet/check-sheet.module').then(
-            (m) => m.CheckSheetModule
-          ),
-      },
+      // {
+      //   path: 'check-sheet',
+      //   loadChildren: () =>
+      //     import('./check-sheet/check-sheet.module').then(
+      //       (m) => m.CheckSheetModule
+      //     ),
+      // },
       {
         path: 'training-record',
         loadChildren: () =>
