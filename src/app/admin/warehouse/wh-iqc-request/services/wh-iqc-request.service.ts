@@ -30,5 +30,9 @@ export class WhIqcRequestService {
   public getSlipNoByInvoice(invoice: string): Observable<any> {
     return this.httpClient.get(`${this.baseUrl}/WH/IQC/SlipNo?invoice=${invoice}`);
   }
+
+  public createIqcRequestSorting(lotNos: any): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/WH/IQC/IqcRequestSorting`, lotNos)
+  }
   
 }

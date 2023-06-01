@@ -16,8 +16,11 @@ export class QaIqcResultMasterComponent implements OnInit {
 
   invoice!: string;
   requestNo!: string;
+  requestType!: string;
+
   iqcRequest: any;
   iqcDataMasters!: any[];
+  iqcDataSortingMasters!: any[];
 
   isHandeled: boolean = false;
   searchVo: any = {};
@@ -25,6 +28,11 @@ export class QaIqcResultMasterComponent implements OnInit {
   ngOnInit(): void {
     this.invoice = this.activatedRoute.snapshot.queryParams['invoice'];
     this.requestNo = this.activatedRoute.snapshot.queryParams['requestNo'];
+    this.requestType = this.activatedRoute.snapshot.queryParams['type'];
+
+
+
+
     this.getIqcDataMaster();
     this.getIqcRequests();
   }
@@ -54,6 +62,19 @@ export class QaIqcResultMasterComponent implements OnInit {
   }
 
   getIqcDataMaster() {
+
+    if(this.requestType === 'sorting') {
+      this.qaIqcSvc.getIqcDataSortingMaster(this.requestNo).subscribe(
+        response => {
+          this.iqcDataSortingMasters = response;
+        }
+      )
+      return;
+    }
+
+
+
+
     let obj = {
       invoice: this.invoice,
       requestNo: this.requestNo,
@@ -62,6 +83,9 @@ export class QaIqcResultMasterComponent implements OnInit {
     this.qaIqcSvc.getIqcDataMaster(obj).subscribe((response) => {
       this.iqcDataMasters = response;
     });
+    
+
+    
   }
 
   redirectDetailData(data: any) {
@@ -70,7 +94,8 @@ export class QaIqcResultMasterComponent implements OnInit {
         requestNo: this.requestNo,
         invoice: this.invoice,
         lotGroup: data.lotGroup,
-        model: data.model
+        model: data.model,
+        type: this.requestType
       },
     });
   }

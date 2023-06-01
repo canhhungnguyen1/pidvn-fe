@@ -20,9 +20,11 @@ export class QaIqcResultDetailComponent implements OnInit {
 
   invoice!: string;
   requestNo!: string;
+  requestType!: string;
   lotGroup!: string;
   model!: string;
   iqcDataDetails!: any[];
+  iqcDataSortingDetails!: any[];
 
   isOpenDetailModal: boolean = false;
   isOpenMasterModal: boolean = false;
@@ -34,11 +36,23 @@ export class QaIqcResultDetailComponent implements OnInit {
     this.requestNo = this.activatedRoute.snapshot.queryParams['requestNo'];
     this.lotGroup = this.activatedRoute.snapshot.queryParams['lotGroup'];
     this.model = this.activatedRoute.snapshot.queryParams['model'];
+    this.requestType = this.activatedRoute.snapshot.queryParams['type'];
+
+
     this.getLotGroup();
     this.getIqcDataDetail();
   }
 
   getIqcDataDetail() {
+
+    if(this.requestType === 'sorting') {
+
+      this.qaIqcSvc.getIqcDataSortingDetail(this.requestNo).subscribe((response) => {
+        this.iqcDataSortingDetails = response;
+      });
+      return;
+    }
+
     let obj = {
       invoice: this.invoice,
       requestNo: this.requestNo,
@@ -91,19 +105,32 @@ export class QaIqcResultDetailComponent implements OnInit {
       }
     }
 
-    console.log('Save lotNo', this.lotNoSelected);
-
     let createdBy = this.jwtHelperService.decodeToken(
       localStorage.getItem('accessToken')?.toString()
     ).Username;
     this.lotNoSelected.createdBy = createdBy;
 
-    this.qaIqcSvc
-      .saveIqcDataDetail(this.lotNoSelected)
-      .subscribe((response) => {
-        this.isOpenDetailModal = false;
-        this.getIqcDataDetail();
-      });
+    if(this.requestType === 'sorting') {
+      console.log(this.lotNoSelected)
+      this.qaIqcSvc.saveIqcDataSortingDetail(this.lotNoSelected).subscribe(
+        response => {
+          this.isOpenDetailModal = false;
+          this.getIqcDataDetail();
+        }
+      )
+      
+
+
+
+      return
+    }
+
+    // this.qaIqcSvc
+    //   .saveIqcDataDetail(this.lotNoSelected)
+    //   .subscribe((response) => {
+    //     this.isOpenDetailModal = false;
+    //     this.getIqcDataDetail();
+    //   });
   }
 
   /**

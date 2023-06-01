@@ -10,21 +10,35 @@
       <div nz-col nzXs="12" nzSm="12" nzLg="6">
         <label nzXs="24" nzSm="24" nzLg="24">Request No</label>
         <div nzXs="24" nzSm="24" nzLg="24">
-          <input type="text" nz-input placeholder="Request No" [(ngModel)]="searchVo.requestNo" />
+          <input
+            type="text"
+            nz-input
+            placeholder="Request No"
+            [(ngModel)]="searchVo.requestNo"
+          />
         </div>
       </div>
 
       <div nz-col nzXs="12" nzSm="12" nzLg="6">
         <label nzXs="24" nzSm="24" nzLg="24">Invoice</label>
         <div nzXs="24" nzSm="24" nzLg="24">
-          <input type="text" nz-input placeholder="Invoice" [(ngModel)]="searchVo.invoice" />
+          <input
+            type="text"
+            nz-input
+            placeholder="Invoice"
+            [(ngModel)]="searchVo.invoice"
+          />
         </div>
       </div>
 
       <div nz-col nzXs="12" nzSm="12" nzLg="6">
         <label nzXs="24" nzSm="24" nzLg="24">IQC Status</label>
         <div nzXs="24" nzSm="24" nzLg="24">
-          <nz-select nzAllowClear nzPlaceHolder="IQC Status" [(ngModel)]="searchVo.status">
+          <nz-select
+            nzAllowClear
+            nzPlaceHolder="IQC Status"
+            [(ngModel)]="searchVo.status"
+          >
             <nz-option nzLabel="Chờ xử lý" nzValue="1"></nz-option>
             <nz-option nzLabel="Đang xử lý" nzValue="2"></nz-option>
             <nz-option nzLabel="Đã xử lý" nzValue="3"></nz-option>
@@ -35,15 +49,30 @@
       <div nz-col nzXs="12" nzSm="12" nzLg="6">
         <label nzXs="24" nzSm="24" nzLg="24">Ngày tạo</label>
         <div nzXs="24" nzSm="24" nzLg="24">
-          <nz-range-picker nzFormat="yyyy-MM-dd" ngModel (ngModelChange)="onChange($event)"
-            (nzOnCalendarChange)="onCalendarChange($event)">
+          <nz-range-picker
+            nzFormat="yyyy-MM-dd"
+            ngModel
+            (ngModelChange)="onChange($event)"
+            (nzOnCalendarChange)="onCalendarChange($event)"
+          >
           </nz-range-picker>
         </div>
       </div>
     </div>
-    <div nz-row nzJustify="end" nzAlign="middle" [nzGutter]="24" style="margin-top: 10px">
+    <div
+      nz-row
+      nzJustify="end"
+      nzAlign="middle"
+      [nzGutter]="24"
+      style="margin-top: 10px"
+    >
       <div nz-col nzXs="24" nzSm="24" nzLg="24">
-        <button nz-button nzType="primary" style="float: right" (click)="onSearch()">
+        <button
+          nz-button
+          nzType="primary"
+          style="float: right"
+          (click)="onSearch()"
+        >
           Search
         </button>
       </div>
@@ -52,14 +81,39 @@
 </nz-collapse>
 
 <br />
-<button nz-button nzType="primary" style="background-color: #28a745" (click)="isOpenIqcRequestModal = true">
-  <i nz-icon nzType="plus"></i>
-  IQC Request
-</button>
+<nz-space>
+  <button
+    nz-button
+    *nzSpaceItem
+    nzType="primary"
+    style="background-color: #28a745"
+    (click)="isOpenIqcRequestModal = true"
+  >
+    <i nz-icon nzType="plus"></i>
+    IQC Request
+  </button>
+
+  <button
+    nz-button
+    *nzSpaceItem
+    nzType="default"
+    (click)="isOpenIqcRequestCreateSorting = true"
+  >
+    <i nz-icon nzType="plus"></i>
+    IQC Request (Hàng sorting)
+  </button>
+</nz-space>
 <br />
 
-<nz-table #iqcRequestTable nzSize="small" [nzBordered]="true" [nzData]="iqcRequests" [nzFrontPagination]="true"
-  nzTableLayout="fixed" style="margin-top: 5px">
+<nz-table
+  #iqcRequestTable
+  nzSize="small"
+  [nzBordered]="true"
+  [nzData]="iqcRequests"
+  [nzFrontPagination]="true"
+  nzTableLayout="fixed"
+  style="margin-top: 5px"
+>
   <thead>
     <tr>
       <th class="text-center">Request No</th>
@@ -72,29 +126,43 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let item of iqcRequestTable.data" (click)="openIqcDetailModal(item)">
+    <tr
+      *ngFor="let item of iqcRequestTable.data"
+      (click)="openIqcDetailModal(item)"
+    >
       <td>{{ item.requestNo }}</td>
       <td>{{ item.invoice }}</td>
       <td>{{ item.supplier }}</td>
-      <td [ngClass]="{
+      <td
+        [ngClass]="{
           'text-danger': item.status == 1,
           'text-success': item.status == 2,
           'text-primary': item.status == 3
-        }" style="font-weight: bold">
+        }"
+        style="font-weight: bold"
+      >
         {{ item.statusName }}
       </td>
       <td>{{ item.requestedByName }}</td>
       <td class="text-center">
-        {{ item.createdAt | date: "yyyy-MM-dd HH:mm:ss" }}
+        {{ item.createdAt | date : "yyyy-MM-dd HH:mm:ss" }}
       </td>
       <td>{{ item.remark }}</td>
     </tr>
   </tbody>
 </nz-table>
 
-<nz-modal [(nzVisible)]="isOpenIqcRequestModal" nzTitle="Yêu cầu IQC kiểm tra chất lượng">
+<nz-modal
+  [(nzVisible)]="isOpenIqcRequestModal"
+  nzTitle="Yêu cầu IQC kiểm tra chất lượng"
+>
   <ng-container *nzModalContent>
-    <nz-table nzBordered [nzData]="['']" [nzFrontPagination]="false" nzSize="small">
+    <nz-table
+      nzBordered
+      [nzData]="['']"
+      [nzFrontPagination]="false"
+      nzSize="small"
+    >
       <tbody>
         <tr>
           <td style="font-weight: bold">
@@ -102,7 +170,11 @@
           </td>
           <td>
             <nz-select [(ngModel)]="iqcRequest.requestNo">
-              <nz-option *ngFor="let slipNo of slipNos" [nzValue]="slipNo" [nzLabel]="slipNo">
+              <nz-option
+                *ngFor="let slipNo of slipNos"
+                [nzValue]="slipNo"
+                [nzLabel]="slipNo"
+              >
               </nz-option>
             </nz-select>
           </td>
@@ -112,9 +184,18 @@
             Invoice <span style="color: red">*</span>
           </td>
           <td>
-            <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Mã Invoice" [(ngModel)]="iqcRequest.invoice"
-              (ngModelChange)="onChangeInvoice($event)">
-              <nz-option *ngFor="let invoice of invoices" [nzValue]="invoice.invoice" [nzLabel]="invoice.invoice">
+            <nz-select
+              nzShowSearch
+              nzAllowClear
+              nzPlaceHolder="Mã Invoice"
+              [(ngModel)]="iqcRequest.invoice"
+              (ngModelChange)="onChangeInvoice($event)"
+            >
+              <nz-option
+                *ngFor="let invoice of invoices"
+                [nzValue]="invoice.invoice"
+                [nzLabel]="invoice.invoice"
+              >
               </nz-option>
             </nz-select>
           </td>
@@ -124,36 +205,64 @@
             Supplier <span style="color: red">*</span>
           </td>
           <td>
-            <input #requestNo nz-input placeholder="Nhà cung cấp" [(ngModel)]="iqcRequest.supplier" />
+            <input
+              #requestNo
+              nz-input
+              placeholder="Nhà cung cấp"
+              [(ngModel)]="iqcRequest.supplier"
+            />
           </td>
         </tr>
         <tr>
-          <td style="font-weight: bold">
-            Ghi chú
-          </td>
+          <td style="font-weight: bold">Ghi chú</td>
           <td>
-            <input nz-input placeholder="Ghi chú" [(ngModel)]="iqcRequest.remark" />
+            <input
+              nz-input
+              placeholder="Ghi chú"
+              [(ngModel)]="iqcRequest.remark"
+            />
           </td>
         </tr>
       </tbody>
     </nz-table>
   </ng-container>
   <ng-template [nzModalFooter]>
-    <button nz-button nzType="default" (click)="this.isOpenIqcRequestModal = false">
+    <button
+      nz-button
+      nzType="default"
+      (click)="this.isOpenIqcRequestModal = false"
+    >
       Đóng
     </button>
-    <button nz-button nzType="primary" (click)="createIqcRequest()" [disabled]="!this.iqcRequest.requestNo">
+    <button
+      nz-button
+      nzType="primary"
+      (click)="createIqcRequest()"
+      [disabled]="!this.iqcRequest.requestNo"
+    >
       Tạo yêu cầu IQC
     </button>
   </ng-template>
 </nz-modal>
 
-<nz-modal [(nzVisible)]="isOpenIqcDetailModal" nzTitle="Thông tin kiểm tra chất lượng" nzWidth="1200px">
+<nz-modal
+  [(nzVisible)]="isOpenIqcDetailModal"
+  nzTitle="Thông tin kiểm tra chất lượng"
+  nzWidth="1200px"
+>
   <ng-container *nzModalContent>
-    <label>Request No: </label><span style="color: green;">{{iqcRequestSelected.requestNo}}</span> &nbsp; | &nbsp; 
-    <label>Invoice No: </label><span style="color: green;">{{iqcRequestSelected.invoice}}</span>
-    <nz-table #iqcRequestDetailsTable nzSize="small" [nzBordered]="true" [nzData]="iqcRequestDetails"
-      [nzFrontPagination]="true" nzTableLayout="fixed">
+    <label>Request No: </label
+    ><span style="color: green">{{ iqcRequestSelected.requestNo }}</span> &nbsp;
+    | &nbsp; <label>Invoice No: </label
+    ><span style="color: green">{{ iqcRequestSelected.invoice }}</span>
+    <nz-table
+      #iqcRequestDetailsTable
+      nzSize="small"
+      [nzBordered]="true"
+      [nzData]="iqcRequestDetails"
+      [nzFrontPagination]="true"
+      nzTableLayout="fixed"
+    >
       <thead>
         <tr>
           <th class="text-center" rowspan="2">Model</th>
@@ -173,34 +282,113 @@
         <tr *ngFor="let item of iqcRequestDetailsTable.data">
           <td>{{ item.model }}</td>
           <td>{{ item.lotGroup }}</td>
-          <td class="text-right">{{ item.qty | number: "1.0-3" }}</td>
+          <td class="text-right">{{ item.qty | number : "1.0-3" }}</td>
           <td class="text-right">{{ item.amount }}</td>
-          <td [ngClass]="{
-            'text-center': true,
-            'text-danger': item.result1 == 'NG',
-            'text-success': item.result1 == 'OK',
-            'text-primary': item.result1 == 'CA'
-          }" style="font-weight: bold">{{ item.result1 }}</td>
-          <td [ngClass]="{
-            'text-center': true,
-            'text-danger': item.result2 == 'NG',
-            'text-success': item.result2 == 'OK',
-            'text-primary': item.result2 == 'CA'
-          }" style="font-weight: bold">{{ item.result2 }}</td>
-          <td [ngClass]="{
-            'text-center': true,
-            'text-danger': item.result3 == 'NG',
-            'text-success': item.result3 == 'OK',
-            'text-primary': item.result3 == 'CA'
-          }" style="font-weight: bold">{{ item.result3 }}</td>
+          <td
+            [ngClass]="{
+              'text-center': true,
+              'text-danger': item.result1 == 'NG',
+              'text-success': item.result1 == 'OK',
+              'text-primary': item.result1 == 'CA'
+            }"
+            style="font-weight: bold"
+          >
+            {{ item.result1 }}
+          </td>
+          <td
+            [ngClass]="{
+              'text-center': true,
+              'text-danger': item.result2 == 'NG',
+              'text-success': item.result2 == 'OK',
+              'text-primary': item.result2 == 'CA'
+            }"
+            style="font-weight: bold"
+          >
+            {{ item.result2 }}
+          </td>
+          <td
+            [ngClass]="{
+              'text-center': true,
+              'text-danger': item.result3 == 'NG',
+              'text-success': item.result3 == 'OK',
+              'text-primary': item.result3 == 'CA'
+            }"
+            style="font-weight: bold"
+          >
+            {{ item.result3 }}
+          </td>
           <td>{{ item.remark }}</td>
         </tr>
       </tbody>
     </nz-table>
   </ng-container>
   <ng-template [nzModalFooter]>
-    <button nz-button nzType="default" (click)="this.isOpenIqcDetailModal = false">
+    <button
+      nz-button
+      nzType="default"
+      (click)="this.isOpenIqcDetailModal = false"
+    >
       Đóng
+    </button>
+  </ng-template>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="isOpenIqcRequestCreateSorting"
+  nzTitle="Tạo request IQC hàng sorting"
+  nzWidth="900px"
+>
+  <ng-container *nzModalContent>
+    <table id="scanTbl">
+      <tbody>
+        <tr>
+          <td style="width: 15%;"><label style="font-weight: bold">Mã QR code</label></td>
+          <td>
+            <input
+              #qrIpt
+              nz-input
+              placeholder="Scan mã QR code"
+              (keydown.enter)="scanLabel($event)"
+              (click)="qrIpt.select()"
+              autocomplete="off"
+            />
+          </td>
+          <td style="width: 15%;"><label>Số lượng</label> : {{this.labelScannedSet.size}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <br />
+    <nz-table #basicTable [nzData]="labelScannedArr" [nzSize]="'small'" nzBordered>
+      <thead>
+        <tr>
+          <th style="width: 90%">Lot No</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of basicTable.data">
+          <td>{{data}}</td>
+          <td style="text-align: center; color: red">
+            <a style="color: red" (click)="deleteLabelScanned(data)">Xóa</a>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
+
+  <ng-template [nzModalFooter]>
+    <button
+      nz-button
+      nzType="default"
+    >
+      Đóng
+    </button>
+    <button
+      nz-button
+      nzType="primary"
+      (click)="createIqcSortingRequest()"
+    >
+      Tạo request
     </button>
   </ng-template>
 </nz-modal>

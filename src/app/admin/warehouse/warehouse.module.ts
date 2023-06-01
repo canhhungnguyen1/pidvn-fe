@@ -22,6 +22,8 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { DxDataGridModule } from 'devextreme-angular';
 import { CheckDateIqcComponent } from './check-date-iqc/check-date-iqc.component';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
 
 @NgModule({
   declarations: [
@@ -49,7 +51,9 @@ import { CheckDateIqcComponent } from './check-date-iqc/check-date-iqc.component
     NzPaginationModule,
     NzToolTipModule,
     NzSelectModule,
-    DxDataGridModule
+    DxDataGridModule,
+    NzSpaceModule,
+    NzDividerModule
   ],
   providers: [DatePipe]
 })

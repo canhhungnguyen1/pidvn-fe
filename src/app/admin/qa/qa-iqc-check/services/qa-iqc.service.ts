@@ -66,4 +66,23 @@ export class QaIqcService {
     return this.httpClient.get(`${this.baseUrl}/QA/IqcCheck/ChangeConfigAudit?configValue=${configValue}`);
   }
 
+
+  // Thêm phần sorting
+  public getIqcDataSortingMaster(requestNo: any): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/QA/IqcCheck/IqcDataSortingMaster/${requestNo}`);
+  }
+
+  public getIqcDataSortingDetail(requestNo: any): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/QA/IqcCheck/IqcDataSortingDetail/${requestNo}`);
+  }
+
+  public saveIqcDataSortingMaster(iqcData: any): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/QA/IqcCheck/SaveIqcDataSortingMaster`, iqcData);
+  }
+
+  public saveIqcDataSortingDetail(iqcData: any): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/QA/IqcCheck/SaveIqcDataSortingDetail`, iqcData);
+  }
+
+
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { ToastrService } from 'ngx-toastr';
 import { WhIqcRequestService } from './services/wh-iqc-request.service';
@@ -9,6 +9,9 @@ import { WhIqcRequestService } from './services/wh-iqc-request.service';
   styleUrls: ['./wh-iqc-request.component.scss'],
 })
 export class WhIqcRequestComponent implements OnInit {
+
+  @ViewChild('qrIpt') qrIpt!: ElementRef;
+
   iqcRequestDetails: any;
   iqcRequests: any;
   isOpenIqcRequestModal: boolean = false;
@@ -18,6 +21,11 @@ export class WhIqcRequestComponent implements OnInit {
   invoices: any;
   iqcRequestSelected: any;
   slipNos: any;
+
+  isOpenIqcRequestCreateSorting: boolean = false;
+  labelScannedSet = new Set();
+  labelScannedArr: Array<any> = new Array();
+
 
   constructor(
     private toastr: ToastrService,
@@ -123,4 +131,59 @@ export class WhIqcRequestComponent implements OnInit {
     this.searchVo.fromDate = result[0];
     this.searchVo.toDate = result[1];
   }
+
+
+
+  scanLabel(event: any) {
+    let labelValue = event.target.value;
+    
+    this.qrIpt.nativeElement.select();
+
+    /**
+     * Có 2 TH: Elektrisola & Tem tự in
+     */
+
+    let dataSplit = labelValue.split(';')
+
+    if(dataSplit.length >= 5 && dataSplit[4] === '21010284') {
+
+      this.handleScanElektrisola(dataSplit);
+
+      return;
+    }
+
+    
+    this.labelScannedSet.add(`${dataSplit[3]}`)
+    this.labelScannedArr = [...Array.from(this.labelScannedSet).reverse()];
+    return;
+
+  }
+
+
+  handleScanElektrisola(dataSplit: any) {
+    this.labelScannedSet.add(`${dataSplit[3]}${dataSplit[5]}`)
+    this.labelScannedArr = [...Array.from(this.labelScannedSet).reverse()];
+  }
+
+
+
+
+  createIqcSortingRequest() {
+    this.whIqcSvc.createIqcRequestSorting(this.labelScannedArr).subscribe(
+      response => {
+        this.isOpenIqcRequestCreateSorting = false;
+        this.toastr.success('Đã tạo request IQC', 'Success');
+        this.getIQCRequests();
+        this.labelScannedSet = new Set();
+        this.labelScannedArr = new Array();
+      }
+    )
+  }
+
+  deleteLabelScanned(event: any) {
+    this.labelScannedSet.delete(event);
+    this.labelScannedArr = [...Array.from(this.labelScannedSet).reverse()];
+  }
+
+
 }
