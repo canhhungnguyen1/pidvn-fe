@@ -49,6 +49,9 @@ export class QaIqcResultDetailComponent implements OnInit {
 
       this.qaIqcSvc.getIqcDataSortingDetail(this.requestNo).subscribe((response) => {
         this.iqcDataSortingDetails = response;
+
+        console.log('iqcDataSortingDetails: ', this.iqcDataSortingDetails)
+
       });
       return;
     }
@@ -66,6 +69,19 @@ export class QaIqcResultDetailComponent implements OnInit {
   }
 
   getLotGroup() {
+
+    if(this.requestType === 'sorting') {
+      this.qaIqcSvc.getIqcDataSortingMaster(this.requestNo).subscribe(
+        response => {
+          this.lotGroupSelected = response[0];
+          console.log('lotGroupSelected: ', this.lotGroupSelected)
+        }
+      )
+
+      return
+    }
+
+
     let obj = {
       invoice: this.invoice,
       requestNo: this.requestNo,
@@ -74,6 +90,7 @@ export class QaIqcResultDetailComponent implements OnInit {
     };
     this.qaIqcSvc.getIqcDataMaster(obj).subscribe((response) => {
       this.lotGroupSelected = response[0];
+      console.log('lotGroupSelected: ', this.lotGroupSelected)
     });
   }
 
@@ -110,6 +127,11 @@ export class QaIqcResultDetailComponent implements OnInit {
     ).Username;
     this.lotNoSelected.createdBy = createdBy;
 
+
+    /**
+     * Trường hợp hàng SORTING
+     */
+    
     if(this.requestType === 'sorting') {
       console.log(this.lotNoSelected)
       this.qaIqcSvc.saveIqcDataSortingDetail(this.lotNoSelected).subscribe(
@@ -125,12 +147,12 @@ export class QaIqcResultDetailComponent implements OnInit {
       return
     }
 
-    // this.qaIqcSvc
-    //   .saveIqcDataDetail(this.lotNoSelected)
-    //   .subscribe((response) => {
-    //     this.isOpenDetailModal = false;
-    //     this.getIqcDataDetail();
-    //   });
+    this.qaIqcSvc
+      .saveIqcDataDetail(this.lotNoSelected)
+      .subscribe((response) => {
+        this.isOpenDetailModal = false;
+        this.getIqcDataDetail();
+      });
   }
 
   /**
@@ -177,6 +199,25 @@ export class QaIqcResultDetailComponent implements OnInit {
     this.lotGroupSelected.lotGroup = this.lotGroup;
     this.lotGroupSelected.model = this.model;
 
+
+
+    /**
+     * Trường hợp hàng SORTING
+     */
+
+    if(this.requestType === 'sorting') {
+      this.qaIqcSvc.saveIqcDataSortingMaster(this.lotGroupSelected).subscribe(
+        response => {
+          this.toastr.success('Đã lưu !','Success')
+          this.isOpenMasterModal = false;
+          this.getLotGroup();
+        }
+      )
+
+      return;
+    }
+
+
     this.qaIqcSvc
       .saveIqcDataMaster(this.lotGroupSelected)
       .subscribe((response) => {
@@ -186,6 +227,9 @@ export class QaIqcResultDetailComponent implements OnInit {
       });
   }
 
+  /**
+   * Xóa dữ liệu detail
+   */
   onDelete() {
     if (!this.lotNoSelected.id) {
       this.lotNoSelected.result1 = null;
@@ -199,6 +243,20 @@ export class QaIqcResultDetailComponent implements OnInit {
       this.lotNoSelected.result2 = null;
       this.lotNoSelected.result3 = null;
       this.lotNoSelected.remark = null;
+
+
+
+      if(this.requestType === 'sorting') {
+        this.qaIqcSvc.deleteIqcDataSortingDetail(this.lotNoSelected.id).subscribe(
+          response => {
+            this.toastr.success(response.result, 'Success');
+            this.getIqcDataDetail();
+            this.isOpenDetailModal = false;
+          }
+        ) 
+
+        return;
+      }
 
       this.qaIqcSvc
         .deleteIqcDataDetail(this.lotNoSelected.id)

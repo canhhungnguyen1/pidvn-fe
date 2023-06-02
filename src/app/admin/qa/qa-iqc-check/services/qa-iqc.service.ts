@@ -84,5 +84,9 @@ export class QaIqcService {
     return this.httpClient.post(`${this.baseUrl}/QA/IqcCheck/SaveIqcDataSortingDetail`, iqcData);
   }
 
+  public deleteIqcDataSortingDetail(id: number ): Observable<any> {
+    return this.httpClient.delete(`${this.baseUrl}/QA/IqcCheck/DeleteIqcDataSortingDetail?id=${id}`);
+  }
+
 
 }
