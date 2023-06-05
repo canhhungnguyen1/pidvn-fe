@@ -97,7 +97,7 @@
     nz-button
     *nzSpaceItem
     nzType="default"
-    (click)="isOpenIqcRequestCreateSorting = true"
+    (click)="isOpenIqcRequestCreateSortingModal = true"
   >
     <i nz-icon nzType="plus"></i>
     IQC Request (Hàng sorting)
@@ -251,24 +251,96 @@
   nzWidth="1200px"
 >
   <ng-container *nzModalContent>
-    <label>Request No: </label
-    ><span style="color: green">{{ iqcRequestSelected.requestNo }}</span> &nbsp;
-    | &nbsp; <label>Invoice No: </label
-    ><span style="color: green">{{ iqcRequestSelected.invoice }}</span>
-    <nz-table
-      #iqcRequestDetailsTable
-      nzSize="small"
-      [nzBordered]="true"
-      [nzData]="iqcRequestDetails"
-      [nzFrontPagination]="true"
-      nzTableLayout="fixed"
-    >
+    <ng-container
+      *ngIf="
+        iqcRequestSelected.type == 'sorting';
+        then template1;
+        else template2
+      "
+    ></ng-container>
+
+    <!--Hàng sorting-->
+    <ng-template #template1>
+      <nz-divider nzText="Đánh giá chung" nzOrientation="left"></nz-divider>
+      <nz-table
+        #iqcDataSortingInfoTable
+        nzSize="small"
+        [nzBordered]="true"
+        [nzData]="iqcDataSortingInfo.masters"
+        [nzFrontPagination]="false"
+        nzTableLayout="fixed"
+      >
+        <thead>
+          <tr>
+            <th class="text-center" rowspan="2">Request No</th>
+            <th class="text-center" rowspan="2">Qty</th>
+            <th class="text-center" rowspan="2">Số kiện</th>
+            <th class="text-center" colspan="3">Kết quả IQC</th>
+            <th class="text-center" rowspan="2">Thông tin <br />NG hoặc CA</th>
+          </tr>
+          <tr>
+            <th class="text-center" rowspan="2">GP</th>
+            <th class="text-center" rowspan="2">Ngoại quan</th>
+            <th class="text-center" rowspan="2">Kích thước</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of iqcDataSortingInfoTable.data">
+            <td>{{ item.requestNo }}</td>
+            <td class="text-right">{{ item.qty | number : "1.0-3" }}</td>
+            <td class="text-right">{{ item.amount }}</td>
+            <td
+              [ngClass]="{
+                'text-center': true,
+                'text-danger': item.result1 == 'NG',
+                'text-success': item.result1 == 'OK',
+                'text-primary': item.result1 == 'CA'
+              }"
+              style="font-weight: bold"
+            >
+              {{ item.result1 }}
+            </td>
+            <td
+              [ngClass]="{
+                'text-center': true,
+                'text-danger': item.result2 == 'NG',
+                'text-success': item.result2 == 'OK',
+                'text-primary': item.result2 == 'CA'
+              }"
+              style="font-weight: bold"
+            >
+              {{ item.result2 }}
+            </td>
+            <td
+              [ngClass]="{
+                'text-center': true,
+                'text-danger': item.result3 == 'NG',
+                'text-success': item.result3 == 'OK',
+                'text-primary': item.result3 == 'CA'
+              }"
+              style="font-weight: bold"
+            >
+              {{ item.result3 }}
+            </td>
+            <td>{{ item.remark }}</td>
+          </tr>
+        </tbody>
+      </nz-table>
+
+      <nz-divider nzText="Chi tiết request" nzOrientation="left"></nz-divider>
+
+      <nz-table
+        #iqcDataSortingDetailInfoTable
+        nzSize="small"
+        [nzBordered]="true"
+        [nzData]="iqcDataSortingInfo.details"
+        [nzFrontPagination]="false"
+        nzTableLayout="fixed"
+      >
       <thead>
         <tr>
-          <th class="text-center" rowspan="2">Model</th>
-          <th class="text-center" rowspan="2">Lot Group</th>
+          <th class="text-center" rowspan="2">Lot No</th>
           <th class="text-center" rowspan="2">Qty</th>
-          <th class="text-center" rowspan="2">Số kiện</th>
           <th class="text-center" colspan="3">Kết quả IQC</th>
           <th class="text-center" rowspan="2">Thông tin <br />NG hoặc CA</th>
         </tr>
@@ -279,11 +351,9 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of iqcRequestDetailsTable.data">
-          <td>{{ item.model }}</td>
-          <td>{{ item.lotGroup }}</td>
+        <tr *ngFor="let item of iqcDataSortingDetailInfoTable.data">
+          <td>{{ item.lotNo }}</td>
           <td class="text-right">{{ item.qty | number : "1.0-3" }}</td>
-          <td class="text-right">{{ item.amount }}</td>
           <td
             [ngClass]="{
               'text-center': true,
@@ -320,7 +390,84 @@
           <td>{{ item.remark }}</td>
         </tr>
       </tbody>
-    </nz-table>
+      </nz-table>
+
+
+    </ng-template>
+
+    <!--Hàng không sorting-->
+    <ng-template #template2>
+      <label>Request No: </label
+      ><span style="color: green">{{ iqcRequestSelected.requestNo }}</span>
+      &nbsp; | &nbsp; <label>Invoice No: </label
+      ><span style="color: green">{{ iqcRequestSelected.invoice }}</span>
+      <nz-table
+        #iqcRequestDetailsTable
+        nzSize="small"
+        [nzBordered]="true"
+        [nzData]="iqcRequestDetails"
+        [nzFrontPagination]="true"
+        nzTableLayout="fixed"
+      >
+        <thead>
+          <tr>
+            <th class="text-center" rowspan="2">Model</th>
+            <th class="text-center" rowspan="2">Lot Group</th>
+            <th class="text-center" rowspan="2">Qty</th>
+            <th class="text-center" rowspan="2">Số kiện</th>
+            <th class="text-center" colspan="3">Kết quả IQC</th>
+            <th class="text-center" rowspan="2">Thông tin <br />NG hoặc CA</th>
+          </tr>
+          <tr>
+            <th class="text-center" rowspan="2">GP</th>
+            <th class="text-center" rowspan="2">Ngoại quan</th>
+            <th class="text-center" rowspan="2">Kích thước</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of iqcRequestDetailsTable.data">
+            <td>{{ item.model }}</td>
+            <td>{{ item.lotGroup }}</td>
+            <td class="text-right">{{ item.qty | number : "1.0-3" }}</td>
+            <td class="text-right">{{ item.amount }}</td>
+            <td
+              [ngClass]="{
+                'text-center': true,
+                'text-danger': item.result1 == 'NG',
+                'text-success': item.result1 == 'OK',
+                'text-primary': item.result1 == 'CA'
+              }"
+              style="font-weight: bold"
+            >
+              {{ item.result1 }}
+            </td>
+            <td
+              [ngClass]="{
+                'text-center': true,
+                'text-danger': item.result2 == 'NG',
+                'text-success': item.result2 == 'OK',
+                'text-primary': item.result2 == 'CA'
+              }"
+              style="font-weight: bold"
+            >
+              {{ item.result2 }}
+            </td>
+            <td
+              [ngClass]="{
+                'text-center': true,
+                'text-danger': item.result3 == 'NG',
+                'text-success': item.result3 == 'OK',
+                'text-primary': item.result3 == 'CA'
+              }"
+              style="font-weight: bold"
+            >
+              {{ item.result3 }}
+            </td>
+            <td>{{ item.remark }}</td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </ng-template>
   </ng-container>
   <ng-template [nzModalFooter]>
     <button
@@ -334,15 +481,20 @@
 </nz-modal>
 
 <nz-modal
-  [(nzVisible)]="isOpenIqcRequestCreateSorting"
+  [(nzVisible)]="isOpenIqcRequestCreateSortingModal"
   nzTitle="Tạo request IQC hàng sorting"
   nzWidth="900px"
 >
   <ng-container *nzModalContent>
+    <span style="font-style: italic; color: red"
+      >* Lưu ý: scan can các hộp cùng Lot Group nhé</span
+    >
     <table id="scanTbl">
       <tbody>
         <tr>
-          <td style="width: 15%;"><label style="font-weight: bold">Mã QR code</label></td>
+          <td style="width: 15%">
+            <label style="font-weight: bold">Mã QR code</label>
+          </td>
           <td>
             <input
               #qrIpt
@@ -353,12 +505,19 @@
               autocomplete="off"
             />
           </td>
-          <td style="width: 15%;"><label>Số lượng</label> : {{this.labelScannedSet.size}}</td>
+          <td style="width: 15%">
+            <label>Số lượng</label> : {{ this.labelScannedSet.size }}
+          </td>
         </tr>
       </tbody>
     </table>
     <br />
-    <nz-table #basicTable [nzData]="labelScannedArr" [nzSize]="'small'" nzBordered>
+    <nz-table
+      #basicTable
+      [nzData]="labelScannedArr"
+      [nzSize]="'small'"
+      nzBordered
+    >
       <thead>
         <tr>
           <th style="width: 90%">Lot No</th>
@@ -367,7 +526,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let data of basicTable.data">
-          <td>{{data}}</td>
+          <td>{{ data }}</td>
           <td style="text-align: center; color: red">
             <a style="color: red" (click)="deleteLabelScanned(data)">Xóa</a>
           </td>
@@ -380,14 +539,11 @@
     <button
       nz-button
       nzType="default"
+      (click)="closeIqcRequestCreateSortingModal()"
     >
       Đóng
     </button>
-    <button
-      nz-button
-      nzType="primary"
-      (click)="createIqcSortingRequest()"
-    >
+    <button nz-button nzType="primary" (click)="createIqcSortingRequest()">
       Tạo request
     </button>
   </ng-template>

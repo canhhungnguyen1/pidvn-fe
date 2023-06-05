@@ -22,10 +22,11 @@ export class WhIqcRequestComponent implements OnInit {
   iqcRequestSelected: any;
   slipNos: any;
 
-  isOpenIqcRequestCreateSorting: boolean = false;
+  isOpenIqcRequestCreateSortingModal: boolean = false;
   labelScannedSet = new Set();
   labelScannedArr: Array<any> = new Array();
 
+  iqcDataSortingInfo: any;
 
   constructor(
     private toastr: ToastrService,
@@ -98,6 +99,25 @@ export class WhIqcRequestComponent implements OnInit {
     this.iqcRequestSelected = { ...data };
 
     console.log(this.iqcRequestSelected);
+
+
+    // Trường hợp nếu là request sorting
+
+
+
+
+    if(this.iqcRequestSelected.type === 'sorting') {
+
+      this.whIqcSvc.getIqcDataSortingInfo(this.iqcRequestSelected.requestNo).subscribe(
+        response => {
+          this.isOpenIqcDetailModal = true;
+          this.iqcDataSortingInfo = response;
+          console.log('iqcDataSortingInfo: ', this.iqcDataSortingInfo)
+        }
+      )
+
+      return;
+    }
     
 
     let searchVo = {
@@ -109,6 +129,14 @@ export class WhIqcRequestComponent implements OnInit {
       this.iqcRequestDetails = response;
       this.isOpenIqcDetailModal = true;
     });
+
+
+
+
+
+
+
+
 
   }
 
@@ -171,7 +199,7 @@ export class WhIqcRequestComponent implements OnInit {
   createIqcSortingRequest() {
     this.whIqcSvc.createIqcRequestSorting(this.labelScannedArr).subscribe(
       response => {
-        this.isOpenIqcRequestCreateSorting = false;
+        this.isOpenIqcRequestCreateSortingModal = false;
         this.toastr.success('Đã tạo request IQC', 'Success');
         this.getIQCRequests();
         this.labelScannedSet = new Set();
@@ -185,5 +213,14 @@ export class WhIqcRequestComponent implements OnInit {
     this.labelScannedArr = [...Array.from(this.labelScannedSet).reverse()];
   }
 
+
+  closeIqcRequestCreateSortingModal() {
+    
+    this.isOpenIqcRequestCreateSortingModal = false;
+
+    this.labelScannedSet = new Set();
+    this.labelScannedArr = new Array();
+
+  }
 
 }
