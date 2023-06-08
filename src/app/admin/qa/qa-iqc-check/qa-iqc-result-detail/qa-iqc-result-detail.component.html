@@ -184,7 +184,11 @@
   </nz-table>
 </ng-template>
 
-<nz-modal [(nzVisible)]="isOpenMasterModal" nzTitle="Đánh giá chung">
+<nz-modal
+  [(nzVisible)]="isOpenMasterModal"
+  nzTitle="Đánh giá chung"
+  [nzWidth]="'900px'"
+>
   <ng-container *nzModalContent>
     <nz-table
       nzSize="small"
@@ -195,27 +199,27 @@
       <tbody>
         <tr>
           <td><label>Request No</label></td>
-          <td>{{ lotGroupSelected.requestNo }}</td>
+          <td colspan="3">{{ lotGroupSelected.requestNo }}</td>
         </tr>
         <tr>
           <td><label>Lot Group</label></td>
-          <td>{{ lotGroupSelected.lotGroup }}</td>
+          <td colspan="3">{{ lotGroupSelected.lotGroup }}</td>
         </tr>
         <tr>
           <td><label>Model</label></td>
-          <td>{{ lotGroupSelected.model }}</td>
+          <td colspan="3">{{ lotGroupSelected.model }}</td>
         </tr>
         <tr>
           <td><label>Qty</label></td>
-          <td>{{ lotGroupSelected.qty | number : "1.0-3" }}</td>
+          <td colspan="3">{{ lotGroupSelected.qty | number : "1.0-3" }}</td>
         </tr>
         <tr>
           <td><label>Số kiện</label></td>
-          <td>{{ lotGroupSelected.amount }}</td>
+          <td colspan="3">{{ lotGroupSelected.amount }}</td>
         </tr>
         <tr>
           <td><label>GP</label></td>
-          <td>
+          <td colspan="3">
             <nz-radio-group [(ngModel)]="lotGroupSelected.result1">
               <label nz-radio nzValue="OK" style="color: green">OK</label>
               <label nz-radio nzValue="NG" style="color: red">NG</label>
@@ -231,6 +235,14 @@
               <label nz-radio nzValue="CA" style="color: black">CA</label>
             </nz-radio-group>
           </td>
+          <td><label>Mức kiểm soát</label></td>
+          <td>
+            <input
+              nz-input
+              placeholder="Mức kiểm soát ngoại quan"
+              [(ngModel)]="lotGroupSelected.levelOfControlNgoaiQuan"
+            />
+          </td>
         </tr>
         <tr>
           <td><label>Kích thước</label></td>
@@ -241,12 +253,20 @@
               <label nz-radio nzValue="CA" style="color: black">CA</label>
             </nz-radio-group>
           </td>
+          <td><label>Mức kiểm soát</label></td>
+          <td>
+            <input
+              nz-input
+              placeholder="Mức kiểm soát kích thước"
+              [(ngModel)]="lotGroupSelected.levelOfControlKichThuoc"
+            />
+          </td>
         </tr>
         <tr>
           <td>
             <label>Thông tin <br />NG hoặc CA</label>
           </td>
-          <td>
+          <td colspan="3">
             <textarea
               rows="3"
               nz-input
