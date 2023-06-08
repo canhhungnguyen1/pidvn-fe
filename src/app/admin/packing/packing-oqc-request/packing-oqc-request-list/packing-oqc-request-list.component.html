@@ -327,12 +327,15 @@
         <tr>
           <th>Ghi chú</th>
           <th colSpan="3">
-            <textarea
-              rows="4"
-              nz-input
-              placeholder="Nhập ghi chú"
-              [(ngModel)]="requestCreate.remark"
-            ></textarea>
+            <nz-textarea-count [nzMaxCharacterCount]="100">
+              <textarea
+                rows="4"
+                nz-input
+                placeholder="Nhập ghi chú"
+                [(ngModel)]="requestCreate.remark"
+                maxlength="100"
+              ></textarea>
+            </nz-textarea-count>
           </th>
         </tr>
       </thead>
