@@ -3,6 +3,10 @@ import { NgxCroppedEvent, NgxPhotoEditorService } from 'ngx-photo-editor';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment';
 import { HrEmpFileService } from '../services/hr-emp-file.service';
+import { UserInfoService } from '../../../personal/services/user-info.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzUploadFile } from 'ng-zorro-antd/upload';
+import { Observable, Observer } from 'rxjs';
 
 @Component({
   selector: 'app-hr-emp-file',
@@ -12,8 +16,10 @@ import { HrEmpFileService } from '../services/hr-emp-file.service';
 export class HrEmpFileComponent implements OnInit {
   constructor(
     private hrEmpFileSvc: HrEmpFileService,
+    private userInfoSvc: UserInfoService,
     private ngxPhotoEditorSvc: NgxPhotoEditorService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private msg: NzMessageService,
   ) {}
 
   output?: any;
@@ -26,8 +32,15 @@ export class HrEmpFileComponent implements OnInit {
 
   fallback = `${this.baseUrl}/images/pdf.png`;
 
+
+  isOpenUploadFileModal: boolean = false;
+  selectedFileType: string | undefined;
+  uploadFileApi: string = '';
+  userFileTypes: any;
+
   ngOnInit(): void {
     this.getUsers();
+    this.getUserFileTypes();
   }
 
   getUsers() {
@@ -92,4 +105,66 @@ export class HrEmpFileComponent implements OnInit {
         });
     });
   }
+
+
+
+  onChangeFileType(event: any) {
+    this.uploadFileApi = `${this.baseUrl}/Personal/UploadFile?username=${this.userSelected.username}&fileType=${event}`;
+  }
+
+  closeUploadFileModal() {
+    this.isOpenUploadFileModal = false;
+    this.hrEmpFileSvc
+      .getUserFiles(this.userSelected.username)
+      .subscribe((response) => {
+        this.userFiles = this.buildData(response);
+      });
+  }
+
+
+  beforeUpload = (
+    file: NzUploadFile,
+    _fileList: NzUploadFile[]
+  ): Observable<boolean> =>
+    new Observable((observer: Observer<boolean>) => {
+      const isJpgOrPngOrPdf =
+        file.type === 'image/jpeg' ||
+        file.type === 'image/png' ||
+        file.type === 'application/pdf';
+      if (!isJpgOrPngOrPdf) {
+        this.msg.error('Chỉ có thể upload file ảnh hoặc pdf');
+        observer.complete();
+        return;
+      }
+
+      const isSelectFile = this.selectedFileType;
+      if (!isSelectFile) {
+        this.msg.error('Bạn cần chọn loại giấy tờ');
+        observer.complete();
+        return;
+      }
+      observer.next(isJpgOrPngOrPdf || isSelectFile);
+      observer.complete();
+    });
+
+  fileClick(event: any) {
+    if (event.fileFormat !== 'application/pdf') {
+      return;
+    }
+    console.log('Xử lý view file PDF', event);
+    this.userInfoSvc.openUserFile(event).subscribe((response) => {
+      let file = new Blob([response], { type: 'application/pdf' });
+      let fileURL = URL.createObjectURL(file);
+      window.open(fileURL);
+    });
+  }
+
+
+  getUserFileTypes() {
+    this.userInfoSvc.getUserFileTypes().subscribe((response) => {
+      this.userFileTypes = response;
+    });
+  }
+
+  
 }

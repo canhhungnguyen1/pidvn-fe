@@ -58,7 +58,14 @@
     <!-- <input type="file" (change)="fileChangeHandler($event)" />
     <img [src]="output?.base64" alt="" /> -->
 
+    
+
     <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+
+      <button nz-button nzType="primary" (click)="isOpenUploadFileModal = true">
+        Upload Hồ sơ / Giấy tờ
+      </button>
+
       <nz-table
         #basicTable
         [nzData]="userFiles"
@@ -99,6 +106,7 @@
                         file.fileName
                       "
                       [nzFallback]="fallback"
+                      (click)="fileClick(file)"
                     />
                   </nz-badge>
                   <ng-template #iconTemplate>
@@ -120,5 +128,44 @@
         </tbody>
       </nz-table>
     </div>
+  </ng-container>
+</nz-modal>
+
+
+
+<nz-modal [(nzVisible)]="isOpenUploadFileModal" nzTitle="Hồ sơ / Giấy tờ">
+  <ng-container *nzModalContent>
+    <span style="color: red; font-weight: bold">* &nbsp;</span
+    ><label>Loại giấy tờ</label>
+    <nz-select
+      nzPlaceHolder="Chọn loại giấy tờ"
+      nzShowSearch
+      nzAllowClear
+      [(ngModel)]="selectedFileType"
+      (ngModelChange)="onChangeFileType($event)"
+    >
+      <nz-option
+        *ngFor="let fileType of userFileTypes"
+        [nzValue]="fileType.code"
+        [nzLabel]="fileType.name"
+      ></nz-option>
+    </nz-select>
+
+    <nz-upload
+      [nzAction]="uploadFileApi"
+      nzListType="picture"
+      [nzBeforeUpload]="beforeUpload"
+    >
+      <button nz-button style="margin-top: 10px">
+        <i nz-icon nzType="upload"></i>
+        Upload
+      </button>
+    </nz-upload>
+  </ng-container>
+
+  <ng-container *nzModalFooter>
+    <button nz-button nzType="primary" (click)="closeUploadFileModal()">
+      Đóng
+    </button>
   </ng-container>
 </nz-modal>
