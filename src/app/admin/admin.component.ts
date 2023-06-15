@@ -97,8 +97,12 @@ export class AdminComponent implements OnInit {
       link: `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskill?line=TL2`
     },
     {
-      line: 'TE1',
+      line: 'TE1 10 pin',
       link: `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskill?line=TE1_10`
+    },
+    {
+      line: 'TE1 8 pin',
+      link: `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskill?line=TE1_8`
     },
     {
       line: 'TE2',
