@@ -61,4 +61,12 @@ export class QaOqcService {
     );
   }
 
+  public getConfigAudit(): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/QA/OqcCheck/ConfigAudit`);
+  }
+
+  public changeConfigAudit(configValue: string): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/QA/OqcCheck/ChangeConfigAudit?configValue=${configValue}`);
+  }
+
 }

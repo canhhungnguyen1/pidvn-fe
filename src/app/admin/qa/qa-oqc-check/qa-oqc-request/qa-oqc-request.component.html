@@ -65,6 +65,19 @@
   </dxo-column-chooser>
 
   <dxo-toolbar>
+    <dxi-item location="before">
+        <label style="color: #8f1db5;">Config</label>
+        <nz-switch
+          [ngModel]="isAudit"
+          nzCheckedChildren="Bật"
+          nzUnCheckedChildren="Tắt"
+          style="margin-left: 5px;"
+          (ngModelChange)="changeAuditConfig($event)"
+        >
+        </nz-switch>
+        <ng-template #checkedTemplate><span nz-icon nzType="check"></span></ng-template>
+        <ng-template #unCheckedTemplate><span nz-icon nzType="close"></span></ng-template>
+    </dxi-item>
     <dxi-item name="exportButton"></dxi-item>
     <dxi-item name="columnChooserButton"></dxi-item>
     <dxi-item

@@ -33,7 +33,10 @@ export class QaOqcRequestComponent implements OnInit {
   settingsButtonOptions: any;
   printButtonOptions: any
 
+  isAudit: boolean = false;
+
   ngOnInit(): void {
+    this.getConfigAudit();
     this.getOqcRequests(this.searchParams);
   }
 
@@ -99,10 +102,28 @@ export class QaOqcRequestComponent implements OnInit {
         this.oqcRequests = response
       }
     ); 
+  }
 
 
+  changeAuditConfig(event: any) {
+    console.log('changeAuditConfig: ',event);
 
+    let configValue = event == true ? 'TRUE' : 'FALSE';
 
+    console.log(configValue)
 
+    this.qaOqcSvc.changeConfigAudit(configValue).subscribe(
+      response => {
+        this.getOqcRequests(this.searchParams);
+      }
+    )
+  }
+
+  getConfigAudit() {
+    this.qaOqcSvc.getConfigAudit().subscribe(
+      response => {
+        this.isAudit = response.configValue == 'TRUE' ? true : false
+      }
+    )
   }
 }

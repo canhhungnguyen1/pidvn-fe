@@ -25,6 +25,7 @@ import { PackingOqcRequestComponent } from './packing-oqc-request.component';
 import { PackingOqcSummaryComponent } from './packing-oqc-summary/packing-oqc-summary.component';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
 
 @NgModule({
   declarations: [PackingOqcRequestComponent, PackingOqcRequestListComponent, PackingOqcSummaryComponent],
@@ -52,7 +53,8 @@ import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
     NzCardModule,
     NzRadioModule,
     NzTagModule,
-    NzPopconfirmModule
+    NzPopconfirmModule,
+    NzSwitchModule
   ],
 })
 export class PackingOqcRequestModule {}
