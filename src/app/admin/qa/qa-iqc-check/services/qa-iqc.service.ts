@@ -72,8 +72,8 @@ export class QaIqcService {
     return this.httpClient.get(`${this.baseUrl}/QA/IqcCheck/IqcDataSortingMaster/${requestNo}`);
   }
 
-  public getIqcDataSortingDetail(requestNo: any): Observable<any> {
-    return this.httpClient.get(`${this.baseUrl}/QA/IqcCheck/IqcDataSortingDetail/${requestNo}`);
+  public getIqcDataSortingDetail(requestNo: any, lotGroup: any): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/QA/IqcCheck/IqcDataSortingDetail/${requestNo}?lotGroup=${lotGroup}`);
   }
 
   public saveIqcDataSortingMaster(iqcData: any): Observable<any> {

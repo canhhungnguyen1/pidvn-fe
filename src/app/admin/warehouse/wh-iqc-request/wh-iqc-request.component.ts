@@ -163,7 +163,7 @@ export class WhIqcRequestComponent implements OnInit {
 
 
   scanLabel(event: any) {
-    let labelValue = event.target.value;
+    let labelValue = event.target.value.toUpperCase();
     
     this.qrIpt.nativeElement.select();
 

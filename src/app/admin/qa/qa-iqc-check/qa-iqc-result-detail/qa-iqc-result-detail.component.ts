@@ -47,7 +47,7 @@ export class QaIqcResultDetailComponent implements OnInit {
 
     if(this.requestType === 'sorting') {
 
-      this.qaIqcSvc.getIqcDataSortingDetail(this.requestNo).subscribe((response) => {
+      this.qaIqcSvc.getIqcDataSortingDetail(this.requestNo, this.lotGroup).subscribe((response) => {
         this.iqcDataSortingDetails = response;
 
         console.log('iqcDataSortingDetails: ', this.iqcDataSortingDetails)
