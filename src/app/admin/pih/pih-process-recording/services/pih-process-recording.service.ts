@@ -58,4 +58,19 @@ export class PihProcessRecordingService {
       scannerVo
     );
   }
+
+  // Code audit below
+
+  public getPsMasters(model: string): Observable<any> {
+    return this.httpClient.get(
+      `${this.baseUrl}/PIH/ProcessRecording/PsMasters?model=${model}`
+    );
+  }
+
+  public checkSetupSaiNVL(model: string, coil: string ): Observable<any> {
+    return this.httpClient.get(
+      `${this.baseUrl}/PIH/ProcessRecording/CheckSetupSaiNVL?model=${model}&coil=${coil}`
+    );
+  }
+
 }

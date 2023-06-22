@@ -23,6 +23,7 @@ export class PihProcessRecordingModelChangeComponent implements OnInit {
   lots: Array<any> = new Array();
 
   materials: any;
+  psMasters: any;
 
   constructor(
     private pihPRSvc: PihProcessRecordingService,
@@ -72,8 +73,12 @@ export class PihProcessRecordingModelChangeComponent implements OnInit {
       cpn: this.scanner.label,
     };
 
+    this.parentModel = cpn[1];
+
     this.getMaterials(searchParams);
   }
+
+  parentModel: any;
 
   scanCoil(event: any) {
     if (this.lots.length >= 24) {
@@ -81,16 +86,33 @@ export class PihProcessRecordingModelChangeComponent implements OnInit {
       return;
     }
 
-    this.mapLotsScanned.set(
-      event.target.value.substring(1),
-      event.target.value.substring(1)
-    );
+    this.pihPRSvc
+      .checkSetupSaiNVL(this.parentModel, event.target.value.substring(1))
+      .subscribe((response) => {
+        console.log('response: ', response);
 
-    this.lots = Array.from(this.mapLotsScanned.values()).reverse();
+        if(response.result === 'OK') {
+          this.mapLotsScanned.set(
+            event.target.value.substring(1),
+            event.target.value.substring(1)
+          );
+      
+          this.lots = Array.from(this.mapLotsScanned.values()).reverse();
+      
+          this.coilIpt.nativeElement.select();
+      
+          console.log('aaa', this.lots);
+          return;
+        }
 
-    this.coilIpt.nativeElement.select();
+        if(response.result === 'NG') {
+          this.toastr.error('Sai nguyên vật liệu', 'ERROR');
+          return;
+        }
 
-    console.log('aaa', this.lots);
+      });
+
+    
   }
 
   getMaterials(searchVo: any) {
