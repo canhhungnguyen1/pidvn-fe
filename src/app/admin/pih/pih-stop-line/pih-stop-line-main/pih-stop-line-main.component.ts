@@ -282,9 +282,14 @@ export class PihStopLineMainComponent implements OnInit {
           ],
         };
 
-        this.getStopTimes(searchParams);
-        this.isOpenModal = false;
-        this.resetData();
+        //this.getStopTimes(searchParams);
+
+        this.pihStopLineSvc.getStopTimes(searchParams).subscribe((response) => {
+          this.stopTimes = response;
+          this.isOpenModal = false;
+          this.resetData();
+          this.getProductTypeIdByUser();
+        });
       });
       return;
     }
