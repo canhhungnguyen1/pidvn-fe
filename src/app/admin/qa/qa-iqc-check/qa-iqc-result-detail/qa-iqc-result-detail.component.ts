@@ -73,7 +73,10 @@ export class QaIqcResultDetailComponent implements OnInit {
     if(this.requestType === 'sorting') {
       this.qaIqcSvc.getIqcDataSortingMaster(this.requestNo).subscribe(
         response => {
-          this.lotGroupSelected = response[0];
+          this.lotGroupSelected = response.find((item:any) => item.lotGroup === this.lotGroup);
+
+
+
           console.log('lotGroupSelected: ', this.lotGroupSelected)
         }
       )
