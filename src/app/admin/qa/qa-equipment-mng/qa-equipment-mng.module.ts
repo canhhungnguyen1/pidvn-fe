@@ -26,6 +26,8 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { FormsModule } from '@angular/forms';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+import { QaEquipmentDataComponent } from './qa-equipment-data/qa-equipment-data.component';
+import { NzFormModule } from 'ng-zorro-antd/form';
 @NgModule({
   declarations: [
     QaEquipmentMngComponent,
@@ -33,6 +35,7 @@ import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
     QaEquipmentMenuComponent,
     QaEquipmentListComponent,
     QaEquipmentDetailComponent,
+    QaEquipmentDataComponent,
   ],
   imports: [
     CommonModule,
@@ -53,7 +56,8 @@ import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
     NzTabsModule,
     NzSelectModule,
     NzInputModule,
-    NzPopconfirmModule
+    NzPopconfirmModule,
+    NzFormModule
   ],
 })
 export class QaEquipmentMngModule {}

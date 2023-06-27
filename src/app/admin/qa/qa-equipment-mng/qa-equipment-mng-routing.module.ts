@@ -5,6 +5,7 @@ import { QaEquipmentMenuComponent } from './qa-equipment-menu/qa-equipment-menu.
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { QaEquipmentListComponent } from './qa-equipment-list/qa-equipment-list.component';
 import { QaEquipmentDetailComponent } from './qa-equipment-detail/qa-equipment-detail.component';
+import { QaEquipmentDataComponent } from './qa-equipment-data/qa-equipment-data.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,10 @@ const routes: Routes = [
   {
     path: 'devices/:deviceId',
     component: QaEquipmentDetailComponent
+  },
+  {
+    path: 'data',
+    component: QaEquipmentDataComponent
   }
 ];
 

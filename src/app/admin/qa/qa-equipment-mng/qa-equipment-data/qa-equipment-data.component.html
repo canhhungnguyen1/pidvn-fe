@@ -1,0 +1,67 @@
+<dx-data-grid
+  style="margin-top: 15px"
+  [dataSource]="devices"
+  keyExpr="id"
+  [showColumnLines]="true"
+  [showRowLines]="true"
+  [showBorders]="true"
+  [allowColumnResizing]="true"
+  [columnAutoWidth]="true"
+  [rowAlternationEnabled]="true"
+>
+  <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+  <dxo-export [enabled]="true"></dxo-export>
+  <dxo-column-chooser #columnChooser [enabled]="true" [mode]="'select'">
+  </dxo-column-chooser>
+
+  <dxo-toolbar>
+    <dxi-item location="before">
+      <dx-button
+        stylingMode="contained"
+        type="default"
+        icon="plus"
+        text="Thêm mới"
+      >
+      </dx-button>
+    </dxi-item>
+    <dxi-item name="exportButton"></dxi-item>
+    <dxi-item name="columnChooserButton"> </dxi-item>
+  </dxo-toolbar>
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
+
+  <dxi-column dataField="controlNo" caption="Control No"></dxi-column>
+  <dxi-column dataField="equipmentName" caption="Equipment Name"></dxi-column>
+  <dxi-column dataField="serialNo" caption="Serial No"></dxi-column>
+  <dxi-column dataField="typeNo" caption="Type No"></dxi-column>
+  <dxi-column dataField="manufacturer" caption="Manufacturer"></dxi-column>
+  <dxi-column
+    dataField="rangeOfMeasuring"
+    caption="Range Of Measuring"
+  ></dxi-column>
+  <dxi-column
+    dataField="distributionLocation"
+    caption="Distribution Location"
+  ></dxi-column>
+
+  <dxi-column
+    [fixed]="true"
+    fixedPosition="right"
+    caption="Action"
+    cellTemplate="actionTemplate"
+  >
+    <div *dxTemplate="let item of 'actionTemplate'">
+      <a (click)="openEditDeviceModal(item)">Edit</a>
+    </div>
+  </dxi-column>
+</dx-data-grid>
+
+<nz-modal
+  [(nzVisible)]="isOpenEditDeviceModal"
+  nzTitle="Thiết bị"
+>
+  <ng-container *nzModalContent>
+    <p>Content one</p>
+    <p>Content two</p>
+    <p>Content three</p>
+  </ng-container>
+</nz-modal>
