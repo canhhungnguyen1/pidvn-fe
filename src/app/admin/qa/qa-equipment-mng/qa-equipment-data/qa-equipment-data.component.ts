@@ -58,6 +58,17 @@ export class QaEquipmentDataComponent implements OnInit {
   }
 
   handleCancel() {
+    this.deviceSelected = {
+      controlNo: null,
+      equipmentName: null,
+      serialNo: null,
+      typeNo: null,
+      manufacturer: null,
+      distributionLocation: null,
+      rangeOfMeasuring: null,
+      createdAt: null,
+      updatedAt: null,
+    };
     this.isOpenEditDeviceModal = false;
   }
 
@@ -76,9 +87,9 @@ export class QaEquipmentDataComponent implements OnInit {
           createdAt: null,
           updatedAt: null,
         };
-        this.isOpenEditDeviceModal = false;
-        console.log(this.deviceSelected);
+        this.getQaDevices();
         this.toastr.success('OK','Success')
+        this.isOpenEditDeviceModal = false;
       });
   }
 }
