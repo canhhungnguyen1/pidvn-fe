@@ -38,7 +38,7 @@ export class QaEquipmentDataComponent implements OnInit {
 
   getQaDevices() {
     this.qaEquipmentMngSvc.getQaDevices().subscribe((response) => {
-      this.devices = response;
+      this.devices = response.reverse();
     });
   }
 
