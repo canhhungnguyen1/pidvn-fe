@@ -21,6 +21,7 @@
         type="default"
         icon="plus"
         text="Thêm mới"
+        (click)="openEditDeviceModal(null)"
       >
       </dx-button>
     </dxi-item>
@@ -57,11 +58,53 @@
 
 <nz-modal
   [(nzVisible)]="isOpenEditDeviceModal"
-  nzTitle="Thiết bị"
+  [nzTitle]="modalTitle"
+  nzWidth="900px"
 >
   <ng-container *nzModalContent>
-    <p>Content one</p>
-    <p>Content two</p>
-    <p>Content three</p>
+    <table id="deviceInfoTbl">
+      <tbody>
+        <tr>
+          <td><label>Control No</label></td>
+          <td>
+            <input nz-input placeholder="Control No" [(ngModel)]="deviceSelected.controlNo" />
+          </td>
+          <td><label>Equipment name</label></td>
+          <td>
+            <input nz-input placeholder="Equipment name" [(ngModel)]="deviceSelected.equipmentName" />
+          </td>
+        </tr>
+        <tr>
+          <td><label>Serial No</label></td>
+          <td>
+            <input nz-input placeholder="Serial No" [(ngModel)]="deviceSelected.serialNo" />
+          </td>
+          <td><label>Type No</label></td>
+          <td>
+            <input nz-input placeholder="Type No" [(ngModel)]="deviceSelected.typeNo" />
+          </td>
+        </tr>
+        <tr>
+          <td><label>Manufacturer</label></td>
+          <td>
+            <input nz-input placeholder="Manufacturer" [(ngModel)]="deviceSelected.manufacturer" />
+          </td>
+          <td><label>Location</label></td>
+          <td>
+            <input nz-input placeholder="Location"  [(ngModel)]="deviceSelected.distributionLocation" />
+          </td>
+        </tr>
+        <tr>
+          <td><label>Range Of Measuring</label></td>
+          <td colspan="3">
+              <textarea rows="2" nz-input [(ngModel)]="deviceSelected.rangeOfMeasuring"></textarea>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </ng-container>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="handleCancel()">Hủy</button>
+    <button nz-button nzType="primary" (click)="handleOk()">Lưu</button>
+  </div>
 </nz-modal>

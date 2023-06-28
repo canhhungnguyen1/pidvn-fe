@@ -87,4 +87,11 @@ export class QaEquipmentMngService {
       `${this.baseUrl}/Qa/EquipmentMng/QaDocDevices?docDeviceId=${docDeviceId}`
     );
   }
+
+
+  public saveDeviceInfo(deviceInfo: any): Observable<any> {
+    return this.httpClient.post(
+      `${this.baseUrl}/Qa/EquipmentMng/SaveDeviceInfo`, deviceInfo
+    );
+  }
 }
