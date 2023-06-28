@@ -50,6 +50,11 @@ export class AdminComponent implements OnInit {
       link: `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskill?line=TB1`
     },
     {
+      line: 'TB1 (Auto)',
+      link: `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskill?line=TB.1`
+    },
+    
+    {
       line: 'TB2 (Manual)',
       link: `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskill?line=TB2`
     },
@@ -60,6 +65,10 @@ export class AdminComponent implements OnInit {
     {
       line: 'TB4',
       link: `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskill?line=TB4`
+    },
+    {
+      line: 'TB4 (Auto)',
+      link: `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskill?line=TB.4`
     },
     {
       line: 'TB5 (Manual)',
@@ -174,6 +183,8 @@ export class AdminComponent implements OnInit {
   ]
 
   fgWarehouseLink!: string;
+  checkTemWHLink!: string
+  reportTemWHLink!: string;
   surveyLink!: string;
   examTestRelayLink!: string;
   examTestVrEncLink!: string;
@@ -206,6 +217,11 @@ export class AdminComponent implements OnInit {
 
 
     this.fgWarehouseLink = `${this.baseUrlJava}/Manufacturing/Monitoring/fg?accessToken=${accessToken}`
+    this.checkTemWHLink = `${this.baseUrlJava}/Manufacturing/Monitoring/fg/checktemWH?accessToken=${accessToken}`
+    this.reportTemWHLink = `${this.baseUrlJava}/Manufacturing/Monitoring/fg/reportchecktemwh?accessToken=${accessToken}`
+
+
+
     this.surveyLink = `${this.baseUrlJava}/survey/Handle/coi/menu?accessToken=${accessToken}`
     this.examTestRelayLink = `${this.baseUrlJava}/Manufacturing/Monitoring/MA/exam?area=Relay`
     this.checkExpiryDateRelayLink = `${this.baseUrlJava}/Manufacturing/Monitoring/MA/exam/list_expired?area=Relay`
