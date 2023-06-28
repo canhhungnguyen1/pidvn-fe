@@ -288,4 +288,18 @@ export class AdminComponent implements OnInit {
   changeDefaultLanguage(langType: string) {
     this.translate.changeLanguage(langType);
   }
+
+
+  isOpenNotification: boolean = false
+  isOpenNotificationModal() {
+    this.isOpenNotification = true
+  }
+
+  handleCancel() {
+    this.isOpenNotification = false
+  }
+
+  handleOk() {
+    this.isOpenNotification = false
+  }
 }
