@@ -248,6 +248,7 @@ export class PihStopLineMainComponent implements OnInit {
   }
 
   onSave() {
+    debugger;
     console.log('stopTimeSelected ', this.stopTimeSelected);
 
     let obj = {
@@ -368,13 +369,11 @@ export class PihStopLineMainComponent implements OnInit {
 
 
     // Kiểm tra thời gian
-    if (obj.id) {
-      let diff = (Date.parse(obj.stopTime) - Date.parse(obj.startTime)) / (1000*60);
+    let diff = (Date.parse(obj.stopTime) - Date.parse(obj.startTime)) / (1000*60);
 
-      if (diff < 0 || diff > 720) {
-        this.errorMsg = 'Thời gian không hợp lệ';
-        return;
-      }
+    if (diff < 0 || diff > 720) {
+      this.errorMsg = 'Thời gian không hợp lệ';
+      return;
     }
 
     this.errorMsg = null;
