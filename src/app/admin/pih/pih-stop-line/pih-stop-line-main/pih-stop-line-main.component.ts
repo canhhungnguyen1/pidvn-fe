@@ -51,7 +51,7 @@ export class PihStopLineMainComponent implements OnInit {
 
   searchParams = {
     startTimeRange: null,
-    createdAtRange: [new Date().setDate(new Date().getDate() - 14), new Date()],
+    createdAtRange: [new Date().setDate(new Date().getDate() - 7), new Date()],
   };
 
   onSearch() {
@@ -71,7 +71,7 @@ export class PihStopLineMainComponent implements OnInit {
     this.getStopTimes({
       startTimeRange: null,
       createdAtRange: [
-        new Date().setDate(new Date().getDate() - 14),
+        new Date().setDate(new Date().getDate() - 7),
         new Date(),
       ],
     });
@@ -277,7 +277,7 @@ export class PihStopLineMainComponent implements OnInit {
         let searchParams = {
           startTimeRange: null,
           createdAtRange: [
-            new Date().setDate(new Date().getDate() - 14),
+            new Date().setDate(new Date().getDate() - 7),
             new Date(),
           ],
         };
@@ -300,7 +300,7 @@ export class PihStopLineMainComponent implements OnInit {
       let searchParams = {
         startTimeRange: null,
         createdAtRange: [
-          new Date().setDate(new Date().getDate() - 14),
+          new Date().setDate(new Date().getDate() - 7),
           new Date(),
         ],
       };
@@ -370,7 +370,7 @@ export class PihStopLineMainComponent implements OnInit {
     // Kiểm tra thời gian
     let diff = (Date.parse(obj.stopTime) - Date.parse(obj.startTime)) / (1000*60);
 
-    if (diff < 0 || diff > 720) {
+    if (diff < 1 || diff > 720) {
       this.errorMsg = 'Thời gian không hợp lệ';
       return;
     }
@@ -385,7 +385,7 @@ export class PihStopLineMainComponent implements OnInit {
       let searchParams = {
         startTimeRange: null,
         createdAtRange: [
-          new Date().setDate(new Date().getDate() - 14),
+          new Date().setDate(new Date().getDate() - 7),
           new Date(),
         ],
       };
