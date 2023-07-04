@@ -248,7 +248,6 @@ export class PihStopLineMainComponent implements OnInit {
   }
 
   onSave() {
-    debugger;
     console.log('stopTimeSelected ', this.stopTimeSelected);
 
     let obj = {
