@@ -370,7 +370,7 @@ export class PihStopLineMainComponent implements OnInit {
     // Kiểm tra thời gian
     let diff = (Date.parse(obj.stopTime) - Date.parse(obj.startTime)) / (1000*60);
 
-    if (diff < 1 || diff > 720) {
+    if (diff < 1 || diff > 721) {
       this.errorMsg = 'Thời gian không hợp lệ';
       return;
     }

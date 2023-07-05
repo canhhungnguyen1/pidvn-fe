@@ -21,6 +21,7 @@ import { QaIqcRequestComponent } from './qa-iqc-request/qa-iqc-request.component
 import { QaIqcResultDetailComponent } from './qa-iqc-result-detail/qa-iqc-result-detail.component';
 import { QaIqcResultMasterComponent } from './qa-iqc-result-master/qa-iqc-result-master.component';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { QaIqcDataComponent } from './qa-iqc-data/qa-iqc-data.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
     QaIqcRequestComponent,
     QaIqcResultMasterComponent,
     QaIqcResultDetailComponent,
+    QaIqcDataComponent,
   ],
   imports: [
     CommonModule,
