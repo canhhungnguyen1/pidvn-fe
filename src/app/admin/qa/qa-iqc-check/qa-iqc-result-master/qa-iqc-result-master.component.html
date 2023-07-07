@@ -136,7 +136,7 @@
 <br />
 
 <ng-container
-  *ngIf="requestType == 'sorting'; then template1; else template2"
+  *ngIf="requestType == 'sorting' || requestType == 'over6month'; then template1; else template2"
 ></ng-container>
 
 <!--Hàng sorting-->

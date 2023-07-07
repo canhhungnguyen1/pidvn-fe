@@ -197,7 +197,7 @@ export class WhIqcRequestComponent implements OnInit {
 
 
   createIqcSortingRequest() {
-    this.whIqcSvc.createIqcRequestSorting(this.labelScannedArr).subscribe(
+    this.whIqcSvc.createIqcRequestSorting(this.labelScannedArr, this.requestType).subscribe(
       response => {
         this.isOpenIqcRequestCreateSortingModal = false;
         this.toastr.success('Đã tạo request IQC', 'Success');
@@ -221,6 +221,14 @@ export class WhIqcRequestComponent implements OnInit {
     this.labelScannedSet = new Set();
     this.labelScannedArr = new Array();
 
+  }
+
+  requestType: any;
+  openIqcRequestCreateSortingModal(type: any) {
+    this.isOpenIqcRequestCreateSortingModal = true;
+    this.requestType = type
+
+    console.log('type: ', type);
   }
 
 }

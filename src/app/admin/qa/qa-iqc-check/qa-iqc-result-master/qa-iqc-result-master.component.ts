@@ -63,7 +63,10 @@ export class QaIqcResultMasterComponent implements OnInit {
 
   getIqcDataMaster() {
 
-    if(this.requestType === 'sorting') {
+    /**
+     * Đối với hàng sorting hoặc hàng quá 6 tháng
+     */
+    if(this.requestType === 'sorting' || this.requestType === 'over6month') {
       this.qaIqcSvc.getIqcDataSortingMaster(this.requestNo).subscribe(
         response => {
           this.iqcDataSortingMasters = response;
@@ -71,9 +74,6 @@ export class QaIqcResultMasterComponent implements OnInit {
       )
       return;
     }
-
-
-
 
     let obj = {
       invoice: this.invoice,
@@ -83,8 +83,6 @@ export class QaIqcResultMasterComponent implements OnInit {
     this.qaIqcSvc.getIqcDataMaster(obj).subscribe((response) => {
       this.iqcDataMasters = response;
     });
-    
-
     
   }
 

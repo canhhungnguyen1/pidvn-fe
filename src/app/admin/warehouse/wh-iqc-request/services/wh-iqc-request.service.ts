@@ -31,8 +31,8 @@ export class WhIqcRequestService {
     return this.httpClient.get(`${this.baseUrl}/WH/IQC/SlipNo?invoice=${invoice}`);
   }
 
-  public createIqcRequestSorting(lotNos: any): Observable<any> {
-    return this.httpClient.post(`${this.baseUrl}/WH/IQC/IqcRequestSorting`, lotNos)
+  public createIqcRequestSorting(lotNos: any, requestType: any): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/WH/IQC/IqcRequestSorting?requestType=${requestType}`, lotNos)
   }
 
   public getIqcDataSortingInfo(requestNo: string): Observable<any> {

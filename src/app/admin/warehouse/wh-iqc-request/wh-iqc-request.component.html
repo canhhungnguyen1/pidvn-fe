@@ -97,10 +97,20 @@
     nz-button
     *nzSpaceItem
     nzType="default"
-    (click)="isOpenIqcRequestCreateSortingModal = true"
+    (click)="openIqcRequestCreateSortingModal('sorting')"
   >
     <i nz-icon nzType="plus"></i>
     IQC Request (Hàng sorting)
+  </button>
+
+  <button
+    nz-button
+    *nzSpaceItem
+    nzType="default"
+    (click)="openIqcRequestCreateSortingModal('over6month')"
+  >
+    <i nz-icon nzType="plus"></i>
+    IQC Request (Hàng quá 6 tháng)
   </button>
 </nz-space>
 <br />
@@ -482,13 +492,13 @@
 
 <nz-modal
   [(nzVisible)]="isOpenIqcRequestCreateSortingModal"
-  nzTitle="Tạo request IQC hàng sorting"
+  nzTitle="Tạo request IQC hàng sorting / hàng quá 6 tháng"
   nzWidth="900px"
 >
   <ng-container *nzModalContent>
-    <span style="font-style: italic; color: red"
+    <!-- <span style="font-style: italic; color: red"
       >* Lưu ý: scan can các hộp cùng Lot Group nhé</span
-    >
+    > -->
     <table id="scanTbl">
       <tbody>
         <tr>

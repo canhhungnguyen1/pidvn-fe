@@ -45,7 +45,7 @@ export class QaIqcResultDetailComponent implements OnInit {
 
   getIqcDataDetail() {
 
-    if(this.requestType === 'sorting') {
+    if(this.requestType === 'sorting' || this.requestType === 'over6month') {
 
       this.qaIqcSvc.getIqcDataSortingDetail(this.requestNo, this.lotGroup).subscribe((response) => {
         this.iqcDataSortingDetails = response;
@@ -70,7 +70,7 @@ export class QaIqcResultDetailComponent implements OnInit {
 
   getLotGroup() {
 
-    if(this.requestType === 'sorting') {
+    if(this.requestType === 'sorting' || this.requestType === 'over6month') {
       this.qaIqcSvc.getIqcDataSortingMaster(this.requestNo).subscribe(
         response => {
           this.lotGroupSelected = response.find((item:any) => item.lotGroup === this.lotGroup);
@@ -135,7 +135,7 @@ export class QaIqcResultDetailComponent implements OnInit {
      * Trường hợp hàng SORTING
      */
     
-    if(this.requestType === 'sorting') {
+    if(this.requestType === 'sorting' || this.requestType === 'over6month') {
       console.log(this.lotNoSelected)
       this.qaIqcSvc.saveIqcDataSortingDetail(this.lotNoSelected).subscribe(
         response => {
@@ -208,7 +208,7 @@ export class QaIqcResultDetailComponent implements OnInit {
      * Trường hợp hàng SORTING
      */
 
-    if(this.requestType === 'sorting') {
+    if(this.requestType === 'sorting' || this.requestType === 'over6month') {
       this.qaIqcSvc.saveIqcDataSortingMaster(this.lotGroupSelected).subscribe(
         response => {
           this.toastr.success('Đã lưu !','Success')
@@ -249,7 +249,7 @@ export class QaIqcResultDetailComponent implements OnInit {
 
 
 
-      if(this.requestType === 'sorting') {
+      if(this.requestType === 'sorting' || this.requestType === 'over6month') {
         this.qaIqcSvc.deleteIqcDataSortingDetail(this.lotNoSelected.id).subscribe(
           response => {
             this.toastr.success(response.result, 'Success');
