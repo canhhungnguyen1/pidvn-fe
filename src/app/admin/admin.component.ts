@@ -193,6 +193,8 @@ export class AdminComponent implements OnInit {
   bangQuanLyKyNangPIHLink!: string;
   itRequestLink!: string;
 
+  labelRequestLink!: string;
+
 
   ngOnInit(): void {
     let accessToken = localStorage.getItem('accessToken');
@@ -230,6 +232,7 @@ export class AdminComponent implements OnInit {
     this.bangQuanLyKyNangPIHLink = `${this.baseUrlJava}/PIH/Monitoring/exam/skill_control?accessToken=${accessToken}`
 
     this.itRequestLink = `${this.baseUrlJava}/IS/Handle/is/menu?accessToken=${accessToken}`
+    this.labelRequestLink = `${this.baseUrlJava}/Label/Handle/label/menu?accessToken=${accessToken}`
   }
 
   weatherInfo: any;
