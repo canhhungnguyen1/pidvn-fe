@@ -88,5 +88,10 @@ export class QaIqcService {
     return this.httpClient.delete(`${this.baseUrl}/QA/IqcCheck/DeleteIqcDataSortingDetail?id=${id}`);
   }
 
+  public getMucDoKiemSoat(model: any): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/QA/IqcCheck/GetMucDoKiemSoat?model=${model}`);
+  }
+
+
 
 }

@@ -85,4 +85,22 @@ export class QaIqcRequestComponent implements OnInit {
       }
     )
   }
+
+
+  isOpenSpecialSearchModal: boolean = false
+  mucKiemSoatList: any;
+  model: any;
+  getMucDoKiemSoat() {
+    this.qaIqcSvc.getMucDoKiemSoat(this.model).subscribe(
+      response => {
+        this.mucKiemSoatList = response
+      }
+    )
+  }
+
+  closeSpecialSearchModal() {
+    this.isOpenSpecialSearchModal = false
+  }
+
+
 }

@@ -2,7 +2,9 @@ label {
   font-weight: bold;
 }
 
-nz-input, nz-select, nz-range-picker {
+nz-input,
+nz-select,
+nz-range-picker {
   width: 100%;
 }
 
@@ -30,5 +32,14 @@ nz-table {
 
   .text-danger {
     color: #dc3545;
+  }
+}
+
+#muc-kiem-soat-search-tbl {
+  th,
+  td {
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+    padding: 5px;
   }
 }
