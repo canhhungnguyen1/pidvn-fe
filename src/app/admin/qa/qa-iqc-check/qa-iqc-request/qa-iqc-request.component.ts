@@ -100,6 +100,8 @@ export class QaIqcRequestComponent implements OnInit {
 
   closeSpecialSearchModal() {
     this.isOpenSpecialSearchModal = false
+    this.mucKiemSoatList = []
+    this.model = null;
   }
 
 
