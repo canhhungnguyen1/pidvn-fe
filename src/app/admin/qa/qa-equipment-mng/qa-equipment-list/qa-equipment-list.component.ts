@@ -42,18 +42,7 @@ export class QaEquipmentListComponent implements OnInit {
 
   isOpenUploadModal: boolean = false;
 
-  // getQaDevices() {
-  //   this.qaEquipmentMngSvc.getQaDevices().subscribe(
-  //     response => {
-  //       this.devices = response
-  //     }
-  //   )
-  // }
-
-  // onRowClick(event: any) {
-  //   console.log(event);
-  //   this.router.navigate([`admin/qa/qa-equipment-mng/devices/${event.data.id}`]);
-  // }
+  deviceSearch: any;
 
   scanLabel(event: any) {
     this.qaEquipmentMngSvc.getDeviceInfo(event.target.value).subscribe(
@@ -63,6 +52,15 @@ export class QaEquipmentListComponent implements OnInit {
         this.fileUploadApi = `${this.baseUrl}/Qa/EquipmentMng/Upload?controlNo=${this.deviceInfo?.info.controlNo}&deviceId=${this.deviceInfo?.info.id}&fileType=${this.fileTypeSelected}&createdBy=${this.user}`;
       }
     )
+  }
+
+  onSearch() {
+    let event = {
+      target: {
+        value: this.deviceSearch
+      }
+    }
+    this.scanLabel(event);
   }
 
   openUploadModal() {
