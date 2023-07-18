@@ -55,6 +55,7 @@ export class StkPaymentComponent implements OnInit  {
       bank: item ? item.data.bank : null,
       stk: item ? item.data.stk : null,
       currency: item ? item.data.currency : null,
+      benificiary: item ? item.data.benificiary : null,
     };
     
     

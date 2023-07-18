@@ -88,11 +88,11 @@
     >
       <thead>
         <tr>
-          <th>Code</th>
+          <th><label>Code</label></th>
           <th>
             <input nz-input placeholder="Code" [(ngModel)]="stkPayment.code" />
           </th>
-          <th>Type</th>
+          <th><label>Type</label></th>
           <th>
             <!-- <input nz-input placeholder="Type" [(ngModel)]="stkPayment.type" /> -->
 
@@ -105,11 +105,11 @@
           </th>
         </tr>
         <tr>
-          <th>Name</th>
+          <th><label>Name</label></th>
           <th>
             <input nz-input placeholder="Name" [(ngModel)]="stkPayment.name" />
           </th>
-          <th>Branch Name</th>
+          <th><label>Branch Name</label></th>
           <th>
             <input
               nz-input
@@ -119,17 +119,17 @@
           </th>
         </tr>
         <tr>
-          <th>Bank</th>
+          <th><label>Bank</label></th>
           <th>
             <input nz-input placeholder="Bank" [(ngModel)]="stkPayment.bank" />
           </th>
-          <th>STK</th>
+          <th><label>STK</label></th>
           <th>
             <input nz-input placeholder="STK" [(ngModel)]="stkPayment.stk" />
           </th>
         </tr>
         <tr>
-          <th>Currency</th>
+          <th><label>Currency</label></th>
           <th>
             <input
               nz-input
@@ -137,8 +137,14 @@
               [(ngModel)]="stkPayment.currency"
             />
           </th>
-          <th></th>
-          <th></th>
+          <th><label>Benificỉay</label></th>
+          <th>
+            <input
+              nz-input
+              placeholder="Benificỉay"
+              [(ngModel)]="stkPayment.benificiary"
+            />
+          </th>
         </tr>
       </thead>
     </nz-table>
