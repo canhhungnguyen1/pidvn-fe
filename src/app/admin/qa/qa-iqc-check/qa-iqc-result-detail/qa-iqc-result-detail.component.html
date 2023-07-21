@@ -7,7 +7,11 @@
 <br />
 
 <ng-container
-  *ngIf="requestType == 'sorting' || requestType == 'over6month'; then template1; else template2"
+  *ngIf="
+    requestType == 'sorting' || requestType == 'over6month';
+    then template1;
+    else template2
+  "
 ></ng-container>
 
 <ng-template #template1>
@@ -237,11 +241,24 @@
           </td>
           <td><label>Mức kiểm soát</label></td>
           <td>
-            <input
+            <!-- <input
               nz-input
               placeholder="Mức kiểm soát ngoại quan"
               [(ngModel)]="lotGroupSelected.levelOfControlNgoaiQuan"
-            />
+            /> -->
+            <nz-select
+              nzShowSearch
+              nzAllowClear
+              nzPlaceHolder="Mức kiểm soát ngoại quan"
+              [(ngModel)]="lotGroupSelected.levelOfControlNgoaiQuan"
+            >
+              <nz-option
+                *ngFor="let item of levelOfControls"
+                [nzValue]="item.name"
+                [nzLabel]="item.name"
+              >
+              </nz-option>
+            </nz-select>
           </td>
         </tr>
         <tr>
@@ -255,11 +272,24 @@
           </td>
           <td><label>Mức kiểm soát</label></td>
           <td>
-            <input
+            <!-- <input
               nz-input
               placeholder="Mức kiểm soát kích thước"
               [(ngModel)]="lotGroupSelected.levelOfControlKichThuoc"
-            />
+            /> -->
+            <nz-select
+              nzShowSearch
+              nzAllowClear
+              nzPlaceHolder="Mức kiểm soát kích thước"
+              [(ngModel)]="lotGroupSelected.levelOfControlKichThuoc"
+            >
+              <nz-option
+                *ngFor="let item of levelOfControls"
+                [nzValue]="item.name"
+                [nzLabel]="item.name"
+              >
+              </nz-option>
+            </nz-select>
           </td>
         </tr>
         <tr>

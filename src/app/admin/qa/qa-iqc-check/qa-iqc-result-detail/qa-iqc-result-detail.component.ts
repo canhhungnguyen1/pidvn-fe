@@ -31,6 +31,8 @@ export class QaIqcResultDetailComponent implements OnInit {
   lotNoSelected: any;
   lotGroupSelected: any;
 
+  levelOfControls: any;
+
   ngOnInit(): void {
     this.invoice = this.activatedRoute.snapshot.queryParams['invoice'];
     this.requestNo = this.activatedRoute.snapshot.queryParams['requestNo'];
@@ -41,6 +43,7 @@ export class QaIqcResultDetailComponent implements OnInit {
 
     this.getLotGroup();
     this.getIqcDataDetail();
+    this.getLevelOfControls();
   }
 
   getIqcDataDetail() {
@@ -96,6 +99,15 @@ export class QaIqcResultDetailComponent implements OnInit {
       console.log('lotGroupSelected: ', this.lotGroupSelected)
     });
   }
+
+  getLevelOfControls() {
+    this.qaIqcSvc.getIqcLevelOfControl().subscribe(
+      response => {
+        this.levelOfControls = response
+      }
+    )
+  }
+
 
   /**
    * Đánh giá từng kiện trong LotGroup
