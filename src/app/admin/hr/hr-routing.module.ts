@@ -14,6 +14,10 @@ const routes: Routes = [
         {
           path: 'waste-mng',
           loadChildren: () => import('./waste-mng/waste-mng.module').then(m => m.WasteMngModule)
+        },
+        {
+          path: 'hr-meal-mng',
+          loadChildren: () => import('./hr-meal-mng/hr-meal-mng.module').then(m => m.HrMealMngModule)
         }
       ]
     }

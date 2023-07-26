@@ -71,11 +71,12 @@ export class MaterialReceiptComponent implements OnInit {
    */
   @HostListener('window:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
+    console.log('AAAAA')
     if (event.keyCode == 13) {
       if (!this.qrCode) {
         return;
       }
-      let result: string[] = this.qrCode.toUpperCase().split(';');
+      let result: string[] = this.qrCode.split(';');
 
       if (result[0].trim() == 'B') {
         console.log('Scan big box: ', result);

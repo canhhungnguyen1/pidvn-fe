@@ -62,12 +62,13 @@
             >
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a [href]="labelRequestLink" target="blank" (click)="onHideSidebar()"
+            <a
+              [href]="labelRequestLink"
+              target="blank"
+              (click)="onHideSidebar()"
               >Label Approval</a
             >
           </li>
-
-          
         </ul>
       </li>
       <li nz-submenu nzTitle="RELAY" nzIcon="tool">
@@ -310,6 +311,16 @@
               ></span
             >
           </li>
+          <li nz-menu-item nzMatchRouter>
+            <i nz-icon nzType="wallet"></i>
+            <span>
+              <a
+                routerLink="/admin/hr/hr-meal-mng/menu"
+                (click)="onHideSidebar()"
+                >E-Meal</a
+              >
+            </span>
+          </li>
         </ul>
       </li>
       <li nz-submenu nzTitle="WAREHOUSE" nzIcon="home">
@@ -407,26 +418,18 @@
           </li>
           <li nz-submenu nzTitle="Check Tem Warehouse">
             <ul>
-              <li
-                nz-menu-item
-                nzMatchRouter
-                (click)="onHideSidebar()"
-              >
-                <a [href]="checkTemWHLink" target="blank">Check Tem Warehouse</a>
+              <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
+                <a [href]="checkTemWHLink" target="blank"
+                  >Check Tem Warehouse</a
+                >
               </li>
-              <li
-                nz-menu-item
-                nzMatchRouter
-                (click)="onHideSidebar()"
-              >
-                <a [href]="reportTemWHLink" target="blank">Report Tem Warehouse</a>
+              <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
+                <a [href]="reportTemWHLink" target="blank"
+                  >Report Tem Warehouse</a
+                >
               </li>
             </ul>
-
-
-
           </li>
-          
         </ul>
       </li>
       <li nz-submenu nzTitle="PACKING" nzIcon="dropbox">
@@ -649,21 +652,21 @@
   (nzOnOk)="handleOk()"
 >
   <ng-container *nzModalContent>
-    <div style="text-align: center;">
+    <div style="text-align: center">
       <img
         src="../../../assets/images/hihi.png"
         width="120px"
-        style="margin-left: 5px; text-align: center;"
+        style="margin-left: 5px; text-align: center"
       />
       <img
         src="../../../assets/images/hihi.png"
         width="120px"
-        style="margin-left: 5px; text-align: center;"
+        style="margin-left: 5px; text-align: center"
       />
       <img
         src="../../../assets/images/hihi.png"
         width="120px"
-        style="margin-left: 5px; text-align: center;"
+        style="margin-left: 5px; text-align: center"
       />
     </div>
   </ng-container>
