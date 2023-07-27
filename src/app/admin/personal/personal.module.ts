@@ -36,6 +36,7 @@ import {
   DxFormModule,
   DxTooltipModule,
 } from 'devextreme-angular';
+import { UserMealComponent } from './user-meal/user-meal.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import {
     UserCourseComponent,
     UserUniformComponent,
     UserTmsComponent,
+    UserMealComponent,
   ],
   imports: [
     CommonModule,

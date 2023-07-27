@@ -7,6 +7,7 @@ import { UserFileComponent } from './user-file/user-file.component';
 import { UserInfoComponent } from './user-info/user-info.component';
 import { UserTmsComponent } from './user-tms/user-tms.component';
 import { UserUniformComponent } from './user-uniform/user-uniform.component';
+import { UserMealComponent } from './user-meal/user-meal.component';
 
 const routes: Routes = [
   {
@@ -36,6 +37,10 @@ const routes: Routes = [
       {
         path: 'tms',
         component: UserTmsComponent
+      },
+      {
+        path: 'meal',
+        component: UserMealComponent
       }
     ]
   }
