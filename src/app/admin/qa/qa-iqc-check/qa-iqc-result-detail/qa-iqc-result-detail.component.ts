@@ -183,9 +183,11 @@ export class QaIqcResultDetailComponent implements OnInit {
     if (
       !this.lotGroupSelected.result1 ||
       !this.lotGroupSelected.result2 ||
-      !this.lotGroupSelected.result3
+      !this.lotGroupSelected.result3 ||
+      !this.lotGroupSelected.levelOfControlNgoaiQuan || 
+      !this.lotGroupSelected.levelOfControlKichThuoc 
     ) {
-      this.toastr.warning('Cần đánh giá đủ GP, Ngoại quan, Kích thước !','Warning')
+      this.toastr.warning('Cần đánh giá đủ GP, Ngoại quan, Kích thước, Mức kiểm soát','Warning')
       return;
     }
 
