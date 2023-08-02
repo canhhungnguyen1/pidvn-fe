@@ -388,6 +388,28 @@
           <li nz-menu-item nzMatchRouter>
             <a [href]="qmsLink" target="blank">QMS</a>
           </li>
+          <li nz-menu-item nzMatchRouter>
+            <a [href]="iqcLink.examOnlineLink" target="blank">Exam online</a>
+          </li>
+
+          <li nz-submenu nzTitle="Skill Map">
+            <ul>
+              <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
+                <a [href]="iqcLink.skillmap.relay" target="blank"
+                  >Skill Relay</a
+                >
+              </li>
+              <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
+                <a [href]="iqcLink.skillmap.vr" target="blank">Skill VR</a>
+              </li>
+
+              <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
+                <a [href]="iqcLink.skillmap.xrf" target="blank">Skill XRF</a>
+              </li>
+              
+            </ul>
+          </li>
+
         </ul>
       </li>
       <li nz-submenu nzTitle="PE" nzIcon="api">

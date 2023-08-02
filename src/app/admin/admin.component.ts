@@ -195,6 +195,16 @@ export class AdminComponent implements OnInit {
 
   labelRequestLink!: string;
 
+  // IQC Link
+  iqcLink = {
+    examOnlineLink: '',
+    skillmap: {
+      relay: '',
+      vr: '',
+      xrf: ''
+    }
+  }
+
 
   ngOnInit(): void {
     let accessToken = localStorage.getItem('accessToken');
@@ -223,7 +233,6 @@ export class AdminComponent implements OnInit {
     this.reportTemWHLink = `${this.baseUrlJava}/Manufacturing/Monitoring/fg/reportchecktemwh?accessToken=${accessToken}`
 
 
-
     this.surveyLink = `${this.baseUrlJava}/survey/Handle/coi/menu?accessToken=${accessToken}`
     this.examTestRelayLink = `${this.baseUrlJava}/Manufacturing/Monitoring/MA/exam?area=Relay`
     this.checkExpiryDateRelayLink = `${this.baseUrlJava}/Manufacturing/Monitoring/MA/exam/list_expired?area=Relay`
@@ -233,6 +242,17 @@ export class AdminComponent implements OnInit {
 
     this.itRequestLink = `${this.baseUrlJava}/IS/Handle/is/menu?accessToken=${accessToken}`
     this.labelRequestLink = `${this.baseUrlJava}/Label/Handle/label/menu?accessToken=${accessToken}`
+
+
+    this.iqcLink.examOnlineLink = `${this.baseUrlJava}/IQC/Monitoring/exam?area=IQC`;
+    this.iqcLink.skillmap.relay = `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskillmap?line=SKILL_RELAY`;
+    this.iqcLink.skillmap.vr = `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskillmap?line=SKILL_VR`;
+    this.iqcLink.skillmap.xrf = `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskillmap?line=SKILL_XRF`;
+
+
+
+
+
   }
 
   weatherInfo: any;
