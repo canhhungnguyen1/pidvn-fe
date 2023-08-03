@@ -16,6 +16,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { HrMealMngRoutingModule } from './hr-meal-mng-routing.module';
 import { HrMealMngComponent } from './hr-meal-mng.component';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
 
 @NgModule({
   declarations: [HrMealMngComponent],
@@ -32,7 +33,8 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     NzCollapseModule,
     NzGridModule,
     NzDatePickerModule,
-    NzButtonModule
+    NzButtonModule,
+    NzTabsModule
   ],
 })
 export class HrMealMngModule {}

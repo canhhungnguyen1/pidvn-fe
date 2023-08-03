@@ -27,55 +27,99 @@
     </div>
   </nz-collapse-panel>
 </nz-collapse>
-<dx-data-grid
-  [dataSource]="mealRecords"
-  keyExpr="rowNum"
-  [remoteOperations]="false"
-  [allowColumnReordering]="true"
-  [rowAlternationEnabled]="true"
-  [allowColumnResizing]="true"
-  [columnAutoWidth]="true"
-  [showColumnLines]="true"
-  [showRowLines]="true"
-  [showBorders]="true"
->
-  <dxo-filter-row [visible]="true"></dxo-filter-row>
-  <dxo-export [enabled]="true"></dxo-export>
-  <dxo-column-chooser #columnChooser [enabled]="true" [mode]="'select'">
-  </dxo-column-chooser>
 
-  <!-- <dxo-column-fixing [enabled]="true"></dxo-column-fixing> -->
+<nz-tabset>
+  <nz-tab nzTitle="Lịch sử">
+    <dx-data-grid
+      [dataSource]="mealRecords"
+      keyExpr="rowNum"
+      [remoteOperations]="false"
+      [allowColumnReordering]="true"
+      [rowAlternationEnabled]="true"
+      [allowColumnResizing]="true"
+      [columnAutoWidth]="true"
+      [showColumnLines]="true"
+      [showRowLines]="true"
+      [showBorders]="true"
+    >
+      <dxo-filter-row [visible]="true"></dxo-filter-row>
+      <dxo-export [enabled]="true"></dxo-export>
+      <dxo-column-chooser #columnChooser [enabled]="true" [mode]="'select'">
+      </dxo-column-chooser>
 
-  <dxi-column dataField="rowNum" caption="STT"></dxi-column>
-  <dxi-column dataField="codeEmp" caption="Username"></dxi-column>
-  <dxi-column dataField="profileName" caption="Name"></dxi-column>
-  <dxi-column
-    dataField="timeLog"
-    caption="Time Log"
-    dataType="date"
-    format="yyyy-MM-dd HH:mm"
-    alignment="center"
-  ></dxi-column>
-  <!-- <dxi-column dataField="machineCode" caption="Machine Code"></dxi-column> -->
-  <!-- <dxi-column dataField="canteenCode" caption="Canteen Code"></dxi-column> -->
-  <!-- <dxi-column dataField="canteenName" caption="Canteen Name"></dxi-column> -->
-  <dxi-column dataField="lineCode" caption="Line Code"></dxi-column>
-  <dxi-column dataField="lineName" caption="Line Name"></dxi-column>
-  <dxi-column dataField="orgStructureName" caption="Department"></dxi-column>
+      <dxi-column dataField="rowNum" caption="STT"></dxi-column>
+      <dxi-column dataField="codeEmp" caption="Username"></dxi-column>
+      <dxi-column dataField="profileName" caption="Name"></dxi-column>
+      <dxi-column
+        dataField="timeLog"
+        caption="Time Log"
+        dataType="date"
+        format="yyyy-MM-dd HH:mm"
+        alignment="center"
+      ></dxi-column>
+      <dxi-column dataField="lineCode" caption="Line Code"></dxi-column>
+      <dxi-column dataField="lineName" caption="Line Name"></dxi-column>
+      <dxi-column
+        dataField="orgStructureName"
+        caption="Department"
+      ></dxi-column>
 
-  <dxo-paging [pageSize]="50"></dxo-paging>
-  <dxo-pager
-    [showPageSizeSelector]="true"
-    [allowedPageSizes]="[10, 25, 50, 100]"
-  >
-  </dxo-pager>
+      <dxo-paging [pageSize]="50"></dxo-paging>
+      <dxo-pager
+        [showPageSizeSelector]="true"
+        [allowedPageSizes]="[10, 25, 50, 100]"
+      >
+      </dxo-pager>
 
-  <dxo-summary>
-    <dxi-total-item column="rowNum" summaryType="count" valueFormat="#,##0">
-    </dxi-total-item>
-    <!-- <dxi-total-item
-        column="Price"
-        summaryType="sum">
-    </dxi-total-item> -->
-  </dxo-summary>
-</dx-data-grid>
+      <dxo-summary>
+        <dxi-total-item column="rowNum" summaryType="count" valueFormat="#,##0">
+        </dxi-total-item>
+      </dxo-summary>
+    </dx-data-grid>
+  </nz-tab>
+
+  <nz-tab nzTitle="Summary">
+    <dx-data-grid
+      [dataSource]="mealRecordsSummary"
+      keyExpr="rowNum"
+      [remoteOperations]="false"
+      [allowColumnReordering]="true"
+      [rowAlternationEnabled]="true"
+      [allowColumnResizing]="true"
+      [columnAutoWidth]="true"
+      [showColumnLines]="true"
+      [showRowLines]="true"
+      [showBorders]="true"
+    >
+      <dxo-filter-row [visible]="true"></dxo-filter-row>
+      <dxo-export [enabled]="true"></dxo-export>
+      <dxo-column-chooser #columnChooser [enabled]="true" [mode]="'select'">
+      </dxo-column-chooser>
+
+      <dxi-column dataField="rowNum" caption="STT"></dxi-column>
+      <dxi-column dataField="codeEmp" caption="Username"></dxi-column>
+      <dxi-column dataField="profileName" caption="Name"></dxi-column>
+      
+      <dxi-column dataField="ticketType" caption="Ticket Type"></dxi-column>
+      <dxi-column dataField="total" caption="Tổng"></dxi-column>
+      
+
+      <dxo-paging [pageSize]="10"></dxo-paging>
+      <dxo-pager
+        [showPageSizeSelector]="true"
+        [allowedPageSizes]="[10, 25, 50, 100]"
+      >
+      </dxo-pager>
+
+      <dxo-summary>
+        <dxi-total-item
+          column="total"
+          summaryType="sum"
+          valueFormat="#,##0"
+        >
+        </dxi-total-item>
+      </dxo-summary>
+      
+    </dx-data-grid>
+  </nz-tab>
+</nz-tabset>

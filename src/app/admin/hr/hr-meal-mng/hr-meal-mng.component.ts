@@ -12,11 +12,19 @@ export class HrMealMngComponent implements OnInit {
   constructor(private hrMealMngSvc: HrMealMngService, private toastr: ToastrService) { }
 
   mealRecords: any;
+  mealRecordsSummary: any;
   searchParams = {
-    timeLogRange: [new Date().setDate(new Date().getDate()-7), new Date()]
+    timeLogRange: [new Date(), new Date()]
   }
 
   ngOnInit(): void {
+    let date = new Date();
+
+    let firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+    this.searchParams.timeLogRange = [firstDayOfMonth, new Date()]
+
+    
+
     this.onSearch()
   }
 
@@ -31,7 +39,9 @@ export class HrMealMngComponent implements OnInit {
 
     this.hrMealMngSvc.getMealRecords(this.searchParams).subscribe(
       response => {
-        this.mealRecords = response
+        console.log(this.mealRecords)
+        this.mealRecords = response.records
+        this.mealRecordsSummary = response.recordsSummary
       }
     )
   }

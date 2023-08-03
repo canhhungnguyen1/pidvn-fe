@@ -1,1 +1,119 @@
-<p>user-meal works!</p>
+<nz-collapse>
+  <nz-collapse-panel
+    nzHeader="Tìm kiếm dữ liệu vé ăn"
+    [nzActive]="true"
+    [nzShowArrow]="true"
+  >
+    <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+      <div nz-col nzXs="12" nzSm="12" nzLg="5">
+        <label nzXs="24" nzSm="24" nzLg="24">Time Log</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <nz-range-picker
+            [(ngModel)]="searchParams.timeLogRange"
+            nzFormat="yyyy-MM-dd"
+            nzMode="date"
+          >
+          </nz-range-picker>
+        </div>
+      </div>
+      <div nz-col nzXs="12" nzSm="12" nzLg="5">
+        <label nzXs="24" nzSm="24" nzLg="24">&nbsp;</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <button nz-button nzType="primary" (click)="onSearch()">
+            Search
+          </button>
+        </div>
+      </div>
+    </div>
+  </nz-collapse-panel>
+</nz-collapse>
+
+<nz-tabset>
+  <nz-tab nzTitle="Lịch sử">
+    <dx-data-grid
+      [dataSource]="mealRecords"
+      keyExpr="rowNum"
+      [remoteOperations]="false"
+      [allowColumnReordering]="true"
+      [rowAlternationEnabled]="true"
+      [allowColumnResizing]="true"
+      [columnAutoWidth]="true"
+      [showColumnLines]="true"
+      [showRowLines]="true"
+      [showBorders]="true"
+    >
+      <dxo-filter-row [visible]="true"></dxo-filter-row>
+      <dxo-export [enabled]="true"></dxo-export>
+      <dxo-column-chooser #columnChooser [enabled]="true" [mode]="'select'">
+      </dxo-column-chooser>
+
+      <dxi-column dataField="rowNum" caption="STT"></dxi-column>
+      <dxi-column dataField="codeEmp" caption="Username"></dxi-column>
+      <dxi-column dataField="profileName" caption="Name"></dxi-column>
+      <dxi-column
+        dataField="timeLog"
+        caption="Time Log"
+        dataType="date"
+        format="yyyy-MM-dd HH:mm"
+        alignment="center"
+      ></dxi-column>
+      <dxi-column dataField="lineCode" caption="Line Code"></dxi-column>
+      <dxi-column dataField="lineName" caption="Line Name"></dxi-column>
+      <dxi-column
+        dataField="orgStructureName"
+        caption="Department"
+      ></dxi-column>
+
+      <dxo-paging [pageSize]="50"></dxo-paging>
+      <dxo-pager
+        [showPageSizeSelector]="true"
+        [allowedPageSizes]="[10, 25, 50, 100]"
+      >
+      </dxo-pager>
+
+      <dxo-summary>
+        <dxi-total-item column="rowNum" summaryType="count" valueFormat="#,##0">
+        </dxi-total-item>
+      </dxo-summary>
+    </dx-data-grid>
+  </nz-tab>
+
+  <nz-tab nzTitle="Summary">
+    <dx-data-grid
+      [dataSource]="mealRecordsSummary"
+      keyExpr="rowNum"
+      [remoteOperations]="false"
+      [allowColumnReordering]="true"
+      [rowAlternationEnabled]="true"
+      [allowColumnResizing]="true"
+      [columnAutoWidth]="true"
+      [showColumnLines]="true"
+      [showRowLines]="true"
+      [showBorders]="true"
+    >
+      <dxo-filter-row [visible]="true"></dxo-filter-row>
+      <dxo-export [enabled]="true"></dxo-export>
+      <dxo-column-chooser #columnChooser [enabled]="true" [mode]="'select'">
+      </dxo-column-chooser>
+
+      <dxi-column dataField="rowNum" caption="STT"></dxi-column>
+      <dxi-column dataField="codeEmp" caption="Username"></dxi-column>
+      <dxi-column dataField="profileName" caption="Name"></dxi-column>
+
+      <dxi-column dataField="ticketType" caption="Ticket Type"></dxi-column>
+      <dxi-column dataField="total" caption="Tổng"></dxi-column>
+
+      <dxo-paging [pageSize]="10"></dxo-paging>
+      <dxo-pager
+        [showPageSizeSelector]="true"
+        [allowedPageSizes]="[10, 25, 50, 100]"
+      >
+      </dxo-pager>
+
+      <dxo-summary>
+        <dxi-total-item column="total" summaryType="sum" valueFormat="#,##0">
+        </dxi-total-item>
+      </dxo-summary>
+    </dx-data-grid>
+  </nz-tab>
+</nz-tabset>
