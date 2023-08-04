@@ -121,6 +121,14 @@ export class AdminComponent implements OnInit {
       line: 'TC1',
       link: `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskill?line=TC1`
     },
+    {
+      line: 'TT',
+      link: `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskill?line=TT`
+    },
+    {
+      line: 'TCL',
+      link: `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskill?line=TCL`
+    },
   ];
 
   skillMapVrEncLinks = [
