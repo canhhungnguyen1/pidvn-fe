@@ -189,6 +189,15 @@
 
           <li nz-menu-item nzMatchRouter>
             <a
+              [href]="examHistoryRelayLink"
+              target="_blank"
+              (click)="onHideSidebar()"
+              >Exam History Relay</a
+            >
+          </li>
+
+          <li nz-menu-item nzMatchRouter>
+            <a
               [href]="checkExpiryDateRelayLink"
               target="_blank"
               (click)="onHideSidebar()"
@@ -210,6 +219,15 @@
               target="_blank"
               (click)="onHideSidebar()"
               >Exam Test</a
+            >
+          </li>
+
+          <li nz-menu-item nzMatchRouter>
+            <a
+              [href]="examHistoryEMCLink"
+              target="_blank"
+              (click)="onHideSidebar()"
+              >Exam History</a
             >
           </li>
 
@@ -390,6 +408,10 @@
           </li>
           <li nz-menu-item nzMatchRouter>
             <a [href]="iqcLink.examOnlineLink" target="blank">Exam online</a>
+          </li>
+
+          <li nz-menu-item nzMatchRouter>
+            <a [href]="examHistoryIQCLink" target="blank">Exam History</a>
           </li>
 
           <li nz-submenu nzTitle="Skill Map">

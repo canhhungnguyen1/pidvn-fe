@@ -213,6 +213,12 @@ export class AdminComponent implements OnInit {
     }
   }
 
+  // Exam History Link
+  examHistoryIQCLink!: string;
+  examHistoryRelayLink!: string;
+  examHistoryEMCLink!: string;
+
+
 
   ngOnInit(): void {
     let accessToken = localStorage.getItem('accessToken');
@@ -258,7 +264,9 @@ export class AdminComponent implements OnInit {
     this.iqcLink.skillmap.xrf = `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskillmap?line=SKILL_XRF`;
 
 
-
+    this.examHistoryIQCLink = `${this.baseUrlJava}/Manufacturing/Monitoring/MA/exam/listexam?area=IQC`;
+    this.examHistoryRelayLink = `${this.baseUrlJava}/Manufacturing/Monitoring/MA/exam/listexam?area=Relay`;
+    this.examHistoryEMCLink = `${this.baseUrlJava}/Manufacturing/Monitoring/MA/exam/listexam?area=EMC`;
 
 
   }
