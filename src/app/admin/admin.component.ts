@@ -199,6 +199,7 @@ export class AdminComponent implements OnInit {
   checkExpiryDateRelayLink!: string;
   checkExpiryDateVrEncLink!: string;
   bangQuanLyKyNangPIHLink!: string;
+  pihProcessScannerLink!: string;
   itRequestLink!: string;
 
   labelRequestLink!: string;
@@ -253,6 +254,7 @@ export class AdminComponent implements OnInit {
     this.examTestVrEncLink = `${this.baseUrlJava}/Manufacturing/Monitoring/MA/exam?area=EMC`
     this.checkExpiryDateVrEncLink = `${this.baseUrlJava}/Manufacturing/Monitoring/MA/exam/list_expired?area=EMC`
     this.bangQuanLyKyNangPIHLink = `${this.baseUrlJava}/PIH/Monitoring/exam/skill_control?accessToken=${accessToken}`
+    this.pihProcessScannerLink = `https://10.92.176.57:8888/PIH/Monitoring/pih_process/pih_process_scaner`
 
     this.itRequestLink = `${this.baseUrlJava}/IS/Handle/is/menu?accessToken=${accessToken}`
     this.labelRequestLink = `${this.baseUrlJava}/Label/Handle/label/menu?accessToken=${accessToken}`
