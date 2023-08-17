@@ -78,7 +78,7 @@ export class MaterialReceiptComponent implements OnInit {
       }
       let result: string[] = this.qrCode.split(';');
 
-      if (result[0].trim() == 'B') {
+      if (result[0].trim() == 'B' || result[0].trim() == 'b') {
         console.log('Scan big box: ', result);
         console.log('QR Code: ', this.qrCode);
 

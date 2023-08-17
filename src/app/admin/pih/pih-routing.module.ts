@@ -21,6 +21,13 @@ const routes: Routes = [
             (m) => m.PihProcessRecordingModule
           ),
       },
+      {
+        path: 'pih-inventory',
+        loadChildren: () =>
+          import('./pih-inventory/pih-inventory.module').then(
+            (m) => m.PihInventoryModule
+          ),
+      },
     ],
   },
 ];
