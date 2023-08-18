@@ -8,11 +8,19 @@ import { PihInvRequestComponent } from './pih-inv-request/pih-inv-request.compon
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { DxButtonModule, DxDataGridModule } from 'devextreme-angular';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { FormsModule } from '@angular/forms';
+import { PihInvReqDetailComponent } from './pih-inv-req-detail/pih-inv-req-detail.component';
+
 @NgModule({
   declarations: [
     PihInventoryComponent,
     PihInvMenuComponent,
     PihInvRequestComponent,
+    PihInvReqDetailComponent,
   ],
   imports: [
     CommonModule,
@@ -20,7 +28,12 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     NzGridModule,
     DxButtonModule,
     DxDataGridModule,
-    NzButtonModule
+    NzButtonModule,
+    NzIconModule,
+    NzModalModule,
+    NzTableModule,
+    NzInputModule,
+    FormsModule
   ],
 })
 export class PihInventoryModule {}

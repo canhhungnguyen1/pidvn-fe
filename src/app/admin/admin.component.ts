@@ -23,6 +23,8 @@ export class AdminComponent implements OnInit {
   
   baseUrl = environment.baseUrl;
   baseUrlJava = environment.baseUrlJava;
+  baseUrlJavaHttps = environment.baseUrlJavaHttps;
+
 
   isCollapsed: boolean = false;
   employeeName!: string;
@@ -265,9 +267,9 @@ export class AdminComponent implements OnInit {
 
 
     this.iqcLink.examOnlineLink = `${this.baseUrlJava}/IQC/Monitoring/exam?area=IQC`;
-    this.iqcLink.skillmap.relay = `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskillmap?line=SKILL_RELAY`;
-    this.iqcLink.skillmap.vr = `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskillmap?line=SKILL_VR`;
-    this.iqcLink.skillmap.xrf = `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskillmap?line=SKILL_XRF`;
+    this.iqcLink.skillmap.relay = `${this.baseUrlJavaHttps}/Manufacturing/Monitoring/skillmap/checkskillmap?line=SKILL_RELAY`;
+    this.iqcLink.skillmap.vr = `${this.baseUrlJavaHttps}/Manufacturing/Monitoring/skillmap/checkskillmap?line=SKILL_VR`;
+    this.iqcLink.skillmap.xrf = `${this.baseUrlJavaHttps}/Manufacturing/Monitoring/skillmap/checkskillmap?line=SKILL_XRF`;
 
 
     this.examHistoryIQCLink = `${this.baseUrlJava}/Manufacturing/Monitoring/MA/exam/listexam?area=IQC`;
