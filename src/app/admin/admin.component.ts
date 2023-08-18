@@ -258,7 +258,7 @@ export class AdminComponent implements OnInit {
     this.checkExpiryDateRelayLink = `${this.baseUrlJava}/Manufacturing/Monitoring/MA/exam/list_expired?area=Relay`
     this.examTestVrEncLink = `${this.baseUrlJava}/Manufacturing/Monitoring/MA/exam?area=EMC`
     this.checkExpiryDateVrEncLink = `${this.baseUrlJava}/Manufacturing/Monitoring/MA/exam/list_expired?area=EMC`
-    this.bangQuanLyKyNangPIHLink = `${this.baseUrlJava}/PIH/Monitoring/exam/skill_control?accessToken=${accessToken}`
+    this.bangQuanLyKyNangPIHLink = `${this.baseUrlJava}/PIH/Monitoring/exam/menu?accessToken=${accessToken}`
     this.pihProcessScannerLink = `https://10.92.176.57:8888/PIH/Monitoring/pih_process/pih_process_scaner`
     this.pihPSMasterLink = `${this.baseUrlJava}/PIH/Monitoring/ps_master/ps_master_index?accessToken=${accessToken}`
 

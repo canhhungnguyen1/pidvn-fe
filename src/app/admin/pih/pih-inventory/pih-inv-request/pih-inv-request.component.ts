@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { PihInventoryService } from '../services/pih-inventory.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-pih-inv-request',
@@ -13,7 +14,8 @@ export class PihInvRequestComponent implements OnInit {
   constructor (
     private toastr: ToastrService,
     private jwtHelperSvc: JwtHelperService,
-    private pihInventorySvc: PihInventoryService
+    private pihInventorySvc: PihInventoryService,
+    private router: Router
   ) {}
 
   jwt: any
@@ -74,6 +76,12 @@ export class PihInvRequestComponent implements OnInit {
         this.inventoryRequests = response
       }
     )
+  }
+
+
+  redirectDetail(item: any) {
+    console.log(item.data)
+    this.router.navigate([`admin/pih/pih-inventory/request`, `${item.data.id}`])
   }
 
 }

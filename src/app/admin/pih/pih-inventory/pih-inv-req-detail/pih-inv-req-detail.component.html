@@ -1,1 +1,97 @@
-<p>pih-inv-req-detail works!</p>
+<nz-table
+  #basicTable
+  [nzData]="['']"
+  nzFrontPagination="false"
+  nzBordered
+  nzSize="small"
+>
+  <thead>
+    <tr>
+      <th>
+        <label style="font-weight: bold">Mã kiểm kê:</label>
+        <label style="font-weight: bold; color: green"> IVT-20230818</label>
+      </th>
+      <th style="text-align: right">
+        <button nz-button nzType="primary" (click)="openScanInventoryModal()">
+          <span nz-icon nzType="qrcode"></span>
+          Scan kiểm kê
+        </button>
+      </th>
+    </tr>
+  </thead>
+</nz-table>
+
+<nz-tabset style="margin-top: -25px">
+  <nz-tab nzTitle="Dữ liệu kiểm kê">
+    <dx-data-grid
+      keyExpr="id"
+      [dataSource]="inventoryData"
+      [showColumnLines]="true"
+      [showRowLines]="true"
+      [showBorders]="true"
+      [allowColumnResizing]="true"
+      [columnAutoWidth]="true"
+      [rowAlternationEnabled]="true"
+      (onExporting)="onExportClient($event)"
+    >
+      <dxo-paging [pageSize]="10"></dxo-paging>
+      <dxo-filter-row [visible]="true"></dxo-filter-row>
+      <dxo-export [enabled]="true"></dxo-export>
+
+      <dxo-toolbar>
+        <dxi-item location="before">
+          <!-- <span class="ivt-data" style="color: blue"
+            >Danh sách NVL thực tế kiểm kê</span
+          > -->
+        </dxi-item>
+
+        <dxi-item name="exportButton"></dxi-item>
+      </dxo-toolbar>
+
+      <dxi-column dataField="partNo" caption="Part No"></dxi-column>
+      <dxi-column dataField="lotNo" caption="Lot No"></dxi-column>
+      <dxi-column dataField="qty" caption="Qty"></dxi-column>
+    </dx-data-grid>
+  </nz-tab>
+  <nz-tab nzTitle="Summary"> </nz-tab>
+</nz-tabset>
+
+<nz-modal
+  [(nzVisible)]="isOpenScanInventoryModal"
+  nzTitle="Dữ liệu scan kiểm kê"
+  nzWidth="750px"
+>
+  <ng-container *nzModalContent>
+    <nz-table
+      [nzData]="['']"
+      nzFrontPagination="false"
+      nzBordered
+      nzSize="small"
+      style="margin-top: -15px"
+    >
+      <thead>
+        <tr>
+          <th>
+            <input
+              id="labelIpt"
+              #labelIpt
+              nz-input
+              placeholder="Scan tem NVL"
+              (keydown.enter)="scanLabel($event)"
+              (click)="labelIpt.select()"
+              autocomplete="off"
+              autofocus="true"
+            />
+          </th>
+        </tr>
+      </thead>
+    </nz-table>
+  </ng-container>
+
+  <div *nzModalFooter>
+    <button nz-button nzType="default">Hủy</button>
+    <button nz-button nzType="primary" (click)="saveInventoryData()">
+      Lưu dữ liệu
+    </button>
+  </div>
+</nz-modal>

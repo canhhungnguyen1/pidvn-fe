@@ -38,9 +38,13 @@
 
   <dxi-column
     caption="Action"
-    cellTemplate="cellTemplate"
+    cellTemplate="actionTemplate"
     alignment="center"
-  ></dxi-column>
+  >
+  <div *dxTemplate="let item of 'actionTemplate'" style="text-align: center">
+    <a style="color: blue" (click)="redirectDetail(item)">Chi tiết</a>
+  </div>
+  </dxi-column>
 </dx-data-grid>
 
 <nz-modal
