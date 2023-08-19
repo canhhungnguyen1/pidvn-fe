@@ -104,13 +104,27 @@
       <tbody>
         <tr *ngFor="let data of labelTable.data">
           <td>
-            <label>{{ data.cpn }}</label>
+            <label>{{ data.model }}</label>
           </td>
           <td>
-            <label>{{ data.cpn }}</label>
+            <label>{{ data.lotNo }}</label>
           </td>
-          <td>
-            <label>{{ data.cpn }}</label>
+          <td class="editable-row" style="text-align: right">
+            <div
+              class="editable-cell"
+              [hidden]="lotNoEdit === data.lotNo"
+              (click)="startEdit(data)"
+            >
+              {{ data.qty | number: "1.0-3" }}
+            </div>
+            <input
+              #importQtyIpt
+              [hidden]="lotNoEdit !== data.lotNo"
+              type="number"
+              nz-input
+              [(ngModel)]="data.qty"
+              (blur)="stopEdit()"
+            />
           </td>
           <td style="text-align: center;">
             <a style="color: red; font-weight: bold">Xóa</a>

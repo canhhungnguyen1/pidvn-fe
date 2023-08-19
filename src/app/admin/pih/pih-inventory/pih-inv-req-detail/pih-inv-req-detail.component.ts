@@ -8,12 +8,15 @@ import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angula
 export class PihInvReqDetailComponent implements OnInit, AfterViewInit{
 
   @ViewChild('labelIpt') labelIpt!: ElementRef;
+  @ViewChild('importQtyIpt') importQtyIpt!: ElementRef;
 
   inventoryData: any
   isOpenScanInventoryModal: boolean = false;
 
   mapLotsScanned: Map<string, any> = new Map();
   listLotsScanned: Array<any> = new Array();
+
+  lotNoEdit: string | null = null;
 
   ngOnInit(): void {
     
@@ -67,6 +70,19 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit{
 
     console.log(this.listLotsScanned)
     
+  }
+
+
+  startEdit(data: any) {
+    setTimeout(() => {
+      this.importQtyIpt.nativeElement.select();
+    }, 400);
+    this.lotNoEdit = data.lotNo;
+  }
+
+  stopEdit(): void {
+    this.lotNoEdit = null;
+    this.importQtyIpt.nativeElement.select();
   }
 
 }

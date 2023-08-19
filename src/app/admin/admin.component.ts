@@ -281,9 +281,9 @@ export class AdminComponent implements OnInit {
     this.iqcLink.skillmap.vr = `${this.baseUrlJavaHttps}/Manufacturing/Monitoring/skillmap/checkskillmap?line=SKILL_VR`;
     this.iqcLink.skillmap.xrf = `${this.baseUrlJavaHttps}/Manufacturing/Monitoring/skillmap/checkskillmap?line=SKILL_XRF`;
 
-    this.pihLink.skillmap.coilRelay = `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskillmap?line=COIL_RELAY`
-    this.pihLink.skillmap.pressRelay = `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskillmap?line=PRESS_RELAY`
-    this.pihLink.skillmap.moldRelay = `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskillmap?line=MOLD_RELAY`
+    this.pihLink.skillmap.coilRelay = `${this.baseUrlJavaHttps}/Manufacturing/Monitoring/skillmap/checkskillmap?line=COIL_RELAY`
+    this.pihLink.skillmap.pressRelay = `${this.baseUrlJavaHttps}/Manufacturing/Monitoring/skillmap/checkskillmap?line=PRESS_RELAY`
+    this.pihLink.skillmap.moldRelay = `${this.baseUrlJavaHttps}/Manufacturing/Monitoring/skillmap/checkskillmap?line=MOLD_RELAY`
 
     
 
