@@ -555,6 +555,23 @@
               >PS Master</a
             >
           </li>
+          <li nz-submenu nzTitle="Skill Map">
+            <ul>
+              <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
+                <a [href]="pihLink.skillmap.coilRelay" target="blank"
+                  >Coil Relay</a
+                >
+              </li>
+              <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
+                <a [href]="pihLink.skillmap.pressRelay" target="blank">Press Relay</a>
+              </li>
+
+              <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
+                <a [href]="pihLink.skillmap.moldRelay" target="blank">Mold Relay</a>
+              </li>
+              
+            </ul>
+          </li>
           <li nz-menu-item nzMatchRouter>
             <a
               routerLink="/admin/pih/pih-inventory/menu"

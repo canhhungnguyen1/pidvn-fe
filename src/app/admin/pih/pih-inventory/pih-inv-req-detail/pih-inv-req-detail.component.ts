@@ -12,6 +12,9 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit{
   inventoryData: any
   isOpenScanInventoryModal: boolean = false;
 
+  mapLotsScanned: Map<string, any> = new Map();
+  listLotsScanned: Array<any> = new Array();
+
   ngOnInit(): void {
     
   }
@@ -35,15 +38,34 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit{
 
   saveInventoryData() {
     this.isOpenScanInventoryModal = false;
+
+    console.log(this.listLotsScanned)
   }
 
   scanLabel(event: any) {
 
     this.labelIpt.nativeElement.select();
+
+    let data = event.target.value.split(';')
+
+    let model = data[0];
+    let qty = data[2];
+    let lotNo = data[3]
+
+    let obj = {
+      lotNo: lotNo,
+      model: model,
+      qty: qty
+    }
     
+    
+    this.mapLotsScanned.set(lotNo, obj);
 
+    this.listLotsScanned = Array.from(
+      this.mapLotsScanned.values()
+    ).reverse();
 
-    console.log(event)
+    console.log(this.listLotsScanned)
     
   }
 

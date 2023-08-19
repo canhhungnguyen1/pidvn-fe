@@ -219,6 +219,16 @@ export class AdminComponent implements OnInit {
     }
   }
 
+  // PIH Link SkillMap
+  pihLink = {
+    skillmap: {
+      coilRelay: '',
+      pressRelay: '',
+      moldRelay: ''
+    }
+  }
+
+
   // Exam History Link
   examHistoryIQCLink!: string;
   examHistoryRelayLink!: string;
@@ -270,6 +280,12 @@ export class AdminComponent implements OnInit {
     this.iqcLink.skillmap.relay = `${this.baseUrlJavaHttps}/Manufacturing/Monitoring/skillmap/checkskillmap?line=SKILL_RELAY`;
     this.iqcLink.skillmap.vr = `${this.baseUrlJavaHttps}/Manufacturing/Monitoring/skillmap/checkskillmap?line=SKILL_VR`;
     this.iqcLink.skillmap.xrf = `${this.baseUrlJavaHttps}/Manufacturing/Monitoring/skillmap/checkskillmap?line=SKILL_XRF`;
+
+    this.pihLink.skillmap.coilRelay = `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskillmap?line=COIL_RELAY`
+    this.pihLink.skillmap.pressRelay = `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskillmap?line=PRESS_RELAY`
+    this.pihLink.skillmap.moldRelay = `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskillmap?line=MOLD_RELAY`
+
+    
 
 
     this.examHistoryIQCLink = `${this.baseUrlJava}/Manufacturing/Monitoring/MA/exam/listexam?area=IQC`;

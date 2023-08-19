@@ -86,6 +86,38 @@
         </tr>
       </thead>
     </nz-table>
+    <nz-table
+      #labelTable
+      nzSize="small"
+      nzBordered
+      [nzData]="listLotsScanned"
+      style="margin-top: -20px"
+    >
+      <thead>
+        <tr>
+          <th>Part No</th>
+          <th>Lot No</th>
+          <th>Qty (Tồn)</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of labelTable.data">
+          <td>
+            <label>{{ data.cpn }}</label>
+          </td>
+          <td>
+            <label>{{ data.cpn }}</label>
+          </td>
+          <td>
+            <label>{{ data.cpn }}</label>
+          </td>
+          <td style="text-align: center;">
+            <a style="color: red; font-weight: bold">Xóa</a>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
   </ng-container>
 
   <div *nzModalFooter>
