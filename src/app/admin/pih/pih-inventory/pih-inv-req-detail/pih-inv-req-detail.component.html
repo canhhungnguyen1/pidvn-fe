@@ -51,7 +51,19 @@
       <dxi-column dataField="partNo" caption="Part No"></dxi-column>
       <dxi-column dataField="lotNo" caption="Lot No"></dxi-column>
       <dxi-column dataField="qty" caption="Qty" format="#,##0"></dxi-column>
-      <dxi-column dataField="createdAt" caption="Date" dataType="date" format="yyyy-MM-dd HH:mm:ss"></dxi-column>
+      <dxi-column
+        dataField="createdAt"
+        caption="Date"
+        dataType="date"
+        format="yyyy-MM-dd HH:mm:ss"
+      ></dxi-column>
+
+      <dxo-paging [pageSize]="10"></dxo-paging>
+      <dxo-pager
+        [showPageSizeSelector]="true"
+        [allowedPageSizes]="[10, 25, 50, 100]"
+      >
+      </dxo-pager>
     </dx-data-grid>
   </nz-tab>
   <nz-tab nzTitle="Summary">
@@ -104,6 +116,7 @@
         summaryItem="count"
       ></dxi-sort-by-group-summary-info>
 
+      <dxo-paging [pageSize]="10"></dxo-paging>
       <dxo-pager
         [showPageSizeSelector]="true"
         [allowedPageSizes]="[10, 25, 50, 100]"
@@ -172,7 +185,7 @@
               [hidden]="lotNoEdit === data.lotNo"
               (click)="startEdit(data)"
             >
-              {{ data.qty | number: "1.0-3" }}
+              {{ data.qty | number : "1.0-3" }}
             </div>
             <input
               #importQtyIpt
@@ -184,24 +197,75 @@
             />
           </td>
           <td
-              style="text-align: center"
-              nz-popconfirm
-              nzPopconfirmTitle="Có chắc chắn xóa không ?"
-              (nzOnConfirm)="deleteLabelScanned(data)"
-              nzPopconfirmPlacement="top"
-              nzRight
-            >
-              <a style="color: red; font-weight: bold">Xóa</a>
-            </td>
+            style="text-align: center"
+            nz-popconfirm
+            nzPopconfirmTitle="Có chắc chắn xóa không ?"
+            (nzOnConfirm)="deleteLabelScanned(data)"
+            nzPopconfirmPlacement="top"
+            nzRight
+          >
+            <a style="color: red; font-weight: bold">Xóa</a>
+          </td>
         </tr>
       </tbody>
     </nz-table>
   </ng-container>
 
   <div *nzModalFooter>
-    <button nz-button nzType="default">Hủy</button>
-    <button nz-button nzType="primary" (click)="saveInventoryData()">
+    <button nz-button nzType="default" (click)="closeScanInventoryModal()">
+      Hủy
+    </button>
+    <button
+      nz-button
+      nzType="primary"
+      [nzLoading]="isLoadingSaveInventoryData"
+      (click)="saveInventoryData()"
+    >
       Lưu dữ liệu
+    </button>
+  </div>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="isOpenResultSaveInventoryModal"
+  nzTitle="Kết quả lưu kiểm kê"
+  nzWidth="750px"
+>
+  <ng-container *nzModalContent>
+    <nz-table id="result-save-inventory" [nzSize]="'small'" [nzData]="['']" nzFrontPagination="false" nzBordered>
+      <thead>
+        <tr>
+          <th>Các box lưu thành công</th>
+          <th>Các box duplicate</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+            <td>
+                <ul>
+                    <li *ngFor="let data of resultSaveInventoryData?.resultOK">
+                        <span style="font-weight: bold; background: #c5e1a5;">{{data.lotNo}}</span>
+                    </li>
+                </ul>
+            </td>
+            <td>
+                <ul>
+                    <li *ngFor="let data of resultSaveInventoryData?.resultNG">
+                        <span style="font-weight: bold; color: red;">{{data.lotNo}}</span>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
+  <div *nzModalFooter>
+    <button
+      nz-button
+      nzType="default"
+      (click)="isOpenResultSaveInventoryModal = false"
+    >
+      Đóng
     </button>
   </div>
 </nz-modal>

@@ -12,20 +12,25 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit{
   @ViewChild('labelIpt') labelIpt!: ElementRef;
   @ViewChild('importQtyIpt') importQtyIpt!: ElementRef;
 
-  requestId: any;
-  inventoryData: any
-  isOpenScanInventoryModal: boolean = false;
-
-  mapLotsScanned: Map<string, any> = new Map();
-  listLotsScanned: Array<any> = new Array();
-
-  lotNoEdit: string | null = null;
-
   constructor(
     private toastr: ToastrService,
     private activatedRoute: ActivatedRoute,
     private pihInventorySvc: PihInventoryService
   ) {}
+
+  requestId: any;
+  inventoryData: any
+  isOpenScanInventoryModal: boolean = false;
+  isOpenResultSaveInventoryModal: boolean = false;
+  mapLotsScanned: Map<string, any> = new Map();
+  listLotsScanned: Array<any> = new Array();
+  lotNoEdit: string | null = null;
+  inventoryDataOK: any;
+
+  isLoadingSaveInventoryData: boolean = false;
+
+  resultSaveInventoryData: any;
+
 
   ngOnInit(): void {
     this.requestId = Number(this.activatedRoute.snapshot.params['id'])
@@ -58,10 +63,13 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit{
   }
 
   saveInventoryData() {
-    
+    this.isLoadingSaveInventoryData = true;
     this.pihInventorySvc.saveInventoryData(this.listLotsScanned).subscribe(
       response => {
+        this.resultSaveInventoryData = response;
         this.isOpenScanInventoryModal = false;
+        this.isLoadingSaveInventoryData = false;
+        this.isOpenResultSaveInventoryModal = true;
         this.mapLotsScanned = new Map();
         this.listLotsScanned = new Array();
 
@@ -113,6 +121,10 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit{
   deleteLabelScanned(data: any) {
     this.mapLotsScanned.delete(data.lotNo);
     this.listLotsScanned = Array.from(this.mapLotsScanned.values()).reverse();
+  }
+
+  closeScanInventoryModal() {
+    this.isOpenScanInventoryModal = false;
   }
 
 }

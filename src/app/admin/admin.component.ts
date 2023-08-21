@@ -42,7 +42,7 @@ export class AdminComponent implements OnInit {
   paymentLink!: string;
   priceLink!:string;
   eDummyLink!: string;
-  
+  relayDashboardLink!: string;
   listExpired!: string;
   listOpLineRelay!: string;
   listOpLineVR!: string;
@@ -240,7 +240,7 @@ export class AdminComponent implements OnInit {
     let accessToken = localStorage.getItem('accessToken');
     this.getEmployeeName();
 
-
+    this.relayDashboardLink = `${this.baseUrlJava}/Manufacturing/Monitoring/production`
     this.eCommitLink = `${this.baseUrlJava}/camket/Handle/camket/menu?accessToken=${accessToken}`
     this.eLeaveLink = `${this.baseUrlJava}/Leave/Handle/leave/menu?accessToken=${accessToken}`
     this.eApprovalLink = `${this.baseUrlJava}/Manufacturing/Handle/approve/menu?accessToken=${accessToken}`
@@ -250,6 +250,9 @@ export class AdminComponent implements OnInit {
     this.contractLink = `${this.baseUrlJava}/Contract/Handle/contract/menu?accessToken=${accessToken}`
     this.paymentLink = `${this.baseUrlJava}/Payment/Handle/payment/menu?accessToken=${accessToken}`
     this.priceLink = `${this.baseUrlJava}/Price/Handle/price/menu?accessToken=${accessToken}`
+
+
+
 
     this.eDummyLink = `${this.baseUrlJava}/Dummy/Handle/dummy/menu?accessToken=${accessToken}`
     
