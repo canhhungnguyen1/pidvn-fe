@@ -63,9 +63,17 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit{
   }
 
   saveInventoryData() {
+
+    if(this.listLotsScanned.length <= 0) {
+      this.toastr.warning("Cần scan tem QR code","Warning")
+      return;
+    }
+
+
     this.isLoadingSaveInventoryData = true;
     this.pihInventorySvc.saveInventoryData(this.listLotsScanned).subscribe(
       response => {
+        this.toastr.success("Đã lưu","Response")
         this.resultSaveInventoryData = response;
         this.isOpenScanInventoryModal = false;
         this.isLoadingSaveInventoryData = false;

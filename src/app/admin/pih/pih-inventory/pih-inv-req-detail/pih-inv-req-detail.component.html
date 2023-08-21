@@ -230,13 +230,15 @@
   [(nzVisible)]="isOpenResultSaveInventoryModal"
   nzTitle="Kết quả lưu kiểm kê"
   nzWidth="750px"
+  (nzOnCancel)="isOpenResultSaveInventoryModal=false"
+  (nzOnOk)="isOpenResultSaveInventoryModal=false"
 >
   <ng-container *nzModalContent>
     <nz-table id="result-save-inventory" [nzSize]="'small'" [nzData]="['']" nzFrontPagination="false" nzBordered>
       <thead>
         <tr>
-          <th>Các box lưu thành công</th>
-          <th>Các box duplicate</th>
+          <th width="50%">Các box lưu thành công</th>
+          <th width="50%">Các box duplicate</th>
         </tr>
       </thead>
       <tbody>
@@ -244,14 +246,14 @@
             <td>
                 <ul>
                     <li *ngFor="let data of resultSaveInventoryData?.resultOK">
-                        <span style="font-weight: bold; background: #c5e1a5;">{{data.lotNo}}</span>
+                        <span style="font-weight: bold; background: #e8f2db; color: green">{{data.lotNo}}</span>
                     </li>
                 </ul>
             </td>
             <td>
                 <ul>
                     <li *ngFor="let data of resultSaveInventoryData?.resultNG">
-                        <span style="font-weight: bold; color: red;">{{data.lotNo}}</span>
+                        <span style="font-weight: bold; background: #fce1e1; color: red;">{{data.lotNo}}</span>
                     </li>
                 </ul>
             </td>
@@ -259,7 +261,7 @@
       </tbody>
     </nz-table>
   </ng-container>
-  <div *nzModalFooter>
+  <!-- <div *nzModalFooter>
     <button
       nz-button
       nzType="default"
@@ -267,5 +269,5 @@
     >
       Đóng
     </button>
-  </div>
+  </div> -->
 </nz-modal>
