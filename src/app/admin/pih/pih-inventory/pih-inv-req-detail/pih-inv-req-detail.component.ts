@@ -1,5 +1,7 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-
+import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { PihInventoryService } from '../services/pih-inventory.service';
 @Component({
   selector: 'app-pih-inv-req-detail',
   templateUrl: './pih-inv-req-detail.component.html',
@@ -10,6 +12,7 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit{
   @ViewChild('labelIpt') labelIpt!: ElementRef;
   @ViewChild('importQtyIpt') importQtyIpt!: ElementRef;
 
+  requestId: any;
   inventoryData: any
   isOpenScanInventoryModal: boolean = false;
 
@@ -18,12 +21,27 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit{
 
   lotNoEdit: string | null = null;
 
+  constructor(
+    private toastr: ToastrService,
+    private activatedRoute: ActivatedRoute,
+    private pihInventorySvc: PihInventoryService
+  ) {}
+
   ngOnInit(): void {
-    
+    this.requestId = Number(this.activatedRoute.snapshot.params['id'])
+    this.getInventoryData(this.requestId);
   }
 
   ngAfterViewInit(): void {
     
+  }
+
+  getInventoryData(requestId: any) {
+    this.pihInventorySvc.getInventoryData(requestId).subscribe(
+      response => {
+        this.inventoryData = response
+      }
+    )
   }
 
   onExportClient($event: any) {
@@ -40,9 +58,17 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit{
   }
 
   saveInventoryData() {
-    this.isOpenScanInventoryModal = false;
+    
+    this.pihInventorySvc.saveInventoryData(this.listLotsScanned).subscribe(
+      response => {
+        this.isOpenScanInventoryModal = false;
+        this.mapLotsScanned = new Map();
+        this.listLotsScanned = new Array();
 
-    console.log(this.listLotsScanned)
+        this.getInventoryData(this.requestId);
+
+      }
+    )
   }
 
   scanLabel(event: any) {
@@ -51,16 +77,16 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit{
 
     let data = event.target.value.split(';')
 
-    let model = data[0];
+    let partNo = data[0];
     let qty = data[2];
     let lotNo = data[3]
 
     let obj = {
       lotNo: lotNo,
-      model: model,
-      qty: qty
+      partNo: partNo,
+      qty: qty,
+      requestId: this.requestId
     }
-    
     
     this.mapLotsScanned.set(lotNo, obj);
 
@@ -68,7 +94,6 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit{
       this.mapLotsScanned.values()
     ).reverse();
 
-    console.log(this.listLotsScanned)
     
   }
 
@@ -83,6 +108,11 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit{
   stopEdit(): void {
     this.lotNoEdit = null;
     this.importQtyIpt.nativeElement.select();
+  }
+
+  deleteLabelScanned(data: any) {
+    this.mapLotsScanned.delete(data.lotNo);
+    this.listLotsScanned = Array.from(this.mapLotsScanned.values()).reverse();
   }
 
 }

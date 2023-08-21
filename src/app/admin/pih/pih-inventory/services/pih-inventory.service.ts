@@ -23,4 +23,19 @@ export class PihInventoryService {
       request
     );
   }
+
+
+  saveInventoryData(inventoryData: any) {
+    return this.httpClient.post(
+      `${this.baseUrl}/PIH/Inventory/InventoryData`,
+      inventoryData
+    );
+  }
+
+
+  getInventoryData(requestId: any) {
+    return this.httpClient.get(
+      `${this.baseUrl}/PIH/Inventory/InventoryData?requestId=${requestId}`
+    );
+  }
 }

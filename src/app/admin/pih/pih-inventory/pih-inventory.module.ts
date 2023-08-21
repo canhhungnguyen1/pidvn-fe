@@ -15,6 +15,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { FormsModule } from '@angular/forms';
 import { PihInvReqDetailComponent } from './pih-inv-req-detail/pih-inv-req-detail.component';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
     NzTableModule,
     NzInputModule,
     FormsModule,
-    NzTabsModule
+    NzTabsModule,
+    NzPopconfirmModule
   ],
 })
 export class PihInventoryModule {}
