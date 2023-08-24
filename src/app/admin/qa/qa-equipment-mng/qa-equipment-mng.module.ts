@@ -28,6 +28,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { QaEquipmentDataComponent } from './qa-equipment-data/qa-equipment-data.component';
 import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzQRCodeModule } from 'ng-zorro-antd/qr-code';
 @NgModule({
   declarations: [
     QaEquipmentMngComponent,
@@ -57,7 +58,8 @@ import { NzFormModule } from 'ng-zorro-antd/form';
     NzSelectModule,
     NzInputModule,
     NzPopconfirmModule,
-    NzFormModule
+    NzFormModule,
+    NzQRCodeModule
   ],
 })
 export class QaEquipmentMngModule {}
