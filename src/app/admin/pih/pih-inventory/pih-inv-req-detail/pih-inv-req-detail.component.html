@@ -9,7 +9,7 @@
     <tr>
       <th>
         <label style="font-weight: bold">Mã kiểm kê:</label>
-        <label style="font-weight: bold; color: green"> IVT-20230818</label>
+        <label style="font-weight: bold; color: green"> {{requestNo}} </label>
       </th>
       <th style="text-align: right">
         <button nz-button nzType="primary" (click)="openScanInventoryModal()">
@@ -124,6 +124,14 @@
       </dxo-pager>
     </dx-data-grid>
   </nz-tab>
+
+
+  <nz-tab nzTitle="Chênh lệch thực tế / lý thuyết">
+    
+  </nz-tab>
+
+
+
 </nz-tabset>
 
 <nz-modal

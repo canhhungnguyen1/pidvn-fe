@@ -81,7 +81,10 @@ export class PihInvRequestComponent implements OnInit {
 
   redirectDetail(item: any) {
     console.log(item.data)
-    this.router.navigate([`admin/pih/pih-inventory/request`, `${item.data.id}`])
+    this.router.navigate(
+      [`admin/pih/pih-inventory/request`, `${item.data.id}`],
+      { queryParams: { reqNo: item.data.reqNo } }
+    )
   }
 
 }

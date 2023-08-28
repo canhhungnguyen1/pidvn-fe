@@ -19,6 +19,7 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit{
   ) {}
 
   requestId: any;
+  requestNo: any
   inventoryData: any
   isOpenScanInventoryModal: boolean = false;
   isOpenResultSaveInventoryModal: boolean = false;
@@ -34,6 +35,10 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit{
 
   ngOnInit(): void {
     this.requestId = Number(this.activatedRoute.snapshot.params['id'])
+    this.requestNo = this.activatedRoute.snapshot.queryParamMap.get('reqNo');
+
+    console.log(this.requestNo)
+
     this.getInventoryData(this.requestId);
   }
 
