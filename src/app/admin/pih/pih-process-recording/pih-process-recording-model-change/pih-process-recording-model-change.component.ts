@@ -81,21 +81,31 @@ export class PihProcessRecordingModelChangeComponent implements OnInit {
   parentModel: any;
 
   scanCoil(event: any) {
+
+    let lotNo = "";
+    
+    // Trường hợp là tem electriksola
+    if(!event.target.value.includes(';')) {
+      lotNo = event.target.value.substring(1)
+    } else {
+      lotNo = event.target.value.split(';')[3]
+    }
+
+    
+
+
     if (this.lots.length >= 24) {
       this.toastr.warning('Đã đủ số lượng', 'Warning');
       return;
     }
 
     this.pihPRSvc
-      .checkSetupSaiNVL(this.parentModel, event.target.value.substring(1))
+      .checkSetupSaiNVL(this.parentModel, lotNo)
       .subscribe((response) => {
         console.log('response: ', response);
 
         if(response.result === 'OK') {
-          this.mapLotsScanned.set(
-            event.target.value.substring(1),
-            event.target.value.substring(1)
-          );
+          this.mapLotsScanned.set(lotNo,lotNo);
       
           this.lots = Array.from(this.mapLotsScanned.values()).reverse();
       

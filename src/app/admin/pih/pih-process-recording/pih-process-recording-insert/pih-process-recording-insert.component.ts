@@ -127,26 +127,35 @@ export class PihProcessRecordingInsertComponent implements OnInit {
   }
 
   scanNewCoil(event: any) {
-    let result = event.target.value;
+
+    let lotNo = "";
+    // Trường hợp là tem electriksola
+    if (!event.target.value.includes(';')) {
+      lotNo = event.target.value.substring(1);
+    } else {
+      lotNo = event.target.value.split(';')[3]
+    }
+    
+
 
     // Check nếu là Lot cũ thì báo lỗi
     let params = {
-      clotno: event.target.value.substring(1),
+      clotno: lotNo,
       cpn: this.label,
     };
 
     this.pihPRSvc.scanCoil(params).subscribe((response: any) => {
       console.log(response);
       if (response.status == 'ERROR') {
-        debugger
+        debugger;
         this.isError = true;
         this.errMsg = response.message;
         this.newCoilIpt.nativeElement.select();
-        this.scanner.newCoil = ''
+        this.scanner.newCoil = '';
         return;
       }
 
-      this.scanner.newCoil = result;
+      this.scanner.newCoil = lotNo;
       this.oldCoilIpt.nativeElement.focus();
       this.oldCoilIpt.nativeElement.select();
       this.isError = false;
@@ -155,16 +164,23 @@ export class PihProcessRecordingInsertComponent implements OnInit {
   }
 
   scanOldCoil(event: any) {
-    let result = event.target.value;
 
-    if (result == this.scanner.newCoil) {
+    let lotNo = "";
+    // Trường hợp là tem electriksola
+    if (!event.target.value.includes(';')) {
+      lotNo = event.target.value.substring(1);
+    } else {
+      lotNo = event.target.value.split(';')[3]
+    }
+
+    if (lotNo == this.scanner.newCoil) {
       this.oldCoilIpt.nativeElement.select();
       this.isError = true;
       this.errMsg = 'Bạn cần scan Lot đã dùng hết';
       return;
     }
 
-    this.scanner.oldCoil = result;
+    this.scanner.oldCoil = lotNo;
     this.isError = false;
     this.errMsg = '';
   }
@@ -183,8 +199,8 @@ export class PihProcessRecordingInsertComponent implements OnInit {
     this.isLoading = true;
 
     let obj = { ...this.scanner };
-    obj.newCoil = obj.newCoil.substring(1);
-    obj.oldCoil = obj.oldCoil.substring(1);
+    // obj.newCoil = obj.newCoil;
+    // obj.oldCoil = obj.oldCoil;
 
     this.pihPRSvc.insertCoil(obj).subscribe((response) => {
       let searchVo = {
@@ -250,7 +266,6 @@ export class PihProcessRecordingInsertComponent implements OnInit {
   }
 
   onSave2() {
-
     if (
       !this.scanner2.userId ||
       !this.scanner2.label ||
