@@ -98,9 +98,23 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit{
 
     let data = event.target.value.split(';')
 
-    let partNo = data[0];
-    let qty = data[2];
-    let lotNo = data[3]
+    let partNo = "";
+    let qty = 0;
+    let lotNo = "";
+
+    if(!event.target.value.includes(';')) {
+      partNo = "";
+      qty = 0;
+      lotNo = event.target.value.substring(1);
+    }else {
+      partNo = data[0];
+      qty = data[2];
+      lotNo = data[3]
+    }
+
+    // let partNo = data[0];
+    // let qty = data[2];
+    // let lotNo = data[3]
 
     let obj = {
       lotNo: lotNo,
