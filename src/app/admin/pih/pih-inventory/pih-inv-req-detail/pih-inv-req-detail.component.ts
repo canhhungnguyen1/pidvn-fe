@@ -102,32 +102,54 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit{
     let qty = 0;
     let lotNo = "";
 
-    if(!event.target.value.includes(';')) {
-      partNo = "";
-      qty = 0;
-      lotNo = event.target.value.substring(1);
-    }else {
+    if(event.target.value.includes(';')) {
       partNo = data[0];
       qty = data[2];
       lotNo = data[3]
+
+      let obj = {
+        lotNo: lotNo,
+        partNo: partNo,
+        qty: qty,
+        requestId: this.requestId
+      }
+      
+      this.mapLotsScanned.set(lotNo, obj);
+  
+      this.listLotsScanned = Array.from(
+        this.mapLotsScanned.values()
+      ).reverse();
+
+      return;
+    }else {
+
+      lotNo = event.target.value.substring(1);
+
+      this.pihInventorySvc.scanLabel(lotNo).subscribe(
+        response => {
+          
+          let data = Object.assign(response)
+
+          let obj = {
+            lotNo: lotNo,
+            partNo: data.model,
+            qty: data.qty,
+            requestId: this.requestId
+          }
+          
+          this.mapLotsScanned.set(lotNo, obj);
+      
+          this.listLotsScanned = Array.from(
+            this.mapLotsScanned.values()
+          ).reverse();
+
+          return
+        }
+      )
     }
 
-    // let partNo = data[0];
-    // let qty = data[2];
-    // let lotNo = data[3]
 
-    let obj = {
-      lotNo: lotNo,
-      partNo: partNo,
-      qty: qty,
-      requestId: this.requestId
-    }
     
-    this.mapLotsScanned.set(lotNo, obj);
-
-    this.listLotsScanned = Array.from(
-      this.mapLotsScanned.values()
-    ).reverse();
 
     
   }
