@@ -80,6 +80,6 @@
   </ng-container>
   <div *nzModalFooter>
     <button nz-button nzType="default" (click)="closeCreateRequestInventoryModal()">Hủy</button>
-    <button nz-button nzType="primary" (click)="createInventoryRequest()">Tạo</button>
+    <button nz-button nzType="primary" (click)="createInventoryRequest()" [nzLoading]="isLoading">Tạo</button>
   </div>
 </nz-modal>

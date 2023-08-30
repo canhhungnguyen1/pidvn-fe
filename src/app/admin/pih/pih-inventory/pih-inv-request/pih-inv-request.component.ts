@@ -40,6 +40,8 @@ export class PihInvRequestComponent implements OnInit {
 
   isOpenCreateRequestInventoryModal: boolean = false;
 
+  isLoading: boolean = false;
+
   openCreateRequestInventoryModal() {
 
     let currentDate = new Date().toJSON().slice(0, 10).replace(/-/g, '');
@@ -57,6 +59,7 @@ export class PihInvRequestComponent implements OnInit {
 
 
   createInventoryRequest() {
+    this.isLoading = true;
     let obj = {
       reqNo: this.ivtReq,
       createdBy: this.jwt.Username,
@@ -65,7 +68,11 @@ export class PihInvRequestComponent implements OnInit {
 
     this.pihInventorySvc.createInventoryRequest(obj).subscribe(
       response => {
-        
+        this.isOpenCreateRequestInventoryModal = false
+        this.isLoading = false;
+      },
+      error => {
+        this.isLoading = false;
       }
     )
   }
