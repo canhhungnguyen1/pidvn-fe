@@ -108,8 +108,8 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit{
       lotNo = data[3]
 
       let obj = {
-        lotNo: lotNo,
-        partNo: partNo,
+        lotNo: lotNo.toUpperCase() ,
+        partNo: partNo.toUpperCase(),
         qty: qty,
         requestId: this.requestId
       }
