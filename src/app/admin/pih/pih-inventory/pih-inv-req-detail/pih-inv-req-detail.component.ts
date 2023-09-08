@@ -67,7 +67,11 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit{
 
   }
 
-  saveInventoryData() {
+  /**
+   * Lưu list danh sách Lot đã scan
+   * @returns 
+   */
+  saveListInventoryData() {
 
     if(this.listLotsScanned.length <= 0) {
       this.toastr.warning("Cần scan tem QR code","Warning")
@@ -76,7 +80,7 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit{
 
 
     this.isLoadingSaveInventoryData = true;
-    this.pihInventorySvc.saveInventoryData(this.listLotsScanned).subscribe(
+    this.pihInventorySvc.saveListInventoryData(this.listLotsScanned).subscribe(
       response => {
         this.toastr.success("Đã lưu","Response")
         this.resultSaveInventoryData = response;
@@ -147,11 +151,6 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit{
         }
       )
     }
-
-
-    
-
-    
   }
 
 
@@ -174,6 +173,28 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit{
 
   closeScanInventoryModal() {
     this.isOpenScanInventoryModal = false;
+  }
+
+
+  isOpenEditQtyModal: boolean = false
+  lotSelected: any;
+  openEditQtyModal(item: any) {
+
+    this.lotSelected = item.data
+
+    this.isOpenEditQtyModal = true
+  }
+
+  saveEditQty() {
+    this.isOpenEditQtyModal = false
+    this.pihInventorySvc.saveInventoryData(this.lotSelected).subscribe(
+      response => {
+        this.getInventoryData(this.requestId);
+      }
+    )
+
+
+
   }
 
 }

@@ -25,6 +25,13 @@ export class PihInventoryService {
   }
 
 
+  saveListInventoryData(inventoryDataList: any) {
+    return this.httpClient.post(
+      `${this.baseUrl}/PIH/Inventory/SaveListInventoryData`,
+      inventoryDataList
+    );
+  }
+
   saveInventoryData(inventoryData: any) {
     return this.httpClient.post(
       `${this.baseUrl}/PIH/Inventory/InventoryData`,

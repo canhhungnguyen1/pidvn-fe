@@ -9,7 +9,7 @@
     <tr>
       <th>
         <label style="font-weight: bold">Mã kiểm kê:</label>
-        <label style="font-weight: bold; color: green"> {{requestNo}} </label>
+        <label style="font-weight: bold; color: green"> {{ requestNo }} </label>
       </th>
       <th style="text-align: right">
         <button nz-button nzType="primary" (click)="openScanInventoryModal()">
@@ -21,7 +21,7 @@
   </thead>
 </nz-table>
 
-<nz-tabset style="margin-top: -25px">
+<nz-tabset style="margin-top: -25px" [nzSelectedIndex]="1">
   <nz-tab nzTitle="Dữ liệu kiểm kê">
     <dx-data-grid
       keyExpr="id"
@@ -94,6 +94,20 @@
         format="#,##0.0"
       ></dxi-column>
 
+      <dxi-column
+        caption="Action"
+        cellTemplate="actionTemplate"
+        [fixed]="true"
+        fixedPosition="right"
+      >
+        <div
+          *dxTemplate="let item of 'actionTemplate'"
+          style="text-align: center"
+        >
+          <a style="color: blue" (click)="openEditQtyModal(item)">Sửa</a>
+        </div>
+      </dxi-column>
+
       <dxo-summary>
         <dxi-group-item
           column="partNo"
@@ -125,13 +139,7 @@
     </dx-data-grid>
   </nz-tab>
 
-
-  <nz-tab nzTitle="Chênh lệch thực tế / lý thuyết">
-    
-  </nz-tab>
-
-
-
+  <nz-tab nzTitle="Chênh lệch thực tế / lý thuyết"> </nz-tab>
 </nz-tabset>
 
 <nz-modal
@@ -227,7 +235,7 @@
       nz-button
       nzType="primary"
       [nzLoading]="isLoadingSaveInventoryData"
-      (click)="saveInventoryData()"
+      (click)="saveListInventoryData()"
     >
       Lưu dữ liệu
     </button>
@@ -238,11 +246,17 @@
   [(nzVisible)]="isOpenResultSaveInventoryModal"
   nzTitle="Kết quả lưu kiểm kê"
   nzWidth="750px"
-  (nzOnCancel)="isOpenResultSaveInventoryModal=false"
-  (nzOnOk)="isOpenResultSaveInventoryModal=false"
+  (nzOnCancel)="isOpenResultSaveInventoryModal = false"
+  (nzOnOk)="isOpenResultSaveInventoryModal = false"
 >
   <ng-container *nzModalContent>
-    <nz-table id="result-save-inventory" [nzSize]="'small'" [nzData]="['']" nzFrontPagination="false" nzBordered>
+    <nz-table
+      id="result-save-inventory"
+      [nzSize]="'small'"
+      [nzData]="['']"
+      nzFrontPagination="false"
+      nzBordered
+    >
       <thead>
         <tr>
           <th width="50%">Các box lưu thành công</th>
@@ -251,20 +265,26 @@
       </thead>
       <tbody>
         <tr>
-            <td>
-                <ul>
-                    <li *ngFor="let data of resultSaveInventoryData?.resultOK">
-                        <span style="font-weight: bold; background: #e8f2db; color: green">{{data.lotNo}}</span>
-                    </li>
-                </ul>
-            </td>
-            <td>
-                <ul>
-                    <li *ngFor="let data of resultSaveInventoryData?.resultNG">
-                        <span style="font-weight: bold; background: #fce1e1; color: red;">{{data.lotNo}}</span>
-                    </li>
-                </ul>
-            </td>
+          <td>
+            <ul>
+              <li *ngFor="let data of resultSaveInventoryData?.resultOK">
+                <span
+                  style="font-weight: bold; background: #e8f2db; color: green"
+                  >{{ data.lotNo }}</span
+                >
+              </li>
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <li *ngFor="let data of resultSaveInventoryData?.resultNG">
+                <span
+                  style="font-weight: bold; background: #fce1e1; color: red"
+                  >{{ data.lotNo }}</span
+                >
+              </li>
+            </ul>
+          </td>
         </tr>
       </tbody>
     </nz-table>
@@ -278,4 +298,43 @@
       Đóng
     </button>
   </div> -->
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="isOpenEditQtyModal"
+  nzTitle="Thông tin Lot"
+  nzWidth="550px"
+>
+  <ng-container *nzModalContent>
+    <nz-table
+      [nzData]="['']"
+      nzFrontPagination="false"
+      nzBordered
+      nzSize="small"
+      style="margin-top: -15px"
+    >
+      <tbody>
+        <tr>
+          <td>Part No</td>
+          <td>{{lotSelected.partNo}}</td>
+        </tr>
+        <tr>
+          <td>Lot No</td>
+          <td>{{lotSelected.lotNo}}</td>
+        </tr>
+        <tr>
+          <td>Qty</td>
+          <td>
+            <input nz-input [(ngModel)]="lotSelected.qty" type="number" />
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
+
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="isOpenEditQtyModal = false">Đóng</button>
+    <button nz-button nzType="primary" (click)="saveEditQty()">Lưu</button>
+  </div>
+
 </nz-modal>
