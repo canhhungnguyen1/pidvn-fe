@@ -67,10 +67,7 @@ const routes: Routes = [
       {
         path: 'hr',
         loadChildren: () => import('./hr/hr.module').then((m) => m.HrModule),
-        canActivate: [RoleGuard],
-        data: {
-          roles: ['super_admin', 'HR-GA member'],
-        },
+        canActivate: [],
       },
       {
         path: 'pih',

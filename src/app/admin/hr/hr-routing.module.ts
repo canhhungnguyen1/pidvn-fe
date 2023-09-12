@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HrComponent } from './hr.component';
+import { RoleGuard } from 'src/app/guards/role.guard';
 
 const routes: Routes = [
     {
@@ -13,11 +14,15 @@ const routes: Routes = [
         },
         {
           path: 'waste-mng',
-          loadChildren: () => import('./waste-mng/waste-mng.module').then(m => m.WasteMngModule)
+          loadChildren: () => import('./waste-mng/waste-mng.module').then(m => m.WasteMngModule),
+          canActivate: [RoleGuard],
+          data: {
+            roles: ['super_admin', 'HR-GA member'],
+          },
         },
         {
           path: 'hr-meal-mng',
-          loadChildren: () => import('./hr-meal-mng/hr-meal-mng.module').then(m => m.HrMealMngModule)
+          loadChildren: () => import('./hr-meal-mng/hr-meal-mng.module').then(m => m.HrMealMngModule),
         }
       ]
     }
