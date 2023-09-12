@@ -17,9 +17,11 @@ import { HrMealMngRoutingModule } from './hr-meal-mng-routing.module';
 import { HrMealMngComponent } from './hr-meal-mng.component';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { HrMealMenuComponent } from './hr-meal-menu/hr-meal-menu.component';
+import { HrMealSummaryComponent } from './hr-meal-summary/hr-meal-summary.component';
 
 @NgModule({
-  declarations: [HrMealMngComponent],
+  declarations: [HrMealMngComponent, HrMealMenuComponent, HrMealSummaryComponent],
   imports: [
     CommonModule,
     HrMealMngRoutingModule,
