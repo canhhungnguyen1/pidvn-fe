@@ -10,7 +10,11 @@ const routes: Routes = [
       children: [
         {
           path: 'hr-emp-mng',
-          loadChildren: () => import('./hr-emp-mng/hr-emp-mng.module').then(m => m.HrEmpMngModule)
+          loadChildren: () => import('./hr-emp-mng/hr-emp-mng.module').then(m => m.HrEmpMngModule),
+          canActivate: [RoleGuard],
+          data: {
+            roles: ['super_admin', 'HR-GA member'],
+          },
         },
         {
           path: 'waste-mng',

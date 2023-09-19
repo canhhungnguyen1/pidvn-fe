@@ -214,4 +214,19 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit{
 
   }
 
+
+  balanceData: any
+  getBalance() {
+
+    this.pihInventorySvc.balance(this.requestId).subscribe(
+      response => {
+        console.log('Balance: ', response)
+        this.balanceData = response
+      }
+    )
+
+
+
+  }
+
 }

@@ -52,4 +52,11 @@ export class PihInventoryService {
       `${this.baseUrl}/PIH/Inventory/ScanLabel?lotNo=${lotNo}`
     );
   }
+
+
+  balance(requestId: any) {
+    return this.httpClient.get(
+      `${this.baseUrl}/PIH/Inventory/Balance?requestId=${requestId}`
+    );
+  }
 }
