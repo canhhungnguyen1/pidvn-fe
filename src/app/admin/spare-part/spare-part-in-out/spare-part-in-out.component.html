@@ -1,0 +1,148 @@
+<dx-data-grid
+  keyExpr="id"
+  [dataSource]="sparePartRecords"
+  [showColumnLines]="true"
+  [showRowLines]="true"
+  [showBorders]="true"
+  [allowColumnResizing]="true"
+  [columnAutoWidth]="true"
+  [rowAlternationEnabled]="true"
+  (onExporting)="onExportClient($event)"
+>
+  <dxo-paging [pageSize]="10"></dxo-paging>
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
+  <dxo-export [enabled]="true"></dxo-export>
+
+  <dxo-toolbar>
+    <dxi-item location="before">
+      <nz-space [nzSize]="'small'">
+        <button
+          *nzSpaceItem
+          nz-button
+          nzType="primary"
+          (click)="openInOutModal('IN')"
+        >
+          <span nz-icon nzType="login"></span>
+          Nhập kho
+        </button>
+        <button
+          *nzSpaceItem
+          nz-button
+          nzType="default"
+          (click)="openInOutModal('OUT')"
+        >
+          <span nz-icon nzType="logout"></span>
+          Xuất kho
+        </button>
+      </nz-space>
+    </dxi-item>
+
+    <dxi-item name="exportButton"></dxi-item>
+  </dxo-toolbar>
+
+  <dxi-column dataField="partNumber" caption="Part Number"></dxi-column>
+  <dxi-column dataField="galileoName" caption="Galileo Name"></dxi-column>
+  <dxi-column dataField="qty" caption="Qty"></dxi-column>
+  <dxi-column dataField="type" caption="Type"></dxi-column>
+  <dxi-column dataField="whUserCode" caption="Nhân viên kho"></dxi-column>
+  <dxi-column dataField="receiveUserCode" caption="Người nhận"></dxi-column>
+  <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
+  <dxi-column
+    dataField="createdAt"
+    caption="Thời gian"
+    dataType="date"
+    format="yyyy-MM-dd HH:mm:ss"
+  ></dxi-column>
+
+  <dxo-paging [pageSize]="10"></dxo-paging>
+  <dxo-pager
+    [showPageSizeSelector]="true"
+    [allowedPageSizes]="[10, 25, 50, 100]"
+  >
+  </dxo-pager>
+</dx-data-grid>
+
+<nz-modal
+  [(nzVisible)]="isOpenInOutModal"
+  [nzTitle]="titleInOutModal"
+  nzWidth="650px"
+>
+  <ng-container *nzModalContent>
+    <nz-table #basicTable [nzData]="['']" nzFrontPagination="false" nzBordered>
+      <tbody>
+        <tr *ngIf="sparePartRecordType == 'OUT'">
+          <td><label>Người nhận</label></td>
+          <td>
+            <nz-select
+              nzShowSearch
+              nzAllowClear
+              nzPlaceHolder="Users"
+              nzSize="large"
+              [(ngModel)]="sparePartRecord.receiveUserCode"
+            >
+              <nz-option
+                *ngFor="let item of users"
+                [nzValue]="item.username"
+                [nzLabel]="item.name + ' - ' + item.username"
+              >
+              </nz-option>
+            </nz-select>
+          </td>
+        </tr>
+        <tr>
+          <td><label>Part</label></td>
+          <td>
+            <nz-select
+              nzShowSearch
+              nzAllowClear
+              nzPlaceHolder="Part Number"
+              nzSize="large"
+              [(ngModel)]="sparePartRecord.partNumber"
+            >
+              <nz-option
+                *ngFor="let item of spareParts"
+                [nzValue]="item.partNumber"
+                [nzLabel]="item.partNumber"
+              >
+              </nz-option>
+            </nz-select>
+          </td>
+        </tr>
+        <tr>
+          <td><label>Qty</label></td>
+          <td>
+            <nz-input-number
+              placeholder="Số lượng"
+              nzSize="large"
+              [(ngModel)]="sparePartRecord.qty"
+              [nzMin]="1"
+              [nzStep]="1"
+            ></nz-input-number>
+          </td>
+        </tr>
+        <tr>
+          <td><label>Ghi chú</label></td>
+          <td>
+            <textarea
+              rows="3"
+              nz-input
+              [(ngModel)]="sparePartRecord.remark"
+            ></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td><label>Type</label></td>
+          <td>{{ sparePartRecordType == "IN" ? "Nhập kho" : "Xuất kho" }}</td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="isOpenInOutModal = false">
+      Hủy
+    </button>
+    <button nz-button nzType="primary" (click)="saveSparePartRecord()" [nzLoading]="isLoading">
+      Lưu
+    </button>
+  </div>
+</nz-modal>

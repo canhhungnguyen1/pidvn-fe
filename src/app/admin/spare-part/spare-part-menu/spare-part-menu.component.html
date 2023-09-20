@@ -1,1 +1,33 @@
-<p>spare-part-menu works!</p>
+<div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="8">
+  <div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="6">
+    <div class="item spare-parts" routerLink="/admin/spare-part/spare-parts">
+      <img src="./../../../../../../assets/images/spare-parts.png" alt="" />
+      <h6>Danh sách</h6>
+      <h4>Spare part</h4>
+    </div>
+  </div>
+
+  <div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="6">
+    <div class="item in-out" routerLink="/admin/spare-part/spare-part-in-out">
+      <img src="./../../../../../../assets/images/history.png" alt="" />
+      <h6>Lịch sử nhập xuất</h6>
+      <h4>In / Out history</h4>
+    </div>
+  </div>
+
+  <div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="6">
+    <div class="item wip-ivt" routerLink="/admin/spare-part/spare-part-inventory">
+      <img src="./../../../../../../assets/images/warehouse.png" alt="" />
+      <h6>Kiểm kê</h6>
+      <h4>Inventory</h4>
+    </div>
+  </div>
+
+  <div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="6">
+    <div class="item report" routerLink="/admin/pih/pih-inventory/request">
+      <img src="./../../../../../../assets/images/report.png" alt="" />
+      <h6>Báo cáo</h6>
+      <h4>Reports</h4>
+    </div>
+  </div>
+</div>

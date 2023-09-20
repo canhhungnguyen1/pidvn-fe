@@ -1,0 +1,41 @@
+import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+import { SparePartService } from '../services/spare-part.service';
+
+@Component({
+  selector: 'app-spare-parts',
+  templateUrl: './spare-parts.component.html',
+  styleUrls: ['./spare-parts.component.scss']
+})
+export class SparePartsComponent implements OnInit {
+
+
+  constructor(
+    private toastr: ToastrService,
+    private sparePartSvc: SparePartService
+  ) {}
+
+  spareParts: any
+
+  ngOnInit(): void {
+    this.getSpareParts();
+  }
+
+
+  getSpareParts() {
+    this.sparePartSvc.getSpareParts().subscribe(
+      response => {
+        this.spareParts = response
+
+        console.log(this.spareParts)
+      }
+    )
+  }
+
+
+  onExportClient(event: any) {
+
+  }
+
+
+}
