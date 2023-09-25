@@ -12,7 +12,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { SparePartInOutComponent } from './spare-part-in-out/spare-part-in-out.component';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { SparePartInventoryComponent } from './spare-part-inventory/spare-part-inventory.component';
+
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzTableModule } from 'ng-zorro-antd/table';
@@ -20,6 +20,9 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { FormsModule } from '@angular/forms';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
+import { SparePartIvtReqComponent } from './spare-part-inventory/spare-part-ivt-req/spare-part-ivt-req.component';
+import { SparePartIvtReqDetailComponent } from './spare-part-inventory/spare-part-ivt-req-detail/spare-part-ivt-req-detail.component';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 
 @NgModule({
   declarations: [
@@ -27,7 +30,8 @@ import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
     SparePartMenuComponent,
     SparePartsComponent,
     SparePartInOutComponent,
-    SparePartInventoryComponent,
+    SparePartIvtReqComponent,
+    SparePartIvtReqDetailComponent
   ],
   imports: [
     CommonModule,
@@ -45,7 +49,8 @@ import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
     NzTableModule,
     NzSelectModule,
     NzInputModule,
-    NzInputNumberModule
+    NzInputNumberModule,
+    NzPopconfirmModule
   ],
 })
 export class SparePartModule {}

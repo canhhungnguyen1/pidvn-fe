@@ -51,6 +51,7 @@
       <dxi-column dataField="partNo" caption="Part No"></dxi-column>
       <dxi-column dataField="lotNo" caption="Lot No"></dxi-column>
       <dxi-column dataField="qty" caption="Qty" format="#,##0.0"></dxi-column>
+      <dxi-column dataField="classified" caption="Classified"></dxi-column>
       <dxi-column
         dataField="createdAt"
         caption="Date"
@@ -66,9 +67,25 @@
       </dxo-pager>
     </dx-data-grid>
   </nz-tab>
+
+  <nz-tab nzTitle="Classified">
+    <dx-pivot-grid
+      [allowSortingBySummary]="true"
+      [allowSorting]="true"
+      [allowFiltering]="true"
+      [allowExpandAll]="true"
+      [height]="570"
+      [showBorders]="true"
+      [dataSource]="inventoryDataPivot"
+    >
+      <dxo-field-chooser [allowSearch]="true"></dxo-field-chooser>
+      <dxo-export [enabled]="true"></dxo-export>
+    </dx-pivot-grid>
+  </nz-tab>
+
   <nz-tab nzTitle="Summary">
     <dx-data-grid
-      [dataSource]="inventoryData"
+      [dataSource]="inventoryDataPivot"
       keyExpr="id"
       [showColumnLines]="true"
       [showRowLines]="true"

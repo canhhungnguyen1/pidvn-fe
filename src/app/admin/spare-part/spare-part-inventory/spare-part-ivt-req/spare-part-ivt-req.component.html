@@ -1,0 +1,106 @@
+<nz-tabset>
+  <nz-tab nzTitle="Phiếu kiểm kê">
+    <dx-data-grid
+      keyExpr="id"
+      [dataSource]="inventoryRequests"
+      [showColumnLines]="true"
+      [showRowLines]="true"
+      [showBorders]="true"
+      [allowColumnResizing]="true"
+      [columnAutoWidth]="true"
+      [rowAlternationEnabled]="true"
+    >
+      <dxo-toolbar>
+        <dxi-item location="before">
+          <button
+            nz-button
+            nzType="primary"
+            (click)="openCreateRequestInventoryModal()"
+          >
+            <span nz-icon nzType="plus"></span>
+            Tạo phiếu kiểm kê
+          </button>
+        </dxi-item>
+      </dxo-toolbar>
+
+      <dxo-paging [pageSize]="10"></dxo-paging>
+      <dxo-filter-row [visible]="true"></dxo-filter-row>
+
+      <dxi-column dataField="reqNo" caption="Request No"></dxi-column>
+
+      <dxi-column
+        dataField="createdAt"
+        dataType="date"
+        caption="Ngày kiểm kê"
+        format="yyyy-MM-dd"
+      ></dxi-column>
+
+      <dxi-column dataField="createdBy" caption="Người tạo"></dxi-column>
+      <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
+
+      <dxi-column
+        caption="Action"
+        cellTemplate="actionTemplate"
+        alignment="center"
+      >
+        <div
+          *dxTemplate="let item of 'actionTemplate'"
+          style="text-align: center"
+        >
+          <a style="color: blue" (click)="redirectDetail(item)">Chi tiết</a>
+        </div>
+      </dxi-column>
+    </dx-data-grid>
+  </nz-tab>
+  <nz-tab nzTitle="Tồn kho"></nz-tab>
+</nz-tabset>
+
+<nz-modal
+  [(nzVisible)]="isOpenCreateRequestInventoryModal"
+  nzTitle="Tạo phiếu kiểm kê"
+>
+  <ng-container *nzModalContent>
+    <nz-table
+      #ivtCreateTable
+      id="ivtCreateTable"
+      [nzData]="['']"
+      nzBordered
+      nzFrontPagination="false"
+      [nzSize]="'small'"
+    >
+      <tbody>
+        <tr>
+          <td><label>Phiếu kiểm kê</label></td>
+          <td>{{ ivtReq }}</td>
+        </tr>
+        <tr>
+          <td><label>Người tạo</label></td>
+          <td>{{ jwt.FullName }} - {{ jwt.Username }}</td>
+        </tr>
+        <tr>
+          <td><label>Ghi chú</label></td>
+          <td>
+            <textarea rows="2" nz-input [(ngModel)]="remark"></textarea>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
+  <div *nzModalFooter>
+    <button
+      nz-button
+      nzType="default"
+      (click)="closeCreateRequestInventoryModal()"
+    >
+      Hủy
+    </button>
+    <button
+      nz-button
+      nzType="primary"
+      (click)="createInventoryRequest()"
+      [nzLoading]="isLoading"
+    >
+      Tạo
+    </button>
+  </div>
+</nz-modal>

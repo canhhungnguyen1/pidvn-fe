@@ -33,6 +33,9 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit{
   resultSaveInventoryData: any;
 
 
+  inventoryDataPivot: any;
+
+
   ngOnInit(): void {
     this.requestId = Number(this.activatedRoute.snapshot.params['id'])
     this.requestNo = this.activatedRoute.snapshot.queryParamMap.get('reqNo');
@@ -49,7 +52,49 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit{
   getInventoryData(requestId: any) {
     this.pihInventorySvc.getInventoryData(requestId).subscribe(
       response => {
-        this.inventoryData = response
+        this.inventoryData = response;
+
+        this.inventoryDataPivot = {
+          fields: [
+            {
+              caption: 'Classified',
+              dataField: 'classified',
+              area: 'row',
+              expanded: true,
+            },
+            {
+              caption: 'Part Number',
+              dataField: 'partNo',
+              area: 'row',
+              width: 150,
+              expanded: true,
+            },
+            {
+              caption: 'Lot No',
+              dataField: 'lotNo',
+              area: 'row',
+              width: 250,
+              expanded: true,
+            },
+            {
+              caption: 'Qty',
+              dataField: 'qty',
+              dataType: 'number',
+              area: 'data',
+              summaryType: 'sum',
+              format: {
+                type: 'fixedPoint',
+                precision: 2,
+              },
+            }
+          ],
+          store: response,
+        };
+
+
+
+
+
       }
     )
   }

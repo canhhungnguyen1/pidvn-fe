@@ -29,4 +29,18 @@ export class SparePartService {
       sparePartRecord
     );
   }
+
+  getSparePartInventoryRequests() {
+    return this.httpClient.get(`${this.baseUrl}/SparePart/SparePartInventoryRequests`);
+  }
+
+  saveSparePartInventoryRequest(request: any) {
+    return this.httpClient.post(
+      `${this.baseUrl}/SparePart/SparePartInventoryRequest`,
+      request
+    );
+  }
+
+
+
 }
