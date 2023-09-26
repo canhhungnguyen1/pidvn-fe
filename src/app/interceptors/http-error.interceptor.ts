@@ -18,19 +18,26 @@ export class HttpErrorInterceptor implements HttpInterceptor {
             .pipe(
                 retry(0),
                 catchError((error: HttpErrorResponse) => {
+                    
                     let errorMessage = '';
                     if (error.error instanceof ErrorEvent) {
+
+                        console.log('Client Error: ', error)
+
                         // client-side error
                         errorMessage = `Error: ${error.message}`;
                         this.toastr.error(errorMessage, 'Client Error');
                     } else {
+
+                        console.log('Serer Error: ', error)
+
                         // server-side error
-                        errorMessage = `${error.error.message}`;
-                        this.toastr.error(errorMessage, `${error.status} Error`);
+                        
 
                         switch (error.status) {
                             case 401:      //login
                                 this.router.navigateByUrl("auth/login");
+                                this.toastr.error('Đã hết phiên đăng nhập !', `Unauthorized`);
                                 break;
                             case 403:     //forbidden
                                 this.router.navigateByUrl("/unauthorized");
@@ -39,6 +46,9 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                                 this.toastr.error('Không thể kết nối đến Server', `${error.status} Error`);
                                 break;
                         }
+
+                        errorMessage = `${error.error.message}`;
+                        this.toastr.error(errorMessage, `${error.status} Error`);
 
                     }
                     return throwError(errorMessage);
