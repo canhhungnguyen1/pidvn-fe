@@ -234,6 +234,8 @@ export class AdminComponent implements OnInit {
   examHistoryRelayLink!: string;
   examHistoryEMCLink!: string;
 
+  relayECOPLink!: string;
+
 
 
   ngOnInit(): void {
@@ -288,13 +290,11 @@ export class AdminComponent implements OnInit {
     this.pihLink.skillmap.pressRelay = `${this.baseUrlJavaHttps}/Manufacturing/Monitoring/skillmap/checkskillmap?line=PRESS_RELAY`
     this.pihLink.skillmap.moldRelay = `${this.baseUrlJavaHttps}/Manufacturing/Monitoring/skillmap/checkskillmap?line=MOLD_RELAY`
 
-    
-
-
     this.examHistoryIQCLink = `${this.baseUrlJava}/Manufacturing/Monitoring/MA/exam/listexam?area=IQC`;
     this.examHistoryRelayLink = `${this.baseUrlJava}/Manufacturing/Monitoring/MA/exam/listexam?area=Relay`;
     this.examHistoryEMCLink = `${this.baseUrlJava}/Manufacturing/Monitoring/MA/exam/listexam?area=EMC`;
 
+    this.relayECOPLink = `${this.baseUrlJava}/ECOP/Handle/ecop/menu?accessToken=${accessToken}`;
 
   }
 

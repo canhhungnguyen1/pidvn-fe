@@ -116,7 +116,7 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit{
     const diffTime = Math.abs(reqDate.getTime() - curDate.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
 
-    if(diffDays > 5) {
+    if(diffDays > 15) {
       this.toastr.warning('Đã quá thời gian kiểm kê','Warning')
       return;
     }

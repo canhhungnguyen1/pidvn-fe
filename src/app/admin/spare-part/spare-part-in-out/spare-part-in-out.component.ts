@@ -58,7 +58,7 @@ export class SparePartInOutComponent implements OnInit {
       localStorage.getItem('accessToken')?.toString()
     ).Username;
     this.sparePartRecord.type = this.sparePartRecordType == 'IN' ? 'NK' : 'XK'
-    
+    this.sparePartRecord.remark = 'Test'
 
     this.sparePartSvc.saveSparePartRecord(this.sparePartRecord).subscribe(
       response => {

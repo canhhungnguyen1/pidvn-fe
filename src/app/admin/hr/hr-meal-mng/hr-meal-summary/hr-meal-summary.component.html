@@ -17,6 +17,17 @@
         </div>
       </div>
       <div nz-col nzXs="12" nzSm="12" nzLg="5">
+        <label nzXs="24" nzSm="24" nzLg="24">Date</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <nz-range-picker
+            [(ngModel)]="searchParams.dateRange"
+            nzFormat="yyyy-MM-dd"
+            nzMode="date"
+          >
+          </nz-range-picker>
+        </div>
+      </div>
+      <div nz-col nzXs="12" nzSm="12" nzLg="5">
         <label nzXs="24" nzSm="24" nzLg="24">&nbsp;</label>
         <div nzXs="24" nzSm="24" nzLg="24">
           <button nz-button nzType="primary" (click)="onSearch()">
@@ -31,6 +42,7 @@
 <nz-tabset>
   <nz-tab nzTitle="Lịch sử">
     <dx-data-grid
+      #timeLogGrid
       [dataSource]="mealRecords"
       keyExpr="rowNum"
       [remoteOperations]="false"
