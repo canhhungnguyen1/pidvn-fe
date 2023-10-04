@@ -235,7 +235,7 @@ export class AdminComponent implements OnInit {
   examHistoryEMCLink!: string;
 
   relayECOPLink!: string;
-
+  pihProcessReport!: string;
 
 
   ngOnInit(): void {
@@ -295,6 +295,8 @@ export class AdminComponent implements OnInit {
     this.examHistoryEMCLink = `${this.baseUrlJava}/Manufacturing/Monitoring/MA/exam/listexam?area=EMC`;
 
     this.relayECOPLink = `${this.baseUrlJava}/ECOP/Handle/ecop/menu?accessToken=${accessToken}`;
+    this.pihProcessReport = `${this.baseUrlJava}/PIH/Monitoring/pih_process/pih_process_report?accessToken=${accessToken}`
+
 
   }
 
