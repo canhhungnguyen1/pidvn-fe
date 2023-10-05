@@ -19,6 +19,13 @@ export class SparePartService {
     return this.httpClient.get(`${this.baseUrl}/SparePart/SpareParts`);
   }
 
+  saveSparePart(sparePart: any) {
+    return this.httpClient.post(
+      `${this.baseUrl}/SparePart/SparePart`,
+      sparePart
+    );
+  }
+
   getSparePartRecords() {
     return this.httpClient.get(`${this.baseUrl}/SparePart/SparePartRecords`);
   }

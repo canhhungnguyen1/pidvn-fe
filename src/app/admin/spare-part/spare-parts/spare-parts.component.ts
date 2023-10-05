@@ -16,6 +16,9 @@ export class SparePartsComponent implements OnInit {
   ) {}
 
   spareParts: any
+  isOpenAddSparePartModal: boolean = false
+  isConfirmLoading: boolean = false
+  sparePartCreate: any = {}
 
   ngOnInit(): void {
     this.getSpareParts();
@@ -32,10 +35,30 @@ export class SparePartsComponent implements OnInit {
     )
   }
 
+  
+
 
   onExportClient(event: any) {
 
   }
 
+  openAddSparePartModal() {
+    this.isOpenAddSparePartModal = true;
+    this.sparePartCreate = {}
+  }
+
+  onCreateSparePart() {
+
+
+
+    this.sparePartSvc.saveSparePart(this.sparePartCreate).subscribe(
+      response => {
+          this.getSpareParts();
+          this.isOpenAddSparePartModal = false;
+          this.toastr.success('Success','OK')
+      }
+    )
+
+  }
 
 }

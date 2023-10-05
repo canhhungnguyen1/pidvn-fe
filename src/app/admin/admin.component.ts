@@ -237,8 +237,9 @@ export class AdminComponent implements OnInit {
   relayECOPLink!: string;
   pihProcessReport!: string;
 
+  materialWarehouseLink! :string; 
 
-  ngOnInit(): void {
+   ngOnInit(): void {
     let accessToken = localStorage.getItem('accessToken');
     this.getEmployeeName();
 
@@ -296,7 +297,7 @@ export class AdminComponent implements OnInit {
 
     this.relayECOPLink = `${this.baseUrlJava}/ECOP/Handle/ecop/menu?accessToken=${accessToken}`;
     this.pihProcessReport = `${this.baseUrlJava}/PIH/Monitoring/pih_process/pih_process_report?accessToken=${accessToken}`
-
+    this.materialWarehouseLink = `${this.baseUrlJava}/Manufacturing/Monitoring/wh?accessToken=${accessToken}`
 
   }
 

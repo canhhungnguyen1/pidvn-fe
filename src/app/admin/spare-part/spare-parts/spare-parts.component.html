@@ -15,7 +15,7 @@
 
   <dxo-toolbar>
     <dxi-item location="before">
-      <button nz-button nzType="primary">
+      <button nz-button nzType="primary" (click)="openAddSparePartModal()">
         <span nz-icon nzType="plus"></span>
         Thêm mới
       </button>
@@ -45,3 +45,37 @@
   >
   </dxo-pager>
 </dx-data-grid>
+
+<nz-modal
+  [(nzVisible)]="isOpenAddSparePartModal"
+  nzTitle="Thêm mới Spare Part"
+>
+  <ng-container *nzModalContent>
+    <nz-table #basicTable [nzData]="['']" nzBordered [nzFrontPagination]="false">
+      <tbody>
+        <tr>
+          <td>Part Number</td>
+          <td>
+            <input nz-input placeholder="Part Number" [(ngModel)]="sparePartCreate.partNumber" />
+          </td>
+        </tr>
+        <tr>
+          <td>Galileo Name</td>
+          <td>
+            <input nz-input placeholder="Galileo Name" [(ngModel)]="sparePartCreate.galileoName" />
+          </td>
+        </tr>
+        <tr>
+          <td>Name</td>
+          <td>
+            <input nz-input placeholder="Name" [(ngModel)]="sparePartCreate.name" />
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="isOpenAddSparePartModal = false">Đóng</button>
+    <button nz-button nzType="primary" (click)="onCreateSparePart()" [nzLoading]="isConfirmLoading">Tạo</button>
+  </div>
+</nz-modal>
