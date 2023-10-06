@@ -17,3 +17,16 @@ nz-table {
     padding: 5px;
   }
 }
+
+.qa-card-label {
+
+  width: 250px;
+  vertical-align: middle;
+  td {
+    border: 2px solid black;
+    border-collapse: collapse;
+  }
+  label {
+    font-weight: bold;
+  }
+}

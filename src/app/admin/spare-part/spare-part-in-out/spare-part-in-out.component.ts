@@ -77,8 +77,20 @@ export class SparePartInOutComponent implements OnInit {
 
 
     this.sparePartRecordType = type;
-    this.titleInOutModal =
-      type == 'IN' ? 'Nhập kho Spare Part' : 'Xuất kho Spare Part';
+
+      switch(type) {
+        case 'IN':
+          this.titleInOutModal = 'Nhập kho ';
+          break;
+        case 'OUT':
+          this.titleInOutModal = 'Xuất kho ';
+          break;
+        case 'RT':
+          this.titleInOutModal = 'Hàng trả về';
+          break;
+      }
+
+
     this.isOpenInOutModal = true;
   }
 

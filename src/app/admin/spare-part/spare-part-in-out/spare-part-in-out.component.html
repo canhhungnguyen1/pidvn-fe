@@ -28,11 +28,22 @@
         <button
           *nzSpaceItem
           nz-button
-          nzType="default"
+          nzType="primary"
           (click)="openInOutModal('OUT')"
+          style="background: #24a835; border: 1px solid #24a835;"
         >
           <span nz-icon nzType="logout"></span>
           Xuất kho
+        </button>
+        <button
+          *nzSpaceItem
+          nz-button
+          nzType="primary"
+          (click)="openInOutModal('RT')"
+          style="background: #999695; border: 1px solid #999695;"
+        >
+          <span nz-icon nzType="rotate-left"></span>
+          Hàng trả về
         </button>
       </nz-space>
     </dxi-item>
@@ -45,7 +56,7 @@
   <dxi-column dataField="qty" caption="Qty"></dxi-column>
   <dxi-column dataField="type" caption="Type"></dxi-column>
   <dxi-column dataField="whUserCode" caption="Nhân viên kho"></dxi-column>
-  <dxi-column dataField="receiveUserCode" caption="Người nhận"></dxi-column>
+  <dxi-column dataField="receiveUserCode" caption="User"></dxi-column>
   <dxi-column dataField="machine" caption="Machine"></dxi-column>
   <dxi-column dataField="line" caption="Line"></dxi-column>
   <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
@@ -121,6 +132,14 @@
               [nzStep]="1"
             ></nz-input-number>
           </td>
+        </tr>
+        <tr *ngIf="sparePartRecordType == 'OUT'">
+          <td><label>Máy</label></td>
+          <td></td>
+        </tr>
+        <tr *ngIf="sparePartRecordType == 'OUT'">
+          <td><label>Line sử dụng</label></td>
+          <td></td>
         </tr>
         <tr>
           <td><label>Ghi chú</label></td>

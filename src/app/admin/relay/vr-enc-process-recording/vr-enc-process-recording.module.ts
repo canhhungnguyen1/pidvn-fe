@@ -25,6 +25,10 @@ import { VrEncProcessRecordingComponent } from './vr-enc-process-recording.compo
 import { VrEncPRQacardComponent } from './vr-enc-p-r-qacard/vr-enc-p-r-qacard.component';
 import { VrEncPRReturnComponent } from './vr-enc-p-r-return/vr-enc-p-r-return.component';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzQRCodeModule } from 'ng-zorro-antd/qr-code';
+import { NgxPrintModule } from 'ngx-print';
+import { QRCodeModule } from 'angularx-qrcode';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
 @NgModule({
   declarations: [
     VrEncProcessRecordingComponent,
@@ -51,7 +55,11 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     NzCollapseModule,
     NzDatePickerModule,
     NzSpinModule,
-    NzIconModule
+    NzIconModule,
+    NzQRCodeModule,
+    NgxPrintModule,
+    QRCodeModule,
+    NzSpaceModule
   ],
 })
 export class VrEncProcessRecordingModule {}

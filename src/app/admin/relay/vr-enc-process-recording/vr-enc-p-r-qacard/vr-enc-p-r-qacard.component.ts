@@ -39,6 +39,7 @@ export class VrEncPRQacardComponent implements OnInit {
 
   isOpenModalLoading: boolean = false;
   isOpenQAModal: boolean = false;
+  isOpenPrintQAModal: boolean = false;
 
   errorMsg!: string;
 
@@ -176,6 +177,16 @@ export class VrEncPRQacardComponent implements OnInit {
     this.qaCard.remark = null;
     this.qaCard.shift = null;
     this.qaCard.userCode = null;
+  }
+
+
+  openPrintQaCardModal(item: any) {
+    console.log('item: ', item.data.lotNo)
+    this.isOpenPrintQAModal = true
+  }
+
+  printQRCard() {
+    
   }
 
 }

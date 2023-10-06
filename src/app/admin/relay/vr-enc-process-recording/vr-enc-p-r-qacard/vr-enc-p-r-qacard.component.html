@@ -107,13 +107,24 @@
     style="text-align: center; color: green"
   >
     <!-- <a nz-button style="color: green" (click)="downloadQaCard(item)">Download</a> -->
-    <a
-      nz-button
-      style="color: blue"
-      [routerLink]="['/admin/relay/vr-enc-process-recording/insert']"
-      [queryParams]="{ qaCard: item.data.lotNo }"
-      >Scan NVL</a
-    >
+    <nz-space>
+      <a
+        nz-button
+        *nzSpaceItem
+        style="color: blue"
+        [routerLink]="['/admin/relay/vr-enc-process-recording/insert']"
+        [queryParams]="{ qaCard: item.data.lotNo }"
+        >Scan NVL</a
+      >
+
+      <a
+        nz-button
+        *nzSpaceItem
+        style="color: green"
+        (click)="openPrintQaCardModal(item)"
+        >In QR card</a
+      >
+    </nz-space>
   </div>
 
   <dxo-summary>
@@ -235,5 +246,58 @@
   <div *nzModalFooter>
     <button nz-button nzType="default" (click)="cancelQACard()">Hủy</button>
     <button nz-button nzType="primary" (click)="createQACard()">Tạo mới</button>
+  </div>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="isOpenPrintQAModal" nzTitle="Print QA card">
+  <ng-container *nzModalContent>
+    <div id="printLabel">
+      <table class="qa-card-label">
+        <tbody>
+          <tr>
+            <td style="text-align: center"><label>11G2-3</label></td>
+            <td style="text-align: center"><label>A10</label></td>
+            <td rowspan="3" style="text-align: center">
+              <!-- <nz-qrcode
+                nzValue="EVEE2200815B*11G2-3*2023-10-06*A10*001"
+                [nzSize]="60"
+              ></nz-qrcode> -->
+              <qrcode
+                [qrdata]="'EVEE2200815B*11G2-3*2023-10-06*A10*001'"
+                [allowEmptyString]="true"
+                [cssClass]="'center'"
+                [elementType]="'img'"
+                [errorCorrectionLevel]="'M'"
+                [margin]="4"
+                [scale]="1"
+                [width]="60"
+              ></qrcode>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" style="text-align: center">
+              <label style="color: green">EVEE2200815B</label>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" style="text-align: center">
+              <label>2023-10-06</label>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="cancelQACard()">Đóng</button>
+    <button
+      nz-button
+      [nzType]="'primary'"
+      printSectionId="printLabel"
+      ngxPrint
+      [useExistingCss]="true"
+    >
+      <span nz-icon nzType="printer"></span> In QA card
+    </button>
   </div>
 </nz-modal>
