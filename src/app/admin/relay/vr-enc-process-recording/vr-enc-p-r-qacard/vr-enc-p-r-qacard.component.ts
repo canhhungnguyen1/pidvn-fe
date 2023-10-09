@@ -43,6 +43,8 @@ export class VrEncPRQacardComponent implements OnInit {
 
   errorMsg!: string;
 
+  qaCardSelected: any;
+
   ngOnInit(): void {
     this.getShifts();
     this.getLines(2);
@@ -181,7 +183,8 @@ export class VrEncPRQacardComponent implements OnInit {
 
 
   openPrintQaCardModal(item: any) {
-    console.log('item: ', item.data.lotNo)
+    console.log('item: ', item.data)
+    this.qaCardSelected = item.data
     this.isOpenPrintQAModal = true
   }
 

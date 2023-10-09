@@ -99,6 +99,11 @@ export class StkPaymentComponent implements OnInit  {
       currency: this.stkPayment.currency,
     };
 
+    if(!obj.code || !obj.name) {
+      this.toastr.warning('Không được để trống các trường bắt buộc', 'Warning')
+      return;
+    }
+
     this.stkPaymentSvc.createStkPayment(obj).subscribe(
       response => {
         this.toastr.success('Thêm thành công', 'Success');
@@ -109,6 +114,13 @@ export class StkPaymentComponent implements OnInit  {
   }
 
   updateStkPayment(item: any) {
+
+    if(!item.code || !item.name) {
+      this.toastr.warning('Không được để trống các trường bắt buộc', 'Warning')
+      return;
+    }
+
+
     this.stkPaymentSvc.updateStkPayment(item).subscribe(
       response => {
         this.toastr.success('Thêm thành công', 'Success');
