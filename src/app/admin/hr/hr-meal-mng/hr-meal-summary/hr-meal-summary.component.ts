@@ -36,12 +36,13 @@ export class HrMealSummaryComponent implements OnInit {
 
   onSearch() {
 
-    if(this.searchParams.timeLogRange.length == 0 || this.searchParams.dateRange.length == 0) {
-      this.toastr.warning('Cần chọn Time Log or Date', 'Warning');
+    if(this.searchParams.dateRange.length == 0) {
+      this.toastr.warning('Cần chọn Date', 'Warning');
       return
     }
 
-    this.timeLogGrid.instance.beginCustomLoading('Bạn tôi bình tĩnh đợi tý nhé! Hệ thống đang lấy dữ liệu');
+    this.timeLogGrid?.instance.beginCustomLoading('Bạn tôi bình tĩnh đợi tý nhé! Hệ thống đang lấy dữ liệu');
+    
 
     this.hrMealMngSvc.getMealRecords(this.searchParams).subscribe(
       response => {

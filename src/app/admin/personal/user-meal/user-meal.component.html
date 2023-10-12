@@ -6,10 +6,10 @@
   >
     <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
       <div nz-col nzXs="12" nzSm="12" nzLg="5">
-        <label nzXs="24" nzSm="24" nzLg="24">Time Log</label>
+        <label nzXs="24" nzSm="24" nzLg="24">Date</label>
         <div nzXs="24" nzSm="24" nzLg="24">
           <nz-range-picker
-            [(ngModel)]="searchParams.timeLogRange"
+            [(ngModel)]="searchParams.dateRange"
             nzFormat="yyyy-MM-dd"
             nzMode="date"
           >
@@ -31,6 +31,7 @@
 <nz-tabset>
   <nz-tab nzTitle="Lịch sử">
     <dx-data-grid
+      #timeLogGrid
       [dataSource]="mealRecords"
       keyExpr="rowNum"
       [remoteOperations]="false"
@@ -48,8 +49,8 @@
       </dxo-column-chooser>
 
       <dxi-column dataField="rowNum" caption="STT"></dxi-column>
-      <dxi-column dataField="codeEmp" caption="Username"></dxi-column>
-      <dxi-column dataField="profileName" caption="Name"></dxi-column>
+      <dxi-column dataField="codeEmp" caption="Mã nhân viên"></dxi-column>
+      <dxi-column dataField="profileName" caption="Họ tên"></dxi-column>
       <dxi-column
         dataField="timeLog"
         caption="Time Log"
