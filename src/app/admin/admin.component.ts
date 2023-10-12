@@ -297,7 +297,7 @@ export class AdminComponent implements OnInit {
 
     this.relayECOPLink = `${this.baseUrlJava}/ECOP/Handle/ecop/menu?accessToken=${accessToken}`;
     this.pihProcessReport = `${this.baseUrlJava}/PIH/Monitoring/pih_process/pih_process_report?accessToken=${accessToken}`
-    this.materialWarehouseLink = `${this.baseUrlJava}/Manufacturing/Monitoring/wh?accessToken=${accessToken}`
+    this.materialWarehouseLink = `${this.baseUrlJavaHttps}/Manufacturing/Monitoring/wh?accessToken=${accessToken}`
 
   }
 
