@@ -27,6 +27,7 @@ export class WhIqcRequestComponent implements OnInit {
   labelScannedArr: Array<any> = new Array();
 
   iqcDataSortingInfo: any;
+  requestType: any;
 
   constructor(
     private toastr: ToastrService,
@@ -223,7 +224,7 @@ export class WhIqcRequestComponent implements OnInit {
 
   }
 
-  requestType: any;
+  
   openIqcRequestCreateSortingModal(type: any) {
     this.isOpenIqcRequestCreateSortingModal = true;
     this.requestType = type
