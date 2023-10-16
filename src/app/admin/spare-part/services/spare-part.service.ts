@@ -11,9 +11,9 @@ export class SparePartService {
 
   private baseUrl = environment.baseUrl;
 
-  getUsers() {
-    return this.httpClient.get(`${this.baseUrl}/SparePart/Users`);
-  }
+  // getUsers() {
+  //   return this.httpClient.get(`${this.baseUrl}/SparePart/Users`);
+  // }
 
   getSpareParts() {
     return this.httpClient.get(`${this.baseUrl}/SparePart/SpareParts`);
@@ -30,10 +30,15 @@ export class SparePartService {
     return this.httpClient.get(`${this.baseUrl}/SparePart/SparePartRecords`);
   }
 
-  saveSparePartRecord(sparePartRecord: any) {
+  /**
+   * Lưu list spare part
+   * @param sparePartRecords list spare part
+   * @returns 
+   */
+  saveSparePartRecords(sparePartRecords: any) {
     return this.httpClient.post(
-      `${this.baseUrl}/SparePart/SparePartRecord`,
-      sparePartRecord
+      `${this.baseUrl}/SparePart/SparePartRecords`,
+      sparePartRecords
     );
   }
 

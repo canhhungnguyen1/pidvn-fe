@@ -1,169 +1,242 @@
-<dx-data-grid
-  keyExpr="id"
-  [dataSource]="sparePartRecords"
-  [showColumnLines]="true"
-  [showRowLines]="true"
-  [showBorders]="true"
-  [allowColumnResizing]="true"
-  [columnAutoWidth]="true"
-  [rowAlternationEnabled]="true"
-  (onExporting)="onExportClient($event)"
->
-  <dxo-paging [pageSize]="10"></dxo-paging>
-  <dxo-filter-row [visible]="true"></dxo-filter-row>
-  <dxo-export [enabled]="true"></dxo-export>
-
-  <dxo-toolbar>
-    <dxi-item location="before">
-      <nz-space [nzSize]="'small'">
-        <button
-          *nzSpaceItem
-          nz-button
-          nzType="primary"
-          (click)="openInOutModal('IN')"
-        >
-          <span nz-icon nzType="login"></span>
-          Nhập kho
-        </button>
-        <button
-          *nzSpaceItem
-          nz-button
-          nzType="primary"
-          (click)="openInOutModal('OUT')"
-          style="background: #24a835; border: 1px solid #24a835;"
-        >
-          <span nz-icon nzType="logout"></span>
-          Xuất kho
-        </button>
-        <button
-          *nzSpaceItem
-          nz-button
-          nzType="primary"
-          (click)="openInOutModal('RT')"
-          style="background: #999695; border: 1px solid #999695;"
-        >
-          <span nz-icon nzType="rotate-left"></span>
-          Hàng trả về
-        </button>
-      </nz-space>
-    </dxi-item>
-
-    <dxi-item name="exportButton"></dxi-item>
-  </dxo-toolbar>
-
-  <dxi-column dataField="partNumber" caption="Part Number"></dxi-column>
-  <dxi-column dataField="galileoName" caption="Galileo Name"></dxi-column>
-  <dxi-column dataField="qty" caption="Qty"></dxi-column>
-  <dxi-column dataField="type" caption="Type"></dxi-column>
-  <dxi-column dataField="whUserCode" caption="Nhân viên kho"></dxi-column>
-  <dxi-column dataField="receiveUserCode" caption="User"></dxi-column>
-  <dxi-column dataField="machine" caption="Machine"></dxi-column>
-  <dxi-column dataField="line" caption="Line"></dxi-column>
-  <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
-  <dxi-column
-    dataField="createdAt"
-    caption="Thời gian"
-    dataType="date"
-    format="yyyy-MM-dd HH:mm:ss"
-  ></dxi-column>
-
-  <dxo-paging [pageSize]="10"></dxo-paging>
-  <dxo-pager
-    [showPageSizeSelector]="true"
-    [allowedPageSizes]="[10, 25, 50, 100]"
+<div>
+  <dx-data-grid
+    keyExpr="id"
+    #sparePartRecordGrid
+    [dataSource]="sparePartRecords"
+    [showColumnLines]="true"
+    [showRowLines]="true"
+    [showBorders]="true"
+    [allowColumnResizing]="true"
+    [columnAutoWidth]="true"
+    [rowAlternationEnabled]="true"
+    (onExporting)="onExportClient($event)"
   >
-  </dxo-pager>
-</dx-data-grid>
+    <dxo-paging [pageSize]="10"></dxo-paging>
+    <dxo-filter-row [visible]="true"></dxo-filter-row>
+    <dxo-export [enabled]="true"></dxo-export>
+
+    <dxo-toolbar>
+      <dxi-item location="before">
+        <nz-space [nzSize]="'small'">
+          <button *nzSpaceItem nz-button nzType="primary">
+            <span nz-icon nzType="login"></span>
+            Nhập kho
+          </button>
+          <button
+            *nzSpaceItem
+            nz-button
+            nzType="primary"
+            style="background: #24a835; border: 1px solid #24a835"
+            (click)="openOutputSparePartModal()"
+          >
+            <span nz-icon nzType="logout"></span>
+            Xuất kho
+          </button>
+          <button
+            *nzSpaceItem
+            nz-button
+            nzType="primary"
+            style="background: #999695; border: 1px solid #999695"
+          >
+            <span nz-icon nzType="rotate-left"></span>
+            Hàng trả về
+          </button>
+        </nz-space>
+      </dxi-item>
+
+      <dxi-item name="exportButton"></dxi-item>
+    </dxo-toolbar>
+
+    <dxi-column dataField="partNumber" caption="Part Number"></dxi-column>
+    <dxi-column dataField="galileoName" caption="Galileo Name"></dxi-column>
+    <dxi-column dataField="qty" caption="Qty"></dxi-column>
+    <dxi-column dataField="type" caption="Type"></dxi-column>
+    <dxi-column dataField="whUserCode" caption="Nhân viên kho"></dxi-column>
+    <dxi-column dataField="receiveUserCode" caption="User"></dxi-column>
+    <dxi-column dataField="machine" caption="Machine"></dxi-column>
+    <dxi-column dataField="line" caption="Line"></dxi-column>
+    <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
+    <dxi-column
+      dataField="createdAt"
+      caption="Thời gian"
+      dataType="date"
+      format="yyyy-MM-dd HH:mm:ss"
+    ></dxi-column>
+
+    <dxo-paging [pageSize]="10"></dxo-paging>
+    <dxo-pager
+      [showPageSizeSelector]="true"
+      [allowedPageSizes]="[10, 25, 50, 100]"
+    >
+    </dxo-pager>
+  </dx-data-grid>
+</div>
 
 <nz-modal
-  [(nzVisible)]="isOpenInOutModal"
-  [nzTitle]="titleInOutModal"
-  nzWidth="650px"
+  [(nzVisible)]="isOpenOutputSparePartModal"
+  nzTitle="Xuất kho Spare Part"
+  nzWidth="850px"
 >
   <ng-container *nzModalContent>
-    <nz-table #basicTable [nzData]="['']" nzFrontPagination="false" nzBordered>
+    <nz-table
+      [nzData]="['']"
+      nzFrontPagination="false"
+      nzBordered
+      nzSize="small"
+    >
       <tbody>
-        <tr *ngIf="sparePartRecordType == 'OUT'">
-          <td><label>Người nhận</label></td>
-          <td>
-            <nz-select
-              nzShowSearch
-              nzAllowClear
-              nzPlaceHolder="Users"
-              nzSize="large"
-              [(ngModel)]="sparePartRecord.receiveUserCode"
-            >
-              <nz-option
-                *ngFor="let item of users"
-                [nzValue]="item.username"
-                [nzLabel]="item.name + ' - ' + item.username"
-              >
-              </nz-option>
-            </nz-select>
-          </td>
-        </tr>
         <tr>
-          <td><label>Part</label></td>
+          <td width="25%"><label>Hình thức nhập</label></td>
           <td>
-            <nz-select
-              nzShowSearch
-              nzAllowClear
-              nzPlaceHolder="Part Number"
-              nzSize="large"
-              [(ngModel)]="sparePartRecord.partNumber"
-            >
-              <nz-option
-                *ngFor="let item of spareParts"
-                [nzValue]="item.partNumber"
-                [nzLabel]="item.partNumber"
-              >
-              </nz-option>
-            </nz-select>
+            <nz-radio-group [(ngModel)]="insertType">
+              <label nz-radio nzValue="manual">Manual</label>
+              <label nz-radio nzValue="excel">Upload Excel</label>
+            </nz-radio-group>
           </td>
-        </tr>
-        <tr>
-          <td><label>Qty</label></td>
-          <td>
-            <nz-input-number
-              placeholder="Số lượng"
-              nzSize="large"
-              [(ngModel)]="sparePartRecord.qty"
-              [nzMin]="1"
-              [nzStep]="1"
-            ></nz-input-number>
-          </td>
-        </tr>
-        <tr *ngIf="sparePartRecordType == 'OUT'">
-          <td><label>Máy</label></td>
-          <td></td>
-        </tr>
-        <tr *ngIf="sparePartRecordType == 'OUT'">
-          <td><label>Line sử dụng</label></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td><label>Ghi chú</label></td>
-          <td>
-            <textarea
-              rows="3"
-              nz-input
-              [(ngModel)]="sparePartRecord.remark"
-            ></textarea>
-          </td>
-        </tr>
-        <tr>
-          <td><label>Type</label></td>
-          <td>{{ sparePartRecordType == "IN" ? "Nhập kho" : "Xuất kho" }}</td>
         </tr>
       </tbody>
     </nz-table>
+    <hr style="margin-top: -25px" />
+
+    <ng-container
+      *ngIf="insertType == 'excel'; then template2; else template1"
+    ></ng-container>
+
+    <ng-template #template1>
+      <nz-table
+        [nzData]="['']"
+        nzFrontPagination="false"
+        nzBordered
+        nzSize="small"
+      >
+        <thead>
+          <tr>
+            <th width="15%">Nhân viên</th>
+            <th width="20%">
+              <input
+                id="userCodeIpt"
+                #userCodeIpt
+                nz-input
+                placeholder="Mã nhân viên"
+                autocomplete="off"
+                (keydown.enter)="scanUserCode($event)"
+                (click)="userCodeIpt.select()"
+              />
+            </th>
+            <th>QR Code</th>
+            <th>
+              <input
+                id="sparePartQrCodeIpt"
+                #sparePartQrCodeIpt
+                nz-input
+                placeholder="Mã spare part"
+                autocomplete="off"
+                (keydown.enter)="scanSparePartQrCode($event)"
+                (click)="sparePartQrCodeIpt.select()"
+              />
+            </th>
+          </tr>
+        </thead>
+      </nz-table>
+
+      <dx-data-grid
+        #sparePartOutputGrid
+        [showBorders]="true"
+        [dataSource]="listSparePartScanned"
+        [showColumnLines]="true"
+        [showRowLines]="true"
+        [allowColumnResizing]="true"
+        [columnAutoWidth]="true"
+        (onSaving)="saveSparePartRecords($event)"
+        style="margin-top: -25px"
+      >
+        <dxo-editing
+          mode="batch"
+          [allowUpdating]="true"
+          [selectTextOnEditStart]="true"
+        >
+        </dxo-editing>
+        <dxi-column
+          dataField="partNumber"
+          caption="Part"
+          [allowEditing]="false"
+        ></dxi-column>
+        <dxi-column dataField="qty" caption="Qty"></dxi-column>
+        <dxi-column dataField="line" caption="Line"></dxi-column>
+        <dxi-column dataField="machine" caption="Máy"></dxi-column>
+        <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
+
+        <dxi-column
+          caption="Action"
+          cellTemplate="actionTemplate"
+          [fixed]="true"
+          fixedPosition="right"
+        >
+          <div
+            *dxTemplate="let item of 'actionTemplate'"
+            style="text-align: center"
+          >
+            <a style="color: red"> Xóa </a>
+          </div>
+        </dxi-column>
+
+        <dxo-paging [pageSize]="10"></dxo-paging>
+        <dxo-pager
+          [showPageSizeSelector]="true"
+          [allowedPageSizes]="[10, 25, 50, 100]"
+        >
+        </dxo-pager>
+      </dx-data-grid>
+    </ng-template>
+
+    <ng-template #template2>
+      <nz-upload [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload">
+        <button nz-button>
+          <span nz-icon nzType="upload"></span>
+          Chọn file upload
+        </button>
+      </nz-upload>
+      <button
+        nz-button
+        [nzType]="'primary'"
+        [nzLoading]="uploading"
+        (click)="handleUploadExcel()"
+        [disabled]="fileList.length === 0"
+        style="margin-top: 16px"
+      >
+        {{ uploading ? "Uploading" : "Start Upload" }}
+      </button>
+
+      <div *ngIf="uploadResult">
+        <hr />
+        <nz-table
+          #errorUploadTable
+          nzBordered
+          nzSize="small"
+          [nzData]="uploadResult?.error"
+        >
+          <thead>
+            <tr>
+              <th>Dòng</th>
+              <th>Chi tiết lỗi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of errorUploadTable.data">
+              <td>{{data.rowNum}}</td>
+              <td>{{data.error}}</td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </div>
+    </ng-template>
   </ng-container>
   <div *nzModalFooter>
-    <button nz-button nzType="default" (click)="isOpenInOutModal = false">
+    <button nz-button nzType="default" (click)="cancelSaveOutputSparePart()">
       Hủy
     </button>
-    <button nz-button nzType="primary" (click)="saveSparePartRecord()" [nzLoading]="isLoading">
+    <!-- <button nz-button nzType="primary">
       Lưu
-    </button>
+    </button> -->
   </div>
 </nz-modal>

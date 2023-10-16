@@ -1,8 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { SparePartService } from '../services/spare-part.service';
 import { SparePartRecordVo } from '../models/SparePartRecordVo';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { DxDataGridComponent } from 'devextreme-angular';
+import { environment } from 'src/environments/environment';
+import { NzUploadFile } from 'ng-zorro-antd/upload';
+import { HttpClient, HttpRequest, HttpResponse } from '@angular/common/http';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-spare-part-in-out',
@@ -10,32 +15,57 @@ import { JwtHelperService } from '@auth0/angular-jwt';
   styleUrls: ['./spare-part-in-out.component.scss'],
 })
 export class SparePartInOutComponent implements OnInit {
+  @ViewChild('userCodeIpt') userCodeIpt!: ElementRef;
+  @ViewChild('sparePartQrCodeIpt') sparePartQrCodeIpt!: ElementRef;
+
+  @ViewChild(DxDataGridComponent, { static: false })
+  sparePartOutputGrid!: DxDataGridComponent;
+
+  baseUrl = environment.baseUrl;
+
   constructor(
     private toastr: ToastrService,
     private sparePartSvc: SparePartService,
-    private jwtHelperSvc: JwtHelperService
+    private jwtHelperSvc: JwtHelperService,
+    private http: HttpClient,
   ) {}
 
   ngOnInit(): void {
     this.getSparePartRecords();
     this.getSpareParts();
-    this.getUsers();
+    // this.getUsers();
+
+    this.whUserCode = this.jwtHelperSvc.decodeToken(
+      localStorage.getItem('accessToken')?.toString()
+    ).Username;
   }
+
+  whUserCode: any;
 
   users: any;
   sparePartRecords: any;
   spareParts: any;
-  isOpenInOutModal: boolean = false;
-  titleInOutModal: string = '';
-  sparePartRecordType: any;
   sparePartRecord!: SparePartRecordVo;
-  isLoading: boolean = false;
 
-  getUsers() {
-    this.sparePartSvc.getUsers().subscribe((response) => {
-      this.users = response;
-    });
-  }
+  isOpenOutputSparePartModal: boolean = false;
+
+  mapSparePartScanned: Map<string, any> = new Map();
+  listSparePartScanned: Array<any> = new Array();
+  userCode: any;
+  recordType: any; // Biến này xác định kiểu scan là nhập hay xuất
+  insertType: string = 'manual'; // Kiểu insert là manual hay upload bằng excel
+
+  // Upload Excel: các biến liên quan đến upload file
+  uploadExcelApi: any;
+  uploading = false;
+  fileList: NzUploadFile[] = [];
+  uploadResult: any;
+
+  // getUsers() {
+  //   this.sparePartSvc.getUsers().subscribe((response) => {
+  //     this.users = response;
+  //   });
+  // }
 
   getSpareParts() {
     this.sparePartSvc.getSpareParts().subscribe((response) => {
@@ -49,50 +79,106 @@ export class SparePartInOutComponent implements OnInit {
     });
   }
 
-  saveSparePartRecord() {
+  openOutputSparePartModal() {
+    this.insertType = 'manual';
+    this.isOpenOutputSparePartModal = true;
+    this.recordType = 'XK';
+    this.uploadResult = null;
+    this.uploadExcelApi = `${this.baseUrl}/SparePart/UploadExcel?recordType=${this.recordType}`;
 
-    this.isLoading = true;
-    
-    
-    this.sparePartRecord.whUserCode = this.jwtHelperSvc.decodeToken(
-      localStorage.getItem('accessToken')?.toString()
-    ).Username;
-    this.sparePartRecord.type = this.sparePartRecordType == 'IN' ? 'NK' : 'XK'
-    this.sparePartRecord.remark = 'Test'
+    this.mapSparePartScanned = new Map();
+    this.listSparePartScanned = new Array();
 
-    this.sparePartSvc.saveSparePartRecord(this.sparePartRecord).subscribe(
-      response => {
-        this.toastr.success('OK','Success')
-        console.log('sparePartRecord: ', response)
-        this.isOpenInOutModal = false;
-        this.isLoading = false;
-        this.getSparePartRecords();
-      }
-    )
-  }
-
-  openInOutModal(type: any) {
-
-    this.sparePartRecord = new SparePartRecordVo();
-
-
-    this.sparePartRecordType = type;
-
-      switch(type) {
-        case 'IN':
-          this.titleInOutModal = 'Nhập kho ';
-          break;
-        case 'OUT':
-          this.titleInOutModal = 'Xuất kho ';
-          break;
-        case 'RT':
-          this.titleInOutModal = 'Hàng trả về';
-          break;
-      }
-
-
-    this.isOpenInOutModal = true;
+    setTimeout(() => {
+      this.userCodeIpt.nativeElement.focus();
+    }, 500);
   }
 
   onExportClient(event: any) {}
+
+  scanUserCode(event: any) {
+    this.userCode = event.target.value;
+    this.sparePartQrCodeIpt.nativeElement.focus();
+  }
+
+  scanSparePartQrCode(event: any) {
+    let obj = Object.assign({
+      whUserCode: this.whUserCode,
+      date: new Date(),
+      receiveUserCode: this.recordType == 'XK' ? this.userCode : null,
+      partNumber: event.target.value.trim(),
+      recordType: this.recordType,
+      qty: 0,
+      line: '',
+      machine: '',
+      insertType: 'Manual',
+    });
+
+    this.mapSparePartScanned.set(obj.partNumber, obj);
+    this.listSparePartScanned = Array.from(
+      this.mapSparePartScanned.values()
+    ).reverse();
+
+    console.log('listSparePartScanned: ', this.listSparePartScanned);
+    this.sparePartQrCodeIpt.nativeElement.select();
+  }
+
+  cancelSaveOutputSparePart() {
+    this.isOpenOutputSparePartModal = false;
+  }
+
+  async saveSparePartRecords(event: any) {
+    debugger;
+
+    let arr = new Array();
+
+    await event.changes.forEach((item: any) => {
+      arr.push(item.key);
+    });
+    console.log('Arr: ', arr);
+
+    /**
+     * TODO: Push server to save
+     */
+
+    this.sparePartSvc.saveSparePartRecords(arr).subscribe((response) => {
+      this.isOpenOutputSparePartModal = false;
+      this.toastr.success('OK', ' Lưu thành công');
+    });
+  }
+
+  beforeUpload = (file: NzUploadFile): boolean => {
+    this.fileList = this.fileList.concat(file);
+    return false;
+  };
+
+  handleUploadExcel(): void {
+    debugger
+    const formData = new FormData();
+
+    this.fileList.forEach((file: any) => {
+      formData.append('file', file);
+    });
+
+    this.uploading = true;
+
+    const req = new HttpRequest('POST', this.uploadExcelApi, formData, {
+      // reportProgress: true
+    });
+
+    this.http
+      .request(req)
+      .pipe(filter((e) => e instanceof HttpResponse))
+      .subscribe(
+        (response: any) => {
+          this.uploading = false;
+          console.log('RESPONSE UPLOAD: ', response);
+          this.fileList = []
+          this.uploadResult = response.body
+        },
+        () => {
+          this.uploading = false;
+        }
+      );
+  }
 }

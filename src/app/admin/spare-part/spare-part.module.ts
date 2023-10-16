@@ -23,6 +23,8 @@ import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { SparePartIvtReqComponent } from './spare-part-inventory/spare-part-ivt-req/spare-part-ivt-req.component';
 import { SparePartIvtReqDetailComponent } from './spare-part-inventory/spare-part-ivt-req-detail/spare-part-ivt-req-detail.component';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
 
 @NgModule({
   declarations: [
@@ -50,7 +52,9 @@ import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
     NzSelectModule,
     NzInputModule,
     NzInputNumberModule,
-    NzPopconfirmModule
+    NzPopconfirmModule,
+    NzRadioModule,
+    NzUploadModule
   ],
 })
 export class SparePartModule {}
