@@ -27,7 +27,7 @@ export class SparePartInOutComponent implements OnInit {
     private toastr: ToastrService,
     private sparePartSvc: SparePartService,
     private jwtHelperSvc: JwtHelperService,
-    private http: HttpClient,
+    private http: HttpClient
   ) {}
 
   ngOnInit(): void {
@@ -82,7 +82,7 @@ export class SparePartInOutComponent implements OnInit {
   openOutputSparePartModal() {
     this.insertType = 'manual';
     this.isOpenOutputSparePartModal = true;
-    this.recordType = 'XK';
+    this.recordType = 'OUT';
     this.uploadResult = null;
     this.uploadExcelApi = `${this.baseUrl}/SparePart/UploadExcel?recordType=${this.recordType}`;
 
@@ -105,13 +105,14 @@ export class SparePartInOutComponent implements OnInit {
     let obj = Object.assign({
       whUserCode: this.whUserCode,
       date: new Date(),
-      receiveUserCode: this.recordType == 'XK' ? this.userCode : null,
+      receiveUserCode: this.recordType == 'OUT' ? this.userCode : null,
       partNumber: event.target.value.trim(),
       recordType: this.recordType,
       qty: 0,
       line: '',
       machine: '',
-      insertType: 'Manual',
+      type: this.recordType,
+      insertType: this.insertType,
     });
 
     this.mapSparePartScanned.set(obj.partNumber, obj);
@@ -125,6 +126,7 @@ export class SparePartInOutComponent implements OnInit {
 
   cancelSaveOutputSparePart() {
     this.isOpenOutputSparePartModal = false;
+    this.getSparePartRecords();
   }
 
   async saveSparePartRecords(event: any) {
@@ -142,6 +144,7 @@ export class SparePartInOutComponent implements OnInit {
      */
 
     this.sparePartSvc.saveSparePartRecords(arr).subscribe((response) => {
+      this.getSparePartRecords();
       this.isOpenOutputSparePartModal = false;
       this.toastr.success('OK', ' Lưu thành công');
     });
@@ -153,7 +156,7 @@ export class SparePartInOutComponent implements OnInit {
   };
 
   handleUploadExcel(): void {
-    debugger
+    debugger;
     const formData = new FormData();
 
     this.fileList.forEach((file: any) => {
@@ -173,8 +176,8 @@ export class SparePartInOutComponent implements OnInit {
         (response: any) => {
           this.uploading = false;
           console.log('RESPONSE UPLOAD: ', response);
-          this.fileList = []
-          this.uploadResult = response.body
+          this.fileList = [];
+          this.uploadResult = response.body;
         },
         () => {
           this.uploading = false;
