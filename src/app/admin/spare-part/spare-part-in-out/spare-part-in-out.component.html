@@ -17,7 +17,7 @@
 
     <dxo-toolbar>
       <dxi-item location="before">
-        <nz-space [nzSize]="'small'">
+        <nz-space>
           <button *nzSpaceItem nz-button nzType="primary">
             <span nz-icon nzType="login"></span>
             Nhập kho
@@ -44,12 +44,35 @@
         </nz-space>
       </dxi-item>
 
-      <dxi-item name="exportButton"></dxi-item>
+      <dxi-item location="after">
+        <nz-space>
+          <nz-range-picker
+            [(ngModel)]="searchParams.dateRange"
+            nzFormat="yyyy-MM-dd"
+            nzMode="date"
+          >
+          </nz-range-picker>
+          <button nz-button nzType="default" (click)="getSparePartRecords()">
+            <span nz-icon nzType="search"></span>
+          </button>
+        </nz-space>
+      </dxi-item>
+      <dxi-item name="exportButton" location="after" />
     </dxo-toolbar>
 
     <dxi-column dataField="partNumber" caption="Part Number"></dxi-column>
     <dxi-column dataField="galileoName" caption="Galileo Name"></dxi-column>
+    <dxi-column
+      dataField="date"
+      caption="Date"
+      dataType="date"
+      format="yyyy-MM-dd"
+    ></dxi-column>
     <dxi-column dataField="qty" caption="Qty"></dxi-column>
+    <dxi-column dataField="standardPrice" caption="Standard Price"></dxi-column>
+    <dxi-column dataField="totalPrice" caption="Total Price"></dxi-column>
+    <dxi-column dataField="unit" caption="Unit"></dxi-column>
+    <dxi-column dataField="currencyCode" caption="Currency"></dxi-column>
     <dxi-column dataField="type" caption="Type"></dxi-column>
     <dxi-column dataField="whUserCode" caption="Nhân viên kho"></dxi-column>
     <dxi-column dataField="receiveUserCode" caption="User"></dxi-column>
@@ -75,7 +98,7 @@
 <nz-modal
   [(nzVisible)]="isOpenOutputSparePartModal"
   nzTitle="Xuất kho Spare Part"
-  nzWidth="850px"
+  nzWidth="1100px"
 >
   <ng-container *nzModalContent>
     <nz-table
@@ -162,8 +185,26 @@
           [allowEditing]="false"
         ></dxi-column>
         <dxi-column dataField="qty" caption="Qty"></dxi-column>
-        <dxi-column dataField="line" caption="Line"></dxi-column>
-        <dxi-column dataField="machine" caption="Máy"></dxi-column>
+        <dxi-column dataField="factoryCode" caption="Nhà máy">
+          <dxo-lookup
+            [dataSource]="factories"
+            displayExpr="name"
+            valueExpr="code"
+          >
+          </dxo-lookup>
+        </dxi-column>
+        <dxi-column dataField="line" caption="Line">
+          <dxo-lookup [dataSource]="lines" displayExpr="name" valueExpr="name">
+          </dxo-lookup>
+        </dxi-column>
+        <dxi-column dataField="machine" caption="Máy">
+          <dxo-lookup
+            [dataSource]="machines"
+            displayExpr="name"
+            valueExpr="name"
+          >
+          </dxo-lookup>
+        </dxi-column>
         <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
 
         <dxi-column
@@ -223,8 +264,8 @@
           </thead>
           <tbody>
             <tr *ngFor="let data of errorUploadTable.data">
-              <td>{{data.rowNum}}</td>
-              <td>{{data.error}}</td>
+              <td>{{ data.rowNum }}</td>
+              <td>{{ data.error }}</td>
             </tr>
           </tbody>
         </nz-table>

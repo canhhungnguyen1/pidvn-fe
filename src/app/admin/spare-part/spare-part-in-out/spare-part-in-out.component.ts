@@ -31,22 +31,27 @@ export class SparePartInOutComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+
+    let firstDayOfMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+    this.searchParams.dateRange = [firstDayOfMonth, new Date()]
+
+
+    this.getLineStandard();
+    this.getMachineStandard();
     this.getSparePartRecords();
-    this.getSpareParts();
-    // this.getUsers();
+
 
     this.whUserCode = this.jwtHelperSvc.decodeToken(
       localStorage.getItem('accessToken')?.toString()
     ).Username;
   }
 
+  searchParams = {
+    dateRange: [new Date(), new Date()]
+  }
+
   whUserCode: any;
-
-  users: any;
   sparePartRecords: any;
-  spareParts: any;
-  sparePartRecord!: SparePartRecordVo;
-
   isOpenOutputSparePartModal: boolean = false;
 
   mapSparePartScanned: Map<string, any> = new Map();
@@ -61,20 +66,37 @@ export class SparePartInOutComponent implements OnInit {
   fileList: NzUploadFile[] = [];
   uploadResult: any;
 
-  // getUsers() {
-  //   this.sparePartSvc.getUsers().subscribe((response) => {
-  //     this.users = response;
-  //   });
-  // }
+  factories = [
+    {code: 'TN', name: 'HFC FACTORY'},
+    {code: 'SP', name: 'SPEAKER'},
+    {code: 'HO', name: 'HEAD OFFICE'},
+    {code: 'EM', name: 'EMC FACTORY'},
+    {code: 'PC', name: 'PCB FACTORY'},
+    {code: 'RE', name: 'RELAY FACT'},
+    {code: 'PN', name: 'PIH ENC FACTORY'},
+    {code: 'PR', name: 'PIH RE FACTORY'}
+  ]
+  lines: any;
+  machines: any;
 
-  getSpareParts() {
-    this.sparePartSvc.getSpareParts().subscribe((response) => {
-      this.spareParts = response;
-    });
+  getLineStandard() {
+    this.sparePartSvc.getLineStandard().subscribe(
+      response => {
+        this.lines = response
+      }
+    )
+  }
+
+  getMachineStandard() {
+    this.sparePartSvc.getMachineStandard().subscribe(
+      response => {
+        this.machines = response;
+      }
+    )
   }
 
   getSparePartRecords() {
-    this.sparePartSvc.getSparePartRecords().subscribe((response) => {
+    this.sparePartSvc.getSparePartRecords(this.searchParams).subscribe((response) => {
       this.sparePartRecords = response;
     });
   }
@@ -130,7 +152,6 @@ export class SparePartInOutComponent implements OnInit {
   }
 
   async saveSparePartRecords(event: any) {
-    debugger;
 
     let arr = new Array();
 
@@ -150,13 +171,18 @@ export class SparePartInOutComponent implements OnInit {
     });
   }
 
+
+
+
+
+
+
   beforeUpload = (file: NzUploadFile): boolean => {
     this.fileList = this.fileList.concat(file);
     return false;
   };
 
   handleUploadExcel(): void {
-    debugger;
     const formData = new FormData();
 
     this.fileList.forEach((file: any) => {

@@ -25,6 +25,7 @@ import { SparePartIvtReqDetailComponent } from './spare-part-inventory/spare-par
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
     NzInputNumberModule,
     NzPopconfirmModule,
     NzRadioModule,
-    NzUploadModule
+    NzUploadModule,
+    NzDatePickerModule
   ],
 })
 export class SparePartModule {}

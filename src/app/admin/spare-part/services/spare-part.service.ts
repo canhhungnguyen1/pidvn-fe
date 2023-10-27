@@ -26,14 +26,17 @@ export class SparePartService {
     );
   }
 
-  getSparePartRecords() {
-    return this.httpClient.get(`${this.baseUrl}/SparePart/SparePartRecords`);
+  getSparePartRecords(searchParams: any) {
+    return this.httpClient.post(
+      `${this.baseUrl}/SparePart/GetSparePartRecords`,
+      searchParams
+    );
   }
 
   /**
    * Lưu list spare part
    * @param sparePartRecords list spare part
-   * @returns 
+   * @returns
    */
   saveSparePartRecords(sparePartRecords: any) {
     return this.httpClient.post(
@@ -43,7 +46,9 @@ export class SparePartService {
   }
 
   getSparePartInventoryRequests() {
-    return this.httpClient.get(`${this.baseUrl}/SparePart/SparePartInventoryRequests`);
+    return this.httpClient.get(
+      `${this.baseUrl}/SparePart/SparePartInventoryRequests`
+    );
   }
 
   saveSparePartInventoryRequest(request: any) {
@@ -53,6 +58,11 @@ export class SparePartService {
     );
   }
 
+  getLineStandard() {
+    return this.httpClient.get(`${this.baseUrl}/SparePart/Lines`);
+  }
 
-
+  getMachineStandard() {
+    return this.httpClient.get(`${this.baseUrl}/SparePart/Machines`);
+  }
 }
