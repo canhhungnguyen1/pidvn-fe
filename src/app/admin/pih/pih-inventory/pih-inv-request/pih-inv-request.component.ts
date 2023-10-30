@@ -70,6 +70,7 @@ export class PihInvRequestComponent implements OnInit {
       response => {
         this.isOpenCreateRequestInventoryModal = false
         this.isLoading = false;
+        this.getInventoryRequests();
       },
       error => {
         this.isLoading = false;
