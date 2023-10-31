@@ -49,146 +49,146 @@ export class AdminComponent implements OnInit {
   skillMapRelayLinks = [
     {
       line: 'TB1',
-      link: `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskill?line=TB1`
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=TB1`
     },
     {
       line: 'TB1 (Auto)',
-      link: `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskill?line=TB.1`
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=TB.1`
     },
     
     {
       line: 'TB2 (Manual)',
-      link: `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskill?line=TB2`
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=TB2`
     },
     {
       line: 'TB3 (Manual)',
-      link: `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskill?line=TB3`
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=TB3`
     },
     {
       line: 'TB4',
-      link: `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskill?line=TB4`
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=TB4`
     },
     {
       line: 'TB4 (Auto)',
-      link: `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskill?line=TB.4`
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=TB.4`
     },
     {
       line: 'TB5 (Manual)',
-      link: `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskill?line=TB5`
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=TB5`
     },
 
     {
       line: 'TB2 (Auto)',
-      link: `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskill?line=TB.2`
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=TB.2`
     },
     {
       line: 'TB5 (Auto)',
-      link: `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskill?line=TB.5`
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=TB.5`
     },
     {
       line: 'TB3 (Auto)',
-      link: `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskill?line=TB.3`
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=TB.3`
     },
 
 
     {
       line: 'TB6',
-      link: `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskill?line=TB6`
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=TB6`
     },
     {
       line: 'TB7',
-      link: `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskill?line=TB7`
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=TB7`
     },
     {
       line: 'TL1',
-      link: `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskill?line=TL1`
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=TL1`
     },
     {
       line: 'TL2',
-      link: `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskill?line=TL2`
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=TL2`
     },
     {
       line: 'TE1',
-      link: `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskill?line=TE1_10`
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=TE1_10`
     },
     {
       line: 'TE2',
-      link: `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskill?line=TE2`
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=TE2`
     },
     {
       line: 'TE3',
-      link: `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskill?line=TE3`
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=TE3`
     },
     {
       line: 'TC1',
-      link: `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskill?line=TC1`
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=TC1`
     },
     {
       line: 'TT',
-      link: `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskill?line=TT`
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=TT`
     },
     {
       line: 'TCL',
-      link: `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskill?line=TCL`
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=TCL`
     },
   ];
 
   skillMapVrEncLinks = [
     {
       line: '11G2-1',
-      link: `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskill?line=11G2-1`
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=11G2-1`
     },
     {
       line: '11G2-2',
-      link: `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskill?line=11G2-2`
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=11G2-2`
     },
     {
       line: '11G2-3',
-      link: `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskill?line=11G2-3`
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=11G2-3`
     },
     {
       line: '11GS-1',
-      link: `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskill?line=11GS-1`
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=11GS-1`
     },
     {
       line: '11GS-2',
-      link: `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskill?line=11GS-2`
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=11GS-2`
     },
     {
       line: '11GS-3',
-      link: `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskill?line=11GS-3`
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=11GS-3`
     },
     {
       line: '11GS-4',
-      link: `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskill?line=11GS-4`
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=11GS-4`
     },
     {
       line: 'SWB G1-1',
-      link: `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskill?line=SWB G1-1`
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=SWB G1-1`
     },
     {
       line: 'SWB G1-2',
-      link: `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskill?line=SWB G1-2`
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=SWB G1-2`
     },
     {
       line: 'SWB G2-3',
-      link: `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskill?line=SWB G2-3`
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=SWB G2-3`
     },
     {
       line: 'SWB G2-4',
-      link: `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskill?line=SWB G2-4`
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=SWB G2-4`
     },
     {
       line: 'GMT-1',
-      link: `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskill?line=GMT-1`
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=GMT-1`
     },
     {
       line: 'GMT-2',
-      link: `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskill?line=GMT-2`
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=GMT-2`
     },
     {
       line: 'GMT-3',
-      link: `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/checkskill?line=GMT-3`
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=GMT-3`
     },
   ]
 
@@ -243,61 +243,61 @@ export class AdminComponent implements OnInit {
     let accessToken = localStorage.getItem('accessToken');
     this.getEmployeeName();
 
-    this.relayDashboardLink = `${this.baseUrlJava}/Manufacturing/Monitoring/production`
-    this.eCommitLink = `${this.baseUrlJava}/camket/Handle/camket/menu?accessToken=${accessToken}`
-    this.eLeaveLink = `${this.baseUrlJava}/Leave/Handle/leave/menu?accessToken=${accessToken}`
+    this.relayDashboardLink = `${this.baseUrlJava}/pidvn/ma/production`
+    this.eCommitLink = `${this.baseUrlJava}/pidvn/hr/camket/menu?accessToken=${accessToken}`
+    this.eLeaveLink = `${this.baseUrlJava}/pidvn/hr/leave/menu?accessToken=${accessToken}`
     this.eApprovalLink = `${this.baseUrlJava}/Manufacturing/Handle/approve/menu?accessToken=${accessToken}`
-    this.eContractLink = `${this.baseUrlJava}/Manufacturing/Handle/contract/menu?accessToken=${accessToken}`
-    this.eConfirmCheckInLink = `${this.baseUrlJava}/Leave/Handle/confirm_in/menu?accessToken=${accessToken}`
-    this.qmsLink = `${this.baseUrlJava}/QMS/Handle/QMS/menu?accessToken=${accessToken}`
-    this.contractLink = `${this.baseUrlJava}/Contract/Handle/contract/menu?accessToken=${accessToken}`
-    this.paymentLink = `${this.baseUrlJava}/Payment/Handle/payment/menu?accessToken=${accessToken}`
-    this.priceLink = `${this.baseUrlJava}/Price/Handle/price/menu?accessToken=${accessToken}`
+    this.eContractLink = `${this.baseUrlJava}/pidvn/acc/contract/menu?accessToken=${accessToken}`
+    this.eConfirmCheckInLink = `${this.baseUrlJava}/pidvn/hr/confirm/menu?accessToken=${accessToken}`
+    this.qmsLink = `${this.baseUrlJava}/pidvn/qc/qms/menu?accessToken=${accessToken}`
+    this.contractLink = `${this.baseUrlJava}/pidvn/acc/contract/menu?accessToken=${accessToken}`
+    this.paymentLink = `${this.baseUrlJava}/pidvn/acc/payment/menu?accessToken=${accessToken}`
+    this.priceLink = `${this.baseUrlJava}/pidvn/acc/price/menu?accessToken=${accessToken}`
 
 
 
 
-    this.eDummyLink = `${this.baseUrlJava}/Dummy/Handle/dummy/menu?accessToken=${accessToken}`
+    this.eDummyLink = `${this.baseUrlJava}/pidvn/pe/dummy/menu?accessToken=${accessToken}`
     
-    //this.listExpired = `${this.baseUrlJava}/Manufacturing/Monitoring/MA/exam/list_expired`;
-    this.listOpLineRelay = `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/list_op_inline?area=Relay`;
-    this.listOpLineVR = `${this.baseUrlJava}/Manufacturing/Monitoring/skillmap/list_op_inline?area=EMC`;
+    //this.listExpired = `${this.baseUrlJava}/pidvn/ma/exam/list_expired`;
+    this.listOpLineRelay = `${this.baseUrlJava}/pidvn/ma/skillmap/list_op_inline?area=Relay`;
+    this.listOpLineVR = `${this.baseUrlJava}/pidvn/ma/skillmap/list_op_inline?area=EMC`;
 
 
-    this.fgWarehouseLink = `${this.baseUrlJava}/Manufacturing/Monitoring/fg?accessToken=${accessToken}`
-    this.checkTemWHLink = `${this.baseUrlJava}/Manufacturing/Monitoring/fg/checktemWH?accessToken=${accessToken}`
-    this.reportTemWHLink = `${this.baseUrlJava}/Manufacturing/Monitoring/fg/reportchecktemwh?accessToken=${accessToken}`
+    this.fgWarehouseLink = `${this.baseUrlJava}/pidvn/sales/fg?accessToken=${accessToken}`
+    this.checkTemWHLink = `${this.baseUrlJava}/pidvn/sales/fg/checktemWH?accessToken=${accessToken}`
+    this.reportTemWHLink = `${this.baseUrlJava}/pidvn/sales/fg/reportchecktemwh?accessToken=${accessToken}`
 
 
-    this.surveyLink = `${this.baseUrlJava}/survey/Handle/coi/menu?accessToken=${accessToken}`
-    this.examTestRelayLink = `${this.baseUrlJava}/Manufacturing/Monitoring/MA/exam?area=Relay`
-    this.checkExpiryDateRelayLink = `${this.baseUrlJava}/Manufacturing/Monitoring/MA/exam/list_expired?area=Relay`
-    this.examTestVrEncLink = `${this.baseUrlJava}/Manufacturing/Monitoring/MA/exam?area=EMC`
-    this.checkExpiryDateVrEncLink = `${this.baseUrlJava}/Manufacturing/Monitoring/MA/exam/list_expired?area=EMC`
-    this.bangQuanLyKyNangPIHLink = `${this.baseUrlJava}/PIH/Monitoring/exam/menu?accessToken=${accessToken}`
-    this.pihProcessScannerLink = `https://10.92.176.57:8888/PIH/Monitoring/pih_process/pih_process_scaner`
-    this.pihPSMasterLink = `${this.baseUrlJava}/PIH/Monitoring/ps_master/ps_master_index?accessToken=${accessToken}`
+    this.surveyLink = `${this.baseUrlJava}/pidvn/acc/coi/menu?accessToken=${accessToken}`
+    this.examTestRelayLink = `${this.baseUrlJava}/pidvn/ma/exam?area=Relay`
+    this.checkExpiryDateRelayLink = `${this.baseUrlJava}/pidvn/ma/exam/list_expired?area=Relay`
+    this.examTestVrEncLink = `${this.baseUrlJava}/pidvn/ma/exam?area=EMC`
+    this.checkExpiryDateVrEncLink = `${this.baseUrlJava}/pidvn/ma/exam/list_expired?area=EMC`
+    this.bangQuanLyKyNangPIHLink = `${this.baseUrlJava}/pidvn/pih/exam/menu?accessToken=${accessToken}`
+    this.pihProcessScannerLink = `https://10.92.176.57:8888/pidvn/pih/pih_process/pih_process_scaner`
+    this.pihPSMasterLink = `${this.baseUrlJava}/pidvn/pih/ps_master/ps_master_index?accessToken=${accessToken}`
 
-    this.itRequestLink = `${this.baseUrlJava}/IS/Handle/is/menu?accessToken=${accessToken}`
-    this.labelRequestLink = `${this.baseUrlJava}/Label/Handle/label/menu?accessToken=${accessToken}`
+    this.itRequestLink = `${this.baseUrlJava}/pidvn/is/request/menu?accessToken=${accessToken}`
+    this.labelRequestLink = `${this.baseUrlJava}/pidvn/is/label/menu?accessToken=${accessToken}`
 
 
-    this.iqcLink.examOnlineLink = `${this.baseUrlJava}/IQC/Monitoring/exam?area=IQC`;
-    this.iqcLink.skillmap.relay = `${this.baseUrlJavaHttps}/Manufacturing/Monitoring/skillmap/checkskillmap?line=SKILL_RELAY`;
-    this.iqcLink.skillmap.vr = `${this.baseUrlJavaHttps}/Manufacturing/Monitoring/skillmap/checkskillmap?line=SKILL_VR`;
-    this.iqcLink.skillmap.xrf = `${this.baseUrlJavaHttps}/Manufacturing/Monitoring/skillmap/checkskillmap?line=SKILL_XRF`;
+    this.iqcLink.examOnlineLink = `${this.baseUrlJava}/pidvn/qc/exam?area=IQC`;
+    this.iqcLink.skillmap.relay = `${this.baseUrlJavaHttps}/pidvn/ma/skillmap/checkskillmap?line=SKILL_RELAY`;
+    this.iqcLink.skillmap.vr = `${this.baseUrlJavaHttps}/pidvn/ma/skillmap/checkskillmap?line=SKILL_VR`;
+    this.iqcLink.skillmap.xrf = `${this.baseUrlJavaHttps}/pidvn/ma/skillmap/checkskillmap?line=SKILL_XRF`;
 
-    this.pihLink.skillmap.coilRelay = `${this.baseUrlJavaHttps}/Manufacturing/Monitoring/skillmap/checkskillmap?line=COIL_RELAY`
-    this.pihLink.skillmap.pressRelay = `${this.baseUrlJavaHttps}/Manufacturing/Monitoring/skillmap/checkskillmap?line=PRESS_RELAY`
-    this.pihLink.skillmap.moldRelay = `${this.baseUrlJavaHttps}/Manufacturing/Monitoring/skillmap/checkskillmap?line=MOLD_RELAY`
+    this.pihLink.skillmap.coilRelay = `${this.baseUrlJavaHttps}/pidvn/ma/skillmap/checkskillmap?line=COIL_RELAY`
+    this.pihLink.skillmap.pressRelay = `${this.baseUrlJavaHttps}/pidvn/ma/skillmap/checkskillmap?line=PRESS_RELAY`
+    this.pihLink.skillmap.moldRelay = `${this.baseUrlJavaHttps}/pidvn/ma/skillmap/checkskillmap?line=MOLD_RELAY`
 
-    this.examHistoryIQCLink = `${this.baseUrlJava}/Manufacturing/Monitoring/MA/exam/listexam?area=IQC`;
-    this.examHistoryRelayLink = `${this.baseUrlJava}/Manufacturing/Monitoring/MA/exam/listexam?area=Relay`;
-    this.examHistoryEMCLink = `${this.baseUrlJava}/Manufacturing/Monitoring/MA/exam/listexam?area=EMC`;
+    this.examHistoryIQCLink = `${this.baseUrlJava}/pidvn/ma/exam/listexam?area=IQC`;
+    this.examHistoryRelayLink = `${this.baseUrlJava}/pidvn/ma/exam/listexam?area=Relay`;
+    this.examHistoryEMCLink = `${this.baseUrlJava}/pidvn/ma/exam/listexam?area=EMC`;
 
-    this.relayECOPLink = `${this.baseUrlJava}/ECOP/Handle/ecop/menu?accessToken=${accessToken}`;
-    this.pihProcessReport = `${this.baseUrlJava}/PIH/Monitoring/pih_process/pih_process_report?accessToken=${accessToken}`
-    this.materialWarehouseLink = `${this.baseUrlJavaHttps}/Manufacturing/Monitoring/wh?accessToken=${accessToken}`
+    this.relayECOPLink = `${this.baseUrlJava}/pidvn/ma/ecop/menu?accessToken=${accessToken}`;
+    this.pihProcessReport = `${this.baseUrlJava}/pidvn/pih/pih_process/pih_process_report?accessToken=${accessToken}`
+    this.materialWarehouseLink = `${this.baseUrlJavaHttps}/pidvn/pur/wh?accessToken=${accessToken}`
 
   }
 
@@ -335,7 +335,6 @@ export class AdminComponent implements OnInit {
         <ul>
           <li>Máy bàn: 3224 </li>
           <li>Ms. Hồng: 0985 186 819</li> 
-          <li>Mr. Thắng: 076 620 2368</li>
           <li>Ms. Yên: 0989 554 217</li>
           <li>Mr. Hà: 0888 694 234</li>
           <li><a href='#' target="_blank">Mr. Hưng: 0966 939 859</a></li>
