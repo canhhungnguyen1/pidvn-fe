@@ -241,45 +241,46 @@ export class AdminComponent implements OnInit {
 
    ngOnInit(): void {
     let accessToken = localStorage.getItem('accessToken');
+    let token2 = localStorage.getItem('token2');
     this.getEmployeeName();
 
     this.relayDashboardLink = `${this.baseUrlJava}/pidvn/ma/production`
-    this.eCommitLink = `${this.baseUrlJava}/pidvn/hr/camket/menu?accessToken=${accessToken}`
-    this.eLeaveLink = `${this.baseUrlJava}/pidvn/hr/leave/menu?accessToken=${accessToken}`
-    this.eApprovalLink = `${this.baseUrlJava}/Manufacturing/Handle/approve/menu?accessToken=${accessToken}`
-    this.eContractLink = `${this.baseUrlJava}/pidvn/acc/contract/menu?accessToken=${accessToken}`
-    this.eConfirmCheckInLink = `${this.baseUrlJava}/pidvn/hr/confirm/menu?accessToken=${accessToken}`
-    this.qmsLink = `${this.baseUrlJava}/pidvn/qc/qms/menu?accessToken=${accessToken}`
-    this.contractLink = `${this.baseUrlJava}/pidvn/acc/contract/menu?accessToken=${accessToken}`
-    this.paymentLink = `${this.baseUrlJava}/pidvn/acc/payment/menu?accessToken=${accessToken}`
-    this.priceLink = `${this.baseUrlJava}/pidvn/acc/price/menu?accessToken=${accessToken}`
+    this.eCommitLink = `${this.baseUrlJava}/pidvn/hr/camket/menu?accessToken=${token2}`
+    this.eLeaveLink = `${this.baseUrlJava}/pidvn/hr/leave/menu?accessToken=${token2}`
+    this.eApprovalLink = `${this.baseUrlJava}/Manufacturing/Handle/approve/menu?accessToken=${token2}`
+    this.eContractLink = `${this.baseUrlJava}/pidvn/acc/contract/menu?accessToken=${token2}`
+    this.eConfirmCheckInLink = `${this.baseUrlJava}/pidvn/hr/confirm/menu?accessToken=${token2}`
+    this.qmsLink = `${this.baseUrlJava}/pidvn/qc/qms/menu?accessToken=${token2}`
+    this.contractLink = `${this.baseUrlJava}/pidvn/acc/contract/menu?accessToken=${token2}`
+    this.paymentLink = `${this.baseUrlJava}/pidvn/acc/payment/menu?accessToken=${token2}`
+    this.priceLink = `${this.baseUrlJava}/pidvn/acc/price/menu?accessToken=${token2}`
 
 
 
 
-    this.eDummyLink = `${this.baseUrlJava}/pidvn/pe/dummy/menu?accessToken=${accessToken}`
+    this.eDummyLink = `${this.baseUrlJava}/pidvn/pe/dummy/menu?accessToken=${token2}`
     
     //this.listExpired = `${this.baseUrlJava}/pidvn/ma/exam/list_expired`;
     this.listOpLineRelay = `${this.baseUrlJava}/pidvn/ma/skillmap/list_op_inline?area=Relay`;
     this.listOpLineVR = `${this.baseUrlJava}/pidvn/ma/skillmap/list_op_inline?area=EMC`;
 
 
-    this.fgWarehouseLink = `${this.baseUrlJava}/pidvn/sales/fg?accessToken=${accessToken}`
-    this.checkTemWHLink = `${this.baseUrlJava}/pidvn/sales/fg/checktemWH?accessToken=${accessToken}`
-    this.reportTemWHLink = `${this.baseUrlJava}/pidvn/sales/fg/reportchecktemwh?accessToken=${accessToken}`
+    this.fgWarehouseLink = `${this.baseUrlJava}/pidvn/sales/fg?accessToken=${token2}`
+    this.checkTemWHLink = `${this.baseUrlJava}/pidvn/sales/fg/checktemWH?accessToken=${token2}`
+    this.reportTemWHLink = `${this.baseUrlJava}/pidvn/sales/fg/reportchecktemwh?accessToken=${token2}`
 
 
-    this.surveyLink = `${this.baseUrlJava}/pidvn/acc/coi/menu?accessToken=${accessToken}`
+    this.surveyLink = `${this.baseUrlJava}/pidvn/acc/coi/menu?accessToken=${token2}`
     this.examTestRelayLink = `${this.baseUrlJava}/pidvn/ma/exam?area=Relay`
     this.checkExpiryDateRelayLink = `${this.baseUrlJava}/pidvn/ma/exam/list_expired?area=Relay`
     this.examTestVrEncLink = `${this.baseUrlJava}/pidvn/ma/exam?area=EMC`
     this.checkExpiryDateVrEncLink = `${this.baseUrlJava}/pidvn/ma/exam/list_expired?area=EMC`
-    this.bangQuanLyKyNangPIHLink = `${this.baseUrlJava}/pidvn/pih/exam/menu?accessToken=${accessToken}`
+    this.bangQuanLyKyNangPIHLink = `${this.baseUrlJava}/pidvn/pih/exam/menu?accessToken=${token2}`
     this.pihProcessScannerLink = `https://10.92.176.57:8888/pidvn/pih/pih_process/pih_process_scaner`
     this.pihPSMasterLink = `${this.baseUrlJava}/pidvn/pih/ps_master/ps_master_index?accessToken=${accessToken}`
 
-    this.itRequestLink = `${this.baseUrlJava}/pidvn/is/request/menu?accessToken=${accessToken}`
-    this.labelRequestLink = `${this.baseUrlJava}/pidvn/is/label/menu?accessToken=${accessToken}`
+    this.itRequestLink = `${this.baseUrlJava}/pidvn/is/request/menu?accessToken=${token2}`
+    this.labelRequestLink = `${this.baseUrlJava}/pidvn/is/label/menu?accessToken=${token2}`
 
 
     this.iqcLink.examOnlineLink = `${this.baseUrlJava}/pidvn/qc/exam?area=IQC`;
@@ -295,9 +296,9 @@ export class AdminComponent implements OnInit {
     this.examHistoryRelayLink = `${this.baseUrlJava}/pidvn/ma/exam/listexam?area=Relay`;
     this.examHistoryEMCLink = `${this.baseUrlJava}/pidvn/ma/exam/listexam?area=EMC`;
 
-    this.relayECOPLink = `${this.baseUrlJava}/pidvn/ma/ecop/menu?accessToken=${accessToken}`;
+    this.relayECOPLink = `${this.baseUrlJava}/pidvn/ma/ecop/menu?accessToken=${token2}`;
     this.pihProcessReport = `${this.baseUrlJava}/pidvn/pih/pih_process/pih_process_report?accessToken=${accessToken}`
-    this.materialWarehouseLink = `${this.baseUrlJavaHttps}/pidvn/pur/wh?accessToken=${accessToken}`
+    this.materialWarehouseLink = `${this.baseUrlJavaHttps}/pidvn/pur/wh?accessToken=${token2}`
 
   }
 

@@ -44,4 +44,8 @@ export class AuthService {
         return !this.jwtHelper.isTokenExpired(accessToken)
     }
 
+    generateJWT(username: string): Observable<any>  {
+        return this.httpClient.get(`${this.baseUrl}/Auth/GenerateJWT?username=${username}`);
+    }
+
 }

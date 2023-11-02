@@ -13,7 +13,6 @@ import { PreviousRouteService } from '../services/previous.route.service';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-
   @ViewChild('usernameIpt') usernameIpt!: ElementRef;
   @ViewChild('passwordIpt') passwordIpt!: ElementRef;
 
@@ -34,15 +33,16 @@ export class LoginComponent implements OnInit {
   isShowPassword: boolean = false;
 
   ngOnInit(): void {
-    this.returnUrl = this.activatedRoute.snapshot.queryParams['returnUrl'] || '/';
+    this.returnUrl =
+      this.activatedRoute.snapshot.queryParams['returnUrl'] || '/';
 
-      setTimeout(() => {
-        this.usernameIpt.nativeElement.focus();
-      }, 0);
-    
-      if (this.authService.isAuthenticated()) {
-        this.router.navigate([this.previousRouteSvc.getPreviousUrl()]);
-      }
+    setTimeout(() => {
+      this.usernameIpt.nativeElement.focus();
+    }, 0);
+
+    if (this.authService.isAuthenticated()) {
+      this.router.navigate([this.previousRouteSvc.getPreviousUrl()]);
+    }
   }
 
   info(): void {
@@ -55,11 +55,12 @@ export class LoginComponent implements OnInit {
   }
 
   isNeedToChangePassword(password: any): boolean {
-    const pwRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&`])[A-Za-z\d@$!%*#?&`]{8,}$/
+    const pwRegex =
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&`])[A-Za-z\d@$!%*#?&`]{8,}$/;
     if (!pwRegex.test(password)) {
-      return true
+      return true;
     }
-    return false
+    return false;
   }
 
   login() {
@@ -72,14 +73,13 @@ export class LoginComponent implements OnInit {
 
     this.authService.login(this.accountLogin).subscribe(
       (response) => {
-
         let name = this.jwtHelperService.decodeToken(
           response.accessToken
         ).FullName;
         localStorage.setItem('accessToken', response.accessToken);
 
         if (this.isNeedToChangePassword(this.accountLogin.password)) {
-          this.toastr.warning('You need to change the password','Warning')
+          this.toastr.warning('You need to change the password', 'Warning');
           this.router.navigate(['auth/change-password']);
           return;
         }
@@ -88,11 +88,8 @@ export class LoginComponent implements OnInit {
           .getRoleAndPermission(this.accountLogin.username)
           .subscribe((response) => {
             this.isLoading = false;
-            // localStorage.setItem('roles', btoa(response.roles));
-            // localStorage.setItem(
-            //   'permissions',
-            //   btoa(response.permissions)
-            // );
+
+            this.generateJWT()
 
             if (this.returnUrl == '/') {
               this.router.navigate(['admin/welcome']);
@@ -107,9 +104,21 @@ export class LoginComponent implements OnInit {
         this.isLoading = false;
       }
     );
+
+    
+    
+  }
+
+  // Tạo token2 cho hệ thống của Hà
+  generateJWT() {
+    this.authService
+    .generateJWT(this.accountLogin.username)
+    .subscribe((response) => {
+      localStorage.setItem('token2', response.token);
+    });
   }
 
   togglePassword() {
-    this.isShowPassword = !this.isShowPassword
+    this.isShowPassword = !this.isShowPassword;
   }
 }
