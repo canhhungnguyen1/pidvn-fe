@@ -16,6 +16,7 @@ import { PihInvReqDetailComponent } from './pih-inv-req-detail/pih-inv-req-detai
 import { PihInvRequestComponent } from './pih-inv-request/pih-inv-request.component';
 import { PihInventoryRoutingModule } from './pih-inventory-routing.module';
 import { PihInventoryComponent } from './pih-inventory.component';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { PihInventoryComponent } from './pih-inventory.component';
     NzPopconfirmModule,
     DxPivotGridModule,
     DxPivotGridModule,
-    DxChartModule
+    DxChartModule,
+    NzSelectModule
   ],
 })
 export class PihInventoryModule {}

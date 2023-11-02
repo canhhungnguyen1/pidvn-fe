@@ -2,6 +2,8 @@ import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angula
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { PihInventoryService } from '../services/pih-inventory.service';
+import { DxDataGridComponent } from 'devextreme-angular';
+import { JwtHelperService } from '@auth0/angular-jwt';
 @Component({
   selector: 'app-pih-inv-req-detail',
   templateUrl: './pih-inv-req-detail.component.html',
@@ -11,32 +13,38 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit{
 
   @ViewChild('labelIpt') labelIpt!: ElementRef;
   @ViewChild('importQtyIpt') importQtyIpt!: ElementRef;
+  @ViewChild(DxDataGridComponent, { static: false })
+  balanceGrid!: DxDataGridComponent;
 
   constructor(
     private toastr: ToastrService,
     private activatedRoute: ActivatedRoute,
-    private pihInventorySvc: PihInventoryService
+    private pihInventorySvc: PihInventoryService,
+    private jwtHelperSvc: JwtHelperService
   ) {}
 
   requestId: any;
   requestNo: any
-  inventoryData: any
+  inventoryData: any;
+  inventoryArea: any; // Khu vực kiểm kê
   isOpenScanInventoryModal: boolean = false;
   isOpenResultSaveInventoryModal: boolean = false;
   mapLotsScanned: Map<string, any> = new Map();
   listLotsScanned: Array<any> = new Array();
   lotNoEdit: string | null = null;
   inventoryDataOK: any;
-
   isLoadingSaveInventoryData: boolean = false;
-
   resultSaveInventoryData: any;
-
-
   inventoryDataPivot: any;
 
+  userLoginName: any
 
   ngOnInit(): void {
+
+    this.userLoginName = this.jwtHelperSvc.decodeToken(
+      localStorage.getItem('accessToken')?.toString()
+    ).FullName.split(' ').reverse()[0]
+
     this.requestId = Number(this.activatedRoute.snapshot.params['id'])
     this.requestNo = this.activatedRoute.snapshot.queryParamMap.get('reqNo');
 
@@ -109,6 +117,7 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit{
      * Kiểm tra phiếu đã quá thời gian kiểm kê chưa
      * Đang để lớn hơn 5 ngày sẽ không cho kiểm kê
      */
+    
     let reqDateStr = this.requestNo.split("-")[1];
     let pattern = /(\d{4})(\d{2})(\d{2})/;
     let reqDate = new Date(reqDateStr.replace(pattern,'$1-$2-$3'));
@@ -120,7 +129,7 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit{
       this.toastr.warning('Đã quá thời gian kiểm kê','Warning')
       return;
     }
-
+    this.inventoryArea = null;
     this.isOpenScanInventoryModal = true;
 
     setTimeout(() => {
@@ -158,7 +167,21 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit{
     )
   }
 
+  /**
+   * Chọn khu vực kiểm kê
+   * @param event 
+   */
+  onChangeArea(event: any) {
+    this.labelIpt.nativeElement.select();
+  }
+
   scanLabel(event: any) {
+
+    if(!this.inventoryArea) {
+      this.toastr.warning(`Cần chọn khu vực kiểm kê`,`${this.userLoginName} ơi !`)
+      this.labelIpt.nativeElement.select();
+      return;
+    }
 
     this.labelIpt.nativeElement.select();
 
@@ -177,7 +200,8 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit{
         lotNo: lotNo.toUpperCase() ,
         partNo: partNo.toUpperCase(),
         qty: qty,
-        requestId: this.requestId
+        requestId: this.requestId,
+        inventoryArea: this.inventoryArea
       }
       
       this.mapLotsScanned.set(lotNo, obj);
@@ -263,14 +287,20 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit{
   balanceData: any
   getBalance() {
 
+    let name = this.jwtHelperSvc.decodeToken(
+      localStorage.getItem('accessToken')?.toString()
+    ).FullName.split(' ').reverse()[0]
+
+    this.balanceGrid?.instance.beginCustomLoading(
+      `Bạn ${name} ơi đợi tý nhé!`
+    );
+
     this.pihInventorySvc.balance(this.requestId).subscribe(
       response => {
         console.log('Balance: ', response)
         this.balanceData = response
       }
     )
-
-
 
   }
 

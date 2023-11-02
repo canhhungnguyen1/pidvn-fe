@@ -21,7 +21,7 @@
   </thead>
 </nz-table>
 
-<nz-tabset style="margin-top: -25px" [nzSelectedIndex]="1">
+<nz-tabset style="margin-top: -25px" [nzSelectedIndex]="0">
   <nz-tab nzTitle="Dữ liệu kiểm kê">
     <dx-data-grid
       keyExpr="id"
@@ -52,6 +52,7 @@
       <dxi-column dataField="lotNo" caption="Lot No"></dxi-column>
       <dxi-column dataField="qty" caption="Qty" format="#,##0.0"></dxi-column>
       <dxi-column dataField="classified" caption="Classified"></dxi-column>
+      <dxi-column dataField="inventoryArea" caption="Khu vực kiểm kê"></dxi-column>
       <dxi-column
         dataField="createdAt"
         caption="Date"
@@ -73,7 +74,7 @@
       [allowSortingBySummary]="true"
       [allowSorting]="true"
       [allowFiltering]="true"
-      [allowExpandAll]="true"
+      [allowExpandAll]="false"
       [showBorders]="true"
       [dataSource]="inventoryDataPivot"
     >
@@ -156,12 +157,8 @@
   </nz-tab>
 
   <nz-tab nzTitle="Chênh lệch thực tế / lý thuyết">
-    <button nz-button nzType="primary" (click)="getBalance()">
-      <span nz-icon nzType="redo"></span>
-      Balance
-    </button>
-
     <dx-data-grid
+      #balanceGrid
       [dataSource]="balanceData"
       keyExpr="id"
       [showColumnLines]="true"
@@ -172,6 +169,16 @@
       [rowAlternationEnabled]="true"
     >
       <dxo-export [enabled]="true"></dxo-export>
+      <dxo-toolbar>
+        <dxi-item location="before">
+          <button nz-button nzType="primary" (click)="getBalance()">
+            Kiểm tra chênh lệch
+          </button>
+        </dxi-item>
+
+        <dxi-item name="exportButton"></dxi-item>
+      </dxo-toolbar>
+
       <dxo-paging [pageSize]="15"></dxo-paging>
       <dxo-filter-row [visible]="true"></dxo-filter-row>
 
@@ -204,6 +211,28 @@
     >
       <thead>
         <tr>
+          <th style="width: 15%">Khu vực</th>
+          <th style="width: 20%">
+            <nz-select
+              style="width: 100%"
+              nzPlaceHolder="Chọn khu vực"
+              nzAllowClear
+              nzShowSearch
+              (ngModelChange)="onChangeArea($event)"
+              [(ngModel)]="inventoryArea"
+            >
+              <nz-option nzValue="Coil" nzLabel="Coil"></nz-option>
+              <nz-option
+                nzValue="Molding Relay"
+                nzLabel="Molding Relay"
+              ></nz-option>
+              <nz-option
+                nzValue="Press Relay"
+                nzLabel="Press Relay"
+              ></nz-option>
+            </nz-select>
+          </th>
+          <th style="width: 10%">Label</th>
           <th>
             <input
               id="labelIpt"
@@ -219,13 +248,10 @@
         </tr>
       </thead>
     </nz-table>
-    <nz-table
-      #labelTable
-      nzSize="small"
-      nzBordered
-      [nzData]="listLotsScanned"
-      style="margin-top: -20px"
-    >
+    <div style="margin-top: -20px">
+      <label>Số box đã scan: </label>{{ listLotsScanned.length }} (boxes)
+    </div>
+    <nz-table #labelTable nzSize="small" nzBordered [nzData]="listLotsScanned">
       <thead>
         <tr>
           <th>Part No</th>

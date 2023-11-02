@@ -45,9 +45,15 @@ export class UserMealComponent implements OnInit {
       return;
     }
 
+    let name = this.jwtHelperSvc.decodeToken(
+      localStorage.getItem('accessToken')?.toString()
+    ).FullName.split(' ').reverse()[0]
+    
     this.timeLogGrid?.instance.beginCustomLoading(
-      'Bạn tôi bình tĩnh đợi tý nhé! Hệ thống đang lấy dữ liệu'
+      `Bạn ${name} ơi đợi tý nhé!`
     );
+
+    
 
     this.hrMealMngSvc
       .getMealRecords(this.searchParams)
