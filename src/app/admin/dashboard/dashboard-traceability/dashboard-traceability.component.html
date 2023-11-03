@@ -1,7 +1,14 @@
-<nz-collapse>
-  <nz-collapse-panel
-    [nzHeader]="'Tìm kiếm'"
-  >
-    
-  </nz-collapse-panel>
-</nz-collapse>
+<nz-table #basicTable [nzData]="links">
+  <thead>
+    <tr>
+      <th>Link</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of basicTable.data">
+      <td>
+        <a [href]="data.value" target="_blank">{{data.label}}</a>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>

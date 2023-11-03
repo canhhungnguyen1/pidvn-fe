@@ -1,9 +1,9 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { DxDataGridComponent } from 'devextreme-angular';
 import { ToastrService } from 'ngx-toastr';
 import { PihInventoryService } from '../services/pih-inventory.service';
-import { DxDataGridComponent } from 'devextreme-angular';
-import { JwtHelperService } from '@auth0/angular-jwt';
 @Component({
   selector: 'app-pih-inv-req-detail',
   templateUrl: './pih-inv-req-detail.component.html',
@@ -149,7 +149,6 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit{
       return;
     }
 
-
     this.isLoadingSaveInventoryData = true;
     this.pihInventorySvc.saveListInventoryData(this.listLotsScanned).subscribe(
       response => {
@@ -162,7 +161,6 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit{
         this.listLotsScanned = new Array();
 
         this.getInventoryData(this.requestId);
-
       }
     )
   }
@@ -213,6 +211,8 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit{
       return;
     }else {
 
+      // Trường hợp hàng Elektrisola
+
       lotNo = event.target.value.substring(1);
 
       this.pihInventorySvc.scanLabel(lotNo).subscribe(
@@ -224,7 +224,8 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit{
             lotNo: lotNo,
             partNo: data.model,
             qty: data.qty,
-            requestId: this.requestId
+            requestId: this.requestId,
+            inventoryArea: this.inventoryArea
           }
           
           this.mapLotsScanned.set(lotNo, obj);
@@ -278,9 +279,6 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit{
         this.getInventoryData(this.requestId);
       }
     )
-
-
-
   }
 
 

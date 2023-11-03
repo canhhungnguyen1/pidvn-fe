@@ -36,14 +36,10 @@
   <dxi-column dataField="createdBy" caption="Người tạo"></dxi-column>
   <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
 
-  <dxi-column
-    caption="Action"
-    cellTemplate="actionTemplate"
-    alignment="center"
-  >
-  <div *dxTemplate="let item of 'actionTemplate'" style="text-align: center">
-    <a style="color: blue" (click)="redirectDetail(item)">Chi tiết</a>
-  </div>
+  <dxi-column caption="Action" cellTemplate="actionTemplate" alignment="center">
+    <div *dxTemplate="let item of 'actionTemplate'" style="text-align: center">
+      <a style="color: blue" (click)="redirectDetail(item)">Chi tiết</a>
+    </div>
   </dxi-column>
 </dx-data-grid>
 
@@ -63,11 +59,15 @@
       <tbody>
         <tr>
           <td><label>Phiếu kiểm kê</label></td>
-          <td>{{ivtReq}}</td>
+          <td>{{ ivtReq }}</td>
         </tr>
         <tr>
           <td><label>Người tạo</label></td>
-          <td>{{jwt.FullName}} - {{jwt.Username}} </td>
+          <td>{{ jwt.FullName }} - {{ jwt.Username }}</td>
+        </tr>
+        <tr>
+          <td><label>Ngày chốt kiểm kê</label></td>
+          <td><nz-date-picker style="width: 100%;" [nzDisabledDate]="disabledDate"></nz-date-picker></td>
         </tr>
         <tr>
           <td><label>Ghi chú</label></td>
@@ -79,7 +79,20 @@
     </nz-table>
   </ng-container>
   <div *nzModalFooter>
-    <button nz-button nzType="default" (click)="closeCreateRequestInventoryModal()">Hủy</button>
-    <button nz-button nzType="primary" (click)="createInventoryRequest()" [nzLoading]="isLoading">Tạo</button>
+    <button
+      nz-button
+      nzType="default"
+      (click)="closeCreateRequestInventoryModal()"
+    >
+      Hủy
+    </button>
+    <button
+      nz-button
+      nzType="primary"
+      (click)="createInventoryRequest()"
+      [nzLoading]="isLoading"
+    >
+      Tạo
+    </button>
   </div>
 </nz-modal>

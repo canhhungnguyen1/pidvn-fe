@@ -238,6 +238,7 @@ export class AdminComponent implements OnInit {
   pihProcessReport!: string;
 
   materialWarehouseLink! :string; 
+  dotLink!: string;
 
    ngOnInit(): void {
     let accessToken = localStorage.getItem('accessToken');
@@ -299,7 +300,7 @@ export class AdminComponent implements OnInit {
     this.relayECOPLink = `${this.baseUrlJava}/pidvn/ma/ecop/menu?accessToken=${token2}`;
     this.pihProcessReport = `${this.baseUrlJava}/pidvn/pih/pih_process/pih_process_report?accessToken=${accessToken}`
     this.materialWarehouseLink = `${this.baseUrlJavaHttps}/pidvn/pur/wh?accessToken=${token2}`
-
+    this.dotLink = `${this.baseUrlJavaHttps}/pidvn/sales/isp/dot?accessToken=${token2}`
   }
 
   weatherInfo: any;
