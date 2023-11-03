@@ -73,6 +73,7 @@ export class LoginComponent implements OnInit {
 
     this.authService.login(this.accountLogin).subscribe(
       (response) => {
+
         let name = this.jwtHelperService.decodeToken(
           response.accessToken
         ).FullName;
@@ -89,34 +90,36 @@ export class LoginComponent implements OnInit {
           .subscribe((response) => {
             this.isLoading = false;
 
-            this.generateJWT()
 
-            if (this.returnUrl == '/') {
-              this.router.navigate(['admin/welcome']);
-            } else {
-              this.router.navigateByUrl(this.returnUrl);
-            }
+            // Tạo token2 cho hệ thống của Hà
+            this.authService
+              .generateJWT(this.accountLogin.username)
+              .subscribe((response) => {
+                localStorage.setItem('token2', response.token);
 
-            this.toastr.success(`${name}`, `Xin chào`);
+
+
+
+                if (this.returnUrl == '/') {
+                  this.router.navigate(['admin/welcome']);
+                } else {
+                  this.router.navigateByUrl(this.returnUrl);
+                }
+    
+                this.toastr.success(`${name}`, `Xin chào`);
+
+              });
+
+            
           });
       },
       (error) => {
         this.isLoading = false;
       }
     );
-
-    
-    
   }
 
-  // Tạo token2 cho hệ thống của Hà
-  generateJWT() {
-    this.authService
-    .generateJWT(this.accountLogin.username)
-    .subscribe((response) => {
-      localStorage.setItem('token2', response.token);
-    });
-  }
+  
 
   togglePassword() {
     this.isShowPassword = !this.isShowPassword;
