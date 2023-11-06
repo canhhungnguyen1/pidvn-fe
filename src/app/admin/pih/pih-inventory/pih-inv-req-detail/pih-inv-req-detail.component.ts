@@ -315,4 +315,20 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit{
 
   }
 
+  onRowPrepared(event: any) {
+
+    if (event.rowType === 'data') {
+      if (event.data.balance !== 0) {
+        event.rowElement.style.backgroundColor = 'red';
+        // or
+        event.rowElement.classList.add('my-class');
+        // to override alternation color
+        event.rowElement.className = event.rowElement.className.replace(
+          'dx-row-alt',
+          ''
+        );
+      }
+    }
+  }
+
 }

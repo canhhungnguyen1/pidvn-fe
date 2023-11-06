@@ -170,6 +170,7 @@
       [allowColumnResizing]="true"
       [columnAutoWidth]="true"
       [rowAlternationEnabled]="true"
+      (onRowPrepared)="onRowPrepared($event)"
     >
       <dxo-export [enabled]="true"></dxo-export>
       <dxo-toolbar>
