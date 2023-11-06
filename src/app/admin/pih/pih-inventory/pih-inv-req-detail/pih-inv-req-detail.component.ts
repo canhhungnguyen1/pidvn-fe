@@ -292,7 +292,11 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit{
 
 
   balanceData: any
+  inventoryAreaBanlanceSrch: any = [];
   getBalance() {
+
+    console.log('inventoryAreaBanlanceSrch: ', this.inventoryAreaBanlanceSrch);
+    
 
     let name = this.jwtHelperSvc.decodeToken(
       localStorage.getItem('accessToken')?.toString()
@@ -302,7 +306,7 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit{
       `Bạn ${name} ơi đợi tý nhé!`
     );
 
-    this.pihInventorySvc.balance(this.requestId).subscribe(
+    this.pihInventorySvc.balance(this.requestId, this.inventoryAreaBanlanceSrch).subscribe(
       response => {
         console.log('Balance: ', response)
         this.balanceData = response

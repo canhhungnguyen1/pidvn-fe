@@ -239,6 +239,9 @@ export class AdminComponent implements OnInit {
 
   materialWarehouseLink! :string; 
   dotLink!: string;
+  quanLyBaiKiemTraLink!: string;
+  dangKyLamBaiKiemTraLink!: string;
+
 
    ngOnInit(): void {
     let accessToken = localStorage.getItem('accessToken');
@@ -255,22 +258,12 @@ export class AdminComponent implements OnInit {
     this.contractLink = `${this.baseUrlJava}/pidvn/acc/contract/menu?accessToken=${token2}`
     this.paymentLink = `${this.baseUrlJava}/pidvn/acc/payment/menu?accessToken=${token2}`
     this.priceLink = `${this.baseUrlJava}/pidvn/acc/price/menu?accessToken=${token2}`
-
-
-
-
     this.eDummyLink = `${this.baseUrlJava}/pidvn/pe/dummy/menu?accessToken=${token2}`
-    
-    //this.listExpired = `${this.baseUrlJava}/pidvn/ma/exam/list_expired`;
     this.listOpLineRelay = `${this.baseUrlJava}/pidvn/ma/skillmap/list_op_inline?area=Relay`;
     this.listOpLineVR = `${this.baseUrlJava}/pidvn/ma/skillmap/list_op_inline?area=EMC`;
-
-
     this.fgWarehouseLink = `${this.baseUrlJava}/pidvn/sales/fg?accessToken=${token2}`
     this.checkTemWHLink = `${this.baseUrlJava}/pidvn/sales/fg/checktemWH?accessToken=${token2}`
     this.reportTemWHLink = `${this.baseUrlJava}/pidvn/sales/fg/reportchecktemwh?accessToken=${token2}`
-
-
     this.surveyLink = `${this.baseUrlJava}/pidvn/acc/coi/menu?accessToken=${token2}`
     this.examTestRelayLink = `${this.baseUrlJava}/pidvn/ma/exam?area=Relay`
     this.checkExpiryDateRelayLink = `${this.baseUrlJava}/pidvn/ma/exam/list_expired?area=Relay`
@@ -279,28 +272,24 @@ export class AdminComponent implements OnInit {
     this.bangQuanLyKyNangPIHLink = `${this.baseUrlJava}/pidvn/pih/exam/menu?accessToken=${token2}`
     this.pihProcessScannerLink = `https://10.92.176.57:8888/pidvn/pih/pih_process/pih_process_scaner`
     this.pihPSMasterLink = `${this.baseUrlJava}/pidvn/pih/ps_master/ps_master_index?accessToken=${accessToken}`
-
     this.itRequestLink = `${this.baseUrlJava}/pidvn/is/request/menu?accessToken=${token2}`
     this.labelRequestLink = `${this.baseUrlJava}/pidvn/is/label/menu?accessToken=${token2}`
-
-
     this.iqcLink.examOnlineLink = `${this.baseUrlJava}/pidvn/qc/exam?area=IQC`;
     this.iqcLink.skillmap.relay = `${this.baseUrlJavaHttps}/pidvn/ma/skillmap/checkskillmap?line=SKILL_RELAY`;
     this.iqcLink.skillmap.vr = `${this.baseUrlJavaHttps}/pidvn/ma/skillmap/checkskillmap?line=SKILL_VR`;
     this.iqcLink.skillmap.xrf = `${this.baseUrlJavaHttps}/pidvn/ma/skillmap/checkskillmap?line=SKILL_XRF`;
-
     this.pihLink.skillmap.coilRelay = `${this.baseUrlJavaHttps}/pidvn/ma/skillmap/checkskillmap?line=COIL_RELAY`
     this.pihLink.skillmap.pressRelay = `${this.baseUrlJavaHttps}/pidvn/ma/skillmap/checkskillmap?line=PRESS_RELAY`
     this.pihLink.skillmap.moldRelay = `${this.baseUrlJavaHttps}/pidvn/ma/skillmap/checkskillmap?line=MOLD_RELAY`
-
     this.examHistoryIQCLink = `${this.baseUrlJava}/pidvn/ma/exam/listexam?area=IQC`;
     this.examHistoryRelayLink = `${this.baseUrlJava}/pidvn/ma/exam/listexam?area=Relay`;
     this.examHistoryEMCLink = `${this.baseUrlJava}/pidvn/ma/exam/listexam?area=EMC`;
-
     this.relayECOPLink = `${this.baseUrlJava}/pidvn/ma/ecop/menu?accessToken=${token2}`;
     this.pihProcessReport = `${this.baseUrlJava}/pidvn/pih/pih_process/pih_process_report?accessToken=${accessToken}`
     this.materialWarehouseLink = `${this.baseUrlJavaHttps}/pidvn/pur/wh?accessToken=${token2}`
     this.dotLink = `${this.baseUrlJavaHttps}/pidvn/sales/isp/dot?accessToken=${token2}`
+    this.quanLyBaiKiemTraLink = `${this.baseUrlJavaHttps}/pidvn/ma/exam/action?accessToken=${token2}`
+    this.dangKyLamBaiKiemTraLink = `${this.baseUrlJavaHttps}/pidvn/ma/exam/register?accessToken=${token2}`
   }
 
   weatherInfo: any;

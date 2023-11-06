@@ -60,9 +60,9 @@ export class PihInventoryService {
   }
 
 
-  balance(requestId: any) {
+  balance(requestId: any, inventoryArea: any) {
     return this.httpClient.get(
-      `${this.baseUrl}/PIH/Inventory/Balance?requestId=${requestId}`
+      `${this.baseUrl}/PIH/Inventory/Balance?requestId=${requestId}&inventoryArea=${inventoryArea}`
     );
   }
 }

@@ -52,7 +52,10 @@
       <dxi-column dataField="lotNo" caption="Lot No"></dxi-column>
       <dxi-column dataField="qty" caption="Qty" format="#,##0.0"></dxi-column>
       <dxi-column dataField="classified" caption="Classified"></dxi-column>
-      <dxi-column dataField="inventoryArea" caption="Khu vực kiểm kê"></dxi-column>
+      <dxi-column
+        dataField="inventoryArea"
+        caption="Khu vực kiểm kê"
+      ></dxi-column>
       <dxi-column
         dataField="createdAt"
         caption="Date"
@@ -170,9 +173,28 @@
     >
       <dxo-export [enabled]="true"></dxo-export>
       <dxo-toolbar>
+        <dxi-item location="before" style="min-width: 200px">
+          <nz-select
+            style="width: 100%"
+            [nzMaxTagCount]="3"
+            [nzMaxTagPlaceholder]="tagPlaceHolder"
+            nzMode="multiple"
+            nzPlaceHolder="Khu vực kiểm kê"
+            [(ngModel)]="inventoryAreaBanlanceSrch"
+          >
+            <nz-option
+              *ngFor="let item of inventoryAreaList"
+              [nzLabel]="item.name"
+              [nzValue]="item.id"
+            ></nz-option>
+          </nz-select>
+          <ng-template #tagPlaceHolder let-selectedList
+            >and {{ selectedList.length }} more selected</ng-template
+          >
+        </dxi-item>
         <dxi-item location="before">
           <button nz-button nzType="primary" (click)="getBalance()">
-            Kiểm tra chênh lệch
+            Balance
           </button>
         </dxi-item>
 
@@ -185,6 +207,7 @@
       <dxi-column dataField="lotNo" caption="Lot No"></dxi-column>
       <dxi-column dataField="sysQty" caption="Qty lý thuyết"></dxi-column>
       <dxi-column dataField="ivtQty" caption="Qty thực tế"></dxi-column>
+      <dxi-column dataField="balance" caption="Chênh lệch"></dxi-column>
 
       <dxo-paging [pageSize]="10"></dxo-paging>
       <dxo-pager
@@ -223,7 +246,7 @@
             >
               <nz-option
                 *ngFor="let area of inventoryAreaList"
-                [nzValue]="area.name"
+                [nzValue]="area.id"
                 [nzLabel]="area.name"
               >
               </nz-option>
@@ -246,12 +269,14 @@
       </thead>
     </nz-table>
     <div style="margin-top: -20px">
-      <div style="clear: both;">
-        <label style="float: left;">Số box đã scan: <span>{{ listLotsScanned.length }}</span> (boxes)</label>
+      <div style="clear: both">
+        <label style="float: left"
+          >Số box đã scan:
+          <span>{{ listLotsScanned.length }}</span> (boxes)</label
+        >
 
-        <label style="float: right;">Số lượng đã scan: 0</label>
+        <label style="float: right">Số lượng đã scan: 0</label>
       </div>
-      
     </div>
     <nz-table #labelTable nzSize="small" nzBordered [nzData]="listLotsScanned">
       <thead>
