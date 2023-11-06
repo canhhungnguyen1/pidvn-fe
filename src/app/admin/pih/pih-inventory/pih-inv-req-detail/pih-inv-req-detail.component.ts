@@ -27,6 +27,7 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit{
   requestNo: any
   inventoryData: any;
   inventoryArea: any; // Khu vực kiểm kê
+  inventoryAreaList: any;
   isOpenScanInventoryModal: boolean = false;
   isOpenResultSaveInventoryModal: boolean = false;
   mapLotsScanned: Map<string, any> = new Map();
@@ -48,13 +49,21 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit{
     this.requestId = Number(this.activatedRoute.snapshot.params['id'])
     this.requestNo = this.activatedRoute.snapshot.queryParamMap.get('reqNo');
 
-    console.log(this.requestNo)
 
     this.getInventoryData(this.requestId);
+    this.getInventoryArea();
   }
 
   ngAfterViewInit(): void {
     
+  }
+
+  getInventoryArea() {
+    this.pihInventorySvc.getInventoryArea().subscribe(
+      response => {
+        this.inventoryAreaList = response;
+      }
+    )
   }
 
   getInventoryData(requestId: any) {

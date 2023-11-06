@@ -212,7 +212,7 @@
       <thead>
         <tr>
           <th style="width: 15%">Khu vực</th>
-          <th style="width: 20%">
+          <th style="width: 30%">
             <nz-select
               style="width: 100%"
               nzPlaceHolder="Chọn khu vực"
@@ -221,18 +221,15 @@
               (ngModelChange)="onChangeArea($event)"
               [(ngModel)]="inventoryArea"
             >
-              <nz-option nzValue="Coil" nzLabel="Coil"></nz-option>
               <nz-option
-                nzValue="Molding Relay"
-                nzLabel="Molding Relay"
-              ></nz-option>
-              <nz-option
-                nzValue="Press Relay"
-                nzLabel="Press Relay"
-              ></nz-option>
+                *ngFor="let area of inventoryAreaList"
+                [nzValue]="area.name"
+                [nzLabel]="area.name"
+              >
+              </nz-option>
             </nz-select>
           </th>
-          <th style="width: 10%">Label</th>
+          <th style="width: 15%">Label</th>
           <th>
             <input
               id="labelIpt"
@@ -249,7 +246,12 @@
       </thead>
     </nz-table>
     <div style="margin-top: -20px">
-      <label>Số box đã scan: </label>{{ listLotsScanned.length }} (boxes)
+      <div style="clear: both;">
+        <label style="float: left;">Số box đã scan: <span>{{ listLotsScanned.length }}</span> (boxes)</label>
+
+        <label style="float: right;">Số lượng đã scan: 0</label>
+      </div>
+      
     </div>
     <nz-table #labelTable nzSize="small" nzBordered [nzData]="listLotsScanned">
       <thead>

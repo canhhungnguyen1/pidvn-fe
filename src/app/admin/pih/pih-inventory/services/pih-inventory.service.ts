@@ -11,6 +11,12 @@ export class PihInventoryService {
 
   private baseUrl = environment.baseUrl;
 
+  getInventoryArea() {
+    return this.httpClient.get(
+      `${this.baseUrl}/PIH/Inventory/InventoryArea`
+    );
+  }
+
   getInventoryRequests(): Observable<any> {
     return this.httpClient.get(
       `${this.baseUrl}/PIH/Inventory/Requests`
