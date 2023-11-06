@@ -278,6 +278,24 @@
 
           <li nz-menu-item nzMatchRouter>
             <a
+              [href]="quanLyBaiKiemTraLink"
+              target="_blank"
+              (click)="onHideSidebar()"
+              >Quản lý bài kiểm tra</a
+            >
+          </li>
+
+          <li nz-menu-item nzMatchRouter>
+            <a
+              [href]="dangKyLamBaiKiemTraLink"
+              target="_blank"
+              (click)="onHideSidebar()"
+              >Đăng ký làm bài kiểm tra</a
+            >
+          </li>
+
+          <li nz-menu-item nzMatchRouter>
+            <a
               [href]="checkExpiryDateVrEncLink"
               target="_blank"
               (click)="onHideSidebar()"
