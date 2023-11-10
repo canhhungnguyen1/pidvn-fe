@@ -12,10 +12,27 @@
         <label style="font-weight: bold; color: green"> {{ requestNo }} </label>
       </th>
       <th style="text-align: right">
-        <button nz-button nzType="primary" (click)="openScanInventoryModal()">
-          <span nz-icon nzType="qrcode"></span>
-          Scan kiểm kê
-        </button>
+        <nz-space>
+          <button
+            *nzSpaceItem
+            nz-button
+            nzType="primary"
+            (click)="openScanInventoryModal()"
+          >
+            <span nz-icon nzType="qrcode"></span>
+            Scan kiểm kê
+          </button>
+
+          <nz-upload
+            *nzSpaceItem
+            nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+          >
+            <button nz-button>
+              <span nz-icon nzType="upload"></span>
+              Import data
+            </button>
+          </nz-upload>
+        </nz-space>
       </th>
     </tr>
   </thead>

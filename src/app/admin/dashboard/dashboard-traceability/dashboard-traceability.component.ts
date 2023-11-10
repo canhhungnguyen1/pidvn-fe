@@ -19,13 +19,13 @@ export class DashboardTraceabilityComponent implements OnInit {
       label: 'Trace Data',
       value: `${
         this.baseUrlJava
-      }/pidvn/ma/trace/trace_data?${localStorage.getItem('token2')}`,
+      }/pidvn/ma/trace/trace_data?accessToken=${localStorage.getItem('token2')}`,
     },
     {
       label: 'Trace Data Detail',
       value: `${
         this.baseUrlJava
-      }/pidvn/ma/trace/trace_data_detail?${localStorage.getItem('token2')}`,
+      }/pidvn/ma/trace/trace_data_detail?accessToken=${localStorage.getItem('token2')}`,
     },
   ];
 }
