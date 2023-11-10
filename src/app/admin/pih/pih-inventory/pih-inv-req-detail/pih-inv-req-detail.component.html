@@ -273,10 +273,18 @@
       <div style="clear: both">
         <label style="float: left"
           >Số box đã scan:
-          <span>{{ listLotsScanned.length }}</span> (boxes)</label
+          <span style="font-weight: bold; color: darkslategrey">{{
+            listLotsScanned.length
+          }}</span>
+          (boxes)</label
         >
 
-        <label style="float: right">Số lượng đã scan: 0</label>
+        <label style="float: right"
+          >Qty :
+          <span style="font-weight: bold; color: darkslategrey">{{
+            totalQtyScanned | number : "1.0-3"
+          }}</span>
+        </label>
       </div>
     </div>
     <nz-table #labelTable nzSize="small" nzBordered [nzData]="listLotsScanned">

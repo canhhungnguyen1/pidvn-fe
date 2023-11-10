@@ -19,6 +19,8 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { TranslateModule } from '@ngx-translate/core';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzTreeModule } from 'ng-zorro-antd/tree';
+import { NzCalendarModule } from 'ng-zorro-antd/calendar';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 @NgModule({
   declarations: [
     AdminComponent,
@@ -42,7 +44,9 @@ import { NzTreeModule } from 'ng-zorro-antd/tree';
     NzBadgeModule,
     NzButtonModule,
     NzSelectModule,
-    NzTreeModule
+    NzTreeModule,
+    NzCalendarModule,
+    NzDatePickerModule
   ]
 })
 export class AdminModule { }

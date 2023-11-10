@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { getISOWeek } from 'date-fns';
 import { NzFormatEmitEvent } from 'ng-zorro-antd/tree';
-import { TranslateConfigService } from 'src/app/services/translate-config.service';
 import { WelcomeService } from './welcome.service';
 
 @Component({
