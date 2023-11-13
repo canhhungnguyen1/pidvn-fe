@@ -23,6 +23,12 @@ export class PihInventoryService {
     );
   }
 
+  getInventoryRequestById(requestId: number) : Observable<any> {
+    return this.httpClient.get(
+      `${this.baseUrl}/PIH/Inventory/Request/${requestId}`
+    );
+  }
+
   createInventoryRequest(request: any): Observable<any> {
     return this.httpClient.post(
       `${this.baseUrl}/PIH/Inventory/Request`,

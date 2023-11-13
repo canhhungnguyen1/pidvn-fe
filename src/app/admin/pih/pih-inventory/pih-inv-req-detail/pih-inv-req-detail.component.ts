@@ -46,6 +46,7 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
   inventoryDataPivot: any;
 
   userLoginName: any;
+  inventoryRequestInfo: any;
 
   ngOnInit(): void {
     this.userLoginName = this.jwtHelperSvc
@@ -58,9 +59,19 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
 
     this.getInventoryData(this.requestId);
     this.getInventoryArea();
+    this.getInventoryRequestById(this.requestId);
   }
 
   ngAfterViewInit(): void {}
+
+  getInventoryRequestById(requestId: number) {
+    this.pihInventorySvc.getInventoryRequestById(requestId).subscribe(
+      response => {
+        this.inventoryRequestInfo = response
+        console.log('inventoryRequestInfo: ', this.inventoryRequestInfo);
+      }
+    )
+  }
 
   getInventoryArea() {
     this.pihInventorySvc.getInventoryArea().subscribe((response) => {
@@ -287,9 +298,13 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
   }
 
   balanceData: any;
-  inventoryAreaBanlanceSrch: any = [];
+  inventoryAreaBalanceSrch: any = []; // chọn khu vực kiểm kê
+
   getBalance() {
-    console.log('inventoryAreaBanlanceSrch: ', this.inventoryAreaBanlanceSrch);
+    console.log('inventoryAreaBanlanceSrch: ', this.inventoryAreaBalanceSrch);
+
+    let inventoryCloseDate = this.inventoryRequestInfo.inventoryCloseDate;
+    let calculateTheoryDataDate = this.inventoryRequestInfo.calculateTheoryDataDate;
 
     let name = this.jwtHelperSvc
       .decodeToken(localStorage.getItem('accessToken')?.toString())
@@ -299,9 +314,8 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
     this.balanceGrid?.instance.beginCustomLoading(`Bạn ${name} ơi đợi tý nhé!`);
 
     this.pihInventorySvc
-      .balance(this.requestId, this.inventoryAreaBanlanceSrch)
+      .balance(this.requestId, this.inventoryAreaBalanceSrch)
       .subscribe((response) => {
-        console.log('Balance: ', response);
         this.balanceData = response;
       });
   }

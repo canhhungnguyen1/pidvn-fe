@@ -29,6 +29,8 @@ export class PihInvRequestComponent implements OnInit {
 
   ivtReq: any;
   remark: any;
+  calculateTheoryDataDate: any;
+  inventoryCloseDate: any;
 
   ngOnInit(): void {
     this.jwt = this.jwtHelperSvc.decodeToken(
@@ -65,6 +67,8 @@ export class PihInvRequestComponent implements OnInit {
       reqNo: this.ivtReq,
       createdBy: this.jwt.Username,
       remark: this.remark,
+      calculateTheoryDataDate: this.calculateTheoryDataDate,
+      inventoryCloseDate: this.inventoryCloseDate,
     };
 
     this.pihInventorySvc.createInventoryRequest(obj).subscribe(

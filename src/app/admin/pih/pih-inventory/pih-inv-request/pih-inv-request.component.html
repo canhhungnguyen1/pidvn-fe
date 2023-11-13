@@ -33,6 +33,19 @@
     format="yyyy-MM-dd"
   ></dxi-column>
 
+  <dxi-column
+    dataField="calculateTheoryDataDate"
+    dataType="date"
+    format="yyyy-MM-dd HH:mm:ss"
+    caption="Ngày tính data lý thuyết"
+  ></dxi-column>
+  <dxi-column
+    dataField="inventoryCloseDate"
+    dataType="date"
+    format="yyyy-MM-dd"
+    caption="Ngày chốt kiểm kê"
+  ></dxi-column>
+
   <dxi-column dataField="createdBy" caption="Người tạo"></dxi-column>
   <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
 
@@ -67,7 +80,24 @@
         </tr>
         <tr>
           <td><label>Ngày chốt kiểm kê</label></td>
-          <td><nz-date-picker style="width: 100%;" [nzDisabledDate]="disabledDate"></nz-date-picker></td>
+          <td>
+            <nz-date-picker
+              style="width: 100%"
+              [nzDisabledDate]="disabledDate"
+              [(ngModel)]="inventoryCloseDate"
+            ></nz-date-picker>
+          </td>
+        </tr>
+        <tr>
+          <td><label>Ngày tính data lý thuyết</label></td>
+          <td>
+            <nz-date-picker
+              style="width: 100%"
+              nzShowTime
+              nzFormat="yyyy-MM-dd HH:mm:ss"
+              [(ngModel)]="calculateTheoryDataDate"
+            ></nz-date-picker>
+          </td>
         </tr>
         <tr>
           <td><label>Ghi chú</label></td>
