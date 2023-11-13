@@ -334,6 +334,7 @@ export class AdminComponent implements OnInit {
           <li>Ms. Hồng: 0985 186 819</li> 
           <li>Ms. Yên: 0989 554 217</li>
           <li>Mr. Hà: 0888 694 234</li>
+          <li>Mr. Khoa: 0966 333 594</li>
           <li><a href='#' target="_blank">Mr. Hưng: 0966 939 859</a></li>
         </ul>
       `,
