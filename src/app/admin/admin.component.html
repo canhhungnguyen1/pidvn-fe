@@ -47,6 +47,33 @@
           >
         </span>
       </li>
+      <li nz-submenu nzTitle="TRUY VẾT" nzIcon="search">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a [href]="traceDataLink" target="blank" (click)="onHideSidebar()">
+              Trace Data</a
+            >
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a
+              [href]="traceDataDetailLink"
+              target="blank"
+              (click)="onHideSidebar()"
+            >
+              Trace Data Detail</a
+            >
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a
+              [href]="traceDataPcLink"
+              target="blank"
+              (click)="onHideSidebar()"
+            >
+              Trace Data PC</a
+            >
+          </li>
+        </ul>
+      </li>
       <li nz-menu-item nzTooltipPlacement="right" nzMatchRouter>
         <i nz-icon nzType="sisternode"></i>
         <span>
@@ -212,7 +239,6 @@
             >
           </li>
 
-
           <li nz-menu-item nzMatchRouter>
             <a
               [href]="quanLyBaiKiemTraLink"
@@ -241,14 +267,10 @@
           </li>
 
           <li nz-menu-item nzMatchRouter>
-            <a
-              [href]="relayECOPLink"
-              target="_blank"
-              (click)="onHideSidebar()"
+            <a [href]="relayECOPLink" target="_blank" (click)="onHideSidebar()"
               >E-COP</a
             >
           </li>
-
         </ul>
       </li>
       <li nz-submenu nzTitle="VR-ENC" nzIcon="code-sandbox">
@@ -404,6 +426,7 @@
           </li>
         </ul>
       </li>
+
       <li nz-submenu nzTitle="WAREHOUSE" nzIcon="home">
         <ul>
           <li nz-menu-item nzMatchRouter>
@@ -507,10 +530,8 @@
               <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
                 <a [href]="iqcLink.skillmap.xrf" target="blank">Skill XRF</a>
               </li>
-              
             </ul>
           </li>
-
         </ul>
       </li>
       <li nz-submenu nzTitle="PE" nzIcon="api">
@@ -554,11 +575,7 @@
             </ul>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a
-              [href]="dotLink"
-              target="blank"
-              (click)="onHideSidebar()"
-            >
+            <a [href]="dotLink" target="blank" (click)="onHideSidebar()">
               DOT</a
             >
           </li>
@@ -639,14 +656,10 @@
             >
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a [href]="pihProcessReport" target="blank"
-              >PIH process report</a
-            >
+            <a [href]="pihProcessReport" target="blank">PIH process report</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a [href]="pihPSMasterLink" target="blank"
-              >PS Master</a
-            >
+            <a [href]="pihPSMasterLink" target="blank">PS Master</a>
           </li>
           <li nz-submenu nzTitle="Skill Map">
             <ul>
@@ -656,13 +669,16 @@
                 >
               </li>
               <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
-                <a [href]="pihLink.skillmap.pressRelay" target="blank">Press Relay</a>
+                <a [href]="pihLink.skillmap.pressRelay" target="blank"
+                  >Press Relay</a
+                >
               </li>
 
               <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
-                <a [href]="pihLink.skillmap.moldRelay" target="blank">Mold Relay</a>
+                <a [href]="pihLink.skillmap.moldRelay" target="blank"
+                  >Mold Relay</a
+                >
               </li>
-              
             </ul>
           </li>
           <li nz-menu-item nzMatchRouter>

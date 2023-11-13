@@ -241,6 +241,9 @@ export class AdminComponent implements OnInit {
   dotLink!: string;
   quanLyBaiKiemTraLink!: string;
   dangKyLamBaiKiemTraLink!: string;
+  traceDataLink!: string;
+  traceDataDetailLink!: string
+  traceDataPcLink!:string
 
 
    ngOnInit(): void {
@@ -290,6 +293,9 @@ export class AdminComponent implements OnInit {
     this.dotLink = `${this.baseUrlJavaHttps}/pidvn/sales/isp/dot?accessToken=${token2}`
     this.quanLyBaiKiemTraLink = `${this.baseUrlJavaHttps}/pidvn/ma/exam/action?accessToken=${token2}`
     this.dangKyLamBaiKiemTraLink = `${this.baseUrlJavaHttps}/pidvn/ma/exam/register?accessToken=${token2}`
+    this.traceDataLink = `${this.baseUrlJava}/pidvn/ma/trace/trace_data?accessToken=${token2}`
+    this.traceDataDetailLink = `${this.baseUrlJava}/pidvn/ma/trace/trace_data_detail?accessToken=${token2}`
+    this.traceDataPcLink = `${this.baseUrlJava}/pidvn/ma/trace/trace_datapc?accessToken=${token2}`
   }
 
   weatherInfo: any;
