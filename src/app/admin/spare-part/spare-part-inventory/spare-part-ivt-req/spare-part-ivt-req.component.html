@@ -29,9 +29,15 @@
       <dxi-column dataField="reqNo" caption="Request No"></dxi-column>
 
       <dxi-column
-        dataField="createdAt"
+        dataField="inventoryDate"
         dataType="date"
         caption="Ngày kiểm kê"
+        format="yyyy-MM-dd"
+      ></dxi-column>
+      <dxi-column
+        dataField="inventoryCloseDate"
+        dataType="date"
+        caption="Ngày chốt kiểm kê"
         format="yyyy-MM-dd"
       ></dxi-column>
 
@@ -76,6 +82,30 @@
         <tr>
           <td><label>Người tạo</label></td>
           <td>{{ jwt.FullName }} - {{ jwt.Username }}</td>
+        </tr>
+        <tr>
+          <td><label>Ngày kiểm kê</label><span style="color: red">*</span></td>
+          <td>
+            <nz-date-picker
+              style="width: 100%"
+              [nzDisabledDate]="disabledDate"
+              nzPlaceHolder="Chọn ngày kiểm kê"
+              [(ngModel)]="ivtDate"
+            ></nz-date-picker>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label>Ngày chốt kiểm kê</label><span style="color: red">*</span>
+          </td>
+          <td>
+            <nz-date-picker
+              style="width: 100%"
+              [nzDisabledDate]="disabledDate"
+              nzPlaceHolder="Chọn ngày chốt kiểm kê"
+              [(ngModel)]="ivtCloseDate"
+            ></nz-date-picker>
+          </td>
         </tr>
         <tr>
           <td><label>Ghi chú</label></td>

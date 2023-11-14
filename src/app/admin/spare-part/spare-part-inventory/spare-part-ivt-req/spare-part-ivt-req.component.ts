@@ -3,7 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Router } from '@angular/router';
 import { SparePartService } from '../../services/spare-part.service';
-
+import { differenceInCalendarDays, setHours } from 'date-fns';
 @Component({
   selector: 'app-spare-part-ivt-req',
   templateUrl: './spare-part-ivt-req.component.html',
@@ -24,12 +24,17 @@ export class SparePartIvtReqComponent {
 
   inventoryRequests: any;
 
+  disabledDate = (current: Date): boolean =>
+    differenceInCalendarDays(current, new Date()) < 0;
+
   userLogin = {
     username: '',
     fullName: ''
   }
 
   ivtReq: any;
+  ivtDate:any; // Ngày kiểm kê
+  ivtCloseDate:any; // Ngày chốt kiểm kê
   remark: any;
 
   ngOnInit(): void {
@@ -65,7 +70,9 @@ export class SparePartIvtReqComponent {
     let obj = {
       reqNo: this.ivtReq,
       createdBy: this.jwt.Username,
-      remark: this.remark
+      remark: this.remark,
+      inventoryDate: this.ivtDate,
+      inventoryCloseDate: this.ivtCloseDate
     }
 
     this.sparePartSvc.saveSparePartInventoryRequest(obj).subscribe(
