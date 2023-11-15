@@ -23,15 +23,14 @@
             Scan kiểm kê
           </button>
 
-          <nz-upload
+          <button
             *nzSpaceItem
-            nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            nz-button
+            (click)="openModalUploadExcelInventory()"
           >
-            <button nz-button>
-              <span nz-icon nzType="upload"></span>
-              Import data
-            </button>
-          </nz-upload>
+            <span nz-icon nzType="upload"></span>
+            Upload dữ liệu kiểm kê
+          </button>
         </nz-space>
       </th>
     </tr>
@@ -39,6 +38,7 @@
 </nz-table>
 
 <dx-data-grid
+  #ivtDataGrid
   keyExpr="id"
   [dataSource]="inventoryData"
   [showColumnLines]="true"
@@ -47,6 +47,7 @@
   [allowColumnResizing]="true"
   [columnAutoWidth]="true"
   [rowAlternationEnabled]="true"
+  style="margin-top: -20px"
 >
   <dxo-paging [pageSize]="10"></dxo-paging>
   <dxo-filter-row [visible]="true"></dxo-filter-row>
@@ -54,17 +55,22 @@
 
   <dxo-toolbar>
     <dxi-item location="before">
-      <!-- <span class="ivt-data" style="color: blue"
-            >Danh sách NVL thực tế kiểm kê</span
-          > -->
+      <span class="ivt-data" style="color: blue"> Dữ liệu kiểm kê : </span>
     </dxi-item>
 
     <dxi-item name="exportButton"></dxi-item>
   </dxo-toolbar>
 
-  <dxi-column dataField="partNo" caption="Part No"></dxi-column>
-  <dxi-column dataField="qty" caption="Qty" format="#,##0"></dxi-column>
-  <dxi-column dataField="whUserCode" caption="User"></dxi-column>
+  <dxi-column dataField="partNumber" caption="Part No"></dxi-column>
+  <dxi-column dataField="galileoName" caption="Galileo Name"></dxi-column>
+  <dxi-column dataField="position" caption="Position"></dxi-column>
+  <dxi-column dataField="factoryCode" caption="Factory Code"></dxi-column>
+  <dxi-column dataField="unit" caption="Unit"></dxi-column>
+  <dxi-column dataField="qty" caption="Qty" alignment="right"></dxi-column>
+  <dxi-column dataField="standardPrice" caption="Standard Price"></dxi-column>
+  <dxi-column dataField="totalPrice" caption="Total Amount"></dxi-column>
+  <dxi-column dataField="currencyCode" caption="Currency Code"></dxi-column>
+
   <dxi-column
     dataField="createdAt"
     caption="Date"
@@ -117,7 +123,6 @@
               nz-button
               nzType="primary"
               style="background: green; border: green"
-              (click)="addToListInventoryData()"
             >
               <span nz-icon nzType="plus"></span>
               Add
@@ -152,7 +157,6 @@
             style="text-align: center"
             nz-popconfirm
             nzPopconfirmTitle="Có chắc chắn xóa không ?"
-            (nzOnConfirm)="deleteLabelScanned(data)"
             nzPopconfirmPlacement="top"
             nzRight
           >
@@ -167,13 +171,36 @@
     <button nz-button nzType="default" (click)="closeScanInventoryModal()">
       Hủy
     </button>
-    <button
-      nz-button
-      nzType="primary"
-      [nzLoading]="isLoadingSaveInventoryData"
-      (click)="saveListInventoryData()"
-    >
+    <button nz-button nzType="primary" [nzLoading]="isLoadingSaveInventoryData">
       Lưu dữ liệu
     </button>
+  </div>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="isOpenModalUploadExcelInventory"
+  nzTitle="Upload dữ liệu kiểm kê"
+  nzWidth="750px"
+>
+  <ng-container *nzModalContent>
+    <nz-upload [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload">
+      <button nz-button>
+        <span nz-icon nzType="upload"></span>
+        Chọn file upload
+      </button>
+    </nz-upload>
+    <button
+      nz-button
+      [nzType]="'primary'"
+      [nzLoading]="uploading"
+      (click)="handleUploadExcel()"
+      [disabled]="fileList.length === 0"
+      style="margin-top: 16px"
+    >
+      {{ uploading ? "Uploading" : "Start Upload" }}
+    </button>
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button nzType="default">Đóng</button>
   </div>
 </nz-modal>
