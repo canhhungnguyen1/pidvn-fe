@@ -41,6 +41,7 @@ export class SparePartIvtReqDetailComponent implements OnInit, AfterViewInit {
 
   requestId: any;
   requestNo: any;
+  inventoryRequest: any;
   inventoryData: any;
   isOpenScanInventoryModal: boolean = false;
   isOpenModalUploadExcelInventory: boolean = false
@@ -59,6 +60,7 @@ export class SparePartIvtReqDetailComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.requestId = Number(this.activatedRoute.snapshot.params['id']);
     this.requestNo = this.activatedRoute.snapshot.queryParamMap.get('reqNo');
+    this.getInventoryRequest(this.requestId);
   }
 
   ngAfterViewInit(): void {
@@ -66,6 +68,13 @@ export class SparePartIvtReqDetailComponent implements OnInit, AfterViewInit {
   }
 
 
+  getInventoryRequest(requestId: number) {
+    this.sparePartSvc.getInventoryRequest(requestId).subscribe(
+      response => {
+        this.inventoryRequest = response
+      }
+    )
+  }
 
   openScanInventoryModal() {
     /**

@@ -94,6 +94,7 @@
   <dxi-column dataField="line" caption="Line"></dxi-column>
   <dxi-column dataField="model" caption="Product"></dxi-column>
   <dxi-column dataField="shift" caption="Shift"></dxi-column>
+  <dxi-column dataField="customerCode" caption="Customer"></dxi-column>
   <dxi-column
     dataField="date"
     dataType="date"
@@ -107,7 +108,13 @@
     style="text-align: center; color: green"
   >
     <nz-space>
-      <a nz-button *nzSpaceItem style="color: rgb(107, 45, 1)" (click)="downloadQaCard(item)">Download</a>
+      <a
+        nz-button
+        *nzSpaceItem
+        style="color: rgb(107, 45, 1)"
+        (click)="downloadQaCard(item)"
+        >Download</a
+      >
       <a
         nz-button
         *nzSpaceItem
@@ -117,13 +124,13 @@
         >Scan NVL</a
       >
 
-      <a
+      <!-- <a
         nz-button
         *nzSpaceItem
         style="color: green"
         (click)="openPrintQaCardModal(item)"
         >In QR card</a
-      >
+      > -->
     </nz-space>
   </div>
 
@@ -162,9 +169,9 @@
     <nz-table [nzData]="['']" nzBordered nzFrontPagination="false">
       <tbody>
         <tr>
-          <td><label>Ngày sản xuất</label></td>
+          <td><label>Ngày SX</label></td>
           <td><nz-date-picker [(ngModel)]="qaCard.date"></nz-date-picker></td>
-          <td><label>Ca làm việc</label></td>
+          <td><label>Ca</label></td>
           <td>
             <nz-select
               nzPlaceHolder="Shifts"
@@ -216,9 +223,27 @@
           </td>
         </tr>
         <tr>
-          <td><label>Marking</label></td>
-          <td><input nz-input [disabled]="true" /></td>
-          <td><label>Ghi chú</label></td>
+          <td><label>Customer</label></td>
+          <td>
+            <nz-select
+              style="width: 100%"
+              [nzMaxTagCount]="3"
+              nzMode="multiple"
+              nzPlaceHolder="Customers"
+              [nzMaxTagPlaceholder]="tagPlaceHolder"
+              [(ngModel)]="qaCard.customers"
+            >
+              <nz-option
+                *ngFor="let item of customers"
+                [nzLabel]="item.code"
+                [nzValue]="item.code"
+              ></nz-option>
+            </nz-select>
+            <ng-template #tagPlaceHolder let-selectedList
+            >and {{ selectedList.length }} more selected</ng-template
+          >
+          </td>
+          <td><label>Remark</label></td>
           <td>
             <input
               nz-input
@@ -255,8 +280,12 @@
       <table class="qa-card-label">
         <tbody>
           <tr>
-            <td style="text-align: center"><label>{{qaCardSelected?.lineCode}}</label></td>
-            <td style="text-align: center"><label>{{qaCardSelected?.shiftCode}}</label></td>
+            <td style="text-align: center">
+              <label>{{ qaCardSelected?.lineCode }}</label>
+            </td>
+            <td style="text-align: center">
+              <label>{{ qaCardSelected?.shiftCode }}</label>
+            </td>
             <td rowspan="3" style="text-align: center">
               <qrcode
                 [qrdata]="qaCardSelected?.lotNo"
@@ -272,12 +301,12 @@
           </tr>
           <tr>
             <td colspan="2" style="text-align: center">
-              <label style="color: green">{{qaCardSelected?.model}}</label>
+              <label style="color: green">{{ qaCardSelected?.model }}</label>
             </td>
           </tr>
           <tr>
             <td colspan="2" style="text-align: center">
-              <label>{{qaCardSelected?.date | date: "yyyy-MM-dd"}}</label>
+              <label>{{ qaCardSelected?.date | date : "yyyy-MM-dd" }}</label>
             </td>
           </tr>
         </tbody>
@@ -285,7 +314,13 @@
     </div>
   </ng-container>
   <div *nzModalFooter>
-    <button nz-button nzType="default" (click)="this.isOpenPrintQAModal = false">Đóng</button>
+    <button
+      nz-button
+      nzType="default"
+      (click)="this.isOpenPrintQAModal = false"
+    >
+      Đóng
+    </button>
     <button
       nz-button
       [nzType]="'primary'"

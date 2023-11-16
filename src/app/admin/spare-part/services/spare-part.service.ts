@@ -71,6 +71,13 @@ export class SparePartService {
   /**
    * Kiem ke
    */
+
+
+  getInventoryRequest(requestId: number): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/SparePart/Inventory/Request/${requestId}`);
+  }
+
+
   getInventoryData(requestId: number) : Observable<any> {
     return this.httpClient.get(`${this.baseUrl}/SparePart/Inventory/Data?requestId=${requestId}`);
   }

@@ -55,7 +55,7 @@
 
   <dxo-toolbar>
     <dxi-item location="before">
-      <span class="ivt-data" style="color: blue"> Dữ liệu kiểm kê : </span>
+      <span class="ivt-data" style="color: blue"> Dữ liệu kiểm kê : {{inventoryRequest?.inventoryDate | date: "MM-yyyy"}}</span>
     </dxi-item>
 
     <dxi-item name="exportButton"></dxi-item>
@@ -77,6 +77,14 @@
     dataType="date"
     format="yyyy-MM-dd HH:mm:ss"
   ></dxi-column>
+
+  <dxo-summary>
+    <dxi-total-item
+      column="totalPrice"
+      summaryType="sum"
+      valueFormat="#,##0"
+    ></dxi-total-item>
+  </dxo-summary>
 
   <dxo-paging [pageSize]="10"></dxo-paging>
   <dxo-pager

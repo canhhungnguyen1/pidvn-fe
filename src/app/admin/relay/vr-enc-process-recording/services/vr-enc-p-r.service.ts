@@ -35,6 +35,12 @@ export class VrEncPRService {
     );
   }
 
+  public getCustomers() : Observable<any> {
+    return this.httpClient.get(
+      `${this.baseUrl}/Relay/VrEncProcessRecording/Customers`
+    );
+  }
+
   public getQaCards(searchVo: any): Observable<any> {
     return this.httpClient.post(
       `${this.baseUrl}/Relay/VrEncProcessRecording/QaCards`,

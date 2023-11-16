@@ -28,13 +28,15 @@ export class VrEncPRQacardComponent implements OnInit {
     model: null,
     shift:null,
     remark: null,
-    userCode: null
+    userCode: null,
+    customers: []
   };
 
   lines: any;
   shifts: any;
   qaCards: any;
   models: any;
+  customers: any;
   date = null;
 
   isOpenModalLoading: boolean = false;
@@ -49,6 +51,7 @@ export class VrEncPRQacardComponent implements OnInit {
     this.getShifts();
     this.getLines(2);
     this.getModels();
+    this.getCustomers();
   }
 
   getLines(productId: number) {
@@ -62,6 +65,14 @@ export class VrEncPRQacardComponent implements OnInit {
     this.vrEncPRSvc.getShifts().subscribe(
       response => {
         this.shifts = response;
+      }
+    )
+  }
+
+  getCustomers() {
+    this.vrEncPRSvc.getCustomers().subscribe(
+      response => {
+        this.customers = response
       }
     )
   }
@@ -128,17 +139,30 @@ export class VrEncPRQacardComponent implements OnInit {
 
   openQACardModal() {
     this.isOpenQAModal = true;
+
+    this.qaCard = {
+      date: new Date(),
+      line: null,
+      model: null,
+      shift:null,
+      remark: null,
+      userCode: null,
+      customers: []
+    };
+
   }
 
   
   createQACard() {
-    // window.open('https://10.92.176.57:8080/label_prints.qa_card_request','_blank');
 
     let username = this.jwtHelperSvc.decodeToken(
       localStorage.getItem('accessToken')?.toString()
     ).Username;
 
     this.qaCard.userCode = username
+
+    console.log('QA Card: ', this.qaCard);
+    
 
     this.vrEncPRSvc.createQaCard(this.qaCard).subscribe(
       response => {
