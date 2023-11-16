@@ -65,12 +65,12 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {}
 
   getInventoryRequestById(requestId: number) {
-    this.pihInventorySvc.getInventoryRequestById(requestId).subscribe(
-      response => {
-        this.inventoryRequestInfo = response
+    this.pihInventorySvc
+      .getInventoryRequestById(requestId)
+      .subscribe((response) => {
+        this.inventoryRequestInfo = response;
         console.log('inventoryRequestInfo: ', this.inventoryRequestInfo);
-      }
-    )
+      });
   }
 
   getInventoryArea() {
@@ -125,6 +125,18 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
   onExportClient($event: any) {}
 
   openScanInventoryModal() {
+    
+    if (
+      new Date().getTime() >
+      new Date(this.inventoryRequestInfo.inventoryCloseDate).getTime()
+    ) {
+      this.toastr.warning(
+        `Đã quá thời hạn kiểm kê`,
+        `${this.userLoginName} ơi !`
+      );
+      return;
+    }
+
     /**
      * Kiểm tra phiếu đã quá thời gian kiểm kê chưa
      * Đang để lớn hơn 5 ngày sẽ không cho kiểm kê
@@ -304,7 +316,8 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
     console.log('inventoryAreaBanlanceSrch: ', this.inventoryAreaBalanceSrch);
 
     let inventoryCloseDate = this.inventoryRequestInfo.inventoryCloseDate;
-    let calculateTheoryDataDate = this.inventoryRequestInfo.calculateTheoryDataDate;
+    let calculateTheoryDataDate =
+      this.inventoryRequestInfo.calculateTheoryDataDate;
 
     let name = this.jwtHelperSvc
       .decodeToken(localStorage.getItem('accessToken')?.toString())

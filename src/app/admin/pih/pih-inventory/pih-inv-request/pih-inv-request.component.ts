@@ -49,6 +49,13 @@ export class PihInvRequestComponent implements OnInit {
     differenceInCalendarDays(current, this.today) < 0;
 
   openCreateRequestInventoryModal() {
+
+    if (this.jwt.Username != '3012852') {
+      this.toastr.warning('Bạn không có quyền tạo phiếu nhé',`${this.jwt.FullName.split(' ').reverse()[0]} ơi !`)
+      return;
+    }
+
+
     let currentDate = new Date().toJSON().slice(0, 10).replace(/-/g, '');
 
     this.ivtReq = `IVT-${currentDate}`;
