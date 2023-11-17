@@ -125,10 +125,14 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
   onExportClient($event: any) {}
 
   openScanInventoryModal() {
+
+    console.log('Now: ', new Date().getDay());
+    console.log('Close : ', new Date(this.inventoryRequestInfo.inventoryCloseDate).getDay());
     
+
     if (
-      new Date().getTime() >
-      new Date(this.inventoryRequestInfo.inventoryCloseDate).getTime()
+      new Date().getDay() >
+      new Date(this.inventoryRequestInfo.inventoryCloseDate).getDay()
     ) {
       this.toastr.warning(
         `Đã quá thời hạn kiểm kê`,
