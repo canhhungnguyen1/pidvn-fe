@@ -155,7 +155,7 @@
             </ul>
           </li>
           <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
-            <a routerLink="/admin/relay/relay-datecode">Quản lý Date Code</a>
+            <a routerLink="/admin/relay/relay-datecode" [queryParams]="{area: 'RELAY'}">Quản lý Date Code</a>
           </li>
           <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
             <a routerLink="/admin/relay/check-sheet/menu">Check Sheet</a>

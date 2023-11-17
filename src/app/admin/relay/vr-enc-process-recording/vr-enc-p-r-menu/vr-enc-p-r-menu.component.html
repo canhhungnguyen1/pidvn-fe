@@ -8,11 +8,12 @@
   <div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="6">
     <div
       class="item import"
-      routerLink="/admin/relay/vr-enc-process-recording/insert"
+      [routerLink]="['/admin/relay/relay-datecode']"
+      [queryParams]="{area: 'VR-ENC'}"
     >
-      <img src="./../../../../../../assets/images/scanner.png" alt="" />
-      <h6>Scan tem NVL</h6>
-      <h4>Scanner label</h4>
+      <img src="./../../../../../../assets/images/schedule.png" alt="" />
+      <h6>Nhập Date Code</h6>
+      <h4>Date Code Input</h4>
     </div>
   </div>
   <div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="6">

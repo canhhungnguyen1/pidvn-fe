@@ -126,10 +126,6 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
 
   openScanInventoryModal() {
 
-    console.log('Now: ', new Date().getDay());
-    console.log('Close : ', new Date(this.inventoryRequestInfo.inventoryCloseDate).getDay());
-    
-
     if (
       new Date().getDay() >
       new Date(this.inventoryRequestInfo.inventoryCloseDate).getDay()

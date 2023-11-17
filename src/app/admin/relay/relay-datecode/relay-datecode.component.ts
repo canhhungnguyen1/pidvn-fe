@@ -8,6 +8,7 @@ import {
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { ToastrService } from 'ngx-toastr';
 import { RelayDateCodeService } from './relay-datecode.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-relay-datecode',
@@ -22,7 +23,8 @@ export class RelayDatecodeComponent implements OnInit, AfterViewInit {
   constructor(
     private reDateCodeSvc: RelayDateCodeService,
     private jwtHelperSvc: JwtHelperService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   dateCodes: any;
@@ -52,9 +54,13 @@ export class RelayDatecodeComponent implements OnInit, AfterViewInit {
     date: new Date(),
     shift: null,
     customerCode: null,
+    recordType: null
   };
 
+  area: any;
+
   ngOnInit(): void {
+    this.area = this.activatedRoute.snapshot.queryParams['area'];
     this.getAllDateCode();
   }
 
@@ -78,8 +84,6 @@ export class RelayDatecodeComponent implements OnInit, AfterViewInit {
   test(event: any) {
     console.log('AAA : ', event);
   }
-
-  //qaCardSelected: any;
 
   /**
    * Scan QA card, lấy dữ liệu DateCode và Customer Code
@@ -129,20 +133,17 @@ export class RelayDatecodeComponent implements OnInit, AfterViewInit {
   }
 
   onSave() {
-    // if (!this.dateCodeSave.dateCode || !this.dateCodeSave.dateCode || !this.dateCodeSave.customerCode) {
-    //   this.toastr.warning('Cần nhập DateCode; CustomerCode; Qty','Warning')
-    //   return
-    // }
+  
 
-    if (!this.dateCodeSave.dateCode || !this.dateCodeSave.dateCode) {
+    if (!this.dateCodeSave.dateCode || !this.dateCodeSave.qty) {
       this.toastr.warning('Cần nhập DateCode; Qty', 'Warning');
       return;
     }
 
-    const regex = /[0-9](0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1])[A-Z][0-9]/;
+    let condition = this.isValidInputDateCode(this.area);
 
-    if (!regex.test(this.dateCodeSave.dateCode!)) {
-      this.toastr.warning('Date Code không đúng định dạng', 'Warning');
+    if (!condition.isValid) {
+      this.toastr.warning(`${condition.msg}`, 'Warning');
       return;
     }
 
@@ -157,8 +158,8 @@ export class RelayDatecodeComponent implements OnInit, AfterViewInit {
     this.dateCodeSave.line = this.qaCardInfo.line;
     this.dateCodeSave.shift = this.qaCardInfo.shift;
     this.dateCodeSave.date = new Date(this.qaCardInfo.date);
+    this.dateCodeSave.recordType = this.area
 
-    console.log('AAA: ', this.dateCodeSave);
 
     this.reDateCodeSvc.createDateCode(this.dateCodeSave).subscribe(
       (response) => {
@@ -174,6 +175,38 @@ export class RelayDatecodeComponent implements OnInit, AfterViewInit {
         this.isLoading = false;
       }
     );
+  }
+
+  private isValidInputDateCode(area: string) : any {
+
+    debugger
+
+    if (area === 'RELAY') {
+      const regex = /[0-9](0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1])[A-Z][0-9]/;
+      if (!regex.test(this.dateCodeSave.dateCode!)) {
+
+        let result = {
+          isValid: false,
+          msg: 'Date Code không đúng định dạng'
+        }
+        return result;
+      }
+    }
+
+    if (area === 'VR-ENC') {
+      
+    }
+
+
+
+
+
+
+    let result = {
+      isValid: true,
+      msg: 'Date Code hợp lệ'
+    }
+    return result;
   }
 
   resetModal() {
