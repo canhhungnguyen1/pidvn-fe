@@ -163,7 +163,7 @@
                       [(ngModel)]="dateCodeSave.dateCode"
                       (ngModelChange)="onChangeDateCode($event)"
                       (click)="dateCodeIpt.select()"
-                      maxlength="7"
+                      [maxlength]="area === 'RELAY' ? 7 : 20"
                     />
                   </td>
                 </tr>
