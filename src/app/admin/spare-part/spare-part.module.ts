@@ -26,6 +26,7 @@ import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { QRCodeModule } from 'angularx-qrcode';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
     NzPopconfirmModule,
     NzRadioModule,
     NzUploadModule,
-    NzDatePickerModule
+    NzDatePickerModule,
+    QRCodeModule
   ],
 })
 export class SparePartModule {}

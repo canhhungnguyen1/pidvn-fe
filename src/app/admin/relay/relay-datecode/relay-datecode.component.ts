@@ -163,7 +163,7 @@ export class RelayDatecodeComponent implements OnInit, AfterViewInit {
 
     this.reDateCodeSvc.createDateCode(this.dateCodeSave).subscribe(
       (response) => {
-        this.toastr.success('Thêm Date Code thành công', 'OK');
+        this.toastr.success('Nhập Date Code thành công', 'OK');
         this.resetModal();
         this.getDateCodes(this.qaCardInfo.value);
         this.isOpenModal = false;
@@ -171,7 +171,6 @@ export class RelayDatecodeComponent implements OnInit, AfterViewInit {
       },
       (error) => {
         this.resetModal();
-        this.isLoading = false;
         this.isLoading = false;
       }
     );

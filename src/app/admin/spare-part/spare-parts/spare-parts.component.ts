@@ -17,8 +17,10 @@ export class SparePartsComponent implements OnInit {
 
   spareParts: any
   isOpenAddSparePartModal: boolean = false
+  isOpenPrintQRModal: boolean = false
   isConfirmLoading: boolean = false
   sparePartCreate: any = {}
+  sparePartSelected: any
 
   ngOnInit(): void {
     this.getSpareParts();
@@ -48,9 +50,6 @@ export class SparePartsComponent implements OnInit {
   }
 
   onCreateSparePart() {
-
-
-
     this.sparePartSvc.saveSparePart(this.sparePartCreate).subscribe(
       response => {
           this.getSpareParts();
@@ -58,7 +57,13 @@ export class SparePartsComponent implements OnInit {
           this.toastr.success('Success','OK')
       }
     )
+  }
 
+  openPrintQRModal(item: any) {
+    this.isOpenPrintQRModal = true
+    this.sparePartSelected = item.data
+    console.log('AAA: ', this.sparePartSelected);
+    
   }
 
 }

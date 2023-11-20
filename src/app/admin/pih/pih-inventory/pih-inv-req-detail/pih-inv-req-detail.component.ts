@@ -126,10 +126,8 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
 
   openScanInventoryModal() {
 
-    if (
-      new Date().getDay() >
-      new Date(this.inventoryRequestInfo.inventoryCloseDate).getDay()
-    ) {
+    let conditionScanInventory = new Date(this.inventoryRequestInfo.inventoryCloseDate).getDay() - new Date().getDay() 
+    if (conditionScanInventory < 0) {
       this.toastr.warning(
         `Đã quá thời hạn kiểm kê`,
         `${this.userLoginName} ơi !`
@@ -142,17 +140,17 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
      * Đang để lớn hơn 5 ngày sẽ không cho kiểm kê
      */
 
-    let reqDateStr = this.requestNo.split('-')[1];
-    let pattern = /(\d{4})(\d{2})(\d{2})/;
-    let reqDate = new Date(reqDateStr.replace(pattern, '$1-$2-$3'));
-    let curDate = new Date();
-    const diffTime = Math.abs(reqDate.getTime() - curDate.getTime());
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    // let reqDateStr = this.requestNo.split('-')[1];
+    // let pattern = /(\d{4})(\d{2})(\d{2})/;
+    // let reqDate = new Date(reqDateStr.replace(pattern, '$1-$2-$3'));
+    // let curDate = new Date();
+    // const diffTime = Math.abs(reqDate.getTime() - curDate.getTime());
+    // const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-    if (diffDays > 15) {
-      this.toastr.warning('Đã quá thời gian kiểm kê', 'Warning');
-      return;
-    }
+    // if (diffDays > 15) {
+    //   this.toastr.warning('Đã quá thời gian kiểm kê', 'Warning');
+    //   return;
+    // }
     this.inventoryArea = null;
     this.isOpenScanInventoryModal = true;
 
