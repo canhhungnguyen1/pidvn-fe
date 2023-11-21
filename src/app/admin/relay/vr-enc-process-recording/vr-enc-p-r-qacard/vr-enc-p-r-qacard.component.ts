@@ -23,10 +23,13 @@ export class VrEncPRQacardComponent implements OnInit {
   }
 
   qaCard = {
+    id: null,
     date: new Date(),
     line: null,
+    lineCode: null,
     model: null,
     shift:null,
+    shiftCode: null,
     remark: null,
     userCode: null,
     customers: []
@@ -137,18 +140,41 @@ export class VrEncPRQacardComponent implements OnInit {
     });
   }
 
-  openQACardModal() {
+  isEditMode: boolean = true;
+  openQACardModal(item: any) {
+
+
+    if (!item) {
+      this.isEditMode = false;
+      // Trường hợp thêm mới 
+
+      this.qaCard = {
+        id: null,
+        date: new Date(),
+        line: null,
+        lineCode: null,
+        model: null,
+        shift:null,
+        shiftCode: null,
+        remark: null,
+        userCode: null,
+        customers: []
+      };
+
+    }else {
+      this.isEditMode = true;
+      // Trường hợp update
+
+      let obj = {...this.qaCard, ...item.data, ...{customers: item.data.customerCode.split(';')}}
+      this.qaCard = obj
+
+    }
+
+    console.log('QA card: ', this.qaCard);
+    
+
     this.isOpenQAModal = true;
 
-    this.qaCard = {
-      date: new Date(),
-      line: null,
-      model: null,
-      shift:null,
-      remark: null,
-      userCode: null,
-      customers: []
-    };
 
   }
 
@@ -171,7 +197,7 @@ export class VrEncPRQacardComponent implements OnInit {
         } else if (response.result == 'OK') {
           this.isOpenQAModal = false
           // EVQV5502715B*GMT-3*2022-11-24*A10*001 
-          this.searchVo.line = this.qaCard.line;
+          this.searchVo.line = this.qaCard.lineCode;
           this.searchVo.date = this.qaCard.date;
           this.searchVo.model = this.qaCard.model
 
@@ -214,6 +240,12 @@ export class VrEncPRQacardComponent implements OnInit {
 
   printQRCard() {
     
+  }
+
+  onCustomerClicked(item: any) {
+    this.qaCardSelected = item.data
+    this.isOpenQAModal = true
+
   }
 
 }

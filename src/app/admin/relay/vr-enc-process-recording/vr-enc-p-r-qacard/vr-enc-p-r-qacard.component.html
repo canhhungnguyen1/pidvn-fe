@@ -68,7 +68,7 @@
             [nzSize]="'large'"
             nzType="primary"
             style="background: green; margin-left: 5px"
-            (click)="openQACardModal()"
+            (click)="openQACardModal(null)"
           >
             Tạo QA card
           </button>
@@ -94,7 +94,14 @@
   <dxi-column dataField="line" caption="Line"></dxi-column>
   <dxi-column dataField="model" caption="Product"></dxi-column>
   <dxi-column dataField="shift" caption="Shift"></dxi-column>
-  <dxi-column dataField="customerCode" caption="Customer"></dxi-column>
+  <dxi-column caption="Customer" cellTemplate="customerCodeTemplate">
+  </dxi-column>
+  <div
+    *dxTemplate="let item of 'customerCodeTemplate'"
+    (click)="openQACardModal(item)"
+  >
+    {{ item.data.customerCode }}
+  </div>
   <dxi-column
     dataField="date"
     dataType="date"
@@ -164,13 +171,13 @@
   <div *nzModalFooter></div>
 </nz-modal>
 
-<nz-modal [(nzVisible)]="isOpenQAModal" nzTitle="Tạo QA card" nzWidth="750px">
+<nz-modal [(nzVisible)]="isOpenQAModal" [nzTitle]="isEditMode ? 'Cập nhật QA Card' : 'Tạo mới QA Card'" nzWidth="750px">
   <ng-container *nzModalContent>
     <nz-table [nzData]="['']" nzBordered nzFrontPagination="false">
       <tbody>
         <tr>
           <td><label>Ngày SX</label></td>
-          <td><nz-date-picker [(ngModel)]="qaCard.date"></nz-date-picker></td>
+          <td><nz-date-picker [(ngModel)]="qaCard.date" [nzDisabled]="isEditMode"></nz-date-picker></td>
           <td><label>Ca</label></td>
           <td>
             <nz-select
@@ -178,6 +185,8 @@
               [(ngModel)]="qaCard.shift"
               nzAllowClear
               nzShowSearch
+              [(ngModel)]="qaCard.shiftCode"
+              [nzDisabled]="isEditMode"
             >
               <nz-option
                 *ngFor="let shift of shifts"
@@ -193,9 +202,10 @@
           <td>
             <nz-select
               nzPlaceHolder="Line"
-              [(ngModel)]="qaCard.line"
+              [(ngModel)]="qaCard.lineCode"
               nzAllowClear
               nzShowSearch
+              [nzDisabled]="isEditMode"
             >
               <nz-option
                 *ngFor="let line of lines"
@@ -212,6 +222,7 @@
               [(ngModel)]="qaCard.model"
               nzAllowClear
               nzShowSearch
+              [nzDisabled]="isEditMode"
             >
               <nz-option
                 *ngFor="let model of models"
@@ -239,9 +250,10 @@
                 [nzValue]="item.code"
               ></nz-option>
             </nz-select>
-            <ng-template #tagPlaceHolder let-selectedList
-            >and {{ selectedList.length }} more selected</ng-template
-          >
+            <ng-template #tagPlaceHolder let-selectedList>
+              and {{ selectedList.length }}
+              more selected
+            </ng-template>
           </td>
           <td><label>Remark</label></td>
           <td>
@@ -249,6 +261,7 @@
               nz-input
               placeholder="Nhập ghi chú"
               [(ngModel)]="qaCard.remark"
+              [disabled]="isEditMode"
             />
           </td>
         </tr>
@@ -270,7 +283,7 @@
   </ng-container>
   <div *nzModalFooter>
     <button nz-button nzType="default" (click)="cancelQACard()">Hủy</button>
-    <button nz-button nzType="primary" (click)="createQACard()">Tạo mới</button>
+    <button nz-button nzType="primary" (click)="createQACard()"> {{isEditMode ? 'Cập nhật' : 'Tạo mới'}} </button>
   </div>
 </nz-modal>
 
