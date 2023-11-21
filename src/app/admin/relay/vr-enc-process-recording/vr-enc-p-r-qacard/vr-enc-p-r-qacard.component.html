@@ -100,7 +100,7 @@
     *dxTemplate="let item of 'customerCodeTemplate'"
     (click)="openQACardModal(item)"
   >
-    {{ item.data.customerCode }}
+    {{ item.data.customerCode ? item.data.customerCode : "Chưa chọn mã" }}
   </div>
   <dxi-column
     dataField="date"
