@@ -120,17 +120,31 @@ export class SparePartInOutComponent implements OnInit {
 
   scanUserCode(event: any) {
     this.userCode = event.target.value;
-    this.sparePartQrCodeIpt.nativeElement.focus();
+
+    if (this.userCode.length < 7) {
+      this.toastr.warning('Cần scan mã nhân viên','Warning')
+      this.userCodeIpt.nativeElement.select();
+      return;
+    }
+
+
+    this.sparePartQrCodeIpt.nativeElement.select();
   }
 
   scanSparePartQrCode(event: any) {
+    if (this.userCode === undefined || this.userCode === '') {
+      this.toastr.warning('Cần scan mã nhân viên','Warning')
+      this.userCodeIpt.nativeElement.select();
+      return
+    }
+
     let obj = Object.assign({
       whUserCode: this.whUserCode,
       date: new Date(),
       receiveUserCode: this.recordType == 'OUT' ? this.userCode : null,
       partNumber: event.target.value.trim(),
       recordType: this.recordType,
-      qty: 0,
+      qty: 1,
       line: '',
       machine: '',
       type: this.recordType,

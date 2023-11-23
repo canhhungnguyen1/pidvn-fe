@@ -113,7 +113,7 @@
 <nz-modal
   [(nzVisible)]="isOpenOutputSparePartModal"
   nzTitle="Xuất kho Spare Part"
-  nzWidth="1100px"
+  nzWidth="1300px"
 >
   <ng-container *nzModalContent>
     <nz-table
@@ -220,9 +220,20 @@
           >
           </dxo-lookup>
         </dxi-column>
+        <dxi-column dataField="purpose" caption="Mục đích">
+          <dxo-lookup
+            [dataSource]="machines"
+            displayExpr="name"
+            valueExpr="name"
+          >
+          </dxo-lookup>
+        </dxi-column>
+
+
+
         <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
 
-        <!-- <dxi-column
+        <dxi-column
           caption="Action"
           cellTemplate="actionTemplate"
           [fixed]="true"
@@ -234,7 +245,7 @@
           >
             <a style="color: red"> Xóa </a>
           </div>
-        </dxi-column> -->
+        </dxi-column>
 
         <dxo-paging [pageSize]="10"></dxo-paging>
         <dxo-pager
