@@ -5,7 +5,7 @@ import {
   HTTP_INTERCEPTORS,
 } from '@angular/common/http';
 import vi from '@angular/common/locales/vi';
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -19,6 +19,7 @@ import { AppComponent } from './app.component';
 import { IconsProviderModule } from './icons-provider.module';
 import { HttpErrorInterceptor } from './interceptors/http-error.interceptor';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
+import { PowerBIEmbedModule } from 'powerbi-client-angular';
 
 export function rootLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -34,6 +35,7 @@ registerLocaleData(vi);
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    PowerBIEmbedModule,
     ToastrModule.forRoot(),
     IconsProviderModule,
     TranslateModule.forRoot({
@@ -63,5 +65,6 @@ registerLocaleData(vi);
     },
   ],
   bootstrap: [AppComponent],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
 })
 export class AppModule {}

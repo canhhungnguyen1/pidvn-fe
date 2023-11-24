@@ -31,6 +31,7 @@ export class PihInvRequestComponent implements OnInit {
   remark: any;
   calculateTheoryDataDate: any;
   inventoryCloseDate: any;
+  inventoryType: any;
 
   ngOnInit(): void {
     this.jwt = this.jwtHelperSvc.decodeToken(
@@ -72,14 +73,26 @@ export class PihInvRequestComponent implements OnInit {
   }
 
   createInventoryRequest() {
-    this.isLoading = true;
+    
     let obj = {
       reqNo: this.ivtReq,
       createdBy: this.jwt.Username,
       remark: this.remark,
       calculateTheoryDataDate: this.calculateTheoryDataDate,
       inventoryCloseDate: this.inventoryCloseDate,
+      inventoryType: this.inventoryType
     };
+
+    let name = this.jwtHelperSvc.decodeToken(
+      localStorage.getItem('accessToken')?.toString()
+    ).FullName.split(' ').reverse()[0]
+
+    if (!obj.inventoryType || !obj.calculateTheoryDataDate || !obj.inventoryCloseDate) {
+      this.toastr.warning('Cần nhập các trường bắt buộc',`${name} ơi`)
+      return;
+    }   
+    
+    this.isLoading = true;
 
     this.pihInventorySvc.createInventoryRequest(obj).subscribe(
       (response) => {

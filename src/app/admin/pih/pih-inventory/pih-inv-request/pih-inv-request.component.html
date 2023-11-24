@@ -79,6 +79,15 @@
           <td>{{ jwt.FullName }} - {{ jwt.Username }}</td>
         </tr>
         <tr>
+          <td><label>Loại kiểm kê</label><span style="color: red">*</span></td>
+          <td>
+            <nz-radio-group [(ngModel)]="inventoryType">
+              <label nz-radio nzValue="week">Tuần</label>
+              <label nz-radio nzValue="month">Tháng</label>
+            </nz-radio-group>
+          </td>
+        </tr>
+        <tr>
           <td>
             <label>Ngày chốt kiểm kê</label><span style="color: red">*</span>
           </td>

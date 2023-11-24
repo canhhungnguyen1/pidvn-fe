@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
@@ -10,6 +10,7 @@ import { DashboardTraceabilityComponent } from './dashboard-traceability/dashboa
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzTableModule } from 'ng-zorro-antd/table';
+import { PowerBIEmbedModule } from 'powerbi-client-angular';
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -19,11 +20,14 @@ import { NzTableModule } from 'ng-zorro-antd/table';
   imports: [
     CommonModule,
     DashboardRoutingModule,
+    PowerBIEmbedModule,
     NzTimelineModule,
     NzIconModule,
     NzGridModule,
     NzCollapseModule,
     NzTableModule
   ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
+  providers: []
 })
 export class DashboardModule {}
