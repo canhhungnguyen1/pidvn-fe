@@ -88,7 +88,7 @@ export class PihInvRequestComponent implements OnInit {
     ).FullName.split(' ').reverse()[0]
 
     if (!obj.inventoryType || !obj.calculateTheoryDataDate || !obj.inventoryCloseDate) {
-      this.toastr.warning('Cần nhập các trường bắt buộc',`${name} ơi`)
+      this.toastr.warning('Cần nhập các trường bắt buộc nhé',`Bạn ${name} ơi!`)
       return;
     }   
     
