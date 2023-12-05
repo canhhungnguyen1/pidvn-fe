@@ -18,12 +18,15 @@ export class HrMealSummaryComponent implements OnInit {
     private jwtHelperService: JwtHelperService
   ) {}
 
+  date = null;
   mealRecords: any;
   mealRecordsSummary: any;
   searchParams = {
     timeLogRange: [new Date(), new Date()],
     dateRange: [new Date(), new Date()],
   };
+
+  balanceData: any;
 
   ngOnInit(): void {
     let date = new Date();
@@ -34,7 +37,7 @@ export class HrMealSummaryComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.onSearch();
+    // this.onSearch();
   }
 
   onSearch() {
@@ -59,5 +62,20 @@ export class HrMealSummaryComponent implements OnInit {
         this.mealRecordsSummary = response.recordsSummary;
         this.timeLogGrid.instance.endCustomLoading();
       });
+  }
+
+  isOpenBalanceModal: boolean = false
+  openBalanceModal() {
+    this.isOpenBalanceModal = true;
+
+    this.hrMealMngSvc.getBalance().subscribe(
+      response => {
+        this.balanceData = response
+      }
+    )
+  }
+
+  onChange(result: Date): void {
+    console.log('onChange: ', result);
   }
 }

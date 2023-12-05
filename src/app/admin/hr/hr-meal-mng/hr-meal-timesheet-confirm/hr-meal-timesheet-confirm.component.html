@@ -1,0 +1,48 @@
+<nz-collapse>
+  <nz-collapse-panel nzHeader="Panel" [nzActive]="true" [nzShowArrow]="true">
+    <nz-space>
+      <button *nzSpaceItem nz-button nzType="primary">
+        Xác nhận time sheet
+      </button>
+      <button *nzSpaceItem nz-button nzType="default">Upload trợ cấp</button>
+    </nz-space>
+  </nz-collapse-panel>
+</nz-collapse>
+
+<nz-tabset>
+  <nz-tab nzTitle="Dữ liệu tổng hợp">
+    <dx-data-grid
+      #timeLogGrid
+      [dataSource]="[]"
+      keyExpr="rowNum"
+      [remoteOperations]="false"
+      [allowColumnReordering]="true"
+      [rowAlternationEnabled]="true"
+      [allowColumnResizing]="true"
+      [columnAutoWidth]="true"
+      [showColumnLines]="true"
+      [showRowLines]="true"
+      [showBorders]="true"
+    >
+      <dxo-filter-row [visible]="true"></dxo-filter-row>
+      <dxo-export [enabled]="true"></dxo-export>
+      <dxo-column-chooser #columnChooser [enabled]="true" [mode]="'select'">
+      </dxo-column-chooser>
+      <dxo-toolbar>
+        <dxi-item location="before">
+            <nz-space>
+                <nz-date-picker *nzSpaceItem nzMode="month"></nz-date-picker>
+                <button *nzSpaceItem nz-button nzType="primary">Search</button>
+            </nz-space>
+          
+        </dxi-item>
+      </dxo-toolbar>
+
+      <dxi-column dataField="codeEmp" caption="Mã nhân viên"></dxi-column>
+      <dxi-column dataField="profileName" caption="Họ tên"></dxi-column>
+      <dxi-column dataField="ticketAmount" caption="Số lượng vé"></dxi-column>
+      <dxi-column dataField="recordType" caption="Loại"></dxi-column>
+      <dxi-column dataField="month" caption="Month"></dxi-column>
+    </dx-data-grid>
+  </nz-tab>
+</nz-tabset>

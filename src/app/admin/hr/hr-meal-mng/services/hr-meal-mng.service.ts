@@ -14,4 +14,10 @@ export class HrMealMngService {
     return this.httpClient.post(`${this.baseUrl}/HR/Meal/MealRecords`, searchVo);
   }
 
+  public getBalance(): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/HR/Meal/Balance`);
+  }
+
+
+
 }

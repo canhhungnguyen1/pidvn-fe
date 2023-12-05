@@ -48,6 +48,18 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
   userLoginName: any;
   inventoryRequestInfo: any;
 
+
+
+  /**
+   * Các variable phần kiểm kê nvl thô
+   */
+  isOpenRawMaterialInventoryModal: boolean = false;
+  isLoadingGetRawMaterialInventory: boolean = false;
+  rawMaterialInventory: any;
+
+
+
+
   ngOnInit(): void {
     this.userLoginName = this.jwtHelperSvc
       .decodeToken(localStorage.getItem('accessToken')?.toString())
@@ -344,5 +356,38 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
         );
       }
     }
+  }
+
+
+
+
+  /**
+   * Kiểm kê nvl thô
+   */
+
+
+  openRawMaterialInventoryModal() {
+    this.isOpenRawMaterialInventoryModal = true;
+  }
+
+
+  handleUploadRawMaterialInventoryData(event: any) {
+    console.log('AAA: ', event);
+    
+  }
+
+
+
+  getRawMaterialInventoryData() {
+    this.isLoadingGetRawMaterialInventory = true;
+    this.pihInventorySvc.getRawMaterialInventoryData(this.requestId).subscribe(
+      response => {
+        this.rawMaterialInventory = response
+        this.isLoadingGetRawMaterialInventory = false;
+      },
+      error => {
+        this.isLoadingGetRawMaterialInventory = false;
+      }
+    )
   }
 }

@@ -35,6 +35,14 @@
           </button>
         </div>
       </div>
+      <div nz-col nzXs="12" nzSm="12" nzLg="5">
+        <label nzXs="24" nzSm="24" nzLg="24">&nbsp;</label>
+        <div nzXs="24" nzSm="24" nzLg="24">
+          <button nz-button nzType="primary" (click)="openBalanceModal()">
+            Chênh lệch vé ăn
+          </button>
+        </div>
+      </div>
     </div>
   </nz-collapse-panel>
 </nz-collapse>
@@ -59,6 +67,12 @@
       <dxo-column-chooser #columnChooser [enabled]="true" [mode]="'select'">
       </dxo-column-chooser>
 
+      <dxo-toolbar>
+        <dxi-item location="before">
+          
+        </dxi-item>
+      </dxo-toolbar>
+
       <dxi-column dataField="rowNum" caption="STT"></dxi-column>
       <dxi-column dataField="codeEmp" caption="Mã nhân viên"></dxi-column>
       <dxi-column dataField="profileName" caption="Họ tên"></dxi-column>
@@ -78,10 +92,7 @@
       ></dxi-column>
       <dxi-column dataField="lineCode" caption="Line Code"></dxi-column>
       <dxi-column dataField="lineName" caption="Line Name"></dxi-column>
-      <dxi-column
-        dataField="orgStructureName"
-        caption="Bộ phận"
-      ></dxi-column>
+      <dxi-column dataField="orgStructureName" caption="Bộ phận"></dxi-column>
 
       <dxo-paging [pageSize]="50"></dxo-paging>
       <dxo-pager
@@ -136,3 +147,32 @@
     </dx-data-grid>
   </nz-tab>
 </nz-tabset>
+
+<nz-modal [(nzVisible)]="isOpenBalanceModal" nzTitle="Chênh lệch" nzWidth="750px">
+  <ng-container *nzModalContent>
+    <nz-date-picker nzMode="month" [(ngModel)]="date" (ngModelChange)="onChange($event)"></nz-date-picker>
+    <dx-data-grid
+      [dataSource]="balanceData"
+      keyExpr="codeEmp"
+      [remoteOperations]="false"
+      [allowColumnReordering]="true"
+      [rowAlternationEnabled]="true"
+      [allowColumnResizing]="true"
+      [columnAutoWidth]="true"
+      [showColumnLines]="true"
+      [showRowLines]="true"
+      [showBorders]="true"
+    >
+      <dxo-filter-row [visible]="true"></dxo-filter-row>
+      <dxo-export [enabled]="true"></dxo-export>
+      <dxo-column-chooser #columnChooser [enabled]="true" [mode]="'select'">
+      </dxo-column-chooser>
+
+      <dxi-column dataField="codeEmp" caption="User"></dxi-column>
+      <dxi-column dataField="profileName" caption="Name"></dxi-column>
+      <dxi-column dataField="ticketTimeSheet" caption="Time Sheet"></dxi-column>
+      <dxi-column dataField="ticketActual" caption="Actual"></dxi-column>
+      
+    </dx-data-grid>
+  </ng-container>
+</nz-modal>

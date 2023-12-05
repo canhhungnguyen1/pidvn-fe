@@ -71,4 +71,12 @@ export class PihInventoryService {
       `${this.baseUrl}/PIH/Inventory/Balance?requestId=${requestId}&inventoryArea=${inventoryArea}`
     );
   }
+
+
+
+  getRawMaterialInventoryData(requestId: any) {
+    return this.httpClient.get(
+      `${this.baseUrl}/PIH/Inventory/RawMaterialInventoryData?requestId=${requestId}`
+    );
+  }
 }

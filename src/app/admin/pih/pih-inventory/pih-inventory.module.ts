@@ -19,6 +19,8 @@ import { PihInventoryComponent } from './pih-inventory.component';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,9 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
     DxChartModule,
     NzSelectModule,
     NzDatePickerModule,
-    NzRadioModule
+    NzRadioModule,
+    NzUploadModule,
+    NzSpaceModule
   ],
 })
 export class PihInventoryModule {}
