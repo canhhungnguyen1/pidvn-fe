@@ -242,7 +242,14 @@
             >
               Upload dữ liệu kiểm kê
             </button>
-            <button *nzSpaceItem nz-button [nzLoading]="isLoadingGetRawMaterialInventory" (click)="getRawMaterialInventoryData()">Check Data</button>
+            <button
+              *nzSpaceItem
+              nz-button
+              [nzLoading]="isLoadingGetRawMaterialInventory"
+              (click)="getRawMaterialInventoryData()"
+            >
+              Check Data
+            </button>
           </nz-space>
         </dxi-item>
 
@@ -499,16 +506,31 @@
   nzWidth="750px"
 >
   <ng-container *nzModalContent>
-    <nz-upload
-      nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-      [nzHeaders]="{ authorization: 'authorization-text' }"
-      (nzChange)="handleUploadRawMaterialInventoryData($event)"
-    >
-      <button nz-button>
-        <span nz-icon nzType="upload"></span>
-        Click to Upload
-      </button>
-    </nz-upload>
+    <nz-table #basicTable [nzData]="['']" nzFrontPagination="false" nzBordered>
+      <thead>
+        <tr>
+          <th>
+            <nz-upload
+              [nzAction]="apiUploadExcelRawMaterialInventory"
+              [nzHeaders]="{ authorization: 'authorization-text' }"
+              [nzShowUploadList]="{
+                showPreviewIcon: false,
+                showRemoveIcon: false,
+                showDownloadIcon: false
+              }"
+            >
+              <button nz-button>
+                <span nz-icon nzType="upload"></span>
+                Upload dữ liệu kiểm kê NVL thô
+              </button>
+            </nz-upload>
+          </th>
+          <th>
+            <button nz-button nzType="primary" (click)="downloadTemplateUploadRawMaterialInventory()">Download Template</button>
+          </th>
+        </tr>
+      </thead>
+    </nz-table>
   </ng-container>
   <div *nzModalFooter>
     <button

@@ -73,10 +73,23 @@ export class PihInventoryService {
   }
 
 
+  /**
+   * 
+   * 
+   */
+
 
   getRawMaterialInventoryData(requestId: any) {
     return this.httpClient.get(
       `${this.baseUrl}/PIH/Inventory/RawMaterialInventoryData?requestId=${requestId}`
+    );
+  }
+
+  public downloadTemplateUploadRawMaterialInventory(): Observable<any> {
+    return this.httpClient.post(
+      `${this.baseUrl}/PIH/Inventory/DownloadTemplateUploadRawMaterialInventory`,
+      {},
+      { responseType: 'blob' }
     );
   }
 }

@@ -10,6 +10,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { DxDataGridComponent } from 'devextreme-angular';
 import { ToastrService } from 'ngx-toastr';
 import { PihInventoryService } from '../services/pih-inventory.service';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-pih-inv-req-detail',
   templateUrl: './pih-inv-req-detail.component.html',
@@ -27,6 +28,8 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
     private pihInventorySvc: PihInventoryService,
     private jwtHelperSvc: JwtHelperService
   ) {}
+
+  baseUrl = environment.baseUrl;
 
   requestId: any;
   requestNo: any;
@@ -57,7 +60,7 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
   isLoadingGetRawMaterialInventory: boolean = false;
   rawMaterialInventory: any;
 
-
+  apiUploadExcelRawMaterialInventory: any;
 
 
   ngOnInit(): void {
@@ -72,6 +75,9 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
     this.getInventoryData(this.requestId);
     this.getInventoryArea();
     this.getInventoryRequestById(this.requestId);
+
+
+    this.apiUploadExcelRawMaterialInventory = `${this.baseUrl}/PIH/Inventory/UploadRawMaterialInventoryData?requestId=${this.requestId}`
   }
 
   ngAfterViewInit(): void {}
@@ -232,6 +238,7 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
         lotNo: lotNo.toUpperCase(),
         partNo: partNo.toUpperCase(),
         qty: qty,
+        date: new Date(),
         requestId: this.requestId,
         inventoryArea: this.inventoryArea,
       };
@@ -254,6 +261,7 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
           lotNo: lotNo,
           partNo: data.model,
           qty: data.qty,
+          date: new Date(),
           requestId: this.requestId,
           inventoryArea: this.inventoryArea,
         };
@@ -370,13 +378,31 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
     this.isOpenRawMaterialInventoryModal = true;
   }
 
-
-  handleUploadRawMaterialInventoryData(event: any) {
-    console.log('AAA: ', event);
-    
+  downloadTemplateUploadRawMaterialInventory() {
+    this.pihInventorySvc.downloadTemplateUploadRawMaterialInventory().subscribe(
+      response => {
+        console.log(response);
+      const blob = new Blob([response], {
+        // type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      });
+      const data = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = data;
+      link.download = `TemplateRawMaterialInventoryData.xlsx`;
+      link.dispatchEvent(
+        new MouseEvent('click', {
+          bubbles: true,
+          cancelable: true,
+          view: window,
+        })
+      );
+      setTimeout(() => {
+        window.URL.revokeObjectURL(data);
+        link.remove();
+      }, 100);
+      }
+    )
   }
-
-
 
   getRawMaterialInventoryData() {
     this.isLoadingGetRawMaterialInventory = true;
