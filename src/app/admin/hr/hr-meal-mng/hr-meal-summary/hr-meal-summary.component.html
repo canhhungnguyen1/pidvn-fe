@@ -68,9 +68,7 @@
       </dxo-column-chooser>
 
       <dxo-toolbar>
-        <dxi-item location="before">
-          
-        </dxi-item>
+        <dxi-item location="before"> </dxi-item>
       </dxo-toolbar>
 
       <dxi-column dataField="rowNum" caption="STT"></dxi-column>
@@ -148,10 +146,14 @@
   </nz-tab>
 </nz-tabset>
 
-<nz-modal [(nzVisible)]="isOpenBalanceModal" nzTitle="Chênh lệch" nzWidth="750px">
+<nz-modal
+  [(nzVisible)]="isOpenBalanceModal"
+  nzTitle="Chênh lệch"
+  nzWidth="1350px"
+>
   <ng-container *nzModalContent>
-    <nz-date-picker nzMode="month" [(ngModel)]="date" (ngModelChange)="onChange($event)"></nz-date-picker>
     <dx-data-grid
+      #balanceGrid
       [dataSource]="balanceData"
       keyExpr="codeEmp"
       [remoteOperations]="false"
@@ -163,16 +165,81 @@
       [showRowLines]="true"
       [showBorders]="true"
     >
+      <dxo-toolbar>
+        <dxi-item location="before">
+          <nz-space>
+            <nz-date-picker
+              style="height: 32px"
+              *nzSpaceItem
+              nzMode="month"
+              [(ngModel)]="date"
+              (ngModelChange)="onChangeMonthBalance($event)"
+            ></nz-date-picker>
+            <button
+              *nzSpaceItem
+              nz-button
+              nzType="default"
+              (click)="getBalance()"
+            >
+              <span nz-icon nzType="search"></span>
+              Search
+            </button>
+          </nz-space>
+        </dxi-item>
+
+        <dxi-item name="exportButton" location="after" />
+      </dxo-toolbar>
       <dxo-filter-row [visible]="true"></dxo-filter-row>
       <dxo-export [enabled]="true"></dxo-export>
       <dxo-column-chooser #columnChooser [enabled]="true" [mode]="'select'">
       </dxo-column-chooser>
 
-      <dxi-column dataField="codeEmp" caption="User"></dxi-column>
+      <dxi-column dataField="codeEmp" caption="Mã nhân viên"></dxi-column>
       <dxi-column dataField="profileName" caption="Name"></dxi-column>
-      <dxi-column dataField="ticketTimeSheet" caption="Time Sheet"></dxi-column>
-      <dxi-column dataField="ticketActual" caption="Actual"></dxi-column>
-      
+      <dxi-column
+        dataField="veChinhTheory"
+        caption="Vé Chính (Lý Thuyết)"
+      ></dxi-column>
+      <dxi-column
+        dataField="veChinhActual"
+        caption="Vé Chính (Thực tế)"
+      ></dxi-column>
+
+      <dxi-column
+        dataField="vePhuTheory"
+        caption="Vé Phụ (Lý Thuyết)"
+      ></dxi-column>
+      <dxi-column
+        dataField="vePhuActual"
+        caption="Vé Phụ (Thực tế)"
+      ></dxi-column>
+
+      <dxi-column
+        dataField="veChinhBalance"
+        caption="Vé chính (Chênh lệnh)"
+      ></dxi-column>
+      <dxi-column
+        dataField="vePhuBalance"
+        caption="Vé phụ (Chênh lệnh)"
+      ></dxi-column>
+
+      <dxo-paging [pageSize]="10"></dxo-paging>
+      <dxo-pager
+        [showPageSizeSelector]="true"
+        [allowedPageSizes]="[10, 25, 50, 100]"
+      >
+      </dxo-pager>
     </dx-data-grid>
   </ng-container>
+
+  <div *nzModalFooter>
+    
+    <button
+      nz-button
+      nzType="primary"
+      (click)="closeBalanceModal()"
+    >
+      Đóng
+    </button>
+  </div>
 </nz-modal>

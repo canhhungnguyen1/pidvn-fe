@@ -3,6 +3,7 @@ import { DxDataGridComponent } from 'devextreme-angular';
 import { ToastrService } from 'ngx-toastr';
 import { HrMealMngService } from '../services/hr-meal-mng.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { error } from 'console';
 @Component({
   selector: 'app-hr-meal-summary',
   templateUrl: './hr-meal-summary.component.html',
@@ -11,6 +12,9 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 export class HrMealSummaryComponent implements OnInit {
   @ViewChild(DxDataGridComponent, { static: false })
   timeLogGrid!: DxDataGridComponent;
+
+  @ViewChild(DxDataGridComponent, { static: false })
+  balanceGrid!: DxDataGridComponent;
 
   constructor(
     private hrMealMngSvc: HrMealMngService,
@@ -27,6 +31,8 @@ export class HrMealSummaryComponent implements OnInit {
   };
 
   balanceData: any;
+  isOpenBalanceModal: boolean = false
+  monthSearch: any;
 
   ngOnInit(): void {
     let date = new Date();
@@ -64,18 +70,40 @@ export class HrMealSummaryComponent implements OnInit {
       });
   }
 
-  isOpenBalanceModal: boolean = false
+  
   openBalanceModal() {
     this.isOpenBalanceModal = true;
-
-    this.hrMealMngSvc.getBalance().subscribe(
-      response => {
-        this.balanceData = response
-      }
-    )
   }
 
-  onChange(result: Date): void {
+  closeBalanceModal() {
+    this.isOpenBalanceModal = false;
+  }
+
+  /**
+   * 
+   * @param result 
+   */
+  onChangeMonthBalance(result: Date): void {
     console.log('onChange: ', result);
+    this.monthSearch = result;
+  }
+
+  getBalance() {
+
+
+  
+    this.balanceGrid?.instance.beginCustomLoading(
+      `Bạn ơi đợi hơi lâu tý nhé! \n Hệ thống đang lấy dữ liệu`
+    );
+
+    this.hrMealMngSvc.getBalance(this.monthSearch).subscribe(
+      response => {
+        this.balanceData = response
+        this.balanceGrid.instance.endCustomLoading();
+      },
+      error => {
+        this.balanceGrid.instance.endCustomLoading();
+      }
+    )
   }
 }
