@@ -18,6 +18,8 @@ export class HrMealMngService {
     return this.httpClient.post(`${this.baseUrl}/HR/Meal/Balance`, month);
   }
 
-
+  public timesheetConfirm(): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/HR/Meal/TimesheetConfirm`, null);
+  }
 
 }

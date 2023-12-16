@@ -1,7 +1,13 @@
 <nz-collapse>
   <nz-collapse-panel nzHeader="Panel" [nzActive]="true" [nzShowArrow]="true">
     <nz-space>
-      <button *nzSpaceItem nz-button nzType="primary">
+      <button
+        *nzSpaceItem
+        nz-button
+        nzType="primary"
+        (click)="timesheetConfirm()"
+        [nzLoading]="isLoadingTimeSheetConfirm"
+      >
         Xác nhận time sheet
       </button>
       <button *nzSpaceItem nz-button nzType="default">Upload trợ cấp</button>
@@ -10,7 +16,7 @@
 </nz-collapse>
 
 <nz-tabset>
-  <nz-tab nzTitle="Dữ liệu tổng hợp">
+  <nz-tab nzTitle="TimeSheet / Actual">
     <dx-data-grid
       #timeLogGrid
       [dataSource]="[]"
@@ -30,11 +36,14 @@
       </dxo-column-chooser>
       <dxo-toolbar>
         <dxi-item location="before">
-            <nz-space>
-                <nz-date-picker *nzSpaceItem nzMode="month"></nz-date-picker>
-                <button *nzSpaceItem nz-button nzType="primary">Search</button>
-            </nz-space>
-          
+          <nz-space>
+            <nz-date-picker
+              *nzSpaceItem
+              nzMode="month"
+              style="height: 32px"
+            ></nz-date-picker>
+            <button *nzSpaceItem nz-button nzType="primary">Search</button>
+          </nz-space>
         </dxi-item>
       </dxo-toolbar>
 
@@ -45,4 +54,8 @@
       <dxi-column dataField="month" caption="Month"></dxi-column>
     </dx-data-grid>
   </nz-tab>
+
+  <nz-tab nzTitle="Trợ cấp"> </nz-tab>
+
+  <nz-tab nzTitle="Tổng hợp"> </nz-tab>
 </nz-tabset>

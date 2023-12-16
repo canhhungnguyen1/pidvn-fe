@@ -155,7 +155,7 @@
     <dx-data-grid
       #balanceGrid
       [dataSource]="balanceData"
-      keyExpr="codeEmp"
+      keyExpr="username"
       [remoteOperations]="false"
       [allowColumnReordering]="true"
       [rowAlternationEnabled]="true"
@@ -194,10 +194,10 @@
       <dxo-column-chooser #columnChooser [enabled]="true" [mode]="'select'">
       </dxo-column-chooser>
 
-      <dxi-column dataField="codeEmp" caption="Mã nhân viên"></dxi-column>
-      <dxi-column dataField="profileName" caption="Name"></dxi-column>
+      <dxi-column dataField="username" caption="Mã nhân viên"></dxi-column>
+      <dxi-column dataField="fullName" caption="Họ tên"></dxi-column>
       <dxi-column
-        dataField="veChinhTheory"
+        dataField="veChinhTimesheet"
         caption="Vé Chính (Lý Thuyết)"
       ></dxi-column>
       <dxi-column
@@ -206,21 +206,12 @@
       ></dxi-column>
 
       <dxi-column
-        dataField="vePhuTheory"
+        dataField="vePhuTimesheet"
         caption="Vé Phụ (Lý Thuyết)"
       ></dxi-column>
       <dxi-column
         dataField="vePhuActual"
         caption="Vé Phụ (Thực tế)"
-      ></dxi-column>
-
-      <dxi-column
-        dataField="veChinhBalance"
-        caption="Vé chính (Chênh lệnh)"
-      ></dxi-column>
-      <dxi-column
-        dataField="vePhuBalance"
-        caption="Vé phụ (Chênh lệnh)"
       ></dxi-column>
 
       <dxo-paging [pageSize]="10"></dxo-paging>
