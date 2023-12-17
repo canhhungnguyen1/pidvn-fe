@@ -172,7 +172,7 @@
             <td style="text-align: right" *ngIf="i == 0" [attr.rowspan]="item.dataSource.length">{{ data.dieAQty | number : "1.0-3" }}</td>
             <td style="text-align: right" *ngIf="i == 0" [attr.rowspan]="item.dataSource.length">{{ data.dieBQty | number : "1.0-3" }}</td>
             <td *ngIf="i == 0" [attr.rowspan]="item.dataSource.length">
-              <dx-html-editor [(value)]="data.remark" [valueType]="'html'" [readOnly]="true" ></dx-html-editor>
+              <dx-html-editor [value]="data.remark" [valueType]="'html'" [readOnly]="true" ></dx-html-editor>
             </td>
             <td *ngIf="i == 0" [attr.rowspan]="item.dataSource.length" nzRight style="text-align: center;">
               <a (click)="editRow(item)">Edit</a>
@@ -245,8 +245,8 @@
             <tr>
               <td><label>Remark</label></td>
               <td>
-                <dx-html-editor height="200px" [(value)]="lineSelected.dataSource[0].remark" [valueType]="'html'">
-                  <dxo-toolbar>
+                <dx-html-editor *ngIf="lineSelected" height="200px" [(value)]="lineSelected.dataSource[0].remark" [valueType]="'html'">
+                  <dxo-toolbar [multiline]="true">
                     <dxi-item name="undo"></dxi-item>
                     <dxi-item name="redo"></dxi-item>
                     <dxi-item name="separator"></dxi-item>
@@ -260,6 +260,9 @@
                     <dxi-item name="separator"></dxi-item>
                     <dxi-item name="color"></dxi-item>
                     <dxi-item name="background"></dxi-item>
+                    <dxi-item name="separator"></dxi-item>
+                    <dxi-item name="clear"></dxi-item>
+                    <dxi-item name="blockquote"></dxi-item>
                     <!-- <dxi-item name="separator"></dxi-item>
                     <dxi-item name="insertTable"></dxi-item>
                     <dxi-item name="deleteTable"></dxi-item>
@@ -270,6 +273,7 @@
                     <dxi-item name="insertColumnRight"></dxi-item>
                     <dxi-item name="deleteColumn"></dxi-item> -->
                   </dxo-toolbar>
+                  <dxo-media-resizing [enabled]="true"> </dxo-media-resizing>
                 </dx-html-editor>
               </td>
             </tr>
