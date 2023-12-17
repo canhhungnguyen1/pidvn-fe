@@ -11,7 +11,7 @@ export class UpdatePsiPriceComponent implements OnInit {
   @ViewChild('videoPlayer', { static: false }) videoPlayer!: ElementRef;
 
   constructor(
-    private toastr: ToastrService, 
+    private toastr: ToastrService,
     private updatePsiPriceSvc: UpdatePsiPriceService
   ) {}
 
@@ -192,27 +192,24 @@ export class UpdatePsiPriceComponent implements OnInit {
 
   productionData: any;
   date = new Date();
-  isLoading: boolean = false
-  isOpenLineDetailModal: boolean = false
+  isLoading: boolean = false;
+  isLoadingSave: boolean = false;
+  isOpenLineDetailModal: boolean = false;
   lineSelected: any;
 
   editRow(item: any) {
     console.log('Row: ', item);
-    this.lineSelected = item
+    this.lineSelected = item;
 
-
-    this.isOpenLineDetailModal = true
+    this.isOpenLineDetailModal = true;
   }
 
-  
   getDailyReportData(date: Date) {
     this.isLoading = true;
-    this.updatePsiPriceSvc.getDailyReportData(date).subscribe(
-      response => {
-        this.productionData = response
-        this.isLoading = false;
-      }
-    )
+    this.updatePsiPriceSvc.getDailyReportData(date).subscribe((response) => {
+      this.productionData = response;
+      this.isLoading = false;
+    });
   }
 
   onSearch() {
@@ -220,6 +217,30 @@ export class UpdatePsiPriceComponent implements OnInit {
   }
 
   saveChange() {
+    this.isLoadingSave = true;
+    console.log('AAAAA', this.lineSelected.dataSource[0]);
 
+    let obj = {
+      id: this.lineSelected.dataSource[0].id,
+      line: this.lineSelected.dataSource[0].line,
+      date: this.lineSelected.dataSource[0].date,
+      reportDate: new Date(),
+      targetQty: this.lineSelected.dataSource[0].targetQty,
+      actualQty: this.lineSelected.dataSource[0].actualQty,
+      dieAQty: this.lineSelected.dataSource[0].dieAQty,
+      dieBQty: this.lineSelected.dataSource[0].dieBQty,
+      remark: this.lineSelected.dataSource[0].remark
+    };
+
+    this.updatePsiPriceSvc.saveDailyReportData(obj).subscribe(
+      response => {
+        this.isLoadingSave = false;
+        this.isOpenLineDetailModal = false
+      },
+      error => {
+        this.isLoadingSave = false;
+        this.isOpenLineDetailModal = false
+      }
+    );
   }
 }

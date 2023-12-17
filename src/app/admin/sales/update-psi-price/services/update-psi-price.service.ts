@@ -17,4 +17,10 @@ export class UpdatePsiPriceService {
       date
     );
   }
+  public saveDailyReportData(data: any): Observable<any> {
+    return this.httpClient.post(
+      `${this.baseUrl}/PIH/DailyReport/SaveDailyReportData`,
+      data
+    );
+  }
 }
