@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { UpdatePsiPriceService } from './services/update-psi-price.service';
 
 @Component({
   selector: 'app-update-psi-price',
@@ -9,7 +10,10 @@ import { ToastrService } from 'ngx-toastr';
 export class UpdatePsiPriceComponent implements OnInit {
   @ViewChild('videoPlayer', { static: false }) videoPlayer!: ElementRef;
 
-  constructor(private toastr: ToastrService) {}
+  constructor(
+    private toastr: ToastrService, 
+    private updatePsiPriceSvc: UpdatePsiPriceService
+  ) {}
 
   highlightRow!: number;
   setOfCheckedId = new Set<number>();
@@ -180,5 +184,42 @@ export class UpdatePsiPriceComponent implements OnInit {
 
   internal(time: any) {
     console.log(time);
+  }
+
+  /**
+   * Ngân Test
+   */
+
+  productionData: any;
+  date = new Date();
+  isLoading: boolean = false
+  isOpenLineDetailModal: boolean = false
+  lineSelected: any;
+
+  editRow(item: any) {
+    console.log('Row: ', item);
+    this.lineSelected = item
+
+
+    this.isOpenLineDetailModal = true
+  }
+
+  
+  getDailyReportData(date: Date) {
+    this.isLoading = true;
+    this.updatePsiPriceSvc.getDailyReportData(date).subscribe(
+      response => {
+        this.productionData = response
+        this.isLoading = false;
+      }
+    )
+  }
+
+  onSearch() {
+    this.getDailyReportData(this.date);
+  }
+
+  saveChange() {
+
   }
 }

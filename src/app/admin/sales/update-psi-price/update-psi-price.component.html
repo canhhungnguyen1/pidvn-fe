@@ -2,96 +2,290 @@
   <nz-breadcrumb-item>Home</nz-breadcrumb-item>
   <nz-breadcrumb-item>English Conversation</nz-breadcrumb-item>
   <nz-breadcrumb-item>Cảnh Hưng (Test)</nz-breadcrumb-item>
-  
 </nz-breadcrumb>
-<img
+
+<nz-tabset>
+  <nz-tab nzTitle="Hưng Test">
+    <img
       src="../../../assets/images/hihi.png"
       width="60px"
       style="margin-left: 5px"
     />
 
-<div nz-row nzJustify="start" nzAlign="top" [nzGutter]="24">
-  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="16">
-    <nz-card>
-      <video
-        id="video-media"
-        width="100%"
-        controls
-        #videoPlayer
-        src="https://storage.googleapis.com/media-session/caminandes/short.mp4" crossorigin="anonymous" preload="metadata"
-      >
-      <track kind="captions" srclang="en" src="https://static.3playmedia.com/p/files/6157318/threeplay_transcripts/18335056.vtt?project_id=10127&format_id=51&refresh=1620709875" default="" />
-      <track kind="captions" srclang="en-GB" src="https://static.3playmedia.com/p/files/6157318/threeplay_transcripts/18335056.vtt?project_id=10127&format_id=51&refresh=1620709875" />
-    </video>
-    </nz-card>
-  </div>
-  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="8">
-    <nz-card>
-      <nz-tabset [nzSize]="'default'">
-        <nz-tab nzTitle="Đoạn hội thoại">
-          <nz-table
-            #subTitleTable
-            id="subtitleTbl"
-            [nzData]="subTitles"
-            nzBordered
-            nzSize="small"
-            nzFrontPagination="false"
-            [nzScroll]="{ x: '900', y: '510px' }"
+    <div nz-row nzJustify="start" nzAlign="top" [nzGutter]="24">
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="16">
+        <nz-card>
+          <video
+            id="video-media"
+            width="100%"
+            controls
+            #videoPlayer
+            src="https://storage.googleapis.com/media-session/caminandes/short.mp4"
+            crossorigin="anonymous"
+            preload="metadata"
           >
-            <tbody>
-              <tr
-                id="subTitle"
-                *ngFor="let data of subTitleTable.data; let i = index"
-                (click)="subtitleClick(data,i)"
-                [class.active]="i == highlightRow"
+            <track
+              kind="captions"
+              srclang="en"
+              src="https://static.3playmedia.com/p/files/6157318/threeplay_transcripts/18335056.vtt?project_id=10127&format_id=51&refresh=1620709875"
+              default=""
+            />
+            <track
+              kind="captions"
+              srclang="en-GB"
+              src="https://static.3playmedia.com/p/files/6157318/threeplay_transcripts/18335056.vtt?project_id=10127&format_id=51&refresh=1620709875"
+            />
+          </video>
+        </nz-card>
+      </div>
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="8">
+        <nz-card>
+          <nz-tabset [nzSize]="'default'">
+            <nz-tab nzTitle="Đoạn hội thoại">
+              <nz-table
+                #subTitleTable
+                id="subtitleTbl"
+                [nzData]="subTitles"
+                nzBordered
+                nzSize="small"
+                nzFrontPagination="false"
+                [nzScroll]="{ x: '900', y: '510px' }"
               >
-                <td
-                  style="width: 10%"
-                  [nzShowCheckbox]="true"
-                  (nzCheckedChange)="onItemChecked(data.id, $event)"
-                  [nzChecked]="setOfCheckedId.has(data.id)"
-                ></td>
-                <td>
-                  <div nz-row nzJustify="end" [nzGutter]="24">
-                    <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12">
-                      
-                    </div>
-                    <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12">
-                      <!-- <nz-tag class="time" [nzColor]="'geekblue'">{{ data.id }}</nz-tag> -->
-                      <nz-tag class="time">{{ data.startTime }} - {{ data.endTime }}</nz-tag>
-                    </div>
-                  </div>
-                  <div nz-row nzJustify="start" [nzGutter]="24">
-                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24">
-                      <ul>
-                        <li class="en-sub">{{ data.enSub }}</li>
-                        <li class="vn-sub">{{ data.vnSub }}</li>
-                      </ul>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </nz-table>
-          <div nz-row nzJustify="start" nzAlign="top" [nzGutter]="24">
-            <div nz-col nzXs="18" nzSm="18" nzMd="18" nzLg="18">
-              <input nz-input placeholder="Tên đoạn hội thoại" [(ngModel)]="conversationName" />
-            </div>
-            <div nz-col nzXs="6" nzSm="6" nzMd="6" nzLg="6">
-              <button
-                nz-button
-                nzType="primary"
-                style="width: 100%"
-                (click)="onCreate()"
-              >
-                Tạo mới
-              </button>
-            </div>
-          </div>
-        </nz-tab>
+                <tbody>
+                  <tr
+                    id="subTitle"
+                    *ngFor="let data of subTitleTable.data; let i = index"
+                    (click)="subtitleClick(data, i)"
+                    [class.active]="i == highlightRow"
+                  >
+                    <td
+                      style="width: 10%"
+                      [nzShowCheckbox]="true"
+                      (nzCheckedChange)="onItemChecked(data.id, $event)"
+                      [nzChecked]="setOfCheckedId.has(data.id)"
+                    ></td>
+                    <td>
+                      <div nz-row nzJustify="end" [nzGutter]="24">
+                        <div
+                          nz-col
+                          nzXs="12"
+                          nzSm="12"
+                          nzMd="12"
+                          nzLg="12"
+                        ></div>
+                        <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12">
+                          <!-- <nz-tag class="time" [nzColor]="'geekblue'">{{ data.id }}</nz-tag> -->
+                          <nz-tag class="time"
+                            >{{ data.startTime }} - {{ data.endTime }}</nz-tag
+                          >
+                        </div>
+                      </div>
+                      <div nz-row nzJustify="start" [nzGutter]="24">
+                        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24">
+                          <ul>
+                            <li class="en-sub">{{ data.enSub }}</li>
+                            <li class="vn-sub">{{ data.vnSub }}</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </nz-table>
+              <div nz-row nzJustify="start" nzAlign="top" [nzGutter]="24">
+                <div nz-col nzXs="18" nzSm="18" nzMd="18" nzLg="18">
+                  <input
+                    nz-input
+                    placeholder="Tên đoạn hội thoại"
+                    [(ngModel)]="conversationName"
+                  />
+                </div>
+                <div nz-col nzXs="6" nzSm="6" nzMd="6" nzLg="6">
+                  <button
+                    nz-button
+                    nzType="primary"
+                    style="width: 100%"
+                    (click)="onCreate()"
+                  >
+                    Tạo mới
+                  </button>
+                </div>
+              </div>
+            </nz-tab>
 
-        <nz-tab nzTitle="Đoạn đã lưu">Đoạn đã lưu</nz-tab>
-      </nz-tabset>
-    </nz-card>
-  </div>
-</div>
+            <nz-tab nzTitle="Đoạn đã lưu">Đoạn đã lưu</nz-tab>
+          </nz-tabset>
+        </nz-card>
+      </div>
+    </div>
+  </nz-tab>
+  <nz-tab nzTitle="E. Ngân (PIH) Draft test">
+    <nz-space>
+      <nz-date-picker *nzSpaceItem [(ngModel)]="date"></nz-date-picker>
+      <button
+        *nzSpaceItem
+        nz-button
+        nzType="primary"
+        (click)="onSearch()"
+        [nzLoading]="isLoading"
+      >
+        <span nz-icon nzType="search"></span>
+        Search
+      </button>
+    </nz-space>
+
+    <nz-table
+      #productionTable
+      [nzData]="productionData"
+      nzSize="small"
+      nzBordered
+      nzFrontPagination="false"
+      [nzScroll]="{ x: '1100px' }"
+      style="margin-top: 5px"
+    >
+      <thead>
+        <tr>
+          <th width="5%" style="text-align: center;">Line</th>
+          <th width="5%" style="text-align: center;">Model</th>
+          <th width="5%" style="text-align: center;">Shift A</th>
+          <th width="5%" style="text-align: center;">Shift B</th>
+          <th width="5%" style="text-align: center;">Target</th>
+          <th width="5%" style="text-align: center;">Actual</th>
+          <th width="5%" style="text-align: center;">Die A</th>
+          <th width="5%" style="text-align: center;">Die B</th>
+          <th style="text-align: center;">Remark</th>
+          <th width="5%" nzRight style="text-align: center;">Action</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <ng-container *ngFor="let item of productionTable.data">
+          <tr>
+            <td [attr.rowspan]="item.dataSource.length + 1"><label>{{ item.line }}</label></td>
+          </tr>
+          <tr *ngFor="let data of item.dataSource; let i = index">
+            <td>{{ data.model }}</td>
+            <td style="text-align: right">{{ data.qtyShiftA | number : "1.0-3" }}</td>
+            <td style="text-align: right">{{ data.qtyShiftB | number : "1.0-3" }}</td>
+            <td style="text-align: right" *ngIf="i == 0" [attr.rowspan]="item.dataSource.length">{{ data.targetQty | number : "1.0-3" }}</td>
+            <td style="text-align: right" *ngIf="i == 0" [attr.rowspan]="item.dataSource.length">{{ data.actualQty | number : "1.0-3" }}</td>
+            <td style="text-align: right" *ngIf="i == 0" [attr.rowspan]="item.dataSource.length">{{ data.dieAQty | number : "1.0-3" }}</td>
+            <td style="text-align: right" *ngIf="i == 0" [attr.rowspan]="item.dataSource.length">{{ data.dieBQty | number : "1.0-3" }}</td>
+            <td *ngIf="i == 0" [attr.rowspan]="item.dataSource.length">
+              <dx-html-editor [(value)]="data.remark" [valueType]="'html'" [readOnly]="true" ></dx-html-editor>
+            </td>
+            <td *ngIf="i == 0" [attr.rowspan]="item.dataSource.length" nzRight style="text-align: center;">
+              <a (click)="editRow(item)">Edit</a>
+            </td>
+            <td *ngElse></td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </nz-table>
+
+    <nz-modal
+      [(nzVisible)]="isOpenLineDetailModal"
+      nzTitle="Thông tin chi tiết"
+      nzWidth="750px"
+    >
+      <ng-container *nzModalContent>
+        <nz-table
+          [nzData]="['']"
+          nzSize="small"
+          nzBordered
+          nzFrontPagination="false"
+          style="margin-top: 5px"
+        >
+          <tbody>
+            <tr>
+              <td><label>Line</label></td>
+              <td>{{ lineSelected.line }}</td>
+            </tr>
+            <tr>
+              <td><label>Models</label></td>
+              <td>
+                <table class="model-line-tbl" style="width: 100%">
+                  <tr>
+                    <th>Name</th>
+                    <th>Shift A</th>
+                    <th>Shift B</th>
+                  </tr>
+                  <tr *ngFor="let item of lineSelected.dataSource">
+                    <td>{{ item.model }}</td>
+                    <td style="text-align: right">{{ item.qtyShiftA | number : "1.0-3" }}</td>
+                    <td style="text-align: right">{{ item.qtyShiftB | number : "1.0-3" }}</td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td><label>Target</label></td>
+              <td>
+                <nz-input-number [nzMin]="0" [nzStep]="1" [(ngModel)]="lineSelected.dataSource[0].targetQty"></nz-input-number>
+              </td>
+            </tr>
+            <tr>
+              <td><label>Actual</label></td>
+              <td>
+                <nz-input-number [nzMin]="0" [nzStep]="1" [(ngModel)]="lineSelected.dataSource[0].actualQty"></nz-input-number>
+              </td>
+            </tr>
+            <tr>
+              <td><label>Tháo Die A</label></td>
+              <td>
+                <nz-input-number [nzMin]="0" [nzStep]="1" [(ngModel)]="lineSelected.dataSource[0].dieAQty"></nz-input-number>
+              </td>
+            </tr>
+            <tr>
+              <td><label>Tháo Die B</label></td>
+              <td>
+                <nz-input-number [nzMin]="0" [nzStep]="1" [(ngModel)]="lineSelected.dataSource[0].dieBQty"></nz-input-number>
+              </td>
+            </tr>
+            <tr>
+              <td><label>Remark</label></td>
+              <td>
+                <dx-html-editor height="200px" [(value)]="lineSelected.dataSource[0].remark" [valueType]="'html'">
+                  <dxo-toolbar>
+                    <dxi-item name="undo"></dxi-item>
+                    <dxi-item name="redo"></dxi-item>
+                    <dxi-item name="separator"></dxi-item>
+                    <dxi-item name="bold"></dxi-item>
+                    <dxi-item name="italic"></dxi-item>
+                    <dxi-item name="strike"></dxi-item>
+                    <dxi-item name="underline"></dxi-item>
+                    <dxi-item name="separator"></dxi-item>
+                    <dxi-item name="orderedList"></dxi-item>
+                    <dxi-item name="bulletList"></dxi-item>
+                    <dxi-item name="separator"></dxi-item>
+                    <dxi-item name="color"></dxi-item>
+                    <dxi-item name="background"></dxi-item>
+                    <!-- <dxi-item name="separator"></dxi-item>
+                    <dxi-item name="insertTable"></dxi-item>
+                    <dxi-item name="deleteTable"></dxi-item>
+                    <dxi-item name="insertRowAbove"></dxi-item>
+                    <dxi-item name="insertRowBelow"></dxi-item>
+                    <dxi-item name="deleteRow"></dxi-item>
+                    <dxi-item name="insertColumnLeft"></dxi-item>
+                    <dxi-item name="insertColumnRight"></dxi-item>
+                    <dxi-item name="deleteColumn"></dxi-item> -->
+                  </dxo-toolbar>
+                </dx-html-editor>
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </ng-container>
+      <div *nzModalFooter>
+        <button
+          nz-button
+          nzType="default"
+          (click)="isOpenLineDetailModal = false"
+        >
+          Hủy
+        </button>
+        <button nz-button nzType="primary" (click)="saveChange()">Lưu</button>
+      </div>
+    </nz-modal>
+  </nz-tab>
+</nz-tabset>
