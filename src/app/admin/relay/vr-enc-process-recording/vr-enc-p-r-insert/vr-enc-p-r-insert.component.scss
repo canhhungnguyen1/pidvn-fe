@@ -25,10 +25,13 @@ nz-table {
 }
 
 #error-msg {
-  border: 1px solid red;
+  border: 3px solid rgb(255, 0, 0);
   font-weight: bold;
   width: 100%;
+  color: red;
+  padding: 5px;
   span {
     color: red;
+    font-size: 20px;
   }
 }

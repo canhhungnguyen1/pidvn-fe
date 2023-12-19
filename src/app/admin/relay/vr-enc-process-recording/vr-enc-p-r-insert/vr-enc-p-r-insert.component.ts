@@ -8,6 +8,7 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { VrEncPRService } from '../services/vr-enc-p-r.service';
+import { error } from 'console';
 
 @Component({
   selector: 'app-vr-enc-p-r-insert',
@@ -22,7 +23,7 @@ export class VrEncPRInsertComponent implements OnInit, AfterViewInit {
   constructor(
     private toastr: ToastrService,
     private vrEncPRSvc: VrEncPRService,
-    private activatedRoute: ActivatedRoute,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   partsOfModel: any;
@@ -51,9 +52,7 @@ export class VrEncPRInsertComponent implements OnInit, AfterViewInit {
 
   lotErrMsg: string | null = null;
 
-  ngOnInit(): void {
-    
-  }
+  ngOnInit(): void {}
 
   ngAfterViewInit(): void {
     setTimeout(() => {
@@ -62,9 +61,9 @@ export class VrEncPRInsertComponent implements OnInit, AfterViewInit {
 
       let obj = {
         target: {
-          value: qaCard
-        }
-      }
+          value: qaCard,
+        },
+      };
 
       this.scanInfo(obj);
     }, 0);
@@ -107,13 +106,12 @@ export class VrEncPRInsertComponent implements OnInit, AfterViewInit {
       this.infoScan.date = info[2];
       this.infoScan.shift = info[3];
 
-      
       this.getProcessesVer2(info[1]);
-      this.getPartsByModel(this.infoScan.model)
+      this.getPartsByModel(this.infoScan.model);
 
       let searchVo = {
         qaCard: this.infoScan.qaCard,
-        recordType: 'VEP'
+        recordType: 'VEP',
       };
 
       this.getMaterials(searchVo);
@@ -130,7 +128,7 @@ export class VrEncPRInsertComponent implements OnInit, AfterViewInit {
     if (!isEmpty) {
       this.isOpenScanLabelModal = true;
     } else {
-      this.toastr.warning('Cần scan mã nhân viên','Warning')
+      this.toastr.warning('Cần scan mã nhân viên', 'Warning');
     }
 
     this.infoIpt.nativeElement.select();
@@ -158,7 +156,7 @@ export class VrEncPRInsertComponent implements OnInit, AfterViewInit {
     if (!this.partsOfModel.includes(part)) {
       this.lotErrMsg = `Lot ${lotNo} không dùng cho model ${obj.model}`;
       this.toastr.error('Có lỗi !', 'Error', {
-        timeOut: 1500,
+        timeOut: 15000,
       });
       return;
     }
@@ -167,24 +165,30 @@ export class VrEncPRInsertComponent implements OnInit, AfterViewInit {
      * Server Check
      * Push lot lên server để kiểm tra
      * Nếu OK thì add vào mapLotsScanned
-     * Nếu có lỗi thì hiển thị thông báo
+     * Nếu có lỗi thì hiển thị thông báoaaa301298
      */
-    this.vrEncPRSvc.scanLabel(obj).subscribe((response) => {
-      if (response.status == 'ERROR') {
-        this.lotErrMsg = response.message;
-        this.toastr.error('Có lỗi !', 'Error', {
-          timeOut: 1500,
-        });
-        return;
-      } else if (response.status == 'OK') {
-        this.lotErrMsg = null;
-        this.mapLotsScanned.set(obj.label, response.data);
-        this.listLotsScanned = Array.from(
-          this.mapLotsScanned.values()
-        ).reverse();
-        return;
+    this.vrEncPRSvc.scanLabel(obj).subscribe(
+      (response) => {
+        if (response.status == 'ERROR') {
+          this.lotErrMsg = response.message;
+          this.toastr.error('Có lỗi !', 'Error', {
+            timeOut: 15000,
+          });
+
+          return;
+        } else if (response.status == 'OK') {
+          this.lotErrMsg = null;
+          this.mapLotsScanned.set(obj.label, response.data);
+          this.listLotsScanned = Array.from(
+            this.mapLotsScanned.values()
+          ).reverse();
+          return;
+        }
+      },
+      (error) => {
+        
       }
-    });
+    );
 
     this.labelIpt.nativeElement.select();
   }
@@ -237,15 +241,14 @@ export class VrEncPRInsertComponent implements OnInit, AfterViewInit {
         this.listLotsScanned = new Array();
         this.isLoadingSaveBtn = false;
 
-
         this.infoScan.user = null;
-        this.process = null
-        this.lotErrMsg = null
+        this.process = null;
+        this.lotErrMsg = null;
       });
   }
 
   closeScanLabelModal() {
-    this.lotErrMsg = null
+    this.lotErrMsg = null;
     this.isOpenScanLabelModal = false;
   }
 
@@ -258,7 +261,6 @@ export class VrEncPRInsertComponent implements OnInit, AfterViewInit {
       this.partsOfModel = parts;
 
       console.log('Parts: ', this.partsOfModel);
-      
     });
   }
 
@@ -267,22 +269,22 @@ export class VrEncPRInsertComponent implements OnInit, AfterViewInit {
     this.materialSelected.cpn = data.cpn;
     this.materialSelected.clotno = data.clotno;
     this.materialSelected.qty = data.qty;
-    this.materialSelected.remark = data.remark
+    this.materialSelected.remark = data.remark;
     this.isOpenEditQtyModal = true;
   }
 
   updateQty() {
-    this.vrEncPRSvc.updateMaterial(this.materialSelected).subscribe(
-      response => {
-        this.toastr.success('Update thành công','Success')
+    this.vrEncPRSvc
+      .updateMaterial(this.materialSelected)
+      .subscribe((response) => {
+        this.toastr.success('Update thành công', 'Success');
         this.isOpenEditQtyModal = false;
         let searchVo = {
           qaCard: this.infoScan.qaCard,
-          recordType: 'VEP'
+          recordType: 'VEP',
         };
-  
+
         this.getMaterials(searchVo);
-      }
-    )
+      });
   }
 }

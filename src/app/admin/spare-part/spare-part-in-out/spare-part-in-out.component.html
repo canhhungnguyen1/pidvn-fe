@@ -60,6 +60,7 @@
       <dxi-item name="exportButton" location="after" />
     </dxo-toolbar>
 
+    <dxi-column dataField="requestNo" caption="Số phiếu"></dxi-column>
     <dxi-column dataField="partNumber" caption="Part Number"></dxi-column>
     <dxi-column dataField="galileoName" caption="Galileo Name"></dxi-column>
     <dxi-column
@@ -149,7 +150,7 @@
       >
         <thead>
           <tr>
-            <th width="15%">Nhân viên</th>
+            <th width="15%">Người nhận</th>
             <th width="20%">
               <input
                 id="userCodeIpt"
@@ -220,14 +221,14 @@
           >
           </dxo-lookup>
         </dxi-column>
-        <dxi-column dataField="purpose" caption="Mục đích">
+        <!-- <dxi-column dataField="purpose" caption="Mục đích">
           <dxo-lookup
             [dataSource]="machines"
             displayExpr="name"
             valueExpr="name"
           >
           </dxo-lookup>
-        </dxi-column>
+        </dxi-column> -->
 
 
 

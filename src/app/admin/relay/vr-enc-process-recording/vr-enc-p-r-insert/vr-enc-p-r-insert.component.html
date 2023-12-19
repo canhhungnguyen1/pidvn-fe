@@ -132,14 +132,17 @@
         <tbody *ngIf="lotErrMsg">
           <tr>
             <td colspan="2">
-              <nz-alert
+              <div id="error-msg">
+                <span>{{lotErrMsg}}</span>
+              </div>
+              <!-- <nz-alert
                 id="error-msg"
                 nzBanner
                 nzShowIcon
                 nzType="error"
                 [nzMessage]="lotErrMsg"
               >
-              </nz-alert>
+              </nz-alert> -->
             </td>
           </tr>
         </tbody>
