@@ -273,7 +273,7 @@ export class AdminComponent implements OnInit {
     this.examTestVrEncLink = `${this.baseUrlJava}/pidvn/ma/exam?area=EMC`
     this.checkExpiryDateVrEncLink = `${this.baseUrlJava}/pidvn/ma/exam/list_expired?area=EMC`
     this.bangQuanLyKyNangPIHLink = `${this.baseUrlJava}/pidvn/pih/exam/menu?accessToken=${token2}`
-    this.pihProcessScannerLink = `https://10.92.176.57:8888/pidvn/pih/pih_process/pih_process_scaner`
+    this.pihProcessScannerLink = `${this.baseUrlJavaHttps}/pidvn/pih/pih_process/pih_process_scaner`
     this.pihPSMasterLink = `${this.baseUrlJava}/pidvn/pih/ps_master/ps_master_index?accessToken=${accessToken}`
     this.itRequestLink = `${this.baseUrlJava}/pidvn/is/request/menu?accessToken=${token2}`
     this.labelRequestLink = `${this.baseUrlJava}/pidvn/is/label/menu?accessToken=${token2}`
