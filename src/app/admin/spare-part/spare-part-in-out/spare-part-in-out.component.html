@@ -20,7 +20,7 @@
         <nz-space>
           <button *nzSpaceItem nz-button nzType="primary">
             <span nz-icon nzType="login"></span>
-            Nhập kho
+            Hàng nhập về
           </button>
           <button
             *nzSpaceItem
@@ -30,7 +30,7 @@
             (click)="openOutputSparePartModal()"
           >
             <span nz-icon nzType="logout"></span>
-            Xuất kho
+            Nhập xuất kho
           </button>
           <button
             *nzSpaceItem
@@ -62,24 +62,24 @@
 
     <dxi-column dataField="requestNo" caption="Số phiếu"></dxi-column>
     <dxi-column dataField="partNumber" caption="Part Number"></dxi-column>
-    <dxi-column dataField="galileoName" caption="Galileo Name"></dxi-column>
+    <!-- <dxi-column dataField="galileoName" caption="Galileo Name"></dxi-column> -->
     <dxi-column
       dataField="date"
       caption="Date"
       dataType="date"
       format="yyyy-MM-dd"
     ></dxi-column>
-    <dxi-column dataField="qty" caption="Qty"></dxi-column>
-    <dxi-column dataField="unit" caption="Unit"></dxi-column>
-    <dxi-column dataField="standardPrice" caption="Standard Price"></dxi-column>
-    <dxi-column dataField="totalPrice" caption="Total Price"></dxi-column>
-    <dxi-column dataField="currencyCode" caption="Currency"></dxi-column>
+    <dxi-column dataField="qty" caption="Qty" alignment="right"></dxi-column>
+    <!-- <dxi-column dataField="unit" caption="Unit"></dxi-column> -->
+    <!-- <dxi-column dataField="standardPrice" caption="Standard Price"></dxi-column> -->
+    <!-- <dxi-column dataField="totalPrice" caption="Total Price"></dxi-column> -->
+    <!-- <dxi-column dataField="currencyCode" caption="Currency"></dxi-column> -->
     <dxi-column dataField="type" caption="Type"></dxi-column>
-    <dxi-column dataField="whUserCode" caption="Người giao"></dxi-column>
-    <dxi-column dataField="receiveUserCode" caption="Người nhận"></dxi-column>
     <dxi-column dataField="machine" caption="Machine"></dxi-column>
     <dxi-column dataField="line" caption="Line"></dxi-column>
     <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
+    <dxi-column dataField="whUserCode" caption="WH User"></dxi-column>
+    <dxi-column dataField="receiveUserCode" caption="Other User"></dxi-column>
     <dxi-column
       dataField="createdAt"
       caption="Thời gian"
@@ -113,11 +113,11 @@
 
 <nz-modal
   [(nzVisible)]="isOpenOutputSparePartModal"
-  nzTitle="Xuất kho Spare Part"
+  nzTitle="Nhập xuất Spare Part"
   nzWidth="1300px"
 >
   <ng-container *nzModalContent>
-    <nz-table
+    <!-- <nz-table
       [nzData]="['']"
       nzFrontPagination="false"
       nzBordered
@@ -134,8 +134,8 @@
           </td>
         </tr>
       </tbody>
-    </nz-table>
-    <hr style="margin-top: -25px" />
+    </nz-table> -->
+    <!-- <hr style="margin-top: -25px" /> -->
 
     <ng-container
       *ngIf="insertType == 'excel'; then template2; else template1"
@@ -221,20 +221,11 @@
           >
           </dxo-lookup>
         </dxi-column>
-        <!-- <dxi-column dataField="purpose" caption="Mục đích">
-          <dxo-lookup
-            [dataSource]="machines"
-            displayExpr="name"
-            valueExpr="name"
-          >
-          </dxo-lookup>
-        </dxi-column> -->
-
 
 
         <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
 
-        <dxi-column
+        <!-- <dxi-column
           caption="Action"
           cellTemplate="actionTemplate"
           [fixed]="true"
@@ -246,7 +237,7 @@
           >
             <a style="color: red"> Xóa </a>
           </div>
-        </dxi-column>
+        </dxi-column> -->
 
         <dxo-paging [pageSize]="10"></dxo-paging>
         <dxo-pager
