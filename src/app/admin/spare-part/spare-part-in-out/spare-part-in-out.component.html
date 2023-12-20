@@ -39,7 +39,7 @@
             style="background: #999695; border: 1px solid #999695"
           >
             <span nz-icon nzType="rotate-left"></span>
-            Hàng trả về
+            Hàng NG trả về
           </button>
         </nz-space>
       </dxi-item>
@@ -78,15 +78,14 @@
     <dxi-column dataField="machine" caption="Machine"></dxi-column>
     <dxi-column dataField="line" caption="Line"></dxi-column>
     <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
-    <dxi-column dataField="whUserCode" caption="WH User"></dxi-column>
-    <dxi-column dataField="receiveUserCode" caption="Other User"></dxi-column>
+    <dxi-column dataField="whUser" caption="WH User"></dxi-column>
+    <dxi-column dataField="otherUser" caption="Other User"></dxi-column>
     <dxi-column
       dataField="createdAt"
       caption="Thời gian"
       dataType="date"
       format="yyyy-MM-dd HH:mm:ss"
     ></dxi-column>
-
 
     <dxo-summary>
       <dxi-total-item
@@ -185,6 +184,7 @@
         [showColumnLines]="true"
         [showRowLines]="true"
         [allowColumnResizing]="true"
+        [columnMinWidth]="50"
         [columnAutoWidth]="true"
         (onSaving)="saveSparePartRecords($event)"
         style="margin-top: -25px"
@@ -196,21 +196,20 @@
         >
         </dxo-editing>
         <dxi-column
+          [width]="225"
           dataField="partNumber"
           caption="Part"
           [allowEditing]="false"
         ></dxi-column>
-        <dxi-column dataField="qty" caption="Qty"></dxi-column>
-        <dxi-column dataField="factoryCode" caption="Nhà máy">
+        <dxi-column [width]="80" dataField="qty" caption="Qty"></dxi-column>
+        <dxi-column [width]="150" dataField="factoryCode" caption="Nhà máy">
           <dxo-lookup
+            [allowClearing]="true"
+            [enterKeyHint]="true"
             [dataSource]="factories"
             displayExpr="name"
             valueExpr="code"
           >
-          </dxo-lookup>
-        </dxi-column>
-        <dxi-column dataField="line" caption="Line">
-          <dxo-lookup [dataSource]="lines" displayExpr="name" valueExpr="name">
           </dxo-lookup>
         </dxi-column>
         <dxi-column dataField="machine" caption="Máy">
@@ -221,7 +220,10 @@
           >
           </dxo-lookup>
         </dxi-column>
-
+        <dxi-column dataField="line" caption="Line">
+          <dxo-lookup [dataSource]="lines" displayExpr="name" valueExpr="name">
+          </dxo-lookup>
+        </dxi-column>
 
         <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
 
