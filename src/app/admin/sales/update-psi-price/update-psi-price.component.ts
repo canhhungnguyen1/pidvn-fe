@@ -218,7 +218,7 @@ export class UpdatePsiPriceComponent implements OnInit {
 
   saveChange() {
     this.isLoadingSave = true;
-    console.log('AAAAA', this.lineSelected.dataSource[0]);
+    console.log('AAAAA', this.lineSelected);
 
     let obj = {
       id: this.lineSelected.dataSource[0].id,

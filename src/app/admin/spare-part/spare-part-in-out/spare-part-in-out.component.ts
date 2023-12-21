@@ -67,14 +67,14 @@ export class SparePartInOutComponent implements OnInit {
   uploadResult: any;
 
   factories = [
-    {code: 'TN', name: 'HFC FACTORY'},
-    {code: 'SP', name: 'SPEAKER'},
-    {code: 'HO', name: 'HEAD OFFICE'},
+    {code: 'RE', name: 'RELAY FACTORY'},
     {code: 'EM', name: 'EMC FACTORY'},
-    {code: 'PC', name: 'PCB FACTORY'},
-    {code: 'RE', name: 'RELAY FACT'},
     {code: 'PN', name: 'PIH ENC FACTORY'},
-    {code: 'PR', name: 'PIH RE FACTORY'}
+    {code: 'PR', name: 'PIH RE FACTORY'},
+    {code: 'SP', name: 'SPEAKER'},
+    {code: 'TN', name: 'HFC FACTORY'},
+    {code: 'HO', name: 'HEAD OFFICE'},
+    {code: 'PC', name: 'PCB FACTORY'}
   ]
   lines: any;
   machines: any;
@@ -104,7 +104,7 @@ export class SparePartInOutComponent implements OnInit {
   openOutputSparePartModal() {
     this.insertType = 'manual';
     this.isOpenOutputSparePartModal = true;
-    this.recordType = 'OUT';
+    this.recordType = 'OUTPUT';
     this.uploadResult = null;
     this.uploadExcelApi = `${this.baseUrl}/SparePart/UploadExcel?recordType=${this.recordType}`;
 
@@ -144,7 +144,7 @@ export class SparePartInOutComponent implements OnInit {
     let obj = Object.assign({
       whUserCode: this.whUserCode,
       date: new Date(),
-      receiveUserCode: this.recordType == 'OUT' ? this.userCode : null,
+      receiveUserCode: this.recordType == 'OUTPUT' ? this.userCode : null,
       partNumber: event.target.value.trim(),
       recordType: this.recordType,
       qty: 1,

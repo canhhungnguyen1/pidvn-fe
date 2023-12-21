@@ -62,7 +62,7 @@
 
     <dxi-column dataField="requestNo" caption="Số phiếu"></dxi-column>
     <dxi-column dataField="partNumber" caption="Part Number"></dxi-column>
-    <!-- <dxi-column dataField="galileoName" caption="Galileo Name"></dxi-column> -->
+    <dxi-column dataField="galileoName" caption="Galileo Name"></dxi-column>
     <dxi-column
       dataField="date"
       caption="Date"
@@ -75,9 +75,8 @@
     <!-- <dxi-column dataField="totalPrice" caption="Total Price"></dxi-column> -->
     <!-- <dxi-column dataField="currencyCode" caption="Currency"></dxi-column> -->
     <dxi-column dataField="type" caption="Type"></dxi-column>
-    <dxi-column dataField="machine" caption="Machine"></dxi-column>
+    <dxi-column dataField="machine" caption="Máy"></dxi-column>
     <dxi-column dataField="line" caption="Line"></dxi-column>
-    <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
     <dxi-column dataField="whUser" caption="WH User"></dxi-column>
     <dxi-column dataField="otherUser" caption="Other User"></dxi-column>
     <dxi-column
@@ -86,6 +85,7 @@
       dataType="date"
       format="yyyy-MM-dd HH:mm:ss"
     ></dxi-column>
+    <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
 
     <dxo-summary>
       <dxi-total-item
@@ -202,7 +202,8 @@
           [allowEditing]="false"
         ></dxi-column>
         <dxi-column [width]="80" dataField="qty" caption="Qty"></dxi-column>
-        <dxi-column [width]="150" dataField="factoryCode" caption="Nhà máy">
+        <dxi-column [width]="200" dataField="factoryCode" caption="Nhà máy">
+          <dxi-validation-rule type="required" message="Cần chọn nhà máy"></dxi-validation-rule>
           <dxo-lookup
             [allowClearing]="true"
             [enterKeyHint]="true"
@@ -214,6 +215,7 @@
         </dxi-column>
         <dxi-column dataField="machine" caption="Máy">
           <dxo-lookup
+            [allowClearing]="true"
             [dataSource]="machines"
             displayExpr="vnName"
             valueExpr="id"
@@ -221,7 +223,12 @@
           </dxo-lookup>
         </dxi-column>
         <dxi-column dataField="line" caption="Line">
-          <dxo-lookup [dataSource]="lines" displayExpr="name" valueExpr="name">
+          <dxo-lookup
+            [allowClearing]="true"
+            [dataSource]="lines"
+            displayExpr="name"
+            valueExpr="name"
+          >
           </dxo-lookup>
         </dxi-column>
 

@@ -186,7 +186,7 @@
     <nz-modal
       [(nzVisible)]="isOpenLineDetailModal"
       nzTitle="Thông tin chi tiết"
-      nzWidth="750px"
+      nzWidth="700px"
     >
       <ng-container *nzModalContent>
         <nz-table
@@ -199,11 +199,11 @@
           <tbody>
             <tr>
               <td><label>Line</label></td>
-              <td>{{ lineSelected.line }}</td>
+              <td colspan="4">{{ lineSelected.line }}</td>
             </tr>
             <tr>
               <td><label>Models</label></td>
-              <td>
+              <td colspan="4">
                 <table class="model-line-tbl" style="width: 100%">
                   <tr>
                     <th>Name</th>
@@ -219,32 +219,30 @@
               </td>
             </tr>
             <tr>
+              <td><label>Smp</label></td>
               <td><label>Target</label></td>
               <td>
-                <nz-input-number [nzMin]="0" [nzStep]="1" [(ngModel)]="lineSelected.dataSource[0].targetQty"></nz-input-number>
+                <nz-input-number [nzMin]="0" [nzStep]="1" [(ngModel)]="lineSelected.dataSource[0].targetQty" [nzReadOnly]="true"></nz-input-number>
               </td>
-            </tr>
-            <tr>
               <td><label>Actual</label></td>
               <td>
                 <nz-input-number [nzMin]="0" [nzStep]="1" [(ngModel)]="lineSelected.dataSource[0].actualQty"></nz-input-number>
               </td>
             </tr>
             <tr>
-              <td><label>Tháo Die A</label></td>
+              <td><label>Tháo Die</label></td>
+              <td><label>Die A</label></td>
               <td>
                 <nz-input-number [nzMin]="0" [nzStep]="1" [(ngModel)]="lineSelected.dataSource[0].dieAQty"></nz-input-number>
               </td>
-            </tr>
-            <tr>
-              <td><label>Tháo Die B</label></td>
+              <td><label>Die B</label></td>
               <td>
                 <nz-input-number [nzMin]="0" [nzStep]="1" [(ngModel)]="lineSelected.dataSource[0].dieBQty"></nz-input-number>
               </td>
             </tr>
             <tr>
               <td><label>Remark</label></td>
-              <td>
+              <td colspan="4">
                 <dx-html-editor *ngIf="lineSelected" height="200px" [(value)]="lineSelected.dataSource[0].remark" [valueType]="'html'">
                   <dxo-toolbar [multiline]="true">
                     <dxi-item name="undo"></dxi-item>
@@ -263,15 +261,6 @@
                     <dxi-item name="separator"></dxi-item>
                     <dxi-item name="clear"></dxi-item>
                     <dxi-item name="blockquote"></dxi-item>
-                    <!-- <dxi-item name="separator"></dxi-item>
-                    <dxi-item name="insertTable"></dxi-item>
-                    <dxi-item name="deleteTable"></dxi-item>
-                    <dxi-item name="insertRowAbove"></dxi-item>
-                    <dxi-item name="insertRowBelow"></dxi-item>
-                    <dxi-item name="deleteRow"></dxi-item>
-                    <dxi-item name="insertColumnLeft"></dxi-item>
-                    <dxi-item name="insertColumnRight"></dxi-item>
-                    <dxi-item name="deleteColumn"></dxi-item> -->
                   </dxo-toolbar>
                   <dxo-media-resizing [enabled]="true"> </dxo-media-resizing>
                 </dx-html-editor>
