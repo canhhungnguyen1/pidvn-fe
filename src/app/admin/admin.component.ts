@@ -289,7 +289,7 @@ export class AdminComponent implements OnInit {
     this.examHistoryEMCLink = `${this.baseUrlJava}/pidvn/ma/exam/listexam?area=EMC`;
     this.relayECOPLink = `${this.baseUrlJava}/pidvn/ma/ecop/menu?accessToken=${token2}`;
     this.pihProcessReport = `${this.baseUrlJava}/pidvn/pih/pih_process/pih_process_report?accessToken=${accessToken}`
-    this.materialWarehouseLink = `${this.baseUrlJavaHttps}/pidvn/pur/wh?pn=&qty=&req_no=&accessToken=${token2}`
+    this.materialWarehouseLink = `${this.baseUrlJavaHttps}/pidvn/pur/wh?pn=&qty=&req_no=&type=1&accessToken=${token2}`
     this.dotLink = `${this.baseUrlJavaHttps}/pidvn/sales/isp/dot?accessToken=${token2}`
     this.quanLyBaiKiemTraLink = `${this.baseUrlJavaHttps}/pidvn/ma/exam/action?accessToken=${token2}`
     this.dangKyLamBaiKiemTraLink = `${this.baseUrlJavaHttps}/pidvn/ma/exam/register?accessToken=${token2}`
