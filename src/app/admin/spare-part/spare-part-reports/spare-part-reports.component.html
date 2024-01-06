@@ -1,0 +1,35 @@
+<nz-tabset>
+  <nz-tab nzTitle="Reports">
+    <nz-date-picker
+      nzMode="month"
+      [(ngModel)]="date"
+      (ngModelChange)="onChangeMonth($event)"
+    ></nz-date-picker>
+
+    <dx-chart id="chart" [dataSource]="sparePartData" palette="soft">
+      <dxo-title
+        text="Total Amount Spare Part using by Line"
+        [subtitle]="subtitle"
+      >
+      </dxo-title>
+      <dxo-common-series-settings
+        argumentField="line"
+        type="bar"
+        valueField="totalAmount"
+        [ignoreEmptyPoints]="true"
+      >
+      </dxo-common-series-settings>
+      <dxo-series-template nameField="line"></dxo-series-template>
+
+      <dxi-value-axis>
+        <dxo-title text="Total Amount (USD)"></dxo-title>
+      </dxi-value-axis>
+
+      <dxo-tooltip [enabled]="true" [shared]="true"> </dxo-tooltip>
+    </dx-chart>
+
+    <hr />
+
+    
+  </nz-tab>
+</nz-tabset>

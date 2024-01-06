@@ -27,6 +27,9 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { QRCodeModule } from 'angularx-qrcode';
+import { SparePartReportsComponent } from './spare-part-reports/spare-part-reports.component';
+import { DxChartModule } from 'devextreme-angular';
+import { DxPieChartModule } from 'devextreme-angular';
 
 @NgModule({
   declarations: [
@@ -35,7 +38,8 @@ import { QRCodeModule } from 'angularx-qrcode';
     SparePartsComponent,
     SparePartInOutComponent,
     SparePartIvtReqComponent,
-    SparePartIvtReqDetailComponent
+    SparePartIvtReqDetailComponent,
+    SparePartReportsComponent
   ],
   imports: [
     CommonModule,
@@ -58,7 +62,9 @@ import { QRCodeModule } from 'angularx-qrcode';
     NzRadioModule,
     NzUploadModule,
     NzDatePickerModule,
-    QRCodeModule
+    QRCodeModule,
+    DxChartModule,
+    DxPieChartModule
   ],
 })
 export class SparePartModule {}

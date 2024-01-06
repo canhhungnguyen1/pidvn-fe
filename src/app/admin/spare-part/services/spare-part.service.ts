@@ -19,7 +19,7 @@ export class SparePartService {
     return this.httpClient.get(`${this.baseUrl}/SparePart/SpareParts`);
   }
 
-  saveSparePart(sparePart: any) : Observable<any> {
+  saveSparePart(sparePart: any): Observable<any> {
     return this.httpClient.post(
       `${this.baseUrl}/SparePart/SparePart`,
       sparePart
@@ -66,20 +66,23 @@ export class SparePartService {
     return this.httpClient.get(`${this.baseUrl}/SparePart/Machines`);
   }
 
-
-
   /**
    * Kiem ke
    */
 
-
   getInventoryRequest(requestId: number): Observable<any> {
-    return this.httpClient.get(`${this.baseUrl}/SparePart/Inventory/Request/${requestId}`);
+    return this.httpClient.get(
+      `${this.baseUrl}/SparePart/Inventory/Request/${requestId}`
+    );
   }
 
-
-  getInventoryData(requestId: number) : Observable<any> {
-    return this.httpClient.get(`${this.baseUrl}/SparePart/Inventory/Data?requestId=${requestId}`);
+  getInventoryData(requestId: number): Observable<any> {
+    return this.httpClient.get(
+      `${this.baseUrl}/SparePart/Inventory/Data?requestId=${requestId}`
+    );
   }
 
+  getSparePartDataChart(searchVo: any): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/SparePart/Charts`, searchVo);
+  }
 }

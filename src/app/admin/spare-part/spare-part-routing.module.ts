@@ -5,6 +5,7 @@ import { SparePartsComponent } from './spare-parts/spare-parts.component';
 import { SparePartInOutComponent } from './spare-part-in-out/spare-part-in-out.component';
 import { SparePartIvtReqComponent } from './spare-part-inventory/spare-part-ivt-req/spare-part-ivt-req.component';
 import { SparePartIvtReqDetailComponent } from './spare-part-inventory/spare-part-ivt-req-detail/spare-part-ivt-req-detail.component';
+import { SparePartReportsComponent } from './spare-part-reports/spare-part-reports.component';
 
 
 const routes: Routes = [
@@ -27,7 +28,12 @@ const routes: Routes = [
   {
     path: 'spare-part-inventory-request/:id',
     component: SparePartIvtReqDetailComponent
+  },
+  {
+    path: 'spare-part-reports',
+    component: SparePartReportsComponent
   }
+
 ];
 
 @NgModule({
