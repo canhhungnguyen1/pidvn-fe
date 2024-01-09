@@ -139,10 +139,10 @@ export class PihProcessRecordingModelChangeComponent implements OnInit {
   }
 
   handleOk(): void {
-    if (this.lots.length < 24) {
-      this.toastr.warning('Chưa đủ 24 cuộn COIL', 'Warning');
-      return;
-    }
+    // if (this.lots.length < 24) {
+    //   this.toastr.warning('Chưa đủ 24 cuộn COIL', 'Warning');
+    //   return;
+    // }
 
     this.isLoading = true;
 
