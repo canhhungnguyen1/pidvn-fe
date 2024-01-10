@@ -133,27 +133,32 @@ export class SparePartInOutComponent implements OnInit {
 
   scanSparePartQrCode(event: any) {
 
-    const date = new Date();
-
     if (this.userCode === undefined || this.userCode === '') {
       this.toastr.warning('Cần scan mã nhân viên','Warning')
       this.userCodeIpt.nativeElement.select();
       return
     }
 
+    let date = new Date().toISOString().slice(0, 10);
+    let dateSplit = date.split('-');
+    let requestNo = `${dateSplit[0]}${dateSplit[1]}${dateSplit[2]}`
+    
     let obj = Object.assign({
       whUserCode: this.whUserCode,
       date: new Date(),
       receiveUserCode: this.recordType == 'OUTPUT' ? this.userCode : null,
-      partNumber: event.target.value.trim(),
+      partNumber: event.target.value.toUpperCase().trim(),
       recordType: this.recordType,
       qty: 1,
       line: '',
       machine: '',
       type: this.recordType,
       insertType: this.insertType,
-      requestNo: `${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}`
+      requestNo: requestNo
     });
+
+    
+
 
     this.mapSparePartScanned.set(obj.partNumber, obj);
     this.listSparePartScanned = Array.from(
