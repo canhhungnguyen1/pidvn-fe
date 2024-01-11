@@ -94,10 +94,10 @@ export class PihProcessRecordingModelChangeComponent implements OnInit {
     
 
 
-    if (this.lots.length >= 24) {
-      this.toastr.warning('Đã đủ số lượng', 'Warning');
-      return;
-    }
+    // if (this.lots.length >= 24) {
+    //   this.toastr.warning('Đã đủ số lượng', 'Warning');
+    //   return;
+    // }
 
     this.pihPRSvc
       .checkSetupSaiNVL(this.parentModel, lotNo)

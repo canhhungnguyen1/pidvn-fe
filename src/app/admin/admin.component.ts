@@ -289,10 +289,10 @@ export class AdminComponent implements OnInit {
     this.examHistoryEMCLink = `${this.baseUrlJava}/pidvn/ma/exam/listexam?area=EMC`;
     this.relayECOPLink = `${this.baseUrlJava}/pidvn/ma/ecop/menu?accessToken=${token2}`;
     this.pihProcessReport = `${this.baseUrlJava}/pidvn/pih/pih_process/pih_process_report?accessToken=${accessToken}`
-    this.materialWarehouseLink = `${this.baseUrlJavaHttps}/pidvn/pur/wh?pn=&qty=&req_no=&type=1&accessToken=${token2}`
-    this.dotLink = `${this.baseUrlJavaHttps}/pidvn/sales/isp/dot?accessToken=${token2}`
-    this.quanLyBaiKiemTraLink = `${this.baseUrlJavaHttps}/pidvn/ma/exam/action?accessToken=${token2}`
-    this.dangKyLamBaiKiemTraLink = `${this.baseUrlJavaHttps}/pidvn/ma/exam/register?accessToken=${token2}`
+    this.materialWarehouseLink = `${this.baseUrlJava}/pidvn/pur/wh?pn=&qty=&req_no=&type=1&accessToken=${token2}`
+    this.dotLink = `${this.baseUrlJava}/pidvn/sales/isp/dot?accessToken=${token2}`
+    this.quanLyBaiKiemTraLink = `${this.baseUrlJava}/pidvn/ma/exam/action?accessToken=${token2}`
+    this.dangKyLamBaiKiemTraLink = `${this.baseUrlJava}/pidvn/ma/exam/register?accessToken=${token2}`
     this.traceDataLink = `${this.baseUrlJava}/pidvn/ma/trace/trace_data?accessToken=${token2}`
     this.traceDataDetailLink = `${this.baseUrlJava}/pidvn/ma/trace/trace_data_detail?accessToken=${token2}`
     this.traceDataPcLink = `${this.baseUrlJava}/pidvn/ma/trace/trace_datapc?accessToken=${token2}`
