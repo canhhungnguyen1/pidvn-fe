@@ -160,10 +160,15 @@ export class SparePartInOutComponent implements OnInit {
     
 
 
-    this.mapSparePartScanned.set(obj.partNumber, obj);
-    this.listSparePartScanned = Array.from(
-      this.mapSparePartScanned.values()
-    ).reverse();
+    // this.mapSparePartScanned.set(obj.partNumber, obj);
+
+    this.listSparePartScanned.push(obj);
+    this.listSparePartScanned.reverse();
+
+
+    // this.listSparePartScanned = Array.from(
+    //   this.mapSparePartScanned.values()
+    // ).reverse();
 
     console.log('listSparePartScanned: ', this.listSparePartScanned);
     this.sparePartQrCodeIpt.nativeElement.select();
