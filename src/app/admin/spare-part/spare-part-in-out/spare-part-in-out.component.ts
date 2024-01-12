@@ -159,7 +159,8 @@ export class SparePartInOutComponent implements OnInit {
       machine: '',
       type: this.recordType,
       insertType: this.insertType,
-      requestNo: requestNo
+      requestNo: requestNo,
+      userCode: this.userCode
     });
 
     
@@ -181,6 +182,7 @@ export class SparePartInOutComponent implements OnInit {
 
   cancelSaveOutputSparePart() {
     this.isOpenOutputSparePartModal = false;
+    this.userCode = null;
     this.getSparePartRecords();
   }
 
@@ -254,12 +256,13 @@ export class SparePartInOutComponent implements OnInit {
 
     let obj = {
       id: this.sparePartRecordEdit.id,
-      partNumber: this.sparePartRecordEdit.partNumber,
+      partNumber: this.sparePartRecordEdit.partNumber.toUpperCase(),
       qty: this.sparePartRecordEdit.qty,
       factoryCode: this.sparePartRecordEdit.factoryCode,
       line: this.sparePartRecordEdit.line,
       machine: this.sparePartRecordEdit.machineId,
-      remark: this.sparePartRecordEdit.remark
+      remark: this.sparePartRecordEdit.remark,
+      receiveUserCode: this.sparePartRecordEdit.receiveUserCode.trim()
     }
     
     this.sparePartSvc.updateSparePartRecord(obj).subscribe(
