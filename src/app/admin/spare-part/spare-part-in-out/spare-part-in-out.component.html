@@ -63,29 +63,32 @@
     <dxi-column dataField="requestNo" caption="Số phiếu"></dxi-column>
     <dxi-column dataField="partNumber" caption="Part Number"></dxi-column>
     <dxi-column dataField="galileoName" caption="Galileo Name"></dxi-column>
-    <dxi-column
-      dataField="date"
-      caption="Date"
-      dataType="date"
-      format="yyyy-MM-dd"
-    ></dxi-column>
+
     <dxi-column dataField="qty" caption="Qty" alignment="right"></dxi-column>
-    <!-- <dxi-column dataField="unit" caption="Unit"></dxi-column> -->
-    <!-- <dxi-column dataField="standardPrice" caption="Standard Price"></dxi-column> -->
-    <!-- <dxi-column dataField="totalPrice" caption="Total Price"></dxi-column> -->
-    <!-- <dxi-column dataField="currencyCode" caption="Currency"></dxi-column> -->
     <dxi-column dataField="type" caption="Type"></dxi-column>
     <dxi-column dataField="machine" caption="Máy"></dxi-column>
     <dxi-column dataField="line" caption="Line"></dxi-column>
     <dxi-column dataField="whUser" caption="WH User"></dxi-column>
     <dxi-column dataField="otherUser" caption="Other User"></dxi-column>
     <dxi-column
-      dataField="createdAt"
-      caption="Thời gian"
+      dataField="date"
+      caption="Date"
       dataType="date"
-      format="yyyy-MM-dd HH:mm:ss"
+      format="yyyy-MM-dd"
+    ></dxi-column>
+    <dxi-column
+      alignment="center"
+      dataField="createdAt"
+      caption="Time"
+      dataType="date"
+      format="HH:mm"
     ></dxi-column>
     <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
+
+    <dxi-column caption="Action" cellTemplate="actionTemplate"></dxi-column>
+    <div *dxTemplate="let item of 'actionTemplate'" style="text-align: center">
+      <a (click)="openModalEditSparePartRecord(item)">Sửa</a>
+    </div>
 
     <dxo-summary>
       <dxi-total-item
@@ -101,7 +104,7 @@
       ></dxi-total-item>
     </dxo-summary>
 
-    <dxo-paging [pageSize]="10"></dxo-paging>
+    <dxo-paging [pageSize]="20"></dxo-paging>
     <dxo-pager
       [showPageSizeSelector]="true"
       [allowedPageSizes]="[10, 25, 50, 100]"
@@ -203,7 +206,10 @@
         ></dxi-column>
         <dxi-column [width]="80" dataField="qty" caption="Qty"></dxi-column>
         <dxi-column [width]="200" dataField="factoryCode" caption="Nhà máy">
-          <dxi-validation-rule type="required" message="Cần chọn nhà máy"></dxi-validation-rule>
+          <dxi-validation-rule
+            type="required"
+            message="Cần chọn nhà máy"
+          ></dxi-validation-rule>
           <dxo-lookup
             [allowClearing]="true"
             [enterKeyHint]="true"
@@ -303,5 +309,81 @@
     <button nz-button nzType="default" (click)="cancelSaveOutputSparePart()">
       Hủy
     </button>
+  </div>
+</nz-modal>
+
+<!--Edit Spare part modal -->
+<nz-modal
+  [(nzVisible)]="isOpenModalEditSparePartRecord"
+  nzTitle="Edit Spare Part record"
+>
+  <ng-container *nzModalContent>
+    <nz-table [nzData]="['']" nzFrontPagination="false" nzBordered>
+      <tbody>
+        <tr>
+          <td><label>Part No</label></td>
+          <td><input nz-input [(ngModel)]="sparePartRecordEdit.partNumber" /></td>
+        </tr>
+        <tr>
+          <td><label>Số lượng</label></td>
+          <td><input nz-input type="number" [(ngModel)]="sparePartRecordEdit.qty" /></td>
+        </tr>
+        <tr>
+          <td><label>Nhà máy</label></td>
+          <td>
+            <nz-select [(ngModel)]="sparePartRecordEdit.factoryCode">
+              <nz-option
+                *ngFor="let factory of factories"
+                [nzLabel]="factory.name"
+                [nzValue]="factory.code"
+              >
+              </nz-option>
+            </nz-select>
+          </td>
+        </tr>
+        <tr>
+          <td><label>Line</label></td>
+          <td>
+            <nz-select nzShowSearch [(ngModel)]="sparePartRecordEdit.line">
+              <nz-option
+                *ngFor="let line of lines"
+                [nzLabel]="line.name"
+                [nzValue]="line.name"
+              >
+              </nz-option>
+            </nz-select>
+          </td>
+        </tr>
+        <tr>
+          <td><label>Máy</label></td>
+          <td>
+            <nz-select nzShowSearch [(ngModel)]="sparePartRecordEdit.machineId">
+              <nz-option
+                *ngFor="let machine of machines"
+                [nzLabel]="machine.vnName"
+                [nzValue]="machine.id"
+              >
+              </nz-option>
+            </nz-select>
+          </td>
+        </tr>
+        <tr>
+          <td><label>Ghi chú</label></td>
+          <td>
+            <input nz-input [(ngModel)]="sparePartRecordEdit.remark" />
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
+  <div *nzModalFooter>
+    <button
+      nz-button
+      nzType="default"
+      (click)="isOpenModalEditSparePartRecord = false"
+    >
+      Hủy
+    </button>
+    <button nz-button nzType="primary" (click)="onEditSparePartRecord()">Lưu</button>
   </div>
 </nz-modal>

@@ -79,6 +79,11 @@ export class SparePartInOutComponent implements OnInit {
   lines: any;
   machines: any;
 
+
+  // Edit Spare Part record
+  isOpenModalEditSparePartRecord: boolean = false;
+  sparePartRecordEdit: any;
+
   getLineStandard() {
     this.sparePartSvc.getLineStandard().subscribe(
       response => {
@@ -199,12 +204,6 @@ export class SparePartInOutComponent implements OnInit {
     });
   }
 
-
-
-
-
-
-
   beforeUpload = (file: NzUploadFile): boolean => {
     this.fileList = this.fileList.concat(file);
     return false;
@@ -237,5 +236,38 @@ export class SparePartInOutComponent implements OnInit {
           this.uploading = false;
         }
       );
+  }
+
+
+  // Edit SparePart record
+  openModalEditSparePartRecord(item: any) {
+    this.isOpenModalEditSparePartRecord = true;
+    this.sparePartRecordEdit = item.data
+
+    console.log(this.sparePartRecordEdit);
+    
+    
+  }
+
+  onEditSparePartRecord() {
+    console.log(this.sparePartRecordEdit);
+
+    let obj = {
+      id: this.sparePartRecordEdit.id,
+      partNumber: this.sparePartRecordEdit.partNumber,
+      qty: this.sparePartRecordEdit.qty,
+      factoryCode: this.sparePartRecordEdit.factoryCode,
+      line: this.sparePartRecordEdit.line,
+      machine: this.sparePartRecordEdit.machineId,
+      remark: this.sparePartRecordEdit.remark
+    }
+    
+    this.sparePartSvc.updateSparePartRecord(obj).subscribe(
+      response => {
+        this.isOpenModalEditSparePartRecord = false;
+        this.getSparePartRecords()
+      }
+    )
+
   }
 }

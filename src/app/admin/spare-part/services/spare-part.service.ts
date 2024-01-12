@@ -85,4 +85,9 @@ export class SparePartService {
   getSparePartDataChart(searchVo: any): Observable<any> {
     return this.httpClient.post(`${this.baseUrl}/SparePart/Charts`, searchVo);
   }
+
+
+  updateSparePartRecord(sparePartRecord: any): Observable<any> {
+    return this.httpClient.put(`${this.baseUrl}/SparePart/SparePartRecord`, sparePartRecord);
+  }
 }
