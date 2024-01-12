@@ -244,6 +244,7 @@ export class AdminComponent implements OnInit {
   traceDataLink!: string;
   traceDataDetailLink!: string
   traceDataPcLink!:string
+  ePurchaseLink!: string
 
 
    ngOnInit(): void {
@@ -296,6 +297,7 @@ export class AdminComponent implements OnInit {
     this.traceDataLink = `${this.baseUrlJava}/pidvn/ma/trace/trace_data?accessToken=${token2}`
     this.traceDataDetailLink = `${this.baseUrlJava}/pidvn/ma/trace/trace_data_detail?accessToken=${token2}`
     this.traceDataPcLink = `${this.baseUrlJava}/pidvn/ma/trace/trace_datapc?accessToken=${token2}`
+    this.ePurchaseLink =`${this.baseUrlJava}/pidvn/pur/purchase/menu?accessToken=${token2}`
   }
 
   weatherInfo: any;
