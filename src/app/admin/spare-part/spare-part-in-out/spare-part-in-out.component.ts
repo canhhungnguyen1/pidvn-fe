@@ -271,6 +271,15 @@ export class SparePartInOutComponent implements OnInit {
         this.getSparePartRecords()
       }
     )
+  }
 
+  onDeleteSparePartRecord() {
+    let id = this.sparePartRecordEdit.id
+    this.sparePartSvc.deleteSparePartRecord(id).subscribe(
+      response => {
+        this.isOpenModalEditSparePartRecord = false;
+        this.getSparePartRecords()
+      }
+    )
   }
 }

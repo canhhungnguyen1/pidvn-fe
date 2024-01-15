@@ -90,4 +90,8 @@ export class SparePartService {
   updateSparePartRecord(sparePartRecord: any): Observable<any> {
     return this.httpClient.put(`${this.baseUrl}/SparePart/SparePartRecord`, sparePartRecord);
   }
+
+  deleteSparePartRecord(id: number): Observable<any> {
+    return this.httpClient.delete(`${this.baseUrl}/SparePart/SparePartRecord/${id}`);
+  }
 }
