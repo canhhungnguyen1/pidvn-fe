@@ -1,73 +1,135 @@
-<dx-data-grid
-  keyExpr="id"
-  [dataSource]="spareParts"
-  [showColumnLines]="true"
-  [showRowLines]="true"
-  [showBorders]="true"
-  [allowColumnResizing]="true"
-  [columnAutoWidth]="true"
-  [rowAlternationEnabled]="true"
-  (onExporting)="onExportClient($event)"
-  (onSelectionChanged)="onSelectionChanged($event)"
->
-  <dxo-selection
-    [selectAllMode]="'allPages'"
-    [showCheckBoxesMode]="'always'"
-    mode="multiple"
-  ></dxo-selection>
-  <dxo-paging [pageSize]="10"></dxo-paging>
-  <dxo-filter-row [visible]="true"></dxo-filter-row>
-  <dxo-export [enabled]="true"></dxo-export>
-  <dxo-column-chooser
-    #columnChooser
-    [enabled]="true"
-    [mode]="'select'"
-    [title]="'Cột hiển thị'"
-  >
-  </dxo-column-chooser>
+<nz-tabset [(nzSelectedIndex)]="selectedIndex">
+  <nz-tab nzTitle="Spare Parts">
+    <dx-data-grid
+      keyExpr="id"
+      [dataSource]="spareParts"
+      [showColumnLines]="true"
+      [showRowLines]="true"
+      [showBorders]="true"
+      [allowColumnResizing]="true"
+      [columnAutoWidth]="true"
+      [rowAlternationEnabled]="true"
+      (onExporting)="onExportClient($event)"
+      (onSelectionChanged)="onSelectionChanged($event)"
+    >
+      <dxo-selection
+        [selectAllMode]="'allPages'"
+        [showCheckBoxesMode]="'always'"
+        mode="multiple"
+      ></dxo-selection>
+      <dxo-paging [pageSize]="10"></dxo-paging>
+      <dxo-filter-row [visible]="true"></dxo-filter-row>
+      <dxo-export [enabled]="true"></dxo-export>
+      <dxo-column-chooser
+        #columnChooser
+        [enabled]="true"
+        [mode]="'select'"
+        [title]="'Cột hiển thị'"
+      >
+      </dxo-column-chooser>
 
-  <dxo-toolbar>
-    <dxi-item location="before">
-      <button nz-button nzType="primary" (click)="openAddSparePartModal()">
-        <span nz-icon nzType="plus"></span>
-        Thêm mới
-      </button>
-    </dxi-item>
+      <dxo-toolbar>
+        <dxi-item location="before">
+          <button nz-button nzType="primary" (click)="openAddSparePartModal()">
+            <span nz-icon nzType="plus"></span>
+            Thêm mới
+          </button>
+        </dxi-item>
 
-    <dxi-item location="after">
-      <nz-space>
-        <button nz-button nzType="default" (click)="openPrintQRModal()">
-          <span nz-icon nzType="printer"></span>
-        </button>
-      </nz-space>
-    </dxi-item>
+        <dxi-item location="after">
+          <nz-space> </nz-space>
+        </dxi-item>
 
-    <dxi-item name="exportButton"></dxi-item>
-    <dxi-item name="columnChooserButton" location="after"></dxi-item>
-  </dxo-toolbar>
+        <dxi-item name="exportButton"></dxi-item>
+        <dxi-item name="columnChooserButton" location="after"></dxi-item>
+      </dxo-toolbar>
 
-  <dxi-column dataField="partNumber" caption="Part Number"></dxi-column>
-  <dxi-column dataField="galileoName" caption="Galileo Name"></dxi-column>
-  <dxi-column dataField="name" caption="Name"></dxi-column>
-  <dxi-column
-    caption="QR Code"
-    cellTemplate="qrCodeTemplate"
-    [fixed]="true"
-    fixedPosition="right"
-    [visible]="false"
-  >
-    <div *dxTemplate="let item of 'qrCodeTemplate'" style="text-align: center">
-      <nz-qrcode [nzValue]="item.data.partNumber" [nzSize]="50"></nz-qrcode>
+      <dxi-column dataField="partNumber" caption="Part Number"></dxi-column>
+      <dxi-column dataField="galileoName" caption="Galileo Name"></dxi-column>
+      <dxi-column dataField="name" caption="Name"></dxi-column>
+      <dxi-column
+        caption="QR Code"
+        cellTemplate="qrCodeTemplate"
+        [fixed]="true"
+        fixedPosition="right"
+        [visible]="false"
+      >
+        <div
+          *dxTemplate="let item of 'qrCodeTemplate'"
+          style="text-align: center"
+        >
+          <nz-qrcode [nzValue]="item.data.partNumber" [nzSize]="50"></nz-qrcode>
+        </div>
+      </dxi-column>
+
+      <dxo-paging [pageSize]="10"></dxo-paging>
+      <dxo-pager
+        [showPageSizeSelector]="true"
+        [allowedPageSizes]="[10, 25, 50, 100]"
+      >
+      </dxo-pager>
+    </dx-data-grid>
+  </nz-tab>
+  <nz-tab nzTitle="QR Code">
+    <button
+      nz-button
+      [nzType]="'primary'"
+      printSectionId="qrPrint"
+      [useExistingCss]="true"
+      ngxPrint
+      style="background: green"
+      (click)="changeTab()"
+    >
+      <span nz-icon nzType="printer"></span>
+    </button>
+    <div id="qrPrint">
+      <div
+        nz-row
+        nzJustify="start"
+        nzAlign="middle"
+        [nzGutter]="24"
+      >
+        <div
+          nz-col
+          nzXs="8"
+          nzSm="8"
+          nzMd="8"
+          nzLg="8"
+          *ngFor="let row of selectedRows"
+        >
+          <table
+            class="qr-tbl"
+            style="
+              border: 1px solid black;
+              border-collapse: collapse;
+              width: 100%;
+            "
+          >
+            <tbody>
+              <tr style="text-align: center">
+                <qrcode
+                  [qrdata]="row.partNumber"
+                  [allowEmptyString]="true"
+                  [cssClass]="'center'"
+                  [elementType]="'img'"
+                  [errorCorrectionLevel]="'M'"
+                  [margin]="4"
+                  [scale]="1"
+                  [width]="100"
+                ></qrcode>
+              </tr>
+              <tr style="text-align: center">
+                <label style="font-weight: bold; font-size: 20px">{{
+                  row.partNumber
+                }}</label>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
-  </dxi-column>
-
-  <dxo-paging [pageSize]="10"></dxo-paging>
-  <dxo-pager
-    [showPageSizeSelector]="true"
-    [allowedPageSizes]="[10, 25, 50, 100]"
-  >
-  </dxo-pager>
-</dx-data-grid>
+  </nz-tab>
+</nz-tabset>
 
 <nz-modal [(nzVisible)]="isOpenAddSparePartModal" nzTitle="Thêm mới Spare Part">
   <ng-container *nzModalContent>
@@ -126,48 +188,6 @@
       [nzLoading]="isConfirmLoading"
     >
       Tạo
-    </button>
-  </div>
-</nz-modal>
-
-<nz-modal [(nzVisible)]="isOpenPrintQRModal" nzWidth="1000px">
-  <ng-container *nzModalContent>
-    <div id="qrPrint">
-      <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
-        <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" *ngFor="let row of selectedRows">
-          <table class="qr-tbl" style="border: 1px solid black; border-collapse: collapse; width: 100%;" >
-            <tbody>
-              <tr style="text-align: center;">
-                <qrcode
-                  [qrdata]="row.partNumber"
-                  [allowEmptyString]="true"
-                  [cssClass]="'center'"
-                  [elementType]="'img'"
-                  [errorCorrectionLevel]="'M'"
-                  [margin]="4"
-                  [scale]="1"
-                  [width]="100"
-                ></qrcode>
-              </tr>
-              <tr style="text-align: center;">
-                <label style="font-weight: bold; font-size: 20px;">{{ row.partNumber }}</label>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </ng-container>
-  <div *nzModalFooter>
-    <button
-      nz-button
-      [nzType]="'primary'"
-      printSectionId="qrPrint"
-      [useExistingCss]="true"
-      ngxPrint
-      style="background: green"
-    >
-      <span nz-icon nzType="printer"></span> In QR Code
     </button>
   </div>
 </nz-modal>

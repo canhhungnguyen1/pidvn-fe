@@ -70,5 +70,10 @@ export class SparePartsComponent implements OnInit {
     
   }
 
+  selectedIndex = 0
+  changeTab() {
+    this.selectedIndex = 1
+  }
+
   
 }

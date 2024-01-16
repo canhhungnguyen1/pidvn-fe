@@ -31,6 +31,7 @@ import { SparePartReportsComponent } from './spare-part-reports/spare-part-repor
 import { DxChartModule } from 'devextreme-angular';
 import { DxPieChartModule } from 'devextreme-angular';
 import { NgxPrintModule } from 'ngx-print';
+import { SparePartPrintQrComponent } from './spare-part-print-qr/spare-part-print-qr.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { NgxPrintModule } from 'ngx-print';
     SparePartInOutComponent,
     SparePartIvtReqComponent,
     SparePartIvtReqDetailComponent,
-    SparePartReportsComponent
+    SparePartReportsComponent,
+    SparePartPrintQrComponent
   ],
   imports: [
     CommonModule,
