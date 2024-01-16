@@ -8,10 +8,23 @@
   [columnAutoWidth]="true"
   [rowAlternationEnabled]="true"
   (onExporting)="onExportClient($event)"
+  (onSelectionChanged)="onSelectionChanged($event)"
 >
+  <dxo-selection
+    [selectAllMode]="'allPages'"
+    [showCheckBoxesMode]="'always'"
+    mode="multiple"
+  ></dxo-selection>
   <dxo-paging [pageSize]="10"></dxo-paging>
   <dxo-filter-row [visible]="true"></dxo-filter-row>
   <dxo-export [enabled]="true"></dxo-export>
+  <dxo-column-chooser
+    #columnChooser
+    [enabled]="true"
+    [mode]="'select'"
+    [title]="'Cột hiển thị'"
+  >
+  </dxo-column-chooser>
 
   <dxo-toolbar>
     <dxi-item location="before">
@@ -21,7 +34,16 @@
       </button>
     </dxi-item>
 
+    <dxi-item location="after">
+      <nz-space>
+        <button nz-button nzType="default" (click)="openPrintQRModal()">
+          <span nz-icon nzType="printer"></span>
+        </button>
+      </nz-space>
+    </dxi-item>
+
     <dxi-item name="exportButton"></dxi-item>
+    <dxi-item name="columnChooserButton" location="after"></dxi-item>
   </dxo-toolbar>
 
   <dxi-column dataField="partNumber" caption="Part Number"></dxi-column>
@@ -32,12 +54,9 @@
     cellTemplate="qrCodeTemplate"
     [fixed]="true"
     fixedPosition="right"
+    [visible]="false"
   >
-    <div
-      *dxTemplate="let item of 'qrCodeTemplate'"
-      style="text-align: center"
-      (click)="openPrintQRModal(item)"
-    >
+    <div *dxTemplate="let item of 'qrCodeTemplate'" style="text-align: center">
       <nz-qrcode [nzValue]="item.data.partNumber" [nzSize]="50"></nz-qrcode>
     </div>
   </dxi-column>
@@ -111,29 +130,44 @@
   </div>
 </nz-modal>
 
-<nz-modal [(nzVisible)]="isOpenPrintQRModal" nzTitle="Print QR card">
+<nz-modal [(nzVisible)]="isOpenPrintQRModal" nzWidth="1000px">
   <ng-container *nzModalContent>
-    <div id="printLabel">
-      <table class="qr-label">
-        <tbody>
-          <tr>
-            <td style="text-align: center;">
-              <qrcode
-                [qrdata]="sparePartSelected?.partNumber"
-                [allowEmptyString]="true"
-                [cssClass]="'center'"
-                [elementType]="'img'"
-                [errorCorrectionLevel]="'M'"
-                [margin]="4"
-                [scale]="1"
-                [width]="200"
-                [title]="sparePartSelected?.partNumber"
-              ></qrcode>
-              <span>{{sparePartSelected?.partNumber}}</span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <div id="qrPrint">
+      <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+        <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" *ngFor="let row of selectedRows">
+          <table class="qr-tbl" style="border: 1px solid black; border-collapse: collapse; width: 100%;" >
+            <tbody>
+              <tr style="text-align: center;">
+                <qrcode
+                  [qrdata]="row.partNumber"
+                  [allowEmptyString]="true"
+                  [cssClass]="'center'"
+                  [elementType]="'img'"
+                  [errorCorrectionLevel]="'M'"
+                  [margin]="4"
+                  [scale]="1"
+                  [width]="100"
+                ></qrcode>
+              </tr>
+              <tr style="text-align: center;">
+                <label style="font-weight: bold; font-size: 20px;">{{ row.partNumber }}</label>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </ng-container>
+  <div *nzModalFooter>
+    <button
+      nz-button
+      [nzType]="'primary'"
+      printSectionId="qrPrint"
+      [useExistingCss]="true"
+      ngxPrint
+      style="background: green"
+    >
+      <span nz-icon nzType="printer"></span> In QR Code
+    </button>
+  </div>
 </nz-modal>

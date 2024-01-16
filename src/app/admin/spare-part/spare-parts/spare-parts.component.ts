@@ -59,11 +59,16 @@ export class SparePartsComponent implements OnInit {
     )
   }
 
-  openPrintQRModal(item: any) {
+  openPrintQRModal() {
     this.isOpenPrintQRModal = true
-    this.sparePartSelected = item.data
-    console.log('AAA: ', this.sparePartSelected);
     
   }
 
+  selectedRows: any;
+  onSelectionChanged(event: any) {
+    this.selectedRows = event.selectedRowsData;
+    
+  }
+
+  
 }

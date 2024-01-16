@@ -30,6 +30,7 @@ import { QRCodeModule } from 'angularx-qrcode';
 import { SparePartReportsComponent } from './spare-part-reports/spare-part-reports.component';
 import { DxChartModule } from 'devextreme-angular';
 import { DxPieChartModule } from 'devextreme-angular';
+import { NgxPrintModule } from 'ngx-print';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { DxPieChartModule } from 'devextreme-angular';
     NzDatePickerModule,
     QRCodeModule,
     DxChartModule,
-    DxPieChartModule
+    DxPieChartModule,
+    NgxPrintModule
   ],
 })
 export class SparePartModule {}
