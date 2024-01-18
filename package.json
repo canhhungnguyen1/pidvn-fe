@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng serve --host=0.0.0.0 --disable-host-check --o",
-    "build": "ng build --aot --output-hashing=all",
+    "build": "ng build --aot --output-hashing=all --configuration=production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
