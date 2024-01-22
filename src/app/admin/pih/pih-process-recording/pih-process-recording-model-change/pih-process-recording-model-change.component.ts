@@ -158,14 +158,20 @@ export class PihProcessRecordingModelChangeComponent implements OnInit {
     };
 
     this.pihPRSvc.changeModel(changeModelParams).subscribe((response) => {
-      this.isVisible = false;
-      this.isLoading = false;
+      
       this.mapLotsScanned = new Map();
       this.lots = new Array();
       this.scanner = new ScannerVo();
+      this.toastr.success('Setup thành công','Success')
 
-      this.getMaterials(searchVo);
     });
+
+    setTimeout(() => {
+      this.isVisible = false;
+      this.isLoading = false;
+      this.getMaterials(searchVo);
+    }, 5000);
+
   }
 
   handleCancel(): void {

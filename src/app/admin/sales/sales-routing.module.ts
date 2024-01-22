@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SalesComponent } from './sales.component';
 import { UpdatePsiPriceComponent } from './update-psi-price/update-psi-price.component';
+import { ActualDppDataComponent } from './actual-dpp-data/actual-dpp-data.component';
 
 const routes: Routes = [
   {
@@ -11,6 +12,10 @@ const routes: Routes = [
       {
         path: 'update-psi-price',
         component: UpdatePsiPriceComponent
+      },
+      {
+        path: 'actual-dpp-data',
+        component: ActualDppDataComponent,
       }
     ]
   }

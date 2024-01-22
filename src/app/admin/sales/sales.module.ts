@@ -19,8 +19,14 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { DxHtmlEditorModule } from 'devextreme-angular';
+import { ActualDppDataComponent } from './actual-dpp-data/actual-dpp-data.component';
+import { DxButtonModule, DxDataGridModule } from 'devextreme-angular';
 @NgModule({
-  declarations: [SalesComponent, UpdatePsiPriceComponent],
+  declarations: [
+    SalesComponent,
+    UpdatePsiPriceComponent,
+    ActualDppDataComponent,
+  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -38,7 +44,9 @@ import { DxHtmlEditorModule } from 'devextreme-angular';
     NzIconModule,
     NzModalModule,
     NzInputNumberModule,
-    DxHtmlEditorModule
+    DxHtmlEditorModule,
+    DxButtonModule,
+    DxDataGridModule
   ],
 })
 export class SalesModule {}
