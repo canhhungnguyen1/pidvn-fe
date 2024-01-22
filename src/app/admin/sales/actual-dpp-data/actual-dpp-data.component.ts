@@ -18,6 +18,7 @@ export class ActualDppDataComponent {
   isLoading: boolean = false;
 
   getAndWriteExcelActualDppData() {
+    this.isLoading = true;
     this.actualDppDataSvc.getAndWriteActualDpp().subscribe((response) => {
       this.isLoading = false;
       this.dppData = response;
