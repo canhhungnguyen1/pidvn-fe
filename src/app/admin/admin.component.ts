@@ -246,6 +246,7 @@ export class AdminComponent implements OnInit {
   traceDataPcLink!:string
   ePurchaseLink!: string
   eOTLink!: string;
+  eShiftLink!: string;
   pihProcessScannerLinkv2!: string;
 
 
@@ -258,6 +259,9 @@ export class AdminComponent implements OnInit {
     this.eCommitLink = `${this.baseUrlJava}/pidvn/hr/camket/menu?accessToken=${token2}`
     this.eLeaveLink = `${this.baseUrlJava}/pidvn/hr/leave/menu?accessToken=${token2}`
     this.eOTLink = `${this.baseUrlJava}/pidvn/hr/ot/menu?accessToken=${token2}`
+    this.eShiftLink = `${this.baseUrlJava}/pidvn/hr/shift/menu?accessToken=${token2}`
+
+
     this.eApprovalLink = `${this.baseUrlJava}/Manufacturing/Handle/approve/menu?accessToken=${token2}`
     this.eContractLink = `${this.baseUrlJava}/pidvn/acc/contract/menu?accessToken=${token2}`
     this.eConfirmCheckInLink = `${this.baseUrlJava}/pidvn/hr/confirm/menu?accessToken=${token2}`
