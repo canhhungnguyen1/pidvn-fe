@@ -28,6 +28,10 @@ const routes: Routes = [
       {
         path: 'qa-equipment-mng',
         loadChildren: () => import('./qa-equipment-mng/qa-equipment-mng.module').then(m => m.QaEquipmentMngModule)
+      },
+      {
+        path: 'qa-training-matrix',
+        loadChildren: () => import('./qa-training-matrix/qa-training-matrix.module').then(m => m.QaTrainingMatrixModule)
       }
     ],
   },

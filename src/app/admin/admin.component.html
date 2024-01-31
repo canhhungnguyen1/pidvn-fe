@@ -399,6 +399,14 @@
             </ul>
           </li>
           <li nz-menu-item nzMatchRouter>
+            <i nz-icon nzType="clock-circle"></i>
+            <span><a [href]="eOTLink" target="blank">E-OT</a></span>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <i nz-icon nzType="clock-circle"></i>
+            <span><a [href]="eShiftLink" target="blank">E-Shift Working</a></span>
+          </li>
+          <li nz-menu-item nzMatchRouter>
             <i nz-icon nzType="check-square"></i>
             <span><a [href]="eCommitLink" target="blank">E-Commit</a></span>
           </li>
@@ -414,14 +422,8 @@
               ></span
             >
           </li>
-          <li nz-menu-item nzMatchRouter>
-            <i nz-icon nzType="clock-circle"></i>
-            <span><a [href]="eOTLink" target="blank">E-OT</a></span>
-          </li>
-          <li nz-menu-item nzMatchRouter>
-            <i nz-icon nzType="clock-circle"></i>
-            <span><a [href]="eShiftLink" target="blank">E-Shift Working</a></span>
-          </li>
+          
+          
           <li nz-menu-item nzMatchRouter>
             <i nz-icon nzType="wallet"></i>
             <span>
@@ -539,6 +541,14 @@
                 <a [href]="iqcLink.skillmap.xrf" target="blank">Skill XRF</a>
               </li>
             </ul>
+          </li>
+
+          <li nz-menu-item nzMatchRouter>
+            <a
+              routerLink="/admin/qa/qa-training-matrix/menu"
+              (click)="onHideSidebar()"
+              >Training Matrix</a
+            >
           </li>
         </ul>
       </li>
