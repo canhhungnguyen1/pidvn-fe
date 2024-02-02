@@ -61,6 +61,8 @@ export class MaterialReceiptComponent implements OnInit {
   totalQtyDetailBigBox: number = 0;
   loadingBtnSaveBigBox = false;
 
+  invoiceDetails: any; // biến này để check dữ liệu sau khi nhập kho theo Invoice
+
   ngOnInit(): void {
     //this.getMaterials(this.searchVo);
   }
@@ -71,7 +73,7 @@ export class MaterialReceiptComponent implements OnInit {
    */
   @HostListener('window:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    console.log('AAAAA')
+    console.log('AAAAA');
     if (event.keyCode == 13) {
       if (!this.qrCode) {
         return;
@@ -178,10 +180,13 @@ export class MaterialReceiptComponent implements OnInit {
     let header = {
       regNo: this.slipInput,
       type: 'IM',
-      userId: this.jwtHelperService.decodeToken(localStorage.getItem('accessToken')?.toString()).UserId,
+      userId: this.jwtHelperService.decodeToken(
+        localStorage.getItem('accessToken')?.toString()
+      ).UserId,
     };
-    this.materialReceiptService.createPurWhHeader(header).subscribe(
-      response => {
+    this.materialReceiptService
+      .createPurWhHeader(header)
+      .subscribe((response) => {
         this.materialReceiptService.saveMaterial(this.listBoxScanned).subscribe(
           (response) => {
             this.toastr.success('Lưu thành công !', 'Success');
@@ -200,8 +205,7 @@ export class MaterialReceiptComponent implements OnInit {
             this.isShowErrorModal = true;
           }
         );
-      }
-    )
+      });
   }
 
   getMaterials(searchVo: PurWhRecordsSearchVo) {
@@ -360,12 +364,13 @@ export class MaterialReceiptComponent implements OnInit {
     let header = {
       regNo: this.slipInput,
       type: 'IM',
-      userId: this.jwtHelperService.decodeToken(localStorage.getItem('accessToken')?.toString()).UserId,
+      userId: this.jwtHelperService.decodeToken(
+        localStorage.getItem('accessToken')?.toString()
+      ).UserId,
     };
     this.materialReceiptService
       .createPurWhHeader(header)
       .subscribe((response) => {
-
         this.materialReceiptService
           .saveBigBox(dataSave, this.invoiceInput)
           .subscribe((response) => {
@@ -381,7 +386,6 @@ export class MaterialReceiptComponent implements OnInit {
             this.getMaterials(this.searchVo);
             this.loadingBtnSaveBigBox = false;
           });
-
       });
   }
 
@@ -418,7 +422,7 @@ export class MaterialReceiptComponent implements OnInit {
     ).Username;
 
     if (employee != '3011934') {
-      this.toastr.warning('Bạn không có quyền xóa !', 'Warning');
+      this.toastr.warning('Bạn không có quyền xóa !', 'note');
       return;
     }
 
@@ -437,4 +441,33 @@ export class MaterialReceiptComponent implements OnInit {
   }
 
   onExportClient(event: any) {}
+
+  checkDataSauNhapKho() {
+    this.materialReceiptService
+      .getInvoiceDetail(this.searchVo)
+      .subscribe((response) => {
+        // this.invoiceDetails = response
+
+        // Tạo một đối tượng map để lưu trữ tổng theo từng nhóm
+        const groupedSum: any = {};
+
+        // Duyệt qua mỗi phần tử trong mảng dữ liệu và tính tổng cho từng nhóm
+        response.forEach((item: any) => {
+          if (!groupedSum[item.model]) {
+            // Nếu nhóm chưa tồn tại, khởi tạo tổng bằng 0
+            groupedSum[item.model] = 0;
+          }
+          // Cộng giá trị vào tổng của nhóm
+          groupedSum[item.model] += item.qty;
+        });
+
+        // Chuyển đổi từ map thành mảng nếu cần
+        const result = Object.entries(groupedSum).map(([model, qty]) => ({
+          model,
+          qty,
+        }));
+
+        this.invoiceDetails = result;
+      });
+  }
 }

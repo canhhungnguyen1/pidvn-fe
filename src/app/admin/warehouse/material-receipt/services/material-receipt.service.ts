@@ -71,4 +71,11 @@ export class MaterialReceiptService {
       data
     );
   }
+
+  public getInvoiceDetail(data: any): Observable<any> {
+    return this.httpClient.post(
+      `${this.baseUrl}/Warehouse/Material/Receipt/InvoiceDetail`,
+      data
+    );
+  }
 }

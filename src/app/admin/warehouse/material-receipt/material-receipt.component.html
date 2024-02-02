@@ -451,11 +451,11 @@
       ></dxi-column>
       <dxi-column dataField="slipNo" caption="Slip"></dxi-column>
       <dxi-column dataField="invoice" caption="Invoice"></dxi-column>
-      <dxi-column
-        caption="Action"
-        cellTemplate="actionTemplate"
-      >
-        <div *dxTemplate="let item of 'actionTemplate'" style="text-align: center">
+      <dxi-column caption="Action" cellTemplate="actionTemplate">
+        <div
+          *dxTemplate="let item of 'actionTemplate'"
+          style="text-align: center"
+        >
           <a style="color: red" (click)="deleteRecord(item.data)">Xóa</a>
         </div>
       </dxi-column>
@@ -475,6 +475,71 @@
         [allowedPageSizes]="[10, 25, 50, 100]"
       >
       </dxo-pager>
+    </dx-data-grid>
+  </nz-tab>
+
+  <nz-tab nzTitle="Check sau nhập kho">
+    <nz-collapse>
+      <nz-collapse-panel
+        nzHeader="Tìm kiếm"
+        [nzActive]="true"
+        [nzShowArrow]="false"
+      >
+        <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+          <div nz-col nzXs="12" nzSm="12" nzLg="4">
+            <label nzXs="24" nzSm="24" nzLg="24">Invoice</label>
+            <div nzXs="24" nzSm="24" nzLg="24">
+              <input nz-input [(ngModel)]="searchVo.invoice" />
+            </div>
+          </div>
+
+          <div nz-col nzXs="12" nzSm="12" nzLg="4">
+            <label nzXs="24" nzSm="24" nzLg="24">&nbsp;</label>
+            <div nzXs="24" nzSm="24" nzLg="24">
+              <button
+                nz-button
+                nzType="primary"
+                class="btn btn-success float-right"
+                (click)="checkDataSauNhapKho()"
+              >
+                Search
+              </button>
+            </div>
+          </div>
+        </div>
+      </nz-collapse-panel>
+    </nz-collapse>
+
+    <dx-data-grid
+      keyExpr="model"
+      [dataSource]="invoiceDetails"
+      [showColumnLines]="true"
+      [showRowLines]="true"
+      [showBorders]="true"
+      [allowColumnResizing]="true"
+      [columnAutoWidth]="true"
+      [rowAlternationEnabled]="true"
+    >
+      <dxo-paging [pageSize]="10"></dxo-paging>
+      <dxo-filter-row [visible]="true"></dxo-filter-row>
+      <dxo-export [enabled]="false"></dxo-export>
+
+      <dxi-column dataField="model" caption="Part"></dxi-column>
+      <dxi-column
+        dataField="qty"
+        caption="Qty"
+        dataType="number"
+        format="#,##0.0"
+        alignment="left"
+      ></dxi-column>
+
+      <dxo-summary>
+        <dxi-total-item
+          column="qty"
+          summaryType="sum"
+          valueFormat="#,##0.0"
+        ></dxi-total-item>
+      </dxo-summary>
     </dx-data-grid>
   </nz-tab>
 </nz-tabset>
