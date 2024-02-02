@@ -42,6 +42,7 @@ export class AdminComponent implements OnInit {
   paymentLink!: string;
   priceLink!:string;
   eDummyLink!: string;
+  eChangeDraftLink!: string;
   relayDashboardLink!: string;
   listExpired!: string;
   listOpLineRelay!: string;
@@ -270,6 +271,9 @@ export class AdminComponent implements OnInit {
     this.paymentLink = `${this.baseUrlJava}/pidvn/acc/payment/menu?accessToken=${token2}`
     this.priceLink = `${this.baseUrlJava}/pidvn/acc/price/menu?accessToken=${token2}`
     this.eDummyLink = `${this.baseUrlJava}/pidvn/pe/dummy/menu?accessToken=${token2}`
+
+    this.eChangeDraftLink = `${this.baseUrlJava}/pidvn/pe/changedraft/menu?accessToken=${token2}`
+
     this.listOpLineRelay = `${this.baseUrlJava}/pidvn/ma/skillmap/list_op_inline?area=Relay`;
     this.listOpLineVR = `${this.baseUrlJava}/pidvn/ma/skillmap/list_op_inline?area=EMC`;
     this.fgWarehouseLink = `${this.baseUrlJava}/pidvn/sales/fg?accessToken=${token2}`
