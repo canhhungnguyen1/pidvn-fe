@@ -40,7 +40,7 @@ export class WasteDetailDataComponent implements OnInit {
   users: any;
   // userSelected: any;
   weight: any;
-  note: any;
+  remark: any;
   netWeight: any;
   sealNo: any;
   packagingNo: any;
@@ -98,7 +98,7 @@ export class WasteDetailDataComponent implements OnInit {
     this.isOpenInsertModal = true;
     this.wasteImages = [];
     this.wasteTypeSelected = null;
-    this.note = null;
+    this.remark = null;
     this.weight = null;
     this.netWeight = null;
     this.sealNo = null;
@@ -178,7 +178,7 @@ export class WasteDetailDataComponent implements OnInit {
       netWeight: this.weight - this.packagingAmount * 2,
       sealNo: this.sealNo,
       packagingNo: this.packagingNo,
-      note: this.note,
+      remark: this.remark,
       images: images,
     };
 
