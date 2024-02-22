@@ -155,7 +155,11 @@
             </ul>
           </li>
           <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
-            <a routerLink="/admin/relay/relay-datecode" [queryParams]="{area: 'RELAY'}">Quản lý Date Code</a>
+            <a
+              routerLink="/admin/relay/relay-datecode"
+              [queryParams]="{ area: 'RELAY' }"
+              >Quản lý Date Code</a
+            >
           </li>
           <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
             <a routerLink="/admin/relay/check-sheet/menu">Check Sheet</a>
@@ -396,6 +400,13 @@
               >
                 Quản lý dữ liệu
               </li>
+              <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
+                <span
+                  ><a [href]="pihPrintLabelLink" target="blank"
+                    >Print Label</a
+                  ></span
+                >
+              </li>
             </ul>
           </li>
           <li nz-menu-item nzMatchRouter>
@@ -404,7 +415,9 @@
           </li>
           <li nz-menu-item nzMatchRouter>
             <i nz-icon nzType="clock-circle"></i>
-            <span><a [href]="eShiftLink" target="blank">E-Shift Working</a></span>
+            <span
+              ><a [href]="eShiftLink" target="blank">E-Shift Working</a></span
+            >
           </li>
           <li nz-menu-item nzMatchRouter>
             <i nz-icon nzType="check-square"></i>
@@ -422,8 +435,7 @@
               ></span
             >
           </li>
-          
-          
+
           <li nz-menu-item nzMatchRouter>
             <i nz-icon nzType="wallet"></i>
             <span>
@@ -561,7 +573,10 @@
       <li nz-submenu nzTitle="SALES & ISP" nzIcon="red-envelope">
         <ul>
           <li nz-menu-item nzMatchRouter>
-            <a routerLink="/admin/sales/actual-dpp-data" (click)="onHideSidebar()">
+            <a
+              routerLink="/admin/sales/actual-dpp-data"
+              (click)="onHideSidebar()"
+            >
               Actual DPP data
             </a>
           </li>
