@@ -1,1 +1,115 @@
-<p>qa-training-matrix-record works!</p>
+<nz-tabset>
+  <nz-tab nzTitle="Insert">
+    <nz-table #insertTable [nzData]="['']" nzBordered nzFrontPagination="false">
+      <thead>
+        <tr>
+          <th style="width: 20%">Chọn hình thức nhập</th>
+          <th>
+            <nz-radio-group [(ngModel)]="insertType">
+              <label nz-radio nzValue="Manual">Manual</label>
+              <label nz-radio nzValue="Excel">Excel</label>
+            </nz-radio-group>
+          </th>
+        </tr>
+      </thead>
+    </nz-table>
+
+    <ng-container [ngSwitch]="insertType">
+      <ng-template #manualTemplate [ngSwitchCase]="'Manual'">
+        <nz-collapse style="margin-top: -25px">
+          <nz-collapse-panel nzHeader="Insert Manual" nzActive="true">
+          </nz-collapse-panel>
+        </nz-collapse>
+      </ng-template>
+
+      <ng-template #excelTemplate [ngSwitchCase]="'Excel'">
+        <nz-collapse style="margin-top: -25px">
+          <nz-collapse-panel nzHeader="Upload Excel" nzActive="true">
+            <nz-table [nzData]="['']" nzBordered nzFrontPagination="false">
+              <tbody>
+                <tr>
+                  <td style="width: 50%">
+                    <nz-upload
+                      [nzAction]="uploadFileApi"
+                      (nzChange)="handleChange($event)"
+                    >
+                      <button nz-button>
+                        <span nz-icon nzType="upload"></span>
+                        Click to Upload
+                      </button>
+                    </nz-upload>
+                  </td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </nz-table>
+          </nz-collapse-panel>
+        </nz-collapse>
+      </ng-template>
+    </ng-container>
+  </nz-tab>
+
+  <nz-tab nzTitle="Data">
+    <dx-data-grid
+      id="gridContainer"
+      style="margin-top: 5px"
+      [dataSource]="trainingRecords"
+      [remoteOperations]="false"
+      [allowColumnReordering]="true"
+      [rowAlternationEnabled]="true"
+      [allowColumnResizing]="true"
+      [columnAutoWidth]="true"
+      [showColumnLines]="true"
+      [showRowLines]="true"
+      [showBorders]="true"
+    >
+      <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+      <dxo-export [enabled]="true"></dxo-export>
+      <dxo-column-chooser #columnChooser [enabled]="true" [mode]="'select'">
+      </dxo-column-chooser>
+
+      <dxo-toolbar>
+        <dxi-item location="before">
+          <nz-space>
+            <nz-date-picker
+              [(ngModel)]="date"
+              *nzSpaceItem
+              nzMode="year"
+              nzPlaceHolder="Năm"
+              style="height: 32px"
+            ></nz-date-picker>
+
+            <nz-select
+              *nzSpaceItem
+              nzShowSearch
+              nzAllowClear
+              nzPlaceHolder="Chọn khóa học"
+              [nzDropdownMatchSelectWidth]="false"
+            >
+              <nz-option
+                nzValue="jack"
+                nzLabel="Basic quality control"
+              ></nz-option>
+              <nz-option
+                nzValue="lucy"
+                nzLabel="Conflict Management"
+              ></nz-option>
+            </nz-select>
+          </nz-space>
+        </dxi-item>
+
+        <dxi-item name="exportButton"></dxi-item>
+        <dxi-item name="columnChooserButton" location="after"></dxi-item>
+      </dxo-toolbar>
+
+      <dxo-filter-row [visible]="true"></dxo-filter-row>
+
+      <dxi-column caption="ID" dataField="id"></dxi-column>
+      <dxi-column caption="Name" dataField="name"></dxi-column>
+      <dxi-column caption="Position" dataField="position"></dxi-column>
+      <dxi-column caption="Course" dataField="course"></dxi-column>
+      <dxi-column caption="Training Date" dataField="trainingDate"></dxi-column>
+      <dxi-column caption="Section" dataField="section"></dxi-column>
+    </dx-data-grid>
+  </nz-tab>
+</nz-tabset>

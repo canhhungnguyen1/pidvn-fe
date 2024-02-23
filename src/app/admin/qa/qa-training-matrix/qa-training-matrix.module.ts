@@ -5,18 +5,54 @@ import { QaTrainingMatrixMenuComponent } from './qa-training-matrix-menu/qa-trai
 import { QaTrainingMatrixRoutingModule } from './qa-training-matrix-routing.module';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { QaTrainingMatrixRecordComponent } from './qa-training-matrix-record/qa-training-matrix-record.component';
+import { QaTrainingMatrixCourseComponent } from './qa-training-matrix-course/qa-training-matrix-course.component';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { FormsModule } from '@angular/forms';
+import { NzCollapseModule } from 'ng-zorro-antd/collapse';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { NzMessageModule } from 'ng-zorro-antd/message';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import {
+  DxBulletModule,
+  DxButtonModule,
+  DxDataGridModule,
+  DxNumberBoxModule,
+  DxTemplateModule,
+} from 'devextreme-angular';
 
+import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 
 @NgModule({
   declarations: [
     QaTrainingMatrixComponent,
     QaTrainingMatrixMenuComponent,
-    QaTrainingMatrixRecordComponent
+    QaTrainingMatrixRecordComponent,
+    QaTrainingMatrixCourseComponent,
   ],
   imports: [
     CommonModule,
+    FormsModule,
     QaTrainingMatrixRoutingModule,
-    NzGridModule
+    NzGridModule,
+    NzTabsModule,
+    NzTableModule,
+    NzRadioModule,
+    NzCollapseModule,
+    NzUploadModule,
+    NzMessageModule,
+    NzButtonModule,
+    DxBulletModule,
+    DxButtonModule,
+    DxDataGridModule,
+    DxNumberBoxModule,
+    DxTemplateModule,
+    NzSpaceModule,
+    NzDatePickerModule,
+    NzSelectModule
   ]
 })
-export class QaTrainingMatrixModule { }
+export class QaTrainingMatrixModule {}
