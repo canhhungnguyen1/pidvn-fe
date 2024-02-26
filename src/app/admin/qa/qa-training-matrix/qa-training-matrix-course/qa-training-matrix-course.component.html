@@ -1,1 +1,32 @@
-<p>qa-training-matrix-course works!</p>
+<dx-data-grid
+  id="gridContainer"
+  style="margin-top: 5px"
+  [dataSource]="courses"
+  [remoteOperations]="false"
+  [allowColumnReordering]="true"
+  [rowAlternationEnabled]="true"
+  [allowColumnResizing]="true"
+  [columnAutoWidth]="true"
+  [showColumnLines]="true"
+  [showRowLines]="true"
+  [showBorders]="true"
+>
+  <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+  <dxo-export [enabled]="true"></dxo-export>
+  <dxo-column-chooser #columnChooser [enabled]="true" [mode]="'select'">
+  </dxo-column-chooser>
+
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
+
+  <dxi-column caption="ID" dataField="id"></dxi-column>
+  <dxi-column caption="Course Name" dataField="courseName"></dxi-column>
+  <dxi-column caption="Group Course" dataField="groupCourse"></dxi-column>
+  <dxi-column caption="Group Training" dataField="groupTraining"></dxi-column>
+
+  <dxo-paging [pageSize]="10"></dxo-paging>
+  <dxo-pager
+    [showPageSizeSelector]="true"
+    [allowedPageSizes]="[10, 25, 50, 100]"
+  >
+  </dxo-pager>
+</dx-data-grid>

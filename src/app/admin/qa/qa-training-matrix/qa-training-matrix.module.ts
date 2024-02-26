@@ -25,6 +25,7 @@ import {
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
     DxTemplateModule,
     NzSpaceModule,
     NzDatePickerModule,
-    NzSelectModule
+    NzSelectModule,
+    NzIconModule
   ]
 })
 export class QaTrainingMatrixModule {}

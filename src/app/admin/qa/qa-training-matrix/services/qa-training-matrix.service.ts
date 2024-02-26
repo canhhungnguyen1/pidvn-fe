@@ -10,5 +10,19 @@ import { formatDate } from '@angular/common';
 export class QaTrainingMatrixService {
   constructor(private httpClient: HttpClient) {}
 
-  private baseUrl = environment.baseUrlPhp;
+  private baseUrl = environment.baseUrl;
+
+  public getCourses(): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/Qa/TrainingMatrix/Courses`);
+  }
+
+  public getTrainingRecords(searchParam: any): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/Qa/TrainingMatrix/Records`, searchParam);
+  }
+
+  public downloadTemplateUpload(): Observable<any> {
+    return this.httpClient.post(
+      `${this.baseUrl}/Qa/TrainingMatrix/TemplateUpload`,{},{ responseType: 'blob' }
+    );
+  }
 }
