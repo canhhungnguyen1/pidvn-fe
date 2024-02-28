@@ -261,8 +261,9 @@ export class PihProcessRecordingInsertComponent implements OnInit {
   }
 
   openManualModal() {
-    this.scanner2 = new ScannerVo();
-    this.isOpenManualModal = true;
+    // this.scanner2 = new ScannerVo();
+    // this.isOpenManualModal = true;
+    alert('Không dùng chức năng này !')
   }
 
   onSave2() {

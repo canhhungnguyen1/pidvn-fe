@@ -1,9 +1,9 @@
-<nz-tabset>
+<nz-tabset [nzSelectedIndex]="1">
   <nz-tab nzTitle="Reports">
     <nz-date-picker
       nzMode="month"
       [(ngModel)]="date"
-      (ngModelChange)="onChangeMonth($event)"
+      (ngModelChange)="onChangeMonthChart($event)"
     ></nz-date-picker>
 
     <dx-chart id="chart" [dataSource]="sparePartData" palette="soft">
@@ -29,7 +29,70 @@
     </dx-chart>
 
     <hr />
+  </nz-tab>
 
-    
+  <nz-tab nzTitle="Dữ liệu theo giá">
+    <dx-data-grid
+      keyExpr="id"
+      #sparePartRecordGrid
+      [dataSource]="sparePartRecordsByPrice"
+      [showColumnLines]="true"
+      [showRowLines]="true"
+      [showBorders]="true"
+      [allowColumnResizing]="true"
+      [columnAutoWidth]="true"
+      [rowAlternationEnabled]="true"
+    >
+      <dxo-filter-row [visible]="true"></dxo-filter-row>
+      <dxo-export [enabled]="true"></dxo-export>
+
+      <dxo-column-chooser
+        #columnChooser
+        [enabled]="true"
+        [mode]="'select'"
+        [title]="'Cột hiển thị'"
+      >
+      </dxo-column-chooser>
+
+      <dxo-toolbar>
+        <dxi-item location="before">
+          <nz-space>
+            <nz-date-picker
+              nzMode="month"
+              [(ngModel)]="date"
+              (ngModelChange)="onChangeMonthRecordByPrice($event)"
+            ></nz-date-picker>
+          </nz-space>
+        </dxi-item>
+        <dxi-item name="exportButton" location="after" />
+        <dxi-item name="columnChooserButton" location="after"></dxi-item>
+      </dxo-toolbar>
+
+      <dxi-column
+        dataField="date"
+        caption="Date"
+        dataType="date"
+        format="yyyy-MM-dd"
+      ></dxi-column>
+      <dxi-column dataField="partNumber" caption="Part Number"></dxi-column>
+      <dxi-column dataField="galileoName" caption="Galileo Name"></dxi-column>
+      <dxi-column dataField="type" caption="Type"></dxi-column>
+      <dxi-column dataField="line" caption="Line"></dxi-column>
+      <dxi-column dataField="machine" caption="Máy"></dxi-column>
+      <dxi-column dataField="qty" caption="Qty" alignment="right"></dxi-column>
+      <dxi-column
+        dataField="standardPrice"
+        caption="Standard Price"
+      ></dxi-column>
+      <dxi-column dataField="unit" caption="Unit"></dxi-column>
+      <dxi-column dataField="totalPrice" caption="Total Price"></dxi-column>
+
+      <dxo-paging [pageSize]="20"></dxo-paging>
+      <dxo-pager
+        [showPageSizeSelector]="true"
+        [allowedPageSizes]="[10, 25, 50, 100]"
+      >
+      </dxo-pager>
+    </dx-data-grid>
   </nz-tab>
 </nz-tabset>

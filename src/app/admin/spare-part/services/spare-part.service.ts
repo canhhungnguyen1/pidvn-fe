@@ -94,4 +94,9 @@ export class SparePartService {
   deleteSparePartRecord(id: number): Observable<any> {
     return this.httpClient.delete(`${this.baseUrl}/SparePart/SparePartRecord/${id}`);
   }
+
+
+  getSparePartRecordsByStandardPrice(searchVo: any): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/SparePart/SparePartRecordsByStandardPrice`, searchVo);
+  }
 }
