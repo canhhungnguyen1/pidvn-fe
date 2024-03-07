@@ -101,7 +101,7 @@ export class MaterialReceiptComponent implements OnInit {
           material.key = result[3];
           material.model = result[0];
           material.qty = parseFloat(result[2]);
-          material.lotNo = result[3];
+          material.lotNo = result[3].toUpperCase();
           material.vendorCode = result[4];
           material.serial = result[5];
           // material.invoiceNo = result[6];
@@ -142,7 +142,7 @@ export class MaterialReceiptComponent implements OnInit {
     material.key = `${resultQr[3]}*${resultQr[5]}`;
     material.model = resultQr[0];
     material.qty = parseFloat(resultQr[2]);
-    material.lotNo = `${resultQr[3]}${resultQr[5]}`;
+    material.lotNo = (`${resultQr[3]}${resultQr[5]}`).toUpperCase();
     material.vendorCode = resultQr[4];
     material.serial = resultQr[5];
     material.invoiceNo = this.invoiceInput
@@ -347,7 +347,7 @@ export class MaterialReceiptComponent implements OnInit {
 
     this.listBigBoxDetail.forEach((e) => {
       let materialVo = new MaterialVo();
-      materialVo.lotNo = e.lotNo;
+      materialVo.lotNo = e.lotNo.toUpperCase();
       materialVo.qty = e.qty;
       materialVo.model = e.model;
       materialVo.invoiceNo = e.invoice;

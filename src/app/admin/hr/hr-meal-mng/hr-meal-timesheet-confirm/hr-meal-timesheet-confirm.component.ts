@@ -7,11 +7,10 @@ import { error } from 'console';
 @Component({
   selector: 'app-hr-meal-timesheet-confirm',
   templateUrl: './hr-meal-timesheet-confirm.component.html',
-  styleUrls: ['./hr-meal-timesheet-confirm.component.scss']
+  styleUrls: ['./hr-meal-timesheet-confirm.component.scss'],
 })
 export class HrMealTimesheetConfirmComponent implements OnInit {
-
-  isLoadingTimeSheetConfirm: boolean = false
+  isLoadingTimeSheetConfirm: boolean = false;
 
   constructor(
     private hrMealMngSvc: HrMealMngService,
@@ -19,21 +18,19 @@ export class HrMealTimesheetConfirmComponent implements OnInit {
     private jwtHelperService: JwtHelperService
   ) {}
 
-  ngOnInit(): void {
-    
-  }
+  ngOnInit(): void {}
 
   timesheetConfirm() {
-    this.isLoadingTimeSheetConfirm = true
+    this.isLoadingTimeSheetConfirm = true;
     this.hrMealMngSvc.timesheetConfirm().subscribe(
-      response => {
+      (response) => {
         console.log('DATA: ', response);
-        this.isLoadingTimeSheetConfirm = false
+        this.isLoadingTimeSheetConfirm = false;
       },
-      error => {
-        this.isLoadingTimeSheetConfirm = false
+      (error) => {
+        console.error('ERROR: ', error);
+        this.isLoadingTimeSheetConfirm = false;
       }
-    )
+    );
   }
-
 }

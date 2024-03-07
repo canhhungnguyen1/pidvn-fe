@@ -125,6 +125,9 @@ export class PihStopLineMainComponent implements OnInit {
 
   openModal(type: string, data: any) {
 
+    console.log(`productTypeSelected: ${this.productTypeSelected}; type: ${type}; data: ${data}`);
+    
+
     // Kiểm tra user thuộc khu vực nào
     if (!this.productTypeSelected) {
       this.toastr.warning('User chưa được set khu vực nhập dừng máy','Warning')
