@@ -33,6 +33,7 @@ export class AdminComponent implements OnInit {
   colorAvatar!: string | undefined;
 
   eCommitLink!: string;
+  eLawLink!: string;
   eLeaveLink!:string;
   eApprovalLink!: string;
   eContractLink!: string;
@@ -259,6 +260,7 @@ export class AdminComponent implements OnInit {
 
     this.relayDashboardLink = `${this.baseUrlJava}/pidvn/ma/production`
     this.eCommitLink = `${this.baseUrlJava}/pidvn/hr/camket/menu?accessToken=${token2}`
+    this.eLawLink = `${this.baseUrlJava}/pidvn/hr/law/menu?accessToken=${token2}`
     this.eLeaveLink = `${this.baseUrlJava}/pidvn/hr/leave/menu?accessToken=${token2}`
     this.eOTLink = `${this.baseUrlJava}/pidvn/hr/ot/menu?accessToken=${token2}`
     this.eShiftLink = `${this.baseUrlJava}/pidvn/hr/shift/menu?accessToken=${token2}`

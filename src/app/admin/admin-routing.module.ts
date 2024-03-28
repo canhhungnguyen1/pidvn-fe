@@ -110,6 +110,10 @@ const routes: Routes = [
       {
         path: 'spare-part',
         loadChildren: () => import('./spare-part/spare-part.module').then(m => m.SparePartModule)
+      },
+      {
+        path: 'layer2-module',
+        loadChildren: () => import('./layer2-module/layer2-module.module').then(m => m.Layer2ModuleModule)
       }
     ],
   },

@@ -120,7 +120,7 @@
         *nzSpaceItem
         style="color: rgb(107, 45, 1)"
         (click)="downloadQaCard(item)"
-        >Download</a
+        >QA</a
       >
       <a
         nz-button
@@ -130,6 +130,14 @@
         [queryParams]="{ qaCard: item.data.lotNo }"
         >Scan NVL</a
       >
+      <a
+        nz-button
+        *nzSpaceItem
+        [routerLink]="['/admin/layer2-module/defect-record/input']"
+        [queryParams]="{ qaCard: item.data.lotNo, area: 'VR' }"
+      >
+        Nhập lỗi
+      </a>
 
       <!-- <a
         nz-button
