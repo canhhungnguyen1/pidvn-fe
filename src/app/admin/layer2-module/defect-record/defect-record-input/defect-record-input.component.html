@@ -24,21 +24,79 @@
             />
           </td>
           <td><label>User ID</label></td>
-          <td>{{infoScan.user}}</td>
+          <td>{{ infoScan.user }}</td>
         </tr>
         <tr>
           <td><label>Product</label></td>
-          <td>{{infoScan.model}}</td>
+          <td>{{ infoScan.model }}</td>
           <td><label>Line</label></td>
-          <td>{{infoScan.line}}</td>
+          <td>{{ infoScan.line }}</td>
         </tr>
         <tr>
           <td><label>Date</label></td>
-          <td>{{infoScan.date}}</td>
+          <td>{{ infoScan.date }}</td>
           <td><label>Shift</label></td>
-          <td>{{infoScan.shift}}</td>
+          <td>{{ infoScan.shift }}</td>
         </tr>
       </tbody>
     </nz-table>
+  </div>
+
+  <div nz-col nzXs="24" nzSm="24" nzLg="24" style="margin-top: -20px">
+    <dx-data-grid
+      id="defectGrid"
+      #defectGrid
+      [dataSource]="dataSource"
+      [showColumnLines]="true"
+      [showRowLines]="true"
+      [showBorders]="true"
+      [allowColumnResizing]="true"
+      [columnAutoWidth]="false"
+      [rowAlternationEnabled]="true"
+      (onSaving)="onSaveHandler($event)"
+    >
+      <dxo-paging [enabled]="false"></dxo-paging>
+      <dxo-editing
+        mode="batch"
+        [allowUpdating]="true"
+        [selectTextOnEditStart]="true"
+        [startEditAction]="'click'"
+      >
+      </dxo-editing>
+
+      <dxo-toolbar>
+        <dxi-item location="before" style="min-width: 300px">
+          <table style="margin-bottom: 5px; width: 100%">
+            <thead>
+              <tr>
+                <th style="width: 25%">Process:</th>
+                <th>
+                  <nz-select
+                    [(ngModel)]="selectedValue"
+                    (ngModelChange)="onChangeProcess($event)"
+                  >
+                    <nz-option
+                      *ngFor="let option of options"
+                      [nzValue]="option.value"
+                      [nzLabel]="option.label"
+                    ></nz-option>
+                  </nz-select>
+                </th>
+              </tr>
+            </thead>
+          </table>
+        </dxi-item>
+
+        <dxi-item name="columnChooserButton" />
+        <dxi-item name="saveButton" location="after" />
+      </dxo-toolbar>
+
+      <dxi-column
+        dataField="item"
+        caption="Hạng mục"
+        [allowEditing]="false"
+      ></dxi-column>
+      <dxi-column dataField="value" caption="Value"></dxi-column>
+    </dx-data-grid>
   </div>
 </div>

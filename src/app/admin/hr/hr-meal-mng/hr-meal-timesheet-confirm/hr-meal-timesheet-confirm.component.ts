@@ -18,6 +18,9 @@ export class HrMealTimesheetConfirmComponent implements OnInit {
     private jwtHelperService: JwtHelperService
   ) {}
 
+  couponsBalance: any
+  date = null;
+
   ngOnInit(): void {}
 
   timesheetConfirm() {
@@ -32,5 +35,13 @@ export class HrMealTimesheetConfirmComponent implements OnInit {
         this.isLoadingTimeSheetConfirm = false;
       }
     );
+  }
+
+  getCouponsBalance() {
+    this.hrMealMngSvc.getBalance(this.date).subscribe(
+      response => {
+        this.couponsBalance = response
+      }
+    )
   }
 }

@@ -20,8 +20,8 @@
   <nz-tab nzTitle="TimeSheet / Actual">
     <dx-data-grid
       #timeLogGrid
-      [dataSource]="[]"
-      keyExpr="rowNum"
+      [dataSource]="couponsBalance"
+      keyExpr="username"
       [remoteOperations]="false"
       [allowColumnReordering]="true"
       [rowAlternationEnabled]="true"
@@ -39,24 +39,75 @@
         <dxi-item location="before">
           <nz-space>
             <nz-date-picker
+              [(ngModel)]="date"
               *nzSpaceItem
               nzMode="month"
               style="height: 32px"
             ></nz-date-picker>
-            <button *nzSpaceItem nz-button nzType="primary">Search</button>
+            <button
+              *nzSpaceItem
+              nz-button
+              nzType="primary"
+              (click)="getCouponsBalance()"
+            >
+              Search
+            </button>
           </nz-space>
         </dxi-item>
+        <dxi-item name="exportButton" location="after" />
       </dxo-toolbar>
 
-      <dxi-column dataField="codeEmp" caption="Mã nhân viên"></dxi-column>
+      <dxi-column dataField="username" caption="Mã nhân viên"></dxi-column>
       <dxi-column dataField="profileName" caption="Họ tên"></dxi-column>
-      <dxi-column dataField="ticketAmount" caption="Số lượng vé"></dxi-column>
-      <dxi-column dataField="recordType" caption="Loại"></dxi-column>
-      <dxi-column dataField="month" caption="Month"></dxi-column>
+      <dxi-column
+        dataField="actCoupon"
+        caption="Vé Chính (Thực tế)"
+      ></dxi-column>
+      <dxi-column
+        dataField="tsCoupon"
+        caption="Vé Chính (Time Sheet)"
+      ></dxi-column>
+      <dxi-column
+        dataField="balanceCoupon"
+        caption="Chênh lệch vé chính"
+      ></dxi-column>
+      <dxi-column
+        dataField="actSubCoupon"
+        caption="Vé Phụ (Thực tế)"
+      ></dxi-column>
+      <dxi-column
+        dataField="tsSubCoupon"
+        caption="Vé Phụ (Time Sheet)"
+      ></dxi-column>
+      <dxi-column
+        dataField="balanceSubCoupon"
+        caption="Chênh lệch vé phụ"
+      ></dxi-column>
+      <dxi-column
+        dataField="balanceCouponPrice"
+        caption="Đơn giá vé chính"
+        dataType="number"
+        format="#,##0"
+      ></dxi-column>
+      <dxi-column
+        dataField="balanceSubCouponPrice"
+        caption="Đơn giá vé phụ"
+        dataType="number"
+        format="#,##0"
+      ></dxi-column>
+      <dxi-column
+        dataField="balancePrice"
+        caption="Tiền chênh lệch"
+        dataType="number"
+        format="#,##0"
+      ></dxi-column>
+
+      <dxo-paging [pageSize]="10"></dxo-paging>
+      <dxo-pager
+        [showPageSizeSelector]="true"
+        [allowedPageSizes]="[10, 25, 50, 100]"
+      >
+      </dxo-pager>
     </dx-data-grid>
   </nz-tab>
-
-  <nz-tab nzTitle="Trợ cấp"> </nz-tab>
-
-  <nz-tab nzTitle="Tổng hợp"> </nz-tab>
 </nz-tabset>

@@ -197,29 +197,40 @@
       <dxi-column dataField="username" caption="Mã nhân viên"></dxi-column>
       <dxi-column dataField="profileName" caption="Họ tên"></dxi-column>
       <dxi-column
-        dataField="tsCoupon"
-        caption="Vé Chính (Time Sheet)"
-      ></dxi-column>
-      <dxi-column
         dataField="actCoupon"
         caption="Vé Chính (Thực tế)"
       ></dxi-column>
-
       <dxi-column
-        dataField="tsSubCoupon"
-        caption="Vé Phụ (Time Sheet)"
-      ></dxi-column>
-      <dxi-column
-        dataField="actSubCoupon"
-        caption="Vé Phụ (Thực tế)"
+        dataField="tsCoupon"
+        caption="Vé Chính (Time Sheet)"
       ></dxi-column>
       <dxi-column
         dataField="balanceCoupon"
         caption="Chênh lệch vé chính"
       ></dxi-column>
       <dxi-column
+        dataField="actSubCoupon"
+        caption="Vé Phụ (Thực tế)"
+      ></dxi-column>
+      <dxi-column
+        dataField="tsSubCoupon"
+        caption="Vé Phụ (Time Sheet)"
+      ></dxi-column>
+      <dxi-column
         dataField="balanceSubCoupon"
         caption="Chênh lệch vé phụ"
+      ></dxi-column>
+      <dxi-column
+        dataField="balanceCouponPrice"
+        caption="Đơn giá vé chính"
+      ></dxi-column>
+      <dxi-column
+        dataField="balanceSubCouponPrice"
+        caption="Đơn giá vé phụ"
+      ></dxi-column>
+      <dxi-column
+        dataField="balancePrice"
+        caption="Tiền chênh lệch"
       ></dxi-column>
 
       <dxo-paging [pageSize]="10"></dxo-paging>
@@ -232,12 +243,7 @@
   </ng-container>
 
   <div *nzModalFooter>
-    
-    <button
-      nz-button
-      nzType="primary"
-      (click)="closeBalanceModal()"
-    >
+    <button nz-button nzType="primary" (click)="closeBalanceModal()">
       Đóng
     </button>
   </div>
