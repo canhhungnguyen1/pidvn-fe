@@ -1,10 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 import { RoleGuard } from '../guards/role.guard';
 import { AdminComponent } from './admin.component';
-import { BalanceSheetComponent } from './purchase-datas/balance-sheet/balance-sheet.component';
 import { WelcomeComponent } from './welcome/welcome.component';
-import { NzModalModule } from 'ng-zorro-antd/modal';
 
 const routes: Routes = [
   {
@@ -114,6 +113,10 @@ const routes: Routes = [
       {
         path: 'layer2-module',
         loadChildren: () => import('./layer2-module/layer2-module.module').then(m => m.Layer2ModuleModule)
+      },
+      {
+        path: 'vr',
+        loadChildren: () => import('./vr/vr.module').then(m => m.VrModule)
       }
     ],
   },
