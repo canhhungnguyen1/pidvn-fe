@@ -21,6 +21,7 @@
                 (keydown.enter)="scanInfo($event)"
                 (click)="infoIpt.select()"
                 autocomplete="off"
+                [(ngModel)]="infoScan.user"
               />
             </td>
             <td><label>User ID</label></td>
@@ -46,7 +47,7 @@
       <dx-data-grid
         id="defectGrid"
         #defectGrid
-        [dataSource]="dataSource"
+        [dataSource]="defectRecords"
         [showColumnLines]="true"
         [showRowLines]="true"
         [showBorders]="true"
@@ -72,13 +73,13 @@
                   <th style="width: 25%">Process:</th>
                   <th>
                     <nz-select
-                      [(ngModel)]="selectedValue"
+                      [(ngModel)]="selectedProcess"
                       (ngModelChange)="onChangeProcess($event)"
                     >
                       <nz-option
-                        *ngFor="let option of options"
-                        [nzValue]="option.value"
-                        [nzLabel]="option.label"
+                        *ngFor="let process of processes"
+                        [nzValue]="process.id"
+                        [nzLabel]="process.processName"
                       ></nz-option>
                     </nz-select>
                   </th>
@@ -92,11 +93,12 @@
         </dxo-toolbar>
   
         <dxi-column
-          dataField="item"
+          dataField="processName"
           caption="Hạng mục"
           [allowEditing]="false"
         ></dxi-column>
-        <dxi-column dataField="value" caption="Value"></dxi-column>
+        <dxi-column dataField="qty" caption="Qty" dataType="number"></dxi-column>
+        <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
       </dx-data-grid>
     </div>
   </div>

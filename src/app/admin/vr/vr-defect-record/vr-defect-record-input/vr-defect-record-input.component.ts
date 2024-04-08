@@ -1,18 +1,33 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { VrDefectRecordService } from '../services/vr-defect-record.service';
+import { DefectRecord } from '../models/defect-record';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { DxDataGridComponent } from 'devextreme-angular';
 
 @Component({
   selector: 'app-vr-defect-record-input',
   templateUrl: './vr-defect-record-input.component.html',
-  styleUrls: ['./vr-defect-record-input.component.scss']
+  styleUrls: ['./vr-defect-record-input.component.scss'],
 })
-export class VrDefectRecordInputComponent implements OnInit, AfterViewInit  {
+export class VrDefectRecordInputComponent implements OnInit, AfterViewInit {
   @ViewChild('infoIpt') infoIpt!: ElementRef;
+
+  @ViewChild(DxDataGridComponent, { static: false })
+  defectGrid!: DxDataGridComponent;
 
   constructor(
     private toastr: ToastrService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private vrDefectRecordSvc: VrDefectRecordService,
+    private jwtHelperSvc: JwtHelperService
   ) {}
 
   infoScan = {
@@ -24,42 +39,15 @@ export class VrDefectRecordInputComponent implements OnInit, AfterViewInit  {
     user: null,
   };
 
-  dataSource = [
-    {
-      item: 'Bạc và nhíp biến dạng / sứt mẻ',
-      value: 10,
-    },
-    {
-      item: 'Gắn nhíp hằn/ biến dạng',
-      value: '',
-    },
-    {
-      item: 'Gắn lệch nhíp',
-      value: '',
-    },
-    {
-      item: 'Rơi vãi',
-      value: '',
-    },
-    {
-      item: 'IE sửa máy',
-      value: '',
-    },
-    {
-      item: 'Đổi lô',
-      value: '',
-    },
-    {
-      item: 'QA đo',
-      value: '',
-    },
-    {
-      item: 'Các lỗi khác (nếu có)',
-      value: '',
-    }
-  ];
+  processes: any;
 
-  ngOnInit(): void {}
+  selectedProcess: any;
+
+  defectRecords: any;
+
+  ngOnInit(): void {
+    this.getProcess();
+  }
 
   ngAfterViewInit(): void {
     setTimeout(() => {
@@ -74,6 +62,14 @@ export class VrDefectRecordInputComponent implements OnInit, AfterViewInit  {
 
       this.scanInfo(obj);
     }, 0);
+  }
+
+  getProcess() {
+    let qaCard = this.activatedRoute.snapshot.queryParams['qaCard'];
+    let line = qaCard.split('*')[1];
+    this.vrDefectRecordSvc.getProcessByLine(line).subscribe((response) => {
+      this.processes = response;
+    });
   }
 
   scanInfo(event: any) {
@@ -104,44 +100,83 @@ export class VrDefectRecordInputComponent implements OnInit, AfterViewInit  {
     this.infoIpt.nativeElement.select();
   }
 
+  /**
+   * Sự kiện ấn nút Save
+   * @param event 
+   */
+  async onSaveHandler(event: any) {
+    let lotNo = this.activatedRoute.snapshot.queryParams['qaCard'];
+    let info = lotNo.split('*');
 
-  onSaveHandler(event: any) {
-    console.log(event);
-    let arr = new Array();
+    let dataChange = new Array();
 
-    event.changes.forEach((item: any) => {
-      arr.push(item.key);
+    await event.changes.forEach((item: any) => {
+      dataChange.push(item.key);
     });
-    console.log('Arr: ', arr);
-  }
 
-  selectedValue: any;
-  options = [
-    { label: 'Detent spring fixing', value: 1 },
-    { label: 'Friction plate insert', value: 2 },
-    { label: 'Marking', value: 3 },
-    { label: 'Brush forming', value: 4 },
-    { label: 'Brush fixing', value: 5 },
-    { label: 'Carrier Grease', value: 6 },
-    { label: 'Shaft greasing', value: 7 },
-    { label: 'Cam cap inserting', value: 8 }
-  ];
+    let dataSave = new Array();
+    dataChange.forEach((item) => {
+      let obj = new DefectRecord();
+      obj.id = item.id;
+      obj.model = item.id ? item.model : info[0];
+      obj.line = item.id ? item.line : info[1];
+      obj.date = item.id ? new Date(item.date) : new Date(info[2]);
+      obj.shift = item.id ? item.shift : info[3];
+      obj.lotNo = item.id ? item.lotNo : lotNo;
+      obj.defectCode = item.defectCode;
+      obj.qty = item.qty;
+      obj.remark = item.remark;
+      obj.userId = this.jwtHelperSvc.decodeToken(
+        localStorage.getItem('accessToken')?.toString()
+      ).UserId;
+
+      dataSave.push(obj);
+    });
+
+    this.defectGrid?.instance.beginCustomLoading(`Saving ...`);
+
+    this.vrDefectRecordSvc.saveDefectRecords(dataSave).subscribe(
+      (response) => {
+        this.defectGrid.instance.endCustomLoading();
+
+        this.vrDefectRecordSvc
+          .getDefectRecords(this.selectedProcess, lotNo)
+          .subscribe((response) => {
+            this.defectRecords = response;
+            this.toastr.success('Success !', 'Lưu thành công');
+          });
+
+        console.log('Save response: ', response);
+      },
+      (error) => {
+        this.defectGrid.instance.endCustomLoading();
+        console.log('Save error: ', error);
+        this.toastr.error('Error !', 'Có lỗi');
+      }
+    );
+  }
 
   /**
    * Chọn công đoạn
    */
   onChangeProcess(event: any) {
-    console.log("Change: ", event , this.selectedValue);
-    this.infoIpt.nativeElement.select();
+    console.log(event);
 
     if (!this.infoScan.user) {
-      this.toastr.warning('Cần nhập mã nhân viên !','Warning')
+      this.toastr.warning('Cần nhập mã nhân viên !', 'Warning');
       return;
     }
-    
-    alert(`Thực hiện call Api lấy danh sách lỗi theo công đoạn: \n ${this.selectedValue}`)
 
+    this.infoIpt.nativeElement.select();
 
+    let lotNo = this.activatedRoute.snapshot.queryParams['qaCard'];
+
+    this.vrDefectRecordSvc
+      .getDefectRecords(this.selectedProcess, lotNo)
+      .subscribe((response) => {
+        this.defectRecords = response;
+      });
+
+    // alert(`Thực hiện call Api lấy danh sách lỗi theo công đoạn: \n ${this.selectedProcess}`)
   }
-
 }
