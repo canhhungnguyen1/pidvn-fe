@@ -59,6 +59,9 @@ export class SparePartsComponent implements OnInit {
     )
   }
 
+
+
+  
   openPrintQRModal() {
     this.isOpenPrintQRModal = true
     

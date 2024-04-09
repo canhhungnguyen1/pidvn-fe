@@ -77,54 +77,47 @@
       printSectionId="qrPrint"
       [useExistingCss]="true"
       ngxPrint
-      style="background: green"
       (click)="changeTab()"
     >
       <span nz-icon nzType="printer"></span>
+      Print Label
     </button>
+
     <div id="qrPrint">
-      <div
-        nz-row
-        nzJustify="start"
-        nzAlign="middle"
-        [nzGutter]="24"
-      >
+      <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
         <div
           nz-col
-          nzXs="8"
-          nzSm="8"
-          nzMd="8"
-          nzLg="8"
+          nzXs="12"
+          nzSm="12"
+          nzMd="12"
+          nzLg="12"
           *ngFor="let row of selectedRows"
         >
-          <table
-            class="qr-tbl"
-            style="
-              border: 1px solid black;
-              border-collapse: collapse;
-              width: 100%;
-            "
-          >
-            <tbody>
-              <tr style="text-align: center">
-                <qrcode
-                  [qrdata]="row.partNumber"
-                  [allowEmptyString]="true"
-                  [cssClass]="'center'"
-                  [elementType]="'img'"
-                  [errorCorrectionLevel]="'M'"
-                  [margin]="4"
-                  [scale]="1"
-                  [width]="100"
-                ></qrcode>
+          <nz-table [nzData]="['']" nzBordered nzFrontPagination="false" id="labelTbl">
+            <thead>
+              <tr>
+                <th style="width: 40%; text-align: center">{{row.partNumber}}</th>
+                <th></th>
               </tr>
-              <tr style="text-align: center">
-                <label style="font-weight: bold; font-size: 20px">{{
-                  row.partNumber
-                }}</label>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="text-align: center">
+                  <qrcode
+                    [qrdata]="row.partNumber"
+                    [allowEmptyString]="true"
+                    [cssClass]="'center'"
+                    [elementType]="'img'"
+                    [errorCorrectionLevel]="'M'"
+                    [margin]="4"
+                    [scale]="1"
+                    [width]="100"
+                  ></qrcode>
+                </td>
+                <td></td>
               </tr>
             </tbody>
-          </table>
+          </nz-table>
         </div>
       </div>
     </div>
