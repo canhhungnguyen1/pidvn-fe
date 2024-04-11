@@ -93,11 +93,20 @@
           nzLg="12"
           *ngFor="let row of selectedRows"
         >
-          <nz-table [nzData]="['']" nzBordered nzFrontPagination="false" id="labelTbl">
+          <nz-table
+            [nzData]="['']"
+            nzBordered
+            nzFrontPagination="false"
+            id="labelTbl"
+          >
             <thead>
               <tr>
-                <th style="width: 40%; text-align: center">{{row.partNumber}}</th>
-                <th></th>
+                <th style="width: 40%; text-align: center">
+                  {{ row.partNumber }}
+                </th>
+                <th style="text-align: center">
+                  {{ row.name }}
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -114,7 +123,9 @@
                     [width]="100"
                   ></qrcode>
                 </td>
-                <td></td>
+                <td>
+                  <img *ngIf="row.image" [src]="row.image" alt="Ảnh xem trước" width="100%" height="100px">
+                </td>
               </tr>
             </tbody>
           </nz-table>
@@ -161,6 +172,13 @@
               placeholder="Name"
               [(ngModel)]="sparePartCreate.name"
             />
+          </td>
+        </tr>
+        <tr>
+          <td>Ảnh</td>
+          <td>
+            <input type="file" #fileInput (change)="handleFileSelect($event)">
+            <img *ngIf="this.sparePartCreate.image" [src]="this.sparePartCreate.image" alt="Ảnh xem trước" width="100%" height="200px">
           </td>
         </tr>
       </tbody>
