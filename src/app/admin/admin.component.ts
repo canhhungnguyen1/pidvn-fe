@@ -18,9 +18,9 @@ export class AdminComponent implements OnInit {
     private modal: NzModalService,
     private jwtHelperService: JwtHelperService,
     private welcomeSvc: WelcomeService,
-    private translate: TranslateConfigService
+    private translate: TranslateConfigService,
   ) { }
-  
+
   baseUrl = environment.baseUrl;
   baseUrlJava = environment.baseUrlJava;
   baseUrlJavaHttps = environment.baseUrlJavaHttps;
@@ -57,7 +57,7 @@ export class AdminComponent implements OnInit {
       line: 'TB1 (Auto)',
       link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=TB.1`
     },
-    
+
     {
       line: 'TB2 (Manual)',
       link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=TB2`
@@ -239,7 +239,7 @@ export class AdminComponent implements OnInit {
   relayECOPLink!: string;
   pihProcessReport!: string;
 
-  materialWarehouseLink! :string; 
+  materialWarehouseLink! :string;
   dotLink!: string;
   quanLyBaiKiemTraLink!: string;
   dangKyLamBaiKiemTraLink!: string;
@@ -257,6 +257,7 @@ export class AdminComponent implements OnInit {
     let accessToken = localStorage.getItem('accessToken');
     let token2 = localStorage.getItem('token2');
     this.getEmployeeName();
+    this.dynamicReport();
 
     this.relayDashboardLink = `${this.baseUrlJava}/pidvn/ma/production`
     this.eCommitLink = `${this.baseUrlJava}/pidvn/hr/camket/menu?accessToken=${token2}`
@@ -328,6 +329,14 @@ export class AdminComponent implements OnInit {
     this.colorAvatar = this.getColorAvatar();
   }
 
+  // Get dynamic report
+  showMenu: any
+  dynamicReport(){
+    this.welcomeSvc.getDynamicReport().subscribe((response) => {
+      this.showMenu = response;
+    });
+  }
+
   /**
    * Đang test hàm này
    * Server - Sent event
@@ -349,7 +358,7 @@ export class AdminComponent implements OnInit {
         Liên hệ phòng IT
         <ul>
           <li>Máy bàn: 3224 </li>
-          <li>Ms. Hồng: 0985 186 819</li> 
+          <li>Ms. Hồng: 0985 186 819</li>
           <li>Ms. Yên: 0989 554 217</li>
           <li>Mr. Hà: 0888 694 234</li>
           <li>Mr. Khoa: 0966 333 594</li>
@@ -376,8 +385,8 @@ export class AdminComponent implements OnInit {
 
   getColorAvatar(): string {
     const colorList = [
-      '#f56a00', '#7265e6', '#ffbf00', '#00a2ae', '#ef5350', '#ec407a', 
-      '#ab47bc', '#7e57c2', '#5c6bc0', '#42a5f5', '#29b6f6', '#26c6da', 
+      '#f56a00', '#7265e6', '#ffbf00', '#00a2ae', '#ef5350', '#ec407a',
+      '#ab47bc', '#7e57c2', '#5c6bc0', '#42a5f5', '#29b6f6', '#26c6da',
       '#26a69a', '#66bb6a', '#9ccc65', '#ffca28', '#ff7043', '#8d6e63',
       '#78909c'];
     var idx = Math.floor(Math.random() * colorList.length);

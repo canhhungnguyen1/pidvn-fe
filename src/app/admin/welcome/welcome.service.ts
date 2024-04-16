@@ -8,11 +8,15 @@ export class WelcomeService {
   constructor(private httpClient: HttpClient) {}
 
   private openWeatherUrl = environment.weatherbit;
+  private baseUrl = environment.baseUrl;
 
   getTemp(): Observable<any> {
-    let lat='21.110758428724544'; 
+    let lat='21.110758428724544';
     let lon='105.78321565409337';
     const url = `${this.openWeatherUrl}&lat=${lat}&lon=${lon}`;
     return this.httpClient.get(url);
+  }
+  getDynamicReport(): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/Administrator/Menu/Report`);
   }
 }
