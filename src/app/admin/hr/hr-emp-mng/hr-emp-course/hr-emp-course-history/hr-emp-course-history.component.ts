@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { HrEmpCourseService } from '../../services/hr-emp-course.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
+import { environment } from 'src/environments/environment';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-hr-emp-course-history',
@@ -11,10 +16,15 @@ export class HrEmpCourseHistoryComponent implements OnInit {
 
   constructor(
     private hrEmpCourseSvc: HrEmpCourseService,
-    private jwtHelperService: JwtHelperService
+    private jwtHelperService: JwtHelperService,
+    private msg: NzMessageService,
+    private toastr: ToastrService
   ) { }
 
   histories: any;
+  isOpenModalUpload:boolean = false
+  fileUploadApi: any;
+  baseUrl = environment.baseUrl;
 
   ngOnInit(): void {
     this.getCourseHistories();
@@ -30,6 +40,24 @@ export class HrEmpCourseHistoryComponent implements OnInit {
         this.histories = response
       }
     )
+  }
+
+  handleChange(info: NzUploadChangeParam): void {
+    if (info.file.status !== 'uploading') {
+      console.log(info.file, info.fileList);
+    }
+    if (info.file.status === 'done') {
+      this.isOpenModalUpload = false;
+      this.toastr.success('Thành công','Success')
+    } else if (info.file.status === 'error') {
+      this.msg.error(`${info.file.name} file upload failed.`);
+    }
+  }
+
+
+  openFileUploadModal() {
+    this.isOpenModalUpload = true;
+    this.fileUploadApi = `${this.baseUrl}/HR/Course/UploadTrainingRecordData`;
   }
 
 }

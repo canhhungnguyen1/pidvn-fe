@@ -9,12 +9,16 @@ import { HrEmpCourseHistoryComponent } from './hr-emp-course-history/hr-emp-cour
 import { HrEmpCourseScheduleComponent } from './hr-emp-course-schedule/hr-emp-course-schedule.component';
 import { HrEmpCourseItemComponent } from './hr-emp-course-item/hr-emp-course-item.component';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 import {
   DxDataGridModule,
   DxBulletModule,
   DxTemplateModule,
   DxButtonModule
 } from 'devextreme-angular';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
 @NgModule({
   declarations: [
     HrEmpCourseMenuComponent,
@@ -32,7 +36,10 @@ import {
     NzGridModule,
     NzTableModule,
     NzBreadCrumbModule,
-    
+    NzSpaceModule,
+    NzButtonModule,
+    NzModalModule,
+    NzUploadModule
   ],
 })
 export class HrEmpCourseModule {}

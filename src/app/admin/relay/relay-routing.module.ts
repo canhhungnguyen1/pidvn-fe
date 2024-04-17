@@ -69,6 +69,13 @@ const routes: Routes = [
             './vr-enc-process-recording/vr-enc-process-recording.module'
           ).then((m) => m.VrEncProcessRecordingModule),
       },
+      {
+        path: 'relay-defect-record',
+        loadChildren: () =>
+          import('./relay-defect-record/relay-defect-record.module').then(
+            (m) => m.RelayDefectRecordModule
+          ),
+      },
     ],
   },
 ];

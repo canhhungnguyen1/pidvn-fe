@@ -11,7 +11,7 @@ export class HrEmpCourseService {
   private baseUrl = environment.baseUrl;
 
   public getCourseHistories(searchVo: any): Observable<any> {
-    return this.httpClient.post(`${this.baseUrl}/HR/Course/Courses`, searchVo);
+    return this.httpClient.post(`${this.baseUrl}/HR/Course/CourseHistory`, searchVo);
   }
 
   public getCourseGroups(): Observable<any> {

@@ -23,8 +23,36 @@
   [allowColumnReordering]="true"
   [columnAutoWidth]="true"
 >
-  <dxo-export [enabled]="true"></dxo-export>
   <dxo-filter-row [visible]="true"></dxo-filter-row>
+  <dxo-export [enabled]="true"></dxo-export>
+
+  <dxo-column-chooser
+    #columnChooser
+    [enabled]="true"
+    [mode]="'select'"
+    [title]="'Cột hiển thị'"
+  >
+  </dxo-column-chooser>
+
+  <dxo-toolbar>
+    <dxi-item location="before">
+      <nz-space>
+        <button
+          *nzSpaceItem
+          nz-button
+          nzType="primary"
+          (click)="openFileUploadModal()"
+        >
+          <span nz-icon nzType="login"></span>
+          Upload
+        </button>
+      </nz-space>
+    </dxi-item>
+
+    <dxi-item name="exportButton" location="after" />
+    <dxi-item name="columnChooserButton" location="after"></dxi-item>
+  </dxo-toolbar>
+
   <dxo-paging [pageSize]="10"></dxo-paging>
   <dxo-pager
     [showPageSizeSelector]="true"
@@ -38,56 +66,26 @@
     alignment="left"
   ></dxi-column>
   <dxi-column caption="Name" dataField="name" alignment="left"></dxi-column>
-  <dxi-column
-    caption="ID Course Groups"
-    dataField="idCourseGroups"
-    alignment="left"
-  ></dxi-column>
-  <dxi-column
-    caption="ID Course"
-    dataField="idCourse"
-    alignment="left"
-  ></dxi-column>
-  <dxi-column
-    caption="Name Course"
-    dataField="nameCourse"
-    alignment="left"
-  ></dxi-column>
-  <dxi-column caption="Status" dataField="status" alignment="left"></dxi-column>
-  <dxi-column
-    caption="Time Attendance"
-    dataField="timeAttendance"
-    alignment="left"
-  ></dxi-column>
-  <dxi-column
-    caption="Date Start"
-    dataField="dateStart"
-    alignment="left"
-    format="yyyy-MM-dd"
-    dataType="date"
-  ></dxi-column>
-  <dxi-column
-    caption="Time Start"
-    dataField="timeStart"
-    alignment="left"
-  ></dxi-column>
-  <dxi-column
-    caption="Date Finish"
-    dataField="dateFinish"
-    alignment="left"
-    format="yyyy-MM-dd"
-    dataType="date"
-  ></dxi-column>
-  <dxi-column
-    caption="Time Finish"
-    dataField="timeFinish"
-    alignment="left"
-  ></dxi-column>
-  <dxi-column caption="Method" dataField="method" alignment="left"></dxi-column>
-  <dxi-column caption="Place" dataField="place" alignment="left"></dxi-column>
-  <dxi-column
-    caption="Teacher"
-    dataField="teacher"
-    alignment="left"
-  ></dxi-column>
+  <dxi-column caption="Training Course" dataField="trainingCourse" alignment="left"></dxi-column>
+  <dxi-column caption="Training Date" dataField="trainingDate" alignment="left"></dxi-column>
 </dx-data-grid>
+
+<nz-modal [(nzVisible)]="isOpenModalUpload" nzTitle="Upload dữ liệu">
+  <ng-container *nzModalContent>
+    <nz-upload
+      [nzAction]="fileUploadApi"
+      [nzHeaders]="{ authorization: 'authorization-text' }"
+      (nzChange)="handleChange($event)"
+    >
+      <button nz-button>
+        <span nz-icon nzType="upload"></span>
+        Click to Upload
+      </button>
+    </nz-upload>
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="isOpenModalUpload = false">
+      Đóng
+    </button>
+  </div>
+</nz-modal>
