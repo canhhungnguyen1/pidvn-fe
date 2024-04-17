@@ -59,15 +59,34 @@
     [allowedPageSizes]="[10, 25, 50, 100]"
   ></dxo-pager>
 
-  <dxi-column caption="ID" dataField="id" alignment="left"></dxi-column>
   <dxi-column
     caption="User Name"
     dataField="username"
     alignment="left"
   ></dxi-column>
   <dxi-column caption="Name" dataField="name" alignment="left"></dxi-column>
-  <dxi-column caption="Training Course" dataField="trainingCourse" alignment="left"></dxi-column>
-  <dxi-column caption="Training Date" dataField="trainingDate" alignment="left"></dxi-column>
+  <dxi-column
+    caption="Section"
+    dataField="section"
+    alignment="left"
+  ></dxi-column>
+  <dxi-column
+    caption="Position"
+    dataField="position"
+    alignment="left"
+  ></dxi-column>
+  <dxi-column
+    caption="Training Course"
+    dataField="trainingCourse"
+    alignment="left"
+  ></dxi-column>
+  <dxi-column
+    caption="Training Date"
+    dataField="trainingDate"
+    alignment="center"
+    dataType="date"
+    format="yyyy-MM-dd"
+  ></dxi-column>
 </dx-data-grid>
 
 <nz-modal [(nzVisible)]="isOpenModalUpload" nzTitle="Upload dữ liệu">
