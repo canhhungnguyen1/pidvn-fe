@@ -136,130 +136,112 @@
   nzWidth="1300px"
 >
   <ng-container *nzModalContent>
-    <!-- <nz-table
+    <nz-table
       [nzData]="['']"
       nzFrontPagination="false"
       nzBordered
       nzSize="small"
     >
-      <tbody>
+      <thead>
         <tr>
-          <td width="25%"><label>Hình thức nhập</label></td>
-          <td>
-            <nz-radio-group [(ngModel)]="insertType">
-              <label nz-radio nzValue="manual">Manual</label>
-              <label nz-radio nzValue="excel">Upload Excel</label>
-            </nz-radio-group>
-          </td>
+          <th width="15%">Người nhận</th>
+          <th width="20%">
+            <input
+              id="userCodeIpt"
+              [(ngModel)]="userCode"
+              #userCodeIpt
+              nz-input
+              placeholder="Mã nhân viên"
+              autocomplete="off"
+              (keydown.enter)="scanUserCode($event)"
+              (click)="userCodeIpt.select()"
+            />
+          </th>
+          <th width="15%">Loại hàng</th>
+          <th width="15%">
+            <nz-select>
+              <nz-option nzValue="M4" nzLabel="M4"></nz-option>
+              <nz-option nzValue="M8" nzLabel="M8"></nz-option>
+            </nz-select>
+          </th>
+          <th>QR Code</th>
+          <th>
+            <input
+              id="sparePartQrCodeIpt"
+              #sparePartQrCodeIpt
+              nz-input
+              placeholder="Mã spare part"
+              autocomplete="off"
+              (keydown.enter)="scanSparePartQrCode($event)"
+              (click)="sparePartQrCodeIpt.select()"
+            />
+          </th>
         </tr>
-      </tbody>
-    </nz-table> -->
-    <!-- <hr style="margin-top: -25px" /> -->
+      </thead>
+    </nz-table>
 
-    <ng-container
-      *ngIf="insertType == 'excel'; then template2; else template1"
-    ></ng-container>
-
-    <ng-template #template1>
-      <nz-table
-        [nzData]="['']"
-        nzFrontPagination="false"
-        nzBordered
-        nzSize="small"
+    <dx-data-grid
+      #sparePartOutputGrid
+      [showBorders]="true"
+      [dataSource]="listSparePartScanned"
+      [showColumnLines]="true"
+      [showRowLines]="true"
+      [allowColumnResizing]="true"
+      [columnMinWidth]="50"
+      [columnAutoWidth]="true"
+      (onSaving)="saveSparePartRecords($event)"
+      style="margin-top: -25px"
+    >
+      <dxo-editing
+        mode="batch"
+        [allowUpdating]="true"
+        [selectTextOnEditStart]="true"
       >
-        <thead>
-          <tr>
-            <th width="15%">Người nhận</th>
-            <th width="20%">
-              <input
-                id="userCodeIpt"
-                [(ngModel)]="userCode"
-                #userCodeIpt
-                nz-input
-                placeholder="Mã nhân viên"
-                autocomplete="off"
-                (keydown.enter)="scanUserCode($event)"
-                (click)="userCodeIpt.select()"
-              />
-            </th>
-            <th>QR Code</th>
-            <th>
-              <input
-                id="sparePartQrCodeIpt"
-                #sparePartQrCodeIpt
-                nz-input
-                placeholder="Mã spare part"
-                autocomplete="off"
-                (keydown.enter)="scanSparePartQrCode($event)"
-                (click)="sparePartQrCodeIpt.select()"
-              />
-            </th>
-          </tr>
-        </thead>
-      </nz-table>
-
-      <dx-data-grid
-        #sparePartOutputGrid
-        [showBorders]="true"
-        [dataSource]="listSparePartScanned"
-        [showColumnLines]="true"
-        [showRowLines]="true"
-        [allowColumnResizing]="true"
-        [columnMinWidth]="50"
-        [columnAutoWidth]="true"
-        (onSaving)="saveSparePartRecords($event)"
-        style="margin-top: -25px"
-      >
-        <dxo-editing
-          mode="batch"
-          [allowUpdating]="true"
-          [selectTextOnEditStart]="true"
+      </dxo-editing>
+      <dxi-column
+        [width]="225"
+        dataField="partNumber"
+        caption="Part"
+        [allowEditing]="false"
+      ></dxi-column>
+      <dxi-column [width]="80" dataField="qty" caption="Qty"></dxi-column>
+      <dxi-column [width]="200" dataField="factoryCode" caption="Nhà máy">
+        <dxi-validation-rule
+          type="required"
+          message="Cần chọn nhà máy"
+        ></dxi-validation-rule>
+        <dxo-lookup
+          [allowClearing]="true"
+          [enterKeyHint]="true"
+          [dataSource]="factories"
+          displayExpr="name"
+          valueExpr="code"
         >
-        </dxo-editing>
-        <dxi-column
-          [width]="225"
-          dataField="partNumber"
-          caption="Part"
-          [allowEditing]="false"
-        ></dxi-column>
-        <dxi-column [width]="80" dataField="qty" caption="Qty"></dxi-column>
-        <dxi-column [width]="200" dataField="factoryCode" caption="Nhà máy">
-          <dxi-validation-rule
-            type="required"
-            message="Cần chọn nhà máy"
-          ></dxi-validation-rule>
-          <dxo-lookup
-            [allowClearing]="true"
-            [enterKeyHint]="true"
-            [dataSource]="factories"
-            displayExpr="name"
-            valueExpr="code"
-          >
-          </dxo-lookup>
-        </dxi-column>
-        <dxi-column dataField="machine" caption="Máy">
-          <dxo-lookup
-            [allowClearing]="true"
-            [dataSource]="machines"
-            displayExpr="vnName"
-            valueExpr="id"
-          >
-          </dxo-lookup>
-        </dxi-column>
-        <dxi-column dataField="line" caption="Line">
-          <dxo-lookup
-            [allowClearing]="true"
-            [dataSource]="lines"
-            displayExpr="name"
-            valueExpr="name"
-          >
-          </dxo-lookup>
-        </dxi-column>
+        </dxo-lookup>
+      </dxi-column>
+      <dxi-column dataField="machine" caption="Máy">
+        <dxo-lookup
+          [allowClearing]="true"
+          [dataSource]="machines"
+          displayExpr="vnName"
+          valueExpr="id"
+        >
+        </dxo-lookup>
+      </dxi-column>
+      <dxi-column dataField="line" caption="Line">
+        <dxo-lookup
+          [allowClearing]="true"
+          [dataSource]="lines"
+          displayExpr="name"
+          valueExpr="name"
+        >
+        </dxo-lookup>
+      </dxi-column>
 
-        <dxi-column dataField="userCode" caption="User"></dxi-column>
-        <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
+      <dxi-column dataField="userCode" caption="User"></dxi-column>
+      <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
 
-        <!-- <dxi-column
+      <!-- <dxi-column
           caption="Action"
           cellTemplate="actionTemplate"
           [fixed]="true"
@@ -273,56 +255,13 @@
           </div>
         </dxi-column> -->
 
-        <dxo-paging [pageSize]="10"></dxo-paging>
-        <dxo-pager
-          [showPageSizeSelector]="true"
-          [allowedPageSizes]="[10, 25, 50, 100]"
-        >
-        </dxo-pager>
-      </dx-data-grid>
-    </ng-template>
-
-    <ng-template #template2>
-      <nz-upload [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload">
-        <button nz-button>
-          <span nz-icon nzType="upload"></span>
-          Chọn file upload
-        </button>
-      </nz-upload>
-      <button
-        nz-button
-        [nzType]="'primary'"
-        [nzLoading]="uploading"
-        (click)="handleUploadExcel()"
-        [disabled]="fileList.length === 0"
-        style="margin-top: 16px"
+      <dxo-paging [pageSize]="10"></dxo-paging>
+      <dxo-pager
+        [showPageSizeSelector]="true"
+        [allowedPageSizes]="[10, 25, 50, 100]"
       >
-        {{ uploading ? "Uploading" : "Start Upload" }}
-      </button>
-
-      <div *ngIf="uploadResult">
-        <hr />
-        <nz-table
-          #errorUploadTable
-          nzBordered
-          nzSize="small"
-          [nzData]="uploadResult?.error"
-        >
-          <thead>
-            <tr>
-              <th>Dòng</th>
-              <th>Chi tiết lỗi</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let data of errorUploadTable.data">
-              <td>{{ data.rowNum }}</td>
-              <td>{{ data.error }}</td>
-            </tr>
-          </tbody>
-        </nz-table>
-      </div>
-    </ng-template>
+      </dxo-pager>
+    </dx-data-grid>
   </ng-container>
   <div *nzModalFooter>
     <button nz-button nzType="default" (click)="cancelSaveOutputSparePart()">
