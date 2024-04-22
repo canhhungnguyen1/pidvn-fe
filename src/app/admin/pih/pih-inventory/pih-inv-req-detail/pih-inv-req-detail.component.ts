@@ -189,7 +189,7 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
 
     this.isLoadingSaveInventoryData = true;
     this.pihInventorySvc
-      .saveListInventoryData(this.listLotsScanned)
+      .saveListInventoryData(this.listLotsScanned, this.requestId, this.inventoryArea)
       .subscribe((response) => {
         this.toastr.success('Đã lưu', 'Response');
         this.resultSaveInventoryData = response;
@@ -212,6 +212,7 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
   }
 
   scanLabel(event: any) {
+
     if (!this.inventoryArea) {
       this.toastr.warning(
         `Cần chọn khu vực kiểm kê`,
@@ -229,26 +230,62 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
     let qty = 0;
     let lotNo = '';
 
-    if (event.target.value.includes(';')) {
-      partNo = data[0];
-      qty = data[2];
-      lotNo = data[3];
+    if (event.target.value.includes(';')){
 
-      let obj = {
-        lotNo: lotNo.toUpperCase(),
-        partNo: partNo.toUpperCase(),
-        qty: qty,
-        date: new Date(),
-        requestId: this.requestId,
-        inventoryArea: this.inventoryArea,
-      };
+      // Tem to
+      if (data[0] === 'B') {
+        
+        
+        console.log('data[0]: ', data[0]);
+        
+        partNo = data[1];
+        qty = data[3];
+        lotNo = data[4];
 
-      this.mapLotsScanned.set(lotNo, obj);
+        let obj = {
+          lotNo: lotNo.toUpperCase(),
+          partNo: partNo.toUpperCase(),
+          qty: qty,
+          date: new Date(),
+          requestId: this.requestId,
+          inventoryArea: this.inventoryArea,
+          outerLotNo: lotNo.toUpperCase(),
+        };
 
-      this.listLotsScanned = Array.from(this.mapLotsScanned.values()).reverse();
+        this.mapLotsScanned.set(lotNo, obj);
+        this.listLotsScanned = Array.from(this.mapLotsScanned.values()).reverse();
+        this.totalQtyScanned = this.sumQtyScanned(this.listLotsScanned);
 
-      this.totalQtyScanned = this.sumQtyScanned(this.listLotsScanned);
-      return;
+        return;
+      }
+
+
+      // Tem nhỏ
+      if (data[0] !== 'B') {
+
+        console.log('data[0]: ', data[0]);
+
+        partNo = data[0];
+        qty = data[2];
+        lotNo = data[3];
+
+        let obj = {
+          lotNo: lotNo.toUpperCase(),
+          partNo: partNo.toUpperCase(),
+          qty: qty,
+          date: new Date(),
+          requestId: this.requestId,
+          inventoryArea: this.inventoryArea
+        };
+
+        this.mapLotsScanned.set(lotNo, obj);
+
+        this.listLotsScanned = Array.from(this.mapLotsScanned.values()).reverse();
+
+        this.totalQtyScanned = this.sumQtyScanned(this.listLotsScanned);
+
+        return;
+      }
     } else {
       // Trường hợp hàng Elektrisola
 

@@ -37,9 +37,9 @@ export class PihInventoryService {
   }
 
 
-  saveListInventoryData(inventoryDataList: any) {
+  saveListInventoryData(inventoryDataList: any, requestId: any, inventoryArea: any) {
     return this.httpClient.post(
-      `${this.baseUrl}/PIH/Inventory/SaveListInventoryData`,
+      `${this.baseUrl}/PIH/Inventory/SaveListInventoryData?requestId=${requestId}&inventoryArea=${inventoryArea}`,
       inventoryDataList
     );
   }
