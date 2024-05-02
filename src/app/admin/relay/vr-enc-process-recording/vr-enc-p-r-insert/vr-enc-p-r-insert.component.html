@@ -63,6 +63,7 @@
       <th>Part No</th>
       <th>Lot No (Đã nhập vào LINE)</th>
       <th>Qty</th>
+      <th>Công đoạn</th>
       <th>Action</th>
     </tr>
   </thead>
@@ -71,9 +72,9 @@
       <td>{{ data.cpn }}</td>
       <td>{{ data.clotno }}</td>
       <td style="text-align: right">{{ data.qty | number: "1.0-3" }}</td>
+      <td>{{ data.processName }}</td>
       <td style="text-align: center">
-        <a (click)="openEditQtyModal(data)">Sửa</a> |
-        <a style="color: red">Xóa</a>
+        <a (click)="openEditQtyModal(data)">Sửa</a>
       </td>
     </tr>
   </tbody>
