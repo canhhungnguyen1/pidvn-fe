@@ -9,4 +9,5 @@ export class DefectRecord {
   qty: number | undefined;
   userId: number | undefined;
   remark: string | undefined;
+  status: string | undefined
 }

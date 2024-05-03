@@ -126,6 +126,7 @@ export class VrDefectRecordInputComponent implements OnInit, AfterViewInit {
       obj.defectCode = item.defectCode;
       obj.qty = item.qty;
       obj.remark = item.remark;
+      obj.status = item.status;
       obj.userId = this.jwtHelperSvc.decodeToken(
         localStorage.getItem('accessToken')?.toString()
       ).UserId;

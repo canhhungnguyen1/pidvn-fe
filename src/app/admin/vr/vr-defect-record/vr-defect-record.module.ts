@@ -15,6 +15,7 @@ import { VrDefectRecordComponent } from './vr-defect-record.component';
 import { FormsModule } from '@angular/forms';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { VrDefectRecordInputComponent } from './vr-defect-record-input/vr-defect-record-input.component';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
 
 @NgModule({
   declarations: [VrDefectRecordComponent, VrDefectRecordInputComponent],
@@ -31,6 +32,7 @@ import { VrDefectRecordInputComponent } from './vr-defect-record-input/vr-defect
     DxCheckBoxModule,
     NzSpaceModule,
     DxButtonModule,
+    NzTabsModule
   ],
 })
 export class VrDefectRecordModule {}
