@@ -57,8 +57,8 @@ export class SparePartInOutComponent implements OnInit {
   mapSparePartScanned: Map<string, any> = new Map();
   listSparePartScanned: Array<any> = new Array();
   userCode: any;
-  recordType: any; // Biến này xác định kiểu scan là nhập hay xuất
   insertType: string = 'manual'; // Kiểu insert là manual hay upload bằng excel
+  goodsType: any; // Loại hàng user chọn (M4 or M8)
 
   // Upload Excel: các biến liên quan đến upload file
   uploadExcelApi: any;
@@ -79,10 +79,13 @@ export class SparePartInOutComponent implements OnInit {
   lines: any;
   machines: any;
 
-
   // Edit Spare Part record
   isOpenModalEditSparePartRecord: boolean = false;
   sparePartRecordEdit: any;
+
+
+
+
 
   getLineStandard() {
     this.sparePartSvc.getLineStandard().subscribe(
@@ -109,9 +112,8 @@ export class SparePartInOutComponent implements OnInit {
   openOutputSparePartModal() {
     this.insertType = 'manual';
     this.isOpenOutputSparePartModal = true;
-    this.recordType = 'OUTPUT';
     this.uploadResult = null;
-    this.uploadExcelApi = `${this.baseUrl}/SparePart/UploadExcel?recordType=${this.recordType}`;
+    //this.uploadExcelApi = `${this.baseUrl}/SparePart/UploadExcel?recordType=${this.recordType}`;
 
     this.mapSparePartScanned = new Map();
     this.listSparePartScanned = new Array();
@@ -144,6 +146,11 @@ export class SparePartInOutComponent implements OnInit {
       return
     }
 
+    if (this.goodsType === undefined || this.goodsType === null) {
+      this.toastr.warning('Cần chọn loại hàng','Warning')
+      return
+    }
+
     let date = new Date().toISOString().slice(0, 10);
     let dateSplit = date.split('-');
     let requestNo = `${dateSplit[0]}${dateSplit[1]}${dateSplit[2]}`
@@ -151,32 +158,20 @@ export class SparePartInOutComponent implements OnInit {
     let obj = Object.assign({
       whUserCode: this.whUserCode,
       date: new Date(),
-      receiveUserCode: this.recordType == 'OUTPUT' ? this.userCode : null,
+      receiveUserCode: this.userCode,
       partNumber: event.target.value.toUpperCase().trim(),
-      recordType: this.recordType,
       qty: 1,
       line: '',
       machine: '',
-      type: this.recordType,
       insertType: this.insertType,
       requestNo: requestNo,
-      userCode: this.userCode
+      userCode: this.userCode,
+      goodsType: this.goodsType
     });
 
-    
-
-
-    // this.mapSparePartScanned.set(obj.partNumber, obj);
-
+  
     this.listSparePartScanned.push(obj);
     this.listSparePartScanned.reverse();
-
-
-    // this.listSparePartScanned = Array.from(
-    //   this.mapSparePartScanned.values()
-    // ).reverse();
-
-    console.log('listSparePartScanned: ', this.listSparePartScanned);
     this.sparePartQrCodeIpt.nativeElement.select();
   }
 
@@ -281,5 +276,13 @@ export class SparePartInOutComponent implements OnInit {
         this.getSparePartRecords()
       }
     )
+  }
+
+  /**
+   * 
+   * @param event Chọn loại hàng M4 or M8
+   */
+  changeGoodsType(event: any) {
+    this.sparePartQrCodeIpt.nativeElement.select();
   }
 }

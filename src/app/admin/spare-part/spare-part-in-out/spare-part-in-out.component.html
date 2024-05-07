@@ -78,6 +78,7 @@
 
     <dxi-column dataField="qty" caption="Qty" alignment="right"></dxi-column>
     <dxi-column dataField="type" caption="Type"></dxi-column>
+    <dxi-column dataField="goodsType" caption="Loại hàng"></dxi-column>
     <dxi-column dataField="machine" caption="Máy"></dxi-column>
     <dxi-column dataField="line" caption="Line"></dxi-column>
     <dxi-column dataField="whUser" caption="WH User"></dxi-column>
@@ -132,7 +133,7 @@
 
 <nz-modal
   [(nzVisible)]="isOpenOutputSparePartModal"
-  nzTitle="Nhập xuất Spare Part"
+  nzTitle="Nhập xuất hàng M4/M8"
   nzWidth="1300px"
 >
   <ng-container *nzModalContent>
@@ -159,7 +160,11 @@
           </th>
           <th width="15%">Loại hàng</th>
           <th width="15%">
-            <nz-select>
+            <nz-select
+              [(ngModel)]="goodsType"
+              (ngModelChange)="changeGoodsType($event)"
+              nzAllowClear
+            >
               <nz-option nzValue="M4" nzLabel="M4"></nz-option>
               <nz-option nzValue="M8" nzLabel="M8"></nz-option>
             </nz-select>
@@ -238,7 +243,7 @@
         </dxo-lookup>
       </dxi-column>
 
-      <dxi-column dataField="userCode" caption="User"></dxi-column>
+      <dxi-column dataField="whUserCode" caption="User"></dxi-column>
       <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
 
       <!-- <dxi-column
