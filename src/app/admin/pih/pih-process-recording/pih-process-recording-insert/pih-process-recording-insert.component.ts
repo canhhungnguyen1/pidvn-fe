@@ -277,7 +277,13 @@ export class PihProcessRecordingInsertComponent implements OnInit {
     }
 
     let obj = { ...this.scanner2 };
-    obj.newCoil = obj.newCoil.substring(1);
+    
+    if (!obj.newCoil.includes(';')) {
+      // Trường hợp là electriksola
+      obj.newCoil = obj.newCoil.substring(1);
+    }else {
+      obj.newCoil = obj.newCoil.split(';')[3]
+    }
 
     this.pihPRSvc.insertCoilManual(obj).subscribe((response) => {
       let searchVo = {
