@@ -354,10 +354,10 @@ export class PihStopLineMainComponent implements OnInit {
       this.errorMsg = 'Item không được để trống';
       return;
     }
-    // if (obj.date == null || obj.startTime == null || obj.stopTime == null) {
-    //   this.errorMsg = 'Time không được để trống';
-    //   return;
-    // }
+    if (obj.date == null || obj.startTime == null || obj.stopTime == null) {
+      this.errorMsg = 'Time không được để trống';
+      return;
+    }
 
     if (obj.line == null) {
       this.errorMsg = 'Line không được để trống';
