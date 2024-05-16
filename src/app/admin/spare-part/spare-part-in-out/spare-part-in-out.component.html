@@ -25,10 +25,10 @@
     <dxo-toolbar>
       <dxi-item location="before">
         <nz-space>
-          <button *nzSpaceItem nz-button nzType="primary">
+          <!-- <button *nzSpaceItem nz-button nzType="primary">
             <span nz-icon nzType="login"></span>
             Hàng nhập về
-          </button>
+          </button> -->
           <button
             *nzSpaceItem
             nz-button
@@ -37,9 +37,9 @@
             (click)="openOutputSparePartModal()"
           >
             <span nz-icon nzType="logout"></span>
-            Xuất kho
+            NHẬP XUẤT HÀNG
           </button>
-          <button
+          <!-- <button
             *nzSpaceItem
             nz-button
             nzType="primary"
@@ -47,7 +47,7 @@
           >
             <span nz-icon nzType="rotate-left"></span>
             Hàng NG trả về
-          </button>
+          </button> -->
         </nz-space>
       </dxi-item>
 
@@ -145,8 +145,8 @@
     >
       <thead>
         <tr>
-          <th width="15%">Người nhận</th>
-          <th width="20%">
+          <th width="10%"><label>Người nhận</label></th>
+          <th width="10%">
             <input
               id="userCodeIpt"
               [(ngModel)]="userCode"
@@ -158,8 +158,8 @@
               (click)="userCodeIpt.select()"
             />
           </th>
-          <th width="15%">Loại hàng</th>
-          <th width="15%">
+          <th width="10%"><label>Loại hàng</label></th>
+          <th width="10%">
             <nz-select
               [(ngModel)]="goodsType"
               (ngModelChange)="changeGoodsType($event)"
@@ -169,7 +169,19 @@
               <nz-option nzValue="M8" nzLabel="M8"></nz-option>
             </nz-select>
           </th>
-          <th>QR Code</th>
+          <th width="10%"><label>Giao dịch</label></th>
+          <th width="15%">
+            <nz-select
+              [(ngModel)]="transactionType"
+              nzAllowClear
+              (ngModelChange)="changeTransactionType($event)"
+            >
+              <nz-option nzValue="OUTPUT" nzLabel="XUẤT KHO"></nz-option>
+              <nz-option nzValue="OK_RETURN" nzLabel="OK RETURN"></nz-option>
+              <nz-option nzValue="NG_RETURN" nzLabel="NG RETURN"></nz-option>
+            </nz-select>
+          </th>
+          <th><label>QR Code</label></th>
           <th>
             <input
               id="sparePartQrCodeIpt"
@@ -209,7 +221,14 @@
         caption="Part"
         [allowEditing]="false"
       ></dxi-column>
-      <dxi-column [width]="80" dataField="qty" caption="Qty"></dxi-column>
+      <dxi-column [width]="80" dataField="qty" caption="Qty">
+        <dxi-validation-rule
+          type="range" 
+          [min]="0" 
+          message="Qty phải lớn hơn 0"
+        >
+        </dxi-validation-rule>
+      </dxi-column>
       <dxi-column [width]="200" dataField="factoryCode" caption="Nhà máy">
         <dxi-validation-rule
           type="required"
@@ -242,7 +261,7 @@
         >
         </dxo-lookup>
       </dxi-column>
-
+      <dxi-column dataField="type" aption="Giao dịch"></dxi-column>
       <dxi-column dataField="whUserCode" caption="User"></dxi-column>
       <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
 
