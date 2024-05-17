@@ -260,7 +260,7 @@ export class AdminComponent implements OnInit {
     this.dynamicReport();
 
     this.relayDashboardLink = `${this.baseUrlJava}/pidvn/ma/production`
-    this.eCommitLink = `${this.baseUrlJava}/pidvn/hr/camket/menu?accessToken=${token2}`
+    this.eCommitLink = `${this.baseUrlJava}/pidvn/hr/commit/menu?accessToken=${token2}`
     this.eLawLink = `${this.baseUrlJava}/pidvn/hr/law/menu?accessToken=${token2}`
     this.eLeaveLink = `${this.baseUrlJava}/pidvn/hr/leave/menu?accessToken=${token2}`
     this.eOTLink = `${this.baseUrlJava}/pidvn/hr/ot/menu?accessToken=${token2}`
