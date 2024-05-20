@@ -22,6 +22,10 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
   @ViewChild(DxDataGridComponent, { static: false })
   balanceGrid!: DxDataGridComponent;
 
+  @ViewChild('labelTable', { read: ElementRef })
+  labelTable!: ElementRef;
+
+
   constructor(
     private toastr: ToastrService,
     private activatedRoute: ActivatedRoute,
@@ -253,7 +257,7 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
         };
 
         this.mapLotsScanned.set(lotNo, obj);
-        this.listLotsScanned = Array.from(this.mapLotsScanned.values()).reverse();
+        this.listLotsScanned = Array.from(this.mapLotsScanned.values());
         this.totalQtyScanned = this.sumQtyScanned(this.listLotsScanned);
 
         return;
@@ -282,9 +286,13 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
         this.pihInventorySvc.scanLabel(obj.lotNo).subscribe(
           response => {
             this.mapLotsScanned.set(lotNo, obj);
-            this.listLotsScanned = Array.from(this.mapLotsScanned.values()).reverse();
+            this.listLotsScanned = Array.from(this.mapLotsScanned.values());
             this.totalQtyScanned = this.sumQtyScanned(this.listLotsScanned);
             this.errMsg = null
+            setTimeout(() => {
+              this.scrollToBottom();
+            }, 0);
+            
           }, 
           error => {
             this.errMsg = error
@@ -340,6 +348,21 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
     this.mapLotsScanned = new Map();
     this.totalQtyScanned = 0;
   }
+
+  /**
+   * Scroll bảng scan label xuống dưới cùng
+   */
+  scrollToBottom(): void {
+    try {
+      const tableBody = this.labelTable.nativeElement.querySelector('.ant-table-body');
+      tableBody.scrollTop = tableBody.scrollHeight;
+    } catch (err) {
+      console.error('Error scrolling to bottom of table', err);
+    }
+  }
+
+
+
 
   startEdit(data: any) {
     setTimeout(() => {

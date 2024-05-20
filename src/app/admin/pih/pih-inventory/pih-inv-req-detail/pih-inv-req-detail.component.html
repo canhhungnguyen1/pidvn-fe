@@ -348,13 +348,19 @@
         </label>
       </div>
     </div>
-    <nz-table #labelTable nzSize="small" nzBordered [nzData]="listLotsScanned">
+    <nz-table 
+      nzBordered
+      #labelTable nzSize="small"  
+      [nzData]="listLotsScanned" 
+      nzFrontPagination="false"
+      [nzScroll]="{ y: '240px'}"
+    >
       <thead>
         <tr>
-          <th>Part No</th>
-          <th>LotNo / Outer Lot</th>
-          <th>Qty (Tồn)</th>
-          <th>Action</th>
+          <th nzWidth="150px">Part No</th>
+          <th >LotNo / Outer Lot</th>
+          <th nzWidth="150px">Qty (Tồn)</th>
+          <th nzWidth="100px">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -388,7 +394,6 @@
             nzPopconfirmTitle="Có chắc chắn xóa không ?"
             (nzOnConfirm)="deleteLabelScanned(data)"
             nzPopconfirmPlacement="top"
-            nzRight
           >
             <a style="color: red; font-weight: bold">Xóa</a>
           </td>
