@@ -1,5 +1,7 @@
 // Style cho dòng NG
-.dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused):not(.dx-row-removed) > td {
+.dx-datagrid-rowsview
+  .dx-selection.dx-row:not(.dx-row-focused):not(.dx-row-removed)
+  > td {
   background-color: red;
   color: unset;
 }
@@ -7,5 +9,16 @@
 #result-save-inventory {
   td.ant-table-cell {
     vertical-align: top;
+  }
+}
+
+#error-msg {
+  border: 3px solid rgb(255, 0, 0);
+  font-weight: bold;
+  width: 100%;
+  color: red;
+  padding: 5px;
+  span {
+    color: red;
   }
 }

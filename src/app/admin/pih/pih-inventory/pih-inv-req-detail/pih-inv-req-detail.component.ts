@@ -51,7 +51,7 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
   userLoginName: any;
   inventoryRequestInfo: any;
 
-
+  errMsg: any
 
   /**
    * Các variable phần kiểm kê nvl thô
@@ -278,13 +278,19 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
           inventoryArea: this.inventoryArea
         };
 
-        this.mapLotsScanned.set(lotNo, obj);
 
-        this.listLotsScanned = Array.from(this.mapLotsScanned.values()).reverse();
-
-        this.totalQtyScanned = this.sumQtyScanned(this.listLotsScanned);
-
-        return;
+        this.pihInventorySvc.scanLabel(obj.lotNo).subscribe(
+          response => {
+            this.mapLotsScanned.set(lotNo, obj);
+            this.listLotsScanned = Array.from(this.mapLotsScanned.values()).reverse();
+            this.totalQtyScanned = this.sumQtyScanned(this.listLotsScanned);
+            this.errMsg = null
+          }, 
+          error => {
+            this.errMsg = error
+          }
+        );
+        return
       }
     } else {
       // Trường hợp hàng Elektrisola
@@ -326,6 +332,15 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
     }, 0);
   }
 
+  /**
+   * Reset lại trạng thái scan tem
+   */
+  resetScanLabel() {
+    this.listLotsScanned = new Array();
+    this.mapLotsScanned = new Map();
+    this.totalQtyScanned = 0;
+  }
+
   startEdit(data: any) {
     setTimeout(() => {
       this.importQtyIpt.nativeElement.select();
@@ -345,13 +360,13 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
 
   closeScanInventoryModal() {
     this.isOpenScanInventoryModal = false;
+    this.resetScanLabel()
   }
 
   isOpenEditQtyModal: boolean = false;
   lotSelected: any;
   openEditQtyModal(item: any) {
     this.lotSelected = item.data;
-
     this.isOpenEditQtyModal = true;
   }
 
