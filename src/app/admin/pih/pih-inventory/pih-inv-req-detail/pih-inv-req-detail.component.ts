@@ -347,6 +347,7 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
     this.listLotsScanned = new Array();
     this.mapLotsScanned = new Map();
     this.totalQtyScanned = 0;
+    this.errMsg = null
   }
 
   /**
