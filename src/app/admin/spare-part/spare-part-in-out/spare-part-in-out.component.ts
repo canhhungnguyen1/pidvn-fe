@@ -59,7 +59,7 @@ export class SparePartInOutComponent implements OnInit {
   userCode: any;
   insertType: string = 'manual'; // Kiểu insert là manual hay upload bằng excel
   goodsType: any; // Loại hàng user chọn (M4 or M8)
-  transactionType: any; // Loại giao dịch: "OUTPUT | OK_RETURN | NG_RETURN"
+  transactionType: any; // Loại giao dịch: "INPUT | OUTPUT | OK_RETURN | NG_RETURN"
 
   // Upload Excel: các biến liên quan đến upload file
   uploadExcelApi: any;
@@ -173,7 +173,9 @@ export class SparePartInOutComponent implements OnInit {
       requestNo: requestNo,
       userCode: this.userCode,
       goodsType: this.goodsType,
-      type: this.transactionType
+      type: this.transactionType,
+      po: '',
+      supplier: ''
     });
 
   

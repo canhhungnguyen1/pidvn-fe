@@ -176,6 +176,7 @@
               nzAllowClear
               (ngModelChange)="changeTransactionType($event)"
             >
+              <nz-option nzValue="INPUT" nzLabel="NHẬP KHO"></nz-option>
               <nz-option nzValue="OUTPUT" nzLabel="XUẤT KHO"></nz-option>
               <nz-option nzValue="OK_RETURN" nzLabel="OK RETURN"></nz-option>
               <nz-option nzValue="NG_RETURN" nzLabel="NG RETURN"></nz-option>
@@ -223,13 +224,18 @@
       ></dxi-column>
       <dxi-column [width]="80" dataField="qty" caption="Qty">
         <dxi-validation-rule
-          type="range" 
-          [min]="0" 
+          type="range"
+          [min]="0"
           message="Qty phải lớn hơn 0"
         >
         </dxi-validation-rule>
       </dxi-column>
-      <dxi-column [width]="200" dataField="factoryCode" caption="Nhà máy">
+      <dxi-column
+        [width]="200"
+        dataField="factoryCode"
+        caption="Nhà máy"
+        *ngIf="transactionType != 'INPUT'"
+      >
         <dxi-validation-rule
           type="required"
           message="Cần chọn nhà máy"
@@ -243,7 +249,11 @@
         >
         </dxo-lookup>
       </dxi-column>
-      <dxi-column dataField="machine" caption="Máy">
+      <dxi-column
+        dataField="machine"
+        caption="Máy"
+        *ngIf="transactionType != 'INPUT'"
+      >
         <dxo-lookup
           [allowClearing]="true"
           [dataSource]="machines"
@@ -252,7 +262,11 @@
         >
         </dxo-lookup>
       </dxi-column>
-      <dxi-column dataField="line" caption="Line">
+      <dxi-column
+        dataField="line"
+        caption="Line"
+        *ngIf="transactionType != 'INPUT'"
+      >
         <dxo-lookup
           [allowClearing]="true"
           [dataSource]="lines"
@@ -261,6 +275,16 @@
         >
         </dxo-lookup>
       </dxi-column>
+      <dxi-column
+        dataField="po"
+        caption="PO"
+        *ngIf="transactionType == 'INPUT'"
+      ></dxi-column>
+      <dxi-column
+        dataField="supplier"
+        caption="Supplier"
+        *ngIf="transactionType == 'INPUT'"
+      ></dxi-column>
       <dxi-column dataField="type" aption="Giao dịch"></dxi-column>
       <dxi-column dataField="whUserCode" caption="User"></dxi-column>
       <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
