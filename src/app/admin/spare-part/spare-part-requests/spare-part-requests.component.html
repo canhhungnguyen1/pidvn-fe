@@ -1,0 +1,52 @@
+<dx-data-grid
+  keyExpr="id"
+  #requestListGrid
+  [dataSource]="sparePartRequests"
+  [showColumnLines]="true"
+  [showRowLines]="true"
+  [showBorders]="true"
+  [allowColumnResizing]="true"
+  [columnAutoWidth]="true"
+  [rowAlternationEnabled]="true"
+>
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
+  <dxo-export [enabled]="true"></dxo-export>
+
+  <dxo-column-chooser
+    #columnChooser
+    [enabled]="true"
+    [mode]="'select'"
+    [title]="'Cột hiển thị'"
+  >
+  </dxo-column-chooser>
+
+  <dxo-toolbar>
+    <dxi-item location="before">
+      <nz-space>
+        <button *nzSpaceItem nz-button nzType="primary" (click)="openRequestModal()">
+          <span nz-icon nzType="plus"></span>
+          Tạo phiếu request
+        </button>
+      </nz-space>
+    </dxi-item>
+    <dxi-item name="exportButton" location="after" />
+    <dxi-item name="columnChooserButton" location="after"></dxi-item>
+  </dxo-toolbar>
+
+  <dxi-column dataField="request_no" caption="Request No"></dxi-column>
+  <dxi-column dataField="date" caption="Ngày request"></dxi-column>
+  <dxi-column dataField="username" caption="Người tạo"></dxi-column>
+  <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
+</dx-data-grid>
+
+<nz-modal
+  [(nzVisible)]="isOpenRequestModal"
+  nzTitle="Chọn mã"
+  nzWidth="100%"
+>
+  <ng-container *nzModalContent>
+    <p>Content one</p>
+    <p>Content two</p>
+    <p>Content three</p>
+  </ng-container>
+</nz-modal>

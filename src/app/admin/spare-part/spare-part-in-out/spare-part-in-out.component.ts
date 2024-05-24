@@ -85,7 +85,9 @@ export class SparePartInOutComponent implements OnInit {
   sparePartRecordEdit: any;
 
 
-
+  // Các biến liên quan đến type INPUT (Nhập kho)
+  po: any
+  supplier: any
 
 
   getLineStandard() {
@@ -174,8 +176,8 @@ export class SparePartInOutComponent implements OnInit {
       userCode: this.userCode,
       goodsType: this.goodsType,
       type: this.transactionType,
-      po: '',
-      supplier: ''
+      po: this.po,
+      supplier: this.supplier
     });
 
   
@@ -211,7 +213,8 @@ export class SparePartInOutComponent implements OnInit {
       this.userCode = null;
       this.goodsType = null;
       this.transactionType = null;
-
+      this.po = null;
+      this.supplier = null;
 
     });
   }

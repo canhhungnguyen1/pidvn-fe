@@ -147,9 +147,8 @@
     >
       <thead>
         <tr>
-          <th width="10%"><label>Người nhận</label></th>
           <th width="10%">
-            <input
+            <!-- <input
               id="userCodeIpt"
               [(ngModel)]="userCode"
               #userCodeIpt
@@ -158,22 +157,46 @@
               autocomplete="off"
               (keydown.enter)="scanUserCode($event)"
               (click)="userCodeIpt.select()"
-            />
+            /> -->
+
+            <dx-text-box
+              label="Người nhận"
+              labelLocation="left"
+              showColonAfterLabel="true"
+              [labelMode]="'floating'"
+              [(value)]="userCode"
+              (keydown.enter)="scanUserCode($event)"
+              onclick="userCodeIpt.select()"
+            >
+            </dx-text-box>
           </th>
-          <th width="10%"><label>Loại hàng</label></th>
-          <th width="10%">
-            <nz-select
+          <!-- <th width="10%"><label>Loại hàng</label></th> -->
+          <th width="15%">
+            <!-- <nz-select
               [(ngModel)]="goodsType"
               (ngModelChange)="changeGoodsType($event)"
               nzAllowClear
             >
               <nz-option nzValue="M4" nzLabel="M4"></nz-option>
               <nz-option nzValue="M8" nzLabel="M8"></nz-option>
-            </nz-select>
+            </nz-select> -->
+            <dx-select-box
+              label="Loại hàng"
+              labelLocation="left"
+              showColonAfterLabel="true"
+              [labelMode]="'floating'"
+              displayExpr="name"
+              valueExpr="id"
+              [dataSource]="[
+                { id: 'M4', name: 'M4' },
+                { id: 'M8', name: 'M8' }
+              ]"
+              [(value)]="goodsType"
+              (ngModelChange)="changeGoodsType($event)"
+            ></dx-select-box>
           </th>
-          <th width="10%"><label>Giao dịch</label></th>
           <th width="15%">
-            <nz-select
+            <!-- <nz-select
               [(ngModel)]="transactionType"
               nzAllowClear
               (ngModelChange)="changeTransactionType($event)"
@@ -182,9 +205,48 @@
               <nz-option nzValue="OUTPUT" nzLabel="XUẤT KHO"></nz-option>
               <nz-option nzValue="OK_RETURN" nzLabel="OK RETURN"></nz-option>
               <nz-option nzValue="NG_RETURN" nzLabel="NG RETURN"></nz-option>
-            </nz-select>
+            </nz-select> -->
+            <dx-select-box
+              label="Giao dịch"
+              labelLocation="left"
+              showColonAfterLabel="true"
+              [labelMode]="'floating'"
+              displayExpr="name"
+              valueExpr="id"
+              [dataSource]="[
+                { id: 'INPUT', name: 'NHẬP KHO' },
+                { id: 'OUTPUT', name: 'XUẤT KHO' },
+                { id: 'OK_RETURN', name: 'OK RETURN' },
+                { id: 'NG_RETURN', name: 'NG RETURN' }
+              ]"
+              [(value)]="transactionType"
+              (ngModelChange)="changeTransactionType($event)"
+            ></dx-select-box>
           </th>
-          <th><label>QR Code</label></th>
+          <!-- <th><label>QR Code</label></th> -->
+
+          <th width="15%" *ngIf="transactionType == 'INPUT'">
+            <dx-text-box
+              label="PO"
+              labelLocation="left"
+              showColonAfterLabel="true"
+              [labelMode]="'floating'"
+              [(value)]="po"
+            >
+            </dx-text-box>
+          </th>
+
+          <th width="15%" *ngIf="transactionType == 'INPUT'">
+            <dx-text-box
+              label="Supplier"
+              labelLocation="left"
+              showColonAfterLabel="true"
+              [labelMode]="'floating'"
+              [(value)]="supplier"
+            >
+            </dx-text-box>
+          </th>
+
           <th>
             <input
               id="sparePartQrCodeIpt"
@@ -195,6 +257,18 @@
               (keydown.enter)="scanSparePartQrCode($event)"
               (click)="sparePartQrCodeIpt.select()"
             />
+
+            <!-- <dx-text-box
+              id="sparePartQrCodeIpt"
+              #sparePartQrCodeIpt
+              label="QR Code"
+              labelLocation="left"
+              showColonAfterLabel="true"
+              [labelMode]="'floating'"
+              (keydown.enter)="scanSparePartQrCode($event)"
+              onclick="sparePartQrCodeIpt.select()"
+            >
+            </dx-text-box> -->
           </th>
         </tr>
       </thead>
