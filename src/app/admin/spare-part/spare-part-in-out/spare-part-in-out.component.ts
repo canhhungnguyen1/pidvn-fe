@@ -189,6 +189,9 @@ export class SparePartInOutComponent implements OnInit {
   cancelSaveOutputSparePart() {
     this.isOpenOutputSparePartModal = false;
     this.userCode = null;
+    this.po = null;
+    this.supplier = null;
+    this.transactionType = null;
     this.getSparePartRecords();
   }
 
