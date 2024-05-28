@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { ToastrService } from 'ngx-toastr';
 import { PihStopLineService } from '../services/pih-stop-line.service';
-import { debug } from 'console';
 
 @Component({
   selector: 'app-pih-stop-line-main',
@@ -124,6 +123,8 @@ export class PihStopLineMainComponent implements OnInit {
   }
 
   openModal(type: string, data: any) {
+
+    this.errorMsg = null;
 
     console.log(`productTypeSelected: ${this.productTypeSelected}; type: ${type}; data: ${data}`);
     

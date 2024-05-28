@@ -39,6 +39,7 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
   requestNo: any;
   inventoryData: any;
   inventoryArea: any; // Khu vực kiểm kê
+  goodsType: any; // Loại hàng : CX, CXN, CST, RT, NG ...
   inventoryAreaList: any;
   isOpenScanInventoryModal: boolean = false;
   isOpenResultSaveInventoryModal: boolean = false;
@@ -193,7 +194,7 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
 
     this.isLoadingSaveInventoryData = true;
     this.pihInventorySvc
-      .saveListInventoryData(this.listLotsScanned, this.requestId, this.inventoryArea)
+      .saveListInventoryData(this.listLotsScanned, this.requestId, this.inventoryArea, this.goodsType)
       .subscribe((response) => {
         this.toastr.success('Đã lưu', 'Response');
         this.resultSaveInventoryData = response;
@@ -202,6 +203,9 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
         this.isOpenResultSaveInventoryModal = true;
         this.mapLotsScanned = new Map();
         this.listLotsScanned = new Array();
+        
+        this.inventoryArea = null;
+        this.goodsType = null;
 
         this.getInventoryData(this.requestId);
       });
@@ -214,12 +218,30 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
   onChangeArea(event: any) {
     this.labelIpt.nativeElement.select();
   }
+  /**
+   * Chọn loại hàng
+   * @param event 
+   */
+  onChangeGoodsType(event: any) {
+    console.log('onChangeGoodsType: ', event);
+    
+    this.labelIpt.nativeElement.select();
+  }
 
   scanLabel(event: any) {
 
     if (!this.inventoryArea) {
       this.toastr.warning(
-        `Cần chọn khu vực kiểm kê`,
+        `Cần chọn khu vực kiểm kê `,
+        `${this.userLoginName} ơi !`
+      );
+      this.labelIpt.nativeElement.select();
+      return;
+    }
+
+    if (!this.goodsType) {
+      this.toastr.warning(
+        `Cần chọn loại hàng `,
         `${this.userLoginName} ơi !`
       );
       this.labelIpt.nativeElement.select();
@@ -254,6 +276,7 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
           requestId: this.requestId,
           inventoryArea: this.inventoryArea,
           outerLotNo: lotNo.toUpperCase(),
+          goodsType: this.goodsType
         };
 
         this.mapLotsScanned.set(lotNo, obj);
@@ -279,7 +302,8 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
           qty: qty,
           date: new Date(),
           requestId: this.requestId,
-          inventoryArea: this.inventoryArea
+          inventoryArea: this.inventoryArea,
+          goodsType: this.goodsType
         };
 
 
@@ -315,6 +339,7 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
           date: new Date(),
           requestId: this.requestId,
           inventoryArea: this.inventoryArea,
+          goodsType: this.goodsType
         };
 
         this.mapLotsScanned.set(lotNo, obj);

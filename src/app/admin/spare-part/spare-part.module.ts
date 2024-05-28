@@ -16,6 +16,7 @@ import { SparePartsComponent } from './spare-parts/spare-parts.component';
 import { FormsModule } from '@angular/forms';
 import { QRCodeModule } from 'angularx-qrcode';
 import { DxChartModule, DxPieChartModule, DxTextBoxModule } from 'devextreme-angular';
+import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
@@ -71,7 +72,8 @@ import { SparePartRequestsComponent } from './spare-part-requests/spare-part-req
     DxPieChartModule,
     NgxPrintModule,
     DxTextBoxModule,
-    DxSelectBoxModule
+    DxSelectBoxModule,
+    NzCollapseModule
   ],
 })
 export class SparePartModule {}

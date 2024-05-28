@@ -287,7 +287,7 @@
     >
       <thead>
         <tr>
-          <th style="width: 15%">Khu vực</th>
+          <!-- <th style="width: 15%">Khu vực</th>
           <th style="width: 30%">
             <nz-select
               style="width: 100%"
@@ -305,7 +305,71 @@
               </nz-option>
             </nz-select>
           </th>
+          <th style="width: 10%">Type</th>
+          <th style="width: 30%">
+            <nz-select
+              style="width: 100%"
+              nzPlaceHolder="Type"
+              nzAllowClear
+              nzShowSearch
+              (ngModelChange)="onChangeArea($event)"
+              [(ngModel)]="inventoryArea"
+            >
+              <nz-option [nzValue]="'CX'" [nzLabel]="'Chờ xuất'"></nz-option>
+              <nz-option [nzValue]="'CXN'" [nzLabel]="'Chờ xác nhận'"></nz-option>
+              <nz-option [nzValue]="'CST'" [nzLabel]="'Chờ sorting'"></nz-option>
+              <nz-option [nzValue]="'RT'" [nzLabel]="'Return'"></nz-option>
+              <nz-option [nzValue]="'NG'" [nzLabel]="'NG'"></nz-option>
+            </nz-select>
+          </th>
           <th style="width: 15%">Label</th>
+          <th>
+            <input
+              id="labelIpt"
+              #labelIpt
+              nz-input
+              placeholder="Scan tem NVL"
+              (keydown.enter)="scanLabel($event)"
+              (click)="labelIpt.select()"
+              autocomplete="off"
+              autofocus="true"
+            />
+          </th> -->
+
+          <th>
+            <dx-select-box
+              label="Chọn khu vực"
+              labelLocation="left"
+              showColonAfterLabel="true"
+              [searchEnabled]="true"
+              [labelMode]="'floating'"
+              displayExpr="name"
+              valueExpr="id"
+              [dataSource]="inventoryAreaList"
+              [(value)]="inventoryArea"
+              (ngModelChange)="onChangeArea($event)"
+            ></dx-select-box>
+          </th>
+          <th>
+            <dx-select-box
+              label="Loại hàng"
+              labelLocation="left"
+              showColonAfterLabel="true"
+              [searchEnabled]="true"
+              [labelMode]="'floating'"
+              displayExpr="name"
+              valueExpr="id"
+              [dataSource]="[
+                { id: 'CX', name: 'Hàng chờ xuất' },
+                { id: 'CXN', name: 'Hàng chờ xác nhận' },
+                { id: 'CST', name: 'Hàng chờ sorting' },
+                { id: 'CST', name: 'Hàng WH trả về' },
+                { id: 'NG', name: 'Hàng NG' }
+              ]"
+              [(value)]="goodsType"
+              (onValueChanged)="onChangeGoodsType($event)"
+            ></dx-select-box>
+          </th>
           <th>
             <input
               id="labelIpt"
@@ -324,7 +388,7 @@
         <tr>
           <td colspan="4">
             <div id="error-msg">
-              <span>{{errMsg}}</span>
+              <span>{{ errMsg }}</span>
             </div>
           </td>
         </tr>
@@ -348,17 +412,18 @@
         </label>
       </div>
     </div>
-    <nz-table 
+    <nz-table
       nzBordered
-      #labelTable nzSize="small"  
-      [nzData]="listLotsScanned" 
+      #labelTable
+      nzSize="small"
+      [nzData]="listLotsScanned"
       nzFrontPagination="false"
-      [nzScroll]="{ y: '240px'}"
+      [nzScroll]="{ y: '240px' }"
     >
       <thead>
         <tr>
           <th nzWidth="150px">Part No</th>
-          <th >LotNo / Outer Lot</th>
+          <th>LotNo / Outer Lot</th>
           <th nzWidth="150px">Qty (Tồn)</th>
           <th nzWidth="100px">Action</th>
         </tr>
