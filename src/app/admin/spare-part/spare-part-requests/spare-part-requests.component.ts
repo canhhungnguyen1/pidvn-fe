@@ -49,7 +49,18 @@ export class SparePartRequestsComponent implements OnInit {
    * @param event
    */
   onSelectionChanged(event: any) {
-    this.sparePartSelected = event.selectedRowsData;
+   
+    let arr = new Array();
+
+    
+    event.selectedRowsData.forEach((item: any) => {
+      let obj = {...item, qty:0 }
+      arr.push(obj)
+    });
+
+    this.sparePartSelected = arr
+
+    
   }
 
   async onSaving(event: any) {
@@ -58,15 +69,30 @@ export class SparePartRequestsComponent implements OnInit {
     await event.changes.forEach((item: any) => {
       arr.push(item.key);
     });
-    console.log('Arr: ', arr);
+    
+
+    /**
+     * Xử lý login lưu list data
+     */
+    this.closeRequestModal();
+    
+
+    
+
   }
 
-  saveChanges(dataGrid: DxDataGridComponent) {
+  onCreateRequest(dataGrid: DxDataGridComponent) {
+    console.log('onCreateRequest');
     
-   console.log('Hihihi: ', dataGrid.instance);
-   
-    
-
     dataGrid.instance.saveEditData();
+  }
+
+
+  /**
+   * Đóng Request Modal
+   */
+  closeRequestModal() {
+    this.isOpenRequestModal = false;
+    this.sparePartSelected = null;
   }
 }
