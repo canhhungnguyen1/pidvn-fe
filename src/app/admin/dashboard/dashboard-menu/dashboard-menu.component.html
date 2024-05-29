@@ -1,14 +1,19 @@
 <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="8">
   <div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="6">
-    <div
-      class="item data"
-      routerLink="/admin/dashboard/traceability"
-    >
+    <div class="item data" routerLink="/admin/dashboard/traceability">
       <img src="./../../../../../../assets/images/traceability.png" alt="" />
       <h6>Truy vết dữ liệu</h6>
       <h4>Traceability</h4>
     </div>
   </div>
-</div>
 
-<hr />
+  <div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="6">
+    <a [href]="relayDashboardLink">
+      <div class="item relay">
+        <img src="./../../../../../../assets/images/report.png" alt="" />
+        <h6>Dashboard</h6>
+        <h4>Relay</h4>
+      </div>
+    </a>
+  </div>
+</div>

@@ -136,256 +136,254 @@
 <nz-modal
   [(nzVisible)]="isOpenOutputSparePartModal"
   nzTitle="Nhập xuất hàng M4/M8"
-  nzWidth="1300px"
+  nzWidth="100%"
 >
   <ng-container *nzModalContent>
-    <nz-table
-      [nzData]="['']"
-      nzFrontPagination="false"
-      nzBordered
-      nzSize="small"
-    >
-      <thead>
-        <tr>
-          <th width="10%">
-            <!-- <input
-              id="userCodeIpt"
-              [(ngModel)]="userCode"
-              #userCodeIpt
-              nz-input
-              placeholder="Mã nhân viên"
-              autocomplete="off"
-              (keydown.enter)="scanUserCode($event)"
-              (click)="userCodeIpt.select()"
-            /> -->
-
-            <dx-text-box
-              label="Người nhận"
-              labelLocation="left"
-              showColonAfterLabel="true"
-              [labelMode]="'floating'"
-              [(value)]="userCode"
-              (keydown.enter)="scanUserCode($event)"
-              onclick="userCodeIpt.select()"
-            >
-            </dx-text-box>
-          </th>
-          <!-- <th width="10%"><label>Loại hàng</label></th> -->
-          <th width="15%">
-            <!-- <nz-select
-              [(ngModel)]="goodsType"
-              (ngModelChange)="changeGoodsType($event)"
-              nzAllowClear
-            >
-              <nz-option nzValue="M4" nzLabel="M4"></nz-option>
-              <nz-option nzValue="M8" nzLabel="M8"></nz-option>
-            </nz-select> -->
-            <dx-select-box
-              label="Loại hàng"
-              labelLocation="left"
-              showColonAfterLabel="true"
-              [labelMode]="'floating'"
-              displayExpr="name"
-              valueExpr="id"
-              [dataSource]="[
-                { id: 'M4', name: 'M4' },
-                { id: 'M8', name: 'M8' }
-              ]"
-              [(value)]="goodsType"
-              (ngModelChange)="changeGoodsType($event)"
-            ></dx-select-box>
-          </th>
-          <th width="15%">
-            <!-- <nz-select
-              [(ngModel)]="transactionType"
-              nzAllowClear
-              (ngModelChange)="changeTransactionType($event)"
-            >
-              <nz-option nzValue="INPUT" nzLabel="NHẬP KHO"></nz-option>
-              <nz-option nzValue="OUTPUT" nzLabel="XUẤT KHO"></nz-option>
-              <nz-option nzValue="OK_RETURN" nzLabel="OK RETURN"></nz-option>
-              <nz-option nzValue="NG_RETURN" nzLabel="NG RETURN"></nz-option>
-            </nz-select> -->
-            <dx-select-box
-              label="Giao dịch"
-              labelLocation="left"
-              showColonAfterLabel="true"
-              [labelMode]="'floating'"
-              displayExpr="name"
-              valueExpr="id"
-              [dataSource]="[
-                { id: 'INPUT', name: 'NHẬP KHO' },
-                { id: 'OUTPUT', name: 'XUẤT KHO' },
-                { id: 'OK_RETURN', name: 'OK RETURN' },
-                { id: 'NG_RETURN', name: 'NG RETURN' }
-              ]"
-              [(value)]="transactionType"
-              (ngModelChange)="changeTransactionType($event)"
-            ></dx-select-box>
-          </th>
-          <!-- <th><label>QR Code</label></th> -->
-
-          <th width="15%" *ngIf="transactionType == 'INPUT'">
-            <dx-text-box
-              label="PO"
-              labelLocation="left"
-              showColonAfterLabel="true"
-              [labelMode]="'floating'"
-              [(value)]="po"
-            >
-            </dx-text-box>
-          </th>
-
-          <th width="15%" *ngIf="transactionType == 'INPUT'">
-            <dx-text-box
-              label="Supplier"
-              labelLocation="left"
-              showColonAfterLabel="true"
-              [labelMode]="'floating'"
-              [(value)]="supplier"
-            >
-            </dx-text-box>
-          </th>
-
-          <th>
-            <input
-              id="sparePartQrCodeIpt"
-              #sparePartQrCodeIpt
-              nz-input
-              placeholder="Mã spare part"
-              autocomplete="off"
-              (keydown.enter)="scanSparePartQrCode($event)"
-              (click)="sparePartQrCodeIpt.select()"
-            />
-
-            <!-- <dx-text-box
-              id="sparePartQrCodeIpt"
-              #sparePartQrCodeIpt
-              label="QR Code"
-              labelLocation="left"
-              showColonAfterLabel="true"
-              [labelMode]="'floating'"
-              (keydown.enter)="scanSparePartQrCode($event)"
-              onclick="sparePartQrCodeIpt.select()"
-            >
-            </dx-text-box> -->
-          </th>
-        </tr>
-      </thead>
-    </nz-table>
-
-    <dx-data-grid
-      #sparePartOutputGrid
-      [showBorders]="true"
-      [dataSource]="listSparePartScanned"
-      [showColumnLines]="true"
-      [showRowLines]="true"
-      [allowColumnResizing]="true"
-      [columnMinWidth]="50"
-      [columnAutoWidth]="true"
-      (onSaving)="saveSparePartRecords($event)"
-      style="margin-top: -25px"
-    >
-      <dxo-editing
-        mode="batch"
-        [allowUpdating]="true"
-        [selectTextOnEditStart]="true"
-      >
-      </dxo-editing>
-      <dxi-column
-        [width]="225"
-        dataField="partNumber"
-        caption="Part"
-        [allowEditing]="false"
-      ></dxi-column>
-      <dxi-column [width]="80" dataField="qty" caption="Qty">
-        <dxi-validation-rule
-          type="range"
-          [min]="0"
-          message="Qty phải lớn hơn 0"
+    <div nz-row [nzGutter]="24">
+      <div nz-col nzXs="7" nzSm="7" nzMd="7" nzLg="7">
+        <nz-table
+          [nzData]="['']"
+          nzFrontPagination="false"
+          nzBordered
+          nzSize="small"
         >
-        </dxi-validation-rule>
-      </dxi-column>
-      <dxi-column
-        [width]="200"
-        dataField="factoryCode"
-        caption="Nhà máy"
-        *ngIf="transactionType != 'INPUT'"
-      >
-        <dxi-validation-rule
-          type="required"
-          message="Cần chọn nhà máy"
-        ></dxi-validation-rule>
-        <dxo-lookup
-          [allowClearing]="true"
-          [enterKeyHint]="true"
-          [dataSource]="factories"
-          displayExpr="name"
-          valueExpr="code"
+          <thead>
+            <tr>
+              <th>Số phiếu</th>
+              <th>
+                <dx-select-box
+                  label="Request No"
+                  labelLocation="left"
+                  showColonAfterLabel="true"
+                  [labelMode]="'floating'"
+                  displayExpr="name"
+                  valueExpr="id"
+                  [dataSource]="['']"
+                ></dx-select-box>
+              </th>
+            </tr>
+          </thead>
+        </nz-table>
+        <dx-data-grid
+          [showBorders]="true"
+          [dataSource]="['']"
+          [showColumnLines]="true"
+          [showRowLines]="true"
+          [allowColumnResizing]="true"
+          [columnMinWidth]="50"
+          [columnAutoWidth]="true"
         >
-        </dxo-lookup>
-      </dxi-column>
-      <dxi-column
-        dataField="machine"
-        caption="Máy"
-        *ngIf="transactionType != 'INPUT'"
-      >
-        <dxo-lookup
-          [allowClearing]="true"
-          [dataSource]="machines"
-          displayExpr="vnName"
-          valueExpr="id"
+        <dxi-column dataField="type" caption="PartNo"></dxi-column>
+        <dxi-column dataField="type" caption="Qty"></dxi-column>
+        </dx-data-grid>
+      </div>
+      <div nz-col nzXs="17" nzSm="17" nzMd="17" nzLg="17">
+        <nz-table
+          [nzData]="['']"
+          nzFrontPagination="false"
+          nzBordered
+          nzSize="small"
         >
-        </dxo-lookup>
-      </dxi-column>
-      <dxi-column
-        dataField="line"
-        caption="Line"
-        *ngIf="transactionType != 'INPUT'"
-      >
-        <dxo-lookup
-          [allowClearing]="true"
-          [dataSource]="lines"
-          displayExpr="name"
-          valueExpr="name"
-        >
-        </dxo-lookup>
-      </dxi-column>
-      <dxi-column
-        dataField="po"
-        caption="PO"
-        *ngIf="transactionType == 'INPUT'"
-      ></dxi-column>
-      <dxi-column
-        dataField="supplier"
-        caption="Supplier"
-        *ngIf="transactionType == 'INPUT'"
-      ></dxi-column>
-      <dxi-column dataField="type" aption="Giao dịch"></dxi-column>
-      <dxi-column dataField="whUserCode" caption="User"></dxi-column>
-      <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
+          <thead>
+            <tr>
+              <th width="15%">
+                <dx-text-box
+                  label="User"
+                  labelLocation="left"
+                  showColonAfterLabel="true"
+                  [labelMode]="'floating'"
+                  [(value)]="userCode"
+                  (keydown.enter)="scanUserCode($event)"
+                  onclick="userCodeIpt.select()"
+                >
+                </dx-text-box>
+              </th>
+              <th width="15%">
+                <dx-select-box
+                  label="Loại hàng"
+                  labelLocation="left"
+                  showColonAfterLabel="true"
+                  [labelMode]="'floating'"
+                  displayExpr="name"
+                  valueExpr="id"
+                  [dataSource]="[
+                    { id: 'M4', name: 'M4' },
+                    { id: 'M8', name: 'M8' }
+                  ]"
+                  [(value)]="goodsType"
+                  (ngModelChange)="changeGoodsType($event)"
+                ></dx-select-box>
+              </th>
+              <th width="15%">
+                <dx-select-box
+                  label="Giao dịch"
+                  labelLocation="left"
+                  showColonAfterLabel="true"
+                  [labelMode]="'floating'"
+                  displayExpr="name"
+                  valueExpr="id"
+                  [dataSource]="[
+                    { id: 'INPUT', name: 'NHẬP KHO' },
+                    { id: 'OUTPUT', name: 'XUẤT KHO' },
+                    { id: 'OK_RETURN', name: 'OK RETURN' },
+                    { id: 'NG_RETURN', name: 'NG RETURN' }
+                  ]"
+                  [(value)]="transactionType"
+                  (ngModelChange)="changeTransactionType($event)"
+                ></dx-select-box>
+              </th>
 
-      <!-- <dxi-column
-          caption="Action"
-          cellTemplate="actionTemplate"
-          [fixed]="true"
-          fixedPosition="right"
+              <th width="15%" *ngIf="transactionType == 'INPUT'">
+                <dx-text-box
+                  label="PO"
+                  labelLocation="left"
+                  showColonAfterLabel="true"
+                  [labelMode]="'floating'"
+                  [(value)]="po"
+                >
+                </dx-text-box>
+              </th>
+
+              <th width="15%" *ngIf="transactionType == 'INPUT'">
+                <dx-text-box
+                  label="Supplier"
+                  labelLocation="left"
+                  showColonAfterLabel="true"
+                  [labelMode]="'floating'"
+                  [(value)]="supplier"
+                >
+                </dx-text-box>
+              </th>
+
+              <th>
+                <input
+                  id="sparePartQrCodeIpt"
+                  #sparePartQrCodeIpt
+                  nz-input
+                  placeholder="Mã spare part"
+                  autocomplete="off"
+                  (keydown.enter)="scanSparePartQrCode($event)"
+                  (click)="sparePartQrCodeIpt.select()"
+                />
+              </th>
+            </tr>
+          </thead>
+        </nz-table>
+
+        <dx-data-grid
+          #sparePartOutputGrid
+          [showBorders]="true"
+          [dataSource]="listSparePartScanned"
+          [showColumnLines]="true"
+          [showRowLines]="true"
+          [allowColumnResizing]="true"
+          [columnMinWidth]="50"
+          [columnAutoWidth]="true"
+          (onSaving)="saveSparePartRecords($event)"
+          style="margin-top: -25px"
         >
-          <div
-            *dxTemplate="let item of 'actionTemplate'"
-            style="text-align: center"
+          <dxo-editing
+            mode="batch"
+            [allowUpdating]="true"
+            [selectTextOnEditStart]="true"
           >
-            <a style="color: red"> Xóa </a>
-          </div>
-        </dxi-column> -->
+          </dxo-editing>
+          <dxi-column
+            [width]="225"
+            dataField="partNumber"
+            caption="Part"
+            [allowEditing]="false"
+          ></dxi-column>
+          <dxi-column [width]="80" dataField="qty" caption="Qty">
+            <dxi-validation-rule
+              type="range"
+              [min]="0"
+              message="Qty phải lớn hơn 0"
+            >
+            </dxi-validation-rule>
+          </dxi-column>
+          <dxi-column
+            [width]="200"
+            dataField="factoryCode"
+            caption="Nhà máy"
+            *ngIf="transactionType != 'INPUT'"
+          >
+            <dxi-validation-rule
+              type="required"
+              message="Cần chọn nhà máy"
+            ></dxi-validation-rule>
+            <dxo-lookup
+              [allowClearing]="true"
+              [enterKeyHint]="true"
+              [dataSource]="factories"
+              displayExpr="name"
+              valueExpr="code"
+            >
+            </dxo-lookup>
+          </dxi-column>
+          <dxi-column
+            dataField="machine"
+            caption="Máy"
+            *ngIf="transactionType != 'INPUT'"
+          >
+            <dxo-lookup
+              [allowClearing]="true"
+              [dataSource]="machines"
+              displayExpr="vnName"
+              valueExpr="id"
+            >
+            </dxo-lookup>
+          </dxi-column>
+          <dxi-column
+            dataField="line"
+            caption="Line"
+            *ngIf="transactionType != 'INPUT'"
+          >
+            <dxo-lookup
+              [allowClearing]="true"
+              [dataSource]="lines"
+              displayExpr="name"
+              valueExpr="name"
+            >
+            </dxo-lookup>
+          </dxi-column>
+          <dxi-column
+            dataField="po"
+            caption="PO"
+            *ngIf="transactionType == 'INPUT'"
+          ></dxi-column>
+          <dxi-column
+            dataField="supplier"
+            caption="Supplier"
+            *ngIf="transactionType == 'INPUT'"
+          ></dxi-column>
+          <dxi-column dataField="type" caption="Giao dịch"></dxi-column>
+          <dxi-column dataField="whUserCode" caption="User"></dxi-column>
+          <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
 
-      <dxo-paging [pageSize]="10"></dxo-paging>
-      <dxo-pager
-        [showPageSizeSelector]="true"
-        [allowedPageSizes]="[10, 25, 50, 100]"
-      >
-      </dxo-pager>
-    </dx-data-grid>
+          <!-- <dxi-column
+            caption="Action"
+            cellTemplate="actionTemplate"
+            [fixed]="true"
+            fixedPosition="right"
+          >
+            <div
+              *dxTemplate="let item of 'actionTemplate'"
+              style="text-align: center"
+            >
+              <a style="color: red"> Xóa </a>
+            </div>
+          </dxi-column> -->
+
+          <dxo-paging [pageSize]="10"></dxo-paging>
+          <dxo-pager
+            [showPageSizeSelector]="true"
+            [allowedPageSizes]="[10, 25, 50, 100]"
+          >
+          </dxo-pager>
+        </dx-data-grid>
+      </div>
+    </div>
   </ng-container>
   <div *nzModalFooter>
     <button nz-button nzType="default" (click)="cancelSaveOutputSparePart()">

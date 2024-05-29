@@ -205,10 +205,7 @@ export class AdminComponent implements OnInit {
   bangQuanLyKyNangPIHLink!: string;
   pihProcessScannerLink!: string;
   pihPSMasterLink!: string
-
-
   itRequestLink!: string;
-
   labelRequestLink!: string;
 
   // IQC Link
@@ -251,6 +248,7 @@ export class AdminComponent implements OnInit {
   eShiftLink!: string;
   pihProcessScannerLinkv2!: string;
   pihPrintLabelLink!: string;
+  uploadFileLink!:string
 
 
    ngOnInit(): void {
@@ -315,6 +313,7 @@ export class AdminComponent implements OnInit {
     this.ePurchaseLink =`${this.baseUrlJava}/pidvn/pur/purchase/menu?accessToken=${token2}`
     this.pihProcessScannerLinkv2 = `${this.baseUrlJavaHttps}/pidvn/pih/pih_process_scaner/pih_process_menu?accessToken=${token2}`
     this.pihPrintLabelLink = `${this.baseUrlJava}/pidvn/pih/pih_print_label/pih_print_label?accessToken=${token2}`
+    this.uploadFileLink = `${this.baseUrlJava}/pidvn/common/uploadfile/upload=${token2}`
   }
 
   weatherInfo: any;

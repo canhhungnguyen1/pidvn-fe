@@ -30,6 +30,18 @@
         </span>
       </li>
       <li nz-menu-item nzTooltipPlacement="right" nzMatchRouter>
+        <i nz-icon nzType="upload"></i>
+        <span>
+          <a
+            [href]="uploadFileLink"
+            (click)="onHideSidebar()"
+            target="_blank"
+          >
+            Upload File
+          </a>
+        </span>
+      </li>
+      <li nz-menu-item nzTooltipPlacement="right" nzMatchRouter>
         <i nz-icon nzType="codepen-circle"></i>
         <span>
           <a
