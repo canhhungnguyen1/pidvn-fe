@@ -204,6 +204,7 @@ export class SparePartInOutComponent implements OnInit {
     this.po = null;
     this.supplier = null;
     this.transactionType = null;
+    this.goodsType = null;
     this.getSparePartRecords();
   }
 
