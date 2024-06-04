@@ -38,10 +38,25 @@
     <dxi-item name="columnChooserButton" location="after"></dxi-item>
   </dxo-toolbar>
 
-  <dxi-column dataField="request_no" caption="Request No"></dxi-column>
-  <dxi-column dataField="date" caption="Ngày request"></dxi-column>
-  <dxi-column dataField="username" caption="Người tạo"></dxi-column>
+  <dxi-column dataField="requestNo" caption="Request No"></dxi-column>
+  <dxi-column
+    dataField="date"
+    caption="Ngày request"
+    dataType="date"
+    format="yyyy-MM-dd"
+  ></dxi-column>
+  <dxi-column dataField="createdBy" caption="Người tạo"></dxi-column>
   <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
+
+  <dxi-column
+    caption="Action"
+    cellTemplate="actionTemplate"
+    [fixed]="true"
+    fixedPosition="right"
+  ></dxi-column>
+  <div *dxTemplate="let item of 'actionTemplate'" style="text-align: center">
+    <a (click)="openRequestDetailModal(item)">Chi tiết</a>
+  </div>
 </dx-data-grid>
 
 <nz-modal [(nzVisible)]="isOpenRequestModal" nzTitle="Chọn mã" nzWidth="100%">
@@ -96,7 +111,7 @@
         <nz-collapse-panel [nzHeader]="'Order list'" [nzActive]="true">
           <dx-data-grid
             #orderedGrid
-            [dataSource]="sparePartSelected"
+            [dataSource]="sparePartSelectedList"
             [showColumnLines]="true"
             [showRowLines]="true"
             [showBorders]="true"
@@ -107,6 +122,20 @@
           >
             <dxo-toolbar>
               <dxi-item location="before">
+                <dx-select-box
+                  label="Khu vực"
+                  labelLocation="left"
+                  showColonAfterLabel="true"
+                  [labelMode]="'static'"
+                  displayExpr="name"
+                  valueExpr="id"
+                  [dataSource]="sections"
+                  [(value)]="sectionSelected"
+                  placeholder="Bộ phận"
+                ></dx-select-box>
+              </dxi-item>
+
+              <dxi-item location="after">
                 <button
                   nz-button
                   nzType="primary"
@@ -125,7 +154,11 @@
             </dxo-editing>
 
             <dxo-filter-row [visible]="true"></dxo-filter-row>
-            <dxi-column dataField="partNumber" caption="PartNo" [allowEditing]="false"></dxi-column>
+            <dxi-column
+              dataField="partNumber"
+              caption="PartNo"
+              [allowEditing]="false"
+            ></dxi-column>
             <dxi-column dataField="qty" caption="Qty" dataType="number">
               <dxi-validation-rule
                 type="range"
@@ -134,7 +167,8 @@
               >
               </dxi-validation-rule>
             </dxi-column>
-            <dxi-column dataField="unit" caption="Unit" [allowEditing]="false"> </dxi-column>
+            <dxi-column dataField="unit" caption="Unit" [allowEditing]="false">
+            </dxi-column>
 
             <dxo-paging [pageSize]="10"></dxo-paging>
             <dxo-pager
@@ -156,6 +190,49 @@
     </div>
   </ng-container>
   <ng-template [nzModalFooter]>
-    <button nz-button nzType="default" (click)="closeRequestModal()">Đóng</button>
+    <button nz-button nzType="default" (click)="closeRequestModal()">
+      Đóng
+    </button>
+  </ng-template>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="isOpenRequestDetailModal"
+  [nzTitle]="'Request: ' + sparePartReqSelected?.data?.requestNo"
+  nzWidth="100%"
+>
+  <ng-container *nzModalContent>
+    <dx-data-grid
+      keyExpr="id"
+      #sparePartsReqDetailGrid
+      [dataSource]="sparePartsReqDetail"
+      [showColumnLines]="true"
+      [showRowLines]="true"
+      [showBorders]="true"
+      [allowColumnResizing]="true"
+      [columnAutoWidth]="true"
+      [rowAlternationEnabled]="true"
+    >
+      <dxi-column dataField="partNumber" caption="Part"></dxi-column>
+      <dxi-column dataField="qty" caption="Qty"></dxi-column>
+    </dx-data-grid>
+  </ng-container>
+  <ng-template [nzModalFooter]>
+    <button
+      nz-button
+      nzType="primary"
+      style="float: left"
+      (click)="downloadRequestDetail(sparePartReqSelected)"
+    >
+      In phiếu request
+      <span nz-icon nzType="printer" nzTheme="outline"></span>
+    </button>
+    <button
+      nz-button
+      nzType="default"
+      (click)="isOpenRequestDetailModal = false"
+    >
+      Đóng
+    </button>
   </ng-template>
 </nz-modal>

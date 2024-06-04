@@ -3,6 +3,7 @@ import { SparePartService } from '../services/spare-part.service';
 import { ToastrService } from 'ngx-toastr';
 import { SparePartRecordVo } from '../models/SparePartRecordVo';
 import { DxDataGridComponent, DxValidatorComponent } from 'devextreme-angular';
+import { SparePartRequestsService } from './spare-part-requests.service';
 
 @Component({
   selector: 'app-spare-part-requests',
@@ -19,18 +20,37 @@ export class SparePartRequestsComponent implements OnInit {
 
   constructor(
     private toastr: ToastrService,
-    private sparePartSvc: SparePartService
+    private sparePartSvc: SparePartService,
+    private sparePartRequestSvc: SparePartRequestsService
   ) {}
 
   ngOnInit(): void {
+    this.getRequest()
     this.getSpareParts();
+    this.getSections();
   }
+
+  
   requests: any;
   isOpenRequestModal: boolean = false;
-
+  isOpenRequestDetailModal: boolean = false
   spareParts!: SparePartRecordVo[];
-  sparePartOrdered: any;
-  sparePartSelected: any;
+  sparePartSelectedList: any;  // Danh sách các mã được chọn
+
+  sectionSelected: any; // Bộ phận được chọn
+  sections:any; // Danh sách bộ phận yêu cầu hàng
+
+  sparePartsReqDetail: any; // danh sách hàng theo request
+
+  sparePartReqSelected: any;
+
+  getRequest() {
+    this.sparePartRequestSvc.getRequests().subscribe(
+      response => {
+        this.requests = response
+      }
+    )
+  }
 
   openRequestModal() {
     this.isOpenRequestModal = true;
@@ -39,9 +59,18 @@ export class SparePartRequestsComponent implements OnInit {
   getSpareParts() {
     this.sparePartSvc.getSpareParts().subscribe((response) => {
       this.spareParts = response;
-
-      console.log(this.spareParts);
     });
+  }
+
+  /**
+   * Lấy ra các khu vực
+   */
+  getSections() {
+    this.sparePartRequestSvc.getSections().subscribe(
+      response => {
+        this.sections = response
+      }
+    )
   }
 
   /**
@@ -49,17 +78,26 @@ export class SparePartRequestsComponent implements OnInit {
    * @param event
    */
   onSelectionChanged(event: any) {
+
+    /**
+     * Check chọn khu vực
+     * Nếu chưa chọn thì ko cho click
+     */
+    if (!this.sectionSelected) {
+      this.toastr.warning('Cần chọn khu vực','Warning')
+      return
+    }
    
     let arr = new Array();
 
-    
     event.selectedRowsData.forEach((item: any) => {
-      let obj = {...item, qty:0 }
+      let obj = {...item, qty:0, sectionId: this.sectionSelected }
       arr.push(obj)
     });
 
-    this.sparePartSelected = arr
+    this.sparePartSelectedList = arr
 
+    console.log('this.sparePartSelected: ', this.sparePartSelectedList);
     
   }
 
@@ -72,8 +110,19 @@ export class SparePartRequestsComponent implements OnInit {
     
 
     /**
-     * Xử lý login lưu list data
+     * Xử lý lưu list data
      */
+
+    console.log('onSaving: ', arr);
+    
+
+    this.sparePartRequestSvc.createRequest(arr, this.sectionSelected).subscribe(
+      response => {
+
+      }
+    )
+
+
     this.closeRequestModal();
     
 
@@ -93,6 +142,26 @@ export class SparePartRequestsComponent implements OnInit {
    */
   closeRequestModal() {
     this.isOpenRequestModal = false;
-    this.sparePartSelected = null;
+    this.sparePartSelectedList = null;
+  }
+
+
+  openRequestDetailModal(item: any) {
+    
+    this.sparePartReqSelected = item
+    
+    console.log(this.sparePartReqSelected);
+    
+    this.sparePartRequestSvc.getRequestDetail(item.data.id).subscribe(
+      response => {
+        this.sparePartsReqDetail = response
+        this.isOpenRequestDetailModal = true
+      }
+    )
+  }
+
+  downloadRequestDetail(request: any) {
+    console.log('downloadRequestDetail: ', request);
+    
   }
 }

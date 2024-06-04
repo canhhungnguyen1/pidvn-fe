@@ -3,11 +3,12 @@ import { ToastrService } from 'ngx-toastr';
 import { SparePartService } from '../services/spare-part.service';
 import { SparePartRecordVo } from '../models/SparePartRecordVo';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { DxDataGridComponent } from 'devextreme-angular';
+import { DxDataGridComponent, DxTextBoxComponent } from 'devextreme-angular';
 import { environment } from 'src/environments/environment';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { HttpClient, HttpRequest, HttpResponse } from '@angular/common/http';
 import { filter } from 'rxjs/operators';
+import { SparePartRequestsService } from '../spare-part-requests/spare-part-requests.service';
 
 @Component({
   selector: 'app-spare-part-in-out',
@@ -15,6 +16,7 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./spare-part-in-out.component.scss'],
 })
 export class SparePartInOutComponent implements OnInit {
+  // @ViewChild(DxTextBoxComponent, { static: false }) userCodeIpt!: DxTextBoxComponent;
   @ViewChild('userCodeIpt') userCodeIpt!: ElementRef;
   @ViewChild('sparePartQrCodeIpt') sparePartQrCodeIpt!: ElementRef;
 
@@ -27,7 +29,8 @@ export class SparePartInOutComponent implements OnInit {
     private toastr: ToastrService,
     private sparePartSvc: SparePartService,
     private jwtHelperSvc: JwtHelperService,
-    private http: HttpClient
+    private http: HttpClient,
+    private sparePartRequestSvc: SparePartRequestsService
   ) {}
 
   ngOnInit(): void {
@@ -39,6 +42,7 @@ export class SparePartInOutComponent implements OnInit {
     this.getLineStandard();
     this.getMachineStandard();
     this.getSparePartRecords();
+    this.getSparePartRequestMasters();
 
 
     this.whUserCode = this.jwtHelperSvc.decodeToken(
@@ -90,6 +94,12 @@ export class SparePartInOutComponent implements OnInit {
   supplier: any
 
 
+  
+  sparePartRequestMasters: any // danh sách request
+  sparePartRequestDetails: any // chi tiết các request
+
+
+
   getLineStandard() {
     this.sparePartSvc.getLineStandard().subscribe(
       response => {
@@ -124,6 +134,8 @@ export class SparePartInOutComponent implements OnInit {
     setTimeout(() => {
       this.userCodeIpt.nativeElement.focus();
     }, 500);
+
+    // this.userCodeIpt.instance.focus();
   }
 
   onExportClient(event: any) {}
@@ -313,6 +325,39 @@ export class SparePartInOutComponent implements OnInit {
    */
   changeTransactionType(event: any) {
     this.sparePartQrCodeIpt.nativeElement.select();
+
+    this.sparePartRequestDetails = new Array();
+    this.mapSparePartScanned = new Map();
+    this.listSparePartScanned = new Array();
   }
 
+
+  /**
+   * Lấy danh sách các request spare part
+   */
+  
+  getSparePartRequestMasters() {
+    this.sparePartRequestSvc.getRequests().subscribe(
+      response => {
+        this.sparePartRequestMasters = response
+      }
+    )
+  }
+
+  /**
+   * Lấy danh sách các part trong request
+   */
+  
+  getSparePartRequestDetails(event: any) {
+
+    console.log('getSparePartRequestDetails: ' , event);
+    
+    this.sparePartRequestSvc.getRequestDetail(event.value).subscribe(
+      response => {
+        this.sparePartRequestDetails = response
+      }
+    )
+
+    
+  }
 }

@@ -140,7 +140,14 @@
 >
   <ng-container *nzModalContent>
     <div nz-row [nzGutter]="24">
-      <div nz-col nzXs="7" nzSm="7" nzMd="7" nzLg="7">
+      <div
+        *ngIf="transactionType === 'OUTPUT'"
+        nz-col
+        nzXs="7"
+        nzSm="7"
+        nzMd="7"
+        nzLg="7"
+      >
         <nz-table
           [nzData]="['']"
           nzFrontPagination="false"
@@ -156,9 +163,11 @@
                   labelLocation="left"
                   showColonAfterLabel="true"
                   [labelMode]="'floating'"
-                  displayExpr="name"
+                  displayExpr="requestNo"
                   valueExpr="id"
-                  [dataSource]="['']"
+                  [dataSource]="sparePartRequestMasters"
+                  [searchEnabled]="true"
+                  (onValueChanged)="getSparePartRequestDetails($event)"
                 ></dx-select-box>
               </th>
             </tr>
@@ -166,18 +175,30 @@
         </nz-table>
         <dx-data-grid
           [showBorders]="true"
-          [dataSource]="['']"
+          [dataSource]="sparePartRequestDetails"
           [showColumnLines]="true"
           [showRowLines]="true"
           [allowColumnResizing]="true"
           [columnMinWidth]="50"
           [columnAutoWidth]="true"
+          style="margin-top: -25px"
         >
-        <dxi-column dataField="type" caption="PartNo"></dxi-column>
-        <dxi-column dataField="type" caption="Qty"></dxi-column>
+          <dxo-toolbar>
+            <dxi-item location="before">
+              <span>Danh sách hàng yêu cầu</span>
+            </dxi-item>
+          </dxo-toolbar>
+          <dxi-column dataField="partNumber" caption="Part"></dxi-column>
+          <dxi-column dataField="qty" caption="Qty"></dxi-column>
         </dx-data-grid>
       </div>
-      <div nz-col nzXs="17" nzSm="17" nzMd="17" nzLg="17">
+      <div
+        nz-col
+        [nzXs]="transactionType === 'OUTPUT' ? 17 : 24"
+        [nzSm]="transactionType === 'OUTPUT' ? 17 : 24"
+        [nzMd]="transactionType === 'OUTPUT' ? 17 : 24"
+        [nzLg]="transactionType === 'OUTPUT' ? 17 : 24"
+      >
         <nz-table
           [nzData]="['']"
           nzFrontPagination="false"
@@ -187,7 +208,8 @@
           <thead>
             <tr>
               <th width="15%">
-                <dx-text-box
+                <!-- <dx-text-box
+                  #userCodeIpt
                   label="User"
                   labelLocation="left"
                   showColonAfterLabel="true"
@@ -196,7 +218,16 @@
                   (keydown.enter)="scanUserCode($event)"
                   onclick="userCodeIpt.select()"
                 >
-                </dx-text-box>
+                </dx-text-box> -->
+
+                <input
+                  #userCodeIpt
+                  nz-input
+                  placeholder="User"
+                  autocomplete="off"
+                  (keydown.enter)="scanUserCode($event)"
+                  (click)="userCodeIpt.select()"
+                />
               </th>
               <th width="15%">
                 <dx-select-box
@@ -229,7 +260,7 @@
                     { id: 'NG_RETURN', name: 'NG RETURN' }
                   ]"
                   [(value)]="transactionType"
-                  (ngModelChange)="changeTransactionType($event)"
+                  (onValueChanged)="changeTransactionType($event)"
                 ></dx-select-box>
               </th>
 
@@ -289,12 +320,12 @@
           >
           </dxo-editing>
           <dxi-column
-            [width]="225"
+            [width]="180"
             dataField="partNumber"
             caption="Part"
             [allowEditing]="false"
           ></dxi-column>
-          <dxi-column [width]="80" dataField="qty" caption="Qty">
+          <dxi-column [width]="60" dataField="qty" caption="Qty">
             <dxi-validation-rule
               type="range"
               [min]="0"
@@ -303,7 +334,7 @@
             </dxi-validation-rule>
           </dxi-column>
           <dxi-column
-            [width]="200"
+            [width]="120"
             dataField="factoryCode"
             caption="Nhà máy"
             *ngIf="transactionType != 'INPUT'"
@@ -357,8 +388,16 @@
             caption="Supplier"
             *ngIf="transactionType == 'INPUT'"
           ></dxi-column>
-          <dxi-column dataField="type" caption="Giao dịch"></dxi-column>
-          <dxi-column dataField="whUserCode" caption="User"></dxi-column>
+          <dxi-column
+            dataField="type"
+            caption="Giao dịch"
+            [visible]="false"
+          ></dxi-column>
+          <dxi-column
+            dataField="whUserCode"
+            caption="User"
+            [visible]="false"
+          ></dxi-column>
           <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
 
           <!-- <dxi-column
