@@ -52,7 +52,7 @@ export class PihInvRequestComponent implements OnInit {
   openCreateRequestInventoryModal() {
     console.log(this.jwt.Username);
 
-    if (this.jwt.Username !== '3012852' && this.jwt.Username !== '3012982') {
+    if (this.jwt.Username !== '3012852' && this.jwt.Username !== '3012982' && this.jwt.Username !== '3004710') {
       this.toastr.warning(
         'Bạn không có quyền tạo phiếu nhé',
         `${this.jwt.FullName.split(' ').reverse()[0]} ơi !`
