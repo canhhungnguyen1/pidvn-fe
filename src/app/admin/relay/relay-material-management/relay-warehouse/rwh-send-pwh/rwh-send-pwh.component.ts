@@ -84,7 +84,7 @@ export class RwhSendPwhComponent implements OnInit {
       receiver: this.receiver,
       qrCode: event.target.value,
       whUserCode: this.receiver,
-      flag: '5',
+      flag: '1',
     };
 
     this.reWhSvc.scanMaterialV3(lot).subscribe((response) => {
@@ -111,14 +111,21 @@ export class RwhSendPwhComponent implements OnInit {
   }
 
   startEdit(data: any) {
-    console.log('AAAA');
+    console.log('AAAA', data);
     setTimeout(() => {
       this.importQtyIpt.nativeElement.focus();
     }, 500);
     this.lotNoEdit = data.lotNo;
   }
 
-  stopEdit(): void {
+  stopEdit(data: any): void {
+    console.log('stopEdit: ', data);
+    if (data.qty > data.remainingQty) {
+      data.qty = data.remainingQty
+    } else if (data.qty < 0) {
+      data.qty = 0
+    }
+    
     this.lotNoEdit = null;
   }
 

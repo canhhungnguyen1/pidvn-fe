@@ -90,81 +90,92 @@
 <nz-modal
   [(nzVisible)]="isOpenScanQRCodeModal"
   nzTitle="Trả NVL về Kho"
-  nzWidth="850px"
+  nzWidth="100%"
 >
   <ng-container *nzModalContent>
     <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
       <div nz-col nzXs="24" nzSm="24" nzLg="24">
         <label *ngIf="slipNoSelected">Số phiếu: {{ slipNoSelected }}</label>
-        <input
-          id="qrCodeIpt"
-          nz-input
-          #qrCodeIpt
-          placeholder="Scan QR Code"
-          (keydown.enter)="scanQRCode($event)"
-          (click)="qrCodeIpt.select()"
-        />
-      </div>
-      <nz-alert
-        *ngIf="lotErrMsg"
-        id="error-msg"
-        nzBanner
-        nzShowIcon
-        style="margin-top: 10px"
-        nzType="error"
-        [nzMessage]="lotErrMsg"
-      >
-      </nz-alert>
-      <nz-table
-        #qrTbl
-        [nzData]="listLotsScanned"
-        style="margin-top: 15px"
-        nzBordered
-        nzSize="small"
-        [nzFrontPagination]="false"
-      >
-        <thead>
-          <tr>
-            <th>Part No</th>
-            <th>Lot No</th>
-            <th>Qty</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let data of qrTbl.data">
-            <td>{{ data.partNo }}</td>
-            <td>{{ data.lotNo }}</td>
-            <td class="editable-row" style="text-align: right">
-              <div
-                class="editable-cell"
-                [hidden]="lotNoEdit === data.lotNo"
-                (click)="startEdit(data)"
+        <nz-table [nzData]="['']" nzBordered nzFrontPagination="false">
+          <thead>
+            <tr>
+              <th>
+                <input
+                  id="qrCodeIpt"
+                  nz-input
+                  #qrCodeIpt
+                  placeholder="Scan QR Code"
+                  (keydown.enter)="scanQRCode($event)"
+                  (click)="qrCodeIpt.select()"
+                />
+              </th>
+            </tr>
+          </thead>
+        </nz-table>
+        <nz-alert
+          *ngIf="lotErrMsg"
+          id="error-msg"
+          nzBanner
+          nzShowIcon
+          style="margin-top: 10px"
+          nzType="error"
+          [nzMessage]="lotErrMsg"
+        >
+        </nz-alert>
+        <nz-table
+          #qrTbl
+          [nzData]="listLotsScanned"
+          style="margin-top: 15px"
+          nzBordered
+          nzSize="small"
+          [nzFrontPagination]="false"
+        >
+          <thead>
+            <tr>
+              <th>Part No</th>
+              <th>Lot No</th>
+              <th>Qty</th>
+              <th>Tồn</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of qrTbl.data">
+              <td>{{ data.partNo }}</td>
+              <td>{{ data.lotNo }}</td>
+              <td class="editable-row" style="text-align: right">
+                <div
+                  class="editable-cell"
+                  [hidden]="lotNoEdit === data.lotNo"
+                  (click)="startEdit(data)"
+                >
+                  {{ data.qty | number : "1.0-3" }}
+                </div>
+                <input
+                  #importQtyIpt
+                  [hidden]="lotNoEdit !== data.lotNo"
+                  type="number"
+                  nz-input
+                  [(ngModel)]="data.qty"
+                  (blur)="stopEdit(data)"
+                />
+              </td>
+              <td style="text-align: right">{{ data.remainingQty }}</td>
+              <td
+                style="text-align: center"
+                nz-popconfirm
+                nzPopconfirmTitle="Có chắc chắn xóa không ?"
+                (nzOnConfirm)="deleteQRCodeScanned(data)"
+                nzPopconfirmPlacement="top"
+                nzRight
               >
-                {{ data.qty | number: "1.0-3" }}
-              </div>
-              <input
-                #importQtyIpt
-                [hidden]="lotNoEdit !== data.lotNo"
-                type="number"
-                nz-input
-                [(ngModel)]="data.qty"
-                (blur)="stopEdit()"
-              />
-            </td>
-            <td
-              style="text-align: center"
-              nz-popconfirm
-              nzPopconfirmTitle="Có chắc chắn xóa không ?"
-              (nzOnConfirm)="deleteQRCodeScanned(data)"
-              nzPopconfirmPlacement="top"
-              nzRight
-            >
-              <a style="color: red; font-weight: bold">Xóa</a>
-            </td>
-          </tr>
-        </tbody>
-      </nz-table>
+                <a style="color: red; font-weight: bold">Xóa</a>
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+
+      </div>
     </div>
   </ng-container>
   <div *nzModalFooter>
@@ -225,14 +236,14 @@
         <tr *ngFor="let data of basicTable.data">
           <td style="font-weight: bold">
             {{ data.partNo }}
-            <span class="qty">(Qty: {{ data.qty | number: "1.0-3" }})</span>
+            <span class="qty">(Qty: {{ data.qty | number : "1.0-3" }})</span>
           </td>
           <td style="font-weight: bold">
             <ul>
               <li *ngFor="let lotGroup of data.lotGroups">
                 {{ lotGroup.lotGroup }}
                 <span class="qty"
-                  >(Qty: {{ lotGroup.qty | number: "1.0-3" }})</span
+                  >(Qty: {{ lotGroup.qty | number : "1.0-3" }})</span
                 >
               </li>
             </ul>
@@ -241,9 +252,12 @@
             <ul>
               <li *ngFor="let lotNo of data.lots">
                 {{ lotNo.lotNo }}
-                <span class="qty">(Qty: {{ lotNo.qty | number: "1.0-3" }})</span> - 
+                <span class="qty"
+                  >(Qty: {{ lotNo.qty | number : "1.0-3" }})</span
+                >
+                -
                 <span
-                  style="color: red;"
+                  style="color: red"
                   nz-popconfirm
                   [nzPopconfirmTitle]="'Xóa: ' + lotNo.lotNo"
                   (nzOnConfirm)="deleteLot(lotNo)"
