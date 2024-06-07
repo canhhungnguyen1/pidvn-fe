@@ -25,7 +25,7 @@ export class SparePartRequestsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getRequest()
+    this.getRequests()
     this.getSpareParts();
     this.getSections();
   }
@@ -44,7 +44,7 @@ export class SparePartRequestsComponent implements OnInit {
 
   sparePartReqSelected: any;
 
-  getRequest() {
+  getRequests() {
     this.sparePartRequestSvc.getRequests().subscribe(
       response => {
         this.requests = response
@@ -118,7 +118,7 @@ export class SparePartRequestsComponent implements OnInit {
 
     this.sparePartRequestSvc.createRequest(arr, this.sectionSelected).subscribe(
       response => {
-
+        this.getRequests()
       }
     )
 

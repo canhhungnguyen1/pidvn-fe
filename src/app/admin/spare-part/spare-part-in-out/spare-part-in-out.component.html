@@ -141,7 +141,7 @@
   <ng-container *nzModalContent>
     <div nz-row [nzGutter]="24">
       <div
-        *ngIf="transactionType === 'OUTPUT'"
+        *ngIf="transactionType === 'OUTPUT' && goodsType == 'M8'"
         nz-col
         nzXs="7"
         nzSm="7"
@@ -194,10 +194,10 @@
       </div>
       <div
         nz-col
-        [nzXs]="transactionType === 'OUTPUT' ? 17 : 24"
-        [nzSm]="transactionType === 'OUTPUT' ? 17 : 24"
-        [nzMd]="transactionType === 'OUTPUT' ? 17 : 24"
-        [nzLg]="transactionType === 'OUTPUT' ? 17 : 24"
+        [nzXs]="transactionType === 'OUTPUT' && goodsType == 'M8' ? 17 : 24"
+        [nzSm]="transactionType === 'OUTPUT' && goodsType == 'M8' ? 17 : 24"
+        [nzMd]="transactionType === 'OUTPUT' && goodsType == 'M8' ? 17 : 24"
+        [nzLg]="transactionType === 'OUTPUT' && goodsType == 'M8' ? 17 : 24"
       >
         <nz-table
           [nzData]="['']"
@@ -208,18 +208,6 @@
           <thead>
             <tr>
               <th width="15%">
-                <!-- <dx-text-box
-                  #userCodeIpt
-                  label="User"
-                  labelLocation="left"
-                  showColonAfterLabel="true"
-                  [labelMode]="'floating'"
-                  [(value)]="userCode"
-                  (keydown.enter)="scanUserCode($event)"
-                  onclick="userCodeIpt.select()"
-                >
-                </dx-text-box> -->
-
                 <input
                   #userCodeIpt
                   nz-input
@@ -286,16 +274,40 @@
                 </dx-text-box>
               </th>
 
-              <th>
-                <input
-                  id="sparePartQrCodeIpt"
-                  #sparePartQrCodeIpt
-                  nz-input
-                  placeholder="Mã spare part"
-                  autocomplete="off"
-                  (keydown.enter)="scanSparePartQrCode($event)"
-                  (click)="sparePartQrCodeIpt.select()"
-                />
+              <th width="15%" *ngIf="transactionType == 'OUTPUT' && goodsType == 'M4'">
+                <dx-select-box
+                  label="Nhà máy"
+                  labelLocation="left"
+                  showColonAfterLabel="true"
+                  [labelMode]="'floating'"
+                  displayExpr="name"
+                  valueExpr="code"
+                  [dataSource]="factories"
+                ></dx-select-box>
+              </th>
+
+              <th width="15%" *ngIf="transactionType == 'OUTPUT' && goodsType == 'M4'">
+                <dx-select-box
+                  label="Machine"
+                  labelLocation="left"
+                  showColonAfterLabel="true"
+                  [labelMode]="'floating'"
+                  displayExpr="vnName"
+                  valueExpr="id"
+                  [dataSource]="machines"
+                ></dx-select-box>
+              </th>
+
+              <th width="15%" *ngIf="transactionType == 'OUTPUT' && goodsType == 'M4'">
+                <dx-select-box
+                  label="Line"
+                  labelLocation="left"
+                  showColonAfterLabel="true"
+                  [labelMode]="'floating'"
+                  displayExpr="name"
+                  valueExpr="name"
+                  [dataSource]="lines"
+                ></dx-select-box>
               </th>
             </tr>
           </thead>
@@ -319,6 +331,31 @@
             [selectTextOnEditStart]="true"
           >
           </dxo-editing>
+
+          <dxo-column-chooser
+            #columnChooser
+            [enabled]="true"
+            [mode]="'select'"
+            [title]="'Cột hiển thị'"
+          >
+          </dxo-column-chooser>
+
+          <dxo-toolbar>
+            <dxi-item location="after">
+              <input
+                id="sparePartQrCodeIpt"
+                #sparePartQrCodeIpt
+                nz-input
+                placeholder="Mã spare part"
+                autocomplete="off"
+                (keydown.enter)="scanSparePartQrCode($event)"
+                (click)="sparePartQrCodeIpt.select()"
+              />
+            </dxi-item>
+
+            <dxi-item name="saveButton" location="after" />
+          </dxo-toolbar>
+
           <dxi-column
             [width]="180"
             dataField="partNumber"
