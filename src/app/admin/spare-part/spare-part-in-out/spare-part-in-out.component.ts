@@ -34,16 +34,17 @@ export class SparePartInOutComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-
-    let firstDayOfMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
-    this.searchParams.dateRange = [firstDayOfMonth, new Date()]
-
+    let firstDayOfMonth = new Date(
+      new Date().getFullYear(),
+      new Date().getMonth(),
+      1
+    );
+    this.searchParams.dateRange = [firstDayOfMonth, new Date()];
 
     this.getLineStandard();
     this.getMachineStandard();
     this.getSparePartRecords();
     this.getSparePartRequestMasters();
-
 
     this.whUserCode = this.jwtHelperSvc.decodeToken(
       localStorage.getItem('accessToken')?.toString()
@@ -51,8 +52,8 @@ export class SparePartInOutComponent implements OnInit {
   }
 
   searchParams = {
-    dateRange: [new Date(), new Date()]
-  }
+    dateRange: [new Date(), new Date()],
+  };
 
   whUserCode: any;
   sparePartRecords: any;
@@ -72,54 +73,52 @@ export class SparePartInOutComponent implements OnInit {
   uploadResult: any;
 
   factories = [
-    {code: 'RE', name: 'RELAY FACTORY'},
-    {code: 'EM', name: 'EMC FACTORY'},
-    {code: 'PN', name: 'PIH ENC FACTORY'},
-    {code: 'PR', name: 'PIH RE FACTORY'},
-    {code: 'SP', name: 'SPEAKER'},
-    {code: 'TN', name: 'HFC FACTORY'},
-    {code: 'HO', name: 'HEAD OFFICE'},
-    {code: 'PC', name: 'PCB FACTORY'}
-  ]
+    { code: 'RE', name: 'RELAY FACTORY' },
+    { code: 'EM', name: 'EMC FACTORY' },
+    { code: 'PN', name: 'PIH ENC FACTORY' },
+    { code: 'PR', name: 'PIH RE FACTORY' },
+    { code: 'SP', name: 'SPEAKER' },
+    { code: 'TN', name: 'HFC FACTORY' },
+    { code: 'HO', name: 'HEAD OFFICE' },
+    { code: 'PC', name: 'PCB FACTORY' },
+  ];
   lines: any;
   machines: any;
+  
 
   // Edit Spare Part record
   isOpenModalEditSparePartRecord: boolean = false;
   sparePartRecordEdit: any;
 
-
   // Các biến liên quan đến type INPUT (Nhập kho)
-  po: any
-  supplier: any
+  po: any;
+  supplier: any;
 
+  sparePartRequestMasters: any; // danh sách request
+  sparePartRequestDetails: any; // chi tiết các request
 
-  
-  sparePartRequestMasters: any // danh sách request
-  sparePartRequestDetails: any // chi tiết các request
-
-
+  factoryCode: any; // Factory Selected
+  machine: any; // Machine Selected
+  line: any; // line Selected
 
   getLineStandard() {
-    this.sparePartSvc.getLineStandard().subscribe(
-      response => {
-        this.lines = response
-      }
-    )
+    this.sparePartSvc.getLineStandard().subscribe((response) => {
+      this.lines = response;
+    });
   }
 
   getMachineStandard() {
-    this.sparePartSvc.getMachineStandard().subscribe(
-      response => {
-        this.machines = response;
-      }
-    )
+    this.sparePartSvc.getMachineStandard().subscribe((response) => {
+      this.machines = response;
+    });
   }
 
   getSparePartRecords() {
-    this.sparePartSvc.getSparePartRecords(this.searchParams).subscribe((response) => {
-      this.sparePartRecords = response;
-    });
+    this.sparePartSvc
+      .getSparePartRecords(this.searchParams)
+      .subscribe((response) => {
+        this.sparePartRecords = response;
+      });
   }
 
   openOutputSparePartModal() {
@@ -144,55 +143,53 @@ export class SparePartInOutComponent implements OnInit {
     this.userCode = event.target.value;
 
     if (this.userCode.length < 7) {
-      this.toastr.warning('Cần scan mã nhân viên','Warning')
+      this.toastr.warning('Cần scan mã nhân viên', 'Warning');
       this.userCodeIpt.nativeElement.select();
       return;
     }
-
 
     this.sparePartQrCodeIpt.nativeElement.select();
   }
 
   scanSparePartQrCode(event: any) {
-
     if (this.userCode === undefined || this.userCode === '') {
-      this.toastr.warning('Cần scan mã nhân viên','Warning')
+      this.toastr.warning('Cần scan mã nhân viên', 'Warning');
       this.userCodeIpt.nativeElement.select();
-      return
+      return;
     }
 
     if (this.goodsType === undefined || this.goodsType === null) {
-      this.toastr.warning('Cần chọn loại hàng','Warning')
-      return
+      this.toastr.warning('Cần chọn loại hàng', 'Warning');
+      return;
     }
 
     if (this.transactionType === undefined || this.transactionType === null) {
-      this.toastr.warning('Cần chọn loại giao dịch','Warning')
-      return
+      this.toastr.warning('Cần chọn loại giao dịch', 'Warning');
+      return;
     }
 
     let date = new Date().toISOString().slice(0, 10);
     let dateSplit = date.split('-');
-    let requestNo = `${dateSplit[0]}${dateSplit[1]}${dateSplit[2]}`
-    
+    let requestNo = `${dateSplit[0]}${dateSplit[1]}${dateSplit[2]}`;
+
     let obj = Object.assign({
       whUserCode: this.whUserCode,
       date: new Date(),
       receiveUserCode: this.userCode,
       partNumber: event.target.value.toUpperCase().trim(),
-      qty: 1,
-      line: '',
-      machine: '',
+      qty: 0,
+      line: this.line,
+      machine: this.machine,
+      factoryCode: this.factoryCode,
       insertType: this.insertType,
       requestNo: requestNo,
       userCode: this.userCode,
       goodsType: this.goodsType,
       type: this.transactionType,
       po: this.po,
-      supplier: this.supplier
+      supplier: this.supplier,
     });
 
-  
     this.listSparePartScanned.push(obj);
     this.listSparePartScanned.reverse();
     this.sparePartQrCodeIpt.nativeElement.select();
@@ -200,38 +197,40 @@ export class SparePartInOutComponent implements OnInit {
 
   cancelSaveOutputSparePart() {
     this.isOpenOutputSparePartModal = false;
+    this.resetInputForm();
+    this.getSparePartRecords();
+  }
+
+  /**
+   * Xóa giá trị các ô input 
+   */
+  resetInputForm() {
     this.userCode = null;
     this.po = null;
     this.supplier = null;
     this.transactionType = null;
     this.goodsType = null;
-    this.getSparePartRecords();
+    this.factoryCode = null;
+    this.machine = null;
+    this.line = null;
+
   }
 
   async saveSparePartRecords(event: any) {
-
     let arr = new Array();
 
     await event.changes.forEach((item: any) => {
       arr.push(item.key);
     });
-    console.log('Arr: ', arr);
 
     /**
      * TODO: Push server to save
      */
-
     this.sparePartSvc.saveSparePartRecords(arr).subscribe((response) => {
       this.getSparePartRecords();
       this.isOpenOutputSparePartModal = false;
       this.toastr.success('OK', ' Lưu thành công');
-
-      this.userCode = null;
-      this.goodsType = null;
-      this.transactionType = null;
-      this.po = null;
-      this.supplier = null;
-
+      this.resetInputForm();
     });
   }
 
@@ -269,15 +268,12 @@ export class SparePartInOutComponent implements OnInit {
       );
   }
 
-
   // Edit SparePart record
   openModalEditSparePartRecord(item: any) {
     this.isOpenModalEditSparePartRecord = true;
-    this.sparePartRecordEdit = item.data
+    this.sparePartRecordEdit = item.data;
 
     console.log(this.sparePartRecordEdit);
-    
-    
   }
 
   onEditSparePartRecord() {
@@ -291,29 +287,25 @@ export class SparePartInOutComponent implements OnInit {
       line: this.sparePartRecordEdit.line,
       machine: this.sparePartRecordEdit.machineId,
       remark: this.sparePartRecordEdit.remark,
-      receiveUserCode: this.sparePartRecordEdit.receiveUserCode.trim()
-    }
-    
-    this.sparePartSvc.updateSparePartRecord(obj).subscribe(
-      response => {
-        this.isOpenModalEditSparePartRecord = false;
-        this.getSparePartRecords()
-      }
-    )
+      receiveUserCode: this.sparePartRecordEdit.receiveUserCode.trim(),
+    };
+
+    this.sparePartSvc.updateSparePartRecord(obj).subscribe((response) => {
+      this.isOpenModalEditSparePartRecord = false;
+      this.getSparePartRecords();
+    });
   }
 
   onDeleteSparePartRecord() {
-    let id = this.sparePartRecordEdit.id
-    this.sparePartSvc.deleteSparePartRecord(id).subscribe(
-      response => {
-        this.isOpenModalEditSparePartRecord = false;
-        this.getSparePartRecords()
-      }
-    )
+    let id = this.sparePartRecordEdit.id;
+    this.sparePartSvc.deleteSparePartRecord(id).subscribe((response) => {
+      this.isOpenModalEditSparePartRecord = false;
+      this.getSparePartRecords();
+    });
   }
 
   /**
-   * 
+   *
    * @param event Chọn loại hàng M4 or M8
    */
   changeGoodsType(event: any) {
@@ -321,7 +313,7 @@ export class SparePartInOutComponent implements OnInit {
   }
 
   /**
-   * 
+   *
    * @param event Chọn loại giao dịch
    */
   changeTransactionType(event: any) {
@@ -332,33 +324,27 @@ export class SparePartInOutComponent implements OnInit {
     this.listSparePartScanned = new Array();
   }
 
-
   /**
    * Lấy danh sách các request spare part
    */
-  
+
   getSparePartRequestMasters() {
-    this.sparePartRequestSvc.getRequests().subscribe(
-      response => {
-        this.sparePartRequestMasters = response
-      }
-    )
+    this.sparePartRequestSvc.getRequests().subscribe((response) => {
+      this.sparePartRequestMasters = response;
+    });
   }
 
   /**
    * Lấy danh sách các part trong request
    */
-  
+
   getSparePartRequestDetails(event: any) {
+    console.log('getSparePartRequestDetails: ', event);
 
-    console.log('getSparePartRequestDetails: ' , event);
-    
-    this.sparePartRequestSvc.getRequestDetail(event.value).subscribe(
-      response => {
-        this.sparePartRequestDetails = response
-      }
-    )
-
-    
+    this.sparePartRequestSvc
+      .getRequestDetail(event.value)
+      .subscribe((response) => {
+        this.sparePartRequestDetails = response;
+      });
   }
 }
