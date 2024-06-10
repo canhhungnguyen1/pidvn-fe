@@ -152,6 +152,7 @@ export class SparePartInOutComponent implements OnInit {
   }
 
   scanSparePartQrCode(event: any) {
+    debugger
     if (this.userCode === undefined || this.userCode === '') {
       this.toastr.warning('Cần scan mã nhân viên', 'Warning');
       this.userCodeIpt.nativeElement.select();
@@ -166,6 +167,23 @@ export class SparePartInOutComponent implements OnInit {
     if (this.transactionType === undefined || this.transactionType === null) {
       this.toastr.warning('Cần chọn loại giao dịch', 'Warning');
       return;
+    }
+
+    if(this.transactionType === 'OUTPUT' && this.goodsType === 'M4') {
+      if (!this.factoryCode) {
+        this.toastr.warning('Cần chọn nhà máy', 'Warning');
+        return;
+      }
+
+      if (!this.machine) {
+        this.toastr.warning('Cần chọn Machine', 'Warning');
+        return;
+      }
+
+      if (!this.line) {
+        this.toastr.warning('Cần chọn Line', 'Warning');
+        return;
+      }
     }
 
     let date = new Date().toISOString().slice(0, 10);
