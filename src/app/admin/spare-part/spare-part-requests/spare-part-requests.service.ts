@@ -34,4 +34,12 @@ export class SparePartRequestsService {
   getRequestDetail(requestId: any) : Observable<any> { 
     return this.httpClient.get(`${this.baseUrl}/SparePart/SparePartRequestDetail/${requestId}`);
   }
+
+  public downloadM4M8Request(requestId: any): Observable<any> {
+    return this.httpClient.post(
+      `${this.baseUrl}/SparePart/DownloadM4M8Request?requestId=${requestId}`,
+      {},
+      { responseType: 'blob' }
+    );
+  }
 }

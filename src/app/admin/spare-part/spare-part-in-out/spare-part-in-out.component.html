@@ -141,10 +141,10 @@
   <ng-container *nzModalContent>
     <div nz-row [nzGutter]="24">
       <div
-        *ngIf="transactionType === 'OUTPUT' && goodsType == 'M8'"
+        *ngIf="transactionType === 'OUTPUT' && goodsType == 'M4'"
         nz-col
-        nzXs="7"
-        nzSm="7"
+        nzXs="24"
+        nzSm="24"
         nzMd="7"
         nzLg="7"
       >
@@ -183,21 +183,21 @@
           [columnAutoWidth]="true"
           style="margin-top: -25px"
         >
-          <dxo-toolbar>
+          <!-- <dxo-toolbar>
             <dxi-item location="before">
               <span>Danh sách hàng yêu cầu</span>
             </dxi-item>
-          </dxo-toolbar>
+          </dxo-toolbar> -->
           <dxi-column dataField="partNumber" caption="Part"></dxi-column>
           <dxi-column dataField="qty" caption="Qty"></dxi-column>
         </dx-data-grid>
       </div>
       <div
         nz-col
-        [nzXs]="transactionType === 'OUTPUT' && goodsType == 'M8' ? 17 : 24"
-        [nzSm]="transactionType === 'OUTPUT' && goodsType == 'M8' ? 17 : 24"
-        [nzMd]="transactionType === 'OUTPUT' && goodsType == 'M8' ? 17 : 24"
-        [nzLg]="transactionType === 'OUTPUT' && goodsType == 'M8' ? 17 : 24"
+        [nzXs]="transactionType === 'OUTPUT' && goodsType == 'M4' ? 24 : 24"
+        [nzSm]="transactionType === 'OUTPUT' && goodsType == 'M4' ? 24 : 24"
+        [nzMd]="transactionType === 'OUTPUT' && goodsType == 'M4' ? 17 : 24"
+        [nzLg]="transactionType === 'OUTPUT' && goodsType == 'M4' ? 17 : 24"
       >
         <nz-table
           [nzData]="['']"
@@ -205,9 +205,9 @@
           nzBordered
           nzSize="small"
         >
-          <thead>
+          <tbody>
             <tr>
-              <th width="15%">
+              <td width="15%">
                 <input
                   #userCodeIpt
                   nz-input
@@ -216,8 +216,8 @@
                   (keydown.enter)="scanUserCode($event)"
                   (click)="userCodeIpt.select()"
                 />
-              </th>
-              <th width="15%">
+              </td>
+              <td width="15%">
                 <dx-select-box
                   label="Loại hàng"
                   labelLocation="left"
@@ -232,8 +232,8 @@
                   [(value)]="goodsType"
                   (ngModelChange)="changeGoodsType($event)"
                 ></dx-select-box>
-              </th>
-              <th width="15%">
+              </td>
+              <td width="15%">
                 <dx-select-box
                   label="Giao dịch"
                   labelLocation="left"
@@ -250,9 +250,9 @@
                   [(value)]="transactionType"
                   (onValueChanged)="changeTransactionType($event)"
                 ></dx-select-box>
-              </th>
+              </td>
 
-              <th width="15%" *ngIf="transactionType == 'INPUT'">
+              <td width="15%" *ngIf="transactionType == 'INPUT'">
                 <dx-text-box
                   label="PO"
                   labelLocation="left"
@@ -261,9 +261,9 @@
                   [(value)]="po"
                 >
                 </dx-text-box>
-              </th>
+              </td>
 
-              <th width="15%" *ngIf="transactionType == 'INPUT'">
+              <td width="15%" *ngIf="transactionType == 'INPUT'">
                 <dx-text-box
                   label="Supplier"
                   labelLocation="left"
@@ -272,9 +272,13 @@
                   [(value)]="supplier"
                 >
                 </dx-text-box>
-              </th>
-
-              <th width="15%" *ngIf="transactionType == 'OUTPUT' && goodsType == 'M4'">
+              </td>
+            </tr>
+            <tr>
+              <td
+                width="15%"
+                *ngIf="transactionType == 'OUTPUT' && goodsType == 'M4'"
+              >
                 <dx-select-box
                   label="Nhà máy"
                   labelLocation="left"
@@ -284,9 +288,12 @@
                   valueExpr="code"
                   [dataSource]="factories"
                 ></dx-select-box>
-              </th>
+              </td>
 
-              <th width="15%" *ngIf="transactionType == 'OUTPUT' && goodsType == 'M4'">
+              <td
+                width="15%"
+                *ngIf="transactionType == 'OUTPUT' && goodsType == 'M4'"
+              >
                 <dx-select-box
                   label="Machine"
                   labelLocation="left"
@@ -296,9 +303,12 @@
                   valueExpr="id"
                   [dataSource]="machines"
                 ></dx-select-box>
-              </th>
+              </td>
 
-              <th width="15%" *ngIf="transactionType == 'OUTPUT' && goodsType == 'M4'">
+              <td
+                width="15%"
+                *ngIf="transactionType == 'OUTPUT' && goodsType == 'M4'"
+              >
                 <dx-select-box
                   label="Line"
                   labelLocation="left"
@@ -308,9 +318,9 @@
                   valueExpr="name"
                   [dataSource]="lines"
                 ></dx-select-box>
-              </th>
+              </td>
             </tr>
-          </thead>
+          </tbody>
         </nz-table>
 
         <dx-data-grid
@@ -341,7 +351,7 @@
           </dxo-column-chooser>
 
           <dxo-toolbar>
-            <dxi-item location="after">
+            <dxi-item location="before">
               <input
                 id="sparePartQrCodeIpt"
                 #sparePartQrCodeIpt

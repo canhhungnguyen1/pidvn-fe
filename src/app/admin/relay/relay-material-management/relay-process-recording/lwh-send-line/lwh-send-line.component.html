@@ -127,7 +127,7 @@
   id="importMaterialModal"
   [(nzVisible)]="isOpenScanQRCodeModal"
   [nzTitle]="nzTitleScanQRCodeModal"
-  nzWidth="750px"
+  nzWidth="100%"
 >
   <ng-container *nzModalContent>
     <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
@@ -163,7 +163,8 @@
           <tr>
             <th>Part No</th>
             <th>Lot No</th>
-            <th>Qty (Nhập line)</th>
+            <th>Qty</th>
+            <th>Tồn</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -192,9 +193,10 @@
                 type="number"
                 nz-input
                 [(ngModel)]="data.qty"
-                (blur)="stopEdit()"
+                (blur)="stopEdit(data)"
               />
             </td>
+            <td style="text-align: right">{{ data.remainingQty }}</td>
             <td
               style="text-align: center"
               nz-popconfirm

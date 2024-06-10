@@ -111,7 +111,6 @@ export class RwhSendPwhComponent implements OnInit {
   }
 
   startEdit(data: any) {
-    console.log('AAAA', data);
     setTimeout(() => {
       this.importQtyIpt.nativeElement.focus();
     }, 500);

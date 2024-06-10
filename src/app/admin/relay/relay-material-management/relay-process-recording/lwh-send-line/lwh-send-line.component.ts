@@ -156,9 +156,13 @@ export class LwhSendLineComponent implements OnInit, AfterViewInit {
     this.lotNoEdit = data.lotNo;
   }
 
-  stopEdit(): void {
+  stopEdit(data: any): void {
+    if (data.qty > data.remainingQty) {
+      data.qty = data.remainingQty
+    } else if (data.qty < 0) {
+      data.qty = 0
+    }
     this.lotNoEdit = null;
-    this.importQtyIpt.nativeElement.select();
   }
 
   /**

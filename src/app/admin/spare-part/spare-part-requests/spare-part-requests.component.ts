@@ -12,6 +12,7 @@ import { SparePartRequestsService } from './spare-part-requests.service';
 })
 export class SparePartRequestsComponent implements OnInit {
 
+
   @ViewChild(DxValidatorComponent, { static: false })
   validator!: DxValidatorComponent;
   
@@ -160,8 +161,34 @@ export class SparePartRequestsComponent implements OnInit {
     )
   }
 
-  downloadRequestDetail(request: any) {
-    console.log('downloadRequestDetail: ', request);
+  downloadRequestDetail(event: any) {
     
+    this.sparePartRequestSvc.downloadM4M8Request(event.data.id).subscribe(response => {
+
+      const blob = new Blob([response], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      });
+
+      const data = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = data;
+      link.download = `RequestDetail.xlsx`;
+      link.dispatchEvent(
+        new MouseEvent('click', {
+          bubbles: true,
+          cancelable: true,
+          view: window,
+        })
+      );
+
+      setTimeout(() => {
+        window.URL.revokeObjectURL(data);
+        link.remove();
+      }, 100);
+    });
+
+
+
+
   }
 }
