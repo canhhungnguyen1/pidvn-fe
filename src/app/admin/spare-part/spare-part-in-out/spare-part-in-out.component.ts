@@ -153,18 +153,18 @@ export class SparePartInOutComponent implements OnInit {
 
   scanSparePartQrCode(event: any) {
     debugger
-    if (this.userCode === undefined || this.userCode === '') {
+    if (!this.userCode) {
       this.toastr.warning('Cần scan mã nhân viên', 'Warning');
       this.userCodeIpt.nativeElement.select();
       return;
     }
 
-    if (this.goodsType === undefined || this.goodsType === null) {
+    if (!this.goodsType) {
       this.toastr.warning('Cần chọn loại hàng', 'Warning');
       return;
     }
 
-    if (this.transactionType === undefined || this.transactionType === null) {
+    if (!this.transactionType) {
       this.toastr.warning('Cần chọn loại giao dịch', 'Warning');
       return;
     }
