@@ -73,7 +73,6 @@ export class MaterialReceiptComponent implements OnInit {
    */
   @HostListener('window:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    console.log('AAAAA');
     if (event.keyCode == 13) {
       if (!this.qrCode) {
         return;
@@ -110,7 +109,13 @@ export class MaterialReceiptComponent implements OnInit {
           material.poSeq = result[8];
           material.slipNo = this.slipInput.toUpperCase();
           material.qrCode = this.qrCode;
-          material.lotGroup = result[3];
+          
+          // Trường hợp lotGroup nếu là hàng của Hanoi You Steel
+          if (result[4] === '21041684') {
+            material.lotGroup = result[3].split('*')[0];
+          }else {
+            material.lotGroup = result[3];
+          }
 
           material.whUserCode = this.jwtHelperService.decodeToken(
             localStorage.getItem('accessToken')?.toString()
@@ -128,7 +133,7 @@ export class MaterialReceiptComponent implements OnInit {
         this.qrCode = '';
       }
 
-      console.log('aaa : ', this.listBigBoxScanned);
+      console.log('aaa : ', this.listBoxScanned);
     }
   }
 
