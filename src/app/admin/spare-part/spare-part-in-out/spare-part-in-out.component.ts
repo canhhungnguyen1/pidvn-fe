@@ -84,7 +84,6 @@ export class SparePartInOutComponent implements OnInit {
   ];
   lines: any;
   machines: any;
-  
 
   // Edit Spare Part record
   isOpenModalEditSparePartRecord: boolean = false;
@@ -100,6 +99,7 @@ export class SparePartInOutComponent implements OnInit {
   factoryCode: any; // Factory Selected
   machine: any; // Machine Selected
   line: any; // line Selected
+  request: any; // request Selected
 
   getLineStandard() {
     this.sparePartSvc.getLineStandard().subscribe((response) => {
@@ -152,7 +152,6 @@ export class SparePartInOutComponent implements OnInit {
   }
 
   scanSparePartQrCode(event: any) {
-    debugger
     if (!this.userCode) {
       this.toastr.warning('Cần scan mã nhân viên', 'Warning');
       this.userCodeIpt.nativeElement.select();
@@ -169,7 +168,7 @@ export class SparePartInOutComponent implements OnInit {
       return;
     }
 
-    if(this.transactionType === 'OUTPUT' && this.goodsType === 'M4') {
+    if (this.transactionType === 'OUTPUT' && this.goodsType === 'M4') {
       if (!this.factoryCode) {
         this.toastr.warning('Cần chọn nhà máy', 'Warning');
         return;
@@ -184,11 +183,21 @@ export class SparePartInOutComponent implements OnInit {
         this.toastr.warning('Cần chọn Line', 'Warning');
         return;
       }
-    }
 
-    let date = new Date().toISOString().slice(0, 10);
-    let dateSplit = date.split('-');
-    let requestNo = `${dateSplit[0]}${dateSplit[1]}${dateSplit[2]}`;
+      /**
+       * Kiểm tra dữ liệu scan có trong request không
+       */
+      // if (
+      //   !this.sparePartRequestDetails.some(
+      //     (item: any) =>
+      //       item.partNumber.toUpperCase().trim() ===
+      //       event.target.value.toUpperCase().trim()
+      //   )
+      // ) {
+      //   this.toastr.warning('Mã không có trong request', 'Warning');
+      //   return
+      // }
+    }
 
     let obj = Object.assign({
       whUserCode: this.whUserCode,
@@ -200,7 +209,7 @@ export class SparePartInOutComponent implements OnInit {
       machine: this.machine,
       factoryCode: this.factoryCode,
       insertType: this.insertType,
-      requestNo: requestNo,
+      requestNo: this.request ? this.request.requestNo : null,
       userCode: this.userCode,
       goodsType: this.goodsType,
       type: this.transactionType,
@@ -220,7 +229,7 @@ export class SparePartInOutComponent implements OnInit {
   }
 
   /**
-   * Xóa giá trị các ô input 
+   * Xóa giá trị các ô input
    */
   resetInputForm() {
     this.userCode = null;
@@ -231,7 +240,7 @@ export class SparePartInOutComponent implements OnInit {
     this.factoryCode = null;
     this.machine = null;
     this.line = null;
-
+    this.request = null;
   }
 
   async saveSparePartRecords(event: any) {
@@ -355,12 +364,11 @@ export class SparePartInOutComponent implements OnInit {
   /**
    * Lấy danh sách các part trong request
    */
-
   getSparePartRequestDetails(event: any) {
-    console.log('getSparePartRequestDetails: ', event);
-
+    const selectedItem = event.component.option('selectedItem');
+    this.request = selectedItem;
     this.sparePartRequestSvc
-      .getRequestDetail(event.value)
+      .getRequestDetail(selectedItem.id)
       .subscribe((response) => {
         this.sparePartRequestDetails = response;
       });
