@@ -1,4 +1,11 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { SparePartService } from '../services/spare-part.service';
 import { SparePartRecordVo } from '../models/SparePartRecordVo';
@@ -9,13 +16,14 @@ import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { HttpClient, HttpRequest, HttpResponse } from '@angular/common/http';
 import { filter } from 'rxjs/operators';
 import { SparePartRequestsService } from '../spare-part-requests/spare-part-requests.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-spare-part-in-out',
   templateUrl: './spare-part-in-out.component.html',
   styleUrls: ['./spare-part-in-out.component.scss'],
 })
-export class SparePartInOutComponent implements OnInit {
+export class SparePartInOutComponent implements OnInit, AfterViewInit {
   // @ViewChild(DxTextBoxComponent, { static: false }) userCodeIpt!: DxTextBoxComponent;
   @ViewChild('userCodeIpt') userCodeIpt!: ElementRef;
   @ViewChild('sparePartQrCodeIpt') sparePartQrCodeIpt!: ElementRef;
@@ -30,10 +38,14 @@ export class SparePartInOutComponent implements OnInit {
     private sparePartSvc: SparePartService,
     private jwtHelperSvc: JwtHelperService,
     private http: HttpClient,
-    private sparePartRequestSvc: SparePartRequestsService
+    private sparePartRequestSvc: SparePartRequestsService,
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
+    console.log('ngOnInit');
+
     let firstDayOfMonth = new Date(
       new Date().getFullYear(),
       new Date().getMonth(),
@@ -49,6 +61,27 @@ export class SparePartInOutComponent implements OnInit {
     this.whUserCode = this.jwtHelperSvc.decodeToken(
       localStorage.getItem('accessToken')?.toString()
     ).Username;
+
+    // Trường hợp xuất hàng M4 chọn từ màn hình danh sách request
+    const requestId = this.route.snapshot.queryParamMap.get('requestId');
+    if (requestId) {
+      this.isOpenOutputSparePartModal = true;
+      this.goodsType = 'M4';
+      this.transactionType = 'OUTPUT';
+
+      // Lấy dữ liệu chi tiết request
+      this.getRequestDetail(requestId);
+
+      this.sparePartRequestSvc.getRequests().subscribe((response) => {
+        this.request = response.find(
+          (item: any) => item.id === Number(requestId)
+        );
+      });
+    }
+  }
+
+  ngAfterViewInit(): void {
+    // this.cdr.detectChanges();
   }
 
   searchParams = {
@@ -143,7 +176,7 @@ export class SparePartInOutComponent implements OnInit {
     this.userCode = event.target.value;
 
     if (this.userCode.length < 7) {
-      this.toastr.warning('Cần scan mã nhân viên', 'Warning');
+      this.toastr.warning('Mã nhân viên không đúng', 'Warning');
       this.userCodeIpt.nativeElement.select();
       return;
     }
@@ -174,10 +207,10 @@ export class SparePartInOutComponent implements OnInit {
         return;
       }
 
-      if (!this.machine) {
-        this.toastr.warning('Cần chọn Machine', 'Warning');
-        return;
-      }
+      // if (!this.machine) {
+      //   this.toastr.warning('Cần chọn Machine', 'Warning');
+      //   return;
+      // }
 
       if (!this.line) {
         this.toastr.warning('Cần chọn Line', 'Warning');
@@ -367,8 +400,12 @@ export class SparePartInOutComponent implements OnInit {
   getSparePartRequestDetails(event: any) {
     const selectedItem = event.component.option('selectedItem');
     this.request = selectedItem;
+    this.getRequestDetail(selectedItem.id);
+  }
+
+  getRequestDetail(requestId: any) {
     this.sparePartRequestSvc
-      .getRequestDetail(selectedItem.id)
+      .getRequestDetail(requestId)
       .subscribe((response) => {
         this.sparePartRequestDetails = response;
       });

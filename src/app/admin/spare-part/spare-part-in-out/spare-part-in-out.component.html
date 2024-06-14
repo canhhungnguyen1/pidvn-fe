@@ -70,15 +70,37 @@
 
     <dxi-column
       dataField="requestNo"
-      caption="Số phiếu"
+      caption="Request No"
       [visible]="false"
     ></dxi-column>
     <dxi-column dataField="partNumber" caption="Part Number"></dxi-column>
     <dxi-column dataField="galileoName" caption="Galileo Name"></dxi-column>
 
     <dxi-column dataField="qty" caption="Qty" alignment="right"></dxi-column>
-    <dxi-column dataField="type" caption="Type"></dxi-column>
-    <dxi-column dataField="goodsType" caption="Loại hàng"></dxi-column>
+    <dxi-column dataField="type" caption="Type">
+      <dxo-lookup
+        displayExpr="name"
+        valueExpr="id"
+        [dataSource]="[
+          { id: 'Nhập kho', name: 'Nhập kho' },
+          { id: 'Xuất kho', name: 'Xuất kho' },
+          { id: 'Trả về (OK)', name: 'Trả về (OK)' },
+          { id: 'Trả VỀ (NG)', name: 'Trả VỀ (NG)' }
+        ]"
+      >
+      </dxo-lookup>
+    </dxi-column>
+    <dxi-column dataField="goodsType" caption="Loại hàng">
+      <dxo-lookup
+        displayExpr="name"
+        valueExpr="id"
+        [dataSource]="[
+          { id: 'M4', name: 'M4' },
+          { id: 'M8', name: 'M8' }
+        ]"
+      >
+      </dxo-lookup>
+    </dxi-column>
     <dxi-column dataField="po" caption="PO"></dxi-column>
     <dxi-column dataField="supplier" caption="Supplier"></dxi-column>
     <dxi-column dataField="machine" caption="Máy"></dxi-column>
@@ -141,12 +163,12 @@
   <ng-container *nzModalContent>
     <div nz-row [nzGutter]="24">
       <div
-        *ngIf="transactionType === 'OUTPUT' && goodsType == 'M4'"
+        *ngIf="transactionType === 'OUTPUT' && goodsType == 'M4' && request"
         nz-col
         nzXs="24"
         nzSm="24"
-        nzMd="7"
-        nzLg="7"
+        nzMd="9"
+        nzLg="9"
       >
         <nz-table
           [nzData]="['']"
@@ -156,10 +178,9 @@
         >
           <thead>
             <tr>
-              <th>Số phiếu</th>
               <th>
                 <dx-select-box
-                  label="Request No"
+                  label="Request Number"
                   labelLocation="left"
                   showColonAfterLabel="true"
                   [labelMode]="'floating'"
@@ -168,12 +189,14 @@
                   [dataSource]="sparePartRequestMasters"
                   [searchEnabled]="true"
                   (onValueChanged)="getSparePartRequestDetails($event)"
+                  [(ngModel)]="request.id"
                 ></dx-select-box>
               </th>
             </tr>
           </thead>
         </nz-table>
         <dx-data-grid
+          keyExpr="id"
           [showBorders]="true"
           [dataSource]="sparePartRequestDetails"
           [showColumnLines]="true"
@@ -189,15 +212,21 @@
             </dxi-item>
           </dxo-toolbar> -->
           <dxi-column dataField="partNumber" caption="Part"></dxi-column>
-          <dxi-column dataField="qty" caption="Qty"></dxi-column>
+          <dxi-column dataField="requestQty" caption="Req/Kit (Qty)" cellTemplate="qtyTemplate"></dxi-column>
+          <div *dxTemplate="let item of 'qtyTemplate'" style="text-align: center">
+            <span>{{item.data.requestQty}} / {{item.data.kittingQty ? item.data.kittingQty : 0}} </span>
+          </div>
+
+
+          
         </dx-data-grid>
       </div>
       <div
         nz-col
         [nzXs]="transactionType === 'OUTPUT' && goodsType == 'M4' ? 24 : 24"
         [nzSm]="transactionType === 'OUTPUT' && goodsType == 'M4' ? 24 : 24"
-        [nzMd]="transactionType === 'OUTPUT' && goodsType == 'M4' ? 17 : 24"
-        [nzLg]="transactionType === 'OUTPUT' && goodsType == 'M4' ? 17 : 24"
+        [nzMd]="transactionType === 'OUTPUT' && goodsType == 'M4' ? 15 : 24"
+        [nzLg]="transactionType === 'OUTPUT' && goodsType == 'M4' ? 15 : 24"
       >
         <nz-table
           [nzData]="['']"
@@ -215,6 +244,8 @@
                   autocomplete="off"
                   (keydown.enter)="scanUserCode($event)"
                   (click)="userCodeIpt.select()"
+                  [(ngModel)]="userCode"
+                  [maxlength]="7"
                 />
               </td>
               <td width="15%">
@@ -288,6 +319,7 @@
                   valueExpr="code"
                   [dataSource]="factories"
                   [(value)]="factoryCode"
+                  [searchEnabled]="true"
                 ></dx-select-box>
               </td>
 
@@ -304,6 +336,7 @@
                   valueExpr="id"
                   [dataSource]="machines"
                   [(value)]="machine"
+                  [searchEnabled]="true"
                 ></dx-select-box>
               </td>
 
@@ -320,6 +353,7 @@
                   valueExpr="name"
                   [dataSource]="lines"
                   [(value)]="line"
+                  [searchEnabled]="true"
                 ></dx-select-box>
               </td>
             </tr>

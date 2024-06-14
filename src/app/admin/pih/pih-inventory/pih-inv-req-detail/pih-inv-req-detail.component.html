@@ -52,7 +52,7 @@
       <dxi-column dataField="lotNo" caption="Lot No"></dxi-column>
       <dxi-column dataField="qty" caption="Qty" format="#,##0.0"></dxi-column>
       <dxi-column dataField="classified" caption="Classified"></dxi-column>
-      <dxi-column dataField="recordType" caption="Type"></dxi-column>
+      <dxi-column dataField="goodsType" caption="Loại hàng"></dxi-column>
       <dxi-column
         dataField="inventoryArea"
         caption="Khu vực kiểm kê"
@@ -365,7 +365,8 @@
                 { id: 'CST', name: 'Hàng chờ sorting' },
                 { id: 'CST', name: 'Hàng WH trả về' },
                 { id: 'NG', name: 'Hàng NG' },
-                { id: 'RM', name: 'NVL thô' }
+                { id: 'RM', name: 'NVL thô' },
+                { id: 'TC', name: 'NVL thô - tái chế' }
               ]"
               [(value)]="goodsType"
               (onValueChanged)="onChangeGoodsType($event)"

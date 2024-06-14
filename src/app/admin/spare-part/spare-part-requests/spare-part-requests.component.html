@@ -45,7 +45,8 @@
     dataType="date"
     format="yyyy-MM-dd"
   ></dxi-column>
-  <dxi-column dataField="createdBy" caption="Người tạo"></dxi-column>
+  <dxi-column dataField="sectionName" caption="Bộ phận"></dxi-column>
+  <dxi-column dataField="createdByName" caption="Người tạo"></dxi-column>
   <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
 
   <dxi-column
@@ -132,6 +133,7 @@
                   [dataSource]="sections"
                   [(value)]="sectionSelected"
                   placeholder="Bộ phận"
+                  [searchEnabled]="true"
                 ></dx-select-box>
               </dxi-item>
 
@@ -214,7 +216,8 @@
       [rowAlternationEnabled]="true"
     >
       <dxi-column dataField="partNumber" caption="Part"></dxi-column>
-      <dxi-column dataField="qty" caption="Qty"></dxi-column>
+      <dxi-column dataField="requestQty" caption="Request Qty"></dxi-column>
+      <dxi-column dataField="kittingQty" caption="Kitting Qty"></dxi-column>
     </dx-data-grid>
   </ng-container>
   <ng-template [nzModalFooter]>
@@ -226,6 +229,14 @@
     >
       In phiếu request
       <span nz-icon nzType="printer" nzTheme="outline"></span>
+    </button>
+    <button
+      nz-button
+      nzType="default"
+      style="float: left"
+      
+    >
+      <a [routerLink]="['/admin/spare-part/spare-part-in-out']" [queryParams]="{ requestId: sparePartReqSelected.data.id }">Xuất kho</a>
     </button>
     <button
       nz-button
