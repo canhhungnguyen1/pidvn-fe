@@ -16,7 +16,7 @@ import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { HttpClient, HttpRequest, HttpResponse } from '@angular/common/http';
 import { filter } from 'rxjs/operators';
 import { SparePartRequestsService } from '../spare-part-requests/spare-part-requests.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-spare-part-in-out',
@@ -39,7 +39,8 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
     private jwtHelperSvc: JwtHelperService,
     private http: HttpClient,
     private sparePartRequestSvc: SparePartRequestsService,
-    private route: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -63,7 +64,7 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
     ).Username;
 
     // Trường hợp xuất hàng M4 chọn từ màn hình danh sách request
-    const requestId = this.route.snapshot.queryParamMap.get('requestId');
+    const requestId = this.activatedRoute.snapshot.queryParamMap.get('requestId');
     if (requestId) {
       this.isOpenOutputSparePartModal = true;
       this.goodsType = 'M4';
@@ -258,7 +259,8 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
   cancelSaveOutputSparePart() {
     this.isOpenOutputSparePartModal = false;
     this.resetInputForm();
-    this.getSparePartRecords();
+    this.router.navigate(['/admin/spare-part/spare-part-in-out']);
+    // this.getSparePartRecords();
   }
 
   /**
@@ -287,10 +289,11 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
      * TODO: Push server to save
      */
     this.sparePartSvc.saveSparePartRecords(arr).subscribe((response) => {
-      this.getSparePartRecords();
+      // this.getSparePartRecords();
       this.isOpenOutputSparePartModal = false;
       this.toastr.success('OK', ' Lưu thành công');
       this.resetInputForm();
+      this.router.navigate(['/admin/spare-part/spare-part-in-out']);
     });
   }
 
