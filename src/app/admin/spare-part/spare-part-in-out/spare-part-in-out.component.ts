@@ -372,6 +372,8 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
    * @param event Chọn loại hàng M4 or M8
    */
   changeGoodsType(event: any) {
+    console.log('changeGoodsType: ',event);
+    this.goodsType = event.value
     this.sparePartQrCodeIpt.nativeElement.select();
   }
 
@@ -380,6 +382,9 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
    * @param event Chọn loại giao dịch
    */
   changeTransactionType(event: any) {
+    console.log('changeTransactionType: ',event);
+    this.transactionType = event.value
+    
     this.sparePartQrCodeIpt.nativeElement.select();
 
     this.sparePartRequestDetails = new Array();

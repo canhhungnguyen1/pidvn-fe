@@ -16,9 +16,9 @@ export class SparePartRequestsService {
    * @param partNoList
    * @returns
    */
-  createRequest(partNoList: any, sectionId: any): Observable<any> {
+  createRequest(partNoList: any, factoryCode: any): Observable<any> {
     return this.httpClient.post(
-      `${this.baseUrl}/SparePart/CreateRequest?sectionId=${sectionId}`,
+      `${this.baseUrl}/SparePart/CreateRequest?factoryCode=${factoryCode}`,
       partNoList
     );
   }

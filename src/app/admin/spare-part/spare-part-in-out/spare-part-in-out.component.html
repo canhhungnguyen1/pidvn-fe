@@ -163,7 +163,7 @@
   <ng-container *nzModalContent>
     <div nz-row [nzGutter]="24">
       <div
-        *ngIf="transactionType === 'OUTPUT' && goodsType == 'M4' && request"
+        *ngIf="transactionType === 'OUTPUT' && goodsType === 'M4'"
         nz-col
         nzXs="24"
         nzSm="24"
@@ -179,7 +179,8 @@
           <thead>
             <tr>
               <th>
-                <dx-select-box
+                <dx-select-box 
+                  *ngIf="request"
                   label="Request Number"
                   labelLocation="left"
                   showColonAfterLabel="true"
@@ -190,6 +191,18 @@
                   [searchEnabled]="true"
                   (onValueChanged)="getSparePartRequestDetails($event)"
                   [(ngModel)]="request.id"
+                ></dx-select-box>
+                <dx-select-box 
+                  *ngIf="!request"
+                  label="Request Number"
+                  labelLocation="left"
+                  showColonAfterLabel="true"
+                  [labelMode]="'floating'"
+                  displayExpr="requestNo"
+                  valueExpr="id"
+                  [dataSource]="sparePartRequestMasters"
+                  [searchEnabled]="true"
+                  (onValueChanged)="getSparePartRequestDetails($event)"
                 ></dx-select-box>
               </th>
             </tr>
@@ -261,7 +274,7 @@
                     { id: 'M8', name: 'M8' }
                   ]"
                   [(value)]="goodsType"
-                  (ngModelChange)="changeGoodsType($event)"
+                  (onValueChanged)="changeGoodsType($event)"
                 ></dx-select-box>
               </td>
               <td width="15%">

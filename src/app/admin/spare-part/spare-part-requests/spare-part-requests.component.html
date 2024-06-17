@@ -45,7 +45,8 @@
     dataType="date"
     format="yyyy-MM-dd"
   ></dxi-column>
-  <dxi-column dataField="sectionName" caption="Bộ phận"></dxi-column>
+  <dxi-column dataField="factoryCode" caption="Factory Code"></dxi-column>
+  <dxi-column dataField="factoryName" caption="Factory Name"></dxi-column>
   <dxi-column dataField="createdByName" caption="Người tạo"></dxi-column>
   <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
 
@@ -129,9 +130,9 @@
                   showColonAfterLabel="true"
                   [labelMode]="'static'"
                   displayExpr="name"
-                  valueExpr="id"
-                  [dataSource]="sections"
-                  [(value)]="sectionSelected"
+                  valueExpr="code"
+                  [dataSource]="factories"
+                  [(value)]="factorySelected"
                   placeholder="Bộ phận"
                   [searchEnabled]="true"
                 ></dx-select-box>
