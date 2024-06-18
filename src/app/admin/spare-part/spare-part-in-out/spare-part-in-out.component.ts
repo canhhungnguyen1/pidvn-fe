@@ -213,10 +213,10 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
       //   return;
       // }
 
-      if (!this.line) {
-        this.toastr.warning('Cần chọn Line', 'Warning');
-        return;
-      }
+      // if (!this.line) {
+      //   this.toastr.warning('Cần chọn Line', 'Warning');
+      //   return;
+      // }
 
       /**
        * Kiểm tra dữ liệu scan có trong request không
