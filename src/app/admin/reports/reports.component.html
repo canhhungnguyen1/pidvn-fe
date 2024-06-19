@@ -1,0 +1,81 @@
+<nz-breadcrumb>
+  <nz-breadcrumb-item>Home</nz-breadcrumb-item>
+  <nz-breadcrumb-item>
+    <a>Reports</a>
+  </nz-breadcrumb-item>
+</nz-breadcrumb>
+<br />
+
+<div nz-row [nzGutter]="24">
+  <div nz-col nzXs="6" nzSm="6" nzMd="6" nzLg="6">
+    <nz-table
+      #sectionTable
+      [nzData]="sections"
+      nzBordered
+      nzFrontPagination="false"
+      [nzScroll]="{ y: '550px' }"
+    >
+      <thead>
+        <tr>
+          <th>Phòng ban</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          [class]="sectionSelected == data.code ? 'section-active' : 'section'"
+          *ngFor="let data of sections; index as i"
+          (click)="onSelectSection(data)"
+        >
+          <td>
+            {{ i + 1 }} . {{ data.name }}
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+  <div nz-col nzXs="18" nzSm="18" nzMd="18" nzLg="18">
+    <nz-table [nzData]="['']" nzBordered nzFrontPagination="false">
+      <thead>
+        <tr>
+          <th>Danh sách report</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <dx-data-grid
+              id="reportGrid"
+              keyExpr="no"
+              #reportGrid
+              [dataSource]="menus"
+              [showColumnLines]="true"
+              [showRowLines]="true"
+              [showBorders]="true"
+              [allowColumnResizing]="true"
+              [columnAutoWidth]="true"
+              [rowAlternationEnabled]="true"
+            >
+              <dxi-column
+                caption="Name"
+                cellTemplate="linkTemplate"
+                fixedPosition="right"
+              ></dxi-column>
+              <div *dxTemplate="let item of 'linkTemplate'">
+                <a
+                  class="link"
+                  href="http://10.92.176.57:6969/pidvn/report?name={{
+                    item.data.code
+                  }}"
+                  target="_blank"
+                  >{{ item.data.nameFunction }}</a
+                >
+              </div>
+              <dxi-column dataField="code" caption="Code"></dxi-column>
+              <dxi-column dataField="dept" caption="Dept"></dxi-column>
+            </dx-data-grid>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>

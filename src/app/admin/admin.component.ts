@@ -255,7 +255,7 @@ export class AdminComponent implements OnInit {
     let accessToken = localStorage.getItem('accessToken');
     let token2 = localStorage.getItem('token2');
     this.getEmployeeName();
-    this.dynamicReport();
+    //this.dynamicReport();
 
     this.relayDashboardLink = `${this.baseUrlJava}/pidvn/ma/production/dashboard`
     this.eCommitLink = `${this.baseUrlJava}/pidvn/hr/commit/menu?accessToken=${token2}`
@@ -329,12 +329,12 @@ export class AdminComponent implements OnInit {
   }
 
   // Get dynamic report
-  showMenu: any
-  dynamicReport(){
-    this.welcomeSvc.getDynamicReport().subscribe((response) => {
-      this.showMenu = response;
-    });
-  }
+  // showMenu: any
+  // dynamicReport(){
+  //   this.welcomeSvc.getDynamicReport().subscribe((response) => {
+  //     this.showMenu = response;
+  //   });
+  // }
 
   /**
    * Đang test hàm này

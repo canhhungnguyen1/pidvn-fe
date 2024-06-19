@@ -21,11 +21,21 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzTreeModule } from 'ng-zorro-antd/tree';
 import { NzCalendarModule } from 'ng-zorro-antd/calendar';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { ReportsComponent } from './reports/reports.component';
+import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
+import { NzTableModule } from 'ng-zorro-antd/table';
+
+import {
+  DxButtonModule,
+  DxDataGridModule,
+  DxSelectBoxModule,
+} from 'devextreme-angular';
 @NgModule({
   declarations: [
     AdminComponent,
     WelcomeComponent,
-    QaComponent
+    QaComponent,
+    ReportsComponent,
   ],
   imports: [
     CommonModule,
@@ -46,7 +56,12 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
     NzSelectModule,
     NzTreeModule,
     NzCalendarModule,
-    NzDatePickerModule
-  ]
+    NzDatePickerModule,
+    NzBreadCrumbModule,
+    NzTableModule,
+    DxButtonModule,
+    DxDataGridModule,
+    DxSelectBoxModule,
+  ],
 })
-export class AdminModule { }
+export class AdminModule {}

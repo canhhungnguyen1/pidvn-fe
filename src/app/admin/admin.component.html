@@ -32,11 +32,7 @@
       <li nz-menu-item nzTooltipPlacement="right" nzMatchRouter>
         <i nz-icon nzType="upload"></i>
         <span>
-          <a
-            [href]="uploadFileLink"
-            (click)="onHideSidebar()"
-            target="_blank"
-          >
+          <a [href]="uploadFileLink" (click)="onHideSidebar()" target="_blank">
             Upload File
           </a>
         </span>
@@ -47,7 +43,7 @@
           <a
             routerLink="/admin/sales/update-psi-price"
             (click)="onHideSidebar()"
-          >Dự án của tôi</a
+            >Dự án của tôi</a
           >
         </span>
       </li>
@@ -55,7 +51,7 @@
         <i nz-icon nzType="dashboard"></i>
         <span>
           <a routerLink="/admin/dashboard/menu" (click)="onHideSidebar()"
-          >Dashboard</a
+            >Dashboard</a
           >
         </span>
       </li>
@@ -90,7 +86,7 @@
         <i nz-icon nzType="sisternode"></i>
         <span>
           <a routerLink="/admin/spare-part/menu" (click)="onHideSidebar()"
-          >Quản lý M4 / M8</a
+            >Quản lý M4 / M8</a
           >
         </span>
       </li>
@@ -100,12 +96,12 @@
             <a
               routerLink="/admin/is/device-management/list"
               (click)="onHideSidebar()"
-            >Quản lý thiết bị</a
+              >Quản lý thiết bị</a
             >
           </li>
           <li nz-menu-item nzMatchRouter>
             <a [href]="itRequestLink" target="blank" (click)="onHideSidebar()"
-            >IT Request</a
+              >IT Request</a
             >
           </li>
           <li nz-menu-item nzMatchRouter>
@@ -113,7 +109,7 @@
               [href]="labelRequestLink"
               target="blank"
               (click)="onHideSidebar()"
-            >Label Approval</a
+              >Label Approval</a
             >
           </li>
         </ul>
@@ -125,7 +121,7 @@
               [href]="relayDashboardLink"
               target="_blank"
               (click)="onHideSidebar()"
-            >Dashboard</a
+              >Dashboard</a
             >
           </li>
           <li nz-submenu nzTitle="Relay Process Recording">
@@ -170,7 +166,7 @@
             <a
               routerLink="/admin/relay/relay-datecode"
               [queryParams]="{ area: 'RELAY' }"
-            >Quản lý Date Code</a
+              >Quản lý Date Code</a
             >
           </li>
           <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
@@ -212,7 +208,7 @@
             <ul>
               <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
                 <a [href]="checkExpiryDateRelayLink"
-                >Danh sách hết hạn đánh giá</a
+                  >Danh sách hết hạn đánh giá</a
                 >
               </li>
               <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
@@ -242,7 +238,7 @@
               [href]="examTestRelayLink"
               target="_blank"
               (click)="onHideSidebar()"
-            >Exam Test Relay</a
+              >Exam Test Relay</a
             >
           </li>
 
@@ -251,7 +247,7 @@
               [href]="examHistoryRelayLink"
               target="_blank"
               (click)="onHideSidebar()"
-            >Exam History Relay</a
+              >Exam History Relay</a
             >
           </li>
 
@@ -260,7 +256,7 @@
               [href]="quanLyBaiKiemTraLink"
               target="_blank"
               (click)="onHideSidebar()"
-            >Quản lý bài kiểm tra</a
+              >Quản lý bài kiểm tra</a
             >
           </li>
 
@@ -269,7 +265,7 @@
               [href]="dangKyLamBaiKiemTraLink"
               target="_blank"
               (click)="onHideSidebar()"
-            >Đăng ký làm bài kiểm tra</a
+              >Đăng ký làm bài kiểm tra</a
             >
           </li>
 
@@ -278,13 +274,13 @@
               [href]="checkExpiryDateRelayLink"
               target="_blank"
               (click)="onHideSidebar()"
-            >Check Expiry Date</a
+              >Check Expiry Date</a
             >
           </li>
 
           <li nz-menu-item nzMatchRouter>
             <a [href]="relayECOPLink" target="_blank" (click)="onHideSidebar()"
-            >E-COP</a
+              >E-COP</a
             >
           </li>
         </ul>
@@ -293,7 +289,7 @@
         <ul>
           <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
             <a routerLink="/admin/relay/vr-enc-process-recording/menu"
-            >VR-ENC Process Recording</a
+              >VR-ENC Process Recording</a
             >
           </li>
           <li nz-menu-item nzMatchRouter>
@@ -301,7 +297,7 @@
               [href]="examTestVrEncLink"
               target="_blank"
               (click)="onHideSidebar()"
-            >Exam Test</a
+              >Exam Test</a
             >
           </li>
 
@@ -310,7 +306,7 @@
               [href]="examHistoryEMCLink"
               target="_blank"
               (click)="onHideSidebar()"
-            >Exam History</a
+              >Exam History</a
             >
           </li>
 
@@ -319,7 +315,7 @@
               [href]="quanLyBaiKiemTraLink"
               target="_blank"
               (click)="onHideSidebar()"
-            >Quản lý bài kiểm tra</a
+              >Quản lý bài kiểm tra</a
             >
           </li>
 
@@ -328,7 +324,7 @@
               [href]="dangKyLamBaiKiemTraLink"
               target="_blank"
               (click)="onHideSidebar()"
-            >Đăng ký làm bài kiểm tra</a
+              >Đăng ký làm bài kiểm tra</a
             >
           </li>
 
@@ -337,7 +333,7 @@
               [href]="checkExpiryDateVrEncLink"
               target="_blank"
               (click)="onHideSidebar()"
-            >Check Expiry Date</a
+              >Check Expiry Date</a
             >
           </li>
 
@@ -345,7 +341,7 @@
             <ul>
               <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
                 <a [href]="checkExpiryDateVrEncLink"
-                >Danh sách hết hạn đánh giá</a
+                  >Danh sách hết hạn đánh giá</a
                 >
               </li>
               <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
@@ -371,7 +367,7 @@
         <ul>
           <li nz-menu-item nzMatchRouter>
             <a routerLink="accounting/stk-payment" (click)="onHideSidebar()"
-            >Account Payment</a
+              >Account Payment</a
             >
           </li>
           <li nz-menu-item nzMatchRouter>
@@ -390,7 +386,7 @@
         <ul>
           <li nz-menu-item nzMatchRouter>
             <a routerLink="/admin/hr/hr-emp-mng/menu" (click)="onHideSidebar()"
-            >Dữ liệu nhân viên</a
+              >Dữ liệu nhân viên</a
             >
           </li>
           <li nz-submenu nzTitle="Quản lý chất thải">
@@ -414,9 +410,9 @@
               </li>
               <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
                 <span
-                ><a [href]="pihPrintLabelLink" target="blank"
-                >Print Label</a
-                ></span
+                  ><a [href]="pihPrintLabelLink" target="blank"
+                    >Print Label</a
+                  ></span
                 >
               </li>
             </ul>
@@ -428,7 +424,7 @@
           <li nz-menu-item nzMatchRouter>
             <i nz-icon nzType="clock-circle"></i>
             <span
-            ><a [href]="eShiftLink" target="blank">E-Shift Working</a></span
+              ><a [href]="eShiftLink" target="blank">E-Shift Working</a></span
             >
           </li>
           <li nz-menu-item nzMatchRouter>
@@ -446,9 +442,9 @@
           <li nz-menu-item nzMatchRouter>
             <i nz-icon nzType="sound"></i>
             <span
-            ><a [href]="eConfirmCheckInLink" target="blank"
-            >E-Confirm In/Out</a
-            ></span
+              ><a [href]="eConfirmCheckInLink" target="blank"
+                >E-Confirm In/Out</a
+              ></span
             >
           </li>
 
@@ -458,7 +454,7 @@
               <a
                 routerLink="/admin/hr/hr-meal-mng/menu"
                 (click)="onHideSidebar()"
-              >E-Meal</a
+                >E-Meal</a
               >
             </span>
           </li>
@@ -471,21 +467,21 @@
             <a
               routerLink="/admin/warehouse/material-receipt"
               (click)="onHideSidebar()"
-            >Nhập kho NVL</a
+              >Nhập kho NVL</a
             >
           </li>
           <li nz-menu-item nzMatchRouter>
             <a
               routerLink="/admin/warehouse/iqc-request"
               (click)="onHideSidebar()"
-            >IQC Request</a
+              >IQC Request</a
             >
           </li>
           <li nz-menu-item nzMatchRouter>
             <a
               routerLink="/admin/warehouse/check-date-iqc"
               (click)="onHideSidebar()"
-            >Kiểm tra hàng IQC</a
+              >Kiểm tra hàng IQC</a
             >
           </li>
           <li nz-menu-item nzMatchRouter>
@@ -505,35 +501,35 @@
             <a
               routerLink="/admin/qa/qa-iqc-check/iqc-request"
               (click)="onHideSidebar()"
-            >IQC Check</a
+              >IQC Check</a
             >
           </li>
           <li nz-menu-item nzMatchRouter>
             <a
               routerLink="/admin/qa/qa-iqc-check/iqc-data"
               (click)="onHideSidebar()"
-            >IQC Data</a
+              >IQC Data</a
             >
           </li>
           <li nz-menu-item nzMatchRouter>
             <a
               routerLink="/admin/qa/qa-oqc-check/oqc-request"
               (click)="onHideSidebar()"
-            >OQC Check</a
+              >OQC Check</a
             >
           </li>
           <li nz-menu-item nzMatchRouter>
             <a
               routerLink="/admin/qa/qa-oqc-document/models"
               (click)="onHideSidebar()"
-            >OQC Document</a
+              >OQC Document</a
             >
           </li>
           <li nz-menu-item nzMatchRouter>
             <a
               routerLink="/admin/qa/qa-equipment-mng/menu"
               (click)="onHideSidebar()"
-            >Quản lý thiết bị</a
+              >Quản lý thiết bị</a
             >
           </li>
           <li nz-menu-item nzMatchRouter>
@@ -551,7 +547,7 @@
             <ul>
               <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
                 <a [href]="iqcLink.skillmap.relay" target="blank"
-                >Skill Relay</a
+                  >Skill Relay</a
                 >
               </li>
               <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
@@ -568,7 +564,7 @@
             <a
               routerLink="/admin/qa/qa-training-matrix/menu"
               (click)="onHideSidebar()"
-            >Training Matrix</a
+              >Training Matrix</a
             >
           </li>
         </ul>
@@ -609,12 +605,12 @@
             <ul>
               <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
                 <a [href]="checkTemWHLink" target="blank"
-                >Check Tem Warehouse</a
+                  >Check Tem Warehouse</a
                 >
               </li>
               <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
                 <a [href]="reportTemWHLink" target="blank"
-                >Report Tem Warehouse</a
+                  >Report Tem Warehouse</a
                 >
               </li>
             </ul>
@@ -632,7 +628,7 @@
             <a
               routerLink="/admin/packing/packing-oqc-request/list"
               (click)="onHideSidebar()"
-            >OQC Request</a
+              >OQC Request</a
             >
           </li>
         </ul>
@@ -666,7 +662,7 @@
             <a
               routerLink="/admin/pih/pih-process-recording/main"
               (click)="onHideSidebar()"
-            >Process Recording</a
+              >Process Recording</a
             >
           </li>
           <li nz-submenu nzTitle="Quản lý dừng Line">
@@ -681,31 +677,31 @@
               </li>
               <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
                 <a href="https://10.92.176.57:8080/stop_items" target="_blank"
-                >Stop Item Setup</a
+                  >Stop Item Setup</a
                 >
               </li>
               <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
                 <a
                   href="https://10.92.176.57:8080/stop_times_summary"
                   target="_blank"
-                >Stop Time Summary</a
+                  >Stop Time Summary</a
                 >
               </li>
             </ul>
           </li>
           <li nz-menu-item nzMatchRouter>
             <a [href]="bangQuanLyKyNangPIHLink" target="blank"
-            >Bảng quản lý kỹ năng</a
+              >Bảng quản lý kỹ năng</a
             >
           </li>
           <li nz-menu-item nzMatchRouter>
             <a [href]="pihProcessScannerLink" target="blank"
-            >PIH process scanner</a
+              >PIH process scanner</a
             >
           </li>
           <li nz-menu-item nzMatchRouter>
             <a [href]="pihProcessScannerLinkv2" target="blank"
-            >PIH process scanner v2</a
+              >PIH process scanner v2</a
             >
           </li>
           <li nz-menu-item nzMatchRouter>
@@ -718,18 +714,18 @@
             <ul>
               <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
                 <a [href]="pihLink.skillmap.coilRelay" target="blank"
-                >Coil Relay</a
+                  >Coil Relay</a
                 >
               </li>
               <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
                 <a [href]="pihLink.skillmap.pressRelay" target="blank"
-                >Press Relay</a
+                  >Press Relay</a
                 >
               </li>
 
               <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
                 <a [href]="pihLink.skillmap.moldRelay" target="blank"
-                >Mold Relay</a
+                  >Mold Relay</a
                 >
               </li>
             </ul>
@@ -738,7 +734,7 @@
             <a
               routerLink="/admin/pih/pih-inventory/menu"
               (click)="onHideSidebar()"
-            >PIH Inventory</a
+              >PIH Inventory</a
             >
           </li>
         </ul>
@@ -748,18 +744,29 @@
         <ul>
           <li nz-menu-item nzMatchRouter>
             <a [href]="surveyLink" target="_blank" (click)="onHideSidebar()"
-            >COI</a
+              >COI</a
             >
           </li>
         </ul>
       </li>
-      <li nz-submenu nzTitle="REPORT" nzIcon="block">
+      <!-- <li nz-submenu nzTitle="REPORT" nzIcon="block">
         <ul>
           <li nz-menu-item nzMatchRouter *ngFor="let item of showMenu">
-            <a href="http://10.92.176.57:6969/pidvn/report?name={{item.code}}" target="_blank" (click)="onHideSidebar()"
-            >{{ item.nameFunction }}</a>
+            <a
+              href="http://10.92.176.57:6969/pidvn/report?name={{ item.code }}"
+              target="_blank"
+              (click)="onHideSidebar()"
+              >{{ item.nameFunction }}</a
+            >
           </li>
         </ul>
+      </li> -->
+
+      <li nz-menu-item nzTooltipPlacement="right" nzMatchRouter>
+        <i nz-icon nzType="block"></i>
+        <span>
+          <a routerLink="/admin/reports" (click)="onHideSidebar()">REPORT</a>
+        </span>
       </li>
     </ul>
   </nz-sider>
@@ -778,12 +785,12 @@
             <span class="employeeName">: {{ employeeName }}</span> &nbsp; |
             &nbsp;
             <span
-            ><a
-              href="https://10.92.176.57:8080"
-              target="_blank"
-              style="font-weight: bold"
-            >FDCS (Server 1)</a
-            ></span
+              ><a
+                href="https://10.92.176.57:8080"
+                target="_blank"
+                style="font-weight: bold"
+                >FDCS (Server 1)</a
+              ></span
             >
           </div>
         </div>
@@ -796,12 +803,12 @@
               (click)="info()"
             />
             <nz-badge class="notification" [nzCount]="9"
-            ><i
-              nz-icon
-              nzType="bell"
-              nzTheme="twotone"
-              (click)="isOpenNotificationModal()"
-            ></i
+              ><i
+                nz-icon
+                nzType="bell"
+                nzTheme="twotone"
+                (click)="isOpenNotificationModal()"
+              ></i
             ></nz-badge>
             <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu">
               <nz-avatar
@@ -847,14 +854,19 @@
     >
       <ng-container *nzDrawerContent>
         <ul nz-menu nzMode="inline">
-          <li nz-submenu nzTitle="REPORT" nzIcon="appstore">
+          <!-- <li nz-submenu nzTitle="REPORT" nzIcon="appstore">
             <ul>
               <li nz-menu-item *ngFor="let item of showMenu">
-                <a href="http://10.92.176.57:6969/pidvn/report?name={{item.code}}" target="_blank"
-                >{{ item.nameFunction }}</a>
+                <a
+                  href="http://10.92.176.57:6969/pidvn/report?name={{
+                    item.code
+                  }}"
+                  target="_blank"
+                  >{{ item.nameFunction }}</a
+                >
               </li>
             </ul>
-          </li>
+          </li> -->
         </ul>
       </ng-container>
     </nz-drawer>

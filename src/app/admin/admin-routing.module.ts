@@ -4,6 +4,7 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { RoleGuard } from '../guards/role.guard';
 import { AdminComponent } from './admin.component';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { ReportsComponent } from './reports/reports.component';
 
 const routes: Routes = [
   {
@@ -101,6 +102,10 @@ const routes: Routes = [
         path: 'welcome',
         component: WelcomeComponent,
         canActivate: [],
+      },
+      {
+        path: 'reports',
+        component: ReportsComponent,
       },
       {
         path: 'dashboard',
