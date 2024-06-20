@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { ReportService } from './reports.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-reports',
@@ -9,14 +10,21 @@ import { ReportService } from './reports.service';
 })
 export class ReportsComponent {
   constructor(
-    private jwtHelperService: JwtHelperService,
-    private reportSvc: ReportService
+    private jwtHelperSvc: JwtHelperService,
+    private reportSvc: ReportService,
+    private toastr: ToastrService,
   ) {}
 
   ngOnInit(): void {
     this.getSections()
+    this.jwt = this.jwtHelperSvc.decodeToken(
+      localStorage.getItem('accessToken')?.toString()
+    )
+    this.sectionSelected = this.jwt.SectionCode;
+    this.getDynamicReport(this.sectionSelected)
   }
 
+  jwt: any;
   sections: any;
   menus: any
   sectionSelected: any;
@@ -28,14 +36,27 @@ export class ReportsComponent {
   }
 
   onSelectSection(event: any) {
-    
-    
-    this.reportSvc.getDynamicReport(event.code).subscribe(
+
+    let sectionCode = this.jwt.SectionCode;
+
+    let role = this.jwt.Roles;
+
+    if (sectionCode !== event.code) {
+      this.toastr.warning('Bạn không có quyền truy cập','Warning')
+      return;
+    }
+    this.sectionSelected = event.code
+    console.log(this.sectionSelected);
+
+    this.getDynamicReport(this.sectionSelected)
+  }
+  
+  getDynamicReport(section: any) {
+    this.reportSvc.getDynamicReport(section).subscribe(
       response => {
         this.menus = response
       }
     )
-    this.sectionSelected = event.code
-    console.log(this.sectionSelected);
   }
+
 }
