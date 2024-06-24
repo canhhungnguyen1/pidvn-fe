@@ -1,1 +1,49 @@
-<p>ie-dc-project works!</p>
+<nz-breadcrumb>
+  <nz-breadcrumb-item>Home</nz-breadcrumb-item>
+  <nz-breadcrumb-item>
+    <a>Drawing Control</a>
+  </nz-breadcrumb-item>
+  <nz-breadcrumb-item>Project</nz-breadcrumb-item>
+</nz-breadcrumb>
+
+<nz-collapse>
+  <nz-collapse-panel
+    [nzHeader]="'Tìm kiếm'"
+    [nzActive]="false"
+    [nzShowArrow]="true"
+  >
+  </nz-collapse-panel>
+</nz-collapse>
+<br />
+<dx-data-grid
+  keyExpr="id"
+  #sparePartRecordGrid
+  [dataSource]="projects"
+  [showColumnLines]="true"
+  [showRowLines]="true"
+  [showBorders]="true"
+  [allowColumnResizing]="true"
+  [columnAutoWidth]="true"
+  (onRowClick)="onRowClick($event)">
+>
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
+  <dxo-export [enabled]="true"></dxo-export>
+
+  <dxi-column dataField="controlNo" caption="Control No"></dxi-column>
+
+  <dxi-column dataField="projectName" caption="Project Name"></dxi-column>
+  <dxi-column dataField="projectType" caption="Project Type"></dxi-column>
+  <dxi-column dataField="product" caption="Product"></dxi-column>
+  <dxi-column dataField="createdAt" caption="Created Date"></dxi-column>
+  <dxi-column dataField="status" caption="Status"></dxi-column>
+  <dxi-column dataField="mainPic" caption="Main P.I.C"></dxi-column>
+  <dxi-column
+      caption="Process"
+      cellTemplate="processTemplate"
+      [fixed]="true"
+      fixedPosition="right"
+    ></dxi-column>
+    <div *dxTemplate="let item of 'processTemplate'" style="text-align: center">
+        <nz-progress [nzPercent]="item.data.process"></nz-progress>
+    </div>
+</dx-data-grid>
