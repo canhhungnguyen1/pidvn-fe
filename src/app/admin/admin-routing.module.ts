@@ -120,6 +120,10 @@ const routes: Routes = [
         loadChildren: () => import('./vr/vr.module').then(m => m.VrModule)
       },
       {
+        path: 'ie',
+        loadChildren: () => import('./ie/ie.module').then(m => m.IeModule)
+      },
+      {
         path: 'project-management',
         loadChildren: () => import('./project-management/project-management.module').then(m => m.ProjectManagementModule)
       }
