@@ -1,1 +1,76 @@
-<p>ie-dc-project-detail works!</p>
+<div nz-row [nzGutter]="24">
+  <div nz-col nzXs="16" nzSm="16" nzMd="16" nzLg="16">
+    <nz-collapse>
+      <nz-collapse-panel
+        [nzHeader]="'Project: RE-T0001'"
+        [nzActive]="true"
+        [nzShowArrow]="true"
+      >
+        <dx-data-grid
+          keyExpr="id"
+          #projectGrid
+          [dataSource]="items"
+          [showColumnLines]="true"
+          [showRowLines]="true"
+          [showBorders]="true"
+          [allowColumnResizing]="true"
+          [columnAutoWidth]="true"
+        >
+          <dxi-column dataField="item" caption="Process"></dxi-column>
+          <dxi-column dataField="content" caption="Content"></dxi-column>
+          <dxi-column dataField="startPlan" caption="Start Plan"></dxi-column>
+          <dxi-column dataField="endPlan" caption="End Plan"></dxi-column>
+          <dxi-column
+            dataField="startAction"
+            caption="Start Action"
+          ></dxi-column>
+          <dxi-column dataField="endAction" caption="End Action"></dxi-column>
+
+          <dxi-column
+            caption="Process"
+            cellTemplate="processTemplate"
+            [fixed]="true"
+            fixedPosition="right"
+          ></dxi-column>
+          <div
+            *dxTemplate="let item of 'processTemplate'"
+            style="text-align: center"
+          >
+            <div class="w3-light-grey .w3-round-small">
+              <div
+                class="w3-container w3-green .w3-round-small"
+                [style.width]="item.data.process + '%'"
+              >
+                {{ item.data.process }}%
+              </div>
+            </div>
+          </div>
+        </dx-data-grid>
+      </nz-collapse-panel>
+    </nz-collapse>
+  </div>
+  <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8">
+    <nz-collapse>
+      <nz-collapse-panel
+        [nzHeader]="'Project Activity'"
+        [nzActive]="true"
+        [nzShowArrow]="true"
+      >
+        <dx-data-grid
+          keyExpr="id"
+          #projectActivityGrid
+          [dataSource]="activities"
+          [showColumnLines]="true"
+          [showRowLines]="true"
+          [showBorders]="true"
+          [allowColumnResizing]="true"
+          [columnAutoWidth]="true"
+        >
+          <dxi-column dataField="createdAt" caption="Time"></dxi-column>
+          <dxi-column dataField="content" caption="Content"></dxi-column>
+          <dxi-column dataField="note" caption="Note"></dxi-column>
+        </dx-data-grid>
+      </nz-collapse-panel>
+    </nz-collapse>
+  </div>
+</div>

@@ -17,7 +17,7 @@
 <br />
 <dx-data-grid
   keyExpr="id"
-  #sparePartRecordGrid
+  #projectGrid
   [dataSource]="projects"
   [showColumnLines]="true"
   [showRowLines]="true"
@@ -27,7 +27,6 @@
   (onRowClick)="onRowClick($event)">
 >
   <dxo-filter-row [visible]="true"></dxo-filter-row>
-  <dxo-export [enabled]="true"></dxo-export>
 
   <dxi-column dataField="controlNo" caption="Control No"></dxi-column>
 
@@ -44,6 +43,16 @@
       fixedPosition="right"
     ></dxi-column>
     <div *dxTemplate="let item of 'processTemplate'" style="text-align: center">
-        <nz-progress [nzPercent]="item.data.process"></nz-progress>
+        <!-- <nz-progress [nzPercent]="item.data.process"></nz-progress> -->
+        <!-- <div class="w3-light-grey">
+          <div class="w3-green w3-center" [style.width]="item.data.process+'%'">{{item.data.process}}</div>
+        </div> -->
+
+        <div class="w3-light-grey .w3-round-small">
+          <div class="w3-container w3-green .w3-round-small" [style.width]="item.data.process+'%'">{{item.data.process}}%</div>
+        </div>
     </div>
 </dx-data-grid>
+
+
+

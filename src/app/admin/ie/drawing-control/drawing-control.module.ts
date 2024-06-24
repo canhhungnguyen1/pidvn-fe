@@ -15,7 +15,7 @@ import {
 import { IeDcProjectDetailComponent } from './ie-dc-project-detail/ie-dc-project-detail.component';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzProgressModule } from 'ng-zorro-antd/progress';
-
+import { NzTimelineModule } from 'ng-zorro-antd/timeline';
 
 @NgModule({
   declarations: [
@@ -33,7 +33,8 @@ import { NzProgressModule } from 'ng-zorro-antd/progress';
     DxDataGridModule,
     DxSelectBoxModule,
     NzGridModule,
-    NzProgressModule
+    NzProgressModule,
+    NzTimelineModule,
   ],
 })
 export class DrawingControlModule {}

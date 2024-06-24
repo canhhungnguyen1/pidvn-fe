@@ -43,6 +43,17 @@ export class IeDcProjectComponent {
       status: 'Extract Drawing',
       mainPic: 'Trần Duy Tùng',
       process: 100
+    },
+    {
+      id: 4,
+      controlNo: 'RE-T0002',
+      projectName: 'PF Coil Supply',
+      projectType: 'Press MC',
+      product: 'Relay',
+      createdAt: '2024-06-24',
+      status: 'Extract Drawing',
+      mainPic: 'Trần Duy Tùng',
+      process: 0
     }
     
   ]
