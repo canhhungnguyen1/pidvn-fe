@@ -118,6 +118,10 @@ const routes: Routes = [
       {
         path: 'vr',
         loadChildren: () => import('./vr/vr.module').then(m => m.VrModule)
+      },
+      {
+        path: 'project-management',
+        loadChildren: () => import('./project-management/project-management.module').then(m => m.ProjectManagementModule)
       }
     ],
   },

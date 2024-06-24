@@ -1,0 +1,20 @@
+<div class="comp" *ngFor="let comp of components">
+  <dx-text-box
+    *ngIf="comp.type == 'text-box'"
+    [label]="comp.label"
+    labelLocation="left"
+    showColonAfterLabel="true"
+    [labelMode]="'floating'"
+    [placeholder]="comp.placeholder"
+  >
+  </dx-text-box>
+
+  <dx-select-box
+    *ngIf="comp.type == 'select-box'"
+    [label]="comp.label"
+    labelLocation="left"
+    [items]="comp.items"
+  >
+    >
+  </dx-select-box>
+</div>

@@ -12,21 +12,21 @@ export class ReportsComponent {
   constructor(
     private jwtHelperSvc: JwtHelperService,
     private reportSvc: ReportService,
-    private toastr: ToastrService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
-    this.getSections()
+    this.getSections();
     this.jwt = this.jwtHelperSvc.decodeToken(
       localStorage.getItem('accessToken')?.toString()
-    )
+    );
     this.sectionSelected = this.jwt.SectionCode;
-    this.getDynamicReport(this.sectionSelected)
+    this.getDynamicReport(this.sectionSelected);
   }
 
   jwt: any;
   sections: any;
-  menus: any
+  menus: any;
   sectionSelected: any;
 
   getSections() {
@@ -36,27 +36,23 @@ export class ReportsComponent {
   }
 
   onSelectSection(event: any) {
-
     let sectionCode = this.jwt.SectionCode;
 
-    let role = this.jwt.Roles;
+    let roles = this.jwt.Roles;
 
-    if (sectionCode !== event.code) {
-      this.toastr.warning('Bạn không có quyền truy cập','Warning')
+    if (sectionCode == event.code || roles.includes('super_admin')) {
+      this.sectionSelected = event.code;
+      console.log(this.sectionSelected);
+      this.getDynamicReport(this.sectionSelected);
+    } else {
+      this.toastr.warning('Bạn không có quyền truy cập', 'Warning');
       return;
     }
-    this.sectionSelected = event.code
-    console.log(this.sectionSelected);
-
-    this.getDynamicReport(this.sectionSelected)
   }
-  
+
   getDynamicReport(section: any) {
-    this.reportSvc.getDynamicReport(section).subscribe(
-      response => {
-        this.menus = response
-      }
-    )
+    this.reportSvc.getDynamicReport(section).subscribe((response) => {
+      this.menus = response;
+    });
   }
-
 }

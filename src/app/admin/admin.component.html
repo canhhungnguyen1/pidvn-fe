@@ -854,19 +854,14 @@
     >
       <ng-container *nzDrawerContent>
         <ul nz-menu nzMode="inline">
-          <!-- <li nz-submenu nzTitle="REPORT" nzIcon="appstore">
-            <ul>
-              <li nz-menu-item *ngFor="let item of showMenu">
-                <a
-                  href="http://10.92.176.57:6969/pidvn/report?name={{
-                    item.code
-                  }}"
-                  target="_blank"
-                  >{{ item.nameFunction }}</a
-                >
-              </li>
-            </ul>
-          </li> -->
+          <li nz-menu-item nzTooltipPlacement="right" nzMatchRouter>
+            <i nz-icon nzType="book"></i>
+            <span>
+              <a routerLink="/admin/project-management/menu"
+                >Project Management</a
+              >
+            </span>
+          </li>
         </ul>
       </ng-container>
     </nz-drawer>
