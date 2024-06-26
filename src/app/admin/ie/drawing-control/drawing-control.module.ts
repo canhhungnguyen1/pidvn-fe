@@ -16,6 +16,12 @@ import { IeDcProjectDetailComponent } from './ie-dc-project-detail/ie-dc-project
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzProgressModule } from 'ng-zorro-antd/progress';
 import { NzTimelineModule } from 'ng-zorro-antd/timeline';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -26,6 +32,7 @@ import { NzTimelineModule } from 'ng-zorro-antd/timeline';
   ],
   imports: [
     CommonModule,
+    FormsModule,
     DrawingControlRoutingModule,
     NzBreadCrumbModule,
     NzCollapseModule,
@@ -35,6 +42,11 @@ import { NzTimelineModule } from 'ng-zorro-antd/timeline';
     NzGridModule,
     NzProgressModule,
     NzTimelineModule,
+    NzButtonModule,
+    NzIconModule,
+    NzModalModule,
+    NzTableModule,
+    NzDatePickerModule
   ],
 })
 export class DrawingControlModule {}

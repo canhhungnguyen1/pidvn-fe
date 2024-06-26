@@ -28,7 +28,7 @@ export class SparePartRequestsComponent implements OnInit {
   ngOnInit(): void {
     this.getRequests()
     this.getSpareParts();
-    //this.getSections();
+    this.getSubsections();
   }
 
   
@@ -38,8 +38,9 @@ export class SparePartRequestsComponent implements OnInit {
   spareParts!: SparePartRecordVo[];
   sparePartSelectedList: any;  // Danh sách các mã được chọn
 
-  //sectionSelected: any; // Bộ phận được chọn
-  //sections:any; // Danh sách bộ phận yêu cầu hàng
+  subsectionSelected: any; // Bộ phận được chọn
+  subsections:any; // Danh sách bộ phận yêu cầu hàng
+
   factorySelected:any
   factories:any = [
     { code: 'RE', name: 'RELAY FACTORY' },
@@ -53,7 +54,6 @@ export class SparePartRequestsComponent implements OnInit {
   ];
 
   sparePartsReqDetail: any; // danh sách hàng theo request
-
   sparePartReqSelected: any;
 
   getRequests() {
@@ -77,13 +77,13 @@ export class SparePartRequestsComponent implements OnInit {
   /**
    * Lấy ra các khu vực
    */
-  // getSections() {
-  //   this.sparePartRequestSvc.getSections().subscribe(
-  //     response => {
-  //       this.sections = response
-  //     }
-  //   )
-  // }
+  getSubsections() {
+    this.sparePartRequestSvc.getSubsections().subscribe(
+      response => {
+        this.subsections = response
+      }
+    )
+  }
 
   /**
    * Sự kiện khi click vào từng row
@@ -91,19 +91,22 @@ export class SparePartRequestsComponent implements OnInit {
    */
   onSelectionChanged(event: any) {
 
-    /**
-     * Check chọn khu vực
-     * Nếu chưa chọn thì ko cho click
-     */
+  
+    // Check chọn khu vực
     if (!this.factorySelected) {
       this.toastr.warning('Cần chọn khu vực','Warning')
+      return
+    }
+    // Check chọn bộ phận
+    if (!this.subsectionSelected) {
+      this.toastr.warning('Cần chọn bộ phận','Warning')
       return
     }
    
     let arr = new Array();
 
     event.selectedRowsData.forEach((item: any) => {
-      let obj = {...item, qty:0, factoryCode: this.factorySelected }
+      let obj = {...item, qty:0, factoryCode: this.factorySelected, subsectionId: this.subsectionSelected }
       arr.push(obj)
     });
 
@@ -128,7 +131,7 @@ export class SparePartRequestsComponent implements OnInit {
     console.log('onSaving: ', arr);
     
 
-    this.sparePartRequestSvc.createRequest(arr, this.factorySelected).subscribe(
+    this.sparePartRequestSvc.createRequest(arr, this.factorySelected, this.subsectionSelected).subscribe(
       response => {
         this.getRequests()
       }

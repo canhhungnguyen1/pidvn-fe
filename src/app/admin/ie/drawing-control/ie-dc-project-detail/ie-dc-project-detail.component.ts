@@ -15,7 +15,7 @@ export class IeDcProjectDetailComponent {
       endPlan: '2024-03-26',
       startAction: '2024-03-25',
       endAction: '2024-03-27',
-      process: 100,
+      progress: 100,
     },
     {
       id: 2,
@@ -25,7 +25,7 @@ export class IeDcProjectDetailComponent {
       endPlan: '2024-03-26',
       startAction: '2024-03-25',
       endAction: '',
-      process: 0,
+      progress: 85,
     },
   ];
 
@@ -49,4 +49,17 @@ export class IeDcProjectDetailComponent {
       note: 'So sánh giá các bên'
     },
   ];
+
+
+
+  isOpenProgressModal: boolean = false
+  progressSelected: any;
+
+  onRowClick(event: any) {
+
+    this.progressSelected = event.data
+    this.isOpenProgressModal = true
+
+    
+  }
 }

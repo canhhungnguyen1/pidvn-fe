@@ -15,6 +15,7 @@
           [showBorders]="true"
           [allowColumnResizing]="true"
           [columnAutoWidth]="true"
+          (onRowClick)="onRowClick($event)"
         >
           <dxi-column dataField="item" caption="Process"></dxi-column>
           <dxi-column dataField="content" caption="Content"></dxi-column>
@@ -27,21 +28,21 @@
           <dxi-column dataField="endAction" caption="End Action"></dxi-column>
 
           <dxi-column
-            caption="Process"
-            cellTemplate="processTemplate"
+            caption="Tiến độ"
+            cellTemplate="progressTemplate"
             [fixed]="true"
             fixedPosition="right"
           ></dxi-column>
           <div
-            *dxTemplate="let item of 'processTemplate'"
+            *dxTemplate="let item of 'progressTemplate'"
             style="text-align: center"
           >
             <div class="w3-light-grey .w3-round-small">
               <div
                 class="w3-container w3-green .w3-round-small"
-                [style.width]="item.data.process + '%'"
+                [style.width]="item.data.progress + '%'"
               >
-                {{ item.data.process }}%
+                {{ item.data.progress }}%
               </div>
             </div>
           </div>
@@ -74,3 +75,63 @@
     </nz-collapse>
   </div>
 </div>
+
+<nz-modal
+  [(nzVisible)]="isOpenProgressModal"
+  [nzTitle]="progressSelected?.item"
+>
+  <ng-container *nzModalContent>
+    <nz-table [nzData]="['']" nzSize="small" nzBordered nzFrontPagination="false">
+      <tbody>
+        <tr>
+          <td>Nội dung</td>
+          <td>{{ progressSelected.content }}</td>
+        </tr>
+        <tr>
+          <td>Start Plant</td>
+          <td>
+            <nz-date-picker
+              [(ngModel)]="progressSelected.startPlan"
+            ></nz-date-picker>
+          </td>
+        </tr>
+        <tr>
+          <td>End Plant</td>
+          <td>
+            <nz-date-picker
+              [(ngModel)]="progressSelected.endPlan"
+            ></nz-date-picker>
+          </td>
+        </tr>
+        <tr>
+          <td>Start Act</td>
+          <td>
+            <nz-date-picker
+              [(ngModel)]="progressSelected.startAction"
+            ></nz-date-picker>
+          </td>
+        </tr>
+        <tr>
+          <td>End Act</td>
+          <td>
+            <nz-date-picker
+              [(ngModel)]="progressSelected.endAction"
+            ></nz-date-picker>
+          </td>
+        </tr>
+        <tr>
+          <td>Tiến độ</td>
+          <td>
+            <nz-progress [nzPercent]="progressSelected.progress" [nzSteps]="10" nzStrokeColor="#1890ff"></nz-progress>
+          </td>
+        </tr>
+        <tr>
+          <td>File</td>
+          <td>
+            
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
+</nz-modal>

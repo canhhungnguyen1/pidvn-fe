@@ -16,15 +16,19 @@ export class SparePartRequestsService {
    * @param partNoList
    * @returns
    */
-  createRequest(partNoList: any, factoryCode: any): Observable<any> {
+  createRequest(partNoList: any, factoryCode: any, subsectionId: any): Observable<any> {
     return this.httpClient.post(
-      `${this.baseUrl}/SparePart/CreateRequest?factoryCode=${factoryCode}`,
+      `${this.baseUrl}/SparePart/CreateRequest?factoryCode=${factoryCode}&subsectionId=${subsectionId}`,
       partNoList
     );
   }
 
   getSections(): Observable<any> {
     return this.httpClient.get(`${this.baseUrl}/SparePart/Sections`);
+  }
+
+  getSubsections(): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/SparePart/Subsections`);
   }
 
   getRequests(): Observable<any> {

@@ -12,10 +12,13 @@ export class DashboardMenuComponent implements OnInit {
 
   baseUrlJava = environment.baseUrlJava;
   relayDashboardLink!: string;
+  coilDashboardLink!: string;
+
 
   ngOnInit(): void {
 
-    this.relayDashboardLink = `${this.baseUrlJava}/pidvn/ma/production/dashboard`
+    this.relayDashboardLink = `${this.baseUrlJava}/pidvn/ma/production/dashboard?area=relay`
+    this.coilDashboardLink = `${this.baseUrlJava}/pidvn/ma/production/dashboard?area=coil`
   }
 
 

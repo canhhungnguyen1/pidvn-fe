@@ -74,9 +74,13 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
       this.getRequestDetail(requestId);
 
       this.sparePartRequestSvc.getRequests().subscribe((response) => {
+        
         this.request = response.find(
           (item: any) => item.id === Number(requestId)
         );
+
+        console.log('Request', this.request);
+        
       });
     }
   }

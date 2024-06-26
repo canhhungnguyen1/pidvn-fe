@@ -14,8 +14,8 @@
   >
   </nz-collapse-panel>
 </nz-collapse>
-<br />
 <dx-data-grid
+  style="margin-top: 10px;"
   keyExpr="id"
   #projectGrid
   [dataSource]="projects"
@@ -24,12 +24,20 @@
   [showBorders]="true"
   [allowColumnResizing]="true"
   [columnAutoWidth]="true"
-  (onRowClick)="onRowClick($event)">
+  (onRowClick)="onRowClick($event)"
 >
   <dxo-filter-row [visible]="true"></dxo-filter-row>
 
-  <dxi-column dataField="controlNo" caption="Control No"></dxi-column>
+  <dxo-toolbar>
+    <dxi-item location="before">
+      <button nz-button nzType="primary">
+        <span nz-icon nzType="plus"></span>
+        New Project
+      </button>
+    </dxi-item>
+  </dxo-toolbar>
 
+  <dxi-column dataField="controlNo" caption="Control No"></dxi-column>
   <dxi-column dataField="projectName" caption="Project Name"></dxi-column>
   <dxi-column dataField="projectType" caption="Project Type"></dxi-column>
   <dxi-column dataField="product" caption="Product"></dxi-column>
@@ -37,22 +45,24 @@
   <dxi-column dataField="status" caption="Status"></dxi-column>
   <dxi-column dataField="mainPic" caption="Main P.I.C"></dxi-column>
   <dxi-column
-      caption="Process"
-      cellTemplate="processTemplate"
-      [fixed]="true"
-      fixedPosition="right"
-    ></dxi-column>
-    <div *dxTemplate="let item of 'processTemplate'" style="text-align: center">
-        <!-- <nz-progress [nzPercent]="item.data.process"></nz-progress> -->
-        <!-- <div class="w3-light-grey">
+    caption="Process"
+    cellTemplate="processTemplate"
+    [fixed]="true"
+    fixedPosition="right"
+  ></dxi-column>
+  <div *dxTemplate="let item of 'processTemplate'" style="text-align: center">
+    <!-- <nz-progress [nzPercent]="item.data.process"></nz-progress> -->
+    <!-- <div class="w3-light-grey">
           <div class="w3-green w3-center" [style.width]="item.data.process+'%'">{{item.data.process}}</div>
         </div> -->
 
-        <div class="w3-light-grey .w3-round-small">
-          <div class="w3-container w3-green .w3-round-small" [style.width]="item.data.process+'%'">{{item.data.process}}%</div>
-        </div>
+    <div class="w3-light-grey .w3-round-small">
+      <div
+        class="w3-container w3-green .w3-round-small"
+        [style.width]="item.data.process + '%'"
+      >
+        {{ item.data.process }}%
+      </div>
     </div>
+  </div>
 </dx-data-grid>
-
-
-
