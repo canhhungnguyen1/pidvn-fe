@@ -412,6 +412,9 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
   getSparePartRequestDetails(event: any) {
     const selectedItem = event.component.option('selectedItem');
     this.request = selectedItem;
+
+    console.log('getSparePartRequestDetails',this.request);
+    
     this.getRequestDetail(selectedItem.id);
   }
 

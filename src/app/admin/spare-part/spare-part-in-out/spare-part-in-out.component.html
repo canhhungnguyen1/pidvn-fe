@@ -39,15 +39,16 @@
             <span nz-icon nzType="logout"></span>
             NHẬP XUẤT HÀNG
           </button>
-          <!-- <button
+          <button
             *nzSpaceItem
             nz-button
             nzType="primary"
             style="background: #999695; border: 1px solid #999695"
+            routerLink="/admin/spare-part/spare-part-requests"
           >
-            <span nz-icon nzType="rotate-left"></span>
-            Hàng NG trả về
-          </button> -->
+            <span nz-icon nzType="ordered-list" nzTheme="outline"></span>
+            DANH SÁCH REQUEST HÀNG M4
+          </button>
         </nz-space>
       </dxi-item>
 
@@ -179,7 +180,7 @@
           <thead>
             <tr>
               <th>
-                <dx-select-box 
+                <dx-select-box
                   *ngIf="request"
                   label="Request Number"
                   labelLocation="left"
@@ -192,7 +193,7 @@
                   (onValueChanged)="getSparePartRequestDetails($event)"
                   [(ngModel)]="request.id"
                 ></dx-select-box>
-                <dx-select-box 
+                <dx-select-box
                   *ngIf="!request"
                   label="Request Number"
                   labelLocation="left"
@@ -206,7 +207,7 @@
                 ></dx-select-box>
               </th>
               <th>
-                <label style="color: blue;">{{request?.subsectionName}}</label>
+                <label style="color: blue">{{ request?.subsectionName }}</label>
               </th>
             </tr>
           </thead>
@@ -228,13 +229,20 @@
             </dxi-item>
           </dxo-toolbar> -->
           <dxi-column dataField="partNumber" caption="Part"></dxi-column>
-          <dxi-column dataField="requestQty" caption="Req/Kit (Qty)" cellTemplate="qtyTemplate"></dxi-column>
-          <div *dxTemplate="let item of 'qtyTemplate'" style="text-align: center">
-            <span>{{item.data.requestQty}} / {{item.data.kittingQty ? item.data.kittingQty : 0}} </span>
+          <dxi-column
+            dataField="requestQty"
+            caption="Req/Kit (Qty)"
+            cellTemplate="qtyTemplate"
+          ></dxi-column>
+          <div
+            *dxTemplate="let item of 'qtyTemplate'"
+            style="text-align: center"
+          >
+            <span
+              >{{ item.data.requestQty }} /
+              {{ item.data.kittingQty ? item.data.kittingQty : 0 }}
+            </span>
           </div>
-
-
-          
         </dx-data-grid>
       </div>
       <div

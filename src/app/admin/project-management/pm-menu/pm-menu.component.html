@@ -1,20 +1,30 @@
-<div class="comp" *ngFor="let comp of components">
-  <dx-text-box
-    *ngIf="comp.type == 'text-box'"
-    [label]="comp.label"
-    labelLocation="left"
-    showColonAfterLabel="true"
-    [labelMode]="'floating'"
-    [placeholder]="comp.placeholder"
+<div nz-row [nzGutter]="24">
+  <div
+    nz-col
+    nzXs="4"
+    nzSm="4"
+    nzMd="4"
+    nzLg="4"
+    class="comp"
+    *ngFor="let comp of components"
   >
-  </dx-text-box>
-
-  <dx-select-box
-    *ngIf="comp.type == 'select-box'"
-    [label]="comp.label"
-    labelLocation="left"
-    [items]="comp.items"
-  >
+    <dx-text-box
+      *ngIf="comp.type == 'text-box'"
+      [label]="comp.label"
+      labelLocation="left"
+      showColonAfterLabel="true"
+      [labelMode]="'static'"
+      [placeholder]="comp.placeholder"
     >
-  </dx-select-box>
+    </dx-text-box>
+
+    <dx-select-box
+      *ngIf="comp.type == 'select-box'"
+      [label]="comp.label"
+      labelLocation="left"
+      [items]="comp.items"
+      (onValueChanged)="onValueChanged($event)"
+    >
+    </dx-select-box>
+  </div>
 </div>
