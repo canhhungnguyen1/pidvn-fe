@@ -4,8 +4,9 @@ import { CommonModule } from '@angular/common';
 import { ProjectManagementRoutingModule } from './project-management-routing.module';
 import { ProjectManagementComponent } from './project-management.component';
 import { PmMenuComponent } from './pm-menu/pm-menu.component';
-import { DxSelectBoxModule, DxTextBoxModule } from 'devextreme-angular';
+import { DxSelectBoxModule, DxTextBoxModule, DxButtonModule } from 'devextreme-angular';
 import { NzGridModule } from 'ng-zorro-antd/grid';
+
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
     ProjectManagementRoutingModule,
     DxTextBoxModule,
     DxSelectBoxModule,
-    NzGridModule
+    NzGridModule,
+    DxButtonModule
   ]
 })
 export class ProjectManagementModule { }

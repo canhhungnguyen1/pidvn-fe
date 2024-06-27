@@ -14,7 +14,8 @@
       labelLocation="left"
       showColonAfterLabel="true"
       [labelMode]="'static'"
-      [placeholder]="comp.placeholder"
+      [placeholder]="comp.placeholder ?? ''"
+      #textBox
     >
     </dx-text-box>
 
@@ -22,9 +23,11 @@
       *ngIf="comp.type == 'select-box'"
       [label]="comp.label"
       labelLocation="left"
-      [items]="comp.items"
-      (onValueChanged)="onValueChanged($event)"
+      [items]="comp.items ?? []"
+      #selectBox
     >
     </dx-select-box>
   </div>
+
+  <button (click)="getFormData()">Get Form Data</button>
 </div>

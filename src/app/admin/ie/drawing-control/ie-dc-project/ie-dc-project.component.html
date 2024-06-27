@@ -15,7 +15,7 @@
   </nz-collapse-panel>
 </nz-collapse>
 <dx-data-grid
-  style="margin-top: 10px;"
+  style="margin-top: 10px"
   keyExpr="id"
   #projectGrid
   [dataSource]="projects"
@@ -66,3 +66,12 @@
     </div>
   </div>
 </dx-data-grid>
+
+<hr />
+
+<dx-file-uploader
+  [multiple]="true"
+  uploadMode="instantly"
+  (onValueChanged)="onValueChanged($event)"
+>
+</dx-file-uploader>

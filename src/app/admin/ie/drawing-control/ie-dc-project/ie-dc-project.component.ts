@@ -63,4 +63,10 @@ export class IeDcProjectComponent {
     this.router.navigate(['/admin/ie/drawing-control/projects', projectId]);
   }
 
+  onValueChanged(e: any) {
+    const files = e.value;
+    console.log('Uploaded files:', files);
+    // Xử lý file đã được upload ở đây
+  }
+
 }
