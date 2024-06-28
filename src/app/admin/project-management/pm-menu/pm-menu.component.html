@@ -29,6 +29,15 @@
       #selectBox
     >
     </dx-select-box>
+
+    <dx-date-box
+      *ngIf="comp.type === 'date-box'"
+      type="date"
+      [label]="comp.label"
+      [inputAttr]="{ 'aria-label': 'Date' }"
+      [(ngModel)]="formData[comp.id]"
+    >
+    </dx-date-box>
   </div>
 </div>
 <hr />

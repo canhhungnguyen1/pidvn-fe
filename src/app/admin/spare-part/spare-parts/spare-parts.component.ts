@@ -60,6 +60,27 @@ export class SparePartsComponent implements OnInit {
   }
 
   onCreateSparePart() {
+
+    if (!this.sparePartCreate.partNumber) {
+      this.toastr.warning('Cần nhập Part Number','Warning')
+      return;
+    }
+
+    if (!this.sparePartCreate.name) {
+      this.toastr.warning('Cần nhập Name','Warning')
+      return;
+    }
+
+    if (!this.sparePartCreate.unit) {
+      this.toastr.warning('Cần nhập đơn vị','Warning')
+      return;
+    }
+
+    if (!this.sparePartCreate.type) {
+      this.toastr.warning('Cần nhập loại hàng','Warning')
+      return;
+    }
+
     this.sparePartSvc.saveSparePart(this.sparePartCreate).subscribe(
       response => {
           this.getSpareParts();

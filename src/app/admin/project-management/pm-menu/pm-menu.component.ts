@@ -11,12 +11,15 @@ export class PmMenuComponent {
   textBoxes!: QueryList<DxTextBoxComponent>;
   @ViewChildren('selectBox')
   selectBoxes!: QueryList<DxSelectBoxComponent>;
+  @ViewChildren('dateBox')
+  dateBoxes!: QueryList<DxSelectBoxComponent>;
 
   components = [
     { id: 1, type: 'text-box', label: 'Name', placeholder: 'Enter your name' },
     { id: 2, type: 'select-box', label: 'Country', items: ['USA', 'UK', 'Canada'] },
     { id: 3, type: 'select-box', label: 'City', items: ['Hanoi', 'Hai Phong', 'Ho Chi Minh'] },
     { id: 4, type: 'text-box', label: 'Address', placeholder: 'Enter your address' },
+    { id: 5, type: 'date-box', label: 'BirthDate', placeholder: 'Birth Date' }
   ];
 
   onValueChanged(event: any) {
