@@ -41,9 +41,12 @@ export class PmMenuComponent {
     // Lấy dữ liệu từ các select box
     this.selectBoxes.forEach((selectBox, index) => {
       // formData[`selectBox${index}`] = selectBox.instance.option('value');
+      
 
       const component = this.components.find(comp => comp.type === 'select-box' && comp.id === (index + 1));
-      console.log(component);
+      
+      
+      
       
 
       if (component) {
