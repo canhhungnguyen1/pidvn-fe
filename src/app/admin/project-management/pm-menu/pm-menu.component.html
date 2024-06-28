@@ -1,12 +1,13 @@
 <div nz-row [nzGutter]="24">
   <div
     nz-col
-    nzXs="6"
-    nzSm="6"
+    nzXs="12"
+    nzSm="8"
     nzMd="6"
-    nzLg="6"
+    nzLg="4"
     class="comp"
     *ngFor="let comp of components"
+    style="margin-top: 15px"
   >
     <dx-text-box
       *ngIf="comp.type === 'text-box'"
@@ -40,6 +41,7 @@
     </dx-date-box>
   </div>
 </div>
+
 <hr />
 <button nz-button nzType="primary" (click)="getFormData()">
   Get Form Data

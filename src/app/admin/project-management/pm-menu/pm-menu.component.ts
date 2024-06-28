@@ -15,11 +15,12 @@ export class PmMenuComponent {
   dateBoxes!: QueryList<DxSelectBoxComponent>;
 
   components = [
-    { id: 1, type: 'text-box', label: 'Name', placeholder: 'Enter your name' },
-    { id: 2, type: 'select-box', label: 'Country', items: ['USA', 'UK', 'Canada'] },
-    { id: 3, type: 'select-box', label: 'City', items: ['Hanoi', 'Hai Phong', 'Ho Chi Minh'] },
-    { id: 4, type: 'text-box', label: 'Address', placeholder: 'Enter your address' },
-    { id: 5, type: 'date-box', label: 'BirthDate', placeholder: 'Birth Date' }
+    { id: 1, type: 'text-box', label: 'Name', placeholder: 'Enter your name', tooltip: 'aaa'},
+    { id: 2, type: 'select-box', label: 'Country', items: ['Việt Nam','USA', 'UK', 'Canada'],tooltip: 'bbb' },
+    { id: 3, type: 'select-box', label: 'City', items: ['Hồ Chí Minh','Hà Nội', 'Hải Phòng'],tooltip: '' },
+    { id: 4, type: 'text-box', label: 'Address', placeholder: 'Enter your address',tooltip: '' },
+    { id: 5, type: 'date-box', label: 'Start Date', placeholder: 'Start Date',tooltip: '' },
+    { id: 6, type: 'date-box', label: 'End Date', placeholder: 'End Date',tooltip: '' }
   ];
 
   onValueChanged(event: any) {
