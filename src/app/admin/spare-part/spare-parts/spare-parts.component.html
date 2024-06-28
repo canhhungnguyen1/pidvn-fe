@@ -175,6 +175,25 @@
           </td>
         </tr>
         <tr>
+          <td>Đơn vị</td>
+          <td>
+            <input
+              nz-input
+              placeholder="Đơn vị"
+              [(ngModel)]="sparePartCreate.unit"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>Loại hàng</td>
+          <td>
+            <nz-select [(ngModel)]="sparePartCreate.type" style="width: 100%;">
+              <nz-option nzValue="M4" nzLabel="M4"></nz-option>
+              <nz-option nzValue="M8" nzLabel="M8"></nz-option>
+            </nz-select>
+          </td>
+        </tr>
+        <tr>
           <td>Ảnh</td>
           <td>
             <input type="file" #fileInput (change)="handleFileSelect($event)">

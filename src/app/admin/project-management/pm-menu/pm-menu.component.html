@@ -1,33 +1,37 @@
 <div nz-row [nzGutter]="24">
   <div
     nz-col
-    nzXs="4"
-    nzSm="4"
-    nzMd="4"
-    nzLg="4"
+    nzXs="6"
+    nzSm="6"
+    nzMd="6"
+    nzLg="6"
     class="comp"
     *ngFor="let comp of components"
   >
     <dx-text-box
-      *ngIf="comp.type == 'text-box'"
+      *ngIf="comp.type === 'text-box'"
       [label]="comp.label"
       labelLocation="left"
       showColonAfterLabel="true"
       [labelMode]="'static'"
       [placeholder]="comp.placeholder ?? ''"
+      [(ngModel)]="formData[comp.id]"
       #textBox
     >
     </dx-text-box>
 
     <dx-select-box
-      *ngIf="comp.type == 'select-box'"
+      *ngIf="comp.type === 'select-box'"
       [label]="comp.label"
       labelLocation="left"
       [items]="comp.items ?? []"
+      [(ngModel)]="formData[comp.id]"
       #selectBox
     >
     </dx-select-box>
   </div>
-
-  <button (click)="getFormData()">Get Form Data</button>
 </div>
+<hr />
+<button nz-button nzType="primary" (click)="getFormData()">
+  Get Form Data
+</button>
