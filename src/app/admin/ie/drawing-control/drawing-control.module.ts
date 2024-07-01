@@ -25,6 +25,8 @@ import { FormsModule } from '@angular/forms';
 
 import { DxFileUploaderModule } from 'devextreme-angular';
 import { DxTreeListModule } from 'devextreme-angular';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzCardModule } from 'ng-zorro-antd/card';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,9 @@ import { DxTreeListModule } from 'devextreme-angular';
     NzTableModule,
     NzDatePickerModule,
     DxFileUploaderModule,
-    DxTreeListModule
+    DxTreeListModule,
+    NzDividerModule,
+    NzCardModule
   ],
 })
 export class DrawingControlModule {}

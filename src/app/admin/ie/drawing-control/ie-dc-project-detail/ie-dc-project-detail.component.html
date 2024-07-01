@@ -6,47 +6,102 @@
         [nzActive]="true"
         [nzShowArrow]="true"
       >
-        <dx-data-grid
-          keyExpr="id"
-          #projectGrid
-          [dataSource]="items"
-          [showColumnLines]="true"
-          [showRowLines]="true"
-          [showBorders]="true"
-          [allowColumnResizing]="true"
-          [columnAutoWidth]="true"
-          (onRowClick)="onRowClick($event)"
-        >
-          <dxi-column dataField="item" caption="Process"></dxi-column>
-          <dxi-column dataField="content" caption="Content"></dxi-column>
-          <dxi-column dataField="startPlan" caption="Start Plan"></dxi-column>
-          <dxi-column dataField="endPlan" caption="End Plan"></dxi-column>
-          <dxi-column
-            dataField="startAction"
-            caption="Start Action"
-          ></dxi-column>
-          <dxi-column dataField="endAction" caption="End Action"></dxi-column>
+        <nz-card style="width: 100%">
+          <p>Card content</p>
+          <p>Card content</p>
+          <p>Card content</p>
+        </nz-card>
 
-          <dxi-column
-            caption="Tiến độ"
-            cellTemplate="progressTemplate"
-            [fixed]="true"
-            fixedPosition="right"
-          ></dxi-column>
-          <div
-            *dxTemplate="let item of 'progressTemplate'"
-            style="text-align: center"
+        <br />
+
+        <nz-collapse>
+          <nz-collapse-panel
+            [nzHeader]="'Progress'"
+            [nzActive]="true"
+            [nzShowArrow]="true"
           >
-            <div class="w3-light-grey .w3-round-small">
-              <div
-                class="w3-container w3-green .w3-round-small"
-                [style.width]="item.data.progress + '%'"
+            <dx-data-grid
+              keyExpr="id"
+              #projectGrid
+              [dataSource]="items"
+              [showColumnLines]="true"
+              [showRowLines]="true"
+              [showBorders]="true"
+              [allowColumnResizing]="true"
+              [columnAutoWidth]="true"
+              (onRowClick)="onRowClick($event)"
+            >
+              <dxi-column dataField="item" caption="Process"></dxi-column>
+              <dxi-column dataField="content" caption="Content"></dxi-column>
+              <dxi-column
+                dataField="startPlan"
+                caption="Start Plan"
+              ></dxi-column>
+              <dxi-column dataField="endPlan" caption="End Plan"></dxi-column>
+              <dxi-column
+                dataField="startAction"
+                caption="Start Action"
+              ></dxi-column>
+              <dxi-column
+                dataField="endAction"
+                caption="End Action"
+              ></dxi-column>
+
+              <dxi-column
+                caption="Tiến độ"
+                cellTemplate="progressTemplate"
+                [fixed]="true"
+                fixedPosition="right"
               >
-                {{ item.data.progress }}%
+                <div
+                  *dxTemplate="let item of 'progressTemplate'"
+                  style="text-align: center"
+                >
+                  <div class="w3-light-grey .w3-round-small">
+                    <div
+                      class="w3-container w3-green .w3-round-small"
+                      [style.width]="item.data.progress + '%'"
+                    >
+                      {{ item.data.progress }}%
+                    </div>
+                  </div>
+                </div>
+              </dxi-column>
+
+              <dxo-master-detail [enabled]="true" template="detail">
+              </dxo-master-detail>
+              <div *dxTemplate="let item of 'detail'">
+                <div class="master-detail-caption">
+                  <span>Process: {{ item.data.item }}</span>
+                  <nz-card style="width: 100%">
+                    <p>Card content</p>
+                    <p>Card content</p>
+                    <p>Card content</p>
+                  </nz-card>
+
+                  <dx-tree-list
+                    id="file"
+                    [dataSource]="files"
+                    [rootValue]="-1"
+                    keyExpr="id"
+                    parentIdExpr="parentId"
+                    [showRowLines]="true"
+                    [showBorders]="true"
+                    [columnAutoWidth]="true"
+                    [expandedRowKeys]="expandedRowKeys"
+                    (onExpandedRowKeysChange)="onExpandedRowKeysChanged($event)">
+                  >
+                    <dxi-column dataField="name" caption="Name"></dxi-column>
+                    <dxi-column dataField="path" dataType="Path"></dxi-column>
+                    <dxi-column
+                      dataField="fileName"
+                      dataType="File"
+                    ></dxi-column>
+                  </dx-tree-list>
+                </div>
               </div>
-            </div>
-          </div>
-        </dx-data-grid>
+            </dx-data-grid> </nz-collapse-panel
+        ></nz-collapse>
       </nz-collapse-panel>
     </nz-collapse>
   </div>
@@ -78,10 +133,16 @@
 
 <nz-modal
   [(nzVisible)]="isOpenProgressModal"
-  [nzTitle]="progressSelected?.item"
+  [nzTitle]="'Progress: ' + progressSelected?.item"
+  nzWidth="100%"
 >
   <ng-container *nzModalContent>
-    <nz-table [nzData]="['']" nzSize="small" nzBordered nzFrontPagination="false">
+    <nz-table
+      [nzData]="['']"
+      nzSize="small"
+      nzBordered
+      nzFrontPagination="false"
+    >
       <tbody>
         <tr>
           <td>Nội dung</td>
@@ -122,33 +183,18 @@
         <tr>
           <td>Tiến độ</td>
           <td>
-            <nz-progress [nzPercent]="progressSelected.progress" [nzSteps]="10" nzStrokeColor="#1890ff"></nz-progress>
+            <nz-progress
+              [nzPercent]="progressSelected.progress"
+              [nzSteps]="10"
+              nzStrokeColor="#1890ff"
+            ></nz-progress>
           </td>
         </tr>
         <tr>
           <td>File</td>
-          <td>
-            
-          </td>
+          <td></td>
         </tr>
       </tbody>
     </nz-table>
   </ng-container>
 </nz-modal>
-
-<dx-tree-list
-  id="file"
-  [dataSource]="files"
-  [rootValue]="-1"
-  keyExpr="id"
-  parentIdExpr="parentId"
-  [showRowLines]="true"
-  [showBorders]="true"
-  [columnAutoWidth]="true"
-  [expandedRowKeys]="[0]"
->
-  <dxi-column dataField="name" caption="Name"></dxi-column>
-  <dxi-column dataField="path" dataType="Path"></dxi-column>
-  <dxi-column dataField="fileName" dataType="File"></dxi-column>
-</dx-tree-list>
-

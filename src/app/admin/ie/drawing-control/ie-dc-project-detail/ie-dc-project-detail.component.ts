@@ -1,11 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-ie-dc-project-detail',
   templateUrl: './ie-dc-project-detail.component.html',
   styleUrls: ['./ie-dc-project-detail.component.scss'],
 })
-export class IeDcProjectDetailComponent {
+export class IeDcProjectDetailComponent implements OnInit {
+
+  ngOnInit() {
+    // Mở tất cả các hàng khi khởi tạo
+    this.expandedRowKeys = this.items.map(item => item.id);
+  }
+
   items = [
     {
       id: 1,
@@ -141,11 +147,21 @@ export class IeDcProjectDetailComponent {
   isOpenProgressModal: boolean = false
   progressSelected: any;
 
-  onRowClick(event: any) {
 
+  expandedRowKeys: number[] = []
+
+  onRowClick(event: any) {
+    console.log('onRowClick: ', event.data);
+    
     this.progressSelected = event.data
     this.isOpenProgressModal = true
 
     
   }
+
+  onExpandedRowKeysChanged(e: any) {
+    this.expandedRowKeys = e.value;
+  }
+
+  
 }
