@@ -135,3 +135,20 @@
     </nz-table>
   </ng-container>
 </nz-modal>
+
+<dx-tree-list
+  id="file"
+  [dataSource]="files"
+  [rootValue]="-1"
+  keyExpr="id"
+  parentIdExpr="parentId"
+  [showRowLines]="true"
+  [showBorders]="true"
+  [columnAutoWidth]="true"
+  [expandedRowKeys]="[0]"
+>
+  <dxi-column dataField="name" caption="Name"></dxi-column>
+  <dxi-column dataField="path" dataType="Path"></dxi-column>
+  <dxi-column dataField="fileName" dataType="File"></dxi-column>
+</dx-tree-list>
+

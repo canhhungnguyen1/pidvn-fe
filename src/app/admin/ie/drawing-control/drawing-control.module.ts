@@ -24,6 +24,7 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { FormsModule } from '@angular/forms';
 
 import { DxFileUploaderModule } from 'devextreme-angular';
+import { DxTreeListModule } from 'devextreme-angular';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { DxFileUploaderModule } from 'devextreme-angular';
     NzModalModule,
     NzTableModule,
     NzDatePickerModule,
-    DxFileUploaderModule
+    DxFileUploaderModule,
+    DxTreeListModule
   ],
 })
 export class DrawingControlModule {}

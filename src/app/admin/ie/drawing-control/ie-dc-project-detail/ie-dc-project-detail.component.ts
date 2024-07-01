@@ -52,6 +52,92 @@ export class IeDcProjectDetailComponent {
 
 
 
+
+  files = [
+    {
+      id: 1,
+      name: 'TD-17000-0000',
+      parentId: null,
+      rootPath: 'D:\\Project',
+      path:'RE-T0001',
+      fileName: null,
+      type: 'folder'
+    },
+    {
+      id: 2,
+      name: 'TD-17005-0000',
+      parentId: 1,
+      rootPath: 'D:\\Project',
+      path:'RE-T0001\\TD-17000-0000',
+      fileName: null,
+      type: 'folder'
+    },
+    {
+      id: 3,
+      name: 'TD-17005-0100',
+      parentId: 2,
+      rootPath: 'D:\\Project',
+      path:'RE-T0001\\TD-17000-0000\\TD-17005-0100',
+      fileName: null,
+      type: 'folder'
+    },
+    {
+      id: 4,
+      name: 'TD-17005-0101',
+      parentId: 3,
+      rootPath: 'D:\\Project',
+      path:'RE-T0001\\TD-17000-0000\\TD-17005-0100',
+      fileName: 'TD-17005-0101.pdf',
+      type: 'file'
+    },
+    {
+      id: 5,
+      name: 'TD-17005-0102',
+      parentId: 3,
+      rootPath: 'D:\\Project',
+      path:'RE-T0001\\TD-17000-0000\\TD-17005-0100',
+      fileName: 'TD-17005-0102.pdf',
+      type: 'file'
+    },
+    {
+      id: 6,
+      name: 'TD-17005-0103',
+      parentId: 3,
+      rootPath: 'D:\\Project',
+      path:'RE-T0001\\TD-17000-0000\\TD-17005-0100',
+      fileName: 'TD-17005-0103.pdf',
+      type: 'file'
+    },
+    {
+      id: 7,
+      name: 'TD-17005-0104',
+      parentId: 3,
+      rootPath: 'D:\\Project',
+      path:'RE-T0001\\TD-17000-0000\\TD-17005-0100',
+      fileName: 'TD-17005-0104.pdf',
+      type: 'file'
+    },
+    {
+      id: 8,
+      name: 'TD-17005-0105',
+      parentId: 3,
+      rootPath: 'D:\\Project',
+      path:'RE-T0001\\TD-17000-0000\\TD-17005-0100',
+      fileName: 'TD-17005-0105.pdf',
+      type: 'file'
+    },
+    {
+      id: 9,
+      name: 'TD-17005-0106',
+      parentId: 3,
+      rootPath: 'D:\\Project',
+      path:'RE-T0001\\TD-17000-0000\\TD-17005-0100',
+      fileName: 'TD-17005-0106.pdf',
+      type: 'file'
+    }
+  ]
+
+
   isOpenProgressModal: boolean = false
   progressSelected: any;
 

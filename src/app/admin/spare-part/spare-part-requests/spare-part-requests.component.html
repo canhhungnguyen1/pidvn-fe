@@ -49,6 +49,7 @@
   <dxi-column dataField="factoryCode" caption="Factory Code"></dxi-column>
   <dxi-column dataField="factoryName" caption="Factory Name"></dxi-column>
   <dxi-column dataField="createdByName" caption="Người tạo"></dxi-column>
+  <dxi-column dataField="createdBy" caption="Mã nhân viên"></dxi-column>
   <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
 
   <dxi-column
@@ -221,6 +222,11 @@
   nzWidth="100%"
 >
   <ng-container *nzModalContent>
+    <ul style="margin-left: -25px;">
+      <li><label style="font-weight: bold;">Nhà máy:</label> {{sparePartReqSelected.data.factoryName}}</li>
+      <li><label style="font-weight: bold;">Bộ phận:</label> {{sparePartReqSelected.data.subsectionName}}</li>
+      <li><label style="font-weight: bold;">Nhân viên:</label> {{sparePartReqSelected.data.createdByName}} ({{sparePartReqSelected.data.createdBy}})</li>
+    </ul>
     <dx-data-grid
       keyExpr="id"
       #sparePartsReqDetailGrid
@@ -234,8 +240,8 @@
     >
       <dxi-column dataField="partNumber" caption="Part Number"></dxi-column>
       <dxi-column dataField="partName" caption="Part Name"></dxi-column>
-      <dxi-column dataField="requestQty" caption="Request Qty"></dxi-column>
-      <dxi-column dataField="kittingQty" caption="Kitting Qty"></dxi-column>
+      <dxi-column dataField="requestQty" caption="Request Qty (SL request)"></dxi-column>
+      <dxi-column dataField="kittingQty" caption="Kitting Qty (SL xuất kho)"></dxi-column>
     </dx-data-grid>
   </ng-container>
   <ng-template [nzModalFooter]>
