@@ -55,10 +55,18 @@
 
 <hr />
 <div id="printLabel">
-  <table class="calibration-label" *ngFor="let label of labels">
+  <table
+    class="calibration-label"
+    *ngFor="let label of labels"
+    style="width: 3.1cm"
+  >
     <thead>
       <th colSpan="5">
-        <div class="header">VERIFICATION</div>
+        <div
+          [class]="label.by === 'PIDVN' ? 'header-verification' : 'header-standard-measuring'"
+        >
+          {{ label.by === "PIDVN" ? "VERIFICATION" : "STANDARD MEASURING" }}
+        </div>
       </th>
     </thead>
     <tbody>
@@ -68,8 +76,8 @@
           ><span class="value">{{ label.idNo }}</span>
         </td>
         <td style="border-left: 1px solid #ccc">
-          <span class="title">By: </span
-          ><span class="value">{{ label.by }}</span>
+          <span class="title"></span>
+          <span class="value">{{ label.by }}</span>
         </td>
       </tr>
       <tr>

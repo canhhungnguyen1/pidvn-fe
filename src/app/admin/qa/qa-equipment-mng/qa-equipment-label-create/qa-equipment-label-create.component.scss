@@ -7,13 +7,19 @@
     //   border: 1px solid black;
     //   border-collapse: collapse;
     // }
-    font-size: 8px;
+    font-size: 7px;
     float: left;
     margin: 2px;
     width: 150px;
 
-    .header {
+    .header-verification {
         background: red;
+        color: white;
+        print-color-adjust: exact;
+    }
+
+    .header-standard-measuring {
+        background: blue;
         color: white;
         print-color-adjust: exact;
     }
