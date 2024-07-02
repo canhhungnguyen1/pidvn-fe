@@ -65,7 +65,7 @@
         <div
           [class]="label.by === 'PIDVN' ? 'header-verification' : 'header-standard-measuring'"
         >
-          {{ label.by === "PIDVN" ? "VERIFICATION" : "STANDARD MEASURING" }}
+          {{ label.by === "PIDVN" ? "VERIFICATION" : "STANDARD EQUIPMENT" }}
         </div>
       </th>
     </thead>
@@ -76,7 +76,7 @@
           ><span class="value">{{ label.idNo }}</span>
         </td>
         <td style="border-left: 1px solid #ccc">
-          <span class="title"></span>
+          <span class="title">By:</span>
           <span class="value">{{ label.by }}</span>
         </td>
       </tr>

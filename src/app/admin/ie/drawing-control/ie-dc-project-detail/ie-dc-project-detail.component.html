@@ -67,41 +67,9 @@
                   </div>
                 </div>
               </dxi-column>
-
-              <dxo-master-detail [enabled]="true" template="detail">
-              </dxo-master-detail>
-              <div *dxTemplate="let item of 'detail'">
-                <div class="master-detail-caption">
-                  <span>Process: {{ item.data.item }}</span>
-                  <nz-card style="width: 100%">
-                    <p>Card content</p>
-                    <p>Card content</p>
-                    <p>Card content</p>
-                  </nz-card>
-
-                  <dx-tree-list
-                    id="file"
-                    [dataSource]="files"
-                    [rootValue]="-1"
-                    keyExpr="id"
-                    parentIdExpr="parentId"
-                    [showRowLines]="true"
-                    [showBorders]="true"
-                    [columnAutoWidth]="true"
-                    [expandedRowKeys]="expandedRowKeys"
-                    (onExpandedRowKeysChange)="onExpandedRowKeysChanged($event)">
-                  >
-                    <dxi-column dataField="name" caption="Name"></dxi-column>
-                    <dxi-column dataField="path" dataType="Path"></dxi-column>
-                    <dxi-column
-                      dataField="fileName"
-                      dataType="File"
-                    ></dxi-column>
-                  </dx-tree-list>
-                </div>
-              </div>
-            </dx-data-grid> </nz-collapse-panel
-        ></nz-collapse>
+            </dx-data-grid>
+          </nz-collapse-panel></nz-collapse
+        >
       </nz-collapse-panel>
     </nz-collapse>
   </div>
@@ -122,6 +90,14 @@
           [allowColumnResizing]="true"
           [columnAutoWidth]="true"
         >
+          <dxo-toolbar>
+            <dxi-item location="before">
+              <button nz-button nzType="primary">
+                <span nz-icon nzType="plus"></span>
+                Add
+              </button>
+            </dxi-item>
+          </dxo-toolbar>
           <dxi-column dataField="createdAt" caption="Time"></dxi-column>
           <dxi-column dataField="content" caption="Content"></dxi-column>
           <dxi-column dataField="note" caption="Note"></dxi-column>
@@ -192,7 +168,25 @@
         </tr>
         <tr>
           <td>File</td>
-          <td></td>
+          <td>
+            <dx-tree-list
+              id="file"
+              [dataSource]="files"
+              [rootValue]="-1"
+              keyExpr="id"
+              parentIdExpr="parentId"
+              [showRowLines]="true"
+              [showBorders]="true"
+              [columnAutoWidth]="true"
+              [expandedRowKeys]="expandedRowKeys"
+              (onExpandedRowKeysChange)="onExpandedRowKeysChanged($event)"
+            >
+              >
+              <dxi-column dataField="name" caption="Name"></dxi-column>
+              <dxi-column dataField="path" dataType="Path"></dxi-column>
+              <dxi-column dataField="fileName" dataType="File"></dxi-column>
+            </dx-tree-list>
+          </td>
         </tr>
       </tbody>
     </nz-table>
