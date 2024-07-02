@@ -248,7 +248,8 @@ export class AdminComponent implements OnInit {
   eShiftLink!: string;
   pihProcessScannerLinkv2!: string;
   pihPrintLabelLink!: string;
-  uploadFileLink!:string
+  uploadFileLink!:string;
+  stampingDieManagerLink!: string
 
 
    ngOnInit(): void {
@@ -314,6 +315,9 @@ export class AdminComponent implements OnInit {
     this.pihProcessScannerLinkv2 = `${this.baseUrlJavaHttps}/pidvn/pih/pih_process_scaner/pih_process_menu?accessToken=${token2}`
     this.pihPrintLabelLink = `${this.baseUrlJava}/pidvn/pih/pih_print_label/pih_print_label?accessToken=${token2}`
     this.uploadFileLink = `${this.baseUrlJava}/pidvn/common/uploadfile/upload?accessToken=${token2}`
+
+    this.stampingDieManagerLink = `${this.baseUrlJava}/pidvn/vr/stamping/menu?accessToken=${token2}`
+
   }
 
   weatherInfo: any;
