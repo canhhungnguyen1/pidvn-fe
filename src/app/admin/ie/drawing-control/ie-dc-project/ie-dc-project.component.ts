@@ -1,14 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { DrawingControlService } from '../../drawing-control.service';
 
 @Component({
   selector: 'app-ie-dc-project',
   templateUrl: './ie-dc-project.component.html',
   styleUrls: ['./ie-dc-project.component.scss']
 })
-export class IeDcProjectComponent {
+export class IeDcProjectComponent implements OnInit {
   
-  constructor(private router: Router) { }
+  constructor(private router: Router, private drawingControlSvc: DrawingControlService) { }
+
+  ngOnInit(): void {
+    this.getProjects();
+  }
 
   projects = [
     {
@@ -69,4 +74,11 @@ export class IeDcProjectComponent {
     // Xử lý file đã được upload ở đây
   }
 
+  getProjects() {
+    this.drawingControlSvc.getProjects().subscribe(
+      response => {
+        this.projects = response
+      }
+    )
+  }
 }
