@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { DrawingControlService } from '../../drawing-control.service';
+import { DrawingControlService } from '../services/drawing-control.service';
 
 @Component({
   selector: 'app-ie-dc-project',
@@ -15,70 +15,25 @@ export class IeDcProjectComponent implements OnInit {
     this.getProjects();
   }
 
-  projects = [
-    {
-      id: 1,
-      controlNo: 'RE-T0001',
-      projectName: 'PF Coil Supply',
-      projectType: 'Machine',
-      product: 'Relay',
-      createdAt: '2024-06-23',
-      status: 'Extract Drawing',
-      mainPic: 'Nguyễn Cảnh Hưng',
-      process: 85
-    },
-    {
-      id: 2,
-      controlNo: 'RE-T0002',
-      projectName: 'PF Coil Supply',
-      projectType: 'Press MC',
-      product: 'Relay',
-      createdAt: '2024-06-24',
-      status: 'Extract Drawing',
-      mainPic: 'Trần Duy Tùng',
-      process: 60
-    },
-    {
-      id: 3,
-      controlNo: 'RE-T0002',
-      projectName: 'PF Coil Supply',
-      projectType: 'Press MC',
-      product: 'Relay',
-      createdAt: '2024-06-24',
-      status: 'Extract Drawing',
-      mainPic: 'Trần Duy Tùng',
-      process: 100
-    },
-    {
-      id: 4,
-      controlNo: 'RE-T0002',
-      projectName: 'PF Coil Supply',
-      projectType: 'Press MC',
-      product: 'Relay',
-      createdAt: '2024-06-24',
-      status: 'Extract Drawing',
-      mainPic: 'Trần Duy Tùng',
-      process: 0
-    }
-    
-  ]
+  projects = [];
+
+
+  isOpenProjectModal: boolean = false
 
   onRowClick(event: any) {
     let projectId = event.data.id;
     this.router.navigate(['/admin/ie/drawing-control/projects', projectId]);
   }
 
-  onValueChanged(e: any) {
-    const files = e.value;
-    console.log('Uploaded files:', files);
-    // Xử lý file đã được upload ở đây
-  }
-
   getProjects() {
-    this.drawingControlSvc.getProjects().subscribe(
+    this.drawingControlSvc.getProjects({}).subscribe(
       response => {
         this.projects = response
       }
     )
+  }
+
+  openProjectModal(obj: any) {
+    this.isOpenProjectModal = true
   }
 }

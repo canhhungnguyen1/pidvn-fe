@@ -13,7 +13,7 @@ export class DrawingControlService {
   private baseUrl = environment.baseUrl;
 
 
-  public getProjects(): Observable<any> {
-    return this.httpClient.get(`${this.baseUrl}/IE/DrawingManagement/Project`);
+  public getProjects(params: any): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/IE/DrawingManagement/Projects`, params);
   }
 }

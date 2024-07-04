@@ -31,7 +31,7 @@
   <dxo-toolbar>
     <dxi-item location="before">
       <button nz-button nzType="primary">
-        <span nz-icon nzType="plus"></span>
+        <span nz-icon nzType="plus" (click)="openProjectModal(null)"></span>
         New Project
       </button>
     </dxi-item>
@@ -51,11 +51,6 @@
     fixedPosition="right"
   ></dxi-column>
   <div *dxTemplate="let item of 'processTemplate'" style="text-align: center">
-    <!-- <nz-progress [nzPercent]="item.data.process"></nz-progress> -->
-    <!-- <div class="w3-light-grey">
-          <div class="w3-green w3-center" [style.width]="item.data.process+'%'">{{item.data.process}}</div>
-        </div> -->
-
     <div class="w3-light-grey .w3-round-small">
       <div
         class="w3-container w3-green .w3-round-small"
@@ -67,11 +62,11 @@
   </div>
 </dx-data-grid>
 
-<hr />
 
-<dx-file-uploader
-  [multiple]="true"
-  uploadMode="instantly"
-  (onValueChanged)="onValueChanged($event)"
->
-</dx-file-uploader>
+<nz-modal [(nzVisible)]="isOpenProjectModal" nzTitle="The first Modal" >
+  <ng-container *nzModalContent>
+    <p>Content one</p>
+    <p>Content two</p>
+    <p>Content three</p>
+  </ng-container>
+</nz-modal>
