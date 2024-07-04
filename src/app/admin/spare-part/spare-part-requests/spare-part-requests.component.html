@@ -77,18 +77,34 @@
             [allowColumnResizing]="true"
             [columnAutoWidth]="true"
             [rowAlternationEnabled]="true"
-            (onSelectionChanged)="onSelectionChanged($event)"
           >
-            <dxo-selection
+            <!-- <dxo-selection
               [selectAllMode]="'allPages'"
               [showCheckBoxesMode]="'always'"
               mode="multiple"
-            ></dxo-selection>
+            ></dxo-selection> -->
 
             <dxo-filter-row [visible]="true"></dxo-filter-row>
             <dxi-column dataField="partNumber" caption="PartNo"></dxi-column>
             <dxi-column dataField="name" caption="Name"></dxi-column>
             <dxi-column dataField="unit" caption="Unit"></dxi-column>
+            <dxi-column
+              caption="Action"
+              cellTemplate="actionTemplate"
+            ></dxi-column>
+            <div
+              *dxTemplate="let item of 'actionTemplate'"
+              style="text-align: center"
+            >
+
+
+            <button nz-button nzType="default" (click)="addToRequest(item)">
+              Add
+              <span nz-icon nzType="double-right"></span>
+            </button>
+
+            </div>
+
             <dxo-paging [pageSize]="10"></dxo-paging>
             <dxo-pager
               [showPageSizeSelector]="true"
@@ -115,7 +131,7 @@
         <nz-collapse-panel [nzHeader]="'Order list'" [nzActive]="true">
           <dx-data-grid
             #orderedGrid
-            [dataSource]="sparePartSelectedList"
+            [dataSource]="orderListArr"
             [showColumnLines]="true"
             [showRowLines]="true"
             [showBorders]="true"
@@ -190,6 +206,14 @@
             <dxi-column dataField="unit" caption="Unit" [allowEditing]="false">
             </dxi-column>
 
+            <dxi-column
+              caption="Action"
+              cellTemplate="deleteItemTemplate"
+            ></dxi-column>
+            <div *dxTemplate="let item of 'deleteItemTemplate'" style="text-align: center">
+              <a (click)="deleteItemOrderList(item)">Xóa</a>
+            </div>
+
             <dxo-paging [pageSize]="10"></dxo-paging>
             <dxo-pager
               [showPageSizeSelector]="true"
@@ -222,10 +246,21 @@
   nzWidth="100%"
 >
   <ng-container *nzModalContent>
-    <ul style="margin-left: -25px;">
-      <li><label style="font-weight: bold;">Nhà máy:</label> {{sparePartReqSelected.data.factoryName}}</li>
-      <li><label style="font-weight: bold;">Bộ phận:</label> {{sparePartReqSelected.data.subsectionName}}</li>
-      <li><label style="font-weight: bold;">Nhân viên:</label> {{sparePartReqSelected.data.createdByName}} ({{sparePartReqSelected.data.createdBy}})</li>
+    <ul style="margin-left: -25px">
+      <li>
+        <label style="font-weight: bold">Nhà máy:</label>
+        {{ sparePartReqSelected.data.factoryName }}
+      </li>
+      <li>
+        <label style="font-weight: bold">Bộ phận:</label>
+        {{ sparePartReqSelected.data.subsectionName }}
+      </li>
+      <li>
+        <label style="font-weight: bold">Nhân viên:</label>
+        {{ sparePartReqSelected.data.createdByName }} ({{
+          sparePartReqSelected.data.createdBy
+        }})
+      </li>
     </ul>
     <dx-data-grid
       keyExpr="id"
@@ -241,8 +276,14 @@
       <dxi-column dataField="partNumber" caption="Part Number"></dxi-column>
       <dxi-column dataField="partName" caption="Part Name"></dxi-column>
       <dxi-column dataField="unit" caption="Unit"></dxi-column>
-      <dxi-column dataField="requestQty" caption="Request Qty (SL request)"></dxi-column>
-      <dxi-column dataField="kittingQty" caption="Kitting Qty (SL xuất kho)"></dxi-column>
+      <dxi-column
+        dataField="requestQty"
+        caption="Request Qty (SL request)"
+      ></dxi-column>
+      <dxi-column
+        dataField="kittingQty"
+        caption="Kitting Qty (SL xuất kho)"
+      ></dxi-column>
     </dx-data-grid>
   </ng-container>
   <ng-template [nzModalFooter]>
