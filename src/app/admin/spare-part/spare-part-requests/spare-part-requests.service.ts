@@ -31,8 +31,8 @@ export class SparePartRequestsService {
     return this.httpClient.get(`${this.baseUrl}/SparePart/Subsections`);
   }
 
-  getRequests(): Observable<any> {
-    return this.httpClient.get(`${this.baseUrl}/SparePart/SparePartRequestMasters`);
+  getRequests(params: any): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/SparePart/SparePartRequestMasters`, params);
   }
 
   getRequestDetail(requestId: any) : Observable<any> { 

@@ -57,8 +57,10 @@ export class SparePartRequestsComponent implements OnInit {
   orderListSet: any = new Set();
   orderListArr: any;
 
+  requestDate: any = new Date();
   getRequests() {
-    this.sparePartRequestSvc.getRequests().subscribe((response) => {
+    let params = {date: new Date()}
+    this.sparePartRequestSvc.getRequests(params).subscribe((response) => {
       this.requests = response;
     });
   }
@@ -89,12 +91,17 @@ export class SparePartRequestsComponent implements OnInit {
       arr.push(item.key);
     });
 
+    if (arr.length == 0) {
+      this.toastr.warning('Cần chọn part number','Warning')
+      return;
+    }
+
+
+
     /**
      * Xử lý lưu list data
      */
-
     console.log('onSaving: ', arr);
-
     this.sparePartRequestSvc
       .createRequest(arr, this.factorySelected, this.subsectionSelected)
       .subscribe((response) => {
@@ -113,9 +120,10 @@ export class SparePartRequestsComponent implements OnInit {
    */
   closeRequestModal() {
     this.isOpenRequestModal = false;
-    //this.sparePartSelectedList = null;
     this.orderListArr = new Array();
     this.orderListSet = new Set();
+    this.factorySelected = null;
+    this.subsectionSelected = null
   }
 
   openRequestDetailModal(item: any) {
@@ -196,5 +204,15 @@ export class SparePartRequestsComponent implements OnInit {
       }
     }
     this.orderListArr = Array.from(this.orderListSet);
+  }
+
+  onChangeRequestDate(event: any) {
+    console.log('onChangeRequestDate: ',event );
+    
+    let params = {date: event}
+    this.sparePartRequestSvc.getRequests(params).subscribe((response) => {
+      this.requests = response;
+    });
+    
   }
 }

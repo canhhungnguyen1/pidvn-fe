@@ -73,7 +73,7 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
       // Lấy dữ liệu chi tiết request
       this.getRequestDetail(requestId);
 
-      this.sparePartRequestSvc.getRequests().subscribe((response) => {
+      this.sparePartRequestSvc.getRequests({}).subscribe((response) => {
         
         this.request = response.find(
           (item: any) => item.id === Number(requestId)
@@ -401,7 +401,7 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
    */
 
   getSparePartRequestMasters() {
-    this.sparePartRequestSvc.getRequests().subscribe((response) => {
+    this.sparePartRequestSvc.getRequests({}).subscribe((response) => {
       this.sparePartRequestMasters = response;
     });
   }

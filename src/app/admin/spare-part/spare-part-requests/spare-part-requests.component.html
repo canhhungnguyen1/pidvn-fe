@@ -32,8 +32,17 @@
           <span nz-icon nzType="plus"></span>
           Tạo phiếu request
         </button>
+        <nz-date-picker
+          style="height: 33px"
+          *nzSpaceItem
+          [nzSize]="'large'"
+          (ngModelChange)="onChangeRequestDate($event)"
+          nzPlaceHolder="Ngày request"
+          [(ngModel)]="requestDate"
+        ></nz-date-picker>
       </nz-space>
     </dxi-item>
+
     <dxi-item name="exportButton" location="after" />
     <dxi-item name="columnChooserButton" location="after"></dxi-item>
   </dxo-toolbar>
@@ -96,13 +105,10 @@
               *dxTemplate="let item of 'actionTemplate'"
               style="text-align: center"
             >
-
-
-            <button nz-button nzType="default" (click)="addToRequest(item)">
-              Add
-              <span nz-icon nzType="double-right"></span>
-            </button>
-
+              <button nz-button nzType="default" (click)="addToRequest(item)">
+                Add
+                <span nz-icon nzType="double-right"></span>
+              </button>
             </div>
 
             <dxo-paging [pageSize]="10"></dxo-paging>
@@ -210,7 +216,10 @@
               caption="Action"
               cellTemplate="deleteItemTemplate"
             ></dxi-column>
-            <div *dxTemplate="let item of 'deleteItemTemplate'" style="text-align: center">
+            <div
+              *dxTemplate="let item of 'deleteItemTemplate'"
+              style="text-align: center"
+            >
               <a (click)="deleteItemOrderList(item)">Xóa</a>
             </div>
 
