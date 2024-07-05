@@ -22,8 +22,8 @@ export class HrMealMngService {
    * Thực hiện call api để lưu trữ dữ liệu timesheet từ PVG database về FDCS database
    * @returns 
    */
-  public timesheetConfirm(): Observable<any> {
-    return this.httpClient.post(`${this.baseUrl}/HR/Meal/TimesheetConfirm`, null);
+  public timesheetConfirm(table: string): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/HR/Meal/TimesheetConfirm?table=${table}`, null);
   }
 
   

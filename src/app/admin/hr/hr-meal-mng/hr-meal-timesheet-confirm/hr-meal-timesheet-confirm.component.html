@@ -1,7 +1,6 @@
 <nz-collapse>
   <nz-collapse-panel nzHeader="Panel" [nzActive]="true" [nzShowArrow]="true">
-    <nz-space>
-      <button
+    <!-- <button
         *nzSpaceItem
         nz-button
         nzType="primary"
@@ -9,9 +8,20 @@
         [nzLoading]="isLoadingTimeSheetConfirm"
       >
         Xác nhận time sheet
-      </button>
-      <button *nzSpaceItem nz-button nzType="default">Upload trợ cấp</button>
-    </nz-space>
+      </button> -->
+
+    <button
+      style="margin-right: 5px;"
+      *ngFor="let item of items; let i = index"
+      nz-button
+      nzType="primary"
+      (click)="timesheetConfirm(i, item)"
+      [nzLoading]="item.isLoading"
+    >
+      Lấy data: {{item.label}}
+    </button>
+
+    <!-- <button *nzSpaceItem nz-button nzType="default">Upload trợ cấp</button> -->
   </nz-collapse-panel>
 </nz-collapse>
 

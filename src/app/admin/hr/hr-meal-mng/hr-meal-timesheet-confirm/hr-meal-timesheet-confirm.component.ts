@@ -21,21 +21,67 @@ export class HrMealTimesheetConfirmComponent implements OnInit {
   couponsBalance: any
   date = null;
 
+
+
+
+  isLoading: boolean[] = [false, false, false, false];
+
+  items = [
+    {
+      label: 'Attendance',
+      table: 'attendance',
+      isLoading: false
+    },
+    {
+      label: 'OT',
+      table: 'overtime',
+      isLoading: false
+    },
+    {
+      label: 'MealRecord',
+      table: 'meal_record',
+      isLoading: false
+    },
+    {
+      label: 'Leave Day',
+      table: 'leave_day',
+      isLoading: false
+    }
+  ]
+
+  timesheetConfirm(index: number, item: any): void {
+    this.items[index].isLoading = true;
+    this.hrMealMngSvc.timesheetConfirm(item.table).subscribe(
+      response => {
+        console.log('DATA: ', response);
+        this.items[index].isLoading = false;
+      },
+      error => {
+        console.error('ERROR: ', error);
+        this.items[index].isLoading = false;
+      }
+    )
+  }
+
+
+
+
+
   ngOnInit(): void {}
 
-  timesheetConfirm() {
-    this.isLoadingTimeSheetConfirm = true;
-    this.hrMealMngSvc.timesheetConfirm().subscribe(
-      (response) => {
-        console.log('DATA: ', response);
-        this.isLoadingTimeSheetConfirm = false;
-      },
-      (error) => {
-        console.error('ERROR: ', error);
-        this.isLoadingTimeSheetConfirm = false;
-      }
-    );
-  }
+  // timesheetConfirm() {
+  //   this.isLoadingTimeSheetConfirm = true;
+  //   this.hrMealMngSvc.timesheetConfirm().subscribe(
+  //     (response) => {
+  //       console.log('DATA: ', response);
+  //       this.isLoadingTimeSheetConfirm = false;
+  //     },
+  //     (error) => {
+  //       console.error('ERROR: ', error);
+  //       this.isLoadingTimeSheetConfirm = false;
+  //     }
+  //   );
+  // }
 
   getCouponsBalance() {
     this.hrMealMngSvc.getBalance(this.date).subscribe(
