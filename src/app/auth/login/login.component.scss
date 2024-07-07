@@ -411,3 +411,9 @@ form.sign-in-form {
   font-style: normal;
   text-decoration: underline;
 }
+
+
+.moving-button {
+  cursor: pointer;
+  transition: transform 0.15s;
+}

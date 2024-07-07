@@ -124,4 +124,25 @@ export class LoginComponent implements OnInit {
   togglePassword() {
     this.isShowPassword = !this.isShowPassword;
   }
+
+
+
+  /**
+   * Test di chuyển button login
+   */
+
+  isMoved = false;
+
+  moveButton() {
+    const button = document.querySelector('.moving-button') as HTMLElement;
+
+    if (!this.isMoved) {
+      const moveButton = -0.041 * (window.innerWidth - button.clientWidth);
+      button.style.transform = `translateY(${moveButton}px)`;
+      this.isMoved = true;
+    } else {
+      button.style.transform = 'translateY(0)';
+      this.isMoved = false;
+    }
+  }
 }
