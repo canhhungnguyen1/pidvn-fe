@@ -125,11 +125,9 @@
           <td>{{ progressSelected.content }}</td>
           <td>Tiến độ</td>
           <td>
-            <nz-progress
-              [nzPercent]="progressSelected.progress"
-              [nzSteps]="10"
-              nzStrokeColor="#1890ff"
-            ></nz-progress>
+            <nz-input-group nzSuffix="%" style="max-width: 150px;">
+              <input type="number" nz-input min="0" max="100" [(ngModel)]="progressSelected.progress"/>
+            </nz-input-group>
           </td>
         </tr>
         <tr>
@@ -188,7 +186,7 @@
               [expandedRowKeys]="expandedRowKeys"
               (onExpandedRowKeysChange)="onExpandedRowKeysChanged($event)"
             >
-              >
+              
               <dxi-column dataField="name" caption="Name"></dxi-column>
               <dxi-column dataField="path" dataType="Path"></dxi-column>
               <dxi-column dataField="fileName" dataType="File"></dxi-column>

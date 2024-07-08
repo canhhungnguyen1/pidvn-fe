@@ -135,6 +135,7 @@ export class VrEncPRInsertComponent implements OnInit, AfterViewInit {
   }
 
   scanLabel(event: any) {
+    debugger
     this.labelIpt.nativeElement.select();
     if (!this.process) {
       this.lotErrMsg = 'Bạn cần chọn công đoạn trước khi scan tem NVL';
