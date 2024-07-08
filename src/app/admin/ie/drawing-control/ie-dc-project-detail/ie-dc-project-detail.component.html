@@ -123,40 +123,6 @@
         <tr>
           <td>Nội dung</td>
           <td>{{ progressSelected.content }}</td>
-        </tr>
-        <tr>
-          <td>Start Plant</td>
-          <td>
-            <nz-date-picker
-              [(ngModel)]="progressSelected.startPlan"
-            ></nz-date-picker>
-          </td>
-        </tr>
-        <tr>
-          <td>End Plant</td>
-          <td>
-            <nz-date-picker
-              [(ngModel)]="progressSelected.endPlan"
-            ></nz-date-picker>
-          </td>
-        </tr>
-        <tr>
-          <td>Start Act</td>
-          <td>
-            <nz-date-picker
-              [(ngModel)]="progressSelected.startAction"
-            ></nz-date-picker>
-          </td>
-        </tr>
-        <tr>
-          <td>End Act</td>
-          <td>
-            <nz-date-picker
-              [(ngModel)]="progressSelected.endAction"
-            ></nz-date-picker>
-          </td>
-        </tr>
-        <tr>
           <td>Tiến độ</td>
           <td>
             <nz-progress
@@ -166,6 +132,47 @@
             ></nz-progress>
           </td>
         </tr>
+        <tr>
+          <td>Start Plant</td>
+          <td>
+            <nz-date-picker
+              [(ngModel)]="progressSelected.startPlan"
+            ></nz-date-picker>
+          </td>
+          <td>End Plant</td>
+          <td>
+            <nz-date-picker
+              [(ngModel)]="progressSelected.endPlan"
+            ></nz-date-picker>
+          </td>
+        </tr>
+
+        <tr>
+          <td>Start Act</td>
+          <td>
+            <nz-date-picker
+              [(ngModel)]="progressSelected.startAction"
+            ></nz-date-picker>
+          </td>
+          <td>End Act</td>
+          <td>
+            <nz-date-picker
+              [(ngModel)]="progressSelected.endAction"
+            ></nz-date-picker>
+          </td>
+        </tr>
+       
+        
+      </tbody>
+    </nz-table>
+
+    <nz-table
+      [nzData]="['']"
+      nzSize="small"
+      nzBordered
+      nzFrontPagination="false"
+    >
+      <tbody>
         <tr>
           <td>File</td>
           <td>

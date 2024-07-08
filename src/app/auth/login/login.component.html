@@ -16,7 +16,7 @@
           />
         </div>
         <div class="input-field">
-          <i nz-icon [nzType]=" isShowPassword ? 'eye' : 'eye-invisible'" (click)="togglePassword()" ></i>
+          <i nz-icon [nzType]=" isShowPassword ? 'eye' : 'eye-invisible'" ></i>
           <input
             #passwordIpt
             [type]="isShowPassword ? 'text' : 'password'"
@@ -26,6 +26,7 @@
             title="Username is invalid"
             [ngModelOptions]="{ standalone: true }"
             (keydown.enter)="login()"
+            autocomplete="off"
           />
         </div>
         <div>
@@ -43,7 +44,6 @@
           <a class="login2" href="http://10.92.176.57:4201" style="margin-right: 10px;">Main Server</a>| 
           <a class="login2" href="http://10.92.177.230:4201" style="margin-right: 10px;">Test Server</a>|
           <br />
-          
         </div>
 
         
