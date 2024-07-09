@@ -309,7 +309,7 @@ export class AdminComponent implements OnInit {
     this.quanLyBaiKiemTraLink = `${this.baseUrlJava}/pidvn/ma/exam/action?accessToken=${token2}`
     this.dangKyLamBaiKiemTraLink = `${this.baseUrlJava}/pidvn/ma/exam/register?accessToken=${token2}`
     this.traceDataLink = `${this.baseUrlJava}/pidvn/ma/trace/trace_data?accessToken=${token2}`
-    this.traceDataDetailLink = `${this.baseUrlJava}/pidvn/ma/trace/trace_data_detail?accessToken=${token2}`
+    this.traceDataDetailLink = `${this.baseUrlJava}/pidvn/ma/trace/trace_data_detail?lot=''&accessToken=${token2}`
     this.traceDataPcLink = `${this.baseUrlJava}/pidvn/ma/trace/trace_datapc?accessToken=${token2}`
     this.ePurchaseLink =`${this.baseUrlJava}/pidvn/pur/purchase/menu?accessToken=${token2}`
     this.pihProcessScannerLinkv2 = `${this.baseUrlJavaHttps}/pidvn/pih/pih_process_scaner/pih_process_menu?accessToken=${token2}`
