@@ -6,13 +6,28 @@
         [nzActive]="true"
         [nzShowArrow]="true"
       >
-        <nz-card style="width: 100%">
-          <p>Card content</p>
-          <p>Card content</p>
-          <p>Card content</p>
-        </nz-card>
-
-        <br />
+        <!-- <nz-card style="width: 100%"></nz-card> -->
+        <nz-table
+          [nzData]="['']"
+          nzSize="small"
+          nzBordered
+          nzFrontPagination="false"
+        >
+          <tbody>
+            <tr>
+              <td><label>Project Name</label></td>
+              <td>AAA</td>
+              <td><label>Project Type</label></td>
+              <td>AAA</td>
+            </tr>
+            <tr>
+              <td><label>Date created</label></td>
+              <td>AAA</td>
+              <td><label>Date revise</label></td>
+              <td>AAA</td>
+            </tr>
+          </tbody>
+        </nz-table>
 
         <nz-collapse>
           <nz-collapse-panel
@@ -92,7 +107,7 @@
         >
           <dxo-toolbar>
             <dxi-item location="before">
-              <button nz-button nzType="primary">
+              <button nz-button nzType="primary" (click)="isOpenActivityModal = true">
                 <span nz-icon nzType="plus"></span>
                 Add
               </button>
@@ -125,8 +140,14 @@
           <td>{{ progressSelected.content }}</td>
           <td>Tiến độ</td>
           <td>
-            <nz-input-group nzSuffix="%" style="max-width: 150px;">
-              <input type="number" nz-input min="0" max="100" [(ngModel)]="progressSelected.progress"/>
+            <nz-input-group nzSuffix="%" style="max-width: 150px">
+              <input
+                type="number"
+                nz-input
+                min="0"
+                max="100"
+                [(ngModel)]="progressSelected.progress"
+              />
             </nz-input-group>
           </td>
         </tr>
@@ -159,8 +180,6 @@
             ></nz-date-picker>
           </td>
         </tr>
-       
-        
       </tbody>
     </nz-table>
 
@@ -186,7 +205,6 @@
               [expandedRowKeys]="expandedRowKeys"
               (onExpandedRowKeysChange)="onExpandedRowKeysChanged($event)"
             >
-              
               <dxi-column dataField="name" caption="Name"></dxi-column>
               <dxi-column dataField="path" dataType="Path"></dxi-column>
               <dxi-column dataField="fileName" dataType="File"></dxi-column>
@@ -195,5 +213,17 @@
         </tr>
       </tbody>
     </nz-table>
+  </ng-container>
+</nz-modal>
+
+
+
+
+<nz-modal
+  [(nzVisible)]="isOpenActivityModal"
+  [nzTitle]="'Project Activity'"
+>
+  <ng-container *nzModalContent>
+    
   </ng-container>
 </nz-modal>

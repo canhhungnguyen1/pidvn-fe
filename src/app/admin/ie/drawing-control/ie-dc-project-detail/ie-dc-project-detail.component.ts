@@ -33,6 +33,46 @@ export class IeDcProjectDetailComponent implements OnInit {
       endAction: '',
       progress: 85,
     },
+    {
+      id: 3,
+      item: 'Drawing',
+      content: 'Xuất bản vẽ',
+      startPlan: '2024-03-25',
+      endPlan: '2024-03-26',
+      startAction: '2024-03-25',
+      endAction: '',
+      progress: 85,
+    },
+    {
+      id: 4,
+      item: 'PO',
+      content: 'Xin báo giá',
+      startPlan: '2024-03-25',
+      endPlan: '2024-03-26',
+      startAction: '2024-03-25',
+      endAction: '',
+      progress: 90,
+    },
+    {
+      id: 5,
+      item: 'Processing',
+      content: 'Gia công',
+      startPlan: '2024-03-25',
+      endPlan: '2024-03-26',
+      startAction: '2024-03-25',
+      endAction: '',
+      progress: 0,
+    },
+    {
+      id: 6,
+      item: 'Setup',
+      content: 'Setup',
+      startPlan: '2024-03-25',
+      endPlan: '2024-03-26',
+      startAction: '2024-03-25',
+      endAction: '',
+      progress: 0,
+    },
   ];
 
   activities = [
@@ -163,5 +203,7 @@ export class IeDcProjectDetailComponent implements OnInit {
     this.expandedRowKeys = e.value;
   }
 
+
+  isOpenActivityModal: boolean = false;
   
 }
