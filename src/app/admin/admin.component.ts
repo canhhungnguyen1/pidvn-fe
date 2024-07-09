@@ -243,6 +243,11 @@ export class AdminComponent implements OnInit {
   traceDataLink!: string;
   traceDataDetailLink!: string
   traceDataPcLink!:string
+  traceDataXuoi!:string
+  traceDataNguoc!:string
+
+
+
   ePurchaseLink!: string
   eOTLink!: string;
   eShiftLink!: string;
@@ -311,6 +316,11 @@ export class AdminComponent implements OnInit {
     this.traceDataLink = `${this.baseUrlJava}/pidvn/ma/trace/trace_data?accessToken=${token2}`
     this.traceDataDetailLink = `${this.baseUrlJava}/pidvn/ma/trace/trace_data_detail?lot=''&accessToken=${token2}`
     this.traceDataPcLink = `${this.baseUrlJava}/pidvn/ma/trace/trace_datapc?accessToken=${token2}`
+    this.traceDataXuoi = `${this.baseUrlJava}/pidvn/report?name=Rep_Truy_vet_xuoi`
+    this.traceDataNguoc = `${this.baseUrlJava}/pidvn/report?name=Rep_Truy_vet_nguoc`
+
+
+
     this.ePurchaseLink =`${this.baseUrlJava}/pidvn/pur/purchase/menu?accessToken=${token2}`
     this.pihProcessScannerLinkv2 = `${this.baseUrlJavaHttps}/pidvn/pih/pih_process_scaner/pih_process_menu?accessToken=${token2}`
     this.pihPrintLabelLink = `${this.baseUrlJava}/pidvn/pih/pih_print_label/pih_print_label?accessToken=${token2}`

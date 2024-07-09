@@ -59,7 +59,7 @@
         <ul>
           <li nz-menu-item nzMatchRouter>
             <a [href]="traceDataLink" target="blank" (click)="onHideSidebar()">
-              Trace Data</a
+              Truy vết dữ liệu</a
             >
           </li>
           <li nz-menu-item nzMatchRouter>
@@ -68,7 +68,7 @@
               target="blank"
               (click)="onHideSidebar()"
             >
-              Trace Data Detail</a
+              Truy vết chi tiết</a
             >
           </li>
           <li nz-menu-item nzMatchRouter>
@@ -77,7 +77,25 @@
               target="blank"
               (click)="onHideSidebar()"
             >
-              Trace Data Children Parent</a
+            Truy vết cha con</a
+            >
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a
+              [href]="traceDataXuoi"
+              target="blank"
+              (click)="onHideSidebar()"
+            >
+            Truy vết xuôi</a
+            >
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a
+              [href]="traceDataNguoc"
+              target="blank"
+              (click)="onHideSidebar()"
+            >
+            Truy vết ngược</a
             >
           </li>
         </ul>

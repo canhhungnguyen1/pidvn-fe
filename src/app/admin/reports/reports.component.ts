@@ -40,7 +40,7 @@ export class ReportsComponent {
 
     let roles = this.jwt.Roles;
 
-    if (sectionCode == event.code || roles.includes('super_admin')) {
+    if (sectionCode == event.code || roles.includes('super_admin') || roles.includes('view_all_report')) {
       this.sectionSelected = event.code;
       console.log(this.sectionSelected);
       this.getDynamicReport(this.sectionSelected);
