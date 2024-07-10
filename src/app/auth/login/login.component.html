@@ -31,10 +31,10 @@
         </div>
         <div>
           <input
-            *ngIf="!isLoading"
             type="button"
             value="Đăng nhập"
             class="btn solid moving-button"
+            [ngClass]="{'rotate': isLoading}"
             (click)="login()"
           />
           <a style="margin-left: 10px;" [routerLink]="['../../auth/forgot-password']">Quên mật khẩu</a>
@@ -44,8 +44,6 @@
           <a class="login2" href="http://10.92.177.230:4201" style="margin-right: 10px;">Test Server</a>|
           <br />
         </div>
-
-        
 
         <nz-spin *ngIf="isLoading" nzSimple [nzSize]="'large'"></nz-spin>
       </form>

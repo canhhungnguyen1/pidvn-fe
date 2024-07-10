@@ -148,7 +148,7 @@ export class SparePartRequestsComponent implements OnInit {
         const data = window.URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = data;
-        link.download = `RequestDetail.xlsm`;
+        link.download = `RequestDetail.xlsx`;
         link.dispatchEvent(
           new MouseEvent('click', {
             bubbles: true,

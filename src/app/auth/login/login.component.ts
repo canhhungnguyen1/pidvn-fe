@@ -126,23 +126,4 @@ export class LoginComponent implements OnInit {
   }
 
 
-
-  /**
-   * Test di chuyển button login
-   */
-
-  isMoved = false;
-
-  moveButton() {
-    const button = document.querySelector('.moving-button') as HTMLElement;
-
-    if (!this.isMoved) {
-      const moveButton = 0.24 * (window.innerWidth - button.clientWidth);
-      button.style.transform = `translateX(${moveButton}px)`;
-      this.isMoved = true;
-    } else {
-      button.style.transform = 'translateX(0)';
-      this.isMoved = false;
-    }
-  }
 }
