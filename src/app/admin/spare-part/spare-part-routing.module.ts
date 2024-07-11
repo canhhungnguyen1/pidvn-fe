@@ -17,7 +17,10 @@ const routes: Routes = [
   },
   {
     path: 'spare-parts',
-    component: SparePartsComponent
+    component: SparePartsComponent,
+    data: {
+      roles: ['super_admin', 'Pur WH 1', 'Pur WH 2'], // user bên WH mới vào được màn hình này
+    }
   },
   {
     path: 'spare-part-in-out',

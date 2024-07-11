@@ -126,6 +126,8 @@
   [(nzVisible)]="isOpenProgressModal"
   [nzTitle]="'Progress: ' + progressSelected?.item"
   nzWidth="100%"
+  [nzFooter]="modalFooter"
+  (nzOnCancel)="isOpenProgressModal = false"
 >
   <ng-container *nzModalContent>
     <nz-table
@@ -214,6 +216,9 @@
       </tbody>
     </nz-table>
   </ng-container>
+  <ng-template #modalFooter>
+    <button nz-button nzType="default" (click)="isOpenProgressModal = false">Đóng</button>
+  </ng-template>
 </nz-modal>
 
 
@@ -224,6 +229,26 @@
   [nzTitle]="'Project Activity'"
 >
   <ng-container *nzModalContent>
-    
+    <nz-table
+      [nzData]="['']"
+      nzSize="small"
+      nzBordered
+      nzFrontPagination="false"
+    >
+    <tbody>
+      <tr>
+        <td>Content</td>
+        <td>
+          <input nz-input placeholder="Content"/>
+        </td>
+      </tr>
+      <tr>
+        <td>Note</td>
+        <td>
+          <textarea rows="3" nz-input></textarea>
+        </td>
+      </tr>
+    </tbody>
+    </nz-table>
   </ng-container>
 </nz-modal>
