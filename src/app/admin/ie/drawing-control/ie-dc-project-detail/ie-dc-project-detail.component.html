@@ -107,7 +107,11 @@
         >
           <dxo-toolbar>
             <dxi-item location="before">
-              <button nz-button nzType="primary" (click)="isOpenActivityModal = true">
+              <button
+                nz-button
+                nzType="primary"
+                (click)="isOpenActivityModal = true"
+              >
                 <span nz-icon nzType="plus"></span>
                 Add
               </button>
@@ -192,7 +196,7 @@
       nzFrontPagination="false"
     >
       <tbody>
-        <tr>
+        <!-- <tr>
           <td>File</td>
           <td>
             <dx-tree-list
@@ -212,22 +216,59 @@
               <dxi-column dataField="fileName" dataType="File"></dxi-column>
             </dx-tree-list>
           </td>
+        </tr> -->
+
+        <tr>
+          <td>File</td>
+          <td>
+            <dx-tree-list
+              id="employees"
+              [dataSource]="employees"
+              [rootValue]="-1"
+              keyExpr="ID"
+              parentIdExpr="Head_ID"
+              [showRowLines]="true"
+              [showBorders]="true"
+              [columnAutoWidth]="true"
+              [expandedRowKeys]="[1]"
+            >
+              <dxo-editing
+                [allowUpdating]="true"
+                [allowAdding]="true"
+                mode="popup"
+              >
+                <dxo-form labelLocation="top">
+                  <dxi-item dataField="Title"></dxi-item>
+                  <dxi-item dataField="Full_Name"></dxi-item>
+                  <dxi-item dataField="City"></dxi-item>
+                  <dxi-item dataField="State"></dxi-item>
+                  <dxi-item dataField="Mobile_Phone"></dxi-item>
+                  <dxi-item dataField="Hire_Date"></dxi-item>
+                </dxo-form>
+                <dxo-popup [showTitle]="true" title="Row in the editing state">
+                </dxo-popup>
+              </dxo-editing>
+
+              <dxi-column dataField="Title" caption="Position"></dxi-column>
+              <dxi-column dataField="Full_Name"></dxi-column>
+              <dxi-column dataField="City"></dxi-column>
+              <dxi-column dataField="State"></dxi-column>
+              <dxi-column dataField="Mobile_Phone"></dxi-column>
+              <dxi-column dataField="Hire_Date" dataType="date"></dxi-column>
+            </dx-tree-list>
+          </td>
         </tr>
       </tbody>
     </nz-table>
   </ng-container>
   <ng-template #modalFooter>
-    <button nz-button nzType="default" (click)="isOpenProgressModal = false">Đóng</button>
+    <button nz-button nzType="default" (click)="isOpenProgressModal = false">
+      Đóng
+    </button>
   </ng-template>
 </nz-modal>
 
-
-
-
-<nz-modal
-  [(nzVisible)]="isOpenActivityModal"
-  [nzTitle]="'Project Activity'"
->
+<nz-modal [(nzVisible)]="isOpenActivityModal" [nzTitle]="'Project Activity'">
   <ng-container *nzModalContent>
     <nz-table
       [nzData]="['']"
@@ -235,20 +276,20 @@
       nzBordered
       nzFrontPagination="false"
     >
-    <tbody>
-      <tr>
-        <td>Content</td>
-        <td>
-          <input nz-input placeholder="Content"/>
-        </td>
-      </tr>
-      <tr>
-        <td>Note</td>
-        <td>
-          <textarea rows="3" nz-input></textarea>
-        </td>
-      </tr>
-    </tbody>
+      <tbody>
+        <tr>
+          <td>Content</td>
+          <td>
+            <input nz-input placeholder="Content" />
+          </td>
+        </tr>
+        <tr>
+          <td>Note</td>
+          <td>
+            <textarea rows="3" nz-input></textarea>
+          </td>
+        </tr>
+      </tbody>
     </nz-table>
   </ng-container>
 </nz-modal>
