@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
+import { DrawingControlService } from '../services/drawing-control.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-ie-dc-project-detail',
@@ -7,10 +8,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./ie-dc-project-detail.component.scss'],
 })
 export class IeDcProjectDetailComponent implements OnInit {
+  constructor(
+    private drawingControlSvc: DrawingControlService,
+    private activatedRoute: ActivatedRoute
+  ) {}
 
   ngOnInit() {
-    // Mở tất cả các hàng khi khởi tạo
-    this.expandedRowKeys = this.items.map(item => item.id);
+    
   }
 
   items = [
@@ -93,244 +97,226 @@ export class IeDcProjectDetailComponent implements OnInit {
       id: 3,
       createdAt: '2024-06-25',
       content: 'Investment',
-      note: 'So sánh giá các bên'
+      note: 'So sánh giá các bên',
     },
   ];
 
-
-
+  drawings = [];
 
   files = [
     {
       id: 1,
-      name: 'TD-17000-0000',
       parentId: null,
-      rootPath: 'D:\\Project',
-      path:'RE-T0001',
-      fileName: null,
-      type: 'folder'
+      drawingNo: 'TD-17000-00000',
+      drawingName: 'TB1 Line No 3',
+      qty: 1,
+      unit: 'Line',
+      material: '',
+      hardness: '',
+      polishing: '',
+      supplier: '',
+      remark: '',
     },
     {
       id: 2,
-      name: 'TD-17005-0000',
       parentId: 1,
-      rootPath: 'D:\\Project',
-      path:'RE-T0001\\TD-17000-0000',
-      fileName: null,
-      type: 'folder'
+      drawingNo: 'TD-17005-00000',
+      drawingName: 'Coil Yoke Ironcore Supply',
+      qty: 1,
+      unit: 'Machine',
+      material: '',
+      hardness: '',
+      polishing: '',
+      supplier: '',
+      remark: '',
     },
     {
       id: 3,
-      name: 'TD-17005-0100',
       parentId: 2,
-      rootPath: 'D:\\Project',
-      path:'RE-T0001\\TD-17000-0000\\TD-17005-0100',
-      fileName: null,
-      type: 'folder'
+      drawingNo: 'TD-17005-01000',
+      drawingName: 'Cylinder Holding Coil, Yoke Insert',
+      qty: 1,
+      unit: 'Block',
+      material: '',
+      hardness: '',
+      polishing: '',
+      supplier: '',
+      remark: '',
     },
     {
       id: 4,
-      name: 'TD-17005-0101',
       parentId: 3,
-      rootPath: 'D:\\Project',
-      path:'RE-T0001\\TD-17000-0000\\TD-17005-0100',
-      fileName: 'TD-17005-0101.pdf',
-      type: 'file'
+      drawingNo: 'TD-17005-01001',
+      drawingName: 'Yoke insert section rail A',
+      qty: 1,
+      unit: 'Pcs',
+      material: 'S50C',
+      hardness: 'HRC 56-58',
+      polishing: 'Chrome Plating',
+      supplier: '',
+      remark: '',
     },
     {
       id: 5,
-      name: 'TD-17005-0102',
       parentId: 3,
-      rootPath: 'D:\\Project',
-      path:'RE-T0001\\TD-17000-0000\\TD-17005-0100',
-      fileName: 'TD-17005-0102.pdf',
-      type: 'file'
+      drawingNo: 'TD-17005-01002',
+      drawingName: 'Yoke insert section rail B',
+      qty: 1,
+      unit: 'Pcs',
+      material: 'S50C',
+      hardness: 'HRC 56-58',
+      polishing: 'Chrome Plating',
+      supplier: '',
+      remark: '',
     },
     {
       id: 6,
-      name: 'TD-17005-0103',
       parentId: 3,
-      rootPath: 'D:\\Project',
-      path:'RE-T0001\\TD-17000-0000\\TD-17005-0100',
-      fileName: 'TD-17005-0103.pdf',
-      type: 'file'
+      drawingNo: 'TD-17005-01003',
+      drawingName: 'Yoke insert section rail C',
+      qty: 1,
+      unit: 'Pcs',
+      material: 'S50C',
+      hardness: 'HRC 56-58',
+      polishing: 'Chrome Plating',
+      supplier: '',
+      remark: '',
     },
     {
       id: 7,
-      name: 'TD-17005-0104',
       parentId: 3,
-      rootPath: 'D:\\Project',
-      path:'RE-T0001\\TD-17000-0000\\TD-17005-0100',
-      fileName: 'TD-17005-0104.pdf',
-      type: 'file'
+      drawingNo: 'TD-17005-01004',
+      drawingName: 'Yoke insert section rail D',
+      qty: 1,
+      unit: 'Pcs',
+      material: 'S50C',
+      hardness: 'HRC 56-58',
+      polishing: 'Chrome Plating',
+      supplier: '',
+      remark: '',
     },
     {
       id: 8,
-      name: 'TD-17005-0105',
       parentId: 3,
-      rootPath: 'D:\\Project',
-      path:'RE-T0001\\TD-17000-0000\\TD-17005-0100',
-      fileName: 'TD-17005-0105.pdf',
-      type: 'file'
+      drawingNo: 'TD-17005-01005',
+      drawingName: 'Yoke insert section rail E',
+      qty: 1,
+      unit: 'Pcs',
+      material: 'S50C',
+      hardness: 'HRC 56-58',
+      polishing: 'Chrome Plating',
+      supplier: '',
+      remark: '',
     },
     {
       id: 9,
-      name: 'TD-17005-0106',
-      parentId: 3,
-      rootPath: 'D:\\Project',
-      path:'RE-T0001\\TD-17000-0000\\TD-17005-0100',
-      fileName: 'TD-17005-0106.pdf',
-      type: 'file'
-    }
-  ]
+      parentId: 2,
+      drawingNo: 'TD-17005-02000',
+      drawingName: 'Feeder Section',
+      qty: 1,
+      unit: 'Block',
+      material: '',
+      hardness: '',
+      polishing: '',
+      supplier: '',
+      remark: '',
+    },
+    {
+      id: 10,
+      parentId: 9,
+      drawingNo: 'TD-17005-02001',
+      drawingName: 'Coil feeder rail A',
+      qty: 1,
+      unit: 'Pcs',
+      material: '',
+      hardness: '',
+      polishing: '',
+      supplier: '',
+      remark: '',
+    },
+    {
+      id: 11,
+      parentId: 9,
+      drawingNo: 'TD-17005-02002',
+      drawingName: 'Coil feeder rail B',
+      qty: 1,
+      unit: 'Pcs',
+      material: '',
+      hardness: '',
+      polishing: '',
+      supplier: '',
+      remark: '',
+    },
+  ];
 
-
-  isOpenProgressModal: boolean = false
+  isOpenProgressModal: boolean = false;
   progressSelected: any;
 
+  expandedRowKeys: number[] = [];
 
-  expandedRowKeys: number[] = []
-
-  onRowClick(event: any) {
+  onRowClickProgress(event: any) {
     console.log('onRowClick: ', event.data);
     
-    this.progressSelected = event.data
-    this.isOpenProgressModal = true
+    this.progressSelected = event.data;
 
-    
+
+    let projectId = Number(this.activatedRoute.snapshot.paramMap.get('id'))
+    let progressId = this.progressSelected.id
+
+    this.drawingControlSvc.getIeDrawings(projectId, progressId).subscribe(
+      response => {
+        console.log('List Drawings: ', response);
+        this.drawings = response
+
+        // Mở tất cả các hàng khi khởi tạo
+        this.expandedRowKeys = this.drawings.map((item:any) => item.id);
+      }
+    )
+
+    this.isOpenProgressModal = true;
   }
 
   onExpandedRowKeysChanged(e: any) {
     this.expandedRowKeys = e.value;
   }
 
-
   isOpenActivityModal: boolean = false;
-  
 
-
-
-
-
-
-
-  onSaveClick(data: any) {
-    // Xử lý lưu dữ liệu
-    alert('Save button clicked');
-    // Thêm logic để lưu dữ liệu tại đây
+  onSavingDrawing(e: any) {
+    // const info = e.changes[0];
+    // console.log('onSavingDrawing: ', info);
+    // let obj = {
+    //   id: info.key,
+    //   parentId: info.data.parentId
+    // }
+    // console.log('obj: ', obj);
   }
 
-  onCancelClick() {
-    // Xử lý hủy bỏ
-    alert('Cancel button clicked');
-    // Thêm logic để hủy bỏ tại đây
+  onSavedDrawing(e: any) {
+    
+
+
+    let projectId = Number(this.activatedRoute.snapshot.paramMap.get('id'))
+    let progressId = this.progressSelected.id
+    const info = e.changes[0].data;
+    let obj = {
+      id: info.id,
+      parentId: info.parentId == -1 ? null : info.parentId,
+      drawingNo: info.drawingNo,
+      drawingName: info.drawingName,
+      qty: info.qty,
+      polishing: info.polishing,
+      hardness: info.hardness,
+      unit: info.unit,
+      projectId: projectId,
+      progressId: progressId
+    };
+
+    console.log(obj);
+    
+
+    this.drawingControlSvc.saveDrawing(obj).subscribe((response) => {
+      console.log('saveDrawing: ', response);
+    });
   }
-
-
-employees = [
-  {
-    ID: 1,
-    Head_ID: -1,
-    Full_Name: 'John Heart',
-    Prefix: 'Mr.',
-    Title: 'CEO',
-    City: 'Los Angeles',
-    State: 'California',
-    Email: 'jheart@dx-email.com',
-    Skype: 'jheart_DX_skype',
-    Mobile_Phone: '(213) 555-9392',
-    Birth_Date: '1964-03-16',
-    Hire_Date: '1995-01-15',
-  }, {
-    ID: 2,
-    Head_ID: 1,
-    Full_Name: 'Samantha Bright',
-    Prefix: 'Dr.',
-    Title: 'COO',
-    City: 'Los Angeles',
-    State: 'California',
-    Email: 'samanthab@dx-email.com',
-    Skype: 'samanthab_DX_skype',
-    Mobile_Phone: '(213) 555-2858',
-    Birth_Date: '1966-05-02',
-    Hire_Date: '2004-05-24',
-  }, {
-    ID: 3,
-    Head_ID: 1,
-    Full_Name: 'Arthur Miller',
-    Prefix: 'Mr.',
-    Title: 'CTO',
-    City: 'Denver',
-    State: 'Colorado',
-    Email: 'arthurm@dx-email.com',
-    Skype: 'arthurm_DX_skype',
-    Mobile_Phone: '(310) 555-8583',
-    Birth_Date: '1972-07-11',
-    Hire_Date: '2007-12-18',
-  }, {
-    ID: 4,
-    Head_ID: 1,
-    Full_Name: 'Robert Reagan',
-    Prefix: 'Mr.',
-    Title: 'CMO',
-    City: 'Bentonville',
-    State: 'Arkansas',
-    Email: 'robertr@dx-email.com',
-    Skype: 'robertr_DX_skype',
-    Mobile_Phone: '(818) 555-2387',
-    Birth_Date: '1974-09-07',
-    Hire_Date: '2002-11-08',
-  }, {
-    ID: 5,
-    Head_ID: 1,
-    Full_Name: 'Greta Sims',
-    Prefix: 'Ms.',
-    Title: 'HR Manager',
-    City: 'Atlanta',
-    State: 'Georgia',
-    Email: 'gretas@dx-email.com',
-    Skype: 'gretas_DX_skype',
-    Mobile_Phone: '(818) 555-6546',
-    Birth_Date: '1977-11-22',
-    Hire_Date: '1998-04-23',
-  }, {
-    ID: 6,
-    Head_ID: 3,
-    Full_Name: 'Brett Wade',
-    Prefix: 'Mr.',
-    Title: 'IT Manager',
-    City: 'Reno',
-    State: 'Nevada',
-    Email: 'brettw@dx-email.com',
-    Skype: 'brettw_DX_skype',
-    Mobile_Phone: '(626) 555-0358',
-    Birth_Date: '1968-12-01',
-    Hire_Date: '2009-03-06',
-  }, {
-    ID: 7,
-    Head_ID: 5,
-    Full_Name: 'Sandra Johnson',
-    Prefix: 'Mrs.',
-    Title: 'Controller',
-    City: 'Beaver',
-    State: 'Utah',
-    Email: 'sandraj@dx-email.com',
-    Skype: 'sandraj_DX_skype',
-    Mobile_Phone: '(562) 555-2082',
-    Birth_Date: '1974-11-15',
-    Hire_Date: '2005-05-11',
-  }, {
-    ID: 8,
-    Head_ID: 4,
-    Full_Name: 'Ed Holmes',
-    Prefix: 'Dr.',
-    Title: 'Sales Manager',
-    City: 'Malibu',
-    State: 'California',
-    Email: 'edwardh@dx-email.com',
-    Skype: 'edwardh_DX_skype',
-    Mobile_Phone: '(310) 555-1288',
-    Birth_Date: '1973-07-14',
-    Hire_Date: '2005-06-19',
-  }]
 }

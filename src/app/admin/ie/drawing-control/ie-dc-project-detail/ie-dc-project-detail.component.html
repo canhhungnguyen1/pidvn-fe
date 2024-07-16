@@ -8,6 +8,7 @@
       >
         <!-- <nz-card style="width: 100%"></nz-card> -->
         <nz-table
+          id="project-info"
           [nzData]="['']"
           nzSize="small"
           nzBordered
@@ -16,7 +17,7 @@
           <tbody>
             <tr>
               <td><label>Project Name</label></td>
-              <td>AAA</td>
+              <td>PF Coil Supply</td>
               <td><label>Project Type</label></td>
               <td>AAA</td>
             </tr>
@@ -44,7 +45,7 @@
               [showBorders]="true"
               [allowColumnResizing]="true"
               [columnAutoWidth]="true"
-              (onRowClick)="onRowClick($event)"
+              (onRowClick)="onRowClickProgress($event)"
             >
               <dxi-column dataField="item" caption="Process"></dxi-column>
               <dxi-column dataField="content" caption="Content"></dxi-column>
@@ -135,6 +136,7 @@
 >
   <ng-container *nzModalContent>
     <nz-table
+      id="project-progress"
       [nzData]="['']"
       nzSize="small"
       nzBordered
@@ -142,9 +144,9 @@
     >
       <tbody>
         <tr>
-          <td>Nội dung</td>
+          <td><label>Nội dung</label></td>
           <td>{{ progressSelected.content }}</td>
-          <td>Tiến độ</td>
+          <td><label>Tiến độ</label></td>
           <td>
             <nz-input-group nzSuffix="%" style="max-width: 150px">
               <input
@@ -158,13 +160,13 @@
           </td>
         </tr>
         <tr>
-          <td>Start Plant</td>
+          <td><label>Start Plant</label></td>
           <td>
             <nz-date-picker
               [(ngModel)]="progressSelected.startPlan"
             ></nz-date-picker>
           </td>
-          <td>End Plant</td>
+          <td><label>End Plant</label></td>
           <td>
             <nz-date-picker
               [(ngModel)]="progressSelected.endPlan"
@@ -173,13 +175,13 @@
         </tr>
 
         <tr>
-          <td>Start Act</td>
+          <td><label>Start Act</label></td>
           <td>
             <nz-date-picker
               [(ngModel)]="progressSelected.startAction"
             ></nz-date-picker>
           </td>
-          <td>End Act</td>
+          <td><label>End Act</label></td>
           <td>
             <nz-date-picker
               [(ngModel)]="progressSelected.endAction"
@@ -222,39 +224,49 @@
           <td>File</td>
           <td>
             <dx-tree-list
-              id="employees"
-              [dataSource]="employees"
+              #treeList
+              [dataSource]="drawings"
               [rootValue]="-1"
-              keyExpr="ID"
-              parentIdExpr="Head_ID"
+              keyExpr="id"
+              parentIdExpr="parentId"
               [showRowLines]="true"
               [showBorders]="true"
               [columnAutoWidth]="true"
-              [expandedRowKeys]="[1]"
+              [expandedRowKeys]="expandedRowKeys"
+              (onSaving)="onSavingDrawing($event)"
+              (onSaved)="onSavedDrawing($event)"
             >
               <dxo-editing
+                mode="popup"
                 [allowUpdating]="true"
                 [allowAdding]="true"
-                mode="popup"
+                [allowDeleting]="true"
               >
-                <dxo-form labelLocation="top">
-                  <dxi-item dataField="Title"></dxi-item>
-                  <dxi-item dataField="Full_Name"></dxi-item>
-                  <dxi-item dataField="City"></dxi-item>
-                  <dxi-item dataField="State"></dxi-item>
-                  <dxi-item dataField="Mobile_Phone"></dxi-item>
-                  <dxi-item dataField="Hire_Date"></dxi-item>
-                </dxo-form>
-                <dxo-popup [showTitle]="true" title="Row in the editing state">
+                <dxo-popup
+                  title="Drawing Information"
+                  [showTitle]="true"
+                  [width]="800"
+                >
                 </dxo-popup>
               </dxo-editing>
 
-              <dxi-column dataField="Title" caption="Position"></dxi-column>
-              <dxi-column dataField="Full_Name"></dxi-column>
-              <dxi-column dataField="City"></dxi-column>
-              <dxi-column dataField="State"></dxi-column>
-              <dxi-column dataField="Mobile_Phone"></dxi-column>
-              <dxi-column dataField="Hire_Date" dataType="date"></dxi-column>
+              <dxi-column
+                dataField="drawingNo"
+                caption="Drawing No"
+              ></dxi-column>
+              <dxi-column
+                dataField="drawingName"
+                caption="Drawing name"
+              ></dxi-column>
+              <dxi-column dataField="qty" caption="Qty"></dxi-column>
+
+              <dxi-column dataField="unit" caption="Unit"></dxi-column>
+              <dxi-column dataField="material" caption="Material"></dxi-column>
+              <dxi-column dataField="hardness" caption="Hardness"></dxi-column>
+              <dxi-column
+                dataField="polishing"
+                caption="Polishing"
+              ></dxi-column>
             </dx-tree-list>
           </td>
         </tr>

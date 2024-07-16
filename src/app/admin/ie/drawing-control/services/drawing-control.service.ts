@@ -16,4 +16,13 @@ export class DrawingControlService {
   public getProjects(params: any): Observable<any> {
     return this.httpClient.post(`${this.baseUrl}/IE/DrawingManagement/Projects`, params);
   }
+
+  public saveDrawing(params: any): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/IE/DrawingManagement/Drawing`, params);
+  }
+
+  public getIeDrawings(projectId: number, progressId: number): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/IE/DrawingManagement/Drawings?projectId=${projectId}&progressId=${progressId}`);
+  }
+
 }
