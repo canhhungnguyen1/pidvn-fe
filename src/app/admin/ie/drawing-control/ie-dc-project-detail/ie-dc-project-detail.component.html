@@ -235,7 +235,9 @@
               [expandedRowKeys]="expandedRowKeys"
               (onSaving)="onSavingDrawing($event)"
               (onSaved)="onSavedDrawing($event)"
+              (onCellClick)="onCellClick($event)"
             >
+              <dxo-filter-row [visible]="false"></dxo-filter-row>
               <dxo-editing
                 mode="popup"
                 [allowUpdating]="true"

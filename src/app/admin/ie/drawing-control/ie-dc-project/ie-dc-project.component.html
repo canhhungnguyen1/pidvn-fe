@@ -30,15 +30,15 @@
 
   <dxo-toolbar>
     <dxi-item location="before">
-      <button nz-button nzType="primary">
-        <span nz-icon nzType="plus" (click)="openProjectModal(null)"></span>
+      <button nz-button nzType="primary" (click)="openProjectModal(null)">
+        <span nz-icon nzType="plus"></span>
         New Project
       </button>
     </dxi-item>
   </dxo-toolbar>
 
   <dxi-column dataField="controlNo" caption="Control No"></dxi-column>
-  <dxi-column dataField="name" caption="Project Name"></dxi-column>
+  <dxi-column dataField="projectName" caption="Project Name"></dxi-column>
   <dxi-column dataField="projectTypeName" caption="Project Type"></dxi-column>
   <dxi-column dataField="product" caption="Product"></dxi-column>
   <dxi-column dataField="createdAt" caption="Created Date"></dxi-column>
@@ -62,11 +62,48 @@
   </div>
 </dx-data-grid>
 
-
-<nz-modal [(nzVisible)]="isOpenProjectModal" nzTitle="The first Modal" >
+<nz-modal [(nzVisible)]="isOpenProjectModal" nzTitle="Project">
   <ng-container *nzModalContent>
-    <p>Content one</p>
-    <p>Content two</p>
-    <p>Content three</p>
+    <nz-table
+      [nzData]="['']"
+      nzSize="small"
+      nzBordered
+      nzFrontPagination="false"
+    >
+      <tbody>
+        <tr>
+          <td><label>Control No</label></td>
+          <td>
+            <input nz-input placeholder="Control No" [(ngModel)]="projectSelected.controlNo" />
+          </td>
+        </tr>
+        <tr>
+          <td><label>Project Name</label></td>
+          <td>
+            <input nz-input placeholder="Project Name" [(ngModel)]="projectSelected.projectName" />
+          </td>
+        </tr>
+        <tr>
+          <td><label>Project Type</label></td>
+          <td>
+            <nz-select
+              nzPlaceHolder="Project Type"
+              style="width: 100%;"
+              [(ngModel)]="projectSelected.projectTypeId"
+            >
+              <nz-option
+                *ngFor="let type of projectTypes"
+                [nzValue]="type.id"
+                [nzLabel]="type.name"
+              >
+              </nz-option>
+            </nz-select>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
   </ng-container>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="onSaveProject()">Save</button>
+  </div>
 </nz-modal>

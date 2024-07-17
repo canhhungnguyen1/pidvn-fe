@@ -305,9 +305,10 @@ export class IeDcProjectDetailComponent implements OnInit {
       drawingNo: info.drawingNo,
       drawingName: info.drawingName,
       qty: info.qty,
+      unit: info.unit,
+      material: info.material,
       polishing: info.polishing,
       hardness: info.hardness,
-      unit: info.unit,
       projectId: projectId,
       progressId: progressId
     };
@@ -318,5 +319,40 @@ export class IeDcProjectDetailComponent implements OnInit {
     this.drawingControlSvc.saveDrawing(obj).subscribe((response) => {
       console.log('saveDrawing: ', response);
     });
+  }
+
+
+
+
+  viewFile(item:any) {
+    console.log('viewFile: ', item.data);
+    
+  }
+
+  onCellClick(event: any) {
+    let dataField = event.column.dataField;
+
+    
+
+    console.log(event.data);
+    
+
+    if (dataField === "drawingName" ) {
+
+      let rootURL = `D:\\Workspace\\ProjectManagement\\Project\\RE-T0001\\Drawing\\${event.data.drawingNo}.pdf`;
+      let params = {url: rootURL}
+      
+      this.drawingControlSvc.previewDrawing(params).subscribe(
+        response => {
+        let file = new Blob([response], { type: 'application/pdf' });
+        var fileURL = URL.createObjectURL(file);
+        window.open(fileURL);
+        }
+      )
+      
+
+    }
+
+
   }
 }

@@ -13,9 +13,12 @@ export class IeDcProjectComponent implements OnInit {
 
   ngOnInit(): void {
     this.getProjects();
+    this.getIeProjectTypes();
   }
 
-  projects = [];
+  projectSelected: any = {}
+  projects:any;
+  projectTypes: any;
 
 
   isOpenProjectModal: boolean = false
@@ -33,7 +36,26 @@ export class IeDcProjectComponent implements OnInit {
     )
   }
 
+  getIeProjectTypes() {
+    this.drawingControlSvc.getIeProjectTypes().subscribe(
+      response => {
+        this.projectTypes = response
+      }
+    )
+  }
+
   openProjectModal(obj: any) {
     this.isOpenProjectModal = true
+    console.log('openProjectModal');
+  }
+
+  onSaveProject() {
+    this.drawingControlSvc.saveProject(this.projectSelected).subscribe(
+      response => {
+        this.isOpenProjectModal = false
+        this.getProjects()
+      }
+    )
+    
   }
 }

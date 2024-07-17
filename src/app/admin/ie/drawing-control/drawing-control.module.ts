@@ -28,6 +28,7 @@ import { DxTreeListModule } from 'devextreme-angular';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 @NgModule({
   declarations: [
     DrawingControlComponent,
@@ -56,7 +57,8 @@ import { NzInputModule } from 'ng-zorro-antd/input';
     DxTreeListModule,
     NzDividerModule,
     NzCardModule,
-    NzInputModule
+    NzInputModule,
+    NzSelectModule
   ],
 })
 export class DrawingControlModule {}
