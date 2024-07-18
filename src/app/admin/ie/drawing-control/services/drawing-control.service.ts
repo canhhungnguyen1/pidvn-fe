@@ -13,8 +13,21 @@ export class DrawingControlService {
   private baseUrl = environment.baseUrl;
 
 
+  public getIeProjectById(id: number) : Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/IE/DrawingManagement/Project/${id}`); 
+  }
+
   public getProjects(params: any): Observable<any> {
     return this.httpClient.post(`${this.baseUrl}/IE/DrawingManagement/Projects`, params);
+  }
+
+  /**
+   * Lấy các process theo project
+   * @param params 
+   * @returns 
+   */
+  public getProgressByProject(param: any): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/IE/DrawingManagement/ProgressByProject`,param);
   }
 
   public saveProject(params: any): Observable<any> {

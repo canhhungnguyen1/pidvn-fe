@@ -317,7 +317,7 @@ export class AdminComponent implements OnInit {
     this.traceDataDetailLink = `${this.baseUrlJava}/pidvn/ma/trace/trace_data_detail?lot=''&accessToken=${token2}`
     this.traceDataPcLink = `${this.baseUrlJava}/pidvn/ma/trace/trace_datapc?accessToken=${token2}`
     this.traceDataXuoi = `${this.baseUrlJava}/pidvn/report?name=Rep_Truy_vet_xuoi`
-    this.traceDataNguoc = `${this.baseUrlJava}/pidvn/report?name=Rep_Truy_vet_nguoc`
+    this.traceDataNguoc = `${this.baseUrlJava}/pidvn/ma/trace/trace_data_reverse?accessToken=${token2}`
 
 
 

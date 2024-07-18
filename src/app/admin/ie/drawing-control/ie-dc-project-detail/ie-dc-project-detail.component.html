@@ -2,7 +2,7 @@
   <div nz-col nzXs="16" nzSm="16" nzMd="16" nzLg="16">
     <nz-collapse>
       <nz-collapse-panel
-        [nzHeader]="'Project: RE-T0001'"
+        [nzHeader]="project?.controlNo"
         [nzActive]="true"
         [nzShowArrow]="true"
       >
@@ -17,13 +17,13 @@
           <tbody>
             <tr>
               <td><label>Project Name</label></td>
-              <td>PF Coil Supply</td>
+              <td>{{project?.projectName}}</td>
               <td><label>Project Type</label></td>
               <td>AAA</td>
             </tr>
             <tr>
               <td><label>Date created</label></td>
-              <td>AAA</td>
+              <td>{{project?.createdAt | date: "yyyy-MM-dd HH:mm"}}</td>
               <td><label>Date revise</label></td>
               <td>AAA</td>
             </tr>
@@ -39,7 +39,7 @@
             <dx-data-grid
               keyExpr="id"
               #projectGrid
-              [dataSource]="items"
+              [dataSource]="progress"
               [showColumnLines]="true"
               [showRowLines]="true"
               [showBorders]="true"
@@ -47,11 +47,13 @@
               [columnAutoWidth]="true"
               (onRowClick)="onRowClickProgress($event)"
             >
-              <dxi-column dataField="item" caption="Process"></dxi-column>
-              <dxi-column dataField="content" caption="Content"></dxi-column>
+              <dxi-column dataField="progressId" caption="Progress Id"></dxi-column>
+              <dxi-column dataField="progressName" caption="Progress Name"></dxi-column>
               <dxi-column
                 dataField="startPlan"
                 caption="Start Plan"
+                dataType="date"
+                format="yyyy-MM-dd"
               ></dxi-column>
               <dxi-column dataField="endPlan" caption="End Plan"></dxi-column>
               <dxi-column
@@ -76,9 +78,9 @@
                   <div class="w3-light-grey .w3-round-small">
                     <div
                       class="w3-container w3-green .w3-round-small"
-                      [style.width]="item.data.progress + '%'"
+                      [style.width]="item.data.progress == null ? 0 : item.data.progress + '%'"
                     >
-                      {{ item.data.progress }}%
+                      {{ item.data.progress == null ? 0 : item.data.progress }}%
                     </div>
                   </div>
                 </div>
@@ -198,28 +200,6 @@
       nzFrontPagination="false"
     >
       <tbody>
-        <!-- <tr>
-          <td>File</td>
-          <td>
-            <dx-tree-list
-              id="file"
-              [dataSource]="files"
-              [rootValue]="-1"
-              keyExpr="id"
-              parentIdExpr="parentId"
-              [showRowLines]="true"
-              [showBorders]="true"
-              [columnAutoWidth]="true"
-              [expandedRowKeys]="expandedRowKeys"
-              (onExpandedRowKeysChange)="onExpandedRowKeysChanged($event)"
-            >
-              <dxi-column dataField="name" caption="Name"></dxi-column>
-              <dxi-column dataField="path" dataType="Path"></dxi-column>
-              <dxi-column dataField="fileName" dataType="File"></dxi-column>
-            </dx-tree-list>
-          </td>
-        </tr> -->
-
         <tr>
           <td>File</td>
           <td>

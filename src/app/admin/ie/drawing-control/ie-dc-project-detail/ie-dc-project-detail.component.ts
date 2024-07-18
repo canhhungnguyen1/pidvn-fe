@@ -14,10 +14,12 @@ export class IeDcProjectDetailComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    
+    this.getIeProjectById();
   }
 
-  items = [
+  project: any;
+
+  progress = [
     {
       id: 1,
       item: 'Disscusing',
@@ -103,157 +105,45 @@ export class IeDcProjectDetailComponent implements OnInit {
 
   drawings = [];
 
-  files = [
-    {
-      id: 1,
-      parentId: null,
-      drawingNo: 'TD-17000-00000',
-      drawingName: 'TB1 Line No 3',
-      qty: 1,
-      unit: 'Line',
-      material: '',
-      hardness: '',
-      polishing: '',
-      supplier: '',
-      remark: '',
-    },
-    {
-      id: 2,
-      parentId: 1,
-      drawingNo: 'TD-17005-00000',
-      drawingName: 'Coil Yoke Ironcore Supply',
-      qty: 1,
-      unit: 'Machine',
-      material: '',
-      hardness: '',
-      polishing: '',
-      supplier: '',
-      remark: '',
-    },
-    {
-      id: 3,
-      parentId: 2,
-      drawingNo: 'TD-17005-01000',
-      drawingName: 'Cylinder Holding Coil, Yoke Insert',
-      qty: 1,
-      unit: 'Block',
-      material: '',
-      hardness: '',
-      polishing: '',
-      supplier: '',
-      remark: '',
-    },
-    {
-      id: 4,
-      parentId: 3,
-      drawingNo: 'TD-17005-01001',
-      drawingName: 'Yoke insert section rail A',
-      qty: 1,
-      unit: 'Pcs',
-      material: 'S50C',
-      hardness: 'HRC 56-58',
-      polishing: 'Chrome Plating',
-      supplier: '',
-      remark: '',
-    },
-    {
-      id: 5,
-      parentId: 3,
-      drawingNo: 'TD-17005-01002',
-      drawingName: 'Yoke insert section rail B',
-      qty: 1,
-      unit: 'Pcs',
-      material: 'S50C',
-      hardness: 'HRC 56-58',
-      polishing: 'Chrome Plating',
-      supplier: '',
-      remark: '',
-    },
-    {
-      id: 6,
-      parentId: 3,
-      drawingNo: 'TD-17005-01003',
-      drawingName: 'Yoke insert section rail C',
-      qty: 1,
-      unit: 'Pcs',
-      material: 'S50C',
-      hardness: 'HRC 56-58',
-      polishing: 'Chrome Plating',
-      supplier: '',
-      remark: '',
-    },
-    {
-      id: 7,
-      parentId: 3,
-      drawingNo: 'TD-17005-01004',
-      drawingName: 'Yoke insert section rail D',
-      qty: 1,
-      unit: 'Pcs',
-      material: 'S50C',
-      hardness: 'HRC 56-58',
-      polishing: 'Chrome Plating',
-      supplier: '',
-      remark: '',
-    },
-    {
-      id: 8,
-      parentId: 3,
-      drawingNo: 'TD-17005-01005',
-      drawingName: 'Yoke insert section rail E',
-      qty: 1,
-      unit: 'Pcs',
-      material: 'S50C',
-      hardness: 'HRC 56-58',
-      polishing: 'Chrome Plating',
-      supplier: '',
-      remark: '',
-    },
-    {
-      id: 9,
-      parentId: 2,
-      drawingNo: 'TD-17005-02000',
-      drawingName: 'Feeder Section',
-      qty: 1,
-      unit: 'Block',
-      material: '',
-      hardness: '',
-      polishing: '',
-      supplier: '',
-      remark: '',
-    },
-    {
-      id: 10,
-      parentId: 9,
-      drawingNo: 'TD-17005-02001',
-      drawingName: 'Coil feeder rail A',
-      qty: 1,
-      unit: 'Pcs',
-      material: '',
-      hardness: '',
-      polishing: '',
-      supplier: '',
-      remark: '',
-    },
-    {
-      id: 11,
-      parentId: 9,
-      drawingNo: 'TD-17005-02002',
-      drawingName: 'Coil feeder rail B',
-      qty: 1,
-      unit: 'Pcs',
-      material: '',
-      hardness: '',
-      polishing: '',
-      supplier: '',
-      remark: '',
-    },
-  ];
-
   isOpenProgressModal: boolean = false;
   progressSelected: any;
 
   expandedRowKeys: number[] = [];
 
+  getIeProjectById() {
+    let projectId = Number(this.activatedRoute.snapshot.paramMap.get('id'))
+    this.drawingControlSvc.getIeProjectById(projectId).subscribe(
+      response => {
+        this.project = response;
+        this.getProgressByProject();
+      }
+    )
+  }
+
+
+
+  /**
+   * Lấy danh sách các progress
+   */
+  getProgressByProject() {
+
+    let param = {
+      projectId: this.project?.id,
+      projectTypeId: this.project?.projectTypeId
+    }
+
+    this.drawingControlSvc.getProgressByProject(param).subscribe(
+      response => {
+        this.progress = response
+      }
+    )
+       
+  }
+
+  /**
+   * Xử lý khi click vào progress
+   * @param event 
+   */
   onRowClickProgress(event: any) {
     console.log('onRowClick: ', event.data);
     
@@ -261,7 +151,7 @@ export class IeDcProjectDetailComponent implements OnInit {
 
 
     let projectId = Number(this.activatedRoute.snapshot.paramMap.get('id'))
-    let progressId = this.progressSelected.id
+    let progressId = this.progressSelected.progressId
 
     this.drawingControlSvc.getIeDrawings(projectId, progressId).subscribe(
       response => {
@@ -310,7 +200,8 @@ export class IeDcProjectDetailComponent implements OnInit {
       polishing: info.polishing,
       hardness: info.hardness,
       projectId: projectId,
-      progressId: progressId
+      progressId: progressId,
+      createdAt: info.createdAt
     };
 
     console.log(obj);
