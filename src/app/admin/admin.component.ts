@@ -245,7 +245,7 @@ export class AdminComponent implements OnInit {
   traceDataPcLink!:string
   traceDataXuoi!:string
   traceDataNguoc!:string
-
+  traceDataTheoLoSXPIH!:string
 
 
   ePurchaseLink!: string
@@ -255,7 +255,7 @@ export class AdminComponent implements OnInit {
   pihPrintLabelLink!: string;
   uploadFileLink!:string;
   stampingDieManagerLink!: string
-
+  editEmailLink!: string;
 
    ngOnInit(): void {
     let accessToken = localStorage.getItem('accessToken');
@@ -318,7 +318,7 @@ export class AdminComponent implements OnInit {
     this.traceDataPcLink = `${this.baseUrlJava}/pidvn/ma/trace/trace_datapc?accessToken=${token2}`
     this.traceDataXuoi = `${this.baseUrlJava}/pidvn/report?name=Rep_Truy_vet_xuoi`
     this.traceDataNguoc = `${this.baseUrlJava}/pidvn/ma/trace/trace_data_reverse?accessToken=${token2}`
-
+    this.traceDataTheoLoSXPIH = `https://10.92.176.57:8080/tracebacks.structure`
 
 
     this.ePurchaseLink =`${this.baseUrlJava}/pidvn/pur/purchase/menu?accessToken=${token2}`
@@ -327,7 +327,7 @@ export class AdminComponent implements OnInit {
     this.uploadFileLink = `${this.baseUrlJava}/pidvn/common/uploadfile/upload?accessToken=${token2}`
 
     this.stampingDieManagerLink = `${this.baseUrlJava}/pidvn/vr/stamping/menu?accessToken=${token2}`
-
+    this.editEmailLink = `${this.baseUrlJava}/pidvn/hr/admin/action?accessToken=${token2}`
   }
 
   weatherInfo: any;

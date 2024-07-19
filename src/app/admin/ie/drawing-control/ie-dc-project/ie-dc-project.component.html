@@ -44,22 +44,6 @@
   <dxi-column dataField="createdAt" caption="Created Date"></dxi-column>
   <dxi-column dataField="status" caption="Status"></dxi-column>
   <dxi-column dataField="mainPic" caption="Main P.I.C"></dxi-column>
-  <dxi-column
-    caption="Process"
-    cellTemplate="processTemplate"
-    [fixed]="true"
-    fixedPosition="right"
-  ></dxi-column>
-  <div *dxTemplate="let item of 'processTemplate'" style="text-align: center">
-    <div class="w3-light-grey .w3-round-small">
-      <div
-        class="w3-container w3-green .w3-round-small"
-        [style.width]="item.data.process + '%'"
-      >
-        {{ item.data.process }}%
-      </div>
-    </div>
-  </div>
 </dx-data-grid>
 
 <nz-modal [(nzVisible)]="isOpenProjectModal" nzTitle="Project">

@@ -71,7 +71,7 @@
               Truy vết chi tiết</a
             >
           </li>
-          <li nz-menu-item nzMatchRouter>
+          <!-- <li nz-menu-item nzMatchRouter>
             <a
               [href]="traceDataPcLink"
               target="blank"
@@ -79,7 +79,7 @@
             >
             Truy vết cha con</a
             >
-          </li>
+          </li> -->
           <li nz-menu-item nzMatchRouter>
             <a
               [href]="traceDataXuoi"
@@ -96,6 +96,15 @@
               (click)="onHideSidebar()"
             >
             Truy vết ngược</a
+            >
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a
+              [href]="traceDataTheoLoSXPIH"
+              target="blank"
+              (click)="onHideSidebar()"
+            >
+            Truy vết theo lô sản xuất (PIH)</a
             >
           </li>
         </ul>
@@ -415,6 +424,10 @@
             <a routerLink="/admin/hr/hr-emp-mng/menu" (click)="onHideSidebar()"
               >Dữ liệu nhân viên</a
             >
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <i nz-icon nzType="mail"></i>
+            <span><a [href]="editEmailLink" target="blank">Chỉnh sửa email</a></span>
           </li>
           <li nz-submenu nzTitle="Quản lý chất thải">
             <ul>

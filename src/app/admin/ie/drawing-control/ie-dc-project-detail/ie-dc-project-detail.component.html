@@ -2,7 +2,7 @@
   <div nz-col nzXs="16" nzSm="16" nzMd="16" nzLg="16">
     <nz-collapse>
       <nz-collapse-panel
-        [nzHeader]="project?.controlNo"
+        [nzHeader]="'Project:' + project?.controlNo"
         [nzActive]="true"
         [nzShowArrow]="true"
       >
@@ -17,15 +17,27 @@
           <tbody>
             <tr>
               <td><label>Project Name</label></td>
-              <td>{{project?.projectName}}</td>
+              <td>{{ project?.projectName }}</td>
               <td><label>Project Type</label></td>
-              <td>AAA</td>
+              <td>New MC design</td>
+              <td><label>Supplier</label></td>
+              <td>Osco</td>
             </tr>
             <tr>
               <td><label>Date created</label></td>
-              <td>{{project?.createdAt | date: "yyyy-MM-dd HH:mm"}}</td>
-              <td><label>Date revise</label></td>
-              <td>AAA</td>
+              <td>{{ project?.createdAt | date : "yyyy-MM-dd HH:mm" }}</td>
+              <td><label>Model</label></td>
+              <td>Relay</td>
+              <td><label>Pospose</label></td>
+              <td>Design by PIDVN to reduce investments</td>
+            </tr>
+            <tr>
+              <td><label>Line</label></td>
+              <td>PF Line no 01</td>
+              <td><label>Tacttime</label></td>
+              <td>0.9s/pcs</td>
+              <td><label>Cappacity</label></td>
+              <td></td>
             </tr>
           </tbody>
         </nz-table>
@@ -47,22 +59,37 @@
               [columnAutoWidth]="true"
               (onRowClick)="onRowClickProgress($event)"
             >
-              <dxi-column dataField="progressId" caption="Progress Id"></dxi-column>
-              <dxi-column dataField="progressName" caption="Progress Name"></dxi-column>
+              <dxi-column
+                dataField="progressId"
+                caption="Progress Id"
+              ></dxi-column>
+              <dxi-column
+                dataField="progressName"
+                caption="Progress Name"
+              ></dxi-column>
               <dxi-column
                 dataField="startPlan"
                 caption="Start Plan"
                 dataType="date"
                 format="yyyy-MM-dd"
               ></dxi-column>
-              <dxi-column dataField="endPlan" caption="End Plan"></dxi-column>
+              <dxi-column
+                dataField="endPlan"
+                caption="End Plan"
+                dataType="date"
+                format="yyyy-MM-dd"
+              ></dxi-column>
               <dxi-column
                 dataField="startAction"
                 caption="Start Action"
+                dataType="date"
+                format="yyyy-MM-dd"
               ></dxi-column>
               <dxi-column
                 dataField="endAction"
                 caption="End Action"
+                dataType="date"
+                format="yyyy-MM-dd"
               ></dxi-column>
 
               <dxi-column
@@ -78,7 +105,11 @@
                   <div class="w3-light-grey .w3-round-small">
                     <div
                       class="w3-container w3-green .w3-round-small"
-                      [style.width]="item.data.progress == null ? 0 : item.data.progress + '%'"
+                      [style.width]="
+                        item.data.progress == null
+                          ? 0
+                          : item.data.progress + '%'
+                      "
                     >
                       {{ item.data.progress == null ? 0 : item.data.progress }}%
                     </div>
@@ -131,7 +162,7 @@
 
 <nz-modal
   [(nzVisible)]="isOpenProgressModal"
-  [nzTitle]="'Progress: ' + progressSelected?.item"
+  [nzTitle]="'Progress: ' + progressSelected?.progressName"
   nzWidth="100%"
   [nzFooter]="modalFooter"
   (nzOnCancel)="isOpenProgressModal = false"
@@ -146,8 +177,6 @@
     >
       <tbody>
         <tr>
-          <td><label>Nội dung</label></td>
-          <td>{{ progressSelected.content }}</td>
           <td><label>Tiến độ</label></td>
           <td>
             <nz-input-group nzSuffix="%" style="max-width: 150px">
@@ -160,8 +189,6 @@
               />
             </nz-input-group>
           </td>
-        </tr>
-        <tr>
           <td><label>Start Plant</label></td>
           <td>
             <nz-date-picker
@@ -174,9 +201,6 @@
               [(ngModel)]="progressSelected.endPlan"
             ></nz-date-picker>
           </td>
-        </tr>
-
-        <tr>
           <td><label>Start Act</label></td>
           <td>
             <nz-date-picker
