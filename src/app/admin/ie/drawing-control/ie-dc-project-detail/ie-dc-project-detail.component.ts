@@ -3,6 +3,7 @@ import { DrawingControlService } from '../services/drawing-control.service';
 import { ActivatedRoute } from '@angular/router';
 import { ProjectDto } from '../models/ProjectDto';
 import { ToastrService } from 'ngx-toastr';
+import { ProjectProgressDto } from '../models/ProjectProgressDto';
 
 @Component({
   selector: 'app-ie-dc-project-detail',
@@ -17,11 +18,14 @@ export class IeDcProjectDetailComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    //this.getIeProjectById();
     this.getProjectById();
+    this.getProjectProgresses();
   }
 
   project: ProjectDto = new ProjectDto()
+  progresses!: ProjectProgressDto [];
+
+
 
   progress = [
     {
@@ -117,13 +121,20 @@ export class IeDcProjectDetailComponent implements OnInit {
 
   getProjectById() {
     let projectId = Number(this.activatedRoute.snapshot.paramMap.get('id'))
-
     this.drawingControlSvc.getProjectById(projectId).subscribe(
       response => {
         this.project = response
-
         console.log('project', this.project);
-        
+      }
+    )
+  }
+
+  getProjectProgresses() {
+    let projectId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
+    this.drawingControlSvc.getProjectProgresses(projectId).subscribe(
+      response => {
+        this.progresses = response
+        console.log('progresses: ', this.progresses);
       }
     )
   }

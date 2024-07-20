@@ -34,6 +34,10 @@ export class DrawingControlService {
     return this.httpClient.get(`${this.baseUrl}/IE/DrawingControl/Project/${projectId}`);
   }
 
+  public getProjectProgresses(projectId: number): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/IE/DrawingControl/ProjectProgresses?projectId=${projectId}`);
+  }
+
 
 
 
