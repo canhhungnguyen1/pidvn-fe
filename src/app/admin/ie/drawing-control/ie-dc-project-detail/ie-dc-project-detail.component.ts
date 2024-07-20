@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { DrawingControlService } from '../services/drawing-control.service';
 import { ActivatedRoute } from '@angular/router';
+import { ProjectDto } from '../models/ProjectDto';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-ie-dc-project-detail',
@@ -10,14 +12,16 @@ import { ActivatedRoute } from '@angular/router';
 export class IeDcProjectDetailComponent implements OnInit {
   constructor(
     private drawingControlSvc: DrawingControlService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private toastr: ToastrService,
   ) {}
 
   ngOnInit() {
-    this.getIeProjectById();
+    //this.getIeProjectById();
+    this.getProjectById();
   }
 
-  project: any;
+  project: ProjectDto = new ProjectDto()
 
   progress = [
     {
@@ -110,15 +114,52 @@ export class IeDcProjectDetailComponent implements OnInit {
 
   expandedRowKeys: number[] = [];
 
-  getIeProjectById() {
+
+  getProjectById() {
     let projectId = Number(this.activatedRoute.snapshot.paramMap.get('id'))
-    this.drawingControlSvc.getIeProjectById(projectId).subscribe(
+
+    this.drawingControlSvc.getProjectById(projectId).subscribe(
       response => {
-        this.project = response;
-        this.getProgressByProject();
+        this.project = response
+
+        console.log('project', this.project);
+        
       }
     )
   }
+
+
+  onUpdateProject() {
+    console.log("ProjectUpdated: ", this.project);
+    
+    this.drawingControlSvc.updateProject(this.project).subscribe(
+      response => {
+        this.project = response
+        this.toastr.success("Updated")
+      }
+    )
+
+
+  }
+
+
+
+
+
+
+
+
+
+
+  // getIeProjectById() {
+  //   let projectId = Number(this.activatedRoute.snapshot.paramMap.get('id'))
+  //   this.drawingControlSvc.getIeProjectById(projectId).subscribe(
+  //     response => {
+  //       this.project = response;
+  //       this.getProgressByProject();
+  //     }
+  //   )
+  // }
 
 
 

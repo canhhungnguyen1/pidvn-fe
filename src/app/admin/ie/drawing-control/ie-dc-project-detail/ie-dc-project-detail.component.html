@@ -2,7 +2,7 @@
   <div nz-col nzXs="16" nzSm="16" nzMd="16" nzLg="16">
     <nz-collapse>
       <nz-collapse-panel
-        [nzHeader]="'Project:' + project?.controlNo"
+        [nzHeader]="'Project: ' + project?.projectNo"
         [nzActive]="true"
         [nzShowArrow]="true"
       >
@@ -16,28 +16,43 @@
         >
           <tbody>
             <tr>
-              <td><label>Project Name</label></td>
-              <td>{{ project?.projectName }}</td>
-              <td><label>Project Type</label></td>
-              <td>New MC design</td>
-              <td><label>Supplier</label></td>
-              <td>Osco</td>
-            </tr>
-            <tr>
-              <td><label>Date created</label></td>
-              <td>{{ project?.createdAt | date : "yyyy-MM-dd HH:mm" }}</td>
-              <td><label>Model</label></td>
-              <td>Relay</td>
-              <td><label>Pospose</label></td>
-              <td>Design by PIDVN to reduce investments</td>
-            </tr>
-            <tr>
-              <td><label>Line</label></td>
-              <td>PF Line no 01</td>
-              <td><label>Tacttime</label></td>
-              <td>0.9s/pcs</td>
-              <td><label>Cappacity</label></td>
-              <td></td>
+              <td>
+                <dx-text-box
+                  label="Project Name"
+                  labelLocation="left"
+                  showColonAfterLabel="true"
+                  [labelMode]="'floating'"
+                  [(value)]="project.projectName"
+                  (onBlur)="onUpdateProject()"
+                ></dx-text-box>
+              </td>
+              <td>
+                <dx-text-box
+                  label="Line"
+                  labelLocation="left"
+                  showColonAfterLabel="true"
+                  [labelMode]="'floating'"
+                  [(value)]="project.line"
+                ></dx-text-box>
+              </td>
+              <td>
+                <dx-text-box
+                  label="Supplier"
+                  labelLocation="left"
+                  showColonAfterLabel="true"
+                  [labelMode]="'floating'"
+                  [(value)]="project.supplier"
+                ></dx-text-box>
+              </td>
+              <td>
+                <dx-text-box
+                  label="Tact Time"
+                  labelLocation="left"
+                  showColonAfterLabel="true"
+                  [labelMode]="'floating'"
+                  [(value)]="project.tactTime"
+                ></dx-text-box>
+              </td>
             </tr>
           </tbody>
         </nz-table>
