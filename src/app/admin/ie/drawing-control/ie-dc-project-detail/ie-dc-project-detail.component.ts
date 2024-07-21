@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ProjectDto } from '../models/ProjectDto';
 import { ToastrService } from 'ngx-toastr';
 import { ProjectProgressDto } from '../models/ProjectProgressDto';
+import { DrawingDto } from '../models/DrawingDto';
 
 @Component({
   selector: 'app-ie-dc-project-detail',
@@ -104,27 +105,22 @@ onClickProgress(event: any) {
 
   console.log('Progress: ', this.progress);
   
+  if (progressId == 3) {
+    this.drawingControlSvc.getDrawings(projectId).subscribe(
+      response => {
+        console.log('List Drawings: ', response);
+        this.drawings = response
+  
+        // Mở tất cả các hàng khi khởi tạo
+        this.expandedRowKeys = this.drawings.map((item:any) => item.id);
+      }
+    )
+  }
 
 
-  // this.drawingControlSvc.getProjectProgressDetail(projectId, progressId).subscribe(
-  //   response => {
-  //     this.progress = response == null ? this.progress : response
-  //     this.progress.projectProgressName = progress.projectProgressName
-
-  //     this.isOpenProgressModal = true;
-  //   }
-  // )
-
-  // this.drawingControlSvc.getIeDrawings(projectId, progressId).subscribe(
-  //   response => {
-  //     console.log('List Drawings: ', response);
-  //     this.drawings = response
-
-  //     // Mở tất cả các hàng khi khởi tạo
-  //     this.expandedRowKeys = this.drawings.map((item:any) => item.id);
-  //   }
-  // )
   this.isOpenProgressModal = true;
+
+  
   
 }
 
@@ -134,6 +130,7 @@ updateProjectProgress() {
     response => {
       console.log('ProjectProgressUpdated: ', response);
       this.toastr.success('Updated');
+      this.getProjectProgresses();
     }
   )
 }
@@ -159,8 +156,6 @@ updateProjectProgress() {
     if (files.length > 0) {
       console.log('File ', files);
     }
-
-
   }
 
 
@@ -182,20 +177,20 @@ updateProjectProgress() {
   /**
    * Lấy danh sách các progress
    */
-  getProgressByProject() {
+  // getProgressByProject() {
 
-    let param = {
-      projectId: this.project?.id,
-      projectTypeId: this.project?.projectTypeId
-    }
+  //   let param = {
+  //     projectId: this.project?.id,
+  //     projectTypeId: this.project?.projectTypeId
+  //   }
 
-    this.drawingControlSvc.getProgressByProject(param).subscribe(
-      response => {
-        this.progress = response
-      }
-    )
+  //   this.drawingControlSvc.getProgressByProject(param).subscribe(
+  //     response => {
+  //       this.progress = response
+  //     }
+  //   )
        
-  }
+  // }
 
   
 
@@ -206,23 +201,21 @@ updateProjectProgress() {
   isOpenActivityModal: boolean = false;
 
   onSavingDrawing(e: any) {
-    // const info = e.changes[0];
+    const info = e.changes[0].data;
     // console.log('onSavingDrawing: ', info);
     // let obj = {
     //   id: info.key,
     //   parentId: info.data.parentId
     // }
-    // console.log('obj: ', obj);
+    console.log('onSavingDrawing: ', info);
   }
 
   onSavedDrawing(e: any) {
-    
-
-
-    let projectId = Number(this.activatedRoute.snapshot.paramMap.get('id'))
-    let progressId = this.progressSelected.id
+    let projectId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
+    let projectProgressId = Number(this.progress.projectProgressId);
     const info = e.changes[0].data;
-    let obj = {
+
+    let obj: DrawingDto = {
       id: info.id,
       parentId: info.parentId == -1 ? null : info.parentId,
       drawingNo: info.drawingNo,
@@ -233,18 +226,23 @@ updateProjectProgress() {
       polishing: info.polishing,
       hardness: info.hardness,
       projectId: projectId,
-      progressId: progressId,
-      createdAt: info.createdAt
-    };
+      projectProgressId: projectProgressId,
+      supplier: info.supplier,
+      version: '',
+      remark: '',
+      createdAt: info.createdAt,
+      updatedAt: info.updatedAt
+    }
 
-    console.log(obj);
+    console.log('onSavedDrawing: ' , obj);
     
 
-    this.drawingControlSvc.saveDrawing(obj).subscribe((response) => {
+    this.drawingControlSvc.insertOrUpdateDrawing(obj).subscribe((response) => {
       console.log('saveDrawing: ', response);
     });
   }
 
+  
 
 
 
@@ -255,12 +253,7 @@ updateProjectProgress() {
 
   onCellClick(event: any) {
     let dataField = event.column.dataField;
-
-    
-
     console.log(event.data);
-    
-
     if (dataField === "drawingName" ) {
 
       let rootURL = `D:\\Workspace\\ProjectManagement\\Project\\RE-T0001\\Drawing\\${event.data.drawingNo}.pdf`;
@@ -273,8 +266,6 @@ updateProjectProgress() {
         window.open(fileURL);
         }
       )
-      
-
     }
 
 

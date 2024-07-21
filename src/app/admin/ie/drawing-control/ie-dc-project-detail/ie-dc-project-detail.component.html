@@ -21,7 +21,7 @@
                   label="Project Name"
                   labelLocation="left"
                   showColonAfterLabel="true"
-                  [labelMode]="'floating'"
+                  [labelMode]="'static'"
                   [(value)]="project.projectName"
                   (onBlur)="updateProject()"
                 ></dx-text-box>
@@ -31,7 +31,7 @@
                   label="Line"
                   labelLocation="left"
                   showColonAfterLabel="true"
-                  [labelMode]="'floating'"
+                  [labelMode]="'static'"
                   [(value)]="project.line"
                   (onBlur)="updateProject()"
                 ></dx-text-box>
@@ -41,7 +41,7 @@
                   label="Supplier"
                   labelLocation="left"
                   showColonAfterLabel="true"
-                  [labelMode]="'floating'"
+                  [labelMode]="'static'"
                   [(value)]="project.supplier"
                   (onBlur)="updateProject()"
                 ></dx-text-box>
@@ -51,7 +51,7 @@
                   label="Tact Time"
                   labelLocation="left"
                   showColonAfterLabel="true"
-                  [labelMode]="'floating'"
+                  [labelMode]="'static'"
                   [(value)]="project.tactTime"
                   (onBlur)="updateProject()"
                 ></dx-text-box>
@@ -200,7 +200,7 @@
               label="Tiến độ"
               labelLocation="left"
               showColonAfterLabel="true"
-              [labelMode]="'floating'"
+              [labelMode]="'static'"
               [(value)]="progress.progress"
               [min]="0"               
               [max]="100"             
@@ -214,7 +214,7 @@
               label="Start Plan"
               labelLocation="left"
               showColonAfterLabel="true"
-              [labelMode]="'floating'"
+              [labelMode]="'static'"
               [displayFormat]="'yyyy-MM-dd'"
               (onValueChanged)="updateProjectProgress()"  
             ></dx-date-box>
@@ -225,7 +225,7 @@
               label="End Plan"
               labelLocation="left"
               showColonAfterLabel="true"
-              [labelMode]="'floating'"
+              [labelMode]="'static'"
               [displayFormat]="'yyyy-MM-dd'"
               (onValueChanged)="updateProjectProgress()"  
             ></dx-date-box>
@@ -235,7 +235,7 @@
               label="Start Act"
               labelLocation="left"
               showColonAfterLabel="true"
-              [labelMode]="'floating'"
+              [labelMode]="'static'"
               [displayFormat]="'yyyy-MM-dd'"
             ></dx-date-box>
           </td>
@@ -244,7 +244,7 @@
               label="End Act"
               labelLocation="left"
               showColonAfterLabel="true"
-              [labelMode]="'floating'"
+              [labelMode]="'static'"
               [displayFormat]="'yyyy-MM-dd'"
             ></dx-date-box>
           </td>
@@ -259,7 +259,7 @@
       nzFrontPagination="false"
     >
       <tbody>
-        <tr>
+        <tr *ngIf="progress?.projectProgressId == 3">
           <td>File</td>
           <td>
             <dx-tree-list
@@ -304,12 +304,19 @@
               <dxi-column dataField="unit" caption="Unit"></dxi-column>
               <dxi-column dataField="material" caption="Material"></dxi-column>
               <dxi-column dataField="hardness" caption="Hardness"></dxi-column>
+              
               <dxi-column
                 dataField="polishing"
                 caption="Polishing"
               ></dxi-column>
+              <dxi-column dataField="supplier" caption="Supplier"></dxi-column>
+              <dxi-column dataField="remark" caption="Remark"></dxi-column>
             </dx-tree-list>
           </td>
+        </tr>
+        <tr *ngIf="progress?.projectProgressId !== 3">
+          <td>File</td>
+          <td></td>
         </tr>
       </tbody>
     </nz-table>
