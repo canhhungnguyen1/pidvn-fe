@@ -24,6 +24,7 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { ReportsComponent } from './reports/reports.component';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 import {
   DxButtonModule,
@@ -62,6 +63,7 @@ import {
     DxButtonModule,
     DxDataGridModule,
     DxSelectBoxModule,
+    NzSpinModule
   ],
 })
 export class AdminModule {}

@@ -23,7 +23,7 @@
                   showColonAfterLabel="true"
                   [labelMode]="'floating'"
                   [(value)]="project.projectName"
-                  (onBlur)="onUpdateProject()"
+                  (onBlur)="updateProject()"
                 ></dx-text-box>
               </td>
               <td>
@@ -33,6 +33,7 @@
                   showColonAfterLabel="true"
                   [labelMode]="'floating'"
                   [(value)]="project.line"
+                  (onBlur)="updateProject()"
                 ></dx-text-box>
               </td>
               <td>
@@ -42,6 +43,7 @@
                   showColonAfterLabel="true"
                   [labelMode]="'floating'"
                   [(value)]="project.supplier"
+                  (onBlur)="updateProject()"
                 ></dx-text-box>
               </td>
               <td>
@@ -51,6 +53,7 @@
                   showColonAfterLabel="true"
                   [labelMode]="'floating'"
                   [(value)]="project.tactTime"
+                  (onBlur)="updateProject()"
                 ></dx-text-box>
               </td>
             </tr>
@@ -72,7 +75,7 @@
               [showBorders]="true"
               [allowColumnResizing]="true"
               [columnAutoWidth]="true"
-              (onRowClick)="onRowClickProgress($event)"
+              (onRowClick)="onClickProgress($event)"
             >
               <dxi-column
                 dataField="projectProgressId"
@@ -177,7 +180,7 @@
 
 <nz-modal
   [(nzVisible)]="isOpenProgressModal"
-  [nzTitle]="'Progress: ' + progressSelected?.progressName"
+  [nzTitle]="'Progress: ' + progress?.projectProgressName"
   nzWidth="100%"
   [nzFooter]="modalFooter"
   (nzOnCancel)="isOpenProgressModal = false"
@@ -192,41 +195,58 @@
     >
       <tbody>
         <tr>
-          <td><label>Tiến độ</label></td>
           <td>
-            <nz-input-group nzSuffix="%" style="max-width: 150px">
-              <input
-                type="number"
-                nz-input
-                min="0"
-                max="100"
-                [(ngModel)]="progressSelected.progress"
-              />
-            </nz-input-group>
+            <dx-number-box
+              label="Tiến độ"
+              labelLocation="left"
+              showColonAfterLabel="true"
+              [labelMode]="'floating'"
+              [(value)]="progress.progress"
+              [min]="0"               
+              [max]="100"             
+              [step]="5"     
+              (onBlur)="updateProjectProgress()"  
+            ></dx-number-box>
           </td>
-          <td><label>Start Plant</label></td>
           <td>
-            <nz-date-picker
-              [(ngModel)]="progressSelected.startPlan"
-            ></nz-date-picker>
+            <dx-date-box
+              [(value)]="progress.startPlan"
+              label="Start Plan"
+              labelLocation="left"
+              showColonAfterLabel="true"
+              [labelMode]="'floating'"
+              [displayFormat]="'yyyy-MM-dd'"
+              (onValueChanged)="updateProjectProgress()"  
+            ></dx-date-box>
           </td>
-          <td><label>End Plant</label></td>
           <td>
-            <nz-date-picker
-              [(ngModel)]="progressSelected.endPlan"
-            ></nz-date-picker>
+            <dx-date-box
+              [(value)]="progress.endPlan"
+              label="End Plan"
+              labelLocation="left"
+              showColonAfterLabel="true"
+              [labelMode]="'floating'"
+              [displayFormat]="'yyyy-MM-dd'"
+              (onValueChanged)="updateProjectProgress()"  
+            ></dx-date-box>
           </td>
-          <td><label>Start Act</label></td>
           <td>
-            <nz-date-picker
-              [(ngModel)]="progressSelected.startAction"
-            ></nz-date-picker>
+            <dx-date-box
+              label="Start Act"
+              labelLocation="left"
+              showColonAfterLabel="true"
+              [labelMode]="'floating'"
+              [displayFormat]="'yyyy-MM-dd'"
+            ></dx-date-box>
           </td>
-          <td><label>End Act</label></td>
           <td>
-            <nz-date-picker
-              [(ngModel)]="progressSelected.endAction"
-            ></nz-date-picker>
+            <dx-date-box
+              label="End Act"
+              labelLocation="left"
+              showColonAfterLabel="true"
+              [labelMode]="'floating'"
+              [displayFormat]="'yyyy-MM-dd'"
+            ></dx-date-box>
           </td>
         </tr>
       </tbody>
@@ -311,7 +331,7 @@
     >
       <tbody>
         <tr>
-          <td>Content</td>
+          <td>Title</td>
           <td>
             <input nz-input placeholder="Content" />
           </td>
@@ -320,6 +340,21 @@
           <td>Note</td>
           <td>
             <textarea rows="3" nz-input></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td>File</td>
+          <td>
+            <dx-file-uploader
+              [multiple]="true"
+              selectButtonText="Select file"
+              labelText=""
+              accept="image/*, .pdf, .doc, .docx, .ppt, .pptx, .xls, .xlsx"
+              uploadMode="useForm"
+              [inputAttr]="{ 'aria-label': 'Select file' }"
+              (onValueChanged)="onValueChanged($event)"
+            >
+            </dx-file-uploader>
           </td>
         </tr>
       </tbody>

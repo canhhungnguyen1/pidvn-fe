@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ProjectDto } from '../models/ProjectDto';
+import { ProjectProgressDto } from '../models/ProjectProgressDto';
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +38,15 @@ export class DrawingControlService {
   public getProjectProgresses(projectId: number): Observable<any> {
     return this.httpClient.get(`${this.baseUrl}/IE/DrawingControl/ProjectProgresses?projectId=${projectId}`);
   }
+
+  public updateProjectProgress(projectProgressDto: ProjectProgressDto): Observable<any> {
+    return this.httpClient.put(`${this.baseUrl}/IE/DrawingControl/ProjectProgress`, projectProgressDto);
+  }
+
+
+  // public getProjectProgressDetail(projectId: number, progressId: number): Observable<any> {
+  //   return this.httpClient.get(`${this.baseUrl}/IE/DrawingControl/ProjectProgressDetail?projectId=${projectId}&projectProgressId=${progressId}`);
+  // }
 
 
 

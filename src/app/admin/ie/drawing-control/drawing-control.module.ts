@@ -33,6 +33,8 @@ import {
   DxFormModule,
   DxHtmlEditorModule,
   DxTextBoxModule,
+  DxNumberBoxModule,
+  DxDateBoxModule,
   DxMapModule,
   DxValidatorModule,
 } from 'devextreme-angular';
@@ -71,6 +73,8 @@ import {
     DxTextBoxModule,
     DxMapModule,
     DxValidatorModule,
+    DxNumberBoxModule,
+    DxDateBoxModule
   ],
 })
 export class DrawingControlModule {}

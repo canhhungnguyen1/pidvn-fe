@@ -24,72 +24,11 @@ export class IeDcProjectDetailComponent implements OnInit {
 
   project: ProjectDto = new ProjectDto()
   progresses!: ProjectProgressDto [];
+  progress: ProjectProgressDto = new ProjectProgressDto();
 
 
 
-  progress = [
-    {
-      id: 1,
-      item: 'Disscusing',
-      content: 'Thảo luận về giá',
-      startPlan: '2024-03-25',
-      endPlan: '2024-03-26',
-      startAction: '2024-03-25',
-      endAction: '2024-03-27',
-      progress: 100,
-    },
-    {
-      id: 2,
-      item: 'Design',
-      content: 'Thiết kế và review',
-      startPlan: '2024-03-25',
-      endPlan: '2024-03-26',
-      startAction: '2024-03-25',
-      endAction: '',
-      progress: 85,
-    },
-    {
-      id: 3,
-      item: 'Drawing',
-      content: 'Xuất bản vẽ',
-      startPlan: '2024-03-25',
-      endPlan: '2024-03-26',
-      startAction: '2024-03-25',
-      endAction: '',
-      progress: 85,
-    },
-    {
-      id: 4,
-      item: 'PO',
-      content: 'Xin báo giá',
-      startPlan: '2024-03-25',
-      endPlan: '2024-03-26',
-      startAction: '2024-03-25',
-      endAction: '',
-      progress: 90,
-    },
-    {
-      id: 5,
-      item: 'Processing',
-      content: 'Gia công',
-      startPlan: '2024-03-25',
-      endPlan: '2024-03-26',
-      startAction: '2024-03-25',
-      endAction: '',
-      progress: 0,
-    },
-    {
-      id: 6,
-      item: 'Setup',
-      content: 'Setup',
-      startPlan: '2024-03-25',
-      endPlan: '2024-03-26',
-      startAction: '2024-03-25',
-      endAction: '',
-      progress: 0,
-    },
-  ];
-
+  fileUploads: any;
   activities = [
     {
       id: 1,
@@ -139,8 +78,7 @@ export class IeDcProjectDetailComponent implements OnInit {
     )
   }
 
-
-  onUpdateProject() {
+  updateProject() {
     console.log("ProjectUpdated: ", this.project);
     
     this.drawingControlSvc.updateProject(this.project).subscribe(
@@ -153,10 +91,77 @@ export class IeDcProjectDetailComponent implements OnInit {
 
   }
 
+/**
+ * Xử lý khi click vào progress
+ * @param event 
+ */
+onClickProgress(event: any) {
+
+  this.progress = event.data;
+  let projectId = Number(this.activatedRoute.snapshot.paramMap.get('id'))
+  let progressId = Number(this.progress.projectProgressId)
+  this.progress.projectId = projectId
+
+  console.log('Progress: ', this.progress);
+  
+
+
+  // this.drawingControlSvc.getProjectProgressDetail(projectId, progressId).subscribe(
+  //   response => {
+  //     this.progress = response == null ? this.progress : response
+  //     this.progress.projectProgressName = progress.projectProgressName
+
+  //     this.isOpenProgressModal = true;
+  //   }
+  // )
+
+  // this.drawingControlSvc.getIeDrawings(projectId, progressId).subscribe(
+  //   response => {
+  //     console.log('List Drawings: ', response);
+  //     this.drawings = response
+
+  //     // Mở tất cả các hàng khi khởi tạo
+  //     this.expandedRowKeys = this.drawings.map((item:any) => item.id);
+  //   }
+  // )
+  this.isOpenProgressModal = true;
+  
+}
+
+
+updateProjectProgress() {
+  this.drawingControlSvc.updateProjectProgress(this.progress).subscribe(
+    response => {
+      console.log('ProjectProgressUpdated: ', response);
+      this.toastr.success('Updated');
+    }
+  )
+}
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+  onValueChanged(e: any) {
+    const files = e.value; // Lấy danh sách các tệp đã chọn
+    if (files.length > 0) {
+      console.log('File ', files);
+    }
+
+
+  }
 
 
 
@@ -192,31 +197,7 @@ export class IeDcProjectDetailComponent implements OnInit {
        
   }
 
-  /**
-   * Xử lý khi click vào progress
-   * @param event 
-   */
-  onRowClickProgress(event: any) {
-    console.log('onRowClick: ', event.data);
-    
-    this.progressSelected = event.data;
-
-
-    let projectId = Number(this.activatedRoute.snapshot.paramMap.get('id'))
-    let progressId = this.progressSelected.progressId
-
-    this.drawingControlSvc.getIeDrawings(projectId, progressId).subscribe(
-      response => {
-        console.log('List Drawings: ', response);
-        this.drawings = response
-
-        // Mở tất cả các hàng khi khởi tạo
-        this.expandedRowKeys = this.drawings.map((item:any) => item.id);
-      }
-    )
-
-    this.isOpenProgressModal = true;
-  }
+  
 
   onExpandedRowKeysChanged(e: any) {
     this.expandedRowKeys = e.value;
