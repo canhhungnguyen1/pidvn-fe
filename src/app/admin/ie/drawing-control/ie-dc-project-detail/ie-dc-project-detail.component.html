@@ -265,7 +265,7 @@
             <dx-tree-list
               #treeList
               [dataSource]="drawings"
-              [rootValue]="-1"
+              [rootValue]="null"
               keyExpr="id"
               parentIdExpr="parentId"
               [showRowLines]="true"
@@ -288,6 +288,7 @@
                   [showTitle]="true"
                   [width]="800"
                 >
+                
                 </dxo-popup>
               </dxo-editing>
 

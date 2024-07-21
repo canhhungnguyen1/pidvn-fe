@@ -242,10 +242,6 @@ updateProjectProgress() {
     });
   }
 
-  
-
-
-
   viewFile(item:any) {
     console.log('viewFile: ', item.data);
     
