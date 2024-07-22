@@ -276,7 +276,8 @@
               (onSaved)="onSavedDrawing($event)"
               (onCellClick)="onCellClick($event)"
             >
-              <dxo-filter-row [visible]="false"></dxo-filter-row>
+              <dxo-filter-row [visible]="true"></dxo-filter-row>
+              <dxo-search-panel [visible]="true"></dxo-search-panel>
               <dxo-editing
                 mode="popup"
                 [allowUpdating]="true"
@@ -312,6 +313,13 @@
               ></dxi-column>
               <dxi-column dataField="supplier" caption="Supplier"></dxi-column>
               <dxi-column dataField="remark" caption="Remark"></dxi-column>
+              <dxi-column
+                caption="Action"
+                cellTemplate="uploadTemplate"
+              ></dxi-column>
+              <div *dxTemplate="let item of 'uploadTemplate'" style="text-align: center">
+                <a (click)="openUploadDrawingModal(item)">Upload</a>
+              </div>
             </dx-tree-list>
           </td>
         </tr>
@@ -336,31 +344,40 @@
       nzSize="small"
       nzBordered
       nzFrontPagination="false"
+      class="project-activity"
     >
       <tbody>
         <tr>
-          <td>Title</td>
+          <td><label>Title</label></td>
           <td>
             <input nz-input placeholder="Content" />
           </td>
         </tr>
         <tr>
-          <td>Note</td>
+          <td>
+            <label>Date</label>
+          </td>
+          <td>
+            <nz-date-picker></nz-date-picker>
+          </td>
+        </tr>
+        <tr>
+          <td><label>Note</label></td>
           <td>
             <textarea rows="3" nz-input></textarea>
           </td>
         </tr>
         <tr>
-          <td>File</td>
+          <td><label>File</label></td>
           <td>
             <dx-file-uploader
-              [multiple]="true"
+              [multiple]="false"
               selectButtonText="Select file"
               labelText=""
               accept="image/*, .pdf, .doc, .docx, .ppt, .pptx, .xls, .xlsx"
               uploadMode="useForm"
               [inputAttr]="{ 'aria-label': 'Select file' }"
-              (onValueChanged)="onValueChanged($event)"
+              (onValueChanged)="onValueChangedFile($event)"
             >
             </dx-file-uploader>
           </td>
@@ -368,4 +385,24 @@
       </tbody>
     </nz-table>
   </ng-container>
+</nz-modal>
+
+
+<nz-modal [(nzVisible)]="isOpenUploadDrawingModal" [nzTitle]="'Upload drawing'">
+  <ng-container *nzModalContent>
+    <dx-file-uploader
+      [multiple]="false"
+      selectButtonText="Select file"
+      labelText=""
+      accept="image/*, .pdf, .doc, .docx, .ppt, .pptx, .xls, .xlsx"
+      uploadMode="useForm"
+      [inputAttr]="{ 'aria-label': 'Select file' }"
+      (onValueChanged)="onValueChangedFile($event)"
+    >
+    </dx-file-uploader>
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button nzType="primary" (click)="uploadDrawing()" >Save</button>
+    <button nz-button nzType="default" (click)="isOpenUploadDrawingModal = false" >Đóng</button>
+  </div>
 </nz-modal>

@@ -15,7 +15,7 @@ export class IeDcProjectDetailComponent implements OnInit {
   constructor(
     private drawingControlSvc: DrawingControlService,
     private activatedRoute: ActivatedRoute,
-    private toastr: ToastrService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
@@ -23,13 +23,10 @@ export class IeDcProjectDetailComponent implements OnInit {
     this.getProjectProgresses();
   }
 
-  project: ProjectDto = new ProjectDto()
-  progresses!: ProjectProgressDto [];
+  project: ProjectDto = new ProjectDto();
   progress: ProjectProgressDto = new ProjectProgressDto();
+  progresses!: ProjectProgressDto[];
 
-
-
-  fileUploads: any;
   activities = [
     {
       id: 1,
@@ -54,159 +51,83 @@ export class IeDcProjectDetailComponent implements OnInit {
   drawings = [];
 
   isOpenProgressModal: boolean = false;
-  progressSelected: any;
-
-  expandedRowKeys: number[] = [];
-
-
-  getProjectById() {
-    let projectId = Number(this.activatedRoute.snapshot.paramMap.get('id'))
-    this.drawingControlSvc.getProjectById(projectId).subscribe(
-      response => {
-        this.project = response
-        console.log('project', this.project);
-      }
-    )
-  }
-
-  getProjectProgresses() {
-    let projectId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
-    this.drawingControlSvc.getProjectProgresses(projectId).subscribe(
-      response => {
-        this.progresses = response
-        console.log('progresses: ', this.progresses);
-      }
-    )
-  }
-
-  updateProject() {
-    console.log("ProjectUpdated: ", this.project);
-    
-    this.drawingControlSvc.updateProject(this.project).subscribe(
-      response => {
-        this.project = response
-        this.toastr.success("Updated")
-      }
-    )
-
-
-  }
-
-/**
- * Xử lý khi click vào progress
- * @param event 
- */
-onClickProgress(event: any) {
-
-  this.progress = event.data;
-  let projectId = Number(this.activatedRoute.snapshot.paramMap.get('id'))
-  let progressId = Number(this.progress.projectProgressId)
-  this.progress.projectId = projectId
-
-  console.log('Progress: ', this.progress);
-  
-  if (progressId == 3) {
-    this.drawingControlSvc.getDrawings(projectId).subscribe(
-      response => {
-        console.log('List Drawings: ', response);
-        this.drawings = response
-  
-        // Mở tất cả các hàng khi khởi tạo
-        this.expandedRowKeys = this.drawings.map((item:any) => item.id);
-      }
-    )
-  }
-
-
-  this.isOpenProgressModal = true;
-
-  
-  
-}
-
-
-updateProjectProgress() {
-  this.drawingControlSvc.updateProjectProgress(this.progress).subscribe(
-    response => {
-      console.log('ProjectProgressUpdated: ', response);
-      this.toastr.success('Updated');
-      this.getProjectProgresses();
-    }
-  )
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  onValueChanged(e: any) {
-    const files = e.value; // Lấy danh sách các tệp đã chọn
-    if (files.length > 0) {
-      console.log('File ', files);
-    }
-  }
-
-
-
-
-
-  // getIeProjectById() {
-  //   let projectId = Number(this.activatedRoute.snapshot.paramMap.get('id'))
-  //   this.drawingControlSvc.getIeProjectById(projectId).subscribe(
-  //     response => {
-  //       this.project = response;
-  //       this.getProgressByProject();
-  //     }
-  //   )
-  // }
-
-
+  isOpenUploadDrawingModal: boolean = false;
+  isOpenActivityModal: boolean = false;
 
   /**
-   * Lấy danh sách các progress
+   * Expand các parent child drawing file
    */
-  // getProgressByProject() {
-
-  //   let param = {
-  //     projectId: this.project?.id,
-  //     projectTypeId: this.project?.projectTypeId
-  //   }
-
-  //   this.drawingControlSvc.getProgressByProject(param).subscribe(
-  //     response => {
-  //       this.progress = response
-  //     }
-  //   )
-       
-  // }
-
-  
-
+  expandedRowKeys: number[] = [];
   onExpandedRowKeysChanged(e: any) {
     this.expandedRowKeys = e.value;
   }
 
-  isOpenActivityModal: boolean = false;
+  getProjectById() {
+    let projectId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
+    this.drawingControlSvc.getProjectById(projectId).subscribe((response) => {
+      this.project = response;
+      console.log('project', this.project);
+    });
+  }
+
+  getProjectProgresses() {
+    let projectId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
+    this.drawingControlSvc
+      .getProjectProgresses(projectId)
+      .subscribe((response) => {
+        this.progresses = response;
+        console.log('progresses: ', this.progresses);
+      });
+  }
+
+  updateProject() {
+    console.log('ProjectUpdated: ', this.project);
+
+    this.drawingControlSvc.updateProject(this.project).subscribe((response) => {
+      this.project = response;
+      this.toastr.success('Updated');
+    });
+  }
+
+  /**
+   * Xử lý khi click vào progress
+   * @param event
+   */
+  onClickProgress(event: any) {
+    this.progress = event.data;
+    let projectId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
+    let progressId = Number(this.progress.projectProgressId);
+    this.progress.projectId = projectId;
+
+    console.log('Progress: ', this.progress);
+
+    if (progressId == 3) {
+      this.drawingControlSvc.getDrawings(projectId).subscribe((response) => {
+        console.log('List Drawings: ', response);
+        this.drawings = response;
+
+        // Mở tất cả các hàng khi khởi tạo
+        this.expandedRowKeys = this.drawings.map((item: any) => item.id);
+      });
+    }
+
+    this.isOpenProgressModal = true;
+  }
+
+  updateProjectProgress() {
+    this.drawingControlSvc
+      .updateProjectProgress(this.progress)
+      .subscribe((response) => {
+        console.log('ProjectProgressUpdated: ', response);
+        this.toastr.success('Updated');
+        this.getProjectProgresses();
+      });
+  }
+
+  
 
   onSavingDrawing(e: any) {
     const info = e.changes[0].data;
-    // console.log('onSavingDrawing: ', info);
-    // let obj = {
-    //   id: info.key,
-    //   parentId: info.data.parentId
-    // }
     console.log('onSavingDrawing: ', info);
   }
 
@@ -231,39 +152,78 @@ updateProjectProgress() {
       version: '',
       remark: '',
       createdAt: info.createdAt,
-      updatedAt: info.updatedAt
-    }
+      updatedAt: info.updatedAt,
+    };
 
-    console.log('onSavedDrawing: ' , obj);
-    
+    console.log('onSavedDrawing: ', obj);
 
     this.drawingControlSvc.insertOrUpdateDrawing(obj).subscribe((response) => {
       console.log('saveDrawing: ', response);
     });
   }
 
-  viewFile(item:any) {
-    console.log('viewFile: ', item.data);
-    
-  }
+
 
   onCellClick(event: any) {
     let dataField = event.column.dataField;
     console.log(event.data);
-    if (dataField === "drawingName" ) {
+    if (dataField === 'drawingName') {
+      let rootURL = `D:\\Workspace\\ProjectManagement\\Project\\${this.project.projectNo}\\Drawing\\${event.data.drawingNo}.pdf`;
+      let params = { url: rootURL };
 
-      let rootURL = `D:\\Workspace\\ProjectManagement\\Project\\RE-T0001\\Drawing\\${event.data.drawingNo}.pdf`;
-      let params = {url: rootURL}
-      
-      this.drawingControlSvc.previewDrawing(params).subscribe(
-        response => {
+      this.drawingControlSvc.previewDrawing(params).subscribe((response) => {
         let file = new Blob([response], { type: 'application/pdf' });
         var fileURL = URL.createObjectURL(file);
         window.open(fileURL);
-        }
-      )
+      });
     }
+  }
 
+
+
+
+
+
+
+
+  fileUploads: any;
+
+  /**
+   * Chọn file để upload lên server
+   * @param e 
+   */
+  onValueChangedFile(e: any) {
+    const files = e.value; // Lấy danh sách các tệp đã chọn
+    if (files.length > 0) {
+      this.fileUploads = files[0];
+    }
+  }
+
+  drawingSelected: any;
+  openUploadDrawingModal(item: any) {
+    this.drawingSelected = item.data
+    this.isOpenUploadDrawingModal = true;
+    this.fileUploads = null;
+  }
+
+  uploadDrawing() {
+
+    console.log(this.progress);
+    
+    this.drawingControlSvc.uploadDrawing(this.fileUploads,this.project.projectNo, this.drawingSelected.drawingName).subscribe(
+      response => {
+        this.isOpenUploadDrawingModal = false;
+      }
+    )
 
   }
+
+
+
+
+
+
+
+
+
 }
