@@ -88,6 +88,20 @@ export class DrawingControlService {
     );
   }
 
+
+  uploadDrawingTreeList(file: File, projectId: number): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.httpClient.post(
+      `${this.baseUrl}/IE/DrawingControl/UploadDrawingTreeList?projectId=${projectId}`,
+      formData
+    );
+  }
+
+
+
+
+
   /**
    * Xem file Drawing
    * @param file

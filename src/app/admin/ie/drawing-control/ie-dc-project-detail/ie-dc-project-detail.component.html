@@ -278,6 +278,28 @@
             >
               <dxo-filter-row [visible]="true"></dxo-filter-row>
               <dxo-search-panel [visible]="true"></dxo-search-panel>
+
+              <dxo-toolbar>
+                <dxi-item location="after">
+                  <dx-button
+                    stylingMode="outlined"
+                    type="default"
+                    icon="upload"
+                    text="Upload list"
+                    (onClick)="openUploadDrawingTreeModal()"
+                  >
+                  </dx-button>
+                </dxi-item>
+                <dxi-item
+                  location="before"
+                  name="addRowButton"
+                  showText="always"
+                ></dxi-item>
+                <dxi-item name="exportButton"></dxi-item>
+                <dxi-item name="searchPanel"></dxi-item>
+              </dxo-toolbar>
+
+
               <dxo-editing
                 mode="popup"
                 [allowUpdating]="true"
@@ -289,7 +311,6 @@
                   [showTitle]="true"
                   [width]="800"
                 >
-                
                 </dxo-popup>
               </dxo-editing>
 
@@ -404,5 +425,25 @@
   <div *nzModalFooter>
     <button nz-button nzType="primary" (click)="uploadDrawing()" >Save</button>
     <button nz-button nzType="default" (click)="isOpenUploadDrawingModal = false" >Đóng</button>
+  </div>
+</nz-modal>
+
+
+<nz-modal [(nzVisible)]="isOpenUploadDrawingTreeModal" [nzTitle]="'Upload drawing by excel'">
+  <ng-container *nzModalContent>
+    <dx-file-uploader
+      [multiple]="false"
+      selectButtonText="Select file"
+      labelText=""
+      accept=".xlsx"
+      uploadMode="useForm"
+      [inputAttr]="{ 'aria-label': 'Select file' }"
+      (onValueChanged)="onValueChangedFile($event)"
+    >
+    </dx-file-uploader>
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button nzType="primary" (click)="uploadDrawingTreeList()" >Save</button>
+    <button nz-button nzType="default" (click)="isOpenUploadDrawingTreeModal = false" >Đóng</button>
   </div>
 </nz-modal>

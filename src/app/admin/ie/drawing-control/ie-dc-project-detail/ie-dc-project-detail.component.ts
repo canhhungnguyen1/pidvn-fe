@@ -12,6 +12,7 @@ import { DrawingDto } from '../models/DrawingDto';
   styleUrls: ['./ie-dc-project-detail.component.scss'],
 })
 export class IeDcProjectDetailComponent implements OnInit {
+
   constructor(
     private drawingControlSvc: DrawingControlService,
     private activatedRoute: ActivatedRoute,
@@ -220,8 +221,24 @@ export class IeDcProjectDetailComponent implements OnInit {
 
 
 
+  isOpenUploadDrawingTreeModal: boolean = false
+  openUploadDrawingTreeModal() {
+    this.fileUploads = null;
+    this.isOpenUploadDrawingTreeModal = true;
+  }
+  uploadDrawingTreeList() {
+
+    console.log('fileUploads: ' ,this.fileUploads);
+    
+
+    this.drawingControlSvc.uploadDrawingTreeList(this.fileUploads, this.project.id).subscribe(
+      response => {
+        this.isOpenUploadDrawingTreeModal = false;
+      }
+    )
 
 
+  }
 
 
 
