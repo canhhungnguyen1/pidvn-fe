@@ -50,6 +50,10 @@ export class AdminComponent implements OnInit {
   listOpLineVR!: string;
   skillMapRelayLinks = [
     {
+      line: 'TF',
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=TF`
+    },
+    {
       line: 'TB1',
       link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=TB1`
     },

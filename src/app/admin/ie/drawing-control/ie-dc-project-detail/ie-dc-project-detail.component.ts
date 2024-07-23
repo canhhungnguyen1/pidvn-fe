@@ -50,7 +50,6 @@ export class IeDcProjectDetailComponent implements OnInit {
   ];
 
   drawings = [];
-
   isOpenProgressModal: boolean = false;
   isOpenUploadDrawingModal: boolean = false;
   isOpenActivityModal: boolean = false;
@@ -227,12 +226,19 @@ export class IeDcProjectDetailComponent implements OnInit {
     this.isOpenUploadDrawingTreeModal = true;
   }
   uploadDrawingTreeList() {
-
-    console.log('fileUploads: ' ,this.fileUploads);
-    
-
     this.drawingControlSvc.uploadDrawingTreeList(this.fileUploads, this.project.id).subscribe(
       response => {
+
+        let projectId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
+        this.drawingControlSvc.getDrawings(projectId).subscribe((response) => {
+          console.log('List Drawings: ', response);
+          this.drawings = response;
+  
+          // Mở tất cả các hàng khi khởi tạo
+          this.expandedRowKeys = this.drawings.map((item: any) => item.id);
+        });
+
+
         this.isOpenUploadDrawingTreeModal = false;
       }
     )

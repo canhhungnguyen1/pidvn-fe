@@ -264,6 +264,7 @@
           <td>
             <dx-tree-list
               #treeList
+              class="drawing-tree-list"
               [dataSource]="drawings"
               [rootValue]="null"
               keyExpr="id"
@@ -275,6 +276,14 @@
               (onSaving)="onSavingDrawing($event)"
               (onSaved)="onSavedDrawing($event)"
               (onCellClick)="onCellClick($event)"
+              [height]="650"
+              [scrolling]="{
+                mode: 'virtual',  
+                rowRenderingMode: 'virtual', 
+                columnRenderingMode: 'virtual', 
+                useNative: false,     
+                showScrollbar: 'always'
+              }"
             >
               <dxo-filter-row [visible]="true"></dxo-filter-row>
               <dxo-search-panel [visible]="true"></dxo-search-panel>
@@ -285,7 +294,7 @@
                     stylingMode="outlined"
                     type="default"
                     icon="upload"
-                    text="Upload list"
+                    text="Upload tree list"
                     (onClick)="openUploadDrawingTreeModal()"
                   >
                   </dx-button>
