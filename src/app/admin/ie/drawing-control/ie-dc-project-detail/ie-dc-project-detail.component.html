@@ -289,7 +289,12 @@
               <dxo-search-panel [visible]="true"></dxo-search-panel>
 
               <dxo-toolbar>
-                <dxi-item location="after">
+                <dxi-item
+                  location="before"
+                  name="addRowButton"
+                  showText="always"
+                ></dxi-item>
+                <dxi-item location="before">
                   <dx-button
                     stylingMode="outlined"
                     type="default"
@@ -299,13 +304,17 @@
                   >
                   </dx-button>
                 </dxi-item>
-                <dxi-item
-                  location="before"
-                  name="addRowButton"
-                  showText="always"
-                ></dxi-item>
-                <dxi-item name="exportButton"></dxi-item>
-                <dxi-item name="searchPanel"></dxi-item>
+                <dxi-item location="before">
+                  <dx-button
+                    stylingMode="outlined"
+                    type="success"
+                    icon="upload"
+                    text="Upload drawing file"
+                  >
+                  </dx-button>
+                </dxi-item>
+                
+                <dxi-item location="after" name="searchPanel"></dxi-item>
               </dxo-toolbar>
 
 
@@ -342,14 +351,8 @@
                 caption="Polishing"
               ></dxi-column>
               <dxi-column dataField="supplier" caption="Supplier"></dxi-column>
+              <dxi-column dataField="version" caption="Version"></dxi-column>
               <dxi-column dataField="remark" caption="Remark"></dxi-column>
-              <dxi-column
-                caption="Action"
-                cellTemplate="uploadTemplate"
-              ></dxi-column>
-              <div *dxTemplate="let item of 'uploadTemplate'" style="text-align: center">
-                <a (click)="openUploadDrawingModal(item)">Upload</a>
-              </div>
             </dx-tree-list>
           </td>
         </tr>
@@ -388,7 +391,7 @@
             <label>Date</label>
           </td>
           <td>
-            <nz-date-picker></nz-date-picker>
+            <nz-date-picker style="width: 100%;"></nz-date-picker>
           </td>
         </tr>
         <tr>
@@ -415,6 +418,10 @@
       </tbody>
     </nz-table>
   </ng-container>
+  <div *nzModalFooter>
+    <button nz-button nzType="primary">Lưu</button>
+    <button nz-button nzType="default" (click)="isOpenActivityModal = false" >Đóng</button>
+  </div>
 </nz-modal>
 
 
