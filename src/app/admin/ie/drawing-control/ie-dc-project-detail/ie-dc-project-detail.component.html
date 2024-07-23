@@ -157,20 +157,27 @@
           [allowColumnResizing]="true"
           [columnAutoWidth]="true"
         >
+
+         
           <dxo-toolbar>
             <dxi-item location="before">
-              <button
-                nz-button
-                nzType="primary"
-                (click)="isOpenActivityModal = true"
+              <dx-button
+                stylingMode="outlined"
+                type="default"
+                icon="plus"
+                text="Add Activity"
+                (onClick)="openProjectActivityModal()"
               >
-                <span nz-icon nzType="plus"></span>
-                Add
-              </button>
+              </dx-button>
             </dxi-item>
           </dxo-toolbar>
-          <dxi-column dataField="createdAt" caption="Time"></dxi-column>
-          <dxi-column dataField="content" caption="Content"></dxi-column>
+          <dxi-column
+            dataField="date"
+            caption="Date"
+            dataType="date"
+            format="yyyy-MM-dd"
+          ></dxi-column>
+          <dxi-column dataField="title" caption="Title"></dxi-column>
           <dxi-column dataField="note" caption="Note"></dxi-column>
         </dx-data-grid>
       </nz-collapse-panel>
@@ -202,10 +209,10 @@
               showColonAfterLabel="true"
               [labelMode]="'static'"
               [(value)]="progress.progress"
-              [min]="0"               
-              [max]="100"             
-              [step]="5"     
-              (onBlur)="updateProjectProgress()"  
+              [min]="0"
+              [max]="100"
+              [step]="5"
+              (onBlur)="updateProjectProgress()"
             ></dx-number-box>
           </td>
           <td>
@@ -216,7 +223,7 @@
               showColonAfterLabel="true"
               [labelMode]="'static'"
               [displayFormat]="'yyyy-MM-dd'"
-              (onValueChanged)="updateProjectProgress()"  
+              (onValueChanged)="updateProjectProgress()"
             ></dx-date-box>
           </td>
           <td>
@@ -227,7 +234,7 @@
               showColonAfterLabel="true"
               [labelMode]="'static'"
               [displayFormat]="'yyyy-MM-dd'"
-              (onValueChanged)="updateProjectProgress()"  
+              (onValueChanged)="updateProjectProgress()"
             ></dx-date-box>
           </td>
           <td>
@@ -278,10 +285,10 @@
               (onCellClick)="onCellClick($event)"
               [height]="650"
               [scrolling]="{
-                mode: 'virtual',  
-                rowRenderingMode: 'virtual', 
-                columnRenderingMode: 'virtual', 
-                useNative: false,     
+                mode: 'virtual',
+                rowRenderingMode: 'virtual',
+                columnRenderingMode: 'virtual',
+                useNative: false,
                 showScrollbar: 'always'
               }"
             >
@@ -313,10 +320,9 @@
                   >
                   </dx-button>
                 </dxi-item>
-                
+
                 <dxi-item location="after" name="searchPanel"></dxi-item>
               </dxo-toolbar>
-
 
               <dxo-editing
                 mode="popup"
@@ -345,7 +351,7 @@
               <dxi-column dataField="unit" caption="Unit"></dxi-column>
               <dxi-column dataField="material" caption="Material"></dxi-column>
               <dxi-column dataField="hardness" caption="Hardness"></dxi-column>
-              
+
               <dxi-column
                 dataField="polishing"
                 caption="Polishing"
@@ -370,7 +376,10 @@
   </ng-template>
 </nz-modal>
 
-<nz-modal [(nzVisible)]="isOpenActivityModal" [nzTitle]="'Project Activity'">
+<nz-modal
+  [(nzVisible)]="isOpenProjectActivityModal"
+  [nzTitle]="'Project Activity'"
+>
   <ng-container *nzModalContent>
     <nz-table
       [nzData]="['']"
@@ -383,7 +392,11 @@
         <tr>
           <td><label>Title</label></td>
           <td>
-            <input nz-input placeholder="Content" />
+            <input
+              nz-input
+              placeholder="Title"
+              [(ngModel)]="projectActivity.title"
+            />
           </td>
         </tr>
         <tr>
@@ -391,13 +404,20 @@
             <label>Date</label>
           </td>
           <td>
-            <nz-date-picker style="width: 100%;"></nz-date-picker>
+            <nz-date-picker
+              [(ngModel)]="projectActivity.date"
+              style="width: 100%"
+            ></nz-date-picker>
           </td>
         </tr>
         <tr>
           <td><label>Note</label></td>
           <td>
-            <textarea rows="3" nz-input></textarea>
+            <textarea
+              rows="3"
+              nz-input
+              [(ngModel)]="projectActivity.note"
+            ></textarea>
           </td>
         </tr>
         <tr>
@@ -419,11 +439,18 @@
     </nz-table>
   </ng-container>
   <div *nzModalFooter>
-    <button nz-button nzType="primary">Lưu</button>
-    <button nz-button nzType="default" (click)="isOpenActivityModal = false" >Đóng</button>
+    <button nz-button nzType="primary" (click)="insertProjectActivity()">
+      Lưu
+    </button>
+    <button
+      nz-button
+      nzType="default"
+      (click)="isOpenProjectActivityModal = false"
+    >
+      Đóng
+    </button>
   </div>
 </nz-modal>
-
 
 <nz-modal [(nzVisible)]="isOpenUploadDrawingModal" [nzTitle]="'Upload drawing'">
   <ng-container *nzModalContent>
@@ -439,13 +466,21 @@
     </dx-file-uploader>
   </ng-container>
   <div *nzModalFooter>
-    <button nz-button nzType="primary" (click)="uploadDrawing()" >Save</button>
-    <button nz-button nzType="default" (click)="isOpenUploadDrawingModal = false" >Đóng</button>
+    <button nz-button nzType="primary" (click)="uploadDrawing()">Save</button>
+    <button
+      nz-button
+      nzType="default"
+      (click)="isOpenUploadDrawingModal = false"
+    >
+      Đóng
+    </button>
   </div>
 </nz-modal>
 
-
-<nz-modal [(nzVisible)]="isOpenUploadDrawingTreeModal" [nzTitle]="'Upload drawing by excel'">
+<nz-modal
+  [(nzVisible)]="isOpenUploadDrawingTreeModal"
+  [nzTitle]="'Upload drawing by excel'"
+>
   <ng-container *nzModalContent>
     <dx-file-uploader
       [multiple]="false"
@@ -459,7 +494,15 @@
     </dx-file-uploader>
   </ng-container>
   <div *nzModalFooter>
-    <button nz-button nzType="primary" (click)="uploadDrawingTreeList()" >Save</button>
-    <button nz-button nzType="default" (click)="isOpenUploadDrawingTreeModal = false" >Đóng</button>
+    <button nz-button nzType="primary" (click)="uploadDrawingTreeList()">
+      Save
+    </button>
+    <button
+      nz-button
+      nzType="default"
+      (click)="isOpenUploadDrawingTreeModal = false"
+    >
+      Đóng
+    </button>
   </div>
 </nz-modal>

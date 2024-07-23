@@ -5,6 +5,7 @@ import { ProjectDto } from '../models/ProjectDto';
 import { ToastrService } from 'ngx-toastr';
 import { ProjectProgressDto } from '../models/ProjectProgressDto';
 import { DrawingDto } from '../models/DrawingDto';
+import { ProjectActivityDto } from '../models/ProjectActivityDto';
 
 @Component({
   selector: 'app-ie-dc-project-detail',
@@ -22,37 +23,18 @@ export class IeDcProjectDetailComponent implements OnInit {
   ngOnInit() {
     this.getProjectById();
     this.getProjectProgresses();
+    this.getProjectActivities();
   }
 
   project: ProjectDto = new ProjectDto();
   progress: ProjectProgressDto = new ProjectProgressDto();
   progresses!: ProjectProgressDto[];
-
-  activities = [
-    {
-      id: 1,
-      createdAt: '2024-06-23',
-      content: 'Design Review',
-      note: 'Meeting with OTW about comment',
-    },
-    {
-      id: 2,
-      createdAt: '2024-06-24',
-      content: 'Design Review',
-      note: 'Chốt phương án họp với ...',
-    },
-    {
-      id: 3,
-      createdAt: '2024-06-25',
-      content: 'Investment',
-      note: 'So sánh giá các bên',
-    },
-  ];
+  activities!: ProjectActivityDto[];
 
   drawings = [];
   isOpenProgressModal: boolean = false;
   isOpenUploadDrawingModal: boolean = false;
-  isOpenActivityModal: boolean = false;
+  isOpenProjectActivityModal: boolean = false;
 
   /**
    * Expand các parent child drawing file
@@ -242,10 +224,40 @@ export class IeDcProjectDetailComponent implements OnInit {
         this.isOpenUploadDrawingTreeModal = false;
       }
     )
-
-
   }
 
+
+
+
+
+  projectActivity: ProjectActivityDto = new ProjectActivityDto();
+
+  openProjectActivityModal() {
+    this.projectActivity = new ProjectActivityDto();
+    this.fileUploads = null;
+    this.isOpenProjectActivityModal = true
+  }
+
+  insertProjectActivity() {
+    this.projectActivity.projectId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
+
+    this.drawingControlSvc.insertProjectActivity(this.fileUploads, this.projectActivity).subscribe(
+      response => {
+        console.log('insertProjectActivity: ',response);
+        this.isOpenProjectActivityModal = false
+        this.getProjectActivities();
+      }
+    )
+  }
+
+  getProjectActivities() {
+    let projectId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
+    this.drawingControlSvc.getProjectActivities(projectId).subscribe(
+      response => {
+        this.activities = response;
+      }
+    )
+  }
 
 
 

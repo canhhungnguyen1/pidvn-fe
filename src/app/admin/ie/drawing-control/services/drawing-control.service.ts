@@ -1,10 +1,11 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ProjectDto } from '../models/ProjectDto';
 import { ProjectProgressDto } from '../models/ProjectProgressDto';
 import { DrawingDto } from '../models/DrawingDto';
+import { ProjectActivityDto } from '../models/ProjectActivityDto';
 
 @Injectable({
   providedIn: 'root',
@@ -116,6 +117,26 @@ export class DrawingControlService {
       }
     );
   }
+
+
+
+
+  insertProjectActivity(file: File, projectActivityDto: ProjectActivityDto): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('file', file);
+    formData.append('projectActivityDto', new Blob([JSON.stringify(projectActivityDto)], { type: 'application/json' }));
+    const headers = new HttpHeaders({
+      'Accept': 'application/json'
+    });
+    return this.httpClient.post(`${this.baseUrl}/IE/DrawingControl/ProjectActivity`, formData, { headers: headers });
+  }
+
+  getProjectActivities(projectId: number): Observable<any> {
+    return this.httpClient.get(
+      `${this.baseUrl}/IE/DrawingControl/ProjectActivities?projectId=${projectId}`
+    );
+  }
+
 
   // public getIeProjectById(id: number) : Observable<any> {
   //   return this.httpClient.get(`${this.baseUrl}/IE/DrawingManagement/Project/${id}`);
