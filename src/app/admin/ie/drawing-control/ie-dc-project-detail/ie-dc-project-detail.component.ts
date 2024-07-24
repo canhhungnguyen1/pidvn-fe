@@ -150,8 +150,11 @@ export class IeDcProjectDetailComponent implements OnInit {
     let dataField = event.column.dataField;
     console.log(event.data);
     if (dataField === 'drawingName') {
-      let rootURL = `D:\\Workspace\\ProjectManagement\\Project\\${this.project.projectNo}\\Drawing\\${event.data.drawingNo}.pdf`;
+      let rootURL = `E:\\Workspace\\Java\\PIDVN\\IE-Project\\${this.project.projectNo}\\Drawing\\${event.data.drawingNo}.pdf`;
       let params = { url: rootURL };
+
+      console.log('rootURL: ' ,rootURL);
+      
 
       this.drawingControlSvc.previewDrawing(params).subscribe((response) => {
         let file = new Blob([response], { type: 'application/pdf' });
@@ -174,13 +177,17 @@ export class IeDcProjectDetailComponent implements OnInit {
    * Chọn file để upload lên server
    * @param e 
    */
-  onValueChangedFile(e: any) {
+  onValueChangedFile(e: any, isMultiple: boolean) {
     console.log('onValueChangedFile: ', e);
     
     const files = e.value; // Lấy danh sách các tệp đã chọn
-    // if (files.length > 0) {
-    //   this.fileUploads = files[0];
-    // }
+
+    if (!isMultiple) {
+      if (files.length > 0) {
+        this.fileUploads = files[0];
+      }
+      return
+    }
     this.fileUploads = e.value;
   }
 

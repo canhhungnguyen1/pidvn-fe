@@ -83,7 +83,7 @@ export class IeDcProjectComponent implements OnInit {
     this.project.createdBy = this.jwt.Username
     this.drawingControlSvc.insertProject(this.project).subscribe(
       response => {
-        console.log('Project Inserted: ', response);
+        this.getProjects();
         this.isOpenProjectInsertModal = false
       },
       error => {

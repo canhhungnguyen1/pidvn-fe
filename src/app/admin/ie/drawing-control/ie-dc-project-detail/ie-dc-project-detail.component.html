@@ -429,7 +429,7 @@
               accept="image/*, .pdf, .doc, .docx, .ppt, .pptx, .xls, .xlsx"
               uploadMode="useForm"
               [inputAttr]="{ 'aria-label': 'Select file' }"
-              (onValueChanged)="onValueChangedFile($event)"
+              (onValueChanged)="onValueChangedFile($event, true)"
             >
             </dx-file-uploader>
           </td>
@@ -460,7 +460,7 @@
       accept=".pdf"
       uploadMode="useForm"
       [inputAttr]="{ 'aria-label': 'Select file' }"
-      (onValueChanged)="onValueChangedFile($event)"
+      (onValueChanged)="onValueChangedFile($event, true)"
     >
     </dx-file-uploader>
   </ng-container>
@@ -488,7 +488,7 @@
       accept=".xlsx"
       uploadMode="useForm"
       [inputAttr]="{ 'aria-label': 'Select file' }"
-      (onValueChanged)="onValueChangedFile($event)"
+      (onValueChanged)="onValueChangedFile($event,false)"
     >
     </dx-file-uploader>
   </ng-container>
