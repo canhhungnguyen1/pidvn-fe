@@ -86,15 +86,16 @@ export class DrawingControlService {
     );
   }
 
-  uploadDrawing(
-    file: File,
-    projectNo: string,
-    drawingName: string
+  uploadDrawingFile(
+    files: File[],
+    projectNo: string
   ): Observable<any> {
     const formData = new FormData();
-    formData.append('file', file);
+    files.forEach((file: File, index: any) => {
+      formData.append(`files`, file, file.name);
+    });
     return this.httpClient.post(
-      `${this.baseUrl}/IE/DrawingControl/UploadDrawing?projectNo=${projectNo}&drawingName=${drawingName}`,
+      `${this.baseUrl}/IE/DrawingControl/UploadDrawingFile?projectNo=${projectNo}`,
       formData
     );
   }

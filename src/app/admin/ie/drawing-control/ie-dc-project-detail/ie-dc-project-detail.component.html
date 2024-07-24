@@ -304,7 +304,7 @@
                     stylingMode="outlined"
                     type="default"
                     icon="upload"
-                    text="Upload tree list"
+                    text="Upload Drawing Tree"
                     (onClick)="openUploadDrawingTreeModal()"
                   >
                   </dx-button>
@@ -315,6 +315,7 @@
                     type="success"
                     icon="upload"
                     text="Upload drawing file"
+                    (onClick)="openUploadDrawingFileModal()"
                   >
                   </dx-button>
                 </dxi-item>
@@ -450,13 +451,13 @@
   </div>
 </nz-modal>
 
-<nz-modal [(nzVisible)]="isOpenUploadDrawingModal" [nzTitle]="'Upload drawing'">
+<nz-modal [(nzVisible)]="isOpenUploadDrawingFileModal" [nzTitle]="'Upload Drawing File'">
   <ng-container *nzModalContent>
     <dx-file-uploader
-      [multiple]="false"
+      [multiple]="true"
       selectButtonText="Select file"
       labelText=""
-      accept="image/*, .pdf, .doc, .docx, .ppt, .pptx, .xls, .xlsx"
+      accept=".pdf"
       uploadMode="useForm"
       [inputAttr]="{ 'aria-label': 'Select file' }"
       (onValueChanged)="onValueChangedFile($event)"
@@ -464,11 +465,11 @@
     </dx-file-uploader>
   </ng-container>
   <div *nzModalFooter>
-    <button nz-button nzType="primary" (click)="uploadDrawing()">Save</button>
+    <button nz-button nzType="primary" (click)="uploadDrawingFile()">Save</button>
     <button
       nz-button
       nzType="default"
-      (click)="isOpenUploadDrawingModal = false"
+      (click)="isOpenUploadDrawingFileModal = false"
     >
       Đóng
     </button>
@@ -477,7 +478,7 @@
 
 <nz-modal
   [(nzVisible)]="isOpenUploadDrawingTreeModal"
-  [nzTitle]="'Upload drawing by excel'"
+  [nzTitle]="'Upload Drawing Tree'"
 >
   <ng-container *nzModalContent>
     <dx-file-uploader

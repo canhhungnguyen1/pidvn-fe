@@ -33,9 +33,9 @@ export class IeDcProjectDetailComponent implements OnInit {
 
   drawings = [];
   isOpenProgressModal: boolean = false;
-  isOpenUploadDrawingModal: boolean = false;
+  isOpenUploadDrawingFileModal: boolean = false;
   isOpenProjectActivityModal: boolean = false;
-
+  
   /**
    * Expand các parent child drawing file
    */
@@ -175,26 +175,27 @@ export class IeDcProjectDetailComponent implements OnInit {
    * @param e 
    */
   onValueChangedFile(e: any) {
+    console.log('onValueChangedFile: ', e);
+    
     const files = e.value; // Lấy danh sách các tệp đã chọn
-    if (files.length > 0) {
-      this.fileUploads = files[0];
-    }
+    // if (files.length > 0) {
+    //   this.fileUploads = files[0];
+    // }
+    this.fileUploads = e.value;
   }
 
-  drawingSelected: any;
-  openUploadDrawingModal(item: any) {
-    this.drawingSelected = item.data
-    this.isOpenUploadDrawingModal = true;
+  openUploadDrawingFileModal() {
+    this.isOpenUploadDrawingFileModal = true;
     this.fileUploads = null;
   }
 
-  uploadDrawing() {
+  uploadDrawingFile() {
 
     console.log(this.progress);
     
-    this.drawingControlSvc.uploadDrawing(this.fileUploads,this.project.projectNo, this.drawingSelected.drawingName).subscribe(
+    this.drawingControlSvc.uploadDrawingFile(this.fileUploads,this.project.projectNo).subscribe(
       response => {
-        this.isOpenUploadDrawingModal = false;
+        this.isOpenUploadDrawingFileModal = false;
       }
     )
 
