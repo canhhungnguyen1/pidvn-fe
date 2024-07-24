@@ -9,9 +9,54 @@
 <nz-collapse>
   <nz-collapse-panel
     [nzHeader]="'Tìm kiếm'"
-    [nzActive]="false"
+    [nzActive]="true"
     [nzShowArrow]="true"
   >
+    <div nz-row nzJustify="start" [nzGutter]="24">
+      <div nz-col nzXs="24" nzSm="12" nzLg="3">
+        <nz-date-picker nzMode="year" nzPlaceHolder="Year" style="width: 100%;"></nz-date-picker>
+      </div>
+      <div nz-col nzXs="24" nzSm="12" nzLg="3">
+        <dx-select-box
+          label="Project Type"
+          labelLocation="left"
+          showColonAfterLabel="true"
+          [labelMode]="'floating'"
+          displayExpr="name"
+          valueExpr="id"
+          [dataSource]="projectTypes"
+          [showClearButton]="true"
+        ></dx-select-box>
+      </div>
+      <div nz-col nzXs="24" nzSm="12" nzLg="3">
+        <dx-select-box
+          label="Product"
+          labelLocation="left"
+          showColonAfterLabel="true"
+          [labelMode]="'floating'"
+          [displayExpr]="displayProduct"
+          valueExpr="id"
+          [dataSource]="products"
+          [showClearButton]="true"
+          [searchEnabled]="true"
+          [dropDownOptions]="{ width: '250px' }"
+        ></dx-select-box>
+      </div>
+      <div nz-col nzXs="24" nzSm="12" nzLg="3">
+        <dx-select-box
+          label="Main P.I.C"
+          labelLocation="left"
+          showColonAfterLabel="true"
+          [labelMode]="'floating'"
+          [displayExpr]="displayPersonInChargeName"
+          valueExpr="id"
+          [dataSource]="users"
+          [showClearButton]="true"
+          [searchEnabled]="true"
+          [dropDownOptions]="{ width: '250px' }"
+        ></dx-select-box>
+      </div>
+    </div>
   </nz-collapse-panel>
 </nz-collapse>
 <dx-data-grid
@@ -41,9 +86,14 @@
   <dxi-column dataField="projectName" caption="Project Name"></dxi-column>
   <dxi-column dataField="projectTypeName" caption="Project Type"></dxi-column>
   <dxi-column dataField="product" caption="Product"></dxi-column>
-  <dxi-column dataField="createdAt" caption="Created Date"></dxi-column>
+  <dxi-column
+    dataField="createdAt"
+    caption="Created Date"
+    dataType="date"
+    format="yyyy-MM-dd HH:mm"
+  ></dxi-column>
   <dxi-column dataField="status" caption="Status"></dxi-column>
-  <dxi-column dataField="mainPic" caption="Main P.I.C"></dxi-column>
+  <dxi-column dataField="personInChargeName" caption="Main P.I.C"></dxi-column>
 </dx-data-grid>
 
 <nz-modal [(nzVisible)]="isOpenProjectInsertModal" nzTitle="Project">
@@ -56,15 +106,23 @@
     >
       <tbody>
         <tr>
-          <td><label>Control No</label></td>
+          <td><label>Project No</label></td>
           <td>
-            <input nz-input placeholder="Control No" [(ngModel)]="project.projectNo" />
+            <input
+              nz-input
+              placeholder="Control No"
+              [(ngModel)]="project.projectNo"
+            />
           </td>
         </tr>
         <tr>
           <td><label>Project Name</label></td>
           <td>
-            <input nz-input placeholder="Project Name" [(ngModel)]="project.projectName" />
+            <input
+              nz-input
+              placeholder="Project Name"
+              [(ngModel)]="project.projectName"
+            />
           </td>
         </tr>
         <tr>
@@ -72,7 +130,7 @@
           <td>
             <nz-select
               nzPlaceHolder="Project Type"
-              style="width: 100%;"
+              style="width: 100%"
               [(ngModel)]="project.projectTypeId"
             >
               <nz-option
@@ -84,10 +142,38 @@
             </nz-select>
           </td>
         </tr>
+        <tr>
+          <td><label>P.I.C</label></td>
+          <td>
+            <nz-select
+              nzPlaceHolder="Person InCharge"
+              style="width: 100%"
+              [(ngModel)]="project.personInChargeId"
+              nzShowSearch
+              nzAllowClear
+            >
+              <nz-option
+                *ngFor="let personInCharge of users"
+                [nzValue]="personInCharge.username"
+                [nzLabel]="
+                  personInCharge.username + ' - ' + personInCharge.name
+                "
+              >
+              </nz-option>
+            </nz-select>
+          </td>
+        </tr>
       </tbody>
     </nz-table>
   </ng-container>
   <div *nzModalFooter>
-    <button nz-button nzType="default" (click)="onInsertProject()">Save</button>
+    <button
+      nz-button
+      nzType="default"
+      (click)="isOpenProjectInsertModal = false"
+    >
+      Đóng
+    </button>
+    <button nz-button nzType="primary" (click)="onInsertProject()">Save</button>
   </div>
 </nz-modal>

@@ -21,18 +21,44 @@ export class IeDcProjectComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getPersonInCharges();
     this.getProjects();
     this.getProjectType();
+    this.getProducts();
   }
 
 
   jwt: any;
+  users: any;
+  products: any;
   project!: ProjectDto
   projects!: ProjectDto[]
-
   projectTypes!: ProjectTypeDto[]
-
   isOpenProjectInsertModal: boolean = false
+
+  displayProduct(product:any) {
+    return product ? `${product.factoryCode} - ${product.description}` : '';
+  }
+
+  displayPersonInChargeName(user:any) {
+    return user ? `${user.username} - ${user.name}` : '';
+  }
+
+  public getPersonInCharges() {
+    this.drawingControlSvc.getPersonInCharges().subscribe(
+      response => {
+        this.users = response
+      }
+    )
+  }
+
+  public getProducts() {
+    this.drawingControlSvc.getProducts().subscribe(
+      response => {
+        this.products = response
+      }
+    )
+  }
 
   getProjects() {
     this.drawingControlSvc.getProjects({}).subscribe(

@@ -12,4 +12,6 @@ export class ProjectDto {
   line!: string;
   tactTime!: string;
   capacity!: string;
+  personInChargeId!:string
+  personInChargeName!:string
 }

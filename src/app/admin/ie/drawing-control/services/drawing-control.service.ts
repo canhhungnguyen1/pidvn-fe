@@ -15,6 +15,16 @@ export class DrawingControlService {
 
   private baseUrl = environment.baseUrl;
 
+  public getPersonInCharges(): Observable<any> {
+    return this.httpClient.get(
+      `${this.baseUrl}/IE/DrawingControl/PersonInCharges`);
+  }
+
+  public getProducts(): Observable<any> {
+    return this.httpClient.get(
+      `${this.baseUrl}/IE/DrawingControl/Products`);
+  }
+
   public getProjects(searchVo: any): Observable<any> {
     return this.httpClient.post(
       `${this.baseUrl}/IE/DrawingControl/Projects`,
