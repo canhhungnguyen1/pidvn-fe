@@ -185,7 +185,7 @@
 
 <nz-modal
   [(nzVisible)]="isOpenProgressModal"
-  [nzTitle]="'Progress: ' + progress?.projectProgressName"
+  [nzTitle]="'Progress: ' + progress.projectProgressName"
   nzWidth="100%"
   [nzFooter]="modalFooter"
   (nzOnCancel)="isOpenProgressModal = false"

@@ -4,6 +4,7 @@ import { DrawingControlService } from '../services/drawing-control.service';
 import { ProjectDto } from '../models/ProjectDto';
 import { ProjectTypeDto } from '../models/ProjectTypeDto';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { SearchDto } from '../models/SearchDto';
 
 @Component({
   selector: 'app-ie-dc-project',
@@ -35,6 +36,8 @@ export class IeDcProjectComponent implements OnInit {
   projects!: ProjectDto[]
   projectTypes!: ProjectTypeDto[]
   isOpenProjectInsertModal: boolean = false
+
+  searchDto: SearchDto = new SearchDto;
 
   displayProduct(product:any) {
     return product ? `${product.factoryCode} - ${product.description}` : '';
