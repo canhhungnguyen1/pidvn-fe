@@ -150,11 +150,9 @@ export class IeDcProjectDetailComponent implements OnInit {
     let dataField = event.column.dataField;
     console.log(event.data);
     if (dataField === 'drawingName') {
-      let rootURL = `E:\\Workspace\\Java\\PIDVN\\IE-Project\\${this.project.projectNo}\\Drawing\\${event.data.drawingNo}.pdf`;
+      let rootURL = `\\\\10.92.176.10\\DataSharePIDVN\\4. IE Drawing\\HUNG-IT\\IE-Project\\${this.project.projectNo}\\Drawing\\${event.data.drawingNo}.pdf`;
       let params = { url: rootURL };
 
-      console.log('rootURL: ' ,rootURL);
-      
 
       this.drawingControlSvc.previewDrawing(params).subscribe((response) => {
         let file = new Blob([response], { type: 'application/pdf' });
@@ -203,6 +201,7 @@ export class IeDcProjectDetailComponent implements OnInit {
     this.drawingControlSvc.uploadDrawingFile(this.fileUploads,this.project.projectNo).subscribe(
       response => {
         this.isOpenUploadDrawingFileModal = false;
+        this.toastr.success('Uploaded','Success')
       }
     )
 

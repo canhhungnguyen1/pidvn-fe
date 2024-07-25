@@ -81,21 +81,13 @@
             >
           </li> -->
           <li nz-menu-item nzMatchRouter>
-            <a
-              [href]="traceDataXuoi"
-              target="blank"
-              (click)="onHideSidebar()"
-            >
-            Truy vết xuôi</a
+            <a [href]="traceDataXuoi" target="blank" (click)="onHideSidebar()">
+              Truy vết xuôi</a
             >
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a
-              [href]="traceDataNguoc"
-              target="blank"
-              (click)="onHideSidebar()"
-            >
-            Truy vết ngược</a
+            <a [href]="traceDataNguoc" target="blank" (click)="onHideSidebar()">
+              Truy vết ngược</a
             >
           </li>
           <li nz-menu-item nzMatchRouter>
@@ -104,7 +96,7 @@
               target="blank"
               (click)="onHideSidebar()"
             >
-            Truy vết theo lô sản xuất (PIH)</a
+              Truy vết theo lô sản xuất (PIH)</a
             >
           </li>
         </ul>
@@ -427,7 +419,11 @@
           </li>
           <li nz-menu-item nzMatchRouter>
             <i nz-icon nzType="mail"></i>
-            <span><a [href]="editEmailLink" target="blank">Chỉnh sửa email</a></span>
+            <span
+              ><a [href]="editEmailLink" target="blank"
+                >Chỉnh sửa email</a
+              ></span
+            >
           </li>
           <li nz-submenu nzTitle="Quản lý chất thải">
             <ul>
@@ -613,7 +609,11 @@
       <li nz-submenu nzTitle="IE" nzIcon="github">
         <ul>
           <li nz-menu-item nzMatchRouter>
-            <a routerLink="/admin/ie/drawing-control/projects">Drawing Control</a>
+            <a
+              routerLink="/admin/ie/drawing-control/projects"
+              (click)="onHideSidebar()"
+              >Drawing Control</a
+            >
           </li>
         </ul>
       </li>
@@ -914,9 +914,7 @@
           <li nz-menu-item nzTooltipPlacement="right" nzMatchRouter>
             <i nz-icon nzType="book"></i>
             <span>
-              <a routerLink="/admin/ie/drawing-control/menu"
-                >Drawing Control</a
-              >
+              <a routerLink="/admin/ie/drawing-control/menu">Drawing Control</a>
             </span>
           </li>
         </ul>

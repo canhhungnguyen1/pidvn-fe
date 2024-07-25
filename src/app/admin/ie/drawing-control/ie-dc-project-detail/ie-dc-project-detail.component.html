@@ -2,12 +2,56 @@
   <div nz-col nzXs="16" nzSm="16" nzMd="16" nzLg="16">
     <nz-collapse>
       <nz-collapse-panel
-        [nzHeader]="'Project: ' + project.projectNo"
+        [nzHeader]="'Project No: ' + project.projectNo"
         [nzActive]="true"
         [nzShowArrow]="true"
       >
         <!-- <nz-card style="width: 100%"></nz-card> -->
-        <nz-table
+
+        <div nz-row nzJustify="start" [nzGutter]="24">
+          <div nz-col nzXs="24" nzSm="12" nzLg="4">
+            <dx-text-box
+              label="Project Name"
+              labelLocation="left"
+              showColonAfterLabel="true"
+              [labelMode]="'static'"
+              [(value)]="project.projectName"
+              (onBlur)="updateProject()"
+            ></dx-text-box>
+          </div>
+          <div nz-col nzXs="24" nzSm="12" nzLg="4">
+            <dx-text-box
+              label="Line"
+              labelLocation="left"
+              showColonAfterLabel="true"
+              [labelMode]="'static'"
+              [(value)]="project.line"
+              (onBlur)="updateProject()"
+            ></dx-text-box>
+          </div>
+          <div nz-col nzXs="24" nzSm="12" nzLg="4">
+            <dx-text-box
+              label="Supplier"
+              labelLocation="left"
+              showColonAfterLabel="true"
+              [labelMode]="'static'"
+              [(value)]="project.supplier"
+              (onBlur)="updateProject()"
+            ></dx-text-box>
+          </div>
+          <div nz-col nzXs="24" nzSm="12" nzLg="4">
+            <dx-text-box
+              label="Tact Time"
+              labelLocation="left"
+              showColonAfterLabel="true"
+              [labelMode]="'static'"
+              [(value)]="project.tactTime"
+              (onBlur)="updateProject()"
+            ></dx-text-box>
+          </div>
+        </div>
+
+        <!-- <nz-table
           id="project-info"
           [nzData]="['']"
           nzSize="small"
@@ -58,8 +102,8 @@
               </td>
             </tr>
           </tbody>
-        </nz-table>
-
+        </nz-table> -->
+        <br />
         <nz-collapse>
           <nz-collapse-panel
             [nzHeader]="'Progress'"
@@ -281,7 +325,7 @@
               (onSaving)="onSavingDrawing($event)"
               (onSaved)="onSavedDrawing($event)"
               (onCellClick)="onCellClick($event)"
-              [height]="650"
+              [height]="550"
               [scrolling]="{
                 mode: 'virtual',
                 rowRenderingMode: 'virtual',
@@ -292,6 +336,7 @@
             >
               <dxo-filter-row [visible]="true"></dxo-filter-row>
               <dxo-search-panel [visible]="true"></dxo-search-panel>
+              <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
 
               <dxo-toolbar>
                 <dxi-item
@@ -320,6 +365,10 @@
                   </dx-button>
                 </dxi-item>
 
+                <dxi-item
+                  location="after"
+                  name="columnChooserButton"
+                ></dxi-item>
                 <dxi-item location="after" name="searchPanel"></dxi-item>
               </dxo-toolbar>
 
@@ -357,7 +406,11 @@
               ></dxi-column>
               <dxi-column dataField="supplier" caption="Supplier"></dxi-column>
               <dxi-column dataField="version" caption="Version"></dxi-column>
-              <dxi-column dataField="remark" caption="Remark"></dxi-column>
+              <dxi-column
+                dataField="remark"
+                caption="Remark"
+                [visible]="false"
+              ></dxi-column>
             </dx-tree-list>
           </td>
         </tr>
@@ -451,13 +504,17 @@
   </div>
 </nz-modal>
 
-<nz-modal [(nzVisible)]="isOpenUploadDrawingFileModal" [nzTitle]="'Upload Drawing File'">
+<nz-modal
+  [(nzVisible)]="isOpenUploadDrawingFileModal"
+  [nzTitle]="'Upload Drawing File'"
+>
   <ng-container *nzModalContent>
     <dx-file-uploader
       [multiple]="true"
       selectButtonText="Select file"
       labelText=""
       accept=".pdf"
+      [allowedFileExtensions]="['.pdf']"
       uploadMode="useForm"
       [inputAttr]="{ 'aria-label': 'Select file' }"
       (onValueChanged)="onValueChangedFile($event, true)"
@@ -465,7 +522,9 @@
     </dx-file-uploader>
   </ng-container>
   <div *nzModalFooter>
-    <button nz-button nzType="primary" (click)="uploadDrawingFile()">Save</button>
+    <button nz-button nzType="primary" (click)="uploadDrawingFile()">
+      Save
+    </button>
     <button
       nz-button
       nzType="default"
@@ -488,7 +547,7 @@
       accept=".xlsx"
       uploadMode="useForm"
       [inputAttr]="{ 'aria-label': 'Select file' }"
-      (onValueChanged)="onValueChangedFile($event,false)"
+      (onValueChanged)="onValueChangedFile($event, false)"
     >
     </dx-file-uploader>
   </ng-container>
