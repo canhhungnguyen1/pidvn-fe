@@ -416,7 +416,12 @@
         </tr>
         <tr *ngIf="progress?.projectProgressId !== 3">
           <td>File</td>
-          <td></td>
+          <td>
+            <ul>
+              <li>aaa</li>
+              <li>bbb</li>
+            </ul>
+          </td>
         </tr>
       </tbody>
     </nz-table>
@@ -482,7 +487,7 @@
               accept="image/*, .pdf, .doc, .docx, .ppt, .pptx, .xls, .xlsx"
               uploadMode="useForm"
               [inputAttr]="{ 'aria-label': 'Select file' }"
-              (onValueChanged)="onValueChangedFile($event, true)"
+              (onValueChanged)="onValueChangedFile($event, false)"
             >
             </dx-file-uploader>
           </td>

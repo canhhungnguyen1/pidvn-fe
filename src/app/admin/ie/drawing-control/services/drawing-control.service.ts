@@ -110,10 +110,6 @@ export class DrawingControlService {
     );
   }
 
-
-
-
-
   /**
    * Xem file Drawing
    * @param file
@@ -129,17 +125,14 @@ export class DrawingControlService {
     );
   }
 
-
-
-
   insertProjectActivity(file: File, projectActivityDto: ProjectActivityDto): Observable<any> {
     const formData: FormData = new FormData();
     formData.append('file', file);
     formData.append('projectActivityDto', new Blob([JSON.stringify(projectActivityDto)], { type: 'application/json' }));
-    const headers = new HttpHeaders({
-      'Accept': 'application/json'
-    });
-    return this.httpClient.post(`${this.baseUrl}/IE/DrawingControl/ProjectActivity`, formData, { headers: headers });
+    // const headers = new HttpHeaders({
+    //   'Accept': 'application/json'
+    // });
+    return this.httpClient.post(`${this.baseUrl}/IE/DrawingControl/ProjectActivity`, formData);
   }
 
   getProjectActivities(projectId: number): Observable<any> {
@@ -147,38 +140,5 @@ export class DrawingControlService {
       `${this.baseUrl}/IE/DrawingControl/ProjectActivities?projectId=${projectId}`
     );
   }
-
-
-  // public getIeProjectById(id: number) : Observable<any> {
-  //   return this.httpClient.get(`${this.baseUrl}/IE/DrawingManagement/Project/${id}`);
-  // }
-
-  // public getProjects(params: any): Observable<any> {
-  //   return this.httpClient.post(`${this.baseUrl}/IE/DrawingManagement/Projects`, params);
-  // }
-
-  /**
-   * Lấy các process theo project
-   * @param params
-   * @returns
-   */
-  // public getProgressByProject(param: any): Observable<any> {
-  //   return this.httpClient.post(`${this.baseUrl}/IE/DrawingManagement/ProgressByProject`,param);
-  // }
-
-  // public saveProject(params: any): Observable<any> {
-  //   return this.httpClient.post(`${this.baseUrl}/IE/DrawingManagement/Project`, params);
-  // }
-
-  // public saveDrawing(params: any): Observable<any> {
-  //   return this.httpClient.post(`${this.baseUrl}/IE/DrawingManagement/Drawing`, params);
-  // }
-
-  // public getIeDrawings(projectId: number, progressId: number): Observable<any> {
-  //   return this.httpClient.get(`${this.baseUrl}/IE/DrawingManagement/Drawings?projectId=${projectId}&progressId=${progressId}`);
-  // }
-
-  // public getIeProjectTypes(): Observable<any> {
-  //   return this.httpClient.get(`${this.baseUrl}/IE/DrawingManagement/ProjectType`);
-  // }
+  
 }

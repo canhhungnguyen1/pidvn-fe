@@ -30,12 +30,19 @@ export class IeDcProjectDetailComponent implements OnInit {
   progress: ProjectProgressDto = new ProjectProgressDto();
   progresses!: ProjectProgressDto[];
   activities!: ProjectActivityDto[];
+  projectActivity: ProjectActivityDto = new ProjectActivityDto();
+
 
   drawings = [];
   isOpenProgressModal: boolean = false;
   isOpenUploadDrawingFileModal: boolean = false;
   isOpenProjectActivityModal: boolean = false;
   
+
+
+
+  fileUploads: any;
+
   /**
    * Expand các parent child drawing file
    */
@@ -169,7 +176,7 @@ export class IeDcProjectDetailComponent implements OnInit {
 
 
 
-  fileUploads: any;
+  
 
   /**
    * Chọn file để upload lên server
@@ -237,7 +244,7 @@ export class IeDcProjectDetailComponent implements OnInit {
 
 
 
-  projectActivity: ProjectActivityDto = new ProjectActivityDto();
+  
 
   openProjectActivityModal() {
     this.projectActivity = new ProjectActivityDto();
@@ -246,6 +253,7 @@ export class IeDcProjectDetailComponent implements OnInit {
   }
 
   insertProjectActivity() {
+
     this.projectActivity.projectId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
 
     this.drawingControlSvc.insertProjectActivity(this.fileUploads, this.projectActivity).subscribe(

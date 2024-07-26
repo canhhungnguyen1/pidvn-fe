@@ -3,5 +3,5 @@ export class ProjectActivityDto {
   title!: string;
   note!: string;
   date!: Date;
-  projectId!: number
+  projectId!: number;
 }
