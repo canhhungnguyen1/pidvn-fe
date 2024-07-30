@@ -102,6 +102,6 @@ export class IeDcProjectComponent implements OnInit {
     console.log('onRowClick:', event);
     
     let projectId = event.data.id;
-    //this.router.navigate(['/admin/ie/drawing-control/projects', projectId]);
+    this.router.navigate(['/admin/ie/drawing-control/projects', projectId]);
   }
 }

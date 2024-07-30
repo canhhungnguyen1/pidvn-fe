@@ -36,6 +36,7 @@ export class IeDcProjectDetailComponent implements OnInit {
   drawings = [];
   isOpenProgressModal: boolean = false;
   isOpenUploadDrawingFileModal: boolean = false;
+  isOpenUploadProgressFileModal: boolean = false;
   isOpenProjectActivityModal: boolean = false;
 
   progressFiles: any;
@@ -91,6 +92,11 @@ export class IeDcProjectDetailComponent implements OnInit {
     console.log('Progress: ', this.progress);
 
     if (progressId == 3) {
+
+      /**
+       * Lấy các file drawing dạng tree
+       */
+
       this.drawingControlSvc.getDrawings(projectId).subscribe((response) => {
         console.log('List Drawings: ', response);
         this.drawings = response;
@@ -98,7 +104,33 @@ export class IeDcProjectDetailComponent implements OnInit {
         // Mở tất cả các hàng khi khởi tạo
         this.expandedRowKeys = this.drawings.map((item: any) => item.id);
       });
+
+
+    } else {
+
+      this.drawingControlSvc.getProgressFiles(projectId, progressId).subscribe(
+        response => {
+          this.progressFiles = response
+        }
+      )
+
+
+
+
+
+
+
+
     }
+
+
+
+
+
+
+
+
+
 
     this.isOpenProgressModal = true;
   }
@@ -218,10 +250,12 @@ export class IeDcProjectDetailComponent implements OnInit {
     this.fileUploads = null;
   }
 
-  uploadDrawingFile() {
+  openUploadProgressFileModal() {
+    this.isOpenUploadProgressFileModal = true;
+    this.fileUploads = null;
+  }
 
-    console.log(this.progress);
-    
+  uploadDrawingFile() {
     this.drawingControlSvc.uploadDrawingFile(this.fileUploads,this.project.projectNo).subscribe(
       response => {
         this.isOpenUploadDrawingFileModal = false;
@@ -229,6 +263,15 @@ export class IeDcProjectDetailComponent implements OnInit {
       }
     )
 
+  }
+
+  uploadProgressFile() {
+    this.drawingControlSvc.uploadProgressFile(this.fileUploads, this.project.id, this.progress.projectProgressId).subscribe(
+      response => {
+        this.isOpenUploadProgressFileModal = false;
+        this.toastr.success('Uploaded','Success')
+      }
+    )
   }
 
 

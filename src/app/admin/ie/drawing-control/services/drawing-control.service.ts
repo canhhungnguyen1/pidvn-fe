@@ -100,6 +100,28 @@ export class DrawingControlService {
     );
   }
 
+  uploadProgressFile(
+    files: File[],
+    projectId: number,
+    progressId: number
+
+  ): Observable<any> {
+    const formData = new FormData();
+    files.forEach((file: File, index: any) => {
+      formData.append(`files`, file, file.name);
+    });
+    return this.httpClient.post(
+      `${this.baseUrl}/IE/DrawingControl/UploadProgressFile?projectId=${projectId}&projectProgressId=${progressId}`,
+      formData
+    );
+  }
+
+
+
+
+
+
+
 
   uploadDrawingTreeList(file: File, projectId: number): Observable<any> {
     const formData = new FormData();
@@ -141,4 +163,20 @@ export class DrawingControlService {
     );
   }
   
+
+
+
+  /**
+   * Lấy các file trong progress theo projectId
+   * @param projectId 
+   * @param progressId 
+   * @returns 
+   */
+  getProgressFiles(projectId: number, progressId: number): Observable<any> {
+    return this.httpClient.get(
+      `${this.baseUrl}/IE/DrawingControl/ProgressFiles?projectId=${projectId}&projectProgressId=${progressId}`
+    );
+  }
+
+
 }
