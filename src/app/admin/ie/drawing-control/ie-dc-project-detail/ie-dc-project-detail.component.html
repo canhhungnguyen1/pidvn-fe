@@ -51,59 +51,8 @@
           </div>
         </div>
 
-        <!-- <nz-table
-          id="project-info"
-          [nzData]="['']"
-          nzSize="small"
-          nzBordered
-          nzFrontPagination="false"
-        >
-          <tbody>
-            <tr>
-              <td>
-                <dx-text-box
-                  label="Project Name"
-                  labelLocation="left"
-                  showColonAfterLabel="true"
-                  [labelMode]="'static'"
-                  [(value)]="project.projectName"
-                  (onBlur)="updateProject()"
-                ></dx-text-box>
-              </td>
-              <td>
-                <dx-text-box
-                  label="Line"
-                  labelLocation="left"
-                  showColonAfterLabel="true"
-                  [labelMode]="'static'"
-                  [(value)]="project.line"
-                  (onBlur)="updateProject()"
-                ></dx-text-box>
-              </td>
-              <td>
-                <dx-text-box
-                  label="Supplier"
-                  labelLocation="left"
-                  showColonAfterLabel="true"
-                  [labelMode]="'static'"
-                  [(value)]="project.supplier"
-                  (onBlur)="updateProject()"
-                ></dx-text-box>
-              </td>
-              <td>
-                <dx-text-box
-                  label="Tact Time"
-                  labelLocation="left"
-                  showColonAfterLabel="true"
-                  [labelMode]="'static'"
-                  [(value)]="project.tactTime"
-                  (onBlur)="updateProject()"
-                ></dx-text-box>
-              </td>
-            </tr>
-          </tbody>
-        </nz-table> -->
         <br />
+
         <nz-collapse>
           <nz-collapse-panel
             [nzHeader]="'Progress'"
@@ -112,7 +61,6 @@
           >
             <dx-data-grid
               keyExpr="id"
-              #projectGrid
               [dataSource]="progresses"
               [showColumnLines]="true"
               [showRowLines]="true"
@@ -417,10 +365,21 @@
         <tr *ngIf="progress?.projectProgressId !== 3">
           <td>File</td>
           <td>
-            <ul>
-              <li>aaa</li>
-              <li>bbb</li>
-            </ul>
+            <dx-data-grid
+              keyExpr="id"
+              #progressFilesGrid
+              [dataSource]="progressFiles"
+              [showColumnLines]="true"
+              [showRowLines]="true"
+              [showBorders]="true"
+              [allowColumnResizing]="true"
+              [columnAutoWidth]="true"
+            >
+              <dxi-column
+                dataField="fileName"
+                caption="Progress Id"
+              ></dxi-column>
+            </dx-data-grid>
           </td>
         </tr>
       </tbody>
