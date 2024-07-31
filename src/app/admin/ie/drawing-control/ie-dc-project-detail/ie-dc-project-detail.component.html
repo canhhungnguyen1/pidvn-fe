@@ -6,8 +6,6 @@
         [nzActive]="true"
         [nzShowArrow]="true"
       >
-        <!-- <nz-card style="width: 100%"></nz-card> -->
-
         <div nz-row nzJustify="start" [nzGutter]="24">
           <div nz-col nzXs="24" nzSm="12" nzLg="4">
             <dx-text-box
@@ -183,7 +181,65 @@
   (nzOnCancel)="isOpenProgressModal = false"
 >
   <ng-container *nzModalContent>
-    <nz-table
+    <div nz-row nzJustify="start" [nzGutter]="24">
+      <div nz-col nzXs="24" nzSm="12" nzLg="4">
+        <dx-number-box
+          label="Tiến độ"
+          labelLocation="left"
+          showColonAfterLabel="true"
+          [labelMode]="'static'"
+          [(value)]="progress.progress"
+          [min]="0"
+          [max]="100"
+          [step]="5"
+          (onBlur)="updateProjectProgress()"
+        ></dx-number-box>
+      </div>
+      <div nz-col nzXs="24" nzSm="12" nzLg="4">
+        <dx-date-box
+          [(value)]="progress.startPlan"
+          label="Start Plan"
+          labelLocation="left"
+          showColonAfterLabel="true"
+          [labelMode]="'static'"
+          [displayFormat]="'yyyy-MM-dd'"
+          (onValueChanged)="updateProjectProgress()"
+        ></dx-date-box>
+      </div>
+      <div nz-col nzXs="24" nzSm="12" nzLg="4">
+        <dx-date-box
+          [(value)]="progress.endPlan"
+          label="End Plan"
+          labelLocation="left"
+          showColonAfterLabel="true"
+          [labelMode]="'static'"
+          [displayFormat]="'yyyy-MM-dd'"
+          (onValueChanged)="updateProjectProgress()"
+        ></dx-date-box>
+      </div>
+      <div nz-col nzXs="24" nzSm="12" nzLg="4">
+        <dx-date-box
+          label="Start Act"
+          labelLocation="left"
+          showColonAfterLabel="true"
+          [labelMode]="'static'"
+          [displayFormat]="'yyyy-MM-dd'"
+        ></dx-date-box>
+      </div>
+      <div nz-col nzXs="24" nzSm="12" nzLg="4">
+        <dx-date-box
+          label="End Act"
+          labelLocation="left"
+          showColonAfterLabel="true"
+          [labelMode]="'static'"
+          [displayFormat]="'yyyy-MM-dd'"
+        ></dx-date-box>
+      </div>
+    </div>
+
+    <br />
+
+    <!-- <nz-table
       id="project-progress"
       [nzData]="['']"
       nzSize="small"
@@ -247,7 +303,7 @@
           </td>
         </tr>
       </tbody>
-    </nz-table>
+    </nz-table> -->
 
     <nz-table
       [nzData]="['']"
@@ -388,6 +444,15 @@
                 </dxi-item>
               </dxo-toolbar>
               <dxi-column dataField="name" caption="File"></dxi-column>
+              <dxi-column
+                caption="Action"
+                cellTemplate="actionTemplate"
+                [fixed]="true"
+                fixedPosition="right"
+              ></dxi-column>
+              <div *dxTemplate="let item of 'actionTemplate'" style="text-align: center">
+                <a>Download</a> | <a style="color: red;">Delete</a>
+              </div>
             </dx-data-grid>
           </td>
         </tr>
@@ -537,9 +602,6 @@
     </button>
   </div>
 </nz-modal>
-
-
-
 
 <nz-modal
   [(nzVisible)]="isOpenUploadProgressFileModal"

@@ -139,6 +139,8 @@ export class IeDcProjectDetailComponent implements OnInit {
     this.drawingControlSvc
       .updateProjectProgress(this.progress)
       .subscribe((response) => {
+        this.progress.id = response.id
+        this.progress.createdAt = response.createdAt
         console.log('ProjectProgressUpdated: ', response);
         this.toastr.success('Updated');
         this.getProjectProgresses();
@@ -270,6 +272,11 @@ export class IeDcProjectDetailComponent implements OnInit {
       response => {
         this.isOpenUploadProgressFileModal = false;
         this.toastr.success('Uploaded','Success')
+        this.drawingControlSvc.getProgressFiles(this.project.id, this.progress.projectProgressId).subscribe(
+          response => {
+            this.progressFiles = response
+          }
+        )
       }
     )
   }
