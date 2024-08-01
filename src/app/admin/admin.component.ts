@@ -331,7 +331,7 @@ export class AdminComponent implements OnInit {
     this.uploadFileLink = `${this.baseUrlJava}/pidvn/common/uploadfile/upload?accessToken=${token2}`
 
     this.stampingDieManagerLink = `${this.baseUrlJava}/pidvn/vr/stamping/menu?accessToken=${token2}`
-    this.editEmailLink = `${this.baseUrlJava}/pidvn/hr/admin/action?accessToken=${token2}`
+    this.editEmailLink = `${this.baseUrlJava}/pidvn/admin?name=pidvn_list_email&accessToken=${token2}`
   }
 
   weatherInfo: any;

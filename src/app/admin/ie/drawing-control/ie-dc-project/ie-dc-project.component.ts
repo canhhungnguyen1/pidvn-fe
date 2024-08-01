@@ -5,6 +5,7 @@ import { ProjectDto } from '../models/ProjectDto';
 import { ProjectTypeDto } from '../models/ProjectTypeDto';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { SearchDto } from '../models/SearchDto';
+import { error } from 'console';
 
 @Component({
   selector: 'app-ie-dc-project',
@@ -38,6 +39,7 @@ export class IeDcProjectComponent implements OnInit {
   isOpenProjectInsertModal: boolean = false
 
   searchDto: SearchDto = new SearchDto;
+  isLoadingBtn: boolean = false;
 
   displayProduct(product:any) {
     return product ? `${product.factoryCode} - ${product.description}` : '';
@@ -64,9 +66,14 @@ export class IeDcProjectComponent implements OnInit {
   }
 
   getProjects() {
-    this.drawingControlSvc.getProjects({}).subscribe(
+    this.isLoadingBtn = true
+    this.drawingControlSvc.getProjects(this.searchDto).subscribe(
       response => {
         this.projects = response
+        this.isLoadingBtn = false
+      },
+      error => {
+        this.isLoadingBtn = false
       }
     )
   }
@@ -104,4 +111,5 @@ export class IeDcProjectComponent implements OnInit {
     let projectId = event.data.id;
     this.router.navigate(['/admin/ie/drawing-control/projects', projectId]);
   }
+
 }

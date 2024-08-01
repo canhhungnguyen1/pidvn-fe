@@ -26,6 +26,7 @@
           valueExpr="id"
           [dataSource]="projectTypes"
           [showClearButton]="true"
+          [(ngModel)]="searchDto.projectTypeId"
         ></dx-select-box>
       </div>
       <div nz-col nzXs="24" nzSm="12" nzLg="3">
@@ -49,15 +50,44 @@
           showColonAfterLabel="true"
           [labelMode]="'floating'"
           [displayExpr]="displayPersonInChargeName"
-          valueExpr="id"
+          valueExpr="username"
           [dataSource]="users"
           [showClearButton]="true"
           [searchEnabled]="true"
           [dropDownOptions]="{ width: '250px' }"
+          [(ngModel)]="searchDto.personInChargeId"
         ></dx-select-box>
+
+        <!-- <dx-drop-down-box
+          label="Main P.I.C"
+          labelLocation="left"
+          showColonAfterLabel="true"
+          [labelMode]="'floating'"
+          valueExpr="id"
+          displayExpr="username"
+          [showClearButton]="true"
+          [dropDownOptions]="{ width: '400px' }"
+          [dataSource]="users"
+        >
+          <div *dxTemplate="let data of 'content'">
+            <dx-data-grid
+              [dataSource]="users"
+              [columns]="['username', 'name']"
+              [selection]="{ mode: 'multiple' }"
+              [hoverStateEnabled]="true"
+              [paging]="{ enabled: true, pageSize: 10 }"
+              [filterRow]="{ visible: true }"
+              [scrolling]="{ mode: 'virtual' }"
+              [height]="300"
+            >
+            </dx-data-grid>
+          </div>
+        </dx-drop-down-box> -->
+
+
       </div>
       <div nz-col nzXs="24" nzSm="12" nzLg="3">
-        <button nz-button nzType="primary" >
+        <button nz-button nzType="primary" (click)="getProjects()" [nzLoading]="isLoadingBtn">
           <span nz-icon nzType="search"></span>
           Search
         </button>
@@ -107,7 +137,7 @@
       fixedPosition="right"
     ></dxi-column>
     <div *dxTemplate="let item of 'actionTemplate'" style="text-align: center">
-      <a>Edit</a> | <a>Delete</a>
+      <a>Edit</a>
     </div>
 </dx-data-grid>
 

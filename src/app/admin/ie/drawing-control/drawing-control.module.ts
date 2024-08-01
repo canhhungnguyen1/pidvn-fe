@@ -37,6 +37,7 @@ import {
   DxDateBoxModule,
   DxMapModule,
   DxValidatorModule,
+  DxDropDownBoxModule
 } from 'devextreme-angular';
 @NgModule({
   declarations: [
@@ -74,7 +75,8 @@ import {
     DxMapModule,
     DxValidatorModule,
     DxNumberBoxModule,
-    DxDateBoxModule
+    DxDateBoxModule,
+    DxDropDownBoxModule
   ],
 })
 export class DrawingControlModule {}
