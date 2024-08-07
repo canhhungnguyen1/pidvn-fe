@@ -110,6 +110,12 @@ export class DrawingControlService {
     files.forEach((file: File, index: any) => {
       formData.append(`files`, file, file.name);
     });
+
+    // In các cặp key-value của formData
+    formData.forEach((value, key) => {
+      console.log(`${key}:`, value);
+    });
+
     return this.httpClient.post(
       `${this.baseUrl}/IE/DrawingControl/UploadProgressFile?projectId=${projectId}&projectProgressId=${progressId}`,
       formData

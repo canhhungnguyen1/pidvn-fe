@@ -171,6 +171,8 @@ export class PihStopLineMainComponent implements OnInit {
         }
       }
 
+      
+
       this.stopTimeSelected.id = data.id;
       this.stopTimeSelected.item = data.itemId;
       this.stopTimeSelected.date = data.date;
@@ -312,6 +314,7 @@ export class PihStopLineMainComponent implements OnInit {
       this.stopTimeSelected.startTime = null;
       this.stopTimeSelected.stopTime = null;
       this.stopTimeSelected.remark = null;
+      this.errorMsg = null
 
       //this.isOpenModal = false;
       //this.resetData();
@@ -324,6 +327,7 @@ export class PihStopLineMainComponent implements OnInit {
   }
 
   resetData() {
+    this.errorMsg = null;
     this.stopTimeSelected.id = null;
     this.stopTimeSelected.date = null;
     this.stopTimeSelected.startTime = null;
@@ -344,6 +348,7 @@ export class PihStopLineMainComponent implements OnInit {
 
   onChangeStartTime($event: any) {
     this.stopTimeSelected.startTime = $event
+    this.stopTimeSelected.date = $event
   }
 
   onChangeStopTime($event: any) {
