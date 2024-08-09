@@ -100,7 +100,7 @@ export class HrMealTimesheetConfirmComponent implements OnInit {
 
   redirectAllowanceCouponPage() {
     let token2 = localStorage.getItem('token2');
-    let allowanceCouponLink = `${this.baseUrlJava}/pidvn/admin?name=pidvn_hr_meal_allowance_coupon&accessToken=${token2}`
+    let allowanceCouponLink = `${this.baseUrlJava}/pidvn/admin?name=pidvn_hr_meal_list&accessToken=${token2}`
     window.open(allowanceCouponLink, '_blank');
   }
 }
