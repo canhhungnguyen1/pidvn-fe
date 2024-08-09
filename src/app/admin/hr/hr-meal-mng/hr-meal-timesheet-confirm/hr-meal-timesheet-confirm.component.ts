@@ -3,6 +3,7 @@ import { HrMealMngService } from '../services/hr-meal-mng.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { ToastrService } from 'ngx-toastr';
 import { error } from 'console';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-hr-meal-timesheet-confirm',
@@ -17,6 +18,8 @@ export class HrMealTimesheetConfirmComponent implements OnInit {
     private toastr: ToastrService,
     private jwtHelperService: JwtHelperService
   ) {}
+  
+  baseUrlJava = environment.baseUrlJava;
 
   couponsBalance: any
   date = null;
@@ -67,7 +70,11 @@ export class HrMealTimesheetConfirmComponent implements OnInit {
 
 
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+
+
+
+  }
 
   // timesheetConfirm() {
   //   this.isLoadingTimeSheetConfirm = true;
@@ -89,5 +96,11 @@ export class HrMealTimesheetConfirmComponent implements OnInit {
         this.couponsBalance = response
       }
     )
+  }
+
+  redirectAllowanceCouponPage() {
+    let token2 = localStorage.getItem('token2');
+    let allowanceCouponLink = `${this.baseUrlJava}/pidvn/admin?name=pidvn_hr_meal_allowance_coupon&accessToken=${token2}`
+    window.open(allowanceCouponLink, '_blank');
   }
 }

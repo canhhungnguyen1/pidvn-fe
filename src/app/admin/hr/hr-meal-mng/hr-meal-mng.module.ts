@@ -22,6 +22,7 @@ import { HrMealSummaryComponent } from './hr-meal-summary/hr-meal-summary.compon
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { HrMealTimesheetConfirmComponent } from './hr-meal-timesheet-confirm/hr-meal-timesheet-confirm.component';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 @NgModule({
   declarations: [HrMealMngComponent, HrMealMenuComponent, HrMealSummaryComponent, HrMealTimesheetConfirmComponent],
@@ -41,7 +42,8 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
     NzButtonModule,
     NzTabsModule,
     NzModalModule,
-    NzSpaceModule
+    NzSpaceModule,
+    NzToolTipModule
   ],
 })
 export class HrMealMngModule {}
