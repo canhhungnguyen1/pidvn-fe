@@ -4,6 +4,8 @@ import { ToastrService } from 'ngx-toastr';
 import { SparePartRecordVo } from '../models/SparePartRecordVo';
 import { DxDataGridComponent, DxValidatorComponent } from 'devextreme-angular';
 import { SparePartRequestsService } from './spare-part-requests.service';
+import { error } from 'console';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Component({
   selector: 'app-spare-part-requests',
@@ -20,8 +22,16 @@ export class SparePartRequestsComponent implements OnInit {
   constructor(
     private toastr: ToastrService,
     private sparePartSvc: SparePartService,
-    private sparePartRequestSvc: SparePartRequestsService
-  ) {}
+    private sparePartRequestSvc: SparePartRequestsService,
+    private jwtHelperSvc: JwtHelperService,
+  ) {
+
+    this.jwt = this.jwtHelperSvc.decodeToken(
+      localStorage.getItem('accessToken')?.toString()
+    );
+  }
+
+  jwt: any;
 
   ngOnInit(): void {
     this.getRequests();
@@ -214,5 +224,43 @@ export class SparePartRequestsComponent implements OnInit {
       this.requests = response;
     });
     
+  }
+
+
+  deleteRequest() {
+
+    let roles = this.jwt.Roles;
+
+    let userLogin = this.jwtHelperSvc.decodeToken(
+      localStorage.getItem('accessToken')?.toString()
+    ).Username
+
+    
+
+    if (this.sparePartReqSelected.data.amountAct > 0) {
+      this.toastr.warning('Không thể xóa request đã xuất hàng !','Warning')
+      return
+    }
+
+
+    if (userLogin != this.sparePartReqSelected.data.createdBy) {
+
+      if (!roles.includes('super_admin')) {
+        this.toastr.warning('Chỉ người tạo mới có quyền xóa !','Warning')
+        return
+      }
+
+      this.sparePartRequestSvc.deleteSparePartRequest(this.sparePartReqSelected.data.id).subscribe(
+        response => {
+          this.isOpenRequestDetailModal = false
+          this.getRequests();
+        },
+        error => {
+          this.isOpenRequestDetailModal = false
+        }
+      )
+  
+    }
+
   }
 }

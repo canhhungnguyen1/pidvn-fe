@@ -46,4 +46,12 @@ export class SparePartRequestsService {
       { responseType: 'blob' }
     );
   }
+
+
+  deleteSparePartRequest(requestId: number): Observable<any> {
+    return this.httpClient.delete(`${this.baseUrl}/SparePart/SparePartRequestMasters/${requestId}`);
+  }
+
+
+
 }

@@ -1,45 +1,21 @@
-<dx-data-grid
-  keyExpr="id"
-  #requestListGrid
-  [dataSource]="requests"
-  [showColumnLines]="true"
-  [showRowLines]="true"
-  [showBorders]="true"
-  [allowColumnResizing]="true"
-  [columnAutoWidth]="true"
-  [rowAlternationEnabled]="true"
->
+<dx-data-grid keyExpr="id" #requestListGrid [dataSource]="requests" [showColumnLines]="true" [showRowLines]="true"
+  [showBorders]="true" [allowColumnResizing]="true" [columnAutoWidth]="true" [rowAlternationEnabled]="true">
   <dxo-filter-row [visible]="true"></dxo-filter-row>
   <dxo-export [enabled]="true"></dxo-export>
 
-  <dxo-column-chooser
-    #columnChooser
-    [enabled]="true"
-    [mode]="'select'"
-    [title]="'Cột hiển thị'"
-  >
+  <dxo-column-chooser #columnChooser [enabled]="true" [mode]="'select'" [title]="'Cột hiển thị'">
   </dxo-column-chooser>
 
   <dxo-toolbar>
     <dxi-item location="before">
       <nz-space>
-        <button
-          *nzSpaceItem
-          nz-button
-          nzType="primary"
-          (click)="openRequestModal()"
-        >
+        <button *nzSpaceItem nz-button nzType="primary" (click)="openRequestModal()">
           <span nz-icon nzType="plus"></span>
           Tạo phiếu request
         </button>
-        <nz-date-picker
-          style="height: 33px"
-          *nzSpaceItem
-          [nzSize]="'large'"
-          (ngModelChange)="onChangeRequestDate($event)"
-          nzPlaceHolder="Ngày request"
-          [(ngModel)]="requestDate"
-        ></nz-date-picker>
+        <nz-date-picker style="height: 33px" *nzSpaceItem [nzSize]="'large'"
+          (ngModelChange)="onChangeRequestDate($event)" nzPlaceHolder="Ngày request"
+          [(ngModel)]="requestDate"></nz-date-picker>
       </nz-space>
     </dxi-item>
 
@@ -48,26 +24,21 @@
   </dxo-toolbar>
 
   <dxi-column dataField="requestNo" caption="Request No"></dxi-column>
-  <dxi-column
-    dataField="date"
-    caption="Ngày request"
-    dataType="date"
-    format="yyyy-MM-dd"
-  ></dxi-column>
+  <dxi-column dataField="date" caption="Ngày request" dataType="date" format="yyyy-MM-dd"></dxi-column>
   <dxi-column dataField="subsectionName" caption="Subsection"></dxi-column>
   <dxi-column dataField="factoryCode" caption="Factory Code"></dxi-column>
   <dxi-column dataField="factoryName" caption="Factory Name"></dxi-column>
   <dxi-column dataField="createdByName" caption="Người tạo"></dxi-column>
   <dxi-column dataField="createdBy" caption="Mã nhân viên"></dxi-column>
+  <dxi-column caption="Trạng thái xuất hàng" cellTemplate="amountTemplate"></dxi-column>
+  <div *dxTemplate="let item of 'amountTemplate'" style="text-align: center">
+    <span>{{item.data.amountAct == null ? 0 : item.data.amountAct}} / {{item.data.amountReq}}</span>
+  </div>
+
   <dxi-column dataField="status" caption="Status"></dxi-column>
   <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
 
-  <dxi-column
-    caption="Action"
-    cellTemplate="actionTemplate"
-    [fixed]="true"
-    fixedPosition="right"
-  ></dxi-column>
+  <dxi-column caption="Action" cellTemplate="actionTemplate" [fixed]="true" fixedPosition="right"></dxi-column>
   <div *dxTemplate="let item of 'actionTemplate'" style="text-align: center">
     <a (click)="openRequestDetailModal(item)">Chi tiết</a>
   </div>
@@ -78,16 +49,8 @@
     <div nz-row [nzGutter]="24">
       <nz-collapse nz-col nzMd="14" nzLg="14" nzAccordion>
         <nz-collapse-panel [nzHeader]="'Danh mục'" [nzActive]="true">
-          <dx-data-grid
-            #sparePartGrid
-            [dataSource]="spareParts"
-            [showColumnLines]="true"
-            [showRowLines]="true"
-            [showBorders]="true"
-            [allowColumnResizing]="true"
-            [columnAutoWidth]="true"
-            [rowAlternationEnabled]="true"
-          >
+          <dx-data-grid #sparePartGrid [dataSource]="spareParts" [showColumnLines]="true" [showRowLines]="true"
+            [showBorders]="true" [allowColumnResizing]="true" [columnAutoWidth]="true" [rowAlternationEnabled]="true">
             <!-- <dxo-selection
               [selectAllMode]="'allPages'"
               [showCheckBoxesMode]="'always'"
@@ -98,14 +61,8 @@
             <dxi-column dataField="partNumber" caption="PartNo"></dxi-column>
             <dxi-column dataField="name" caption="Name"></dxi-column>
             <dxi-column dataField="unit" caption="Unit"></dxi-column>
-            <dxi-column
-              caption="Action"
-              cellTemplate="actionTemplate"
-            ></dxi-column>
-            <div
-              *dxTemplate="let item of 'actionTemplate'"
-              style="text-align: center"
-            >
+            <dxi-column caption="Action" cellTemplate="actionTemplate"></dxi-column>
+            <div *dxTemplate="let item of 'actionTemplate'" style="text-align: center">
               <button nz-button nzType="default" (click)="addToRequest(item)">
                 Add
                 <span nz-icon nzType="double-right"></span>
@@ -113,122 +70,58 @@
             </div>
 
             <dxo-paging [pageSize]="10"></dxo-paging>
-            <dxo-pager
-              [showPageSizeSelector]="true"
-              [allowedPageSizes]="[5, 10, 15]"
-            >
+            <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5, 10, 15]">
             </dxo-pager>
           </dx-data-grid>
         </nz-collapse-panel>
       </nz-collapse>
-      <div
-        nz-col
-        nzMd="1"
-        nzLg="1"
-        style="display: flex; justify-content: center; align-items: center"
-      >
-        <span
-          nz-icon
-          nzType="caret-right"
-          nzTheme="outline"
-          style="font-size: 3pc; color: darkslateblue"
-        ></span>
+      <div nz-col nzMd="1" nzLg="1" style="display: flex; justify-content: center; align-items: center">
+        <span nz-icon nzType="caret-right" nzTheme="outline" style="font-size: 3pc; color: darkslateblue"></span>
       </div>
       <nz-collapse nz-col nzMd="9" nzLg="9">
         <nz-collapse-panel [nzHeader]="'Order list'" [nzActive]="true">
-          <dx-data-grid
-            #orderedGrid
-            [dataSource]="orderListArr"
-            [showColumnLines]="true"
-            [showRowLines]="true"
-            [showBorders]="true"
-            [allowColumnResizing]="true"
-            [columnAutoWidth]="true"
-            [rowAlternationEnabled]="true"
-            (onSaving)="onSaving($event)"
-          >
+          <dx-data-grid #orderedGrid [dataSource]="orderListArr" [showColumnLines]="true" [showRowLines]="true"
+            [showBorders]="true" [allowColumnResizing]="true" [columnAutoWidth]="true" [rowAlternationEnabled]="true"
+            (onSaving)="onSaving($event)">
             <dxo-toolbar>
               <dxi-item location="before">
-                <dx-select-box
-                  label="Nhà máy"
-                  labelLocation="left"
-                  showColonAfterLabel="true"
-                  [labelMode]="'static'"
-                  displayExpr="name"
-                  valueExpr="code"
-                  [dataSource]="factories"
-                  [(value)]="factorySelected"
-                  placeholder="Nhà máy"
-                  [searchEnabled]="true"
-                ></dx-select-box>
+                <dx-select-box label="Nhà máy" labelLocation="left" showColonAfterLabel="true" [labelMode]="'static'"
+                  displayExpr="name" valueExpr="code" [dataSource]="factories" [(value)]="factorySelected"
+                  placeholder="Nhà máy" [searchEnabled]="true"></dx-select-box>
               </dxi-item>
 
               <dxi-item location="before">
-                <dx-select-box
-                  label="Bộ phận"
-                  labelLocation="left"
-                  showColonAfterLabel="true"
-                  [labelMode]="'static'"
-                  displayExpr="name"
-                  valueExpr="id"
-                  [dataSource]="subsections"
-                  [(value)]="subsectionSelected"
-                  placeholder="Bộ phận"
-                  [searchEnabled]="true"
-                ></dx-select-box>
+                <dx-select-box label="Bộ phận" labelLocation="left" showColonAfterLabel="true" [labelMode]="'static'"
+                  displayExpr="name" valueExpr="id" [dataSource]="subsections" [(value)]="subsectionSelected"
+                  placeholder="Bộ phận" [searchEnabled]="true"></dx-select-box>
               </dxi-item>
 
               <dxi-item location="after">
-                <button
-                  nz-button
-                  nzType="primary"
-                  (click)="onCreateRequest(orderedGrid)"
-                >
+                <button nz-button nzType="primary" (click)="onCreateRequest(orderedGrid)">
                   Tạo request
                 </button>
               </dxi-item>
             </dxo-toolbar>
 
-            <dxo-editing
-              mode="batch"
-              [allowUpdating]="true"
-              [selectTextOnEditStart]="true"
-            >
+            <dxo-editing mode="batch" [allowUpdating]="true" [selectTextOnEditStart]="true">
             </dxo-editing>
 
             <dxo-filter-row [visible]="true"></dxo-filter-row>
-            <dxi-column
-              dataField="partNumber"
-              caption="PartNo"
-              [allowEditing]="false"
-            ></dxi-column>
+            <dxi-column dataField="partNumber" caption="PartNo" [allowEditing]="false"></dxi-column>
             <dxi-column dataField="qty" caption="Qty" dataType="number">
-              <dxi-validation-rule
-                type="range"
-                [min]="1"
-                message="Qty phải lớn hơn 0"
-              >
+              <dxi-validation-rule type="range" [min]="1" message="Qty phải lớn hơn 0">
               </dxi-validation-rule>
             </dxi-column>
             <dxi-column dataField="unit" caption="Unit" [allowEditing]="false">
             </dxi-column>
 
-            <dxi-column
-              caption="Action"
-              cellTemplate="deleteItemTemplate"
-            ></dxi-column>
-            <div
-              *dxTemplate="let item of 'deleteItemTemplate'"
-              style="text-align: center"
-            >
+            <dxi-column caption="Action" cellTemplate="deleteItemTemplate"></dxi-column>
+            <div *dxTemplate="let item of 'deleteItemTemplate'" style="text-align: center">
               <a (click)="deleteItemOrderList(item)">Xóa</a>
             </div>
 
             <dxo-paging [pageSize]="10"></dxo-paging>
-            <dxo-pager
-              [showPageSizeSelector]="true"
-              [allowedPageSizes]="[5, 10, 15]"
-            >
+            <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5, 10, 15]">
             </dxo-pager>
           </dx-data-grid>
 
@@ -250,74 +143,80 @@
   </ng-template>
 </nz-modal>
 
-<nz-modal
-  [(nzVisible)]="isOpenRequestDetailModal"
-  [nzTitle]="'Request: ' + sparePartReqSelected?.data?.requestNo"
-  nzWidth="100%"
->
+<nz-modal [(nzVisible)]="isOpenRequestDetailModal" [nzTitle]="'Request: ' + sparePartReqSelected?.data?.requestNo"
+  nzWidth="100%">
   <ng-container *nzModalContent>
-    <ul style="margin-left: -25px">
-      <li>
-        <label style="font-weight: bold">Nhà máy:</label>
-        {{ sparePartReqSelected.data.factoryName }}
-      </li>
-      <li>
-        <label style="font-weight: bold">Bộ phận:</label>
-        {{ sparePartReqSelected.data.subsectionName }}
-      </li>
-      <li>
-        <label style="font-weight: bold">Nhân viên:</label>
-        {{ sparePartReqSelected.data.createdByName }} ({{
-          sparePartReqSelected.data.createdBy
-        }})
-      </li>
-    </ul>
-    <dx-data-grid
-      keyExpr="id"
-      #sparePartsReqDetailGrid
-      [dataSource]="sparePartsReqDetail"
+    <nz-table [nzData]="['']" nzSize="small" nzFrontPagination="false" nzBordered>
+      <tbody>
+        <tr>
+          <td>
+            <label style="font-weight: bold">Nhà máy:</label>
+            {{ sparePartReqSelected.data.factoryName }}
+          </td>
+          <td>
+            <label style="font-weight: bold">Bộ phận:</label>
+            {{ sparePartReqSelected.data.subsectionName }}
+          </td>
+          <td>
+            <label style="font-weight: bold">Nhân viên:</label>
+            {{ sparePartReqSelected.data.createdByName }} ({{
+            sparePartReqSelected.data.createdBy
+            }})
+          </td>
+          <td>
+            <label style="font-weight: bold">Request date:</label>
+            {{sparePartReqSelected.data.date | date: 'YYYY-MM-dd'}}
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+
+    <dx-data-grid 
+      keyExpr="id" 
+      #sparePartsReqDetailGrid 
+      [dataSource]="sparePartsReqDetail" 
       [showColumnLines]="true"
-      [showRowLines]="true"
-      [showBorders]="true"
-      [allowColumnResizing]="true"
+      [showRowLines]="true" 
+      [showBorders]="true" 
+      [allowColumnResizing]="true" 
       [columnAutoWidth]="true"
       [rowAlternationEnabled]="true"
     >
+      <dxo-toolbar>
+        <dxi-item location="before">
+          <nz-space>
+            <button nz-button *nzSpaceItem nzType="primary" style="float: left" (click)="downloadRequestDetail(sparePartReqSelected)">
+              In phiếu request
+              <span nz-icon nzType="printer" nzTheme="outline"></span>
+            </button>
+            <button nz-button *nzSpaceItem  nzType="default" style="float: left">
+              <a [routerLink]="['/admin/spare-part/spare-part-in-out']"
+                [queryParams]="{ requestId: sparePartReqSelected.data.id }">Xuất kho</a>
+            </button>
+          </nz-space>
+        </dxi-item>
+      </dxo-toolbar>
+
       <dxi-column dataField="partNumber" caption="Part Number"></dxi-column>
       <dxi-column dataField="partName" caption="Part Name"></dxi-column>
       <dxi-column dataField="unit" caption="Unit"></dxi-column>
-      <dxi-column
-        dataField="requestQty"
-        caption="Request Qty (SL request)"
-      ></dxi-column>
-      <dxi-column
-        dataField="issuedQty"
-        caption="Issued Qty (SL xuất kho)"
-      ></dxi-column>
+      <dxi-column dataField="requestQty" caption="Request Qty (SL request)"></dxi-column>
+      <dxi-column dataField="issuedQty" caption="Issued Qty (SL xuất kho)"></dxi-column>
     </dx-data-grid>
   </ng-container>
   <ng-template [nzModalFooter]>
-    <button
-      nz-button
-      nzType="primary"
-      style="float: left"
-      (click)="downloadRequestDetail(sparePartReqSelected)"
+    <button 
+      nz-button style="float: left" 
+      nzDanger 
+      nz-popconfirm 
+      nzPopconfirmTitle="Bạn có chắc chắn xóa request này không ?" 
+      nzPopconfirmPlacement="top"
+      (nzOnConfirm)="deleteRequest()"
     >
-      In phiếu request
-      <span nz-icon nzType="printer" nzTheme="outline"></span>
+      Xóa Request
     </button>
-    <button nz-button nzType="default" style="float: left">
-      <a
-        [routerLink]="['/admin/spare-part/spare-part-in-out']"
-        [queryParams]="{ requestId: sparePartReqSelected.data.id }"
-        >Xuất kho</a
-      >
-    </button>
-    <button
-      nz-button
-      nzType="default"
-      (click)="isOpenRequestDetailModal = false"
-    >
+    
+    <button nz-button nzType="default" (click)="isOpenRequestDetailModal = false">
       Đóng
     </button>
   </ng-template>
