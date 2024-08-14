@@ -63,9 +63,7 @@
               <div *dxTemplate="let item of 'linkTemplate'">
                 <a
                   class="link"
-                  href="http://10.92.176.57:6969/pidvn/report?name={{
-                    item.data.code
-                  }}"
+                  href="http://10.92.176.57:6969/pidvn/report?name={{item.data.code}}&accessToken={{accessToken}}"
                   target="_blank"
                   >{{ item.data.nameFunction }}</a
                 >

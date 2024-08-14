@@ -17,12 +17,20 @@ export class ReportsComponent {
 
   ngOnInit(): void {
     this.getSections();
+
+    this.accessToken = localStorage.getItem('accessToken')?.toString()
+
     this.jwt = this.jwtHelperSvc.decodeToken(
       localStorage.getItem('accessToken')?.toString()
     );
+
+    console.log(this.jwt.toString());
+    
     this.sectionSelected = this.jwt.SectionCode;
     this.getDynamicReport(this.sectionSelected);
   }
+
+  accessToken: any;
 
   jwt: any;
   sections: any;
