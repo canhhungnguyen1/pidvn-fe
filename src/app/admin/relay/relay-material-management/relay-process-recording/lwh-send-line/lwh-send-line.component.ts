@@ -20,7 +20,7 @@ export class LwhSendLineComponent implements OnInit, AfterViewInit {
   @ViewChild('infoIpt') infoIpt!: ElementRef;
   @ViewChild('importQtyIpt') importQtyIpt!: ElementRef;
 
-  constructor(private toastr: ToastrService, private rePrSvc: RePrService) {}
+  constructor(private toastr: ToastrService, private rePrSvc: RePrService) { }
 
   partsOfModel: any;
   processes = new Array();
@@ -44,6 +44,7 @@ export class LwhSendLineComponent implements OnInit, AfterViewInit {
     user: '',
     processId: '',
     processName: '',
+    ordinal: 0
   };
 
   ngOnInit(): void {
@@ -93,6 +94,10 @@ export class LwhSendLineComponent implements OnInit, AfterViewInit {
     }, 500);
   }
 
+
+
+  scanOrdinal: number = 0;  // Biến này dùng để lưu thứ tự khi scan hàng
+
   scanQRCode(event: any) {
     this.qrCodeIpt.nativeElement.select();
 
@@ -113,6 +118,7 @@ export class LwhSendLineComponent implements OnInit, AfterViewInit {
       processId: this.infoScan.processId,
       sender: this.infoScan.user,
       qrCode: event.target.value,
+      ordinal: this.scanOrdinal++
     };
 
     // Check nhầm NVL
@@ -182,23 +188,31 @@ export class LwhSendLineComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    this.rePrSvc.saveMaterials(this.listLotsScanned).subscribe((response) => {
-      this.getMaterials();
-      this.isOpenScanQRCodeModal = false;
-      this.mapLotsScanned = new Map();
-      this.listLotsScanned = new Array();
-      this.isLoadingSaveBtn = false;
+    this.rePrSvc.saveMaterials(this.listLotsScanned).subscribe(
+      response => {
+        this.getMaterials();
+        this.isOpenScanQRCodeModal = false;
+        this.mapLotsScanned = new Map();
+        this.listLotsScanned = new Array();
+        this.isLoadingSaveBtn = false;
 
-      // this.infoScan.qaCard = '';
-      this.infoScan.model = '';
-      this.infoScan.line = '';
-      this.infoScan.date = '';
-      this.infoScan.shift = '';
-      this.infoScan.user = '';
-      this.infoScan.processId = '';
-      this.infoScan.processName = '';
+        // this.infoScan.qaCard = '';
+        this.infoScan.model = '';
+        this.infoScan.line = '';
+        this.infoScan.date = '';
+        this.infoScan.shift = '';
+        this.infoScan.user = '';
+        this.infoScan.processId = '';
+        this.infoScan.processName = '';
+        this.scanOrdinal = 0;
+      },
+      error => {
+        this.isOpenScanQRCodeModal = false;
+        this.isLoadingSaveBtn = false;
+      }
 
-    });
+
+    );
   }
 
   /**
@@ -214,7 +228,7 @@ export class LwhSendLineComponent implements OnInit, AfterViewInit {
     if (info.length === 5) {
 
       if (dataScan.includes(';')) {
-        this.toastr.warning('Cần scan ID, QA card, WIP','Warning');
+        this.toastr.warning('Cần scan ID, QA card, WIP', 'Warning');
         this.infoIpt.nativeElement.select();
         return;
       }
@@ -284,7 +298,7 @@ export class LwhSendLineComponent implements OnInit, AfterViewInit {
       }
       results.push(obj)
     }
-  
+
     for (const part of results) {
       for (const lot of lots) {
         if (part.partNo === lot.partNo) {
@@ -307,7 +321,7 @@ export class LwhSendLineComponent implements OnInit, AfterViewInit {
   materialEdit: any;
 
   openEditMaterialModal(data: any) {
-    this.materialEdit = {...data};
+    this.materialEdit = { ...data };
     this.isOpenEditMaterialModal = true
   }
 
@@ -329,6 +343,6 @@ export class LwhSendLineComponent implements OnInit, AfterViewInit {
         this.toastr.success('Đã xóa !', 'Success')
       }
     )
-    
+
   }
 }
