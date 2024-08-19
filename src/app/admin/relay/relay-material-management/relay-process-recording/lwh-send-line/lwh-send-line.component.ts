@@ -99,6 +99,7 @@ export class LwhSendLineComponent implements OnInit, AfterViewInit {
   scanOrdinal: number = 0;  // Biến này dùng để lưu thứ tự khi scan hàng
 
   scanQRCode(event: any) {
+    this.scanOrdinal = this.scanOrdinal + 1;
     this.qrCodeIpt.nativeElement.select();
 
     let qrInfo = event.target.value.split(';');
@@ -118,7 +119,7 @@ export class LwhSendLineComponent implements OnInit, AfterViewInit {
       processId: this.infoScan.processId,
       sender: this.infoScan.user,
       qrCode: event.target.value,
-      ordinal: this.scanOrdinal++
+      ordinal: this.scanOrdinal
     };
 
     // Check nhầm NVL
@@ -209,6 +210,7 @@ export class LwhSendLineComponent implements OnInit, AfterViewInit {
       error => {
         this.isOpenScanQRCodeModal = false;
         this.isLoadingSaveBtn = false;
+        this.scanOrdinal = 0;
       }
 
 
