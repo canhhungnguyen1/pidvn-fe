@@ -43,8 +43,7 @@ export class LwhSendLineComponent implements OnInit, AfterViewInit {
     shift: '',
     user: '',
     processId: '',
-    processName: '',
-    ordinal: 0
+    processName: ''
   };
 
   ngOnInit(): void {
@@ -85,6 +84,7 @@ export class LwhSendLineComponent implements OnInit, AfterViewInit {
   }
 
   openScanQRCodeModal() {
+    debugger
     this.nzTitleScanQRCodeModal = `Nhập NVL vào LINE: ${this.infoScan.line}; Process: ${this.infoScan.processName}`;
 
     this.isOpenScanQRCodeModal = true;
@@ -189,6 +189,8 @@ export class LwhSendLineComponent implements OnInit, AfterViewInit {
       return;
     }
 
+    this.scanOrdinal = 0;
+
     this.rePrSvc.saveMaterials(this.listLotsScanned).subscribe(
       response => {
         this.getMaterials();
@@ -205,12 +207,11 @@ export class LwhSendLineComponent implements OnInit, AfterViewInit {
         this.infoScan.user = '';
         this.infoScan.processId = '';
         this.infoScan.processName = '';
-        this.scanOrdinal = 0;
+        
       },
       error => {
         this.isOpenScanQRCodeModal = false;
         this.isLoadingSaveBtn = false;
-        this.scanOrdinal = 0;
       }
 
 
@@ -222,6 +223,7 @@ export class LwhSendLineComponent implements OnInit, AfterViewInit {
    * @param event
    */
   scanInfo(event: any) {
+    debugger
     let dataScan = event.target.value;
 
     let info = dataScan.split('*');
@@ -263,9 +265,21 @@ export class LwhSendLineComponent implements OnInit, AfterViewInit {
         }
       }
     }
+    // const isEmpty = Object.values(this.infoScan).some(
+    //   (x) => x == null || x == ''
+    // );
+
+    // Kiểm tra đầy đủ thông tin scan mới cho scan tem NVL
     const isEmpty = Object.values(this.infoScan).some(
-      (x) => x == null || x == ''
+      (x) => x == null || x === '' || 
+             (typeof x === 'string' && x.trim() === '') ||
+             (Array.isArray(x) && x.length === 0) ||
+             (typeof x === 'object' && !Array.isArray(x) && Object.keys(x).length === 0)
     );
+
+
+
+
     if (!isEmpty) {
       this.openScanQRCodeModal();
     }
@@ -279,7 +293,11 @@ export class LwhSendLineComponent implements OnInit, AfterViewInit {
         recordTypes: ['CDL'],
       })
       .subscribe((response) => {
-        this.materials = this.buildData(response);
+
+        console.log('data',response);
+        
+        this.materials = response;
+        // this.materials = this.buildData(response);
       });
   }
 
