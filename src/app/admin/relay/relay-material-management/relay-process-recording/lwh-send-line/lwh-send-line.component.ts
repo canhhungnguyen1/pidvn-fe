@@ -5,9 +5,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { NzSelectComponent } from 'ng-zorro-antd/select';
 import { ToastrService } from 'ngx-toastr';
-import { forkJoin } from 'rxjs';
 import { RePrService } from '../services/re-pr.service';
 
 @Component({
@@ -26,11 +24,13 @@ export class LwhSendLineComponent implements OnInit, AfterViewInit {
   processes = new Array();
   isOpenScanQRCodeModal: boolean = false;
   nzTitleScanQRCodeModal!: string;
-  materials: any;
+  materials: any; 
+  materialOrder: any; // hiển thị theo thứ tự
   mapLotsScanned: Map<string, any> = new Map();
   listLotsScanned: Array<any> = new Array();
   lotNoEdit: string | null = null;
   lotErrMsg: string | null = null;
+  lotWarningMsg: string | null = null; // Lưu trường hợp cảnh báo hàng sắp hết hạn
   isLoadingSaveBtn: boolean = false;
 
   isOpenEditMaterialModal: boolean = false;
@@ -84,7 +84,6 @@ export class LwhSendLineComponent implements OnInit, AfterViewInit {
   }
 
   openScanQRCodeModal() {
-    debugger
     this.nzTitleScanQRCodeModal = `Nhập NVL vào LINE: ${this.infoScan.line}; Process: ${this.infoScan.processName}`;
 
     this.isOpenScanQRCodeModal = true;
@@ -125,6 +124,7 @@ export class LwhSendLineComponent implements OnInit, AfterViewInit {
     // Check nhầm NVL
     if (!this.partsOfModel.includes(lot.partNo)) {
       this.lotErrMsg = `Lot ${lot.lotNo} không dùng cho model ${lot.model}`;
+      this.lotWarningMsg = null;
       this.toastr.error('Có lỗi !', 'Error', {
         timeOut: 1500,
       });
@@ -140,12 +140,20 @@ export class LwhSendLineComponent implements OnInit, AfterViewInit {
 
     this.rePrSvc.scanMaterialV3(lot).subscribe((response) => {
       if (response.status == 'ERROR') {
+        this.lotWarningMsg = null;
         this.lotErrMsg = response.message;
         this.toastr.error('Có lỗi !', 'Error', {
           timeOut: 1500,
         });
         return;
       } else if (response.status == 'OK') {
+
+        if (response.warning) {
+          this.lotWarningMsg = response.warning
+        } else {
+          this.lotWarningMsg = null
+        }
+
         this.lotErrMsg = null;
         this.mapLotsScanned.set(event.target.value, response.data);
         this.listLotsScanned = Array.from(
@@ -207,11 +215,14 @@ export class LwhSendLineComponent implements OnInit, AfterViewInit {
         this.infoScan.user = '';
         this.infoScan.processId = '';
         this.infoScan.processName = '';
-        
+        this.lotErrMsg = null;
+        this.lotWarningMsg = null;
       },
       error => {
         this.isOpenScanQRCodeModal = false;
         this.isLoadingSaveBtn = false;
+        this.lotErrMsg = null;
+        this.lotWarningMsg = null;
       }
 
 
@@ -223,7 +234,6 @@ export class LwhSendLineComponent implements OnInit, AfterViewInit {
    * @param event
    */
   scanInfo(event: any) {
-    debugger
     let dataScan = event.target.value;
 
     let info = dataScan.split('*');
@@ -294,10 +304,15 @@ export class LwhSendLineComponent implements OnInit, AfterViewInit {
       })
       .subscribe((response) => {
 
-        console.log('data',response);
         
-        this.materials = response;
-        // this.materials = this.buildData(response);
+        
+        
+        this.materialOrder = response;
+        this.materials = this.buildData(response);
+
+        console.log('materialOrder',this.materialOrder);
+        console.log('materials',this.materials);
+
       });
   }
 

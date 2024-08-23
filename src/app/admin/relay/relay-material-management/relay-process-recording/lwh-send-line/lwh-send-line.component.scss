@@ -38,6 +38,15 @@ nz-table {
   }
 }
 
+#warning-msg {
+  border: 1px solid orange;
+  font-weight: bold;
+  width: 100%;
+  span {
+    color: orange;
+  }
+}
+
 #infoIpt {
   font-weight: bold;
   font-weight: bold;

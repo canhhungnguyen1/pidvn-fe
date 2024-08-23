@@ -56,73 +56,90 @@
   </div>
 </div>
 
-<nz-table #lotTbl [nzData]="materials" nzBordered nzSize="small" nzFrontPagination="false" style="margin-top: -25px">
-  <thead>
-    <tr>
-      <th>STT</th>
-      <th>Part No</th>
-      <th>Lot No (Đã nhập vào LINE)</th>
-      <th>Qty</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <!-- <tbody>
-    <tr *ngFor="let data of lotTbl.data">
-      <td>
-        <span style="color: #0039b8; font-weight: bold">{{ data.partNo }}</span>
-        <span style="margin-left: 3px; color: green"
-          >(Qty: {{ data.qty | number: "1.0-3" }})</span
-        >
-      </td>
-      <td>
-        <ul>
-          <li *ngFor="let lot of data.lots">
-            <span style="font-weight: bold">{{ lot.lotNo }}</span>
+<nz-tabset style="margin-top: -25px">
+  <nz-tab nzTitle="Danh sách tổng hợp theo Model">
+    <nz-table #lotTbl [nzData]="materials" nzBordered nzSize="small" nzFrontPagination="false">
+      <thead>
+        <tr>
+          <th>Part No</th>
+          <th>Lot No (Đã nhập vào LINE)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of lotTbl.data">
+          <td>
+            <span style="color: #0039b8; font-weight: bold">{{ data.partNo }}</span>
             <span style="margin-left: 3px; color: green"
-              >(Qty: {{ lot.qty | number: "1.0-3" }})</span
+              >(Qty: {{ data.qty | number: "1.0-3" }})</span
             >
-            <span
-              style="margin-left: 8px; color: blue"
-              (click)="openEditMaterialModal(lot)"
-              >Sửa</span
-            >
+          </td>
+          <td>
+            <ul>
+              <li *ngFor="let lot of data.lots">
+                <span style="font-weight: bold">{{ lot.lotNo }}</span>
+                <span style="margin-left: 3px; color: green"
+                  >(Qty: {{ lot.qty | number: "1.0-3" }})</span
+                >
+                <span
+                  style="margin-left: 8px; color: blue"
+                  (click)="openEditMaterialModal(lot)"
+                  >Sửa</span
+                >
+                <span style="margin-left: 8px; color: black">|</span>
+                <span
+                  style="margin-left: 8px; color: red"
+                  nz-popconfirm
+                  nzPopconfirmTitle="Bạn có muốn xóa không ?"
+                  nzPopconfirmPlacement="top"
+                  (nzOnConfirm)="deleteMaterial(lot)"
+                >
+                  Xóa</span
+                >
+              </li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </nz-tab>
+  <nz-tab nzTitle="Danh sách theo thứ tự">
+    <nz-table #lotTblOrder [nzData]="materialOrder" nzBordered nzSize="small" nzFrontPagination="false">
+      <thead>
+        <tr>
+          <th>STT</th>
+          <th>Part No</th>
+          <th>Lot No (Đã nhập vào LINE)</th>
+          <th>Qty</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      
+      <tbody>
+        <tr *ngFor="let data of lotTblOrder.data">
+          <td style="font-weight: bold">{{data.ordinal}}</td>
+          <td style="font-weight: bold">{{data.partNo}}</td>
+          <td>
+            <!-- <span style="font-weight: bold">{{ data.lotNo }}</span> -->
+            <!-- <span style="margin-left: 3px; color: green">(Qty: {{ data.qty | number: "1.0-3" }})</span> -->
+            <span style="font-weight: bold">{{ data.lotNo }}</span>
+            <p *ngIf="data.remark" style="color: green; font-size: 10px; list-style: none;">{{data.remark}}</p>
+          </td>
+          <td style="font-weight: bold; color: green;">{{ data.qty | number: "1.0-3" }}</td>
+          <td style="text-align: center;">
+            <span style="margin-left: 8px; color: blue" (click)="openEditMaterialModal(data)">Sửa</span>
             <span style="margin-left: 8px; color: black">|</span>
-            <span
-              style="margin-left: 8px; color: red"
-              nz-popconfirm
-              nzPopconfirmTitle="Bạn có muốn xóa không ?"
-              nzPopconfirmPlacement="top"
-              (nzOnConfirm)="deleteMaterial(lot)"
-            >
-              Xóa</span
-            >
-          </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody> -->
+            <span style="margin-left: 8px; color: red" nz-popconfirm nzPopconfirmTitle="Bạn có muốn xóa không ?"
+              nzPopconfirmPlacement="top" (nzOnConfirm)="deleteMaterial(data)">
+              Xóa</span>
+          </td>
+        </tr>
+      </tbody>
 
-  <tbody>
-    <tr *ngFor="let data of lotTbl.data">
-      <td style="font-weight: bold">{{data.ordinal}}</td>
-      <td style="font-weight: bold">{{data.partNo}}</td>
-      <td>
-        <span style="font-weight: bold">{{ data.lotNo }}</span>
-        <!-- <span style="margin-left: 3px; color: green">(Qty: {{ data.qty | number: "1.0-3" }})</span> -->
+    </nz-table>
+  </nz-tab>
+</nz-tabset>
 
-      </td>
-      <td style="font-weight: bold; color: green;">{{ data.qty | number: "1.0-3" }}</td>
-      <td style="text-align: center;">
-        <span style="margin-left: 8px; color: blue" (click)="openEditMaterialModal(data)">Sửa</span>
-        <span style="margin-left: 8px; color: black">|</span>
-        <span style="margin-left: 8px; color: red" nz-popconfirm nzPopconfirmTitle="Bạn có muốn xóa không ?"
-          nzPopconfirmPlacement="top" (nzOnConfirm)="deleteMaterial(data)">
-          Xóa</span>
-      </td>
-    </tr>
-  </tbody>
 
-</nz-table>
 
 <nz-modal id="importMaterialModal" [(nzVisible)]="isOpenScanQRCodeModal" [nzTitle]="nzTitleScanQRCodeModal"
   nzWidth="100%">
@@ -132,6 +149,9 @@
         (click)="qrCodeIpt.select()" autocomplete="off" style="font-weight: bold" />
       <nz-alert *ngIf="lotErrMsg" id="error-msg" nzBanner nzShowIcon style="margin-top: 10px" nzType="error"
         [nzMessage]="lotErrMsg">
+      </nz-alert>
+      <nz-alert *ngIf="lotWarningMsg" id="warning-msg" nzBanner nzShowIcon style="margin-top: 10px" nzType="warning"
+        [nzMessage]="lotWarningMsg">
       </nz-alert>
       <nz-table #qrTbl [nzData]="listLotsScanned" style="margin-top: 15px" nzBordered nzSize="small"
         [nzFrontPagination]="true" [nzPageSize]="5">

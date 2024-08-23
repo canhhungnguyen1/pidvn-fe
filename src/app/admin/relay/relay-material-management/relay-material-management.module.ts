@@ -35,6 +35,7 @@ import { RwhReceivePwhComponent } from './relay-warehouse/rwh-receive-pwh/rwh-re
 import { RwhSendLwhComponent } from './relay-warehouse/rwh-send-lwh/rwh-send-lwh.component';
 import { RwhSendPwhComponent } from './relay-warehouse/rwh-send-pwh/rwh-send-pwh.component';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
 
 @NgModule({
   declarations: [
@@ -74,7 +75,8 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     NzRadioModule,
     NzCollapseModule,
     NzDatePickerModule,
-    NzToolTipModule
+    NzToolTipModule,
+    NzTabsModule
   ]
 })
 export class RelayMaterialManagementModule { }

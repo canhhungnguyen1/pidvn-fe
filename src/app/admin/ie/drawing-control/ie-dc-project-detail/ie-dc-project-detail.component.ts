@@ -192,7 +192,7 @@ export class IeDcProjectDetailComponent implements OnInit {
     console.log(event.data);
     if (dataField === 'drawingName') {
       let drawingNo = event.data.drawingNo;
-      let rootURL = `\\\\10.92.176.10\\DataSharePIDVN\\4. IE Drawing\\HUNG-IT\\IE-Project\\${this.project.projectNo}\\Drawing\\${drawingNo}.pdf`;
+      let rootURL = `\\\\10.92.176.10\\DataSharePIDVN\\4. IE Drawing\\DRAWING-CONTROL\\IE-Project\\${this.project.projectNo}\\Drawing\\${drawingNo}.pdf`;
       let params = { url: rootURL };
 
       this.drawingControlSvc.previewDrawing(params).subscribe((response) => {
