@@ -2,7 +2,6 @@
   <div nz-col nzXs="16" nzSm="16" nzMd="16" nzLg="16">
     <nz-collapse>
       <nz-collapse-panel
-        [nzHeader]="'Project No: ' + project.projectNo"
         [nzActive]="true"
         [nzShowArrow]="true"
       >
@@ -13,8 +12,6 @@
               labelLocation="left"
               showColonAfterLabel="true"
               [labelMode]="'static'"
-              [(value)]="project.projectName"
-              (onBlur)="updateProject()"
             ></dx-text-box>
           </div>
           <div nz-col nzXs="24" nzSm="12" nzLg="4">
@@ -23,8 +20,6 @@
               labelLocation="left"
               showColonAfterLabel="true"
               [labelMode]="'static'"
-              [(value)]="project.line"
-              (onBlur)="updateProject()"
             ></dx-text-box>
           </div>
           <div nz-col nzXs="24" nzSm="12" nzLg="4">
@@ -33,8 +28,6 @@
               labelLocation="left"
               showColonAfterLabel="true"
               [labelMode]="'static'"
-              [(value)]="project.supplier"
-              (onBlur)="updateProject()"
             ></dx-text-box>
           </div>
           <div nz-col nzXs="24" nzSm="12" nzLg="4">
@@ -43,8 +36,6 @@
               labelLocation="left"
               showColonAfterLabel="true"
               [labelMode]="'static'"
-              [(value)]="project.tactTime"
-              (onBlur)="updateProject()"
             ></dx-text-box>
           </div>
         </div>
@@ -65,7 +56,6 @@
               [showBorders]="true"
               [allowColumnResizing]="true"
               [columnAutoWidth]="true"
-              (onRowClick)="onClickProgress($event)"
             >
               <dxi-column
                 dataField="projectProgressId"
@@ -154,7 +144,6 @@
                 type="default"
                 icon="plus"
                 text="Add Activity"
-                (onClick)="openProjectActivityModal()"
               >
               </dx-button>
             </dxi-item>
@@ -192,7 +181,6 @@
           [min]="0"
           [max]="100"
           [step]="5"
-          (onBlur)="updateProjectProgress()"
         ></dx-number-box>
       </div>
       <div nz-col nzXs="24" nzSm="12" nzLg="4">
@@ -203,7 +191,6 @@
           showColonAfterLabel="true"
           [labelMode]="'static'"
           [displayFormat]="'yyyy-MM-dd'"
-          (onValueChanged)="updateProjectProgress()"
         ></dx-date-box>
       </div>
       <div nz-col nzXs="24" nzSm="12" nzLg="4">
@@ -214,7 +201,6 @@
           showColonAfterLabel="true"
           [labelMode]="'static'"
           [displayFormat]="'yyyy-MM-dd'"
-          (onValueChanged)="updateProjectProgress()"
         ></dx-date-box>
       </div>
       <div nz-col nzXs="24" nzSm="12" nzLg="4">
@@ -326,9 +312,6 @@
               [showBorders]="true"
               [columnAutoWidth]="true"
               [expandedRowKeys]="expandedRowKeys"
-              (onSaving)="onSavingDrawing($event)"
-              (onSaved)="onSavedDrawing($event)"
-              (onCellClick)="onCellClick($event)"
               [height]="550"
               [scrolling]="{
                 mode: 'virtual',
@@ -354,7 +337,6 @@
                     type="default"
                     icon="upload"
                     text="Upload Drawing Tree"
-                    (onClick)="openUploadDrawingTreeModal()"
                   >
                   </dx-button>
                 </dxi-item>
@@ -364,7 +346,6 @@
                     type="success"
                     icon="upload"
                     text="Upload drawing file"
-                    (onClick)="openUploadDrawingFileModal()"
                   >
                   </dx-button>
                 </dxi-item>
@@ -438,7 +419,6 @@
                     type="default"
                     icon="upload"
                     text="Upload File"
-                    (onClick)="openUploadProgressFileModal()"
                   >
                   </dx-button>
                 </dxi-item>
@@ -520,7 +500,6 @@
               accept="image/*, .pdf, .doc, .docx, .ppt, .pptx, .xls, .xlsx"
               uploadMode="useForm"
               [inputAttr]="{ 'aria-label': 'Select file' }"
-              (onValueChanged)="onValueChangedFile($event, false)"
             >
             </dx-file-uploader>
           </td>
@@ -529,7 +508,7 @@
     </nz-table>
   </ng-container>
   <div *nzModalFooter>
-    <button nz-button nzType="primary" (click)="insertProjectActivity()">
+    <button nz-button nzType="primary" >
       Lưu
     </button>
     <button
@@ -555,12 +534,11 @@
       [allowedFileExtensions]="['.pdf']"
       uploadMode="useForm"
       [inputAttr]="{ 'aria-label': 'Select file' }"
-      (onValueChanged)="onValueChangedFile($event, true)"
     >
     </dx-file-uploader>
   </ng-container>
   <div *nzModalFooter>
-    <button nz-button nzType="primary" (click)="uploadDrawingFile()">
+    <button nz-button nzType="primary" >
       Save
     </button>
     <button
@@ -574,7 +552,6 @@
 </nz-modal>
 
 <nz-modal
-  [(nzVisible)]="isOpenUploadDrawingTreeModal"
   [nzTitle]="'Upload Drawing Tree'"
 >
   <ng-container *nzModalContent>
@@ -585,18 +562,16 @@
       accept=".xlsx"
       uploadMode="useForm"
       [inputAttr]="{ 'aria-label': 'Select file' }"
-      (onValueChanged)="onValueChangedFile($event, false)"
     >
     </dx-file-uploader>
   </ng-container>
   <div *nzModalFooter>
-    <button nz-button nzType="primary" (click)="uploadDrawingTreeList()">
+    <button nz-button nzType="primary" >
       Save
     </button>
     <button
       nz-button
       nzType="default"
-      (click)="isOpenUploadDrawingTreeModal = false"
     >
       Đóng
     </button>
@@ -615,12 +590,11 @@
       accept="image/*, .pdf, .doc, .docx, .ppt, .pptx, .xls, .xlsx"
       uploadMode="useForm"
       [inputAttr]="{ 'aria-label': 'Select file' }"
-      (onValueChanged)="onValueChangedFile($event, true)"
     >
     </dx-file-uploader>
   </ng-container>
   <div *nzModalFooter>
-    <button nz-button nzType="primary" (click)="uploadProgressFile()">
+    <button nz-button nzType="primary" >
       Save
     </button>
     <button

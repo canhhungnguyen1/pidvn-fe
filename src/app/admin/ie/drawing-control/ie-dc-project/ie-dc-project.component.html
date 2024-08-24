@@ -7,7 +7,7 @@
 </nz-breadcrumb>
 
 <nz-collapse>
-  <nz-collapse-panel
+  <!-- <nz-collapse-panel
     [nzHeader]="'Tìm kiếm'"
     [nzActive]="true"
     [nzShowArrow]="true"
@@ -58,32 +58,6 @@
           [(ngModel)]="searchDto.personInChargeId"
         ></dx-select-box>
 
-        <!-- <dx-drop-down-box
-          label="Main P.I.C"
-          labelLocation="left"
-          showColonAfterLabel="true"
-          [labelMode]="'floating'"
-          valueExpr="id"
-          displayExpr="username"
-          [showClearButton]="true"
-          [dropDownOptions]="{ width: '400px' }"
-          [dataSource]="users"
-        >
-          <div *dxTemplate="let data of 'content'">
-            <dx-data-grid
-              [dataSource]="users"
-              [columns]="['username', 'name']"
-              [selection]="{ mode: 'multiple' }"
-              [hoverStateEnabled]="true"
-              [paging]="{ enabled: true, pageSize: 10 }"
-              [filterRow]="{ visible: true }"
-              [scrolling]="{ mode: 'virtual' }"
-              [height]="300"
-            >
-            </dx-data-grid>
-          </div>
-        </dx-drop-down-box> -->
-
 
       </div>
       <div nz-col nzXs="24" nzSm="12" nzLg="3">
@@ -93,7 +67,7 @@
         </button>
       </div>
     </div>
-  </nz-collapse-panel>
+  </nz-collapse-panel> -->
 </nz-collapse>
 <dx-data-grid
   style="margin-top: 10px"
@@ -118,10 +92,9 @@
     </dxi-item>
   </dxo-toolbar>
 
-  <dxi-column dataField="projectNo" caption="Project No"></dxi-column>
-  <dxi-column dataField="projectName" caption="Project Name"></dxi-column>
-  <dxi-column dataField="projectTypeName" caption="Project Type"></dxi-column>
-  <dxi-column dataField="product" caption="Product"></dxi-column>
+  <dxi-column dataField="controlNo" caption="Project No"></dxi-column>
+  <dxi-column dataField="name" caption="Project Name"></dxi-column>
+  <dxi-column dataField="typeId" caption="Project Type"></dxi-column>
   <dxi-column
     dataField="createdAt"
     caption="Created Date"
@@ -129,7 +102,7 @@
     format="yyyy-MM-dd HH:mm"
   ></dxi-column>
   <dxi-column dataField="status" caption="Status"></dxi-column>
-  <dxi-column dataField="personInChargeName" caption="Main P.I.C"></dxi-column>
+  <dxi-column dataField="pidId" caption="Main P.I.C"></dxi-column>
   <dxi-column
       caption="Action"
       cellTemplate="actionTemplate"
@@ -141,7 +114,7 @@
     </div>
 </dx-data-grid>
 
-<nz-modal [(nzVisible)]="isOpenProjectInsertModal" nzTitle="Project">
+<nz-modal [(nzVisible)]="isOpenProjectCreateModal" nzTitle="Project">
   <ng-container *nzModalContent>
     <nz-table
       [nzData]="['']"
@@ -156,7 +129,7 @@
             <input
               nz-input
               placeholder="Control No"
-              [(ngModel)]="project.projectNo"
+              [(ngModel)]="project.controlNo"
             />
           </td>
         </tr>
@@ -166,7 +139,7 @@
             <input
               nz-input
               placeholder="Project Name"
-              [(ngModel)]="project.projectName"
+              [(ngModel)]="project.name"
             />
           </td>
         </tr>
@@ -176,7 +149,7 @@
             <nz-select
               nzPlaceHolder="Project Type"
               style="width: 100%"
-              [(ngModel)]="project.projectTypeId"
+              [(ngModel)]="project.typeId"
             >
               <nz-option
                 *ngFor="let type of projectTypes"
@@ -193,7 +166,7 @@
             <nz-select
               nzPlaceHolder="Person InCharge"
               style="width: 100%"
-              [(ngModel)]="project.personInChargeId"
+              [(ngModel)]="project.picId"
               nzShowSearch
               nzAllowClear
             >
@@ -215,10 +188,10 @@
     <button
       nz-button
       nzType="default"
-      (click)="isOpenProjectInsertModal = false"
+      (click)="isOpenProjectCreateModal = false"
     >
       Đóng
     </button>
-    <button nz-button nzType="primary" (click)="onInsertProject()">Save</button>
+    <button nz-button nzType="primary" (click)="createProject()">Save</button>
   </div>
 </nz-modal>

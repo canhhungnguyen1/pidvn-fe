@@ -1,17 +1,11 @@
 export class ProjectDto {
   id!: number;
-  projectNo!: string;
-  projectName!: string;
-  projectTypeId!: number;
-  projectTypeName!: string;
+  controlNo!: string;
+  name!: string;
+  typeId!: number;
+  typeName!: string;
+  picId!:string;
+  picName!:string;
   createdBy!: string;
   createdByName!: string;
-  statusId!: number;
-  statusName!: string;
-  supplier!: string;
-  line!: string;
-  tactTime!: string;
-  capacity!: string;
-  personInChargeId!:string
-  personInChargeName!:string
 }

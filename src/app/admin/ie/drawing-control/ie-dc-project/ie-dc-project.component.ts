@@ -6,6 +6,7 @@ import { ProjectTypeDto } from '../models/ProjectTypeDto';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { SearchDto } from '../models/SearchDto';
 import { error } from 'console';
+import { UserDto } from '../models/UserDto';
 
 @Component({
   selector: 'app-ie-dc-project',
@@ -23,57 +24,36 @@ export class IeDcProjectComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getPersonInCharges();
+    this.getUsers();
     this.getProjects();
     this.getProjectType();
-    this.getProducts();
   }
 
 
   jwt: any;
-  users: any;
-  products: any;
-  project!: ProjectDto
+  users!: UserDto[];
   projects!: ProjectDto[]
+  project!: ProjectDto
   projectTypes!: ProjectTypeDto[]
-  isOpenProjectInsertModal: boolean = false
 
-  searchDto: SearchDto = new SearchDto;
+  isOpenProjectCreateModal: boolean = false
+
   isLoadingBtn: boolean = false;
 
-  displayProduct(product:any) {
-    return product ? `${product.factoryCode} - ${product.description}` : '';
-  }
+  
 
-  displayPersonInChargeName(user:any) {
-    return user ? `${user.username} - ${user.name}` : '';
-  }
-
-  public getPersonInCharges() {
-    this.drawingControlSvc.getPersonInCharges().subscribe(
+  getUsers() {
+    this.drawingControlSvc.getUsers().subscribe(
       response => {
-        this.users = response
+        this.users = response.result
       }
     )
   }
-
-  public getProducts() {
-    this.drawingControlSvc.getProducts().subscribe(
-      response => {
-        this.products = response
-      }
-    )
-  }
-
+  
   getProjects() {
-    this.isLoadingBtn = true
-    this.drawingControlSvc.getProjects(this.searchDto).subscribe(
+    this.drawingControlSvc.getProjects().subscribe(
       response => {
-        this.projects = response
-        this.isLoadingBtn = false
-      },
-      error => {
-        this.isLoadingBtn = false
+        this.projects = response.result
       }
     )
   }
@@ -81,27 +61,23 @@ export class IeDcProjectComponent implements OnInit {
   getProjectType() {
     this.drawingControlSvc.getProjectTypes().subscribe(
       response => {
-        this.projectTypes = response
+        this.projectTypes = response.result
       }
     )
   }
 
-  onInsertProject() {
-    this.project.createdBy = this.jwt.Username
-    this.drawingControlSvc.insertProject(this.project).subscribe(
+  createProject() {
+    this.drawingControlSvc.createProject(this.project).subscribe(
       response => {
         this.getProjects();
-        this.isOpenProjectInsertModal = false
-      },
-      error => {
-        this.isOpenProjectInsertModal = false
+        this.isOpenProjectCreateModal = false
       }
     )
   }
 
   openProjectInsertModal() {
     this.project = new ProjectDto();
-    this.isOpenProjectInsertModal = true
+    this.isOpenProjectCreateModal = true
   }
 
 
