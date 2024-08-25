@@ -22,6 +22,12 @@ export class DrawingControlService {
     );
   }
 
+  public getProject(projectId: number): Observable<any> {
+    return this.httpClient.get(
+      `${this.baseUrl}/IE/DrawingControl/Project/${projectId}`
+    );
+  }
+
   public getProjectTypes(): Observable<any> {
     return this.httpClient.get(
       `${this.baseUrl}/IE/DrawingControl/ProjectTypes`
@@ -34,4 +40,26 @@ export class DrawingControlService {
       projectDto
     );
   }
+
+  public getProcesses(projectId: number): Observable<any> {
+    return this.httpClient.get(
+      `${this.baseUrl}/IE/DrawingControl/Processes?projectId=${projectId}`
+    );
+  }
+
+  uploadDrawingStructure(file: File, projectId: number): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.httpClient.post(
+      `${this.baseUrl}/IE/DrawingControl/UploadDrawingStructure?projectId=${projectId}`,
+      formData
+    );
+  }
+
+  public getDrawingStructure(projectId: number): Observable<any> {
+    return this.httpClient.get(
+      `${this.baseUrl}/IE/DrawingControl/DrawingStructure?projectId=${projectId}`
+    );
+  }
+
 }

@@ -6,6 +6,6 @@ export class ProjectDto {
   typeName!: string;
   picId!:string;
   picName!:string;
-  createdBy!: string;
+  createdId!: string;
   createdByName!: string;
 }

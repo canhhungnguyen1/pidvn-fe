@@ -67,6 +67,7 @@ export class IeDcProjectComponent implements OnInit {
   }
 
   createProject() {
+    this.project.createdId = this.jwt.Username
     this.drawingControlSvc.createProject(this.project).subscribe(
       response => {
         this.getProjects();
