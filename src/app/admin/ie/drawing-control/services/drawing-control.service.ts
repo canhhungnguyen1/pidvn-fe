@@ -62,4 +62,38 @@ export class DrawingControlService {
     );
   }
 
+
+  uploadDrawingFile(files: File[], projectId: number): Observable<any> {
+    const formData = new FormData();
+    
+    // Append each file individually
+    files.forEach(file => {
+      formData.append('files', file);
+    });
+  
+    return this.httpClient.post(
+      `${this.baseUrl}/IE/DrawingControl/DrawingFiles?projectId=${projectId}`,
+      formData
+    );
+  }
+
+
+  
+  /**
+   * Xem file Drawing
+   * @param file
+   * @returns
+   */
+  public previewDrawingFile(params: any, controlNo: string) {
+    return this.httpClient.post<any>(
+      `${this.baseUrl}/IE/DrawingControl/DrawingPreview?controlNo=${controlNo}`,
+      params,
+      {
+        responseType: 'arraybuffer' as 'json',
+      }
+    );
+  }
+  
+
+
 }

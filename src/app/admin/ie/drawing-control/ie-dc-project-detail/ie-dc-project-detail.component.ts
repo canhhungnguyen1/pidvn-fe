@@ -141,12 +141,57 @@ export class IeDcProjectDetailComponent implements OnInit {
       let projectId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
       this.drawingControlSvc.uploadDrawingStructure(selectedFiles[0], projectId).subscribe(
         response => {
-          console.log(response);
+          this.getDrawingStructure();
+          this.isOpenUploadFileModal = false
           
         }
       )
     }
-    
+
+    if (this.uploadFileModal.type === 'DRAWING_FILE') {
+      let projectId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
+      this.drawingControlSvc.uploadDrawingFile(selectedFiles, projectId).subscribe(
+        response => {
+          console.log('uploadDrawingFile',response);
+        }
+      )
+    }
   }
+
+
+  previewDrawingFile(event: any) {
+    let dataField = event.column.dataField;
+    console.log(event.data);
+    if (dataField === 'name') {
+      let drawingNo = event.data.drawingNo;
+      let params = {
+         drawingNo: drawingNo
+      };
+
+      this.drawingControlSvc.previewDrawingFile(params, this.project.controlNo).subscribe((response) => {
+        let file = new Blob([response], { type: 'application/pdf' });
+        let fileURL = URL.createObjectURL(file);
+        let fileName = `${drawingNo}.pdf`;
+
+        // Create a link element to download the file with the file name
+        let a = document.createElement('a');
+        a.href = fileURL;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+
+        // Open the file in a new window
+        window.open(fileURL);
+
+        // Remove the link element after the download
+        setTimeout(() => {
+          document.body.removeChild(a);
+          URL.revokeObjectURL(fileURL);
+        }, 100);
+      });
+    }
+
+  }
+
 
 }
