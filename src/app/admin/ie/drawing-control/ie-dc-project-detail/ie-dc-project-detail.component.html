@@ -143,6 +143,7 @@
                 type="default"
                 icon="plus"
                 text="Add Activity"
+                (onClick)="openProjectActivityModal()"
               >
               </dx-button>
             </dxi-item>
@@ -382,7 +383,7 @@
   </ng-template>
 </nz-modal>
 
-<!-- <nz-modal
+<nz-modal
   [(nzVisible)]="isOpenProjectActivityModal"
   [nzTitle]="'Project Activity'"
 >
@@ -430,6 +431,7 @@
           <td><label>File</label></td>
           <td>
             <dx-file-uploader
+              #projectActivityUploader
               [multiple]="false"
               selectButtonText="Select file"
               labelText=""
@@ -444,7 +446,7 @@
     </nz-table>
   </ng-container>
   <div *nzModalFooter>
-    <button nz-button nzType="primary" >
+    <button nz-button nzType="primary" (click)="insertProjectActivity()">
       Lưu
     </button>
     <button
@@ -455,7 +457,7 @@
       Đóng
     </button>
   </div>
-</nz-modal> -->
+</nz-modal>
 
 <!-- <nz-modal
   [(nzVisible)]="isOpenUploadDrawingFileModal"

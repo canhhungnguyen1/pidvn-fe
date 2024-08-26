@@ -16,6 +16,9 @@ import { DxFileUploaderComponent } from 'devextreme-angular';
 export class IeDcProjectDetailComponent implements OnInit {
 
   @ViewChild('fileUploader', { static: false }) fileUploader!: DxFileUploaderComponent;
+  @ViewChild('projectActivityUploader', { static: false }) projectActivityUploader!: DxFileUploaderComponent;
+
+  
 
   constructor(
     private drawingControlSvc: DrawingControlService,
@@ -35,8 +38,19 @@ export class IeDcProjectDetailComponent implements OnInit {
   process: ProcessDto = new ProcessDto();
   processes!: ProcessDto [];
   drawings!: DrawingDto [];
+  projectActivity: ProjectActivityDto = new ProjectActivityDto();
 
-  isOpenProcessModal: boolean = false
+  isOpenProcessModal: boolean = false;
+  isOpenUploadFileModal: boolean = false;
+  uploadFileModal: any = {
+    title: null,
+    multiple: null,
+    accept: null,
+    uploadMode: null,
+    type: null
+  }
+
+  isOpenProjectActivityModal: boolean = false;
 
   getProject() {
     let projectId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
@@ -82,16 +96,7 @@ export class IeDcProjectDetailComponent implements OnInit {
   }
 
 
-  isOpenUploadFileModal: boolean = false;
-
-  uploadFileModal: any = {
-    title: null,
-    multiple: null,
-    accept: null,
-    uploadMode: null,
-    type: null
-  }
-
+  
   /**
    * Mở modal upload
    * @param type 
@@ -193,5 +198,25 @@ export class IeDcProjectDetailComponent implements OnInit {
 
   }
 
+  openProjectActivityModal() {
+    this.projectActivity = new ProjectActivityDto();
+    this.isOpenProjectActivityModal = true
+  }
+
+
+  insertProjectActivity() {
+    const selectedFiles = this.projectActivityUploader.value;
+
+    let projectId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
+    this.projectActivity.projectId = projectId
+
+
+    this.drawingControlSvc.insertProjectActivity(selectedFiles[0], this.projectActivity).subscribe(
+      response => {
+        this.isOpenProjectActivityModal = false
+        console.log('ProjectActivity: ',response);
+      }
+    )
+  }
 
 }
