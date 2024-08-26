@@ -4,4 +4,5 @@ export class ProjectActivityDto {
   note!: string;
   date!: Date;
   projectId!: number;
+  attachFile!:string;
 }

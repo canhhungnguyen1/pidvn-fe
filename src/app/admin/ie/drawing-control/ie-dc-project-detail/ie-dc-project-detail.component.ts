@@ -29,7 +29,7 @@ export class IeDcProjectDetailComponent implements OnInit {
   ngOnInit() {
     this.getProject();
     this.getProcesses();
-    // this.getProjectActivities();
+    this.getProjectActivities();
   }
 
 
@@ -51,6 +51,7 @@ export class IeDcProjectDetailComponent implements OnInit {
   }
 
   isOpenProjectActivityModal: boolean = false;
+  projectActivities!: ProjectActivityDto [];
 
   getProject() {
     let projectId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
@@ -205,18 +206,26 @@ export class IeDcProjectDetailComponent implements OnInit {
 
 
   insertProjectActivity() {
-    const selectedFiles = this.projectActivityUploader.value;
+    const selectedFile = this.projectActivityUploader.value[0];
 
     let projectId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
-    this.projectActivity.projectId = projectId
+    this.projectActivity.projectId = projectId;
+    this.projectActivity.attachFile = selectedFile.name
 
-
-    this.drawingControlSvc.insertProjectActivity(selectedFiles[0], this.projectActivity).subscribe(
+    this.drawingControlSvc.insertProjectActivity(selectedFile, this.projectActivity).subscribe(
       response => {
+        this.getProjectActivities();
         this.isOpenProjectActivityModal = false
-        console.log('ProjectActivity: ',response);
       }
     )
   }
 
+  getProjectActivities() {
+    let projectId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
+    this.drawingControlSvc.getProjectActivity(projectId).subscribe(
+      response => {
+        this.projectActivities = response.result
+      }
+    )
+  }
 }

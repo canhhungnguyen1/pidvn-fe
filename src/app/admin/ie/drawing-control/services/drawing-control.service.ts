@@ -110,6 +110,12 @@ export class DrawingControlService {
       formData
     );
   }
+
+  getProjectActivity(projectId: number): Observable<any> {
+    return this.httpClient.get(
+      `${this.baseUrl}/IE/DrawingControl/ProjectActivities?projectId=${projectId}`
+    );
+  }
   
 
 
