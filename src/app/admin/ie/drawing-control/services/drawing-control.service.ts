@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ProjectActivityDto } from '../models/ProjectActivityDto';
+import { ProcessRecordDto } from '../models/ProcessRecordDto';
 
 @Injectable({
   providedIn: 'root',
@@ -47,6 +48,19 @@ export class DrawingControlService {
       `${this.baseUrl}/IE/DrawingControl/Processes?projectId=${projectId}`
     );
   }
+
+  public getProcessRecordByProject(projectId: number): Observable<any> {
+    return this.httpClient.get(
+      `${this.baseUrl}/IE/DrawingControl/ProcessRecord?projectId=${projectId}`
+    );
+  }
+
+  public updateProcessRecord(processRecord: ProcessRecordDto): Observable<any> {
+    return this.httpClient.post(
+      `${this.baseUrl}/IE/DrawingControl/ProcessRecord`, processRecord
+    );
+  }
+
 
   uploadDrawingStructure(file: File, projectId: number): Observable<any> {
     const formData = new FormData();
@@ -117,7 +131,7 @@ export class DrawingControlService {
     );
   }
   
-
+  
 
 
 }

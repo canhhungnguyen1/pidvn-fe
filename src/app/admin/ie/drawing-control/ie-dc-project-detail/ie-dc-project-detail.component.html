@@ -52,7 +52,7 @@
           >
             <dx-data-grid
               keyExpr="id"
-              [dataSource]="processes"
+              [dataSource]="processRecords"
               [showColumnLines]="true"
               [showRowLines]="true"
               [showBorders]="true"
@@ -62,8 +62,8 @@
             >
      
               <dxi-column
-                dataField="name"
-                caption="Progress Name"
+                dataField="processName"
+                caption="Process Name"
               ></dxi-column>
               <dxi-column
                 dataField="startPlan"
@@ -104,12 +104,12 @@
                     <div
                       class="w3-container w3-green .w3-round-small"
                       [style.width]="
-                        item.data.progress == null
+                        item.data.progressPercent == null
                           ? 0
-                          : item.data.progress + '%'
+                          : item.data.progressPercent + '%'
                       "
                     >
-                      {{ item.data.progress == null ? 0 : item.data.progress }}%
+                      {{ item.data.progressPercent == null ? 0 : item.data.progressPercent }}%
                     </div>
                   </div>
                 </div>
@@ -182,13 +182,67 @@
 
 <nz-modal
   [nzVisible]="isOpenProcessModal"
-  [nzTitle]="'Process: ' + process.name"
+  [nzTitle]="'Process: ' + processRecord.processName"
   nzWidth="100%"
   [nzFooter]="modalFooter"
 >
   <ng-container *nzModalContent>
     <div nz-row nzJustify="start" [nzGutter]="24">
-      <div nz-col nzXs="24" nzSm="12" nzLg="4">
+      <div nz-col nzXs="24" nzSm="12" nzLg="5">
+        <dx-text-box
+          label="Content"
+          labelLocation="left"
+          showColonAfterLabel="true"
+          [labelMode]="'static'"
+          [(value)]="processRecord.content"
+          (onBlur)="updateProcessRecord()"
+        ></dx-text-box>
+      </div>
+      <div nz-col nzXs="24" nzSm="12" nzLg="3">
+        <dx-date-box
+          label="Start Plan"
+          labelLocation="left"
+          showColonAfterLabel="true"
+          [labelMode]="'static'"
+          [displayFormat]="'yyyy-MM-dd'"
+          [(value)]="processRecord.startPlan"
+          (onBlur)="updateProcessRecord()"
+        ></dx-date-box>
+      </div>
+      <div nz-col nzXs="24" nzSm="12" nzLg="3">
+        <dx-date-box
+          label="End Plan"
+          labelLocation="left"
+          showColonAfterLabel="true"
+          [labelMode]="'static'"
+          [displayFormat]="'yyyy-MM-dd'"
+          [(value)]="processRecord.endPlan"
+          (onBlur)="updateProcessRecord()"
+        ></dx-date-box>
+      </div>
+      <div nz-col nzXs="24" nzSm="12" nzLg="3">
+        <dx-date-box
+          label="Start Action"
+          labelLocation="left"
+          showColonAfterLabel="true"
+          [labelMode]="'static'"
+          [displayFormat]="'yyyy-MM-dd'"
+          [(value)]="processRecord.startAction"
+          (onBlur)="updateProcessRecord()"
+        ></dx-date-box>
+      </div>
+      <div nz-col nzXs="24" nzSm="12" nzLg="3">
+        <dx-date-box
+          label="End Action"
+          labelLocation="left"
+          showColonAfterLabel="true"
+          [labelMode]="'static'"
+          [displayFormat]="'yyyy-MM-dd'"
+          [(value)]="processRecord.endAction"
+          (onBlur)="updateProcessRecord()"
+        ></dx-date-box>
+      </div>
+      <div nz-col nzXs="24" nzSm="12" nzLg="3">
         <dx-number-box
           label="Tiến độ"
           labelLocation="left"
@@ -197,43 +251,9 @@
           [min]="0"
           [max]="100"
           [step]="5"
+          [(value)]="processRecord.progressPercent"
+          (onBlur)="updateProcessRecord()"
         ></dx-number-box>
-      </div>
-      <div nz-col nzXs="24" nzSm="12" nzLg="4">
-        <dx-date-box
-          label="Start Plan"
-          labelLocation="left"
-          showColonAfterLabel="true"
-          [labelMode]="'static'"
-          [displayFormat]="'yyyy-MM-dd'"
-        ></dx-date-box>
-      </div>
-      <div nz-col nzXs="24" nzSm="12" nzLg="4">
-        <dx-date-box
-          label="End Plan"
-          labelLocation="left"
-          showColonAfterLabel="true"
-          [labelMode]="'static'"
-          [displayFormat]="'yyyy-MM-dd'"
-        ></dx-date-box>
-      </div>
-      <div nz-col nzXs="24" nzSm="12" nzLg="4">
-        <dx-date-box
-          label="Start Act"
-          labelLocation="left"
-          showColonAfterLabel="true"
-          [labelMode]="'static'"
-          [displayFormat]="'yyyy-MM-dd'"
-        ></dx-date-box>
-      </div>
-      <div nz-col nzXs="24" nzSm="12" nzLg="4">
-        <dx-date-box
-          label="End Act"
-          labelLocation="left"
-          showColonAfterLabel="true"
-          [labelMode]="'static'"
-          [displayFormat]="'yyyy-MM-dd'"
-        ></dx-date-box>
       </div>
     </div>
 

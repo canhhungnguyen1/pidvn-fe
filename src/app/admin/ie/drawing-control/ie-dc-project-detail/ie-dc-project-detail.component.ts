@@ -7,6 +7,7 @@ import { DrawingDto } from '../models/DrawingDto';
 import { ProjectActivityDto } from '../models/ProjectActivityDto';
 import { ProcessDto } from '../models/ProcessDto';
 import { DxFileUploaderComponent } from 'devextreme-angular';
+import { ProcessRecordDto } from '../models/ProcessRecordDto';
 
 @Component({
   selector: 'app-ie-dc-project-detail',
@@ -28,7 +29,8 @@ export class IeDcProjectDetailComponent implements OnInit {
 
   ngOnInit() {
     this.getProject();
-    this.getProcesses();
+    // this.getProcesses();
+    this.getProcessRecordByProject();
     this.getProjectActivities();
   }
 
@@ -37,6 +39,10 @@ export class IeDcProjectDetailComponent implements OnInit {
   project: ProjectDto = new ProjectDto();
   process: ProcessDto = new ProcessDto();
   processes!: ProcessDto [];
+
+  processRecords!: ProcessRecordDto [];
+  processRecord: ProcessRecordDto = new ProcessRecordDto();
+
   drawings!: DrawingDto [];
   projectActivity: ProjectActivityDto = new ProjectActivityDto();
 
@@ -71,6 +77,15 @@ export class IeDcProjectDetailComponent implements OnInit {
       }
     )
   }
+
+  getProcessRecordByProject() {
+    let projectId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
+    this.drawingControlSvc.getProcessRecordByProject(projectId).subscribe(
+      response => {
+        this.processRecords = response.result
+      }
+    )
+  }
   
 
   /**
@@ -79,7 +94,7 @@ export class IeDcProjectDetailComponent implements OnInit {
   onClickProcess(event: any) {
     console.log('onClickProcess: ', event);
 
-    this.process = event.data
+    this.processRecord = event.data
     this.isOpenProcessModal = true
 
     if (this.process.id === 3) {
@@ -246,6 +261,19 @@ export class IeDcProjectDetailComponent implements OnInit {
     this.drawingControlSvc.getProjectActivity(projectId).subscribe(
       response => {
         this.projectActivities = response.result
+      }
+    )
+  }
+
+
+  updateProcessRecord() {
+    let projectId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
+    this.processRecord.projectId = projectId;
+
+    this.drawingControlSvc.updateProcessRecord(this.processRecord).subscribe(
+      response => {
+        this.toastr.success('Success','Updated')
+        this.processRecord.id = response.result.id
       }
     )
   }
