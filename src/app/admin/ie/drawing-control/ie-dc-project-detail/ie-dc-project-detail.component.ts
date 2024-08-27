@@ -52,6 +52,7 @@ export class IeDcProjectDetailComponent implements OnInit {
 
   isOpenProjectActivityModal: boolean = false;
   projectActivities!: ProjectActivityDto [];
+  isLoading: boolean = false
 
   getProject() {
     let projectId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
@@ -144,21 +145,33 @@ export class IeDcProjectDetailComponent implements OnInit {
     }
 
     if (this.uploadFileModal.type === 'DRAWING_STRUCTURE') {
+      this.isLoading = true
       let projectId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
       this.drawingControlSvc.uploadDrawingStructure(selectedFiles[0], projectId).subscribe(
         response => {
           this.getDrawingStructure();
           this.isOpenUploadFileModal = false
+          this.isLoading = false
+        },
+        error => {
+          this.isOpenUploadFileModal = false
+          this.isLoading = false
         }
       )
     }
 
     if (this.uploadFileModal.type === 'DRAWING_FILE') {
+      this.isLoading = true
       let projectId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
       this.drawingControlSvc.uploadDrawingFile(selectedFiles, projectId).subscribe(
         response => {
-          this.isOpenUploadFileModal = false
           this.getDrawingStructure();
+          this.isOpenUploadFileModal = false
+          this.isLoading = false
+        },
+        error => {
+          this.isOpenUploadFileModal = false
+          this.isLoading = false
         }
       )
     }
@@ -206,11 +219,19 @@ export class IeDcProjectDetailComponent implements OnInit {
 
 
   insertProjectActivity() {
-    const selectedFile = this.projectActivityUploader.value[0];
-
+    
     let projectId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
+
+    const selectedFile = this.projectActivityUploader.value[0];
+    if (selectedFile) {
+      this.projectActivity.attachFile = selectedFile.name
+    }
     this.projectActivity.projectId = projectId;
-    this.projectActivity.attachFile = selectedFile.name
+    
+    if (!this.projectActivity.date) {
+      this.toastr.warning('Date không được để trống','Warning')
+      return
+    }
 
     this.drawingControlSvc.insertProjectActivity(selectedFile, this.projectActivity).subscribe(
       response => {

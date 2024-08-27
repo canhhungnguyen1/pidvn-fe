@@ -149,6 +149,15 @@
               </dx-button>
             </dxi-item>
           </dxo-toolbar>
+
+          <dxo-filter-row [visible]="true"></dxo-filter-row>
+          <dxo-column-chooser
+            #columnChooser
+            [enabled]="true"
+            [mode]="'select'"
+            [title]="'Cột hiển thị'"
+          >
+          </dxo-column-chooser>
           <dxi-column
             dataField="date"
             caption="Date"
@@ -158,6 +167,13 @@
           <dxi-column dataField="title" caption="Title"></dxi-column>
           <dxi-column dataField="note" caption="Note"></dxi-column>
           <dxi-column dataField="attachFile" caption="File"></dxi-column>
+
+          <dxo-paging [pageSize]="10"></dxo-paging>
+          <dxo-pager
+            [showPageSizeSelector]="true"
+            [allowedPageSizes]="[5, 10, 15, 20]"
+          >
+          </dxo-pager>
         </dx-data-grid>
       </nz-collapse-panel>
     </nz-collapse>
@@ -416,7 +432,7 @@
         </tr>
         <tr>
           <td>
-            <label>Date</label>
+            <label>Date</label><span style="color: red">*</span>
           </td>
           <td>
             <nz-date-picker
@@ -571,7 +587,7 @@
     </dx-file-uploader>
   </ng-container>
   <div *nzModalFooter>
-    <button nz-button nzType="primary" (click)="uploadFile()">
+    <button nz-button nzType="primary" (click)="uploadFile()" [nzLoading]="isLoading">
       Save
     </button>
     <button
