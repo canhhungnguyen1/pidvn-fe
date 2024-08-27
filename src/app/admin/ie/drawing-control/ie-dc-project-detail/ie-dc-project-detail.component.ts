@@ -149,7 +149,6 @@ export class IeDcProjectDetailComponent implements OnInit {
         response => {
           this.getDrawingStructure();
           this.isOpenUploadFileModal = false
-          
         }
       )
     }
@@ -158,7 +157,8 @@ export class IeDcProjectDetailComponent implements OnInit {
       let projectId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
       this.drawingControlSvc.uploadDrawingFile(selectedFiles, projectId).subscribe(
         response => {
-          console.log('uploadDrawingFile',response);
+          this.isOpenUploadFileModal = false
+          this.getDrawingStructure();
         }
       )
     }
