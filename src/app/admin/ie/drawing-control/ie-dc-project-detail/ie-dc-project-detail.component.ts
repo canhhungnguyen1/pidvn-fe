@@ -69,6 +69,14 @@ export class IeDcProjectDetailComponent implements OnInit {
     )
   }
 
+  updateProject() {
+    this.drawingControlSvc.updateProject(this.project).subscribe(
+      response => {
+        this.toastr.success('Success','Updated')
+      }
+    )
+  }
+
   getProcesses() {
     let projectId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
     this.drawingControlSvc.getProcesses(projectId).subscribe(
@@ -97,10 +105,18 @@ export class IeDcProjectDetailComponent implements OnInit {
     this.processRecord = event.data
     this.isOpenProcessModal = true
 
-    if (this.process.id === 3) {
+    if (this.processRecord.processId === 3) {
       this.getDrawingStructure();
       return;
     }
+  }
+
+  /**
+   * Expand các parent child drawing file
+   */
+  expandedDrawingRowKeys: number[] = [];
+  onExpandedRowKeysChanged(e: any) {
+    this.expandedDrawingRowKeys = e.value;
   }
 
   getDrawingStructure() {
@@ -108,6 +124,9 @@ export class IeDcProjectDetailComponent implements OnInit {
     this.drawingControlSvc.getDrawingStructure(projectId).subscribe(
       response => {
         this.drawings = response.result
+
+        // Mở tất cả các hàng khi khởi tạo
+        this.expandedDrawingRowKeys = this.drawings.map((item: any) => item.id);
       }
     )
   }

@@ -6,6 +6,9 @@ export class ProjectDto {
   typeName!: string;
   picId!:string;
   picName!:string;
+  line!:string;
+  supplier!: string;
+  tactTime!: string;
   createdId!: string;
   createdByName!: string;
 }

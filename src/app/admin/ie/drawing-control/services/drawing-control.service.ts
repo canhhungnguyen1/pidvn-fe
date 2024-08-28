@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ProjectActivityDto } from '../models/ProjectActivityDto';
 import { ProcessRecordDto } from '../models/ProcessRecordDto';
+import { ProjectDto } from '../models/ProjectDto';
 
 @Injectable({
   providedIn: 'root',
@@ -27,6 +28,12 @@ export class DrawingControlService {
   public getProject(projectId: number): Observable<any> {
     return this.httpClient.get(
       `${this.baseUrl}/IE/DrawingControl/Project/${projectId}`
+    );
+  }
+
+  public updateProject(project: ProjectDto): Observable<any> {
+    return this.httpClient.put(
+      `${this.baseUrl}/IE/DrawingControl/Project`, project
     );
   }
 
