@@ -13,3 +13,13 @@
   font-weight: bold;
   padding-left: 3px;
 }
+
+nz-table {
+  label {
+    font-weight: bold;
+  }
+  span.required {
+    color: red;
+    font-weight: bold;
+  }
+}

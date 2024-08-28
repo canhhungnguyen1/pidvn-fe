@@ -18,6 +18,10 @@ export class DrawingControlService {
     return this.httpClient.get(`${this.baseUrl}/IE/DrawingControl/Users`);
   }
 
+  public getProducts(): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/IE/DrawingControl/Products`);
+  }
+
   public getProjects(): Observable<any> {
     return this.httpClient.post(
       `${this.baseUrl}/IE/DrawingControl/Projects`,

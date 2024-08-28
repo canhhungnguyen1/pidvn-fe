@@ -7,6 +7,8 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { SearchDto } from '../models/SearchDto';
 import { error } from 'console';
 import { UserDto } from '../models/UserDto';
+import { ToastrService } from 'ngx-toastr';
+import { ProductDto } from '../models/ProductDto';
 
 @Component({
   selector: 'app-ie-dc-project',
@@ -18,13 +20,15 @@ export class IeDcProjectComponent implements OnInit {
   constructor(
     private router: Router,
     private drawingControlSvc: DrawingControlService,
-    private jwtSvc: JwtHelperService
+    private jwtSvc: JwtHelperService,
+    private toastr: ToastrService
   ) {
     this.jwt = this.jwtSvc.decodeToken(localStorage.getItem('accessToken')?.toString())
   }
 
   ngOnInit(): void {
     this.getUsers();
+    this.getProducts();
     this.getProjects();
     this.getProjectType();
   }
@@ -32,12 +36,11 @@ export class IeDcProjectComponent implements OnInit {
 
   jwt: any;
   users!: UserDto[];
+  products!: ProductDto [];
   projects!: ProjectDto[]
   project!: ProjectDto
   projectTypes!: ProjectTypeDto[]
-
   isOpenProjectCreateModal: boolean = false
-
   isLoadingBtn: boolean = false;
 
   
@@ -49,7 +52,19 @@ export class IeDcProjectComponent implements OnInit {
       }
     )
   }
+
+  getProducts() {
+    this.drawingControlSvc.getProducts().subscribe(
+      response => {
+        this.products = response.result
+      }
+    )
+  }
   
+  displayPersonInChargeName(user:any) {
+    return user ? `${user.username} - ${user.name}` : '';
+  }
+
   getProjects() {
     this.drawingControlSvc.getProjects().subscribe(
       response => {
@@ -67,6 +82,13 @@ export class IeDcProjectComponent implements OnInit {
   }
 
   createProject() {
+
+    if (!this.project.controlNo || !this.project.name || !this.project.typeId || !this.project.picId || !this.project.productId) {
+      this.toastr.warning('Cần nhập đủ thông tin','Warning')
+      return
+    }
+
+
     this.project.createdId = this.jwt.Username
     this.drawingControlSvc.createProject(this.project).subscribe(
       response => {

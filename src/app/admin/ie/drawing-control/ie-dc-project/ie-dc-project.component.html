@@ -7,14 +7,14 @@
 </nz-breadcrumb>
 
 <nz-collapse>
-  <!-- <nz-collapse-panel
+  <nz-collapse-panel
     [nzHeader]="'Tìm kiếm'"
     [nzActive]="true"
     [nzShowArrow]="true"
   >
     <div nz-row nzJustify="start" [nzGutter]="24">
       <div nz-col nzXs="24" nzSm="12" nzLg="3">
-        <nz-date-picker nzMode="year" nzPlaceHolder="Year" style="width: 100%;" [(ngModel)]="searchDto.date"></nz-date-picker>
+        <nz-date-picker nzMode="year" nzPlaceHolder="Year" style="width: 100%;"></nz-date-picker>
       </div>
       <div nz-col nzXs="24" nzSm="12" nzLg="3">
         <dx-select-box
@@ -26,36 +26,32 @@
           valueExpr="id"
           [dataSource]="projectTypes"
           [showClearButton]="true"
-          [(ngModel)]="searchDto.projectTypeId"
         ></dx-select-box>
       </div>
-      <div nz-col nzXs="24" nzSm="12" nzLg="3">
+      <!-- <div nz-col nzXs="24" nzSm="12" nzLg="3">
         <dx-select-box
           label="Product"
           labelLocation="left"
           showColonAfterLabel="true"
           [labelMode]="'floating'"
-          [displayExpr]="displayProduct"
           valueExpr="id"
-          [dataSource]="products"
           [showClearButton]="true"
           [searchEnabled]="true"
           [dropDownOptions]="{ width: '250px' }"
         ></dx-select-box>
-      </div>
+      </div> -->
       <div nz-col nzXs="24" nzSm="12" nzLg="3">
         <dx-select-box
           label="Main P.I.C"
           labelLocation="left"
           showColonAfterLabel="true"
           [labelMode]="'floating'"
-          [displayExpr]="displayPersonInChargeName"
           valueExpr="username"
+          [displayExpr]="displayPersonInChargeName"
           [dataSource]="users"
           [showClearButton]="true"
           [searchEnabled]="true"
           [dropDownOptions]="{ width: '250px' }"
-          [(ngModel)]="searchDto.personInChargeId"
         ></dx-select-box>
 
 
@@ -67,7 +63,7 @@
         </button>
       </div>
     </div>
-  </nz-collapse-panel> -->
+  </nz-collapse-panel>
 </nz-collapse>
 <dx-data-grid
   style="margin-top: 10px"
@@ -95,6 +91,7 @@
   <dxi-column dataField="controlNo" caption="Project No"></dxi-column>
   <dxi-column dataField="name" caption="Project Name"></dxi-column>
   <dxi-column dataField="typeName" caption="Project Type"></dxi-column>
+  <dxi-column dataField="productName" caption="Product Name"></dxi-column>
   <dxi-column
     dataField="createdAt"
     caption="Created Date"
@@ -125,7 +122,7 @@
     >
       <tbody>
         <tr>
-          <td><label>Project No</label></td>
+          <td><span class="required">*</span><label>Project No</label></td>
           <td>
             <input
               nz-input
@@ -135,7 +132,7 @@
           </td>
         </tr>
         <tr>
-          <td><label>Project Name</label></td>
+          <td><span class="required">*</span><label>Project Name</label></td>
           <td>
             <input
               nz-input
@@ -145,7 +142,7 @@
           </td>
         </tr>
         <tr>
-          <td><label>Project Type</label></td>
+          <td><span class="required">*</span><label>Project Type</label></td>
           <td>
             <nz-select
               nzPlaceHolder="Project Type"
@@ -162,7 +159,24 @@
           </td>
         </tr>
         <tr>
-          <td><label>P.I.C</label></td>
+          <td><span class="required">*</span><label>Product</label></td>
+          <td>
+            <nz-select
+              nzPlaceHolder="Product"
+              style="width: 100%"
+              [(ngModel)]="project.productId"
+            >
+              <nz-option
+                *ngFor="let product of products"
+                [nzValue]="product.id"
+                [nzLabel]="product.description"
+              >
+              </nz-option>
+            </nz-select>
+          </td>
+        </tr>
+        <tr>
+          <td><span class="required">*</span><label>P.I.C</label></td>
           <td>
             <nz-select
               nzPlaceHolder="Person InCharge"

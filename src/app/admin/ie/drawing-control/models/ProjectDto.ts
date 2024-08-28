@@ -3,6 +3,7 @@ export class ProjectDto {
   controlNo!: string;
   name!: string;
   typeId!: number;
+  productId!: number;
   typeName!: string;
   picId!:string;
   picName!:string;
