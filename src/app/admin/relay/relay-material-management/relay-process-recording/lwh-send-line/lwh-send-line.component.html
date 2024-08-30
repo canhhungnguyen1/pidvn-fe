@@ -153,6 +153,9 @@
       <nz-alert *ngIf="lotWarningMsg" id="warning-msg" nzBanner nzShowIcon style="margin-top: 10px" nzType="warning"
         [nzMessage]="lotWarningMsg">
       </nz-alert>
+      <nz-alert *ngIf="lotInfoMsg" id="info-msg" nzBanner nzShowIcon style="margin-top: 10px" nzType="info"
+        [nzMessage]="lotInfoMsg">
+      </nz-alert>
       <nz-table #qrTbl [nzData]="listLotsScanned" style="margin-top: 15px" nzBordered nzSize="small"
         [nzFrontPagination]="true" [nzPageSize]="5">
         <thead>

@@ -296,4 +296,9 @@ export class IeDcProjectDetailComponent implements OnInit {
       }
     )
   }
+
+  updateProcessRecordV2(event: any) {
+    console.log(event);
+    
+  }
 }

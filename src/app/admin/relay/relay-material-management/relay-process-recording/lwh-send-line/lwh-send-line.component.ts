@@ -31,6 +31,7 @@ export class LwhSendLineComponent implements OnInit, AfterViewInit {
   lotNoEdit: string | null = null;
   lotErrMsg: string | null = null;
   lotWarningMsg: string | null = null; // Lưu trường hợp cảnh báo hàng sắp hết hạn
+  lotInfoMsg: string | null = null; // Hiển thị thông tin hàng sắp hết hạn
   isLoadingSaveBtn: boolean = false;
 
   isOpenEditMaterialModal: boolean = false;
@@ -141,6 +142,7 @@ export class LwhSendLineComponent implements OnInit, AfterViewInit {
     this.rePrSvc.scanMaterialV3(lot).subscribe((response) => {
       if (response.status == 'ERROR') {
         this.lotWarningMsg = null;
+        this.lotInfoMsg = null;
         this.lotErrMsg = response.message;
         this.toastr.error('Có lỗi !', 'Error', {
           timeOut: 1500,
@@ -149,8 +151,13 @@ export class LwhSendLineComponent implements OnInit, AfterViewInit {
       } else if (response.status == 'OK') {
 
         if (response.warning) {
+          this.lotInfoMsg = null
           this.lotWarningMsg = response.warning
+        } else if(response.information) {
+          this.lotInfoMsg = response.information
+          this.lotWarningMsg = null
         } else {
+          this.lotInfoMsg = null
           this.lotWarningMsg = null
         }
 

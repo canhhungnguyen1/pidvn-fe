@@ -107,14 +107,14 @@
                   *dxTemplate="let item of 'progressTemplate'"
                   style="text-align: center"
                 >
-                  <div class="w3-light-grey .w3-round-small">
+                  <div class="w3-light-grey w3-round-small">
                     <div
-                      class="w3-container w3-green .w3-round-small"
-                      [style.width]="
-                        item.data.progressPercent == null
-                          ? 0
-                          : item.data.progressPercent + '%'
-                      "
+                      [ngClass]="{
+                        'w3-orange': item.data.progressPercent < 60,
+                        'w3-green': item.data.progressPercent >= 60
+                      }"
+                      class="w3-container w3-round-small"
+                      [style.width]="item.data.progressPercent == null ? '0%' : item.data.progressPercent + '%'"
                     >
                       {{ item.data.progressPercent == null ? 0 : item.data.progressPercent }}%
                     </div>
@@ -202,7 +202,7 @@
           showColonAfterLabel="true"
           [labelMode]="'static'"
           [(value)]="processRecord.content"
-          (onBlur)="updateProcessRecord()"
+          (onBlur)="updateProcessRecordV2($event)"
         ></dx-text-box>
       </div>
       <div nz-col nzXs="24" nzSm="12" nzLg="3">

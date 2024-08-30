@@ -1,3 +1,22 @@
+#project-info,
+#project-progress {
+  label {
+    font-weight: bold;
+    color: #0856ff;
+  }
+}
+
+
+
+.project-activity {
+  label {
+    font-weight: bold;
+  }
+}
+
+
+
+
 .w3-light-grey,
 .w3-hover-light-grey:hover,
 .w3-hover-light-gray:hover {
@@ -14,19 +33,29 @@
   padding-left: 3px;
 }
 
-#project-info,
-#project-progress {
-  label {
-    font-weight: bold;
-    color: #0856ff;
-  }
+/* Thêm các lớp CSS mới cho màu sắc dựa trên giá trị phần trăm */
+.w3-red {
+  color: white !important;
+  background-color: red !important;
+  font-size: 12px;
+  font-weight: bold;
+  padding-left: 3px;
 }
 
-
-
-.project-activity {
-  label {
-    font-weight: bold;
-  }
+.w3-orange {
+  color: white !important;
+  background-color: orange !important;
+  font-size: 12px;
+  font-weight: bold;
+  padding-left: 3px;
 }
+
+.w3-green {
+  color: white !important;
+  background-color: rgb(12, 172, 12) !important;
+  font-size: 12px;
+  font-weight: bold;
+  padding-left: 3px;
+}
+
 
