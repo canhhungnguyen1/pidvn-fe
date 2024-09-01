@@ -309,4 +309,30 @@ export class WasteDetailDataComponent implements OnInit {
       }, 100);
     });
   }
+
+  pdfUrl: any;
+  viewReport() {
+    let masterId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
+    this.wasteMngSvc.getPdfReport(masterId).subscribe((response) => {
+      let file = new Blob([response], { type: 'application/pdf' });
+        let fileURL = URL.createObjectURL(file);
+        let fileName = `aaa.pdf`;
+
+        // Create a link element to download the file with the file name
+        let a = document.createElement('a');
+        a.href = fileURL;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+
+        // Open the file in a new window
+        window.open(fileURL);
+
+        // Remove the link element after the download
+        setTimeout(() => {
+          document.body.removeChild(a);
+          URL.revokeObjectURL(fileURL);
+        }, 100);
+    });
+  }
 }
