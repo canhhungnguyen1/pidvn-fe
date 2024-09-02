@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SignaturePadModule } from 'angular2-signaturepad';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
@@ -24,7 +23,6 @@ import { DmDeviceHistoryComponent } from './dm-device-history/dm-device-history.
     DeviceManagementRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-    SignaturePadModule,
     NzBreadCrumbModule,
     NzCollapseModule,
     NzGridModule,
