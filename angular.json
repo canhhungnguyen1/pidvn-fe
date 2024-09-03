@@ -91,10 +91,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "pidvn-fe:build:production"
+              "buildTarget": "pidvn-fe:build:production"
             },
             "development": {
-              "browserTarget": "pidvn-fe:build:development"
+              "buildTarget": "pidvn-fe:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -102,7 +102,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "pidvn-fe:build"
+            "buildTarget": "pidvn-fe:build"
           }
         },
         "test": {
