@@ -4,7 +4,7 @@
       <form action="#" class="sign-in-form">
         <h2 class="title">Đăng nhập hệ thống</h2>
         <div class="input-field">
-          <i nz-icon [nzType]="'user'"></i>
+          <i style="margin-left: 20px;" nz-icon [nzType]="'user'"></i>
           <input
             #usernameIpt
             type="text"
@@ -17,7 +17,7 @@
           />
         </div>
         <div class="input-field">
-          <i nz-icon [nzType]=" isShowPassword ? 'eye' : 'eye-invisible'" ></i>
+          <i style="margin-left: 20px;" nz-icon [nzType]=" isShowPassword ? 'eye' : 'eye-invisible'" ></i>
           <input
             #passwordIpt
             [type]="isShowPassword ? 'text' : 'password'"
