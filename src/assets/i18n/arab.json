@@ -1,6 +1,6 @@
 {
     "common": {
-        "greeting":"こんにちは",
+        "greeting":"مرحبًا",
         "personalInformation":"Personal Information",
         "changePassword":"Change Password",
         "logout":"Logout"

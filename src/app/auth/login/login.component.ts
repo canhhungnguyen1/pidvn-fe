@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Account } from '../models/Account';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { ActivatedRoute, Router, RouterStateSnapshot } from '@angular/router';
@@ -12,7 +12,7 @@ import { PreviousRouteService } from '../services/previous.route.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, AfterViewInit {
   @ViewChild('usernameIpt') usernameIpt!: ElementRef;
   @ViewChild('passwordIpt') passwordIpt!: ElementRef;
 
@@ -25,23 +25,35 @@ export class LoginComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private previousRouteSvc: PreviousRouteService
   ) {}
+  
 
   isLoading: boolean = false;
   toggleForm = 'wrapper';
   accountLogin: Account = new Account();
-  returnUrl!: string;
+  returnUrl: string = '/';
   isShowPassword: boolean = false;
 
   ngOnInit(): void {
-    this.returnUrl =
-      this.activatedRoute.snapshot.queryParams['returnUrl'] || '/';
+    // Lấy returnUrl từ các tham số truy vấn hoặc đặt thành '/'
+    this.returnUrl = this.activatedRoute.snapshot.queryParams['returnUrl'] || '/';
 
-    setTimeout(() => {
-      this.usernameIpt.nativeElement.focus();
-    }, 0);
-
+    // Kiểm tra nếu người dùng đã đăng nhập, điều hướng đến URL trước đó
     if (this.authService.isAuthenticated()) {
-      this.router.navigate([this.previousRouteSvc.getPreviousUrl()]);
+      const previousUrl = this.previousRouteSvc.getPreviousUrl();
+      if (previousUrl) {
+        this.router.navigate([previousUrl]);
+      } else {
+        this.router.navigate(['/']);
+      }
+    }
+  }
+
+  ngAfterViewInit(): void {
+    // Đặt tiêu điểm vào phần tử input sau khi view đã được khởi tạo
+    if (this.usernameIpt) {
+      setTimeout(() => {
+        this.usernameIpt.nativeElement.focus();
+      }, 0);
     }
   }
 
