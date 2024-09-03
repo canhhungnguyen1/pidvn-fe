@@ -8,7 +8,6 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { VrEncPRService } from '../services/vr-enc-p-r.service';
-import { error } from 'console';
 
 @Component({
   selector: 'app-vr-enc-p-r-insert',

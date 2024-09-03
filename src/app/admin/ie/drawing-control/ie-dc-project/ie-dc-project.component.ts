@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { DrawingControlService } from '../services/drawing-control.service';
-import { ProjectDto } from '../models/ProjectDto';
-import { ProjectTypeDto } from '../models/ProjectTypeDto';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { SearchDto } from '../models/SearchDto';
-import { error } from 'console';
-import { UserDto } from '../models/UserDto';
 import { ToastrService } from 'ngx-toastr';
 import { ProductDto } from '../models/ProductDto';
+import { ProjectDto } from '../models/ProjectDto';
+import { ProjectTypeDto } from '../models/ProjectTypeDto';
+import { UserDto } from '../models/UserDto';
+import { DrawingControlService } from '../services/drawing-control.service';
 
 @Component({
   selector: 'app-ie-dc-project',

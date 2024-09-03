@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { SignaturePad } from 'angular2-signaturepad';
+// import { SignaturePad } from 'angular2-signaturepad';
 import { ToastrService } from 'ngx-toastr';
 import { DeviceManagementService } from '../device-management.service';
 
@@ -11,7 +11,7 @@ import { DeviceManagementService } from '../device-management.service';
   styleUrls: ['./dm-device-list.component.scss'],
 })
 export class DmDeviceListComponent implements OnInit {
-  @ViewChild(SignaturePad) signaturePad!: SignaturePad;
+  // @ViewChild(SignaturePad) signaturePad!: SignaturePad;
 
   signaturePadOptions = {
     minWidth: 1,
@@ -137,9 +137,9 @@ export class DmDeviceListComponent implements OnInit {
       return;
     }
 
-    const signature = this.signaturePad.toDataURL('image/png', 0.5);
+    // const signature = this.signaturePad.toDataURL('image/png', 0.5);
 
-    this.deviceSelected.signature = signature
+    // this.deviceSelected.signature = signature
 
     this.deviceMngSvc
       .handOverDevice(this.deviceSelected)
@@ -162,9 +162,9 @@ export class DmDeviceListComponent implements OnInit {
       return;
     }
 
-    const signature = this.signaturePad.toDataURL('image/png', 0.5);
+    // const signature = this.signaturePad.toDataURL('image/png', 0.5);
 
-    this.deviceSelected.signature = signature
+    // this.deviceSelected.signature = signature
 
     this.deviceMngSvc
       .receiveDevice(this.deviceSelected)

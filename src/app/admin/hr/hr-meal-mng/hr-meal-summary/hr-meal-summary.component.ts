@@ -1,9 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { DxDataGridComponent } from 'devextreme-angular';
 import { ToastrService } from 'ngx-toastr';
 import { HrMealMngService } from '../services/hr-meal-mng.service';
-import { JwtHelperService } from '@auth0/angular-jwt';
-import { error } from 'console';
 @Component({
   selector: 'app-hr-meal-summary',
   templateUrl: './hr-meal-summary.component.html',

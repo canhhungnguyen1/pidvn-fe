@@ -1,11 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { SparePartService } from '../services/spare-part.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { DxDataGridComponent, DxValidatorComponent } from 'devextreme-angular';
 import { ToastrService } from 'ngx-toastr';
 import { SparePartRecordVo } from '../models/SparePartRecordVo';
-import { DxDataGridComponent, DxValidatorComponent } from 'devextreme-angular';
+import { SparePartService } from '../services/spare-part.service';
 import { SparePartRequestsService } from './spare-part-requests.service';
-import { error } from 'console';
-import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Component({
   selector: 'app-spare-part-requests',
