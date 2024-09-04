@@ -110,10 +110,13 @@ export class MaterialReceiptComponent implements OnInit {
           material.slipNo = this.slipInput.toUpperCase();
           material.qrCode = this.qrCode;
           
-          // Trường hợp lotGroup nếu là hàng của Hanoi You Steel
           if (result[4] === '21041684') {
+            // Trường hợp lotGroup nếu là hàng của Hanoi You Steel
             material.lotGroup = result[3].split('*')[0];
-          }else {
+          }else if(result[4] === '21019313') {
+             // Trường hợp lotGroup nếu là hàng của TAIWAN FURUKAWA MAGNET WIRE
+            material.lotGroup = `${result[3].split('*')[0]}*${result[3].split('*')[1]}`;
+          } else {
             material.lotGroup = result[3];
           }
 
