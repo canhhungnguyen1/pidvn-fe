@@ -40,7 +40,7 @@ const routes: Routes = [
         loadChildren: () => import('./qa/qa.module').then((m) => m.QaModule),
         canActivate: [RoleGuard],
         data: {
-          roles: ['super_admin', 'PIH QA-IQC'],
+          roles: ['super_admin', 'PIH QA-IQC', 'PIH QA 2'],
         },
       },
       {
