@@ -1,0 +1,62 @@
+.list-menu__container .list-menu__item.active {
+    font-weight: 700
+}
+
+.list-menu__container .list-menu__item.active .list-menu-item__icon {
+    border-color: rgba(5,96,166,.8);
+    border-radius: 8px;
+    border: 1px solid #0560a6;
+    background: rgba(5,96,166,.1)
+}
+
+.list-menu__container .list-menu__item.active p {
+    color: rgba(5,96,166,.8)!important;
+    text-align: center;
+    font-weight: bold;
+}
+
+.list-menu__container .list-menu__item p {
+    color: rgba(0, 0, 0, 0.8)!important;
+    text-align: center;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.list-menu__container .list-menu__item .menu-label {
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap
+}
+
+.list-menu__container .list-menu__item .list-menu-item__icon {
+    padding: 5px;
+    width: 68px;
+    height: 68px;
+    background: #f9f9f9;
+    border: 1px solid #e4e4e4;
+    border-radius: 5px;
+    -webkit-transition: all .3s;
+    transition: all .3s
+}
+
+.list-menu__container .list-menu__item .list-menu-item__icon:hover {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+    border-radius: 8px;
+    border: 1px solid #0560a6;
+    background: rgba(5,96,166,.1);
+    cursor: pointer;
+}
+
+.list-menu__container .list-menu__item .list-menu-item__icon img {
+    width: 55px;
+    height: 55px
+}
+
+.list-menu__container .list-menu__item .list-menu-item__icon.list-menu-item__icon-user {
+    padding: 10px
+}
+
+.list-menu__container .list-menu__item .large-title-menu {
+    white-space: nowrap
+}

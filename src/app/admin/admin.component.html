@@ -1,31 +1,14 @@
 <nz-layout class="app-layout">
-  <nz-sider
-    class="menu-sidebar"
-    nzCollapsible
-    nzWidth="256px"
-    nzBreakpoint="md"
-    [(nzCollapsed)]="isCollapsed"
-    [nzTrigger]="null"
-    [nzCollapsedWidth]="0"
-  >
+  <nz-sider class="menu-sidebar" nzCollapsible nzWidth="256px" nzBreakpoint="md" [(nzCollapsed)]="isCollapsed"
+    [nzTrigger]="null" [nzCollapsedWidth]="0">
     <div class="sidebar-logo">
       {{ isCollapsed ? "P" : "PIDVN" }}
     </div>
-    <ul
-      nz-menu
-      nzTheme="dark"
-      nzMode="inline"
-      [nzInlineCollapsed]="isCollapsed"
-    >
+    <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
       <li nz-menu-item nzTooltipPlacement="right" nzMatchRouter>
         <i nz-icon nzType="bank"></i>
         <span>
-          <a
-            class="externalLink"
-            href="https://10.92.176.57:8080"
-            (click)="onHideSidebar()"
-            target="_blank"
-          >
+          <a class="externalLink" href="https://10.92.176.57:8080" (click)="onHideSidebar()" target="_blank">
             FDCS (Server 1)
           </a>
         </span>
@@ -41,37 +24,24 @@
       <li nz-menu-item nzTooltipPlacement="right" nzMatchRouter>
         <i nz-icon nzType="codepen-circle"></i>
         <span>
-          <a
-            routerLink="/admin/sales/update-psi-price"
-            (click)="onHideSidebar()"
-            >Dự án của tôi</a
-          >
+          <a routerLink="/admin/sales/update-psi-price" (click)="onHideSidebar()">Dự án của tôi</a>
         </span>
       </li>
       <li nz-menu-item nzTooltipPlacement="right" nzMatchRouter>
         <i nz-icon nzType="dashboard"></i>
         <span>
-          <a class="externalLink" routerLink="/admin/dashboard/menu" (click)="onHideSidebar()"
-            >Dashboard</a
-          >
+          <a class="externalLink" routerLink="/admin/dashboard/menu" (click)="onHideSidebar()">Dashboard</a>
         </span>
       </li>
       <li nz-submenu nzTitle="TRUY VẾT" nzIcon="search">
         <ul>
           <li nz-menu-item nzMatchRouter>
             <a class="externalLink" [href]="traceDataLink" target="blank" (click)="onHideSidebar()">
-              Truy vết dữ liệu</a
-            >
+              Truy vết dữ liệu</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a
-              class="externalLink"
-              [href]="traceDataDetailLink"
-              target="blank"
-              (click)="onHideSidebar()"
-            >
-              Truy vết chi tiết</a
-            >
+            <a class="externalLink" [href]="traceDataDetailLink" target="blank" (click)="onHideSidebar()">
+              Truy vết chi tiết</a>
           </li>
           <!-- <li nz-menu-item nzMatchRouter>
             <a
@@ -84,23 +54,15 @@
           </li> -->
           <li nz-menu-item nzMatchRouter>
             <a class="externalLink" [href]="traceDataXuoi" target="blank" (click)="onHideSidebar()">
-              Truy vết xuôi</a
-            >
+              Truy vết xuôi</a>
           </li>
           <li nz-menu-item nzMatchRouter>
             <a class="externalLink" [href]="traceDataNguoc" target="blank" (click)="onHideSidebar()">
-              Truy vết ngược</a
-            >
+              Truy vết ngược</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a
-              class="externalLink"
-              [href]="traceDataTheoLoSXPIH"
-              target="blank"
-              (click)="onHideSidebar()"
-            >
-              Truy vết theo lô sản xuất (PIH)</a
-            >
+            <a class="externalLink" [href]="traceDataTheoLoSXPIH" target="blank" (click)="onHideSidebar()">
+              Truy vết theo lô sản xuất (PIH)</a>
           </li>
         </ul>
       </li>
@@ -113,83 +75,45 @@
       <li nz-submenu nzTitle="IS" nzIcon="laptop">
         <ul>
           <li nz-menu-item nzMatchRouter>
-            <a
-              routerLink="/admin/is/device-management/list"
-              (click)="onHideSidebar()"
-              >Quản lý thiết bị</a
-            >
+            <a routerLink="/admin/is/device-management/list" (click)="onHideSidebar()">Quản lý thiết bị</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a class="externalLink" [href]="itRequestLink" target="blank" (click)="onHideSidebar()"
-              >IT Request</a
-            >
+            <a class="externalLink" [href]="itRequestLink" target="blank" (click)="onHideSidebar()">IT Request</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a
-              class="externalLink"
-              [href]="labelRequestLink"
-              target="blank"
-              (click)="onHideSidebar()"
-              >Label Approval</a
-            >
+            <a class="externalLink" [href]="labelRequestLink" target="blank" (click)="onHideSidebar()">Label
+              Approval</a>
           </li>
         </ul>
       </li>
       <li nz-submenu nzTitle="RELAY" nzIcon="tool">
         <ul>
           <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
-            <a
-              class="externalLink"
-              [href]="relayDashboardLink"
-              target="_blank"
-              (click)="onHideSidebar()"
-              >Dashboard</a
-            >
+            <a class="externalLink" [href]="relayDashboardLink" target="_blank" (click)="onHideSidebar()">Dashboard</a>
           </li>
           <li nz-submenu nzTitle="Relay Process Recording">
             <ul>
-              <li
-                nz-menu-item
-                nzMatchRouter
-                [routerLink]="['/admin/relay/material-management/re-wh-menu']"
-                (click)="onHideSidebar()"
-              >
+              <li nz-menu-item nzMatchRouter [routerLink]="['/admin/relay/material-management/re-wh-menu']"
+                (click)="onHideSidebar()">
                 Kho trung chuyển
               </li>
-              <li
-                nz-menu-item
-                nzMatchRouter
-                [routerLink]="['/admin/relay/material-management/re-pr-menu']"
-                (click)="onHideSidebar()"
-              >
+              <li nz-menu-item nzMatchRouter [routerLink]="['/admin/relay/material-management/re-pr-menu']"
+                (click)="onHideSidebar()">
                 Phòng sạch
               </li>
-              <li
-                nz-menu-item
-                nzMatchRouter
-                [routerLink]="[
+              <li nz-menu-item nzMatchRouter [routerLink]="[
                   '/admin/relay/material-management/relay-material-traceability'
-                ]"
-                (click)="onHideSidebar()"
-              >
+                ]" (click)="onHideSidebar()">
                 Truy vết NVL
               </li>
-              <li
-                nz-menu-item
-                nzMatchRouter
-                [routerLink]="['/admin/relay/relay-inventory/main']"
-                (click)="onHideSidebar()"
-              >
+              <li nz-menu-item nzMatchRouter [routerLink]="['/admin/relay/relay-inventory/main']"
+                (click)="onHideSidebar()">
                 Kiểm kê
               </li>
             </ul>
           </li>
           <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
-            <a
-              routerLink="/admin/relay/relay-datecode"
-              [queryParams]="{ area: 'RELAY' }"
-              >Quản lý Date Code</a
-            >
+            <a routerLink="/admin/relay/relay-datecode" [queryParams]="{ area: 'RELAY' }">Quản lý Date Code</a>
           </li>
           <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
             <a routerLink="/admin/relay/check-sheet/menu">Check Sheet</a>
@@ -199,28 +123,16 @@
           </li>
           <li nz-submenu nzTitle="Training Records">
             <ul>
-              <li
-                nz-menu-item
-                nzMatchRouter
-                [routerLink]="['/admin/relay/training-record/courses']"
-                (click)="onHideSidebar()"
-              >
+              <li nz-menu-item nzMatchRouter [routerLink]="['/admin/relay/training-record/courses']"
+                (click)="onHideSidebar()">
                 Khóa học
               </li>
-              <li
-                nz-menu-item
-                nzMatchRouter
-                [routerLink]="['/admin/relay/training-record/masters']"
-                (click)="onHideSidebar()"
-              >
+              <li nz-menu-item nzMatchRouter [routerLink]="['/admin/relay/training-record/masters']"
+                (click)="onHideSidebar()">
                 Lịch đào tạo
               </li>
-              <li
-                nz-menu-item
-                nzMatchRouter
-                [routerLink]="['/admin/relay/training-record/history']"
-                (click)="onHideSidebar()"
-              >
+              <li nz-menu-item nzMatchRouter [routerLink]="['/admin/relay/training-record/history']"
+                (click)="onHideSidebar()">
                 Lịch sử đào tạo
               </li>
             </ul>
@@ -229,21 +141,14 @@
           <li nz-submenu nzTitle="Skill Map">
             <ul>
               <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
-                <a class="externalLink" [href]="checkExpiryDateRelayLink"
-                  >Danh sách hết hạn đánh giá</a
-                >
+                <a class="externalLink" [href]="checkExpiryDateRelayLink">Danh sách hết hạn đánh giá</a>
               </li>
               <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
                 <a class="externalLink" [href]="listOpLineRelay">Lịch sử OP trên line Relay</a>
               </li>
               <li nz-submenu nzTitle="Line">
                 <ul>
-                  <li
-                    *ngFor="let item of skillMapRelayLinks"
-                    nz-menu-item
-                    nzMatchRouter
-                    (click)="onHideSidebar()"
-                  >
+                  <li *ngFor="let item of skillMapRelayLinks" nz-menu-item nzMatchRouter (click)="onHideSidebar()">
                     <a class="externalLink" [href]="item.link" target="blank">{{ item.line }}</a>
                   </li>
                 </ul>
@@ -256,147 +161,80 @@
           </li>
 
           <li nz-menu-item nzMatchRouter>
-            <a
-              class="externalLink"
-              [href]="examTestRelayLink"
-              target="_blank"
-              (click)="onHideSidebar()"
-              >Exam Test Relay</a
-            >
+            <a class="externalLink" [href]="examTestRelayLink" target="_blank" (click)="onHideSidebar()">Exam Test
+              Relay</a>
           </li>
 
           <li nz-menu-item nzMatchRouter>
-            <a
-              class="externalLink"
-              [href]="examHistoryRelayLink"
-              target="_blank"
-              (click)="onHideSidebar()"
-              >Exam History Relay</a
-            >
+            <a class="externalLink" [href]="examHistoryRelayLink" target="_blank" (click)="onHideSidebar()">Exam History
+              Relay</a>
           </li>
 
           <li nz-menu-item nzMatchRouter>
-            <a
-              class="externalLink"
-              [href]="quanLyBaiKiemTraLink"
-              target="_blank"
-              (click)="onHideSidebar()"
-              >Quản lý bài kiểm tra</a
-            >
+            <a class="externalLink" [href]="quanLyBaiKiemTraLink" target="_blank" (click)="onHideSidebar()">Quản lý bài
+              kiểm tra</a>
           </li>
 
           <li nz-menu-item nzMatchRouter>
-            <a
-              class="externalLink"
-              [href]="dangKyLamBaiKiemTraLink"
-              target="_blank"
-              (click)="onHideSidebar()"
-              >Đăng ký làm bài kiểm tra</a
-            >
+            <a class="externalLink" [href]="dangKyLamBaiKiemTraLink" target="_blank" (click)="onHideSidebar()">Đăng ký
+              làm bài kiểm tra</a>
           </li>
 
           <li nz-menu-item nzMatchRouter>
-            <a
-              class="externalLink"
-              [href]="checkExpiryDateRelayLink"
-              target="_blank"
-              (click)="onHideSidebar()"
-              >Check Expiry Date</a
-            >
+            <a class="externalLink" [href]="checkExpiryDateRelayLink" target="_blank" (click)="onHideSidebar()">Check
+              Expiry Date</a>
           </li>
 
           <li nz-menu-item nzMatchRouter>
-            <a class="externalLink" [href]="relayECOPLink" target="_blank" (click)="onHideSidebar()"
-              >E-COP</a
-            >
+            <a class="externalLink" [href]="relayECOPLink" target="_blank" (click)="onHideSidebar()">E-COP</a>
           </li>
         </ul>
       </li>
       <li nz-submenu nzTitle="VR-ENC" nzIcon="code-sandbox">
         <ul>
           <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
-            <a routerLink="/admin/relay/vr-enc-process-recording/menu"
-              >VR-ENC Process Recording</a
-            >
+            <a routerLink="/admin/relay/vr-enc-process-recording/menu">VR-ENC Process Recording</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a
-              class="externalLink"
-              [href]="examTestVrEncLink"
-              target="_blank"
-              (click)="onHideSidebar()"
-              >Exam Test</a
-            >
+            <a class="externalLink" [href]="examTestVrEncLink" target="_blank" (click)="onHideSidebar()">Exam Test</a>
           </li>
 
           <li nz-menu-item nzMatchRouter>
-            <a
-              class="externalLink"
-              [href]="examHistoryEMCLink"
-              target="_blank"
-              (click)="onHideSidebar()"
-              >Exam History</a
-            >
+            <a class="externalLink" [href]="examHistoryEMCLink" target="_blank" (click)="onHideSidebar()">Exam
+              History</a>
           </li>
 
           <li nz-menu-item nzMatchRouter>
-            <a
-              class="externalLink"
-              [href]="quanLyBaiKiemTraLink"
-              target="_blank"
-              (click)="onHideSidebar()"
-              >Quản lý bài kiểm tra</a
-            >
+            <a class="externalLink" [href]="quanLyBaiKiemTraLink" target="_blank" (click)="onHideSidebar()">Quản lý bài
+              kiểm tra</a>
           </li>
 
           <li nz-menu-item nzMatchRouter>
-            <a
-              class="externalLink"
-              [href]="dangKyLamBaiKiemTraLink"
-              target="_blank"
-              (click)="onHideSidebar()"
-              >Đăng ký làm bài kiểm tra</a
-            >
+            <a class="externalLink" [href]="dangKyLamBaiKiemTraLink" target="_blank" (click)="onHideSidebar()">Đăng ký
+              làm bài kiểm tra</a>
           </li>
 
           <li nz-menu-item nzMatchRouter>
-            <a
-              class="externalLink"
-              [href]="checkExpiryDateVrEncLink"
-              target="_blank"
-              (click)="onHideSidebar()"
-              >Check Expiry Date</a
-            >
+            <a class="externalLink" [href]="checkExpiryDateVrEncLink" target="_blank" (click)="onHideSidebar()">Check
+              Expiry Date</a>
           </li>
 
           <li nz-menu-item nzMatchRouter>
-            <a
-              class="externalLink"
-              [href]="stampingDieManagerLink"
-              target="_blank"
-              (click)="onHideSidebar()"
-              >STAMPING DIE MANAGER</a
-            >
+            <a class="externalLink" [href]="stampingDieManagerLink" target="_blank" (click)="onHideSidebar()">STAMPING
+              DIE MANAGER</a>
           </li>
 
           <li nz-submenu nzTitle="Skill Map">
             <ul>
               <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
-                <a class="externalLink" [href]="checkExpiryDateVrEncLink"
-                  >Danh sách hết hạn đánh giá</a
-                >
+                <a class="externalLink" [href]="checkExpiryDateVrEncLink">Danh sách hết hạn đánh giá</a>
               </li>
               <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
                 <a class="externalLink" [href]="listOpLineVR">Lịch sử OP trên line VR</a>
               </li>
               <li nz-submenu nzTitle="Line">
                 <ul>
-                  <li
-                    *ngFor="let item of skillMapVrEncLinks"
-                    nz-menu-item
-                    nzMatchRouter
-                    (click)="onHideSidebar()"
-                  >
+                  <li *ngFor="let item of skillMapVrEncLinks" nz-menu-item nzMatchRouter (click)="onHideSidebar()">
                     <a class="externalLink" [href]="item.link" target="blank">{{ item.line }}</a>
                   </li>
                 </ul>
@@ -408,9 +246,7 @@
       <li nz-submenu nzTitle="ACCOUNTING" nzIcon="wallet">
         <ul>
           <li nz-menu-item nzMatchRouter>
-            <a routerLink="accounting/stk-payment" (click)="onHideSidebar()"
-              >Account Payment</a
-            >
+            <a routerLink="accounting/stk-payment" (click)="onHideSidebar()">Account Payment</a>
           </li>
           <li nz-menu-item nzMatchRouter>
             <a class="externalLink" [href]="contractLink" target="blank">E-Contract</a>
@@ -427,43 +263,23 @@
       <li nz-submenu nzTitle="HR & GA" nzIcon="usergroup-add">
         <ul>
           <li nz-menu-item nzMatchRouter>
-            <a routerLink="/admin/hr/hr-emp-mng/menu" (click)="onHideSidebar()"
-              >Dữ liệu nhân viên</a
-            >
+            <a routerLink="/admin/hr/hr-emp-mng/menu" (click)="onHideSidebar()">Dữ liệu nhân viên</a>
           </li>
           <li nz-menu-item nzMatchRouter>
             <i nz-icon nzType="mail"></i>
-            <span
-              ><a class="externalLink" [href]="editEmailLink" target="blank"
-                >Chỉnh sửa email</a
-              ></span
-            >
+            <span><a class="externalLink" [href]="editEmailLink" target="blank">Chỉnh sửa email</a></span>
           </li>
           <li nz-submenu nzTitle="Quản lý chất thải">
             <ul>
-              <li
-                nz-menu-item
-                nzMatchRouter
-                [routerLink]="['/admin/hr/waste-mng/master']"
-                [queryParams]="{ type: 'USER' }"
-                (click)="onHideSidebar()"
-              >
+              <li nz-menu-item nzMatchRouter [routerLink]="['/admin/hr/waste-mng/master']"
+                [queryParams]="{ type: 'USER' }" (click)="onHideSidebar()">
                 Nhập dữ liệu
               </li>
-              <li
-                nz-menu-item
-                nzMatchRouter
-                routerLink="/admin/hr/waste-mng/main"
-                (click)="onHideSidebar()"
-              >
+              <li nz-menu-item nzMatchRouter routerLink="/admin/hr/waste-mng/main" (click)="onHideSidebar()">
                 Quản lý dữ liệu
               </li>
               <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
-                <span
-                  ><a class="externalLink" [href]="pihPrintLabelLink" target="blank"
-                    >Print Label</a
-                  ></span
-                >
+                <span><a class="externalLink" [href]="pihPrintLabelLink" target="blank">Print Label</a></span>
               </li>
             </ul>
           </li>
@@ -473,9 +289,7 @@
           </li>
           <li nz-menu-item nzMatchRouter>
             <i nz-icon nzType="clock-circle"></i>
-            <span
-              ><a class="externalLink" [href]="eShiftLink" target="blank">E-Shift Working</a></span
-            >
+            <span><a class="externalLink" [href]="eShiftLink" target="blank">E-Shift Working</a></span>
           </li>
           <li nz-menu-item nzMatchRouter>
             <i nz-icon nzType="check-square"></i>
@@ -491,21 +305,13 @@
           </li>
           <li nz-menu-item nzMatchRouter>
             <i nz-icon nzType="sound"></i>
-            <span
-              ><a class="externalLink" [href]="eConfirmCheckInLink" target="blank"
-                >E-Confirm In/Out</a
-              ></span
-            >
+            <span><a class="externalLink" [href]="eConfirmCheckInLink" target="blank">E-Confirm In/Out</a></span>
           </li>
 
           <li nz-menu-item nzMatchRouter>
             <i nz-icon nzType="wallet"></i>
             <span>
-              <a
-                routerLink="/admin/hr/hr-meal-mng/menu"
-                (click)="onHideSidebar()"
-                >E-Meal</a
-              >
+              <a routerLink="/admin/hr/hr-meal-mng/menu" (click)="onHideSidebar()">E-Meal</a>
             </span>
           </li>
         </ul>
@@ -514,74 +320,36 @@
       <li nz-submenu nzTitle="WAREHOUSE" nzIcon="home">
         <ul>
           <li nz-menu-item nzMatchRouter>
-            <a
-              routerLink="/admin/warehouse/material-receipt"
-              (click)="onHideSidebar()"
-              >Nhập kho NVL</a
-            >
+            <a routerLink="/admin/warehouse/material-receipt" (click)="onHideSidebar()">Nhập kho NVL</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a
-              routerLink="/admin/warehouse/iqc-request"
-              (click)="onHideSidebar()"
-              >IQC Request</a
-            >
+            <a routerLink="/admin/warehouse/iqc-request" (click)="onHideSidebar()">IQC Request</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a
-              routerLink="/admin/warehouse/check-date-iqc"
-              (click)="onHideSidebar()"
-              >Kiểm tra hàng IQC</a
-            >
+            <a routerLink="/admin/warehouse/check-date-iqc" (click)="onHideSidebar()">Kiểm tra hàng IQC</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a
-              class="externalLink"
-              [href]="materialWarehouseLink"
-              target="blank"
-              (click)="onHideSidebar()"
-            >
-              Layout Warehouse</a
-            >
+            <a class="externalLink" [href]="materialWarehouseLink" target="blank" (click)="onHideSidebar()">
+              Layout Warehouse</a>
           </li>
         </ul>
       </li>
       <li nz-submenu nzTitle="QA" nzIcon="security-scan">
         <ul>
           <li nz-menu-item nzMatchRouter>
-            <a
-              routerLink="/admin/qa/qa-iqc-check/iqc-request"
-              (click)="onHideSidebar()"
-              >IQC Check</a
-            >
+            <a routerLink="/admin/qa/qa-iqc-check/iqc-request" (click)="onHideSidebar()">IQC Check</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a
-              routerLink="/admin/qa/qa-iqc-check/iqc-data"
-              (click)="onHideSidebar()"
-              >IQC Data</a
-            >
+            <a routerLink="/admin/qa/qa-iqc-check/iqc-data" (click)="onHideSidebar()">IQC Data</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a
-              routerLink="/admin/qa/qa-oqc-check/oqc-request"
-              (click)="onHideSidebar()"
-              >OQC Check</a
-            >
+            <a routerLink="/admin/qa/qa-oqc-check/oqc-request" (click)="onHideSidebar()">OQC Check</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a
-              routerLink="/admin/qa/qa-oqc-document/models"
-              (click)="onHideSidebar()"
-              >OQC Document</a
-            >
+            <a routerLink="/admin/qa/qa-oqc-document/models" (click)="onHideSidebar()">OQC Document</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a
-              routerLink="/admin/qa/qa-equipment-mng/menu"
-              (click)="onHideSidebar()"
-              >Quản lý thiết bị</a
-            >
+            <a routerLink="/admin/qa/qa-equipment-mng/menu" (click)="onHideSidebar()">Quản lý thiết bị</a>
           </li>
           <li nz-menu-item nzMatchRouter>
             <a class="externalLink" [href]="qmsLink" target="blank">QMS</a>
@@ -597,9 +365,7 @@
           <li nz-submenu nzTitle="Skill Map">
             <ul>
               <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
-                <a class="externalLink" [href]="iqcLink.skillmap.relay" target="blank"
-                  >Skill Relay</a
-                >
+                <a class="externalLink" [href]="iqcLink.skillmap.relay" target="blank">Skill Relay</a>
               </li>
               <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
                 <a class="externalLink" [href]="iqcLink.skillmap.vr" target="blank">Skill VR</a>
@@ -612,11 +378,7 @@
           </li>
 
           <li nz-menu-item nzMatchRouter>
-            <a
-              routerLink="/admin/qa/qa-training-matrix/menu"
-              (click)="onHideSidebar()"
-              >Training Matrix</a
-            >
+            <a routerLink="/admin/qa/qa-training-matrix/menu" (click)="onHideSidebar()">Training Matrix</a>
           </li>
         </ul>
       </li>
@@ -624,11 +386,7 @@
       <li nz-submenu nzTitle="IE" nzIcon="github">
         <ul>
           <li nz-menu-item nzMatchRouter>
-            <a
-              routerLink="/admin/ie/drawing-control/projects"
-              (click)="onHideSidebar()"
-              >Drawing Control</a
-            >
+            <a routerLink="/admin/ie/drawing-control/projects" (click)="onHideSidebar()">Drawing Control</a>
           </li>
         </ul>
       </li>
@@ -649,72 +407,46 @@
       <li nz-submenu nzTitle="SALES & ISP" nzIcon="red-envelope">
         <ul>
           <li nz-menu-item nzMatchRouter>
-            <a
-              routerLink="/admin/sales/actual-dpp-data"
-              (click)="onHideSidebar()"
-            >
+            <a routerLink="/admin/sales/actual-dpp-data" (click)="onHideSidebar()">
               Actual DPP data
             </a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a
-              class="externalLink"
-              [href]="fgWarehouseLink"
-              target="blank"
-              (click)="onHideSidebar()"
-            >
-              Layout FG Warehouse</a
-            >
+            <a class="externalLink" [href]="fgWarehouseLink" target="blank" (click)="onHideSidebar()">
+              Layout FG Warehouse</a>
           </li>
           <li nz-submenu nzTitle="Check Tem Warehouse">
             <ul>
               <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
-                <a class="externalLink" [href]="checkTemWHLink" target="blank"
-                  >Check Tem Warehouse</a
-                >
+                <a class="externalLink" [href]="checkTemWHLink" target="blank">Check Tem Warehouse</a>
               </li>
               <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
-                <a class="externalLink" [href]="reportTemWHLink" target="blank"
-                  >Report Tem Warehouse</a
-                >
+                <a class="externalLink" [href]="reportTemWHLink" target="blank">Report Tem Warehouse</a>
               </li>
             </ul>
           </li>
           <li nz-menu-item nzMatchRouter>
             <a class="externalLink" [href]="dotLink" target="blank" (click)="onHideSidebar()">
-              DOT</a
-            >
+              DOT</a>
           </li>
         </ul>
       </li>
       <li nz-submenu nzTitle="PACKING" nzIcon="dropbox">
         <ul>
           <li nz-menu-item nzMatchRouter>
-            <a
-              routerLink="/admin/packing/packing-oqc-request/list"
-              (click)="onHideSidebar()"
-              >OQC Request</a
-            >
+            <a routerLink="/admin/packing/packing-oqc-request/list" (click)="onHideSidebar()">OQC Request</a>
           </li>
         </ul>
       </li>
       <li nz-submenu nzTitle="PURCHASE" nzIcon="shopping-cart">
         <ul>
           <li nz-menu-item nzMatchRouter>
-            <a
-              routerLink="/admin/purchase-datas/balance-sheet"
-              (click)="onHideSidebar()"
-            >
-              Balance sheet</a
-            >
+            <a routerLink="/admin/purchase-datas/balance-sheet" (click)="onHideSidebar()">
+              Balance sheet</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a
-              routerLink="/admin/purchase-datas/psi-by-month"
-              (click)="onHideSidebar()"
-            >
-              PSI by month</a
-            >
+            <a routerLink="/admin/purchase-datas/psi-by-month" (click)="onHideSidebar()">
+              PSI by month</a>
           </li>
           <li nz-menu-item nzMatchRouter>
             <a class="externalLink" [href]="ePurchaseLink" target="blank">E-PURCHASE</a>
@@ -724,50 +456,29 @@
       <li nz-submenu nzTitle="PIH" nzIcon="block">
         <ul>
           <li nz-menu-item nzMatchRouter>
-            <a
-              routerLink="/admin/pih/pih-process-recording/main"
-              (click)="onHideSidebar()"
-              >Process Recording</a
-            >
+            <a routerLink="/admin/pih/pih-process-recording/main" (click)="onHideSidebar()">Process Recording</a>
           </li>
           <li nz-submenu nzTitle="Quản lý dừng Line">
             <ul>
-              <li
-                nz-menu-item
-                nzMatchRouter
-                [routerLink]="['/admin/pih/pih-stop-line/main']"
-                (click)="onHideSidebar()"
-              >
+              <li nz-menu-item nzMatchRouter [routerLink]="['/admin/pih/pih-stop-line/main']" (click)="onHideSidebar()">
                 Nhập thời gian dừng máy
               </li>
               <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
-                <a href="https://10.92.176.57:8080/stop_items" target="_blank"
-                  >Stop Item Setup</a
-                >
+                <a href="https://10.92.176.57:8080/stop_items" target="_blank">Stop Item Setup</a>
               </li>
               <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
-                <a
-                  href="https://10.92.176.57:8080/stop_times_summary"
-                  target="_blank"
-                  >Stop Time Summary</a
-                >
+                <a href="https://10.92.176.57:8080/stop_times_summary" target="_blank">Stop Time Summary</a>
               </li>
             </ul>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a class="externalLink" [href]="bangQuanLyKyNangPIHLink" target="blank"
-              >Bảng quản lý kỹ năng</a
-            >
+            <a class="externalLink" [href]="bangQuanLyKyNangPIHLink" target="blank">Bảng quản lý kỹ năng</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a class="externalLink" [href]="pihProcessScannerLink" target="blank"
-              >PIH process scanner</a
-            >
+            <a class="externalLink" [href]="pihProcessScannerLink" target="blank">PIH process scanner</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a class="externalLink" [href]="pihProcessScannerLinkv2" target="blank"
-              >PIH process scanner v2</a
-            >
+            <a class="externalLink" [href]="pihProcessScannerLinkv2" target="blank">PIH process scanner v2</a>
           </li>
           <li nz-menu-item nzMatchRouter>
             <a class="externalLink" [href]="pihProcessReport" target="blank">PIH process report</a>
@@ -778,29 +489,19 @@
           <li nz-submenu nzTitle="Skill Map">
             <ul>
               <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
-                <a class="externalLink" [href]="pihLink.skillmap.coilRelay" target="blank"
-                  >Coil Relay</a
-                >
+                <a class="externalLink" [href]="pihLink.skillmap.coilRelay" target="blank">Coil Relay</a>
               </li>
               <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
-                <a class="externalLink" [href]="pihLink.skillmap.pressRelay" target="blank"
-                  >Press Relay</a
-                >
+                <a class="externalLink" [href]="pihLink.skillmap.pressRelay" target="blank">Press Relay</a>
               </li>
 
               <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
-                <a class="externalLink" [href]="pihLink.skillmap.moldRelay" target="blank"
-                  >Mold Relay</a
-                >
+                <a class="externalLink" [href]="pihLink.skillmap.moldRelay" target="blank">Mold Relay</a>
               </li>
             </ul>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a
-              routerLink="/admin/pih/pih-inventory/menu"
-              (click)="onHideSidebar()"
-              >PIH Inventory</a
-            >
+            <a routerLink="/admin/pih/pih-inventory/menu" (click)="onHideSidebar()">PIH Inventory</a>
           </li>
         </ul>
       </li>
@@ -808,9 +509,7 @@
       <li nz-submenu nzTitle="SURVEY" nzIcon="question-circle">
         <ul>
           <li nz-menu-item nzMatchRouter>
-            <a class="externalLink" [href]="surveyLink" target="_blank" (click)="onHideSidebar()"
-              >COI</a
-            >
+            <a class="externalLink" [href]="surveyLink" target="_blank" (click)="onHideSidebar()">COI</a>
           </li>
         </ul>
       </li>
@@ -840,49 +539,23 @@
       <div nz-row>
         <div nz-col nzXs="12" nzAlign="middle">
           <div nz-row nzJustify="start" nzAlign="middle">
-            <i
-              class="trigger header-trigger"
-              nz-icon
-              [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
-              (click)="isCollapsed = !isCollapsed"
-            ></i>
+            <i class="trigger header-trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+              (click)="isCollapsed = !isCollapsed"></i>
             <span class="greeting" translate>common.greeting</span>
             <span class="employeeName">: {{ employeeName }}</span> &nbsp; |
             &nbsp;
-            <span
-              ><a
-                class="externalLink"
-                href="https://10.92.176.57:8080"
-                target="_blank"
-                style="font-weight: bold; color: #0259A6"
-                >FDCS (Server 1)</a
-              ></span
-            >
+            <span><a class="externalLink" href="https://10.92.176.57:8080" target="_blank"
+                style="font-weight: bold; color: #0259A6">FDCS (Server 1)</a></span>
           </div>
         </div>
         <div nz-col nzXs="12">
           <div nz-row nzJustify="end" nzAlign="middle">
-            <img
-              class="supporter"
-              src="./../../assets/images/supporter.png"
-              width="35px"
-              (click)="info()"
-            />
-            <nz-badge class="notification" [nzCount]="9"
-              ><i
-                nz-icon
-                nzType="bell"
-                nzTheme="twotone"
-                (click)="isOpenNotificationModal()"
-              ></i
-            ></nz-badge>
+            <img class="supporter" src="./../../assets/images/supporter.png" width="35px" (click)="info()" />
+            <nz-badge class="notification" [nzCount]="9"><i nz-icon nzType="bell" nzTheme="twotone"
+                (click)="isOpenNotificationModal()"></i></nz-badge>
             <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu">
-              <nz-avatar
-                [nzGap]="4"
-                [ngStyle]="{ 'background-color': colorAvatar }"
-                [nzText]="textAvatar"
-                style="vertical-align: middle; margin-top: -5px"
-              ></nz-avatar>
+              <nz-avatar [nzGap]="4" [ngStyle]="{ 'background-color': colorAvatar }" [nzText]="textAvatar"
+                style="vertical-align: middle; margin-top: -5px"></nz-avatar>
             </a>
             <nz-dropdown-menu #menu="nzDropdownMenu" class="drop-menu">
               <ul nz-menu>
@@ -896,30 +569,52 @@
                 <li nz-menu-item (click)="logout()" translate>common.logout</li>
               </ul>
             </nz-dropdown-menu>
-            <i
-              class="drawer-menu"
-              nz-icon
-              nzType="menu"
-              nzTheme="outline"
-              style="font-size: 20px; font-weight: bold; margin-left: 10px"
-              (click)="visibleDrawerMenu = true"
-            ></i>
+            <i class="drawer-menu" nz-icon nzType="menu" nzTheme="outline"
+              style="font-size: 20px; font-weight: bold; margin-left: 10px" (click)="visibleDrawerMenu = true"></i>
           </div>
         </div>
       </div>
     </nz-header>
 
-    <nz-drawer
-      id="right-menu"
-      [nzClosable]="false"
-      [nzVisible]="visibleDrawerMenu"
-      nzPlacement="right"
-      nzTitle="Panasonic Vietnam (PIDVN)"
-      [nzWidth]="450"
-      (nzOnClose)="visibleDrawerMenu = false"
-    >
+    <nz-drawer id="right-menu" [nzClosable]="false" [nzVisible]="visibleDrawerMenu" nzPlacement="right"
+      nzTitle="Panasonic Vietnam (PIDVN)" [nzWidth]="300" (nzOnClose)="visibleDrawerMenu = false">
       <ng-container *nzDrawerContent>
-        
+
+        <div nz-row nzJustify="start" [nzGutter]="24">
+          <div class="list-menu__container" nz-col nzXs="8" nzSm="8" nzLg="8" style="padding: 10px;">
+            <div nz-flex [nzJustify]="'space-around'" [nzAlign]="'center'">
+              <div class="list-menu__item ">
+                <div class="d-block list-menu-item__icon cursor-pointer"><img
+                    src="https://fabi.ipos.vn/img/home.512b278b.svg" alt="Nhà hàng" class="icon"></div>
+                <p class="mt-2 menu-label text-primary">
+                  FDCS 1
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="list-menu__container" nz-col nzXs="8" nzSm="8" nzLg="8" style="padding: 10px;">
+            <div nz-flex [nzJustify]="'space-around'" [nzAlign]="'center'">
+              <div class="list-menu__item ">
+                <div class="d-block list-menu-item__icon cursor-pointer"><img
+                    src="https://fabi.ipos.vn/img/store.77a73292.svg" alt="Nhà hàng" class="icon"></div>
+                <p class="mt-2 menu-label text-primary">
+                  Nhà hàng
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="list-menu__container" nz-col nzXs="8" nzSm="8" nzLg="8" style="padding: 10px;">
+            <div nz-flex [nzJustify]="'space-around'" [nzAlign]="'center'">
+              <div class="list-menu__item ">
+                <div class="d-block list-menu-item__icon cursor-pointer"><img
+                    src="https://fabi.ipos.vn/img/menu.241e8029.svg" alt="Nhà hàng" class="icon"></div>
+                <p class="mt-2 menu-label text-primary">
+                  Hóa đơn
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </ng-container>
     </nz-drawer>
 
@@ -932,12 +627,8 @@
       <div nz-row nzJustify="start" nzAlign="middle">
         <div nz-col nzXs="12" nzAlign="middle">
           <!-- Panasonic Industrial Devices Vietnam (PIDVN) ©2022 -->
-          <nz-select
-            nzSize="small"
-            ngModel="vi"
-            style="width: 110px; margin-right: 15px"
-            (ngModelChange)="changeDefaultLanguage($event)"
-          >
+          <nz-select nzSize="small" ngModel="vi" style="width: 110px; margin-right: 15px"
+            (ngModelChange)="changeDefaultLanguage($event)">
             <nz-option nzValue="en" nzLabel="English"></nz-option>
             <nz-option nzValue="vi" nzLabel="Tiếng Việt"></nz-option>
             <nz-option nzValue="jp" nzLabel="Japanese"></nz-option>
@@ -954,29 +645,12 @@
   </nz-layout>
 </nz-layout>
 
-<nz-modal
-  [(nzVisible)]="isOpenNotification"
-  nzTitle="Hưng Test"
-  (nzOnCancel)="handleCancel()"
-  (nzOnOk)="handleOk()"
->
+<nz-modal [(nzVisible)]="isOpenNotification" nzTitle="Hưng Test" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
   <ng-container *nzModalContent>
     <div style="text-align: center">
-      <img
-        src="../../../assets/images/hihi.png"
-        width="120px"
-        style="margin-left: 5px; text-align: center"
-      />
-      <img
-        src="../../../assets/images/hihi.png"
-        width="120px"
-        style="margin-left: 5px; text-align: center"
-      />
-      <img
-        src="../../../assets/images/hihi.png"
-        width="120px"
-        style="margin-left: 5px; text-align: center"
-      />
+      <img src="../../../assets/images/hihi.png" width="120px" style="margin-left: 5px; text-align: center" />
+      <img src="../../../assets/images/hihi.png" width="120px" style="margin-left: 5px; text-align: center" />
+      <img src="../../../assets/images/hihi.png" width="120px" style="margin-left: 5px; text-align: center" />
     </div>
   </ng-container>
 </nz-modal>

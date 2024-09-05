@@ -9,7 +9,7 @@ import { WelcomeService } from './welcome/welcome.service';
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.scss'],
+  styleUrls: ['./admin.component.scss','./admin2.component.scss'],
   providers:[WelcomeService]
 })
 export class AdminComponent implements OnInit {

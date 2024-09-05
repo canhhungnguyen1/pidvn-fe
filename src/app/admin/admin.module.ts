@@ -25,6 +25,7 @@ import { ReportsComponent } from './reports/reports.component';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzFlexModule } from 'ng-zorro-antd/flex';
 
 import {
   DxButtonModule,
@@ -63,7 +64,8 @@ import {
     DxButtonModule,
     DxDataGridModule,
     DxSelectBoxModule,
-    NzSpinModule
+    NzSpinModule,
+    NzFlexModule
   ],
 })
 export class AdminModule {}
