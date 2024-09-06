@@ -17,6 +17,9 @@ import { HttpClient, HttpRequest, HttpResponse } from '@angular/common/http';
 import { filter } from 'rxjs/operators';
 import { SparePartRequestsService } from '../spare-part-requests/spare-part-requests.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Workbook } from 'exceljs';
+import { exportDataGrid } from 'devextreme/excel_exporter';
+import * as saveAs from 'file-saver';
 
 @Component({
   selector: 'app-spare-part-in-out',
@@ -175,7 +178,19 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
     // this.userCodeIpt.instance.focus();
   }
 
-  onExportClient(event: any) {}
+  onExportClient(event: any) {
+    const workbook = new Workbook();    
+        const worksheet = workbook.addWorksheet('Main sheet');
+        exportDataGrid({
+            component: event.component,
+            worksheet: worksheet
+        }).then(function() {
+            workbook.xlsx.writeBuffer()
+                .then(function(buffer: BlobPart) {
+                    saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'M4M8-History.xlsx');
+                });
+        });
+  }
 
   scanUserCode(event: any) {
     this.userCode = event.target.value;
