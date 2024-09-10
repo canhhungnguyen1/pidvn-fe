@@ -577,75 +577,44 @@
     </nz-header>
 
     <nz-drawer id="right-menu" [nzClosable]="false" [nzVisible]="visibleDrawerMenu" nzPlacement="right"
-      nzTitle="Panasonic Vietnam (PIDVN)" [nzWidth]="400" (nzOnClose)="visibleDrawerMenu = false">
+      nzTitle="Panasonic Vietnam (PIDVN)" [nzWidth]="350" (nzOnClose)="visibleDrawerMenu = false">
       <ng-container *nzDrawerContent>
 
         <div nz-row nzJustify="start" [nzGutter]="24">
-          <div class="list-menu__container" nz-col nzXs="8" nzSm="8" nzLg="8" style="padding: 10px;">
-            <div nz-flex [nzJustify]="'space-around'" [nzAlign]="'center'">
-              <div class="list-menu__item ">
-                <div class="d-block list-menu-item__icon cursor-pointer"><img
-                    src="https://fabi.ipos.vn/img/home.512b278b.svg" class="icon"></div>
-                <p class="mt-2 menu-label text-primary">
-                  FDCS 1
-                </p>
+
+          <div nz-col nzXs="8" nzSm="8" nzLg="8" style="padding: 15px 10px;">
+            <div class="item">
+              <div class="icon">
+                <img src="https://fabi.ipos.vn/img/home.512b278b.svg">
               </div>
-            </div>
-          </div>
-          <div class="list-menu__container" nz-col nzXs="8" nzSm="8" nzLg="8" style="padding: 10px;">
-            <div nz-flex [nzJustify]="'space-around'" [nzAlign]="'center'">
-              <div class="list-menu__item ">
-                <div class="d-block list-menu-item__icon cursor-pointer"><img
-                    src="https://fabi.ipos.vn/img/store.77a73292.svg" class="icon"></div>
-                <p class="mt-2 menu-label text-primary">
-                  Nhà hàng
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="list-menu__container" nz-col nzXs="8" nzSm="8" nzLg="8" style="padding: 10px;">
-            <div nz-flex [nzJustify]="'space-around'" [nzAlign]="'center'">
-              <div class="list-menu__item ">
-                <div class="d-block list-menu-item__icon cursor-pointer"><img
-                    src="https://fabi.ipos.vn/img/device.519fa59c.svg" class="icon"></div>
-                <p class="mt-2 menu-label text-primary">
-                  Thiết bị
-                </p>
-              </div>
+              <div class="label">FDCS1</div>
             </div>
           </div>
 
-          <div class="list-menu__container" nz-col nzXs="8" nzSm="8" nzLg="8" style="padding: 10px;">
-            <div nz-flex [nzJustify]="'space-around'" [nzAlign]="'center'">
-              <div class="list-menu__item ">
-                <div class="d-block list-menu-item__icon cursor-pointer"><img
-                    src="https://fabi.ipos.vn/img/promotion.e040567f.svg" class="icon"></div>
-                <p class="mt-2 menu-label text-primary">
-                  Chương trình
-                </p>
+          <div nz-col nzXs="8" nzSm="8" nzLg="8" style="padding: 15px 10px;">
+            <div class="item">
+              <div class="icon">
+                <img src="https://fabi.ipos.vn/img/store.77a73292.svg">
               </div>
+              <div class="label">Nhà hàng</div>
             </div>
           </div>
-          <div class="list-menu__container" nz-col nzXs="8" nzSm="8" nzLg="8" style="padding: 10px;">
-            <div nz-flex [nzJustify]="'space-around'" [nzAlign]="'center'">
-              <div class="list-menu__item ">
-                <div class="d-block list-menu-item__icon cursor-pointer"><img
-                    src="https://fabi.ipos.vn/img/sale-channel.3426170d.svg" class="icon"></div>
-                <p class="mt-2 menu-label text-primary">
-                  Kênh bán hàng
-                </p>
+
+          <div nz-col nzXs="8" nzSm="8" nzLg="8" style="padding: 15px 10px;">
+            <div class="item">
+              <div class="icon">
+                <img src="https://fabi.ipos.vn/img/device.519fa59c.svg">
               </div>
+              <div class="label">Thiết bị</div>
             </div>
           </div>
-          <div class="list-menu__container" nz-col nzXs="8" nzSm="8" nzLg="8" style="padding: 10px;">
-            <div nz-flex [nzJustify]="'space-around'" [nzAlign]="'center'">
-              <div class="list-menu__item ">
-                <div class="d-block list-menu-item__icon cursor-pointer"><img
-                    src="https://fabi.ipos.vn/img/feedback-support.f938c4af.svg" class="icon"></div>
-                <p class="mt-2 menu-label text-primary">
-                  Góp ý, hỗ trợ
-                </p>
+
+          <div nz-col nzXs="8" nzSm="8" nzLg="8" style="padding: 15px 10px;">
+            <div class="item">
+              <div class="icon">
+                <img src="https://fabi.ipos.vn/img/promotion.e040567f.svg">
               </div>
+              <div class="label">Chương trình</div>
             </div>
           </div>
 
