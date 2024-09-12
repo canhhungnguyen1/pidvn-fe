@@ -21,12 +21,12 @@
           </a>
         </span>
       </li>
-      <li nz-menu-item nzTooltipPlacement="right" nzMatchRouter>
+      <!-- <li nz-menu-item nzTooltipPlacement="right" nzMatchRouter>
         <i nz-icon nzType="codepen-circle"></i>
         <span>
           <a routerLink="/admin/sales/update-psi-price" (click)="onHideSidebar()">Dự án của tôi</a>
         </span>
-      </li>
+      </li> -->
       <li nz-menu-item nzTooltipPlacement="right" nzMatchRouter>
         <i nz-icon nzType="dashboard"></i>
         <span>
@@ -265,10 +265,10 @@
           <li nz-menu-item nzMatchRouter>
             <a routerLink="/admin/hr/hr-emp-mng/menu" (click)="onHideSidebar()">Dữ liệu nhân viên</a>
           </li>
-          <li nz-menu-item nzMatchRouter>
+          <!-- <li nz-menu-item nzMatchRouter>
             <i nz-icon nzType="mail"></i>
             <span><a class="externalLink" [href]="editEmailLink" target="blank">Chỉnh sửa email</a></span>
-          </li>
+          </li> -->
           <li nz-submenu nzTitle="Quản lý chất thải">
             <ul>
               <li nz-menu-item nzMatchRouter [routerLink]="['/admin/hr/waste-mng/master']"
@@ -576,7 +576,7 @@
       </div>
     </nz-header>
 
-    <nz-drawer id="right-menu" [nzClosable]="false" [nzVisible]="visibleDrawerMenu" nzPlacement="right"
+    <!-- <nz-drawer id="right-menu" [nzClosable]="false" [nzVisible]="visibleDrawerMenu" nzPlacement="right"
       nzTitle="Panasonic Vietnam (PIDVN)" [nzWidth]="350" (nzOnClose)="visibleDrawerMenu = false">
       <ng-container *nzDrawerContent>
 
@@ -621,7 +621,7 @@
 
         </div>
       </ng-container>
-    </nz-drawer>
+    </nz-drawer> -->
 
     <nz-content>
       <div class="inner-content" (click)="onHideSidebar()">
