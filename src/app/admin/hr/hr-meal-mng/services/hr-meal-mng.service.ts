@@ -26,6 +26,26 @@ export class HrMealMngService {
     return this.httpClient.post(`${this.baseUrl}/HR/Meal/TimesheetConfirm?table=${table}`, null);
   }
 
+
+  uploadFile(file: File): Observable<any> {
+    const formData = new FormData();
+    
+    // Đính kèm file vào formData
+    formData.append('file', file);  // Đảm bảo tên 'file' khớp với @RequestPart trong Spring Boot
+  
+    return this.httpClient.post(
+      `${this.baseUrl}/HR/Meal/GetUserSendEmail`,
+      formData
+    );
+  }
+
+  sendEmail(data: any): Observable<any> {
+    return this.httpClient.post(
+      `${this.baseUrl}/HR/Meal/SendEmail`,
+      data
+    );
+  }
+
   
 
 }

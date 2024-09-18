@@ -10,10 +10,18 @@ const routes: Routes = [
   {
     path: 'menu',
     component: HrMealMenuComponent,
+    canActivate: [RoleGuard],
+    data: {
+      roles: ['super_admin', 'HR-GA member'],
+    },
   },
   {
     path: 'time-sheet-confirm',
-    component: HrMealTimesheetConfirmComponent
+    component: HrMealTimesheetConfirmComponent,
+    canActivate: [RoleGuard],
+    data: {
+      roles: ['super_admin', 'HR-GA member'],
+    },
   },
   {
     path: 'summary',

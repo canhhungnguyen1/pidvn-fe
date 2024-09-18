@@ -23,6 +23,9 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { HrMealTimesheetConfirmComponent } from './hr-meal-timesheet-confirm/hr-meal-timesheet-confirm.component';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { NzTableModule } from 'ng-zorro-antd/table';
+
 
 @NgModule({
   declarations: [HrMealMngComponent, HrMealMenuComponent, HrMealSummaryComponent, HrMealTimesheetConfirmComponent],
@@ -43,7 +46,9 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     NzTabsModule,
     NzModalModule,
     NzSpaceModule,
-    NzToolTipModule
+    NzToolTipModule,
+    NzUploadModule,
+    NzTableModule
   ],
 })
 export class HrMealMngModule {}

@@ -11,6 +11,9 @@ import { DxDataGridComponent } from 'devextreme-angular';
 import { ToastrService } from 'ngx-toastr';
 import { PihInventoryService } from '../services/pih-inventory.service';
 import { environment } from 'src/environments/environment';
+import { exportDataGrid } from 'devextreme/excel_exporter';
+import { Workbook } from 'exceljs';
+import * as saveAs from 'file-saver';
 @Component({
   selector: 'app-pih-inv-req-detail',
   templateUrl: './pih-inv-req-detail.component.html',
@@ -145,7 +148,19 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
     });
   }
 
-  onExportClient($event: any) {}
+  onExportClient(event: any, fileName: any) {
+    const workbook = new Workbook();    
+        const worksheet = workbook.addWorksheet('Main sheet');
+        exportDataGrid({
+            component: event.component,
+            worksheet: worksheet
+        }).then(function() {
+            workbook.xlsx.writeBuffer()
+                .then(function(buffer: BlobPart) {
+                    saveAs(new Blob([buffer], { type: 'application/octet-stream' }), `${fileName}.xlsx`);
+                });
+        });
+  }
 
   openScanInventoryModal() {
 
@@ -517,4 +532,9 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
       }
     )
   }
+
+
+
+
+
 }

@@ -1,131 +1,104 @@
 <nz-collapse>
-  <nz-collapse-panel nzHeader="Panel" [nzActive]="true" [nzShowArrow]="true">
-    <!-- <button
-        *nzSpaceItem
-        nz-button
-        nzType="primary"
-        (click)="timesheetConfirm()"
-        [nzLoading]="isLoadingTimeSheetConfirm"
-      >
-        Xác nhận time sheet
-      </button> -->
-
-    <button
-      style="margin-right: 5px;"
-      *ngFor="let item of items; let i = index"
-      nz-button
-      nzType="primary"
-      (click)="timesheetConfirm(i, item)"
-      [nzLoading]="item.isLoading"
-    >
+  <nz-collapse-panel nzHeader="Lấy dữ liệu" [nzActive]="false" [nzShowArrow]="true">
+    <button style="margin-right: 5px;" *ngFor="let item of items; let i = index" nz-button nzType="primary"
+      (click)="timesheetConfirm(i, item)" [nzLoading]="item.isLoading">
       Lấy data: {{item.label}}
     </button>
-    <button
-      style="margin-right: 5px; background-color: green; border: 1px solid green; color: white;"
-      nz-button
-      nzType="default"
-      (click)="redirectAllowanceCouponPage()"
-      
-    >
+    <button style="margin-right: 5px; background-color: green; border: 1px solid green; color: white;" nz-button
+      nzType="default" (click)="redirectAllowanceCouponPage()">
       Thêm vé trợ cấp
     </button>
 
-    <!-- <button *nzSpaceItem nz-button nzType="default">Upload trợ cấp</button> -->
   </nz-collapse-panel>
 </nz-collapse>
 
-<!-- <nz-tabset>
-  <nz-tab nzTitle="TimeSheet / Actual">
-    <dx-data-grid
-      #timeLogGrid
-      [dataSource]="couponsBalance"
-      keyExpr="username"
-      [remoteOperations]="false"
-      [allowColumnReordering]="true"
-      [rowAlternationEnabled]="true"
-      [allowColumnResizing]="true"
-      [columnAutoWidth]="true"
-      [showColumnLines]="true"
-      [showRowLines]="true"
-      [showBorders]="true"
-    >
-      <dxo-filter-row [visible]="true"></dxo-filter-row>
-      <dxo-export [enabled]="true"></dxo-export>
-      <dxo-column-chooser #columnChooser [enabled]="true" [mode]="'select'">
-      </dxo-column-chooser>
-      <dxo-toolbar>
-        <dxi-item location="before">
-          <nz-space>
-            <nz-date-picker
-              [(ngModel)]="date"
-              *nzSpaceItem
-              nzMode="month"
-              style="height: 32px"
-            ></nz-date-picker>
-            <button
-              *nzSpaceItem
-              nz-button
-              nzType="primary"
-              (click)="getCouponsBalance()"
-            >
-              Search
-            </button>
-          </nz-space>
-        </dxi-item>
-        <dxi-item name="exportButton" location="after" />
-      </dxo-toolbar>
+<nz-tabset>
+  <nz-tab nzTitle="Gửi mail xác nhận trừ vé">
 
-      <dxi-column dataField="username" caption="Mã nhân viên"></dxi-column>
-      <dxi-column dataField="profileName" caption="Họ tên"></dxi-column>
-      <dxi-column
-        dataField="actCoupon"
-        caption="Vé Chính (Thực tế)"
-      ></dxi-column>
-      <dxi-column
-        dataField="tsCoupon"
-        caption="Vé Chính (Time Sheet)"
-      ></dxi-column>
-      <dxi-column
-        dataField="balanceCoupon"
-        caption="Chênh lệch vé chính"
-      ></dxi-column>
-      <dxi-column
-        dataField="actSubCoupon"
-        caption="Vé Phụ (Thực tế)"
-      ></dxi-column>
-      <dxi-column
-        dataField="tsSubCoupon"
-        caption="Vé Phụ (Time Sheet)"
-      ></dxi-column>
-      <dxi-column
-        dataField="balanceSubCoupon"
-        caption="Chênh lệch vé phụ"
-      ></dxi-column>
-      <dxi-column
-        dataField="balanceCouponPrice"
-        caption="Đơn giá vé chính"
-        dataType="number"
-        format="#,##0"
-      ></dxi-column>
-      <dxi-column
-        dataField="balanceSubCouponPrice"
-        caption="Đơn giá vé phụ"
-        dataType="number"
-        format="#,##0"
-      ></dxi-column>
-      <dxi-column
-        dataField="balancePrice"
-        caption="Tiền chênh lệch"
-        dataType="number"
-        format="#,##0"
-      ></dxi-column>
+    <nz-collapse>
+      <nz-collapse-panel nzHeader="Danh sách trừ vé" [nzActive]="true" [nzShowArrow]="true">
+        <dx-data-grid keyExpr="username" #sparePartRecordGrid [dataSource]="dataSendEmail?.data"
+          [showColumnLines]="true" [showRowLines]="true" [showBorders]="true" [allowColumnResizing]="true"
+          [columnAutoWidth]="true" [rowAlternationEnabled]="true">
+          <dxo-filter-row [visible]="true"></dxo-filter-row>
 
-      <dxo-paging [pageSize]="10"></dxo-paging>
-      <dxo-pager
-        [showPageSizeSelector]="true"
-        [allowedPageSizes]="[10, 25, 50, 100]"
-      >
-      </dxo-pager>
-    </dx-data-grid>
+          <dxo-toolbar>
+            <dxi-item location="before">
+              <nz-space>
+                <button *nzSpaceItem nz-button nzType="primary" style="background: #24a835; border: 1px solid #24a835"
+                  (click)="openUploadFileModal()">
+                  Upload dữ liệu trừ vé
+                </button>
+
+                <button *nzSpaceItem nz-button nzType="primary" (click)="sendEmail()">
+                  Gửi e-mail
+                </button>
+              </nz-space>
+
+            </dxi-item>
+          </dxo-toolbar>
+
+          <dxi-column dataField="username" caption="Mã nhân viên"></dxi-column>
+          <dxi-column dataField="fullName" caption="Họ tên"></dxi-column>
+          <dxi-column dataField="email" caption="Email"></dxi-column>
+          <dxi-column dataField="veChinhThucTe" caption="Vé chính (Thực tế)"></dxi-column>
+          <dxi-column dataField="veChinhTimesheet" caption="Vé chính (Timesheet)"></dxi-column>
+          <dxi-column dataField="veChinhChenhLech" caption="Chênh lệch vé chính"></dxi-column>
+          <dxi-column dataField="vePhuThucTe" caption="Vé phụ (Thực tế)"></dxi-column>
+          <dxi-column dataField="vePhuTimesheet" caption="Vé phụ (Timesheet)"></dxi-column>
+          <dxi-column dataField="vePhuChenhLech" caption="Chênh lệch vé phụ"></dxi-column>
+          <dxi-column dataField="tienVeChinh" caption="Tiền vé chính"></dxi-column>
+          <dxi-column dataField="tienVePhu" caption="Tiền vé phụ"></dxi-column>
+          <dxi-column dataField="tienChenhLech" caption="Tiền chênh lệch"></dxi-column>
+
+          <dxo-paging [pageSize]="10"></dxo-paging>
+          <dxo-pager
+            [showPageSizeSelector]="true"
+            [allowedPageSizes]="[10, 25, 50, 100]"
+          >
+          </dxo-pager>
+        </dx-data-grid>
+
+
+
+      </nz-collapse-panel>
+    </nz-collapse>
+
   </nz-tab>
-</nz-tabset> -->
+</nz-tabset>
+
+
+<nz-modal [(nzVisible)]="isOpenUploadFileModal" [nzTitle]="'Upload dữ liệu'">
+  <ng-container *nzModalContent>
+    <nz-table [nzData]="['']" nzSize="small" nzBordered nzFrontPagination="false" class="project-activity">
+      <tbody>
+
+        <tr>
+          <td>
+            <label>Date</label><span style="color: red">*</span>
+          </td>
+          <td>
+            <nz-date-picker style="width: 100%"></nz-date-picker>
+          </td>
+        </tr>
+
+        <tr>
+          <td><label>File</label></td>
+          <td>
+            <dx-file-uploader #fileUploader [multiple]="false" selectButtonText="Select file" labelText=""
+              accept=".xlsx" uploadMode="useForm" [inputAttr]="{ 'aria-label': 'Select file' }">
+            </dx-file-uploader>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button nzType="primary" (click)="uploadFile()">
+      Upload
+    </button>
+    <button nz-button nzType="default" (click)="isOpenUploadFileModal = false">
+      Đóng
+    </button>
+  </div>
+</nz-modal>

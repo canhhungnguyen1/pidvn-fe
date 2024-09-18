@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment';
 import { HrMealMngService } from '../services/hr-meal-mng.service';
+import { DxFileUploaderComponent } from 'devextreme-angular';
 
 @Component({
   selector: 'app-hr-meal-timesheet-confirm',
@@ -10,6 +11,10 @@ import { HrMealMngService } from '../services/hr-meal-mng.service';
   styleUrls: ['./hr-meal-timesheet-confirm.component.scss'],
 })
 export class HrMealTimesheetConfirmComponent implements OnInit {
+
+  @ViewChild('fileUploader', { static: false }) fileUploader!: DxFileUploaderComponent;
+
+
   isLoadingTimeSheetConfirm: boolean = false;
 
   constructor(
@@ -19,12 +24,14 @@ export class HrMealTimesheetConfirmComponent implements OnInit {
   ) {}
   
   baseUrlJava = environment.baseUrlJava;
+  baseUrl = environment.baseUrl;
+  isOpenUploadFileModal: boolean = false
+
+  fileUploadApi: any
+  dataSendEmail: any
 
   couponsBalance: any
   date = null;
-
-
-
 
   isLoading: boolean[] = [false, false, false, false];
 
@@ -70,24 +77,10 @@ export class HrMealTimesheetConfirmComponent implements OnInit {
 
 
   ngOnInit(): void {
-
-
-
+    this.fileUploadApi = `${this.baseUrl}/HR/Meal/GetUserSendEmail`
   }
 
-  // timesheetConfirm() {
-  //   this.isLoadingTimeSheetConfirm = true;
-  //   this.hrMealMngSvc.timesheetConfirm().subscribe(
-  //     (response) => {
-  //       console.log('DATA: ', response);
-  //       this.isLoadingTimeSheetConfirm = false;
-  //     },
-  //     (error) => {
-  //       console.error('ERROR: ', error);
-  //       this.isLoadingTimeSheetConfirm = false;
-  //     }
-  //   );
-  // }
+
 
   getCouponsBalance() {
     this.hrMealMngSvc.getBalance(this.date).subscribe(
@@ -102,4 +95,41 @@ export class HrMealTimesheetConfirmComponent implements OnInit {
     let allowanceCouponLink = `${this.baseUrlJava}/pidvn/admin?name=pidvn_hr_meal_list&accessToken=${token2}`
     window.open(allowanceCouponLink, '_blank');
   }
+
+
+  openUploadFileModal() {
+    this.isOpenUploadFileModal = true
+  }
+  
+
+  uploadFile() {
+    const selectedFile = this.fileUploader.value[0];
+
+    this.hrMealMngSvc.uploadFile(selectedFile).subscribe(
+      response => {
+        this.dataSendEmail = response
+        this.isOpenUploadFileModal = false
+      }
+    )
+  }
+
+
+  sendEmail() {
+    if (!this.dataSendEmail) {
+      this.toastr.warning('Không có dữ liệu','Warning')
+      return
+    }
+
+
+    this.hrMealMngSvc.sendEmail(this.dataSendEmail.data).subscribe(
+      response => {
+        this.dataSendEmail = null
+        this.toastr.success('','OK');
+      }
+    )
+
+
+  }
+
+
 }

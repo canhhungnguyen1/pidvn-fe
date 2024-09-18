@@ -32,7 +32,7 @@
       [allowColumnResizing]="true"
       [columnAutoWidth]="true"
       [rowAlternationEnabled]="true"
-      (onExporting)="onExportClient($event)"
+      (onExporting)="onExportClient($event, 'Data')"
     >
       <dxo-paging [pageSize]="10"></dxo-paging>
       <dxo-filter-row [visible]="true"></dxo-filter-row>
@@ -97,6 +97,7 @@
       [allowColumnResizing]="true"
       [columnAutoWidth]="true"
       [rowAlternationEnabled]="true"
+      (onExporting)="onExportClient($event, 'Summary')"
     >
       <dxo-export [enabled]="true"></dxo-export>
       <dxo-paging [pageSize]="15"></dxo-paging>

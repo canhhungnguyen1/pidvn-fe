@@ -265,10 +265,10 @@
           <li nz-menu-item nzMatchRouter>
             <a routerLink="/admin/hr/hr-emp-mng/menu" (click)="onHideSidebar()">Dữ liệu nhân viên</a>
           </li>
-          <!-- <li nz-menu-item nzMatchRouter>
+          <li nz-menu-item nzMatchRouter>
             <i nz-icon nzType="mail"></i>
             <span><a class="externalLink" [href]="editEmailLink" target="blank">Chỉnh sửa email</a></span>
-          </li> -->
+          </li>
           <li nz-submenu nzTitle="Quản lý chất thải">
             <ul>
               <li nz-menu-item nzMatchRouter [routerLink]="['/admin/hr/waste-mng/master']"
@@ -559,14 +559,14 @@
             </a>
             <nz-dropdown-menu #menu="nzDropdownMenu" class="drop-menu">
               <ul nz-menu>
-                <li nz-menu-item routerLink="/admin/personal/menu" translate>
-                  common.personalInformation
+                <li nz-menu-item routerLink="/admin/personal/menu">
+                  <span translate>common.personalInformation</span>
                 </li>
-                <li nz-menu-item routerLink="/auth/change-password" translate>
-                  <span>common.changePassword</span>
+                <li nz-menu-item routerLink="/auth/change-password">
+                  <span translate>common.changePassword</span>
                 </li>
                 <li nz-menu-divider></li>
-                <li nz-menu-item (click)="logout()" translate>common.logout</li>
+                <li nz-menu-item (click)="logout()" translate><span translate>common.logout</span></li>
               </ul>
             </nz-dropdown-menu>
             <i class="drawer-menu" nz-icon nzType="menu" nzTheme="outline"
