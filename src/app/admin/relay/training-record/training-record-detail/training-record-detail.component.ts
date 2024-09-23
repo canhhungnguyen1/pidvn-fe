@@ -5,6 +5,9 @@ import { NzImageService } from 'ng-zorro-antd/image';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment';
 import { TrainingRecordService } from '../services/training-record.service';
+import { exportDataGrid } from 'devextreme/excel_exporter';
+import { Workbook } from 'exceljs';
+import * as saveAs from 'file-saver';
 
 @Component({
   selector: 'app-training-record-detail',
@@ -162,8 +165,18 @@ export class TrainingRecordDetailComponent implements OnInit {
     this.getTrainingRecordDetail();
   }
 
-  onExporting(e: any) {
-    
+  onExporting(event: any) {
+    const workbook = new Workbook();    
+        const worksheet = workbook.addWorksheet('Main sheet');
+        exportDataGrid({
+            component: event.component,
+            worksheet: worksheet
+        }).then(function() {
+            workbook.xlsx.writeBuffer()
+                .then(function(buffer: BlobPart) {
+                    saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'M4M8-History.xlsx');
+                });
+        });
   }
 
   openGuideline() {
