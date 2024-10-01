@@ -174,7 +174,7 @@ export class TrainingRecordDetailComponent implements OnInit {
         }).then(function() {
             workbook.xlsx.writeBuffer()
                 .then(function(buffer: BlobPart) {
-                    saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'M4M8-History.xlsx');
+                    saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Data.xlsx');
                 });
         });
   }
