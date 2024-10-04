@@ -24,6 +24,7 @@ import { DxDataGridModule } from 'devextreme-angular';
 import { CheckDateIqcComponent } from './check-date-iqc/check-date-iqc.component';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { WhIqcRecheckComponent } from './wh-iqc-recheck/wh-iqc-recheck.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
     MaterialReceiptComponent,
     WhIqcRequestComponent,
     CheckDateIqcComponent,
+    WhIqcRecheckComponent
   ],
   imports: [
     CommonModule,

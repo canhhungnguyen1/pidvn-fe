@@ -4,6 +4,7 @@ import { CheckDateIqcComponent } from './check-date-iqc/check-date-iqc.component
 import { MaterialReceiptComponent } from './material-receipt/material-receipt.component';
 import { WarehouseComponent } from './warehouse.component';
 import { WhIqcRequestComponent } from './wh-iqc-request/wh-iqc-request.component';
+import { WhIqcRecheckComponent } from './wh-iqc-recheck/wh-iqc-recheck.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,10 @@ const routes: Routes = [
         path: 'check-date-iqc',
         component: CheckDateIqcComponent,
       },
+      {
+        path: 'iqc-recheck',
+        component: WhIqcRecheckComponent
+      }
     ],
   },
 ];

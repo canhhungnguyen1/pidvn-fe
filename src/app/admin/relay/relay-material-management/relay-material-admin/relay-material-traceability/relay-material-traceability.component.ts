@@ -1,6 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DxDataGridComponent } from 'devextreme-angular';
 import { ReMatAdmService } from '../services/re-mat-adm.service';
+import { Workbook } from 'exceljs';
+import * as saveAs from 'file-saver';
+import { exportDataGrid } from 'devextreme/excel_exporter';
 
 @Component({
   selector: 'app-relay-material-traceability',
@@ -89,7 +92,20 @@ export class RelayMaterialTraceabilityComponent implements OnInit {
     });
   }
 
-  onExportClient(event: any) {}
+  onExportClient(event: any) {
+
+    const workbook = new Workbook();    
+        const worksheet = workbook.addWorksheet('Main sheet');
+        exportDataGrid({
+            component: event.component,
+            worksheet: worksheet
+        }).then(function() {
+            workbook.xlsx.writeBuffer()
+                .then(function(buffer: BlobPart) {
+                    saveAs(new Blob([buffer], { type: 'application/octet-stream' }), `Data.xlsx`);
+                });
+        });
+  }
 
   onChangeTime(event: Date[]) {
     this.searchVo.fromDate = event[0];

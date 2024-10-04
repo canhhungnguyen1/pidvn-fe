@@ -227,6 +227,7 @@ export class SparePartRequestsComponent implements OnInit {
 
 
   deleteRequest() {
+    debugger
 
     let roles = this.jwt.Roles;
 
@@ -243,23 +244,20 @@ export class SparePartRequestsComponent implements OnInit {
 
 
     if (userLogin != this.sparePartReqSelected.data.createdBy) {
-
-      if (!roles.includes('super_admin')) {
-        this.toastr.warning('Chỉ người tạo mới có quyền xóa !','Warning')
-        return
-      }
-
-      this.sparePartRequestSvc.deleteSparePartRequest(this.sparePartReqSelected.data.id).subscribe(
-        response => {
-          this.isOpenRequestDetailModal = false
-          this.getRequests();
-        },
-        error => {
-          this.isOpenRequestDetailModal = false
-        }
-      )
-  
+      this.toastr.warning('Chỉ người tạo mới có quyền xóa !','Warning')
+      return;
     }
+
+    this.sparePartRequestSvc.deleteSparePartRequest(this.sparePartReqSelected.data.id).subscribe(
+      response => {
+        this.isOpenRequestDetailModal = false
+        this.getRequests();
+      },
+      error => {
+        this.isOpenRequestDetailModal = false
+      }
+    )
+
 
   }
 }
