@@ -17,4 +17,8 @@ export class WhIqcRecheckService {
         return this.httpClient.post(`${this.baseUrl}/WH/IQC-Recheck/ScanLabel`, labelDto);
     }
 
+    public createIqcRequest(requestDto: any): Observable<any> {
+      return this.httpClient.post(`${this.baseUrl}/WH/IQC-Recheck/Request`, requestDto);
+    }
+
 }

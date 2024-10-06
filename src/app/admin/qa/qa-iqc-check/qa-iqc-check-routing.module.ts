@@ -6,6 +6,7 @@ import { QaIqcRequestComponent } from './qa-iqc-request/qa-iqc-request.component
 import { QaIqcResultDetailComponent } from './qa-iqc-result-detail/qa-iqc-result-detail.component';
 import { QaIqcResultMasterComponent } from './qa-iqc-result-master/qa-iqc-result-master.component';
 import { QaIqcDataComponent } from './qa-iqc-data/qa-iqc-data.component';
+import { QaIqcRecheckComponent } from './qa-iqc-recheck/qa-iqc-recheck.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,10 @@ const routes: Routes = [
       {
         path: 'iqc-data',
         component: QaIqcDataComponent
+      },
+      {
+        path: 'iqc-recheck',
+        component: QaIqcRecheckComponent
       }
     ],
   },

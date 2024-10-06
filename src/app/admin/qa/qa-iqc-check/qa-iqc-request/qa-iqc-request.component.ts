@@ -42,6 +42,17 @@ export class QaIqcRequestComponent implements OnInit {
   }
 
   redirectResultMaster(data: any) {
+
+    console.log(data);
+
+    if (data.type === '6Month') {
+      this.router.navigate(['admin/qa/qa-iqc-check/iqc-recheck'], {
+        queryParams: { requestNo: data.requestNo, invoice: data.invoice, type: data.type },
+      });
+      return
+    }
+    
+
     this.router.navigate(['admin/qa/qa-iqc-check/iqc-result-master'], {
       queryParams: { requestNo: data.requestNo, invoice: data.invoice, type: data.type },
     });
