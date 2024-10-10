@@ -18,6 +18,7 @@
   [columnResizingMode]="'widget'"
   [allowColumnReordering]="true"
   [rowAlternationEnabled]="true"
+  (onExporting)="onExportClient($event)"
 >
   <dxo-selection
     [selectAllMode]="'allPages'"

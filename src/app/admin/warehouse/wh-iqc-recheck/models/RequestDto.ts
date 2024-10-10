@@ -1,6 +1,6 @@
 export class RequestDto {
     id!: number;
-    lots!: any;
+    lotGroups!: Array<any>;
     requestedBy!: string;
     type!: string;
 }

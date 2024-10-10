@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { DxButtonModule, DxDataGridModule, DxDropDownBoxModule, DxFileUploaderModule, DxFormModule } from 'devextreme-angular';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
@@ -14,14 +15,14 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { MainQaIqcComponent } from './main-qa-iqc/main-qa-iqc.component';
 import { QaIqcCheckRoutingModule } from './qa-iqc-check-routing.module';
+import { QaIqcDataComponent } from './qa-iqc-data/qa-iqc-data.component';
 import { QaIqcRequestComponent } from './qa-iqc-request/qa-iqc-request.component';
 import { QaIqcResultDetailComponent } from './qa-iqc-result-detail/qa-iqc-result-detail.component';
 import { QaIqcResultMasterComponent } from './qa-iqc-result-master/qa-iqc-result-master.component';
-import { NzSwitchModule } from 'ng-zorro-antd/switch';
-import { QaIqcDataComponent } from './qa-iqc-data/qa-iqc-data.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,12 @@ import { QaIqcDataComponent } from './qa-iqc-data/qa-iqc-data.component';
     NzDatePickerModule,
     NzDropDownModule,
     NzCheckboxModule,
-    NzSwitchModule
+    NzSwitchModule,
+    DxButtonModule, 
+    DxDataGridModule, 
+    DxDropDownBoxModule, 
+    DxFileUploaderModule, 
+    DxFormModule
   ],
 })
-export class QaIqcCheckModule {}
+export class QaIqcCheckModule { }

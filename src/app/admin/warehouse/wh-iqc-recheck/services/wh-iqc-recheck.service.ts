@@ -13,12 +13,13 @@ export class WhIqcRecheckService {
     private baseUrl = environment.baseUrl;
 
     
-    public scanLabel(labelDto: any): Observable<any> {
-        return this.httpClient.post(`${this.baseUrl}/WH/IQC-Recheck/ScanLabel`, labelDto);
-    }
-
     public createIqcRequest(requestDto: any): Observable<any> {
       return this.httpClient.post(`${this.baseUrl}/WH/IQC-Recheck/Request`, requestDto);
+    }
+
+
+    public getLotGroupsIqcOver6Month (): Observable<any> {
+      return this.httpClient.get(`${this.baseUrl}/WH/IQC-Recheck/LotGroupsIqcOver6Month`);
     }
 
 }

@@ -9,6 +9,9 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { ToastrService } from 'ngx-toastr';
 import { RelayDateCodeService } from './relay-datecode.service';
 import { ActivatedRoute } from '@angular/router';
+import { Workbook } from 'exceljs';
+import { exportDataGrid } from 'devextreme/excel_exporter';
+import * as saveAs from 'file-saver';
 
 @Component({
   selector: 'app-relay-datecode',
@@ -226,7 +229,19 @@ export class RelayDatecodeComponent implements OnInit, AfterViewInit {
     this.dateCodeSave.dateCode = event.toUpperCase();
   }
 
-  onExportClient(event: any) {}
+  onExportClient(event: any) {
+    const workbook = new Workbook();    
+        const worksheet = workbook.addWorksheet('Main sheet');
+        exportDataGrid({
+            component: event.component,
+            worksheet: worksheet
+        }).then(function() {
+            workbook.xlsx.writeBuffer()
+                .then(function(buffer: BlobPart) {
+                    saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'M4M8-History.xlsx');
+                });
+        });
+  }
 
   addDateCode() {
     let arr = this.qaCard.split('*');

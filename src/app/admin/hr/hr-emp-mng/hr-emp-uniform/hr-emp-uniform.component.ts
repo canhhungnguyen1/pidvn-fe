@@ -4,6 +4,9 @@ import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment';
 import { HrEmpUniformService } from '../services/hr-emp-uniform.service';
+import { Workbook } from 'exceljs';
+import { exportDataGrid } from 'devextreme/excel_exporter';
+import * as saveAs from 'file-saver';
 
 @Component({
   selector: 'app-hr-emp-uniform',
@@ -174,5 +177,19 @@ export class HrEmpUniformComponent implements OnInit {
           )
         }).catch(() => console.log('Oops errors!'))
     });
+  }
+
+  onExportClient(event: any) {
+    const workbook = new Workbook();    
+        const worksheet = workbook.addWorksheet('Main sheet');
+        exportDataGrid({
+            component: event.component,
+            worksheet: worksheet
+        }).then(function() {
+            workbook.xlsx.writeBuffer()
+                .then(function(buffer: BlobPart) {
+                    saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Uniform-History.xlsx');
+                });
+        });
   }
 }
