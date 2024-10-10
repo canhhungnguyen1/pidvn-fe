@@ -3,4 +3,5 @@ export class RequestDto {
     lotGroups!: Array<any>;
     requestedBy!: string;
     type!: string;
+    goodsType!: any;
 }

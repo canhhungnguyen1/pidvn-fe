@@ -37,12 +37,22 @@ export class WhIqcRecheckComponent implements OnInit, AfterViewInit {
 
   createRequest() {
 
+
+
+
+    let goodsTypeSet = new Set();
     let lotGroups = new Array();
 
     for (const element of this.selectedRows) {
       lotGroups.push(element.lotGroup)
+      goodsTypeSet.add(element.classified)
     }
     
+    if (goodsTypeSet.size >= 2) {
+      this.toastr.warning('Chỉ chọn 1 loại hàng cho 1 request','Warning')
+      return
+    }
+
     
     let username = this.jwtHelperSvc.decodeToken(
       localStorage.getItem('accessToken')?.toString()
@@ -52,6 +62,7 @@ export class WhIqcRecheckComponent implements OnInit, AfterViewInit {
     requestDto.requestedBy = username
     requestDto.type = "6Month"
     requestDto.lotGroups = lotGroups
+    requestDto.goodsType = goodsTypeSet.values().next().value;
 
 
     console.log(requestDto);
