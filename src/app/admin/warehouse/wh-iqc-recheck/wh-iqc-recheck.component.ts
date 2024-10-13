@@ -38,8 +38,6 @@ export class WhIqcRecheckComponent implements OnInit, AfterViewInit {
   createRequest() {
 
 
-
-
     let goodsTypeSet = new Set();
     let lotGroups = new Array();
 
@@ -58,15 +56,18 @@ export class WhIqcRecheckComponent implements OnInit, AfterViewInit {
       localStorage.getItem('accessToken')?.toString()
     ).Username;
 
+    let userId = this.jwtHelperSvc.decodeToken(
+      localStorage.getItem('accessToken')?.toString()
+    ).UserId;
+
+    
+
     let requestDto = new RequestDto();
     requestDto.requestedBy = username
     requestDto.type = "6Month"
     requestDto.lotGroups = lotGroups
     requestDto.goodsType = goodsTypeSet.values().next().value;
-
-
-    console.log(requestDto);
-    
+    requestDto.userId = userId
 
 
     this.whIqcRecheckSvc.createIqcRequest(requestDto).subscribe(

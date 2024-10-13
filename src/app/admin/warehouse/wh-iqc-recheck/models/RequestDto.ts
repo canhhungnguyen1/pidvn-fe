@@ -4,4 +4,5 @@ export class RequestDto {
     requestedBy!: string;
     type!: string;
     goodsType!: any;
+    userId!: number
 }
