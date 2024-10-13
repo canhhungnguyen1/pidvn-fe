@@ -54,7 +54,7 @@ export class QaIqcRequestComponent implements OnInit {
     
 
     this.router.navigate(['admin/qa/qa-iqc-check/iqc-result-master'], {
-      queryParams: { requestNo: data.requestNo, invoice: data.invoice, type: data.type },
+      queryParams: { requestNo: data.requestNo, invoice: data.invoice, type: data.type, goodsType: data.goodsType },
     });
   }
 

@@ -5,58 +5,115 @@
 </nz-breadcrumb>
 <br />
 <nz-collapse>
-  <nz-collapse-panel nzHeader="Thông tin request" [nzActive]="true" [nzShowArrow]="true">
+  <nz-collapse-panel
+    nzHeader="Thông tin request"
+    [nzActive]="true"
+    [nzShowArrow]="true"
+  >
     <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
       <div nz-col nzXs="12" nzSm="12" nzLg="3">
         <label nzXs="24" nzSm="24" nzLg="24">Request No</label>
       </div>
       <div nz-col nzXs="12" nzSm="12" nzLg="5">
-        <input type="text" nz-input [disabled]="true" [ngModel]="iqcRequest?.requestNo" />
+        <input
+          type="text"
+          nz-input
+          [disabled]="true"
+          [ngModel]="iqcRequest?.requestNo"
+        />
       </div>
       <div nz-col nzXs="12" nzSm="12" nzLg="3">
         <label nzXs="24" nzSm="24" nzLg="24">Invoice</label>
       </div>
       <div nz-col nzXs="12" nzSm="12" nzLg="5">
-        <input type="text" nz-input [disabled]="true" [ngModel]="iqcRequest?.invoice" />
+        <input
+          type="text"
+          nz-input
+          [disabled]="true"
+          [ngModel]="iqcRequest?.invoice"
+        />
       </div>
       <div nz-col nzXs="12" nzSm="12" nzLg="3">
         <label nzXs="24" nzSm="24" nzLg="24">Supplier</label>
       </div>
       <div nz-col nzXs="12" nzSm="12" nzLg="5">
-        <input type="text" nz-input [disabled]="true" [ngModel]="iqcRequest?.supplier" />
+        <input
+          type="text"
+          nz-input
+          [disabled]="true"
+          [ngModel]="iqcRequest?.supplier"
+        />
       </div>
     </div>
 
-    <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24" style="margin-top: 10px">
+    <div
+      nz-row
+      nzJustify="start"
+      nzAlign="middle"
+      [nzGutter]="24"
+      style="margin-top: 10px"
+    >
       <div nz-col nzXs="12" nzSm="12" nzLg="3">
         <label nzXs="24" nzSm="24" nzLg="24">Người request</label>
       </div>
       <div nz-col nzXs="12" nzSm="12" nzLg="5">
-        <input type="text" nz-input [disabled]="true" [ngModel]="iqcRequest?.requestedByName" />
+        <input
+          type="text"
+          nz-input
+          [disabled]="true"
+          [ngModel]="iqcRequest?.requestedByName"
+        />
       </div>
       <div nz-col nzXs="12" nzSm="12" nzLg="3">
         <label nzXs="24" nzSm="24" nzLg="24">Ngày request</label>
       </div>
       <div nz-col nzXs="12" nzSm="12" nzLg="5">
-        <input type="text" nz-input [disabled]="true" [ngModel]="iqcRequest?.createdAt | date : 'yyyy-MM-dd HH:mm'" />
+        <input
+          type="text"
+          nz-input
+          [disabled]="true"
+          [ngModel]="iqcRequest?.createdAt | date : 'yyyy-MM-dd HH:mm'"
+        />
       </div>
       <div nz-col nzXs="12" nzSm="12" nzLg="3">
         <label nzXs="24" nzSm="24" nzLg="24">Trạng thái</label>
       </div>
       <div nz-col nzXs="12" nzSm="12" nzLg="5">
-        <input type="text" nz-input [disabled]="true" [ngModel]="iqcRequest?.statusName" />
+        <input
+          type="text"
+          nz-input
+          [disabled]="true"
+          [ngModel]="iqcRequest?.statusName"
+        />
       </div>
     </div>
-    <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24" style="margin-top: 15px">
+    <div
+      nz-row
+      nzJustify="start"
+      nzAlign="middle"
+      [nzGutter]="24"
+      style="margin-top: 15px"
+    >
       <div nz-col nzXs="12" nzSm="12" nzLg="5">
-        <label nz-checkbox [(ngModel)]="isHandeled" (ngModelChange)="updateRequest($event)" style="color: #007bff">Đánh
-          dấu đã xử lý</label>
+        <label
+          nz-checkbox
+          [(ngModel)]="isHandeled"
+          (ngModelChange)="updateRequest($event)"
+          style="color: #007bff"
+          >Đánh dấu đã xử lý</label
+        >
       </div>
     </div>
   </nz-collapse-panel>
 </nz-collapse>
 
-<div *ngIf="requestType !== 'sorting' && requestType !== '6Month'" nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+<div
+  *ngIf="requestType !== 'sorting' && requestType !== '6Month'"
+  nz-row
+  nzJustify="start"
+  nzAlign="middle"
+  [nzGutter]="24"
+>
   <div nz-col nzXs="12" nzSm="6" nzLg="6">
     <input nz-input placeholder="Lot No" [(ngModel)]="searchVo.lotNo" />
   </div>
@@ -84,13 +141,38 @@
 <br />
 
 <ng-container
-  *ngIf="requestType == 'sorting' || requestType == '6Month'; then template1; else template2"></ng-container>
+  *ngIf="
+    requestType == 'sorting' || requestType == '6Month';
+    then template1;
+    else template2
+  "
+></ng-container>
 
 <!--Hàng sorting hoặc quá 6 tháng (Hàng đánh giá lại)-->
 <ng-template #template1>
-  <dx-data-grid id="gridContainer" [dataSource]="[]" [showBorders]="true" [showColumnLines]="true" [showRowLines]="true"
-    [showBorders]="true" [columnAutoWidth]="true" [allowColumnResizing]="true" [columnResizingMode]="'widget'"
-    [allowColumnReordering]="true" [rowAlternationEnabled]="true">
+  <dx-data-grid
+    *ngIf="goodsType === 'OUTSIDE'"
+    id="gridContainer"
+    [dataSource]="iqc6Month"
+    [showBorders]="true"
+    [showColumnLines]="true"
+    [showRowLines]="true"
+    [showBorders]="true"
+    [columnAutoWidth]="true"
+    [allowColumnResizing]="true"
+    [columnResizingMode]="'widget'"
+    [allowColumnReordering]="true"
+    [rowAlternationEnabled]="true"
+    (onSelectionChanged)="onSelectionChanged($event)"
+  >
+    <dxo-toolbar>
+      <dxi-item location="before">
+        <button nz-button nzType="primary" [disabled]="!selectedRows?.length">
+          <span nz-icon nzType="plus"></span>
+          Đánh giá LotNo
+        </button>
+      </dxi-item>
+    </dxo-toolbar>
 
     <dxo-selection
       [selectAllMode]="'allPages'"
@@ -98,10 +180,22 @@
       mode="multiple"
     ></dxo-selection>
     <dxo-filter-row [visible]="true"> </dxo-filter-row>
-    <dxi-column dataField="model" caption="Model" [allowEditing]="false"></dxi-column>
-    <dxi-column dataField="lotGroup" caption="Lot Group" [allowEditing]="false"></dxi-column>
+    <dxi-column
+      dataField="model"
+      caption="Model"
+      [allowEditing]="false"
+    ></dxi-column>
+    <dxi-column
+      dataField="lotGroup"
+      caption="Lot Group"
+      [allowEditing]="false"
+    ></dxi-column>
 
-    <dxi-column dataField="lotNo" caption="LotNo" [allowEditing]="false"></dxi-column>
+    <dxi-column
+      dataField="lotNo"
+      caption="LotNo"
+      [allowEditing]="false"
+    ></dxi-column>
 
     <dxi-column caption="Kết quả IQC">
       <dxi-column dataField="result1" caption="GP"></dxi-column>
@@ -114,13 +208,85 @@
       <dxi-column dataField="result5" caption="Kích thước"></dxi-column>
     </dxi-column>
 
+    <dxo-paging [pageSize]="10"></dxo-paging>
+    <dxo-pager
+      [showPageSizeSelector]="true"
+      [allowedPageSizes]="[10, 25, 50, 100]"
+    >
+    </dxo-pager>
+  </dx-data-grid>
+
+  <dx-data-grid
+    *ngIf="goodsType === 'INSIDE'"
+    id="gridContainer"
+    [dataSource]="iqc6Month"
+    [showBorders]="true"
+    [showColumnLines]="true"
+    [showRowLines]="true"
+    [showBorders]="true"
+    [columnAutoWidth]="true"
+    [allowColumnResizing]="true"
+    [columnResizingMode]="'widget'"
+    [allowColumnReordering]="true"
+    [rowAlternationEnabled]="true"
+    (onSelectionChanged)="onSelectionChanged($event)"
+  >
+    <dxo-toolbar>
+      <dxi-item location="before">
+        <button nz-button nzType="primary" [disabled]="!selectedRows?.length">
+          <span nz-icon nzType="plus"></span>
+          Đánh giá LotNo
+        </button>
+      </dxi-item>
+    </dxo-toolbar>
+    
+    <dxo-selection
+      [selectAllMode]="'allPages'"
+      [showCheckBoxesMode]="'always'"
+      mode="multiple"
+    ></dxo-selection>
+    <dxo-filter-row [visible]="true"> </dxo-filter-row>
+
+    <dxi-column
+      dataField="model"
+      caption="Model"
+      [allowEditing]="false"
+    ></dxi-column>
+    <dxi-column
+      dataField="lotGroup"
+      caption="Lot Group"
+      [allowEditing]="false"
+    ></dxi-column>
+
+    <dxi-column
+      dataField="lotNo"
+      caption="LotNo"
+      [allowEditing]="false"
+    ></dxi-column>
+
+    <dxi-column caption="Kết quả IQC">
+      <dxi-column dataField="result1" caption="GP"></dxi-column>
+      <dxi-column dataField="result2" caption="Ngoại quan"></dxi-column>
+    </dxi-column>
+
+    <dxo-paging [pageSize]="10"></dxo-paging>
+    <dxo-pager
+      [showPageSizeSelector]="true"
+      [allowedPageSizes]="[10, 25, 50, 100]"
+    >
+    </dxo-pager>
   </dx-data-grid>
 </ng-template>
 
 <!--Hàng không sorting-->
 <ng-template #template2>
-  <nz-table #iqcResultMasterTable nzSize="small" [nzBordered]="true" [nzData]="iqcDataMasters"
-    [nzScroll]="{ x: '1500px' }">
+  <nz-table
+    #iqcResultMasterTable
+    nzSize="small"
+    [nzBordered]="true"
+    [nzData]="iqcDataMasters"
+    [nzScroll]="{ x: '1500px' }"
+  >
     <thead>
       <tr>
         <th class="text-center" rowspan="2" nzLeft style="width: 200px">
@@ -159,28 +325,37 @@
         <td class="text-center">
           {{ item.iqcAt | date : "yyyy-MM-dd HH:mm" }}
         </td>
-        <td [ngClass]="{
+        <td
+          [ngClass]="{
             'text-center': true,
             'text-danger': item.result1 == 'NG',
             'text-success': item.result1 == 'OK',
             'text-primary': item.result1 == 'CA'
-          }" style="font-weight: bold">
+          }"
+          style="font-weight: bold"
+        >
           {{ item.result1 }}
         </td>
-        <td [ngClass]="{
+        <td
+          [ngClass]="{
             'text-center': true,
             'text-danger': item.result2 == 'NG',
             'text-success': item.result2 == 'OK',
             'text-primary': item.result2 == 'CA'
-          }" style="font-weight: bold">
+          }"
+          style="font-weight: bold"
+        >
           {{ item.result2 }}
         </td>
-        <td [ngClass]="{
+        <td
+          [ngClass]="{
             'text-center': true,
             'text-danger': item.result3 == 'NG',
             'text-success': item.result3 == 'OK',
             'text-primary': item.result3 == 'CA'
-          }" style="font-weight: bold">
+          }"
+          style="font-weight: bold"
+        >
           {{ item.result3 }}
         </td>
         <td>{{ item.levelOfControlNgoaiQuan }}</td>
@@ -188,7 +363,9 @@
         <td class="text-center">{{ item.checkedAmount }}</td>
         <td>{{ item.remark }}</td>
         <td nzRight class="text-center">
-          <a nz-button nzType="link" (click)="redirectDetailData(item)">Chi tiết</a>
+          <a nz-button nzType="link" (click)="redirectDetailData(item)"
+            >Chi tiết</a
+          >
         </td>
       </tr>
     </tbody>

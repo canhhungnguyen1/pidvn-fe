@@ -14,9 +14,12 @@ export class QaIqcResultMasterComponent implements OnInit {
     private qaIqcSvc: QaIqcService
   ) { }
 
+  
+
   invoice!: string;
   requestNo!: string;
   requestType!: string;
+  goodsType!: string
 
   iqcRequest: any;
   iqcDataMasters!: any[];
@@ -29,13 +32,18 @@ export class QaIqcResultMasterComponent implements OnInit {
     this.invoice = this.activatedRoute.snapshot.queryParams['invoice'];
     this.requestNo = this.activatedRoute.snapshot.queryParams['requestNo'];
     this.requestType = this.activatedRoute.snapshot.queryParams['type'];
-
-
-
+    this.goodsType = this.activatedRoute.snapshot.queryParams['goodsType'];
 
     this.getIqcDataMaster();
     this.getIqcRequests();
+
+
+    
   }
+
+
+
+
 
   onSearch() {
     this.searchVo.invoice = this.invoice
@@ -61,19 +69,25 @@ export class QaIqcResultMasterComponent implements OnInit {
 
   }
 
-  getIqcDataMaster() {
+  iqc6Month: any
 
+  getIqcDataMaster() {
     /**
      * Đối với hàng sorting hoặc hàng quá 6 tháng
      */
-    if(this.requestType === 'sorting' || this.requestType === 'over6month') {
-      this.qaIqcSvc.getIqcDataSortingMaster(this.requestNo).subscribe(
+    if(this.requestType === 'sorting' || this.requestType === '6Month') {
+      this.qaIqcSvc.getLotIqcOver6Month(this.requestNo, this.goodsType).subscribe(
         response => {
-          this.iqcDataSortingMasters = response;
+          this.iqc6Month = response.result
         }
       )
       return;
     }
+
+
+
+
+
 
     let obj = {
       invoice: this.invoice,
@@ -141,5 +155,14 @@ export class QaIqcResultMasterComponent implements OnInit {
 
   exportPdf() {
     console.log('Export Pdf')
+  }
+
+
+
+  
+
+  selectedRows: any;
+  onSelectionChanged(event: any) {
+    this.selectedRows = event.selectedRowsData;
   }
 }
