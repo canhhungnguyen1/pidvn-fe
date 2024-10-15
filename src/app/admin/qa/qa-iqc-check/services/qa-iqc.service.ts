@@ -139,18 +139,24 @@ export class QaIqcService {
   }
 
   public getIqcLevelOfControl(): Observable<any> {
-    return this.httpClient.get(
-      `${this.baseUrl}/QA/IqcCheck/LevelOfControls`
-    );
+    return this.httpClient.get(`${this.baseUrl}/QA/IqcCheck/LevelOfControls`);
   }
-
-
 
   // Lấy danh sách hàng iqc quá 6 tháng
 
-  public getLotIqcOver6Month(requetNo: string, goodsType: string) : Observable<any> {
+  public getLotIqcOver6Month(
+    requetNo: string,
+    goodsType: string
+  ): Observable<any> {
     return this.httpClient.get(
       `${this.baseUrl}/QA/IQC-Recheck/Requests/${requetNo}?goodsType=${goodsType}`
+    );
+  }
+
+  public saveIqcResult(lots: any, goodsType: string): Observable<any> {
+    return this.httpClient.post(
+      `${this.baseUrl}/QA/IQC-Recheck/SaveIqcResult?goodsType=${goodsType}`,
+      lots
     );
   }
 }

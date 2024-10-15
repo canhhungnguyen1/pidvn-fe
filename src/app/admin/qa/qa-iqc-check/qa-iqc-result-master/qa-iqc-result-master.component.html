@@ -167,7 +167,7 @@
   >
     <dxo-toolbar>
       <dxi-item location="before">
-        <button nz-button nzType="primary" [disabled]="!selectedRows?.length" (click)="danhGiaLotNo()">
+        <button nz-button nzType="primary" [disabled]="!selectedRows?.length" (click)="openModalDanhGiaLotNo('OUTSIDE')">
           <span nz-icon nzType="plus"></span>
           Đánh giá LotNo
         </button>
@@ -204,8 +204,8 @@
     </dxi-column>
 
     <dxi-column caption="Mức kiểm soát">
-      <dxi-column dataField="result4" caption="Ngoại quan"></dxi-column>
-      <dxi-column dataField="result5" caption="Kích thước"></dxi-column>
+      <dxi-column dataField="levelOfControlNgoaiQuan" caption="Ngoại quan"></dxi-column>
+      <dxi-column dataField="levelOfControlKichThuoc" caption="Kích thước"></dxi-column>
     </dxi-column>
 
     <dxo-paging [pageSize]="10"></dxo-paging>
@@ -233,7 +233,7 @@
   >
     <dxo-toolbar>
       <dxi-item location="before">
-        <button nz-button nzType="primary" [disabled]="!selectedRows?.length" (click)="danhGiaLotNo()">
+        <button nz-button nzType="primary" [disabled]="!selectedRows?.length" (click)="openModalDanhGiaLotNo('INSIDE')">
           <span nz-icon nzType="plus"></span>
           Đánh giá LotNo
         </button>
@@ -396,7 +396,7 @@
           <td><label>Lot No</label></td>
           <td colspan="3">
             <ul style="margin-left: -20px;">
-              <li *ngFor="let item of selectedRows">{{item.id}}-{{item.lotNo}}-{{item.model}}</li>
+              <li *ngFor="let item of selectedRows">{{item.lotNo}}</li>
             </ul>
           </td>
         </tr>
@@ -409,7 +409,7 @@
         <tr>
           <td><label>GP</label></td>
           <td colspan="3">
-            <nz-radio-group>
+            <nz-radio-group [(ngModel)]="evaluate.gp">
               <label nz-radio nzValue="OK" style="color: green">OK</label>
               <label nz-radio nzValue="NG" style="color: red">NG</label>
             </nz-radio-group>
@@ -418,7 +418,7 @@
         <tr>
           <td><label>Ngoại quan</label></td>
           <td>
-            <nz-radio-group>
+            <nz-radio-group [(ngModel)]="evaluate.ngoaiQuan">
               <label nz-radio nzValue="OK" style="color: green">OK</label>
               <label nz-radio nzValue="NG" style="color: red">NG</label>
               <label nz-radio nzValue="CA" style="color: black">CA</label>
@@ -430,6 +430,7 @@
               nzShowSearch
               nzAllowClear
               nzPlaceHolder="Mức kiểm soát ngoại quan"
+              [(ngModel)]="evaluate.levelOfControlNgoaiQuan"
             >
               <nz-option
                 *ngFor="let item of levelOfControls"
@@ -443,7 +444,7 @@
         <tr>
           <td><label>Kích thước</label></td>
           <td>
-            <nz-radio-group>
+            <nz-radio-group [(ngModel)]="evaluate.kichThuoc">
               <label nz-radio nzValue="OK" style="color: green">OK</label>
               <label nz-radio nzValue="NG" style="color: red">NG</label>
               <label nz-radio nzValue="CA" style="color: black">CA</label>
@@ -455,6 +456,7 @@
               nzShowSearch
               nzAllowClear
               nzPlaceHolder="Mức kiểm soát kích thước"
+              [(ngModel)]="evaluate.levelOfControlKichThuoc"
             >
               <nz-option
                 *ngFor="let item of levelOfControls"
@@ -473,10 +475,21 @@
             <textarea
               rows="3"
               nz-input
+              [(ngModel)]="evaluate.remark"
             ></textarea>
           </td>
         </tr>
       </tbody>
     </nz-table>
   </ng-container> 
+
+  <ng-template [nzModalFooter]>
+    <button nz-button nzType="default" (click)="isOpen6MonthModal = false">
+      Đóng
+    </button>
+    <button nz-button nzType="primary" (click)="saveDanhGiaIqc6Month()">
+      Lưu
+    </button>
+  </ng-template>
+
 </nz-modal>

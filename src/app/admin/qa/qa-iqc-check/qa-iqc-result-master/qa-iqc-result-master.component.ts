@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QaIqcService } from '../services/qa-iqc.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Component({
   selector: 'app-qa-iqc-result-master',
@@ -11,7 +12,8 @@ export class QaIqcResultMasterComponent implements OnInit {
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private qaIqcSvc: QaIqcService
+    private qaIqcSvc: QaIqcService,
+    private jwtHelperSvc: JwtHelperService
   ) { }
 
   
@@ -167,11 +169,17 @@ export class QaIqcResultMasterComponent implements OnInit {
   }
 
 
-  danhGiaLotNo() {
+  openModalDanhGiaLotNo(goodsType: string) {
     console.log('this.selectedRows: ', this.selectedRows);
     
     console.log('Đánh giá hàng: ', this.goodsType);
-    this.isOpen6MonthModal = true;
+
+
+    if (goodsType === 'OUTSIDE') {
+      this.isOpen6MonthModal = true;
+    }
+
+    
   }
 
 
@@ -185,4 +193,39 @@ export class QaIqcResultMasterComponent implements OnInit {
 
   levelOfControls: any
   isOpen6MonthModal: boolean = false
+
+  evaluate: any = {}
+
+  saveDanhGiaIqc6Month() {
+    console.log('saveDanhGiaIqc6Month: ',this.selectedRows);
+    console.log('evaluate: ', this.evaluate);
+
+    let createdBy = this.jwtHelperSvc.decodeToken(
+      localStorage.getItem('accessToken')?.toString()
+    ).Username;
+
+
+    for (let item of this.selectedRows) {
+      item.createdBy = createdBy;
+      item.result1 = this.evaluate.gp
+      item.result2 = this.evaluate.ngoaiQuan
+      item.result3 = this.evaluate.kichThuoc
+      item.remark = this.evaluate.remark
+      item.levelOfControlNgoaiQuan = this.evaluate.levelOfControlNgoaiQuan
+      item.levelOfControlKichThuoc = this.evaluate.levelOfControlKichThuoc
+    }
+  
+
+    this.qaIqcSvc.saveIqcResult(this.selectedRows, this.goodsType).subscribe(
+      response => {
+        this.getIqcDataMaster()
+        this.isOpen6MonthModal = false;
+      }
+    )
+
+
+    
+
+    
+  }
 }
