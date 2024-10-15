@@ -167,7 +167,7 @@
   >
     <dxo-toolbar>
       <dxi-item location="before">
-        <button nz-button nzType="primary" [disabled]="!selectedRows?.length">
+        <button nz-button nzType="primary" [disabled]="!selectedRows?.length" (click)="danhGiaLotNo()">
           <span nz-icon nzType="plus"></span>
           Đánh giá LotNo
         </button>
@@ -233,7 +233,7 @@
   >
     <dxo-toolbar>
       <dxi-item location="before">
-        <button nz-button nzType="primary" [disabled]="!selectedRows?.length">
+        <button nz-button nzType="primary" [disabled]="!selectedRows?.length" (click)="danhGiaLotNo()">
           <span nz-icon nzType="plus"></span>
           Đánh giá LotNo
         </button>
@@ -371,3 +371,112 @@
     </tbody>
   </nz-table>
 </ng-template>
+
+
+
+
+<nz-modal
+  [(nzVisible)]="isOpen6MonthModal"
+  nzTitle="Đánh giá hàng quá 6 tháng"
+  [nzWidth]="'900px'"
+>
+  <ng-container *nzModalContent>
+    <nz-table
+      nzSize="small"
+      [nzBordered]="true"
+      [nzData]="['']"
+      [nzFrontPagination]="false"
+    >
+      <tbody>
+        <tr>
+          <td><label>Request No</label></td>
+          <td colspan="3">{{requestNo}}</td>
+        </tr>
+        <tr>
+          <td><label>Lot No</label></td>
+          <td colspan="3">
+            <ul style="margin-left: -20px;">
+              <li *ngFor="let item of selectedRows">{{item.id}}-{{item.lotNo}}-{{item.model}}</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><label>Số kiện</label></td>
+          <td colspan="3">
+            {{selectedRows.length}}
+          </td>
+        </tr>
+        <tr>
+          <td><label>GP</label></td>
+          <td colspan="3">
+            <nz-radio-group>
+              <label nz-radio nzValue="OK" style="color: green">OK</label>
+              <label nz-radio nzValue="NG" style="color: red">NG</label>
+            </nz-radio-group>
+          </td>
+        </tr>
+        <tr>
+          <td><label>Ngoại quan</label></td>
+          <td>
+            <nz-radio-group>
+              <label nz-radio nzValue="OK" style="color: green">OK</label>
+              <label nz-radio nzValue="NG" style="color: red">NG</label>
+              <label nz-radio nzValue="CA" style="color: black">CA</label>
+            </nz-radio-group>
+          </td>
+          <td><label>Mức kiểm soát</label></td>
+          <td>
+            <nz-select
+              nzShowSearch
+              nzAllowClear
+              nzPlaceHolder="Mức kiểm soát ngoại quan"
+            >
+              <nz-option
+                *ngFor="let item of levelOfControls"
+                [nzValue]="item.name"
+                [nzLabel]="item.name"
+              >
+              </nz-option>
+            </nz-select>
+          </td>
+        </tr>
+        <tr>
+          <td><label>Kích thước</label></td>
+          <td>
+            <nz-radio-group>
+              <label nz-radio nzValue="OK" style="color: green">OK</label>
+              <label nz-radio nzValue="NG" style="color: red">NG</label>
+              <label nz-radio nzValue="CA" style="color: black">CA</label>
+            </nz-radio-group>
+          </td>
+          <td><label>Mức kiểm soát</label></td>
+          <td>
+            <nz-select
+              nzShowSearch
+              nzAllowClear
+              nzPlaceHolder="Mức kiểm soát kích thước"
+            >
+              <nz-option
+                *ngFor="let item of levelOfControls"
+                [nzValue]="item.name"
+                [nzLabel]="item.name"
+              >
+              </nz-option>
+            </nz-select>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label>Thông tin <br />NG hoặc CA</label>
+          </td>
+          <td colspan="3">
+            <textarea
+              rows="3"
+              nz-input
+            ></textarea>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </ng-container> 
+</nz-modal>

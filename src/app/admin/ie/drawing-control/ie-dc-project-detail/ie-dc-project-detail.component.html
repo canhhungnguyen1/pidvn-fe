@@ -295,7 +295,7 @@
                 useNative: false,
                 showScrollbar: 'always'
               }"
-              (onCellClick)="previewDrawingFile($event)"
+              
             >
               <dxo-filter-row [visible]="true"></dxo-filter-row>
               <dxo-search-panel [visible]="true"></dxo-search-panel>
@@ -355,9 +355,22 @@
               ></dxi-column>
 
               <dxi-column
-                dataField="hasFile"
                 caption="File"
+                cellTemplate="fileTemplate"
+
               ></dxi-column>
+              <div *dxTemplate="let item of 'fileTemplate'" style="text-align: center">
+                <div *ngIf="item.data.hasFile">
+                  <nz-space>
+                    <a *nzSpaceItem nz-tooltip nzTooltipTitle="View"><span  nz-icon nzType="eye" nzTheme="outline" (click)="previewDrawingFile(item, true)" alt="Xem trước"></span></a>
+                    <a *nzSpaceItem nz-tooltip nzTooltipTitle="Download"><span  nz-icon nzType="download" nzTheme="outline" (click)="previewDrawingFile(item, false)"></span></a>
+                  </nz-space>
+                </div>
+                
+              </div>
+
+
+
 
               <dxi-column
                 dataField="drawingNo"

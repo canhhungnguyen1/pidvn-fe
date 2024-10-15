@@ -212,10 +212,8 @@ export class IeDcProjectDetailComponent implements OnInit {
   }
 
 
-  previewDrawingFile(event: any) {
-    let dataField = event.column.dataField;
-    console.log(event.data);
-    if (dataField === 'name') {
+  previewDrawingFile(event: any, isPreview: boolean) {
+    
       let drawingNo = event.data.drawingNo;
       let params = {
          drawingNo: drawingNo
@@ -226,6 +224,15 @@ export class IeDcProjectDetailComponent implements OnInit {
         let fileURL = URL.createObjectURL(file);
         let fileName = `${drawingNo}.pdf`;
 
+        
+
+        // Open the file in a new window
+
+        if (isPreview) {
+          window.open(fileURL);
+          return
+        }
+
         // Create a link element to download the file with the file name
         let a = document.createElement('a');
         a.href = fileURL;
@@ -233,16 +240,14 @@ export class IeDcProjectDetailComponent implements OnInit {
         document.body.appendChild(a);
         a.click();
 
-        // Open the file in a new window
-        window.open(fileURL);
-
         // Remove the link element after the download
         setTimeout(() => {
           document.body.removeChild(a);
           URL.revokeObjectURL(fileURL);
         }, 100);
+
       });
-    }
+    
 
   }
 

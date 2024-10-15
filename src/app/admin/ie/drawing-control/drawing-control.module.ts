@@ -39,6 +39,8 @@ import {
   DxValidatorModule,
   DxDropDownBoxModule
 } from 'devextreme-angular';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 @NgModule({
   declarations: [
     DrawingControlComponent,
@@ -76,7 +78,9 @@ import {
     DxValidatorModule,
     DxNumberBoxModule,
     DxDateBoxModule,
-    DxDropDownBoxModule
+    DxDropDownBoxModule,
+    NzSpaceModule,
+    NzToolTipModule
   ],
 })
 export class DrawingControlModule {}

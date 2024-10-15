@@ -36,7 +36,7 @@ export class QaIqcResultMasterComponent implements OnInit {
 
     this.getIqcDataMaster();
     this.getIqcRequests();
-
+    this.getLevelOfControls();
 
     
   }
@@ -165,4 +165,24 @@ export class QaIqcResultMasterComponent implements OnInit {
   onSelectionChanged(event: any) {
     this.selectedRows = event.selectedRowsData;
   }
+
+
+  danhGiaLotNo() {
+    console.log('this.selectedRows: ', this.selectedRows);
+    
+    console.log('Đánh giá hàng: ', this.goodsType);
+    this.isOpen6MonthModal = true;
+  }
+
+
+  getLevelOfControls() {
+    this.qaIqcSvc.getIqcLevelOfControl().subscribe(
+      response => {
+        this.levelOfControls = response
+      }
+    )
+  }
+
+  levelOfControls: any
+  isOpen6MonthModal: boolean = false
 }
