@@ -260,6 +260,7 @@ export class AdminComponent implements OnInit {
   uploadFileLink!:string;
   stampingDieManagerLink!: string
   editEmailLink!: string;
+  smartPIDLink!: string;
 
    ngOnInit(): void {
     let accessToken = localStorage.getItem('accessToken');
@@ -332,6 +333,10 @@ export class AdminComponent implements OnInit {
 
     this.stampingDieManagerLink = `${this.baseUrlJava}/pidvn/vr/stamping/menu?accessToken=${token2}`
     this.editEmailLink = `${this.baseUrlJava}/pidvn/admin?name=pidvn_list_email&accessToken=${token2}`
+
+    this.smartPIDLink = `${this.baseUrlJava}/pidvn/chatbot?accessToken=${token2}`
+
+
   }
 
   weatherInfo: any;

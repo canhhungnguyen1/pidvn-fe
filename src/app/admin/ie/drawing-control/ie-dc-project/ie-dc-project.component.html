@@ -103,6 +103,7 @@
   <dxi-column dataField="status" caption="Status"></dxi-column>
   <dxi-column dataField="picName" caption="Main P.I.C"></dxi-column>
   <dxi-column dataField="createdName" caption="Creator"></dxi-column>
+  <dxi-column dataField="disable" caption="Disable"></dxi-column>
   <dxi-column
       caption="Action"
       cellTemplate="actionTemplate"
@@ -110,7 +111,15 @@
       fixedPosition="right"
     ></dxi-column>
     <div *dxTemplate="let item of 'actionTemplate'" style="text-align: center">
-      <a>Edit</a>
+      <a>Edit</a> | 
+      <a 
+        nz-popconfirm 
+        nzPopconfirmTitle="Are you sure delete this project?" style="color: red;"
+        (nzOnConfirm)="deleteProject(item.data.id)"
+        nzPopconfirmPlacement="topRight"
+      >
+        Delete
+      </a>
     </div>
 </dx-data-grid>
 

@@ -96,6 +96,15 @@ export class IeDcProjectComponent implements OnInit {
     )
   }
 
+  deleteProject(projectId: number) {
+    this.drawingControlSvc.deleteProject(projectId).subscribe(
+      response => {
+        console.log("deleteProject: ", response);
+        this.getProjects();
+      }
+    )
+  }
+
   openProjectInsertModal() {
     this.project = new ProjectDto();
     this.isOpenProjectCreateModal = true

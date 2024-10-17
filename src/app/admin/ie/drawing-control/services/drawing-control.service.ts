@@ -41,6 +41,12 @@ export class DrawingControlService {
     );
   }
 
+  public deleteProject(projectId: number): Observable<any> {
+    return this.httpClient.delete(
+      `${this.baseUrl}/IE/DrawingControl/Project/${projectId}`
+    );
+  }
+
   public getProjectTypes(): Observable<any> {
     return this.httpClient.get(
       `${this.baseUrl}/IE/DrawingControl/ProjectTypes`

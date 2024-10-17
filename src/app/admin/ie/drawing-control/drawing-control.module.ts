@@ -29,6 +29,7 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import {
   DxFormModule,
   DxHtmlEditorModule,
@@ -53,6 +54,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     FormsModule,
     DrawingControlRoutingModule,
     NzBreadCrumbModule,
+    NzPopconfirmModule,
     NzCollapseModule,
     DxButtonModule,
     DxDataGridModule,
