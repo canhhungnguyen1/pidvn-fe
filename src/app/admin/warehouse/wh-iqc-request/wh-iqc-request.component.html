@@ -133,6 +133,8 @@
       <th class="text-center">Người request</th>
       <th class="text-center">Ngày tạo</th>
       <th class="text-center">Ghi chú</th>
+      <th class="text-center">Request Type</th>
+      <th class="text-center">Goods Type</th>
     </tr>
   </thead>
   <tbody>
@@ -158,6 +160,8 @@
         {{ item.createdAt | date : "yyyy-MM-dd HH:mm:ss" }}
       </td>
       <td>{{ item.remark }}</td>
+      <td>{{ item.type }}</td>
+      <td>{{ item.goodsType }}</td>
     </tr>
   </tbody>
 </nz-table>

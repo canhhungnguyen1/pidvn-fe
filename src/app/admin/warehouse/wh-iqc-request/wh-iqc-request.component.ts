@@ -103,10 +103,6 @@ export class WhIqcRequestComponent implements OnInit {
 
 
     // Trường hợp nếu là request sorting
-
-
-
-
     if(this.iqcRequestSelected.type === 'sorting') {
 
       this.whIqcSvc.getIqcDataSortingInfo(this.iqcRequestSelected.requestNo).subscribe(
