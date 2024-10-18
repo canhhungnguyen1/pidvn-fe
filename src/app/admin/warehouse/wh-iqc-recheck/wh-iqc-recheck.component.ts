@@ -31,13 +31,7 @@ export class WhIqcRecheckComponent implements OnInit, AfterViewInit {
 
   lotsOver6Month: any;
 
-  openCreateIqcRequestModal() {
-    this.isOpenCreateIqcRequestModal = true;
-  }
-
   createRequest() {
-
-
     let goodsTypeSet = new Set();
     let lotGroups = new Array();
 

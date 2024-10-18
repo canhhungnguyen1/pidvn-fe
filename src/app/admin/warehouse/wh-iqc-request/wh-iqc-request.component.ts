@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { ToastrService } from 'ngx-toastr';
 import { WhIqcRequestService } from './services/wh-iqc-request.service';
+import { QaIqcService } from '../../qa/qa-iqc-check/services/qa-iqc.service';
 
 @Component({
   selector: 'app-wh-iqc-request',
@@ -22,17 +23,12 @@ export class WhIqcRequestComponent implements OnInit {
   iqcRequestSelected: any;
   slipNos: any;
 
-  isOpenIqcRequestCreateSortingModal: boolean = false;
-  labelScannedSet = new Set();
-  labelScannedArr: Array<any> = new Array();
-
-  iqcDataSortingInfo: any;
-  requestType: any;
 
   constructor(
     private toastr: ToastrService,
     private whIqcSvc: WhIqcRequestService,
-    private jwtHelperService: JwtHelperService
+    private jwtHelperService: JwtHelperService,
+    private qaIqcSvc: QaIqcService
   ) { }
 
   ngOnInit(): void {
@@ -67,14 +63,7 @@ export class WhIqcRequestComponent implements OnInit {
     });
   }
 
-  /*showDetail(item: any) {
-    console.log('Item : ', item);
-    
-    this.whIqcSvc.getIqcRequestDetail(item.requestNo, item.invoice).subscribe((response) => {
-      this.isOpenIqcRequestModal = true;
-      this.iqcRequestDetails = response;
-    });
-  }*/
+
 
   createIqcRequest() {
     // Validate input
@@ -99,23 +88,28 @@ export class WhIqcRequestComponent implements OnInit {
 
     this.iqcRequestSelected = { ...data };
 
-    console.log(this.iqcRequestSelected);
+    console.log('AAAA: ', this.iqcRequestSelected);
+    
 
-
-    // Trường hợp nếu là request sorting
-    if(this.iqcRequestSelected.type === 'sorting') {
-
-      this.whIqcSvc.getIqcDataSortingInfo(this.iqcRequestSelected.requestNo).subscribe(
+    /**
+     * Trường hợp hàng IQC 6 tháng (type == '6Month')
+     */
+    if (this.iqcRequestSelected.type === '6Month') {
+      
+      this.qaIqcSvc.getLotIqcOver6Month(this.iqcRequestSelected.requestNo, this.iqcRequestSelected.goodsType).subscribe(
         response => {
-          this.isOpenIqcDetailModal = true;
-          this.iqcDataSortingInfo = response;
-          console.log('iqcDataSortingInfo: ', this.iqcDataSortingInfo)
+          this.iqcRequestDetails = response.result
+          console.log('iqcRequestDetails: ' ,this.iqcRequestDetails);
+          
         }
       )
-
-      return;
     }
+
+
+
+
     
+
 
     let searchVo = {
       invoice: data.invoice,
@@ -126,13 +120,6 @@ export class WhIqcRequestComponent implements OnInit {
       this.iqcRequestDetails = response;
       this.isOpenIqcDetailModal = true;
     });
-
-
-
-
-
-
-
 
 
   }
@@ -159,73 +146,11 @@ export class WhIqcRequestComponent implements OnInit {
 
 
 
-  scanLabel(event: any) {
-    let labelValue = event.target.value.toUpperCase();
-    
-    this.qrIpt.nativeElement.select();
-
-    /**
-     * Có 2 TH: Elektrisola & Tem tự in
-     */
-
-    let dataSplit = labelValue.split(';')
-
-    if(dataSplit.length >= 5 && dataSplit[4] === '21010284') {
-
-      this.handleScanElektrisola(dataSplit);
-
-      return;
-    }
-
-    
-    this.labelScannedSet.add(`${dataSplit[3]}`)
-    this.labelScannedArr = [...Array.from(this.labelScannedSet).reverse()];
-    return;
-
-  }
-
-
-  handleScanElektrisola(dataSplit: any) {
-    this.labelScannedSet.add(`${dataSplit[3]}${dataSplit[5]}`)
-    this.labelScannedArr = [...Array.from(this.labelScannedSet).reverse()];
-  }
+  
 
 
 
-
-  createIqcSortingRequest() {
-    this.whIqcSvc.createIqcRequestSorting(this.labelScannedArr, this.requestType).subscribe(
-      response => {
-        this.isOpenIqcRequestCreateSortingModal = false;
-        this.toastr.success('Đã tạo request IQC', 'Success');
-        this.getIQCRequests();
-        this.labelScannedSet = new Set();
-        this.labelScannedArr = new Array();
-      }
-    )
-  }
-
-  deleteLabelScanned(event: any) {
-    this.labelScannedSet.delete(event);
-    this.labelScannedArr = [...Array.from(this.labelScannedSet).reverse()];
-  }
-
-
-  closeIqcRequestCreateSortingModal() {
-    
-    this.isOpenIqcRequestCreateSortingModal = false;
-
-    this.labelScannedSet = new Set();
-    this.labelScannedArr = new Array();
-
-  }
 
   
-  openIqcRequestCreateSortingModal(type: any) {
-    this.isOpenIqcRequestCreateSortingModal = true;
-    this.requestType = type
-
-    console.log('type: ', type);
-  }
 
 }

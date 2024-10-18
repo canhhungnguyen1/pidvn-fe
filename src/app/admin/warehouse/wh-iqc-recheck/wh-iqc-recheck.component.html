@@ -1,6 +1,3 @@
-<!-- <button nz-button nzType="primary" (click)="openCreateIqcRequestModal()">
-  Tạo request IQC hàng quá 6 tháng
-</button> -->
 <dx-data-grid
   #lotsOver6MonthGrid
   [dataSource]="lotsOver6Month"
@@ -23,7 +20,7 @@
     <dxi-item location="before">
       <button nz-button nzType="primary" [disabled]="!selectedRows?.length" (click)="createRequest()">
         <span nz-icon nzType="plus"></span>
-        Tạo request hàng quá 6 tháng
+        Tạo request IQC hàng quá 6 tháng
       </button>
     </dxi-item>
   </dxo-toolbar>

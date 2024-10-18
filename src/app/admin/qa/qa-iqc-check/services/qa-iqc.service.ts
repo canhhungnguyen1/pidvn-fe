@@ -142,6 +142,14 @@ export class QaIqcService {
     return this.httpClient.get(`${this.baseUrl}/QA/IqcCheck/LevelOfControls`);
   }
 
+
+
+
+
+
+
+  
+
   // Lấy danh sách hàng iqc quá 6 tháng
 
   public getLotIqcOver6Month(

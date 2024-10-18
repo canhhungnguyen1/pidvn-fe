@@ -2,9 +2,8 @@
   <nz-breadcrumb-item> Warehouse </nz-breadcrumb-item>
   <nz-breadcrumb-item> IQC Request</nz-breadcrumb-item>
 </nz-breadcrumb>
-<br />
 
-<nz-collapse>
+<!-- <nz-collapse>
   <nz-collapse-panel nzHeader="Tìm kiếm" [nzActive]="true" [nzShowArrow]="true">
     <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
       <div nz-col nzXs="12" nzSm="12" nzLg="6">
@@ -78,44 +77,123 @@
       </div>
     </div>
   </nz-collapse-panel>
-</nz-collapse>
+</nz-collapse> -->
 
-<br />
-<nz-space>
-  <button
-    nz-button
-    *nzSpaceItem
-    nzType="primary"
-    style="background-color: #28a745"
-    (click)="isOpenIqcRequestModal = true"
+
+<dx-data-grid
+  #iqcRequestTable
+  [dataSource]="iqcRequests"
+  [showColumnLines]="true"
+  [showRowLines]="true"
+  [showBorders]="true"
+  [allowColumnResizing]="true"
+  [columnAutoWidth]="true"
+  [rowAlternationEnabled]="true"
+  (onRowClick)="openIqcDetailModal($event.data)"
+>
+  <dxo-toolbar>
+    <dxi-item location="before">
+      <nz-space>
+        <button
+          nz-button
+          *nzSpaceItem
+          nzType="primary"
+          (click)="isOpenIqcRequestModal = true"
+        >
+          <i nz-icon nzType="plus"></i>
+          IQC Request
+        </button>
+      
+        <button
+          nz-button
+          *nzSpaceItem
+          nzType="default"
+        >
+          <i nz-icon nzType="plus"></i>
+          IQC Request (Hàng sorting)
+        </button>
+      
+        <button
+          nz-button
+          *nzSpaceItem
+          nzType="default"
+          routerLink="/admin/warehouse/iqc-recheck"
+        >
+          <i nz-icon nzType="plus"></i>
+          IQC Request (Hàng quá 6 tháng)
+        </button>
+      </nz-space>
+    </dxi-item>
+  </dxo-toolbar>
+
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
+
+  <dxi-column
+    dataField="requestNo"
+    caption="Request No"
+  ></dxi-column>
+
+  <dxi-column
+    dataField="invoice"
+    caption="Invoice"
+  ></dxi-column>
+  <dxi-column
+    dataField="supplier"
+    caption="Supplier"
+  ></dxi-column>
+
+  <dxi-column
+    dataField="status"
+    caption="IQC Status"
   >
-    <i nz-icon nzType="plus"></i>
-    IQC Request
-  </button>
+    <dxo-lookup
+      [dataSource]="[
+        { status: 1, label: 'Chờ xử lý'},
+        { status: 2, label: 'Đang xử lý'},
+        { status: 3, label: 'Đã xử lý'}
+      ]"
+      displayExpr="label"
+      valueExpr="status"
+    >
+    </dxo-lookup>
+  </dxi-column>
 
-  <button
-    nz-button
-    *nzSpaceItem
-    nzType="default"
-    (click)="openIqcRequestCreateSortingModal('sorting')"
+  <dxi-column
+    dataField="requestedByName"
+    caption="Người request"
+  ></dxi-column>
+
+  <dxi-column
+    dataField="createdAt"
+    caption="Ngày tạo"
+    dataType="date"
+    format="yyyy-MM-dd HH:mm"
+  ></dxi-column>
+
+  <dxi-column
+    dataField="remark"
+    caption="Ghi chú"
+  ></dxi-column>
+
+  <dxi-column
+    dataField="type"
+    caption="Request Type"
+  ></dxi-column>
+
+  <dxi-column
+    dataField="goodsType"
+    caption="Goods Type"
+  ></dxi-column>
+
+  <dxo-paging [pageSize]="20"></dxo-paging>
+  <dxo-pager
+    [showPageSizeSelector]="true"
+    [allowedPageSizes]="[10, 20, 50, 100]"
   >
-    <i nz-icon nzType="plus"></i>
-    IQC Request (Hàng sorting)
-  </button>
+  </dxo-pager>
+</dx-data-grid>
 
-  <button
-    nz-button
-    *nzSpaceItem
-    nzType="default"
-    routerLink="/admin/warehouse/iqc-recheck"
-  >
-    <i nz-icon nzType="plus"></i>
-    IQC Request (Hàng quá 6 tháng)
-  </button>
-</nz-space>
-<br />
-
-<nz-table
+<!-- <nz-table
   #iqcRequestTable
   nzSize="small"
   [nzBordered]="true"
@@ -164,7 +242,7 @@
       <td>{{ item.goodsType }}</td>
     </tr>
   </tbody>
-</nz-table>
+</nz-table> -->
 
 <nz-modal
   [(nzVisible)]="isOpenIqcRequestModal"
@@ -262,226 +340,108 @@
 <nz-modal
   [(nzVisible)]="isOpenIqcDetailModal"
   nzTitle="Thông tin kiểm tra chất lượng"
-  nzWidth="1200px"
+  nzWidth="100%"
 >
   <ng-container *nzModalContent>
-    <ng-container
-      *ngIf="
-        iqcRequestSelected.type == 'sorting';
-        then template1;
-        else template2
-      "
-    ></ng-container>
-
-    <!--Hàng sorting-->
-    <ng-template #template1>
-      <nz-divider nzText="Đánh giá chung" nzOrientation="left"></nz-divider>
-      <nz-table
-        #iqcDataSortingInfoTable
-        nzSize="small"
-        [nzBordered]="true"
-        [nzData]="iqcDataSortingInfo.masters"
-        [nzFrontPagination]="false"
-        nzTableLayout="fixed"
-      >
-        <thead>
-          <tr>
-            <th class="text-center" rowspan="2">Request No</th>
-            <th class="text-center" rowspan="2">Qty</th>
-            <th class="text-center" rowspan="2">Số kiện</th>
-            <th class="text-center" colspan="3">Kết quả IQC</th>
-            <th class="text-center" rowspan="2">Thông tin <br />NG hoặc CA</th>
-          </tr>
-          <tr>
-            <th class="text-center" rowspan="2">GP</th>
-            <th class="text-center" rowspan="2">Ngoại quan</th>
-            <th class="text-center" rowspan="2">Kích thước</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of iqcDataSortingInfoTable.data">
-            <td>{{ item.requestNo }}</td>
-            <td class="text-right">{{ item.qty | number : "1.0-3" }}</td>
-            <td class="text-right">{{ item.amount }}</td>
-            <td
-              [ngClass]="{
-                'text-center': true,
-                'text-danger': item.result1 == 'NG',
-                'text-success': item.result1 == 'OK',
-                'text-primary': item.result1 == 'CA'
-              }"
-              style="font-weight: bold"
-            >
-              {{ item.result1 }}
-            </td>
-            <td
-              [ngClass]="{
-                'text-center': true,
-                'text-danger': item.result2 == 'NG',
-                'text-success': item.result2 == 'OK',
-                'text-primary': item.result2 == 'CA'
-              }"
-              style="font-weight: bold"
-            >
-              {{ item.result2 }}
-            </td>
-            <td
-              [ngClass]="{
-                'text-center': true,
-                'text-danger': item.result3 == 'NG',
-                'text-success': item.result3 == 'OK',
-                'text-primary': item.result3 == 'CA'
-              }"
-              style="font-weight: bold"
-            >
-              {{ item.result3 }}
-            </td>
-            <td>{{ item.remark }}</td>
-          </tr>
-        </tbody>
-      </nz-table>
-
-      <nz-divider nzText="Chi tiết request" nzOrientation="left"></nz-divider>
-
-      <nz-table
-        #iqcDataSortingDetailInfoTable
-        nzSize="small"
-        [nzBordered]="true"
-        [nzData]="iqcDataSortingInfo.details"
-        [nzFrontPagination]="false"
-        nzTableLayout="fixed"
-      >
-      <thead>
-        <tr>
-          <th class="text-center" rowspan="2">Lot No</th>
-          <th class="text-center" rowspan="2">Qty</th>
-          <th class="text-center" colspan="3">Kết quả IQC</th>
-          <th class="text-center" rowspan="2">Thông tin <br />NG hoặc CA</th>
-        </tr>
-        <tr>
-          <th class="text-center" rowspan="2">GP</th>
-          <th class="text-center" rowspan="2">Ngoại quan</th>
-          <th class="text-center" rowspan="2">Kích thước</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of iqcDataSortingDetailInfoTable.data">
-          <td>{{ item.lotNo }}</td>
-          <td class="text-right">{{ item.qty | number : "1.0-3" }}</td>
-          <td
-            [ngClass]="{
-              'text-center': true,
-              'text-danger': item.result1 == 'NG',
-              'text-success': item.result1 == 'OK',
-              'text-primary': item.result1 == 'CA'
-            }"
-            style="font-weight: bold"
-          >
-            {{ item.result1 }}
-          </td>
-          <td
-            [ngClass]="{
-              'text-center': true,
-              'text-danger': item.result2 == 'NG',
-              'text-success': item.result2 == 'OK',
-              'text-primary': item.result2 == 'CA'
-            }"
-            style="font-weight: bold"
-          >
-            {{ item.result2 }}
-          </td>
-          <td
-            [ngClass]="{
-              'text-center': true,
-              'text-danger': item.result3 == 'NG',
-              'text-success': item.result3 == 'OK',
-              'text-primary': item.result3 == 'CA'
-            }"
-            style="font-weight: bold"
-          >
-            {{ item.result3 }}
-          </td>
-          <td>{{ item.remark }}</td>
-        </tr>
-      </tbody>
-      </nz-table>
-
-
-    </ng-template>
-
-    <!--Hàng không sorting-->
-    <ng-template #template2>
+    
       <label>Request No: </label
       ><span style="color: green">{{ iqcRequestSelected.requestNo }}</span>
       &nbsp; | &nbsp; <label>Invoice No: </label
       ><span style="color: green">{{ iqcRequestSelected.invoice }}</span>
-      <nz-table
-        #iqcRequestDetailsTable
-        nzSize="small"
-        [nzBordered]="true"
-        [nzData]="iqcRequestDetails"
-        [nzFrontPagination]="true"
-        nzTableLayout="fixed"
+
+      <dx-data-grid
+        *ngIf="iqcRequestSelected?.goodsType == 'INSIDE'"
+        [dataSource]="iqcRequestDetails"
+        [showColumnLines]="true"
+        [showRowLines]="true"
+        [showBorders]="true"
+        [allowColumnResizing]="true"
+        [columnAutoWidth]="true"
+        [rowAlternationEnabled]="true"
       >
-        <thead>
-          <tr>
-            <th class="text-center" rowspan="2">Model</th>
-            <th class="text-center" rowspan="2">Lot Group</th>
-            <th class="text-center" rowspan="2">Qty</th>
-            <th class="text-center" rowspan="2">Số kiện</th>
-            <th class="text-center" colspan="3">Kết quả IQC</th>
-            <th class="text-center" rowspan="2">Thông tin <br />NG hoặc CA</th>
-          </tr>
-          <tr>
-            <th class="text-center" rowspan="2">GP</th>
-            <th class="text-center" rowspan="2">Ngoại quan</th>
-            <th class="text-center" rowspan="2">Kích thước</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of iqcRequestDetailsTable.data">
-            <td>{{ item.model }}</td>
-            <td>{{ item.lotGroup }}</td>
-            <td class="text-right">{{ item.qty | number : "1.0-3" }}</td>
-            <td class="text-right">{{ item.amount }}</td>
-            <td
-              [ngClass]="{
-                'text-center': true,
-                'text-danger': item.result1 == 'NG',
-                'text-success': item.result1 == 'OK',
-                'text-primary': item.result1 == 'CA'
-              }"
-              style="font-weight: bold"
-            >
-              {{ item.result1 }}
-            </td>
-            <td
-              [ngClass]="{
-                'text-center': true,
-                'text-danger': item.result2 == 'NG',
-                'text-success': item.result2 == 'OK',
-                'text-primary': item.result2 == 'CA'
-              }"
-              style="font-weight: bold"
-            >
-              {{ item.result2 }}
-            </td>
-            <td
-              [ngClass]="{
-                'text-center': true,
-                'text-danger': item.result3 == 'NG',
-                'text-success': item.result3 == 'OK',
-                'text-primary': item.result3 == 'CA'
-              }"
-              style="font-weight: bold"
-            >
-              {{ item.result3 }}
-            </td>
-            <td>{{ item.remark }}</td>
-          </tr>
-        </tbody>
-      </nz-table>
-    </ng-template>
+        <dxo-filter-row [visible]="true"> </dxo-filter-row>
+        <dxi-column
+          dataField="model"
+          caption="Model"
+          [allowEditing]="false"
+        ></dxi-column>
+        <dxi-column
+          dataField="lotGroup"
+          caption="Lot Group"
+          [allowEditing]="false"
+        ></dxi-column>
+
+        <dxi-column
+          dataField="lotNo"
+          caption="LotNo"
+          [allowEditing]="false"
+        ></dxi-column>
+
+
+        <dxi-column caption="Kết quả IQC">
+          <dxi-column dataField="result1" caption="Ngoại quan"></dxi-column>
+          <dxi-column dataField="result2" caption="Kích thước"></dxi-column>
+        </dxi-column>
+        
+        <dxo-paging [pageSize]="10"></dxo-paging>
+        <dxo-pager
+          [showPageSizeSelector]="true"
+          [allowedPageSizes]="[10, 25, 50, 100]"
+        >
+        </dxo-pager>
+
+      </dx-data-grid>
+
+      <dx-data-grid
+        *ngIf="iqcRequestSelected?.goodsType != 'INSIDE'"
+        [dataSource]="iqcRequestDetails"
+        [showColumnLines]="true"
+        [showRowLines]="true"
+        [showBorders]="true"
+        [allowColumnResizing]="true"
+        [columnAutoWidth]="true"
+        [rowAlternationEnabled]="true"
+      >
+        <dxo-filter-row [visible]="true"> </dxo-filter-row>
+        <dxi-column
+          dataField="model"
+          caption="Model"
+          [allowEditing]="false"
+        ></dxi-column>
+        <dxi-column
+          dataField="lotGroup"
+          caption="Lot Group"
+          [allowEditing]="false"
+        ></dxi-column>
+
+        <dxi-column
+          dataField="lotNo"
+          caption="LotNo"
+          [allowEditing]="false"
+        ></dxi-column>
+
+        <dxi-column caption="Kết quả IQC">
+          <dxi-column dataField="result1" caption="GP"></dxi-column>
+          <dxi-column dataField="result2" caption="Ngoại quan"></dxi-column>
+          <dxi-column dataField="result3" caption="Kích thước"></dxi-column>
+        </dxi-column>
+        
+        <dxo-paging [pageSize]="10"></dxo-paging>
+        <dxo-pager
+          [showPageSizeSelector]="true"
+          [allowedPageSizes]="[10, 25, 50, 100]"
+        >
+        </dxo-pager>
+
+      </dx-data-grid>
+
+
+
+
+
+
+
+
   </ng-container>
   <ng-template [nzModalFooter]>
     <button
@@ -494,71 +454,3 @@
   </ng-template>
 </nz-modal>
 
-<nz-modal
-  [(nzVisible)]="isOpenIqcRequestCreateSortingModal"
-  nzTitle="Tạo request IQC hàng sorting / hàng quá 6 tháng"
-  nzWidth="900px"
->
-  <ng-container *nzModalContent>
-    <!-- <span style="font-style: italic; color: red"
-      >* Lưu ý: scan can các hộp cùng Lot Group nhé</span
-    > -->
-    <table id="scanTbl">
-      <tbody>
-        <tr>
-          <td style="width: 15%">
-            <label style="font-weight: bold">Mã QR code</label>
-          </td>
-          <td>
-            <input
-              #qrIpt
-              nz-input
-              placeholder="Scan mã QR code"
-              (keydown.enter)="scanLabel($event)"
-              (click)="qrIpt.select()"
-              autocomplete="off"
-            />
-          </td>
-          <td style="width: 15%">
-            <label>Số lượng</label> : {{ this.labelScannedSet.size }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <br />
-    <nz-table
-      #basicTable
-      [nzData]="labelScannedArr"
-      [nzSize]="'small'"
-      nzBordered
-    >
-      <thead>
-        <tr>
-          <th style="width: 90%">Lot No</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let data of basicTable.data">
-          <td>{{ data }}</td>
-          <td style="text-align: center; color: red">
-            <a style="color: red" (click)="deleteLabelScanned(data)">Xóa</a>
-          </td>
-        </tr>
-      </tbody>
-    </nz-table>
-  </ng-container>
-
-  <ng-template [nzModalFooter]>
-    <button
-      nz-button
-      nzType="default"
-      (click)="closeIqcRequestCreateSortingModal()"
-    >
-      Đóng
-    </button>
-    <button nz-button nzType="primary" (click)="createIqcSortingRequest()">
-      Tạo request
-    </button>
-  </ng-template>
-</nz-modal>
