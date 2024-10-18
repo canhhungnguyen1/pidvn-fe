@@ -8,6 +8,7 @@ import { ProjectActivityDto } from '../models/ProjectActivityDto';
 import { ProcessDto } from '../models/ProcessDto';
 import { DxFileUploaderComponent } from 'devextreme-angular';
 import { ProcessRecordDto } from '../models/ProcessRecordDto';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-ie-dc-project-detail',
@@ -24,7 +25,8 @@ export class IeDcProjectDetailComponent implements OnInit {
   constructor(
     private drawingControlSvc: DrawingControlService,
     private activatedRoute: ActivatedRoute,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit() {
@@ -212,6 +214,7 @@ export class IeDcProjectDetailComponent implements OnInit {
   }
 
 
+  pdfSrc: any;
   previewDrawingFile(event: any, isPreview: boolean) {
     
       let drawingNo = event.data.drawingNo;
@@ -221,15 +224,16 @@ export class IeDcProjectDetailComponent implements OnInit {
 
       this.drawingControlSvc.previewDrawingFile(params, this.project.controlNo).subscribe((response) => {
         let file = new Blob([response], { type: 'application/pdf' });
-        let fileURL = URL.createObjectURL(file);
+        let fileURL = window.URL.createObjectURL(file);
         let fileName = `${drawingNo}.pdf`;
-
-        
 
         // Open the file in a new window
 
         if (isPreview) {
-          window.open(fileURL);
+          // window.open(fileURL);
+          this.pdfSrc = this.sanitizer.bypassSecurityTrustResourceUrl(fileURL);
+          console.log('this.pdfSrc: ', this.pdfSrc);
+          
           return
         }
 
@@ -305,5 +309,10 @@ export class IeDcProjectDetailComponent implements OnInit {
   updateProcessRecordV2(event: any) {
     console.log(event);
     
+  }
+
+  closeProcessModal() {
+    this.pdfSrc = null
+    this.isOpenProcessModal = false
   }
 }
