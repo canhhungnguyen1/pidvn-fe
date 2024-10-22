@@ -126,6 +126,10 @@ const routes: Routes = [
       {
         path: 'project-management',
         loadChildren: () => import('./project-management/project-management.module').then(m => m.ProjectManagementModule)
+      },
+      {
+        path: 'iqc',
+        loadChildren: () => import('./iqc/iqc.module').then(m => m.IqcModule)
       }
     ],
   },
