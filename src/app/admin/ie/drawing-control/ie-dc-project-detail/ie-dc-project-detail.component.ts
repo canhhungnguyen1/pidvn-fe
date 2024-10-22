@@ -255,9 +255,27 @@ export class IeDcProjectDetailComponent implements OnInit {
 
   }
 
-  openProjectActivityModal() {
-    this.projectActivity = new ProjectActivityDto();
+  openProjectActivityModal(event: any) {
+
+    console.log(event);
+    
+
+    if (!event) {
+      this.projectActivity = new ProjectActivityDto();
+      this.isOpenProjectActivityModal = true
+      return
+    }
+
+
+    
+    this.projectActivity = event.data
+
+    console.log('AAA: ',this.projectActivity);
+    
     this.isOpenProjectActivityModal = true
+
+
+    
   }
 
 
