@@ -7,6 +7,9 @@ import { ActivatedRoute } from '@angular/router';
 import { DxDataGridComponent } from 'devextreme-angular';
 import { IqcRequestDto } from '../models/IqcRequestDto';
 import { EvaluateDto } from '../models/EvaluateDto';
+import { Workbook } from 'exceljs';
+import * as saveAs from 'file-saver';
+import { exportDataGrid } from 'devextreme/excel_exporter';
 
 @Component({
   selector: 'app-iqc-request-detail',
@@ -110,6 +113,23 @@ export class IqcRequestDetailComponent implements OnInit {
     )
     
     
+  }
+
+
+  onExportClient(event: any) {
+    console.log(event);
+    
+    const workbook = new Workbook();    
+        const worksheet = workbook.addWorksheet('Main sheet');
+        exportDataGrid({
+            component: event.component,
+            worksheet: worksheet
+        }).then(function() {
+            workbook.xlsx.writeBuffer()
+                .then(function(buffer: BlobPart) {
+                    saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'IQC-DATA.xlsx');
+                });
+        });
   }
 
 }
