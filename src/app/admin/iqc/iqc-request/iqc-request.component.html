@@ -26,6 +26,7 @@
           nz-tooltip
           [nzTooltipTitle]="'Tạo request IQC cho hàng mua ngoài'"
           [nzTooltipColor]="'blue'"
+          (click)="openIqcRequestOutSideModal()"
         >
           <span nz-icon nzType="plus"></span>
           IQC REQUEST (OUTSIDE)
@@ -83,6 +84,11 @@
     [visible]="true"
   ></dxi-column>
   <dxi-column
+    dataField="slipNo"
+    caption="SlipNo"
+    [visible]="true"
+  ></dxi-column>
+  <dxi-column
     dataField="invoice"
     caption="Invoice"
     [visible]="true"
@@ -110,7 +116,7 @@
     [visible]="true"
   ></dxi-column>
   <dxi-column
-    dataField="requestType"
+    dataField="type"
     caption="Type"
     [visible]="true"
   ></dxi-column>
@@ -138,3 +144,76 @@
   >
   </dxo-pager>
 </dx-data-grid>
+
+<nz-modal
+  [(nzVisible)]="isOpenIqcRequestOutSideModal"
+  nzTitle="Tạo request IQC (OUTSIDE)"
+>
+  <ng-container *nzModalContent>
+    <nz-table
+      nzBordered
+      [nzData]="['']"
+      [nzFrontPagination]="false"
+      nzSize="small"
+    >
+      <tbody>
+        <tr>
+          <td style="font-weight: bold">
+            Slip No <span style="color: red">*</span>
+          </td>
+          <td>
+            <input nz-input [(ngModel)]="iqcRequest.slipNo" readonly />
+          </td>
+        </tr>
+        <tr>
+          <td style="font-weight: bold">
+            Invoice <span style="color: red">*</span>
+          </td>
+          <td>
+            <nz-select
+              nzShowSearch
+              nzAllowClear
+              nzPlaceHolder="Mã Invoice"
+              [(ngModel)]="iqcRequest.invoice"
+              (ngModelChange)="onSelectInvoice($event)"
+              style="width: 100%"
+            >
+              <nz-option
+                *ngFor="let item of purWhRecordDtos"
+                [nzValue]="item.invoice"
+                [nzLabel]="item.invoice"
+              >
+              </nz-option>
+            </nz-select>
+          </td>
+        </tr>
+        <tr>
+          <td style="font-weight: bold">
+            Supplier <span style="color: red">*</span>
+          </td>
+          <td>
+            <input
+              nz-input
+              placeholder="Nhà cung cấp"
+              [(ngModel)]="iqcRequest.supplier"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td style="font-weight: bold">Ghi chú</td>
+          <td>
+            <input
+              nz-input
+              placeholder="Ghi chú"
+              [(ngModel)]="iqcRequest.remark"
+            />
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
+  <ng-template [nzModalFooter]>
+    <button nz-button nzType="default" (click)="isOpenIqcRequestOutSideModal = false">Close</button>
+    <button nz-button nzType="primary" (click)="createIqcRequestOutSide()">Tạo request</button>
+  </ng-template>
+</nz-modal>

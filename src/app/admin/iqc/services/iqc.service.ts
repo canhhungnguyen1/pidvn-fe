@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { IqcRequestDto } from '../models/IqcRequestDto';
+import { IqcResultDto } from '../models/IqcResultDto';
 @Injectable({
   providedIn: 'root',
 })
@@ -15,5 +17,31 @@ export class IqcService {
       `${this.baseUrl}/IQC/IqcRequests`,
       searchParams
     );
+  }
+
+  public getIqcRequest(requestNo: any): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/IQC/IqcRequest/${requestNo}`);
+  }
+
+  public getSlipNo(): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/IQC/SlipNo`);
+  }
+
+  public createIqcRequest(iqcRequest: IqcRequestDto): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/IQC/IqcRequest`, iqcRequest);
+  }
+
+  public getIqcResults(requestNo: string): Observable<any> {
+    return this.httpClient.get(
+      `${this.baseUrl}/IQC/IqcResults?requestNo=${requestNo}`
+    );
+  }
+
+  public getIqcLevelOfControls(): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/IQC/IqcLevelOfControls`);
+  }
+
+  public evaluateLotNos(iqcResults: IqcResultDto []): Observable<any> { 
+    return this.httpClient.post(`${this.baseUrl}/IQC/EvaluateLotNos`, iqcResults);
   }
 }
