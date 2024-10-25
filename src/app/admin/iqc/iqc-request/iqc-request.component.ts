@@ -1,10 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 
 import { IqcRequestDto } from '../models/IqcRequestDto';
 import { IqcService } from '../services/iqc.service';
 import { PurWhRecordDto } from '../models/PurWhRecordDto';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { IqcResultDto } from '../models/IqcResultDto';
+import { DxSelectBoxTypes } from 'devextreme-angular/ui/select-box';
+import { DxDataGridComponent } from 'devextreme-angular';
+import { exportDataGrid } from 'devextreme/excel_exporter';
+import { Workbook } from 'exceljs';
+import * as saveAs from 'file-saver';
 
 @Component({
   selector: 'app-iqc-request',
@@ -12,6 +18,9 @@ import { JwtHelperService } from '@auth0/angular-jwt';
   styleUrl: './iqc-request.component.scss',
 })
 export class IqcRequestComponent implements OnInit {
+  @ViewChild(DxDataGridComponent, { static: false })
+  iqcDataGrid!: DxDataGridComponent;
+
   constructor(
     private toastr: ToastrService,
     private iqcSvc: IqcService,
@@ -21,8 +30,12 @@ export class IqcRequestComponent implements OnInit {
   iqcRequests!: IqcRequestDto[];
   purWhRecordDtos!: PurWhRecordDto[];
   iqcRequest!: IqcRequestDto;
+  iqcResults!: IqcResultDto[];
 
   isOpenIqcRequestOutSideModal: boolean = false;
+  isOpenIqcRequestDetailModal: boolean = false;
+
+  expandAll = true;
 
   ngOnInit(): void {
     let firstDayOfMonth = new Date(
@@ -92,8 +105,6 @@ export class IqcRequestComponent implements OnInit {
       localStorage.getItem('accessToken')?.toString()
     ).UserId;
 
-
-
     this.iqcRequest.type = 'N';
     this.iqcRequest.status = 1;
     this.iqcRequest.requestedBy = requestedBy;
@@ -111,5 +122,48 @@ export class IqcRequestComponent implements OnInit {
         this.isOpenIqcRequestOutSideModal = false;
       }
     );
+  }
+
+  openIqcRequestDetailModal(event: any) {
+    this.iqcResults = [];
+    this.iqcRequest = event;
+    this.isOpenIqcRequestDetailModal = true;
+
+    this.iqcSvc
+      .getIqcResults(this.iqcRequest.requestNo)
+      .subscribe((response) => {
+        this.iqcResults = response.result;
+      });
+  }
+
+  
+  toggleExpandAll() {
+    this.expandAll = !this.expandAll;
+    this.iqcDataGrid.instance.clearGrouping();
+    // this.iqcDataGrid.instance.columnOption(e.value, 'groupIndex', 0);
+  }
+
+  toggleGroupColumn(e: DxSelectBoxTypes.ValueChangedEvent) {
+    this.iqcDataGrid.instance.clearGrouping();
+    this.iqcDataGrid.instance.columnOption(e.value, 'groupIndex', 0);
+    // this.iqcDataGrid = this.getGroupCount(e.value);
+  }
+
+  onExportClient(event: any) {
+    console.log(event);
+
+    const workbook = new Workbook();
+    const worksheet = workbook.addWorksheet('Main sheet');
+    exportDataGrid({
+      component: event.component,
+      worksheet: worksheet,
+    }).then(function () {
+      workbook.xlsx.writeBuffer().then(function (buffer: BlobPart) {
+        saveAs(
+          new Blob([buffer], { type: 'application/octet-stream' }),
+          'IQC-DATA.xlsx'
+        );
+      });
+    });
   }
 }

@@ -79,15 +79,23 @@
   <dxo-export [enabled]="true"></dxo-export>
 
   <dxi-column
+    caption=""
+    cellTemplate="previewTemplate"
+    [fixed]="true"
+    fixedPosition="left"
+  ></dxi-column>
+  <div *dxTemplate="let item of 'previewTemplate'" style="text-align: center">
+    <a (click)="openIqcRequestDetailModal(item.data)"
+      ><span nz-icon nzType="eye" nzTheme="outline"></span
+    ></a>
+  </div>
+
+  <dxi-column
     dataField="requestNo"
     caption="Request No"
     [visible]="true"
   ></dxi-column>
-  <dxi-column
-    dataField="slipNo"
-    caption="SlipNo"
-    [visible]="true"
-  ></dxi-column>
+  <dxi-column dataField="slipNo" caption="SlipNo" [visible]="true"></dxi-column>
   <dxi-column
     dataField="invoice"
     caption="Invoice"
@@ -112,14 +120,10 @@
     dataField="createdAt"
     caption="Ngày tạo"
     dataType="date"
-    format="yyyy-MM-dd"
+    format="yyyy-MM-dd HH:mm"
     [visible]="true"
   ></dxi-column>
-  <dxi-column
-    dataField="type"
-    caption="Type"
-    [visible]="true"
-  ></dxi-column>
+  <dxi-column dataField="type" caption="Type" [visible]="true"></dxi-column>
 
   <dxi-column
     dataField="remark"
@@ -134,10 +138,10 @@
     fixedPosition="right"
   ></dxi-column>
   <div *dxTemplate="let item of 'actionTemplate'" style="text-align: center">
-    <a>Chi tiết</a>
+    <a>Đánh giá</a>
   </div>
 
-  <dxo-paging [pageSize]="20"></dxo-paging>
+  <dxo-paging [pageSize]="10"></dxo-paging>
   <dxo-pager
     [showPageSizeSelector]="true"
     [allowedPageSizes]="[10, 25, 50, 100]"
@@ -213,7 +217,175 @@
     </nz-table>
   </ng-container>
   <ng-template [nzModalFooter]>
-    <button nz-button nzType="default" (click)="isOpenIqcRequestOutSideModal = false">Close</button>
-    <button nz-button nzType="primary" (click)="createIqcRequestOutSide()">Tạo request</button>
+    <button
+      nz-button
+      nzType="default"
+      (click)="isOpenIqcRequestOutSideModal = false"
+    >
+      Close
+    </button>
+    <button nz-button nzType="primary" (click)="createIqcRequestOutSide()">
+      Tạo request
+    </button>
+  </ng-template>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="isOpenIqcRequestDetailModal"
+  [nzTitle]="'RequestNo: ' + iqcRequest?.requestNo"
+  nzWidth="100%"
+>
+  <ng-container *nzModalContent>
+    <dx-data-grid
+      #iqcDataGrid
+      keyExpr="id"
+      [dataSource]="iqcResults"
+      [showColumnLines]="true"
+      [showRowLines]="true"
+      [showBorders]="true"
+      [allowColumnResizing]="true"
+      [columnAutoWidth]="true"
+      [rowAlternationEnabled]="true"
+      (onExporting)="onExportClient($event)"
+    >
+      <dxo-grouping [autoExpandAll]="expandAll"></dxo-grouping>
+      <dxo-column-chooser
+        #columnChooser
+        [enabled]="true"
+        [mode]="'select'"
+        [title]="'Cột hiển thị'"
+      >
+      </dxo-column-chooser>
+      <dxo-load-panel [enabled]="true"></dxo-load-panel>
+      <dxo-export [enabled]="true"></dxo-export>
+
+      <dxo-toolbar>
+        <dxi-item location="before">
+          <div *dxTemplate>
+            <dx-button
+              [text]="this.expandAll ? 'Collapse All' : 'Expand All'"
+              width="136"
+              (onClick)="toggleExpandAll()"
+            >
+            </dx-button>
+          </div>
+        </dxi-item>
+        <dxi-item name="exportButton" location="after" />
+        <dxi-item name="columnChooserButton"></dxi-item>
+      </dxo-toolbar>
+
+      <dxo-filter-row [visible]="true"></dxo-filter-row>
+      <dxo-header-filter [visible]="true"></dxo-header-filter>
+
+      <dxi-column dataField="model" caption="Model" [visible]="true">
+        <dxo-header-filter [allowSelectAll]="false">
+          <dxo-search [enabled]="true"></dxo-search>
+        </dxo-header-filter>
+      </dxi-column>
+
+      <dxi-column
+        dataField="lotGroup"
+        caption="Lot Group"
+        [visible]="true"
+        [groupIndex]="0"
+      >
+        <dxo-header-filter [allowSelectAll]="false">
+          <dxo-search [enabled]="true"></dxo-search>
+        </dxo-header-filter>
+      </dxi-column>
+
+      <dxi-column
+        dataField="lotNo"
+        caption="LotNo"
+        [visible]="true"
+      ></dxi-column>
+      <dxi-column dataField="qty" caption="Qty" [visible]="true"></dxi-column>
+
+      <dxi-column caption="Kết quả IQC">
+        <dxi-column
+          dataField="result1"
+          caption="Ngoại Quan"
+          [visible]="true"
+        ></dxi-column>
+
+        <dxi-column
+          dataField="result2"
+          caption="Kích thước"
+          [visible]="true"
+        ></dxi-column>
+
+        <dxi-column
+          dataField="result3"
+          caption="GP"
+          [visible]="true"
+        ></dxi-column>
+      </dxi-column>
+
+      <dxi-column caption="Mức kiểm soát">
+        <dxi-column
+          dataField="levelOfControl1"
+          caption="Ngoại Quan"
+          [visible]="true"
+        ></dxi-column>
+        <dxi-column
+          dataField="levelOfControl2"
+          caption="Kích thước"
+          [visible]="true"
+        ></dxi-column>
+      </dxi-column>
+
+      <dxi-column
+        dataField="checkDate"
+        caption="Ngày đánh giá"
+        dataType="date"
+        format="yyyy-MM-dd"
+        [visible]="true"
+      ></dxi-column>
+      <dxi-column
+        dataField="checkUserName"
+        caption="Người đánh giá"
+        [visible]="true"
+      ></dxi-column>
+
+      <dxi-column
+        dataField="remark"
+        caption="Remark"
+        [visible]="true"
+      ></dxi-column>
+
+      <dxo-summary>
+        <dxi-group-item
+          column="lotGroup"
+          summaryType="count"
+          displayFormat="{0} boxes"
+        >
+        </dxi-group-item>
+        <dxi-group-item
+          column="qty"
+          summaryType="sum"
+          [showInGroupFooter]="false"
+          [alignByColumn]="true"
+          displayFormat="Total Qty: {0}"
+          valueFormat="#,##0"
+        >
+        </dxi-group-item>
+      </dxo-summary>
+
+      <dxo-paging [pageSize]="10"></dxo-paging>
+      <dxo-pager
+        [showPageSizeSelector]="true"
+        [allowedPageSizes]="[10, 25, 50, 100]"
+      >
+      </dxo-pager>
+    </dx-data-grid>
+  </ng-container>
+  <ng-template [nzModalFooter]>
+    <button
+      nz-button
+      nzType="default"
+      (click)="isOpenIqcRequestDetailModal = false"
+    >
+      Đóng
+    </button>
   </ng-template>
 </nz-modal>
