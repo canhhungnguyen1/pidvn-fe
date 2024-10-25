@@ -130,7 +130,7 @@
       fixedPosition="right"
     ></dxi-column>
     <div *dxTemplate="let item of 'actionTemplate'" style="text-align: center">
-      <a (click)="openModalEditSparePartRecord($event)">Sửa</a>
+      <a (click)="openModalEditSparePartRecord(item.data)">Sửa</a>
     </div>
 
     <dxo-summary>

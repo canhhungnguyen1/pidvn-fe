@@ -128,7 +128,7 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
 
   // Edit Spare Part record
   isOpenModalEditSparePartRecord: boolean = false;
-  sparePartRecordEdit: any;
+  sparePartRecordEdit: any = {};
 
   // Các biến liên quan đến type INPUT (Nhập kho)
   po: any;
@@ -352,8 +352,11 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
 
   // Edit SparePart record
   openModalEditSparePartRecord(item: any) {
+    console.log(item);
+    
+    this.sparePartRecordEdit = item;
     this.isOpenModalEditSparePartRecord = true;
-    this.sparePartRecordEdit = item.data;
+    
 
     console.log(this.sparePartRecordEdit);
   }
