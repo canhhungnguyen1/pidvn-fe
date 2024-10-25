@@ -31,6 +31,10 @@ export class IqcService {
     return this.httpClient.post(`${this.baseUrl}/IQC/IqcRequest`, iqcRequest);
   }
 
+  public updateIqcRequest(iqcRequest: IqcRequestDto): Observable<any> {
+    return this.httpClient.put(`${this.baseUrl}/IQC/IqcRequest`, iqcRequest);
+  }
+
   public getIqcResults(requestNo: string): Observable<any> {
     return this.httpClient.get(
       `${this.baseUrl}/IQC/IqcResults?requestNo=${requestNo}`

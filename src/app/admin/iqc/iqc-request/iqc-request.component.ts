@@ -11,6 +11,7 @@ import { DxDataGridComponent } from 'devextreme-angular';
 import { exportDataGrid } from 'devextreme/excel_exporter';
 import { Workbook } from 'exceljs';
 import * as saveAs from 'file-saver';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-iqc-request',
@@ -24,7 +25,8 @@ export class IqcRequestComponent implements OnInit {
   constructor(
     private toastr: ToastrService,
     private iqcSvc: IqcService,
-    private jwtHelperSvc: JwtHelperService
+    private jwtHelperSvc: JwtHelperService,
+    private router: Router
   ) {}
 
   iqcRequests!: IqcRequestDto[];
@@ -36,6 +38,7 @@ export class IqcRequestComponent implements OnInit {
   isOpenIqcRequestDetailModal: boolean = false;
 
   expandAll = true;
+  isLoading: boolean = false;
 
   ngOnInit(): void {
     let firstDayOfMonth = new Date(
@@ -97,6 +100,8 @@ export class IqcRequestComponent implements OnInit {
       return;
     }
 
+    this.isLoading = true;
+
     let requestedBy = this.jwtHelperSvc.decodeToken(
       localStorage.getItem('accessToken')?.toString()
     ).Username;
@@ -117,8 +122,10 @@ export class IqcRequestComponent implements OnInit {
         this.getIqcRequests();
         this.toastr.success('Tạo thành công', 'Success');
         this.isOpenIqcRequestOutSideModal = false;
+        this.isLoading = false;
       },
       (error) => {
+        this.isLoading = false;
         this.isOpenIqcRequestOutSideModal = false;
       }
     );
@@ -140,13 +147,6 @@ export class IqcRequestComponent implements OnInit {
   toggleExpandAll() {
     this.expandAll = !this.expandAll;
     this.iqcDataGrid.instance.clearGrouping();
-    // this.iqcDataGrid.instance.columnOption(e.value, 'groupIndex', 0);
-  }
-
-  toggleGroupColumn(e: DxSelectBoxTypes.ValueChangedEvent) {
-    this.iqcDataGrid.instance.clearGrouping();
-    this.iqcDataGrid.instance.columnOption(e.value, 'groupIndex', 0);
-    // this.iqcDataGrid = this.getGroupCount(e.value);
   }
 
   onExportClient(event: any) {
@@ -165,5 +165,28 @@ export class IqcRequestComponent implements OnInit {
         );
       });
     });
+  }
+
+
+  handleRequest(item: any) {
+
+
+    if (item.type === 'R') {
+      this.toastr.warning('Đang xử lý cho hàng Re-check','Warining')
+      return  
+    }
+
+    let request = {...item};
+    request.status = 2
+
+    this.iqcSvc.updateIqcRequest(request).subscribe(
+      response => {
+        this.getIqcRequests();
+      }
+    )
+  }
+
+  redirectIqcDetail(item: any) {
+    this.router.navigate(['admin/iqc/request', item.requestNo])
   }
 }

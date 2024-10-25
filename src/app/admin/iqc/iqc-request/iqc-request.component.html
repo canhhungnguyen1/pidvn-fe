@@ -123,7 +123,7 @@
     format="yyyy-MM-dd HH:mm"
     [visible]="true"
   ></dxi-column>
-  <dxi-column dataField="type" caption="Type" [visible]="true"></dxi-column>
+  <dxi-column dataField="typeName" caption="Type" [visible]="true"></dxi-column>
 
   <dxi-column
     dataField="remark"
@@ -138,7 +138,10 @@
     fixedPosition="right"
   ></dxi-column>
   <div *dxTemplate="let item of 'actionTemplate'" style="text-align: center">
-    <a>Đánh giá</a>
+    <button *ngIf="item.data.status == 1" nz-button nzType="default" (click)="handleRequest(item.data)">
+      Tiếp nhận
+    </button>
+    <a *ngIf="item.data.status != 1" nz-button nzType="link" (click)="redirectIqcDetail(item.data)">Đánh giá</a>
   </div>
 
   <dxo-paging [pageSize]="10"></dxo-paging>
@@ -224,7 +227,7 @@
     >
       Close
     </button>
-    <button nz-button nzType="primary" (click)="createIqcRequestOutSide()">
+    <button nz-button nzType="primary" (click)="createIqcRequestOutSide()" [nzLoading]="isLoading">
       Tạo request
     </button>
   </ng-template>

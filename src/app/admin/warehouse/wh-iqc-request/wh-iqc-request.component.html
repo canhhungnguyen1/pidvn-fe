@@ -79,7 +79,6 @@
   </nz-collapse-panel>
 </nz-collapse> -->
 
-
 <dx-data-grid
   #iqcRequestTable
   [dataSource]="iqcRequests"
@@ -103,16 +102,12 @@
           <i nz-icon nzType="plus"></i>
           IQC Request
         </button>
-      
-        <button
-          nz-button
-          *nzSpaceItem
-          nzType="default"
-        >
+
+        <button nz-button *nzSpaceItem nzType="default">
           <i nz-icon nzType="plus"></i>
           IQC Request (Hàng sorting)
         </button>
-      
+
         <button
           nz-button
           *nzSpaceItem
@@ -128,29 +123,17 @@
 
   <dxo-filter-row [visible]="true"></dxo-filter-row>
 
-  <dxi-column
-    dataField="requestNo"
-    caption="Request No"
-  ></dxi-column>
+  <dxi-column dataField="requestNo" caption="Request No"></dxi-column>
 
-  <dxi-column
-    dataField="invoice"
-    caption="Invoice"
-  ></dxi-column>
-  <dxi-column
-    dataField="supplier"
-    caption="Supplier"
-  ></dxi-column>
+  <dxi-column dataField="invoice" caption="Invoice"></dxi-column>
+  <dxi-column dataField="supplier" caption="Supplier"></dxi-column>
 
-  <dxi-column
-    dataField="status"
-    caption="IQC Status"
-  >
+  <dxi-column dataField="status" caption="IQC Status">
     <dxo-lookup
       [dataSource]="[
-        { status: 1, label: 'Chờ xử lý'},
-        { status: 2, label: 'Đang xử lý'},
-        { status: 3, label: 'Đã xử lý'}
+        { status: 1, label: 'Chờ xử lý' },
+        { status: 2, label: 'Đang xử lý' },
+        { status: 3, label: 'Đã xử lý' }
       ]"
       displayExpr="label"
       valueExpr="status"
@@ -158,10 +141,7 @@
     </dxo-lookup>
   </dxi-column>
 
-  <dxi-column
-    dataField="requestedByName"
-    caption="Người request"
-  ></dxi-column>
+  <dxi-column dataField="requestedByName" caption="Người request"></dxi-column>
 
   <dxi-column
     dataField="createdAt"
@@ -170,20 +150,11 @@
     format="yyyy-MM-dd HH:mm"
   ></dxi-column>
 
-  <dxi-column
-    dataField="remark"
-    caption="Ghi chú"
-  ></dxi-column>
+  <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
 
-  <dxi-column
-    dataField="type"
-    caption="Request Type"
-  ></dxi-column>
+  <dxi-column dataField="type" caption="Request Type"></dxi-column>
 
-  <dxi-column
-    dataField="goodsType"
-    caption="Goods Type"
-  ></dxi-column>
+  <dxi-column dataField="goodsType" caption="Goods Type"></dxi-column>
 
   <dxo-paging [pageSize]="20"></dxo-paging>
   <dxo-pager
@@ -343,105 +314,101 @@
   nzWidth="100%"
 >
   <ng-container *nzModalContent>
-    
-      <label>Request No: </label
-      ><span style="color: green">{{ iqcRequestSelected.requestNo }}</span>
-      &nbsp; | &nbsp; <label>Invoice No: </label
-      ><span style="color: green">{{ iqcRequestSelected.invoice }}</span>
+    <label>Request No: </label
+    ><span style="color: green">{{ iqcRequestSelected.requestNo }}</span> &nbsp;
+    | &nbsp; <label>Invoice No: </label
+    ><span style="color: green">{{ iqcRequestSelected.invoice }}</span>
 
-      <dx-data-grid
-        *ngIf="iqcRequestSelected?.goodsType == 'INSIDE'"
-        [dataSource]="iqcRequestDetails"
-        [showColumnLines]="true"
-        [showRowLines]="true"
-        [showBorders]="true"
-        [allowColumnResizing]="true"
-        [columnAutoWidth]="true"
-        [rowAlternationEnabled]="true"
+    <dx-data-grid
+      *ngIf="iqcRequestSelected?.goodsType == 'INSIDE'"
+      [dataSource]="iqcRequestDetails"
+      [showColumnLines]="true"
+      [showRowLines]="true"
+      [showBorders]="true"
+      [allowColumnResizing]="true"
+      [columnAutoWidth]="true"
+      [rowAlternationEnabled]="true"
+    >
+      <dxo-filter-row [visible]="true"> </dxo-filter-row>
+      <dxi-column
+        dataField="model"
+        caption="Model"
+        [allowEditing]="false"
+      ></dxi-column>
+      <dxi-column
+        dataField="lotGroup"
+        caption="Lot Group"
+        [allowEditing]="false"
+      ></dxi-column>
+
+      <dxi-column
+        dataField="lotNo"
+        caption="LotNo"
+        [allowEditing]="false"
+      ></dxi-column>
+
+      <dxi-column caption="Kết quả IQC">
+        <dxi-column dataField="result1" caption="Ngoại quan"></dxi-column>
+        <dxi-column dataField="result2" caption="Kích thước"></dxi-column>
+      </dxi-column>
+
+      <dxo-paging [pageSize]="10"></dxo-paging>
+      <dxo-pager
+        [showPageSizeSelector]="true"
+        [allowedPageSizes]="[10, 25, 50, 100]"
       >
-        <dxo-filter-row [visible]="true"> </dxo-filter-row>
-        <dxi-column
-          dataField="model"
-          caption="Model"
-          [allowEditing]="false"
-        ></dxi-column>
-        <dxi-column
-          dataField="lotGroup"
-          caption="Lot Group"
-          [allowEditing]="false"
-        ></dxi-column>
+      </dxo-pager>
+    </dx-data-grid>
 
-        <dxi-column
+    <dx-data-grid
+      *ngIf="iqcRequestSelected?.goodsType != 'INSIDE'"
+      [dataSource]="iqcRequestDetails"
+      [showColumnLines]="true"
+      [showRowLines]="true"
+      [showBorders]="true"
+      [allowColumnResizing]="true"
+      [columnAutoWidth]="true"
+      [rowAlternationEnabled]="true"
+    >
+      <dxo-filter-row [visible]="true"> </dxo-filter-row>
+      <dxi-column
+        dataField="model"
+        caption="Model"
+        [allowEditing]="false"
+      ></dxi-column>
+      <dxi-column
+        dataField="lotGroup"
+        caption="Lot Group"
+        [allowEditing]="false"
+      ></dxi-column>
+
+      <!-- <dxi-column
           dataField="lotNo"
           caption="LotNo"
           [allowEditing]="false"
-        ></dxi-column>
+        ></dxi-column> -->
 
+      <dxi-column
+        dataField="qty"
+        caption="Qty"
+        dataType="number"
+        format="#,##0"
+        [allowEditing]="false"
+      ></dxi-column>
 
-        <dxi-column caption="Kết quả IQC">
-          <dxi-column dataField="result1" caption="Ngoại quan"></dxi-column>
-          <dxi-column dataField="result2" caption="Kích thước"></dxi-column>
-        </dxi-column>
-        
-        <dxo-paging [pageSize]="10"></dxo-paging>
-        <dxo-pager
-          [showPageSizeSelector]="true"
-          [allowedPageSizes]="[10, 25, 50, 100]"
-        >
-        </dxo-pager>
+      <dxi-column caption="Kết quả IQC">
+        <dxi-column dataField="result1" caption="GP"></dxi-column>
+        <dxi-column dataField="result2" caption="Ngoại quan"></dxi-column>
+        <dxi-column dataField="result3" caption="Kích thước"></dxi-column>
+      </dxi-column>
 
-      </dx-data-grid>
-
-      <dx-data-grid
-        *ngIf="iqcRequestSelected?.goodsType != 'INSIDE'"
-        [dataSource]="iqcRequestDetails"
-        [showColumnLines]="true"
-        [showRowLines]="true"
-        [showBorders]="true"
-        [allowColumnResizing]="true"
-        [columnAutoWidth]="true"
-        [rowAlternationEnabled]="true"
+      <dxo-paging [pageSize]="10"></dxo-paging>
+      <dxo-pager
+        [showPageSizeSelector]="true"
+        [allowedPageSizes]="[10, 25, 50, 100]"
       >
-        <dxo-filter-row [visible]="true"> </dxo-filter-row>
-        <dxi-column
-          dataField="model"
-          caption="Model"
-          [allowEditing]="false"
-        ></dxi-column>
-        <dxi-column
-          dataField="lotGroup"
-          caption="Lot Group"
-          [allowEditing]="false"
-        ></dxi-column>
-
-        <dxi-column
-          dataField="lotNo"
-          caption="LotNo"
-          [allowEditing]="false"
-        ></dxi-column>
-
-        <dxi-column caption="Kết quả IQC">
-          <dxi-column dataField="result1" caption="GP"></dxi-column>
-          <dxi-column dataField="result2" caption="Ngoại quan"></dxi-column>
-          <dxi-column dataField="result3" caption="Kích thước"></dxi-column>
-        </dxi-column>
-        
-        <dxo-paging [pageSize]="10"></dxo-paging>
-        <dxo-pager
-          [showPageSizeSelector]="true"
-          [allowedPageSizes]="[10, 25, 50, 100]"
-        >
-        </dxo-pager>
-
-      </dx-data-grid>
-
-
-
-
-
-
-
-
+      </dxo-pager>
+    </dx-data-grid>
   </ng-container>
   <ng-template [nzModalFooter]>
     <button
@@ -453,4 +420,3 @@
     </button>
   </ng-template>
 </nz-modal>
-
