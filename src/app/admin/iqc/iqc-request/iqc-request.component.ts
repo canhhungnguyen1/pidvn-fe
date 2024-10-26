@@ -31,7 +31,7 @@ export class IqcRequestComponent implements OnInit {
 
   iqcRequests!: IqcRequestDto[];
   purWhRecordDtos!: PurWhRecordDto[];
-  iqcRequest!: IqcRequestDto;
+  iqcRequest: IqcRequestDto = new IqcRequestDto();
   iqcResults!: IqcResultDto[];
 
   isOpenIqcRequestOutSideModal: boolean = false;

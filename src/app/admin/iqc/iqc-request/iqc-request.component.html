@@ -124,6 +124,7 @@
     [visible]="true"
   ></dxi-column>
   <dxi-column dataField="typeName" caption="Type" [visible]="true"></dxi-column>
+  <dxi-column dataField="classified" caption="Classified" [visible]="true"></dxi-column>
 
   <dxi-column
     dataField="remark"
@@ -235,7 +236,7 @@
 
 <nz-modal
   [(nzVisible)]="isOpenIqcRequestDetailModal"
-  [nzTitle]="'RequestNo: ' + iqcRequest?.requestNo"
+  [nzTitle]="'RequestNo: ' + iqcRequest.requestNo"
   nzWidth="100%"
 >
   <ng-container *nzModalContent>
