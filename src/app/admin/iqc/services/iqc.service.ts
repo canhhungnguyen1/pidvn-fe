@@ -48,4 +48,10 @@ export class IqcService {
   public evaluateLotNos(iqcResults: IqcResultDto []): Observable<any> { 
     return this.httpClient.post(`${this.baseUrl}/IQC/EvaluateLotNos`, iqcResults);
   }
+
+
+  public getLotsInventory(): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/IQC/InventoryLots`);
+  }
+
 }

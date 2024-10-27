@@ -1,17 +1,16 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 
-import { IqcRequestDto } from '../models/IqcRequestDto';
-import { IqcService } from '../services/iqc.service';
-import { PurWhRecordDto } from '../models/PurWhRecordDto';
+import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { IqcResultDto } from '../models/IqcResultDto';
-import { DxSelectBoxTypes } from 'devextreme-angular/ui/select-box';
 import { DxDataGridComponent } from 'devextreme-angular';
 import { exportDataGrid } from 'devextreme/excel_exporter';
 import { Workbook } from 'exceljs';
 import * as saveAs from 'file-saver';
-import { Router } from '@angular/router';
+import { IqcRequestDto } from '../models/IqcRequestDto';
+import { IqcResultDto } from '../models/IqcResultDto';
+import { PurWhRecordDto } from '../models/PurWhRecordDto';
+import { IqcService } from '../services/iqc.service';
 
 @Component({
   selector: 'app-iqc-request',

@@ -1,3 +1,5 @@
+import { IqcResultDto } from "./IqcResultDto"
+
 export class IqcRequestDto {
     id!: number
     requestNo!: string
@@ -13,4 +15,5 @@ export class IqcRequestDto {
     createdAt!: Date
     updatedAt!: Date
     type!: string
+    iqcResults!: IqcResultDto []
 }

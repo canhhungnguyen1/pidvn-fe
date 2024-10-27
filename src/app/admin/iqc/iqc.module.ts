@@ -36,10 +36,11 @@ import {
 } from 'devextreme-angular';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { IqcRecheckComponent } from './iqc-recheck/iqc-recheck.component';
 
 
 @NgModule({
-  declarations: [IqcComponent, IqcRequestComponent, IqcRequestDetailComponent],
+  declarations: [IqcComponent, IqcRequestComponent, IqcRequestDetailComponent, IqcRecheckComponent],
   imports: [
     CommonModule,
     FormsModule,
