@@ -15,5 +15,8 @@ export class IqcRequestDto {
     createdAt!: Date
     updatedAt!: Date
     type!: string
+    classParam!: string | any
     iqcResults!: IqcResultDto []
+    lotGroups!: string [] 
+    lotNos!: string []
 }

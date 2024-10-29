@@ -1,20 +1,19 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
-import { IqcService } from '../services/iqc.service';
-import { JwtHelperService } from '@auth0/angular-jwt';
 import { Router } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { DxDataGridComponent } from 'devextreme-angular';
-import { IqcResultDto } from '../models/IqcResultDto';
+import { ToastrService } from 'ngx-toastr';
 import { IqcRequestDto } from '../models/IqcRequestDto';
+import { IqcResultDto } from '../models/IqcResultDto';
+import { IqcService } from '../services/iqc.service';
 
 @Component({
   selector: 'app-iqc-recheck',
   templateUrl: './iqc-recheck.component.html',
-  styleUrl: './iqc-recheck.component.scss'
+  styleUrl: './iqc-recheck.component.scss',
 })
 export class IqcRecheckComponent implements OnInit {
-
-  @ViewChild('pihStoreGrid') pihStoreGrid!: DxDataGridComponent;
+  @ViewChild('pihStoreDetailGrid') pihStoreDetailGrid!: DxDataGridComponent;
 
   constructor(
     private toastr: ToastrService,
@@ -24,24 +23,24 @@ export class IqcRecheckComponent implements OnInit {
   ) {}
 
   selectedRows: any;
-  iqcResults!: IqcResultDto []; 
-  isOpenCreateModalRequest: boolean = false
+  iqcResults!: IqcResultDto[];
+  isOpenCreateModalRequest: boolean = false;
   isLoading: boolean = false;
 
   ngOnInit(): void {
     this.getLotsInventory();
   }
 
-  pihStores!: []
-  iqcRequest: IqcRequestDto = new IqcRequestDto()
-
+  pihStoreDetails!: [];
+  pihStoreMasters!: [];
+  iqcResultPrepare!: any[];
+  iqcRequest: IqcRequestDto = new IqcRequestDto();
 
   getLotsInventory() {
-    this.iqcSvc.getLotsInventory().subscribe(
-      response => {
-        this.pihStores = response.result
-      }
-    )
+    this.iqcSvc.getLotsInventory().subscribe((response) => {
+      this.pihStoreDetails = response.result.details;
+      this.pihStoreMasters = response.result.masters;
+    });
   }
 
   onSelectionChanged(event: any) {
@@ -49,17 +48,49 @@ export class IqcRecheckComponent implements OnInit {
   }
 
   resetFiltersAndSorting() {
-    this.pihStoreGrid.instance.clearFilter();
-    this.pihStoreGrid.instance.clearSorting();
-    this.pihStoreGrid.instance.clearSelection()
+    this.pihStoreDetailGrid.instance.clearFilter();
+    this.pihStoreDetailGrid.instance.clearSorting();
+    this.pihStoreDetailGrid.instance.clearSelection();
   }
 
   openCreateModalRequest() {
-    console.log(this.selectedRows);
+    let classParams = new Set();
+    let lotGroups = new Array();
 
-    this.iqcRequest = new IqcRequestDto()
-    
-    this.isOpenCreateModalRequest = true
+    for (const item of this.selectedRows) {
+      classParams.add(item.classParam);
+      lotGroups.push(item.lotGroup);
+    }
+
+    console.log(lotGroups);
+
+    if (classParams.size >= 2) {
+      this.toastr.warning(
+        'Chỉ chọn 1 loại hàng cho 1 request (OUTSIDE hoặc PIH)',
+        'Warning'
+      );
+      return;
+    }
+
+    this.isLoading = true;
+
+    this.iqcRequest = new IqcRequestDto();
+    this.iqcRequest.classParam = classParams.values().next().value;
+
+    let searchParams = {
+      lotGroups: lotGroups,
+    };
+    this.iqcSvc.prepareDataCreateRequest(searchParams).subscribe(
+      (response) => {
+        console.log(response);
+        this.iqcResultPrepare = response.result;
+        this.isOpenCreateModalRequest = true;
+        this.isLoading = false;
+      },
+      (error) => {
+        this.isLoading = false;
+      }
+    );
   }
 
   closeCreateModalRequest() {
@@ -67,8 +98,14 @@ export class IqcRecheckComponent implements OnInit {
     this.isOpenCreateModalRequest = false;
   }
 
+  /**
+   * Thực hiện insert vào bảng iqc_result
+   */
   createRequest() {
-    
+    if (!this.iqcRequest.type) {
+      this.toastr.warning('Cần chọn loại Request', 'Warning');
+      return;
+    }
 
     let requestedBy = this.jwtHelperSvc.decodeToken(
       localStorage.getItem('accessToken')?.toString()
@@ -82,28 +119,42 @@ export class IqcRecheckComponent implements OnInit {
     this.iqcRequest.requestedBy = requestedBy;
     this.iqcRequest.requestedById = requestedById;
 
+    let lotNos = new Array();
 
-    let iqcResults = [...this.selectedRows];
-    
-    for (const item of iqcResults) {
-      item.qty = item.wh
+    for (const item of this.iqcResultPrepare) {
+      lotNos.push(item.lotNo);
     }
-    
-    this.iqcRequest.iqcResults = iqcResults
 
+    this.iqcRequest.lotNos = lotNos;
+
+    this.isLoading = true;
     this.iqcSvc.createIqcRequest(this.iqcRequest).subscribe(
       (response) => {
+        console.log(response);
         this.getLotsInventory();
-        this.toastr.success('Tạo thành công', 'Success');
-        this.isOpenCreateModalRequest = false;
         this.isLoading = false;
+        this.closeCreateModalRequest()
       },
       (error) => {
         this.isLoading = false;
         this.isOpenCreateModalRequest = false;
+        this.closeCreateModalRequest()
       }
     );
-    
-  }
 
+    //   this.iqcRequest.iqcResults = iqcResults;
+
+    //   this.iqcSvc.createIqcRequest(this.iqcRequest).subscribe(
+    //     (response) => {
+    //       this.getLotsInventory();
+    //       this.toastr.success('Tạo thành công', 'Success');
+    //       this.isOpenCreateModalRequest = false;
+    //       this.isLoading = false;
+    //     },
+    //     (error) => {
+    //       this.isLoading = false;
+    //       this.isOpenCreateModalRequest = false;
+    //     }
+    //   );
+  }
 }

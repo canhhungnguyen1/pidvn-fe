@@ -145,7 +145,13 @@
   </dxi-column>
 
   <dxi-column dataField="lotNo" caption="LotNo" [visible]="true"></dxi-column>
-  <dxi-column dataField="qty" caption="Qty" [visible]="true"></dxi-column>
+  <dxi-column
+    dataField="qty"
+    caption="Qty"
+    [visible]="true"
+    dataType="number"
+    format="#,##0.0"
+  ></dxi-column>
 
   <dxi-column caption="Kết quả IQC">
     <dxi-column

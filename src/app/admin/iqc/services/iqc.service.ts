@@ -54,4 +54,12 @@ export class IqcService {
     return this.httpClient.get(`${this.baseUrl}/IQC/InventoryLots`);
   }
 
+
+  public prepareDataCreateRequest(searchParams: any): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/IQC/PrepareDataCreateRequest`, searchParams);
+  }
+
+
+
+
 }

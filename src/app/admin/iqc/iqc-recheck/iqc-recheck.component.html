@@ -1,92 +1,194 @@
-<dx-data-grid
-  #pihStoreGrid
-  [dataSource]="pihStores"
-  [showColumnLines]="true"
-  [showRowLines]="true"
-  [showBorders]="true"
-  [allowColumnResizing]="true"
-  [columnAutoWidth]="true"
-  [rowAlternationEnabled]="true"
-  (onSelectionChanged)="onSelectionChanged($event)"
->
-  <dxo-selection
-    [selectAllMode]="'allPages'"
-    [showCheckBoxesMode]="'always'"
-    mode="multiple"
-  ></dxo-selection>
+<nz-tabset>
+  <nz-tab nzTitle="Danh sách theo LotGroup">
+    <dx-data-grid
+      #pihStoreDetailGrid
+      [dataSource]="pihStoreMasters"
+      [showColumnLines]="true"
+      [showRowLines]="true"
+      [showBorders]="true"
+      [allowColumnResizing]="true"
+      [columnAutoWidth]="true"
+      [rowAlternationEnabled]="true"
+      (onSelectionChanged)="onSelectionChanged($event)"
+    >
+      <dxo-selection
+        [selectAllMode]="'allPages'"
+        [showCheckBoxesMode]="'always'"
+        mode="multiple"
+      ></dxo-selection>
+      <dxo-column-chooser
+        #columnChooser
+        [enabled]="true"
+        [mode]="'select'"
+        [title]="'Cột hiển thị'"
+      >
+      </dxo-column-chooser>
+      <dxo-load-panel [enabled]="true"></dxo-load-panel>
+      <dxo-export [enabled]="true"></dxo-export>
 
-  <dxo-toolbar>
-    <dxi-item location="before">
-      <nz-space>
-        <button
-          *nzSpaceItem
-          nz-button
-          nzType="primary"
-          [disabled]="!selectedRows?.length"
-          (click)="openCreateModalRequest()"
-        >
-          <span nz-icon nzType="check-circle" nzTheme="outline"></span>
-          Tạo request
-        </button>
-      </nz-space>
-    </dxi-item>
-    <dxi-item location="after">
-      <div *dxTemplate>
-        <dx-button icon="refresh" (onClick)="resetFiltersAndSorting()">
-        </dx-button>
-      </div>
-    </dxi-item>
-    <dxi-item name="exportButton" location="after" />
-    <dxi-item name="columnChooserButton"></dxi-item>
-  </dxo-toolbar>
+      <dxo-toolbar>
+        <dxi-item location="before">
+          <button nz-button nzType="primary" (click)="openCreateModalRequest()" [nzLoading]="isLoading">
+            <span nz-icon nzType="plus"></span>
+            Tạo request
+          </button>
+        </dxi-item>
+        <dxi-item location="after">
+          <div *dxTemplate>
+            <dx-button icon="refresh" (onClick)="resetFiltersAndSorting()">
+            </dx-button>
+          </div>
+        </dxi-item>
+        <dxi-item name="exportButton" location="after" />
+        <dxi-item name="columnChooserButton"></dxi-item>
+      </dxo-toolbar>
 
-  <dxo-header-filter [visible]="true"></dxo-header-filter>
-  <dxo-filter-row [visible]="true"></dxo-filter-row>
-  <dxo-export [enabled]="true"></dxo-export>
+      <dxo-header-filter [visible]="true"></dxo-header-filter>
+      <dxo-filter-row [visible]="true"></dxo-filter-row>
+      <dxo-export [enabled]="true"></dxo-export>
 
-  <dxo-column-chooser
-    #columnChooser
-    [enabled]="true"
-    [mode]="'select'"
-    [title]="'Cột hiển thị'"
-  >
-  </dxo-column-chooser>
-  <dxi-column dataField="classified" caption="Classified" [visible]="true"></dxi-column>
-  <dxi-column dataField="model" caption="Model" [visible]="true"></dxi-column>
-  <dxi-column dataField="lotGroup" caption="Lot Group" [visible]="true">
-    <dxo-header-filter [allowSelectAll]="false">
-      <dxo-search [enabled]="true"></dxo-search>
-    </dxo-header-filter>
-  </dxi-column>
-  <dxi-column dataField="lotNo" caption="Lot No" [visible]="true"></dxi-column>
-  <dxi-column
-    dataField="wh"
-    caption="Tồn kho"
-    dataType="number"
-    format="#,##0.0"
-    [visible]="true"
-  ></dxi-column>
-  <dxi-column
-    dataField="iqcDate"
-    caption="Ngày IQC gần nhất"
-    dataType="date"
-    format="yyyy-MM-dd"
-    [visible]="true"
-    alignment="center"
-  ></dxi-column>
-  <dxi-column
-    dataField="daySinceIqc"
-    caption="Số ngày"
-    [visible]="true"
-  ></dxi-column>
+      <dxi-column
+        dataField="classParam"
+        caption="Class"
+        [visible]="true"
+      ></dxi-column>
+      <dxi-column
+        dataField="model"
+        caption="Model"
+        [visible]="true"
+      ></dxi-column>
 
-  <dxo-paging [pageSize]="10"></dxo-paging>
-  <dxo-pager
-    [showPageSizeSelector]="true"
-    [allowedPageSizes]="[10, 25, 50, 100]"
-  >
-  </dxo-pager>
-</dx-data-grid>
+      <dxi-column dataField="lotGroup" caption="Lot Group" [visible]="true">
+        <dxo-header-filter [allowSelectAll]="false">
+          <dxo-search [enabled]="true"></dxo-search>
+        </dxo-header-filter>
+      </dxi-column>
+
+      <dxi-column
+        dataField="wh"
+        caption="Tồn kho"
+        dataType="number"
+        format="#,##0.0"
+        [visible]="true"
+      ></dxi-column>
+
+      <dxi-column
+        dataField="iqcDate"
+        caption="Ngày IQC gần nhất"
+        dataType="date"
+        format="yyyy-MM-dd"
+        [visible]="true"
+        alignment="center"
+      ></dxi-column>
+      <dxi-column
+        dataField="daySinceIqc"
+        caption="Số ngày"
+        [visible]="true"
+      ></dxi-column>
+
+      <dxo-paging [pageSize]="10"></dxo-paging>
+      <dxo-pager
+        [showPageSizeSelector]="true"
+        [allowedPageSizes]="[10, 15, 20, 50, 100]"
+      >
+      </dxo-pager>
+    </dx-data-grid>
+  </nz-tab>
+  <nz-tab nzTitle="Danh sách chi tiết">
+    <dx-data-grid
+      #pihStoreDetailGrid
+      [dataSource]="pihStoreDetails"
+      [showColumnLines]="true"
+      [showRowLines]="true"
+      [showBorders]="true"
+      [allowColumnResizing]="true"
+      [columnAutoWidth]="true"
+      [rowAlternationEnabled]="true"
+    >
+      <dxo-load-panel [enabled]="true"></dxo-load-panel>
+      <dxo-toolbar>
+        <dxi-item location="after">
+          <div *dxTemplate>
+            <dx-button icon="refresh" (onClick)="resetFiltersAndSorting()">
+            </dx-button>
+          </div>
+        </dxi-item>
+        <dxi-item name="exportButton" location="after" />
+        <dxi-item name="columnChooserButton"></dxi-item>
+      </dxo-toolbar>
+
+      <dxo-header-filter [visible]="true"></dxo-header-filter>
+      <dxo-filter-row [visible]="true"></dxo-filter-row>
+      <dxo-export [enabled]="true"></dxo-export>
+
+      <dxo-column-chooser
+        #columnChooser
+        [enabled]="true"
+        [mode]="'select'"
+        [title]="'Cột hiển thị'"
+      >
+      </dxo-column-chooser>
+      <!-- <dxi-column dataField="classified" caption="Classified" [visible]="true"></dxi-column> -->
+      <dxi-column
+        dataField="classParam"
+        caption="Class"
+        [visible]="true"
+      ></dxi-column>
+      <dxi-column
+        dataField="model"
+        caption="Model"
+        [visible]="true"
+      ></dxi-column>
+
+      <dxi-column dataField="lotGroup" caption="Lot Group" [visible]="true">
+        <dxo-header-filter [allowSelectAll]="false">
+          <dxo-search [enabled]="true"></dxo-search>
+        </dxo-header-filter>
+      </dxi-column>
+
+      <dxi-column
+        dataField="lotNo"
+        caption="Lot No"
+        [visible]="true"
+      ></dxi-column>
+      <dxi-column
+        dataField="wh"
+        caption="Tồn kho"
+        dataType="number"
+        format="#,##0.0"
+        [visible]="true"
+      ></dxi-column>
+      <dxi-column
+        dataField="expiredDate"
+        caption="Ngày hết hạn"
+        [visible]="true"
+        dataType="date"
+        format="yyyy-MM-dd"
+        alignment="center"
+      ></dxi-column>
+      <dxi-column
+        dataField="iqcDate"
+        caption="Ngày IQC gần nhất"
+        dataType="date"
+        format="yyyy-MM-dd"
+        [visible]="true"
+        alignment="center"
+      ></dxi-column>
+      <dxi-column
+        dataField="daySinceIqc"
+        caption="Số ngày"
+        [visible]="true"
+      ></dxi-column>
+
+      <dxo-paging [pageSize]="10"></dxo-paging>
+      <dxo-pager
+        [showPageSizeSelector]="true"
+        [allowedPageSizes]="[10, 15, 20, 50, 100]"
+      >
+      </dxo-pager>
+    </dx-data-grid>
+  </nz-tab>
+</nz-tabset>
 
 <nz-modal
   [(nzVisible)]="isOpenCreateModalRequest"
@@ -95,7 +197,7 @@
 >
   <ng-container *nzModalContent>
     <dx-data-grid
-      [dataSource]="selectedRows"
+      [dataSource]="iqcResultPrepare"
       [showColumnLines]="true"
       [showRowLines]="true"
       [showBorders]="true"
@@ -103,18 +205,22 @@
       [columnAutoWidth]="true"
       [rowAlternationEnabled]="true"
     >
+      <dxo-header-filter [visible]="true"></dxo-header-filter>
+      <dxo-filter-row [visible]="true"></dxo-filter-row>
+      <dxo-export [enabled]="true"></dxo-export>
+
       <dxo-toolbar>
         <dxi-item location="before">
           <nz-space>
             <dx-select-box
-              label="Loại request"
+              label="Loại Request"
               labelLocation="left"
               showColonAfterLabel="true"
               [labelMode]="'static'"
               displayExpr="name"
               valueExpr="id"
               [dataSource]="[
-                { id: 'R', name: 'RECHECK (R)' },
+                { id: 'R', name: 'RECHECK (QUÁ 6 THÁNG (R))' },
                 { id: 'S', name: 'SORTING (S)' }
               ]"
               [showClearButton]="true"
@@ -145,12 +251,26 @@
         dataType="number"
         format="#,##0.0"
       ></dxi-column>
+
+      <dxo-paging [pageSize]="10"></dxo-paging>
+      <dxo-pager
+        [showPageSizeSelector]="true"
+        [allowedPageSizes]="[10, 15, 20, 50, 100]"
+      >
+      </dxo-pager>
     </dx-data-grid>
   </ng-container>
   <ng-template [nzModalFooter]>
     <button nz-button nzType="default" (click)="closeCreateModalRequest()">
       Đóng
     </button>
-    <button nz-button nzType="primary" (click)="createRequest()" [nzLoading]="isLoading">Tạo request</button>
+    <button
+      nz-button
+      nzType="primary"
+      (click)="createRequest()"
+      [nzLoading]="isLoading"
+    >
+      Tạo request
+    </button>
   </ng-template>
 </nz-modal>
