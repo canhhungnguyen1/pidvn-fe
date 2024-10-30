@@ -38,7 +38,8 @@
           nz-tooltip
           [nzTooltipTitle]="'Tạo request IQC cho hàng SORTING hoặc Re-Check (Hàng quá 6 tháng)'"
           [nzTooltipColor]="'blue'"
-          routerLink="/admin/iqc/re-check"
+          (click)="redirectIqcReCheck()"
+          
         >
           <span nz-icon nzType="plus"></span>
           IQC REQUEST (RECHECK)
@@ -113,7 +114,7 @@
     format="yyyy-MM-dd HH:mm"
     [visible]="true"
   ></dxi-column>
-  <dxi-column dataField="typeName" caption="Type" [visible]="true"></dxi-column>
+  <dxi-column dataField="type" caption="Type" [visible]="true"></dxi-column>
   <dxi-column
     dataField="classParam"
     caption="Class"

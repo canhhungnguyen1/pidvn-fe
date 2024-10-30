@@ -21,12 +21,18 @@ export class IqcRequestComponent implements OnInit {
   @ViewChild(DxDataGridComponent, { static: false })
   iqcDataGrid!: DxDataGridComponent;
 
+  jwt: any;
+
   constructor(
     private toastr: ToastrService,
     private iqcSvc: IqcService,
     private jwtHelperSvc: JwtHelperService,
     private router: Router
-  ) {}
+  ) {
+    this.jwt = this.jwtHelperSvc.decodeToken(
+      localStorage.getItem('accessToken')?.toString()
+    );
+  }
 
   iqcRequests!: IqcRequestDto[];
   purWhRecordDtos!: PurWhRecordDto[];
@@ -69,8 +75,24 @@ export class IqcRequestComponent implements OnInit {
   }
 
   openIqcRequestOutSideModal() {
+    // Check Role
+    let userRoles = this.jwt.Roles;
+    if (!userRoles.includes('Pur WH 1')) {
+      this.toastr.warning('Bạn không có quyển tạo Request', 'Warning');
+      return;
+    }
     this.iqcRequest = new IqcRequestDto();
     this.isOpenIqcRequestOutSideModal = true;
+  }
+
+  redirectIqcReCheck() {
+    let userRoles = this.jwt.Roles;
+    if (!userRoles.includes('Pur WH 1')) {
+      this.toastr.warning('Bạn không có quyển tạo Request', 'Warning');
+      return;
+    }
+
+    this.router.navigate(['/admin/iqc/re-check']);
   }
 
   /**
@@ -142,7 +164,6 @@ export class IqcRequestComponent implements OnInit {
       });
   }
 
-  
   toggleExpandAll() {
     this.expandAll = !this.expandAll;
     this.iqcDataGrid.instance.clearGrouping();
@@ -166,26 +187,34 @@ export class IqcRequestComponent implements OnInit {
     });
   }
 
-
   handleRequest(item: any) {
+    let userRoles = this.jwt.Roles;
 
+    if (userRoles.includes('PIH QA 2') || userRoles.includes('PIH QA-IQC')) {
+      if (item.classParam == 'O' || item.classParam == null) {
+        let request = { ...item };
+        request.status = 2;
 
-    if (item.type === 'R') {
-      this.toastr.warning('Đang xử lý cho hàng Re-check','Warining')
-      return  
-    }
+        this.iqcSvc.updateIqcRequest(request).subscribe((response) => {
+          this.getIqcRequests();
+        });
 
-    let request = {...item};
-    request.status = 2
-
-    this.iqcSvc.updateIqcRequest(request).subscribe(
-      response => {
-        this.getIqcRequests();
+        return;
       }
-    )
+      this.toastr.warning('Chỉ đánh giá IQC cho hàng OUTSIDE', 'Warining');
+      return;
+    }
+    this.toastr.warning('Bạn không có quyền truy cập', 'Warning');
+    return;
   }
 
   redirectIqcDetail(item: any) {
-    this.router.navigate(['admin/iqc/request', item.requestNo])
+    let userRoles = this.jwt.Roles;
+    if (userRoles.includes('PIH QA 2') || userRoles.includes('PIH QA-IQC')) {
+      this.router.navigate(['admin/iqc/request', item.requestNo]);
+    }
+
+    this.toastr.warning('Bạn không có quyền truy cập', 'Warning');
+    return;
   }
 }

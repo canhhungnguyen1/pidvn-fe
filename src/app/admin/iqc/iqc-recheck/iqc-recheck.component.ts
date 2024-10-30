@@ -13,7 +13,10 @@ import { IqcService } from '../services/iqc.service';
   styleUrl: './iqc-recheck.component.scss',
 })
 export class IqcRecheckComponent implements OnInit {
+  @ViewChild('pihStoreMasterGrid') pihStoreMasterGrid!: DxDataGridComponent;
   @ViewChild('pihStoreDetailGrid') pihStoreDetailGrid!: DxDataGridComponent;
+
+  
 
   constructor(
     private toastr: ToastrService,
@@ -22,7 +25,7 @@ export class IqcRecheckComponent implements OnInit {
     private router: Router
   ) {}
 
-  selectedRows: any;
+  selectedRows: any = []
   iqcResults!: IqcResultDto[];
   isOpenCreateModalRequest: boolean = false;
   isLoading: boolean = false;
@@ -38,6 +41,8 @@ export class IqcRecheckComponent implements OnInit {
 
   getLotsInventory() {
     this.iqcSvc.getLotsInventory().subscribe((response) => {
+      console.log(response.result);
+      
       this.pihStoreDetails = response.result.details;
       this.pihStoreMasters = response.result.masters;
     });
@@ -48,6 +53,9 @@ export class IqcRecheckComponent implements OnInit {
   }
 
   resetFiltersAndSorting() {
+    this.pihStoreMasterGrid.instance.clearFilter();
+    this.pihStoreMasterGrid.instance.clearSorting();
+    this.pihStoreMasterGrid.instance.clearSelection();
     this.pihStoreDetailGrid.instance.clearFilter();
     this.pihStoreDetailGrid.instance.clearSorting();
     this.pihStoreDetailGrid.instance.clearSelection();
