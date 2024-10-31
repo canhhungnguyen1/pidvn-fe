@@ -212,6 +212,7 @@ export class IqcRequestComponent implements OnInit {
     let userRoles = this.jwt.Roles;
     if (userRoles.includes('PIH QA 2') || userRoles.includes('PIH QA-IQC')) {
       this.router.navigate(['admin/iqc/request', item.requestNo]);
+      return
     }
 
     this.toastr.warning('Bạn không có quyền truy cập', 'Warning');

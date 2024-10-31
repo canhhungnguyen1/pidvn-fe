@@ -306,6 +306,6 @@
     <button nz-button nzType="default" (click)="closeEvaluateModal()">
       Đóng
     </button>
-    <button nz-button nzType="primary" (click)="saveEvaluateData()">Lưu</button>
+    <button nz-button nzType="primary" (click)="saveEvaluateData()" [nzLoading]="isLoading">Lưu</button>
   </ng-template>
 </nz-modal>

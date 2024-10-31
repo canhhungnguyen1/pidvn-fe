@@ -33,6 +33,7 @@ export class IqcRequestDetailComponent implements OnInit {
   iqcLevelOfControls!: any [];
   evaluateData: EvaluateDto = new EvaluateDto();
   selectedRows: any;
+  isLoading: boolean = false
 
   ngOnInit(): void {
     this.getIqcRequest();
@@ -89,6 +90,7 @@ export class IqcRequestDetailComponent implements OnInit {
   }
 
   saveEvaluateData() {
+    this.isLoading = true
     let checkUser = this.jwtHelperSvc.decodeToken(
       localStorage.getItem('accessToken')?.toString()
     ).UserId;
@@ -106,6 +108,13 @@ export class IqcRequestDetailComponent implements OnInit {
 
     this.iqcSvc.evaluateLotNos(this.selectedRows).subscribe(
       response => {
+        this.isLoading = false
+        this.isOpenEvaluateModal = false
+        this.getIqcResults();
+        this.resetFiltersAndSorting();
+      },
+      error => {
+        this.isLoading = false
         this.isOpenEvaluateModal = false
         this.getIqcResults();
         this.resetFiltersAndSorting();
