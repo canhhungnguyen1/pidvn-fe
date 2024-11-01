@@ -38,14 +38,14 @@ export class IqcRequestComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    
-  }
-
-  ngOnInit(): void {
     const previousMonthDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
     this.searchParams.dateRange = [previousMonthDate, new Date()];
     this.getIqcRequests();
     this.getSlipNo();
+  }
+
+  ngOnInit(): void {
+    
   }
 
   iqcRequests!: IqcRequestDto[];
