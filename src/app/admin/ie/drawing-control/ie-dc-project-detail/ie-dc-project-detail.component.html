@@ -67,7 +67,6 @@
               [columnAutoWidth]="true"
               (onRowClick)="onClickProcess($event)"
             >
-     
               <dxi-column
                 dataField="processName"
                 caption="Process Name"
@@ -114,9 +113,17 @@
                         'w3-green': item.data.progressPercent >= 60
                       }"
                       class="w3-container w3-round-small"
-                      [style.width]="item.data.progressPercent == null ? '0%' : item.data.progressPercent + '%'"
+                      [style.width]="
+                        item.data.progressPercent == null
+                          ? '0%'
+                          : item.data.progressPercent + '%'
+                      "
                     >
-                      {{ item.data.progressPercent == null ? 0 : item.data.progressPercent }}%
+                      {{
+                        item.data.progressPercent == null
+                          ? 0
+                          : item.data.progressPercent
+                      }}%
                     </div>
                   </div>
                 </div>
@@ -181,7 +188,10 @@
             [fixed]="true"
             fixedPosition="right"
           ></dxi-column>
-          <div *dxTemplate="let item of 'actionTemplate'" style="text-align: center">
+          <div
+            *dxTemplate="let item of 'actionTemplate'"
+            style="text-align: center"
+          >
             <a (click)="openProjectActivityModal(item)">Sửa</a>
           </div>
 
@@ -305,8 +315,8 @@
                 useNative: false,
                 showScrollbar: 'always'
               }"
-              
             >
+              <dxo-header-filter [visible]="true"></dxo-header-filter>
               <dxo-filter-row [visible]="true"></dxo-filter-row>
               <dxo-search-panel [visible]="true"></dxo-search-panel>
               <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
@@ -359,34 +369,49 @@
                 </dxo-popup>
               </dxo-editing>
 
-              <dxi-column
-                dataField="level"
-                caption="Level"
-              ></dxi-column>
+              <dxi-column dataField="level" caption="Level"></dxi-column>
 
               <dxi-column
                 caption="File"
                 cellTemplate="fileTemplate"
-
               ></dxi-column>
-              <div *dxTemplate="let item of 'fileTemplate'" style="text-align: center">
+              <div
+                *dxTemplate="let item of 'fileTemplate'"
+                style="text-align: center"
+              >
                 <div *ngIf="item.data.hasFile">
                   <nz-space>
-                    <a *nzSpaceItem nz-tooltip nzTooltipTitle="View"><span  nz-icon nzType="eye" nzTheme="outline" (click)="previewDrawingFile(item, true)" alt="Xem trước"></span></a>
-                    <a *nzSpaceItem nz-tooltip nzTooltipTitle="Download"><span  nz-icon nzType="download" nzTheme="outline" (click)="previewDrawingFile(item, false)"></span></a>
+                    <a *nzSpaceItem
+                      ><span
+                        nz-icon
+                        nzType="eye"
+                        nzTheme="outline"
+                        (click)="previewDrawingFile(item, true)"
+                        alt="Xem trước"
+                      ></span
+                    ></a>
+                    <a *nzSpaceItem
+                      ><span
+                        nz-icon
+                        nzType="cloud-download"
+                        nzTheme="outline"
+                        (click)="previewDrawingFile(item, false)"
+                      ></span
+                    ></a>
                   </nz-space>
                 </div>
-                
               </div>
-              <dxi-column
-                dataField="drawingNo"
-                caption="Drawing No"
-              ></dxi-column>
-              <dxi-column
-                dataField="name"
-                caption="Drawing name"
-              ></dxi-column>
-              
+              <dxi-column dataField="drawingNo" caption="Drawing No">
+                <dxo-header-filter [allowSelectAll]="false">
+                  <dxo-search [enabled]="true"></dxo-search>
+                </dxo-header-filter>
+              </dxi-column>
+              <dxi-column dataField="name" caption="Drawing name">
+                <dxo-header-filter [allowSelectAll]="false">
+                  <dxo-search [enabled]="true"></dxo-search>
+                </dxo-header-filter>
+              </dxi-column>
+
               <dxi-column dataField="qty" caption="Qty"></dxi-column>
 
               <dxi-column dataField="unit" caption="Unit"></dxi-column>
@@ -406,7 +431,7 @@
               ></dxi-column>
             </dx-tree-list>
           </td>
-          <td style="width: 40%;" *ngIf="pdfSrc">
+          <td style="width: 40%" *ngIf="pdfSrc">
             <iframe [src]="pdfSrc" width="100%" height="600px"></iframe>
           </td>
         </tr>
@@ -445,9 +470,7 @@
           </td>
         </tr>
         <tr>
-          <td>
-            <label>Date</label><span style="color: red">*</span>
-          </td>
+          <td><label>Date</label><span style="color: red">*</span></td>
           <td>
             <nz-date-picker
               [(ngModel)]="projectActivity.date"
@@ -514,14 +537,15 @@
     </dx-file-uploader>
   </ng-container>
   <div *nzModalFooter>
-    <button nz-button nzType="primary" (click)="uploadFile()" [nzLoading]="isLoading">
-      Save
-    </button>
     <button
       nz-button
-      nzType="default"
-      (click)="isOpenUploadFileModal = false"
+      nzType="primary"
+      (click)="uploadFile()"
+      [nzLoading]="isLoading"
     >
+      Save
+    </button>
+    <button nz-button nzType="default" (click)="isOpenUploadFileModal = false">
       Đóng
     </button>
   </div>

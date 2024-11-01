@@ -46,13 +46,14 @@ export class IqcRequestComponent implements OnInit {
   isLoading: boolean = false;
 
   ngOnInit(): void {
-    let firstDayOfMonth = new Date(
-      new Date().getFullYear(),
-      new Date().getMonth(),
-      1
-    );
+    // let firstDayOfMonth = new Date(
+    //   new Date().getFullYear(),
+    //   new Date().getMonth(),
+    //   1
+    // );
+    const previousMonthDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
 
-    this.searchParams.dateRange = [firstDayOfMonth, new Date()];
+    this.searchParams.dateRange = [previousMonthDate, new Date()];
 
     this.getIqcRequests();
     this.getSlipNo();
@@ -209,6 +210,7 @@ export class IqcRequestComponent implements OnInit {
   }
 
   redirectIqcDetail(item: any) {
+
     let userRoles = this.jwt.Roles;
     if (userRoles.includes('PIH QA 2') || userRoles.includes('PIH QA-IQC')) {
       this.router.navigate(['admin/iqc/request', item.requestNo]);
