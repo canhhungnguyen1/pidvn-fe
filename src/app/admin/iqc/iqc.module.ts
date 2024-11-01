@@ -40,6 +40,7 @@ import { IqcRecheckComponent } from './iqc-recheck/iqc-recheck.component';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 
 
+
 @NgModule({
   declarations: [IqcComponent, IqcRequestComponent, IqcRequestDetailComponent, IqcRecheckComponent],
   imports: [

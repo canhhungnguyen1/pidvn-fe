@@ -1,4 +1,5 @@
 <dx-data-grid
+  #iqcRequestGrid
   keyExpr="id"
   [dataSource]="iqcRequests"
   [showColumnLines]="true"
@@ -57,7 +58,7 @@
           [nzTooltipColor]="'blue'"
         >
         </nz-range-picker>
-        <button nz-button nzType="default">
+        <button nz-button nzType="default" (click)="getIqcRequests()">
           <span nz-icon nzType="search"></span>
         </button>
       </nz-space>

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 
 import { Router } from '@angular/router';
@@ -17,10 +17,13 @@ import { IqcService } from '../services/iqc.service';
   templateUrl: './iqc-request.component.html',
   styleUrl: './iqc-request.component.scss',
 })
-export class IqcRequestComponent implements OnInit {
+export class IqcRequestComponent implements OnInit, AfterViewInit {
+  @ViewChild(DxDataGridComponent, { static: false })
+  iqcRequestGrid!: DxDataGridComponent;
+
   @ViewChild(DxDataGridComponent, { static: false })
   iqcDataGrid!: DxDataGridComponent;
-
+  
   jwt: any;
 
   constructor(
@@ -34,6 +37,17 @@ export class IqcRequestComponent implements OnInit {
     );
   }
 
+  ngAfterViewInit(): void {
+    const previousMonthDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+    this.searchParams.dateRange = [previousMonthDate, new Date()];
+    this.getIqcRequests();
+    this.getSlipNo();
+  }
+
+  ngOnInit(): void {
+    
+  }
+
   iqcRequests!: IqcRequestDto[];
   purWhRecordDtos!: PurWhRecordDto[];
   iqcRequest: IqcRequestDto = new IqcRequestDto();
@@ -45,27 +59,21 @@ export class IqcRequestComponent implements OnInit {
   expandAll = true;
   isLoading: boolean = false;
 
-  ngOnInit(): void {
-    // let firstDayOfMonth = new Date(
-    //   new Date().getFullYear(),
-    //   new Date().getMonth(),
-    //   1
-    // );
-    const previousMonthDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
-
-    this.searchParams.dateRange = [previousMonthDate, new Date()];
-
-    this.getIqcRequests();
-    this.getSlipNo();
-  }
+  
 
   searchParams = {
     dateRange: [new Date(), new Date()],
   };
 
   getIqcRequests() {
+
+    this.iqcRequestGrid?.instance.beginCustomLoading(
+      `Đang load dữ liệu ...`
+    );
+
     this.iqcSvc.getIqcRequests(this.searchParams).subscribe((response) => {
       this.iqcRequests = response.result;
+      this.iqcRequestGrid.instance.endCustomLoading();
     });
   }
 
@@ -158,10 +166,15 @@ export class IqcRequestComponent implements OnInit {
     this.iqcRequest = event;
     this.isOpenIqcRequestDetailModal = true;
 
+    this.iqcDataGrid?.instance.beginCustomLoading(
+      `Đang load dữ liệu ...`
+    );
+
     this.iqcSvc
       .getIqcResults(this.iqcRequest.requestNo)
       .subscribe((response) => {
         this.iqcResults = response.result;
+        this.iqcDataGrid.instance.endCustomLoading();
       });
   }
 

@@ -1,7 +1,16 @@
 nz-select {
-    width: 100%;
+  width: 100%;
 }
 
 nz-table {
-    font-weight: bold;
+  font-weight: bold;
+}
+
+#level-of-control-search {
+  th,
+  td {
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+    padding: 5px;
+  }
 }

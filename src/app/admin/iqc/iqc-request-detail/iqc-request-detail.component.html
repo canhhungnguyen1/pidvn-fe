@@ -74,136 +74,360 @@
   </nz-collapse-panel>
 </nz-collapse>
 
-<dx-data-grid
-  #iqcDataGrid
-  keyExpr="id"
-  [dataSource]="iqcResults"
-  [showColumnLines]="true"
-  [showRowLines]="true"
-  [showBorders]="true"
-  [allowColumnResizing]="true"
-  [columnAutoWidth]="true"
-  [rowAlternationEnabled]="true"
-  (onSelectionChanged)="onSelectionChanged($event)"
-  (onExporting)="onExportClient($event)"
-  style="margin-top: 10px"
->
-  <dxo-selection
-    [selectAllMode]="'allPages'"
-    [showCheckBoxesMode]="'always'"
-    mode="multiple"
-  ></dxo-selection>
+<nz-tabset>
+  <nz-tab nzTitle="Đánh giá">
+    <dx-data-grid
+      #iqcDataGrid
+      keyExpr="id"
+      [dataSource]="iqcResults"
+      [showColumnLines]="true"
+      [showRowLines]="true"
+      [showBorders]="true"
+      [allowColumnResizing]="true"
+      [columnAutoWidth]="true"
+      [rowAlternationEnabled]="true"
+      (onSelectionChanged)="onSelectionChanged($event)"
+      (onExporting)="onExportClient($event)"
+    >
+      <dxo-selection
+        [selectAllMode]="'allPages'"
+        [showCheckBoxesMode]="'always'"
+        mode="multiple"
+      ></dxo-selection>
 
-  <dxo-filter-row [visible]="true"></dxo-filter-row>
-  <dxo-export [enabled]="true"></dxo-export>
+      <dxo-filter-row [visible]="true"></dxo-filter-row>
+      <dxo-export [enabled]="true"></dxo-export>
 
-  <dxo-column-chooser
-    #columnChooser
-    [enabled]="true"
-    [mode]="'select'"
-    [title]="'Cột hiển thị'"
-  >
-  </dxo-column-chooser>
+      <dxo-column-chooser
+        #columnChooser
+        [enabled]="true"
+        [mode]="'select'"
+        [title]="'Cột hiển thị'"
+      >
+      </dxo-column-chooser>
 
-  <dxo-header-filter [visible]="true"></dxo-header-filter>
+      <dxo-header-filter [visible]="true"></dxo-header-filter>
 
-  <dxo-toolbar>
-    <dxi-item location="before">
-      <nz-space>
-        <button
-          *nzSpaceItem
-          nz-button
-          nzType="primary"
-          [disabled]="!selectedRows?.length"
-          (click)="openEvaluateModal()"
+      <dxo-toolbar>
+        <dxi-item location="before">
+          <nz-space>
+            <button
+              *nzSpaceItem
+              nz-button
+              nzType="primary"
+              [disabled]="!selectedRows?.length"
+              (click)="openEvaluateModal()"
+            >
+              <span nz-icon nzType="check-circle" nzTheme="outline"></span>
+              Đánh giá
+            </button>
+            <button
+              *nzSpaceItem
+              nz-button
+              nzType="default"
+              (click)="openLevelOfControlModal()"
+            >
+              <span nz-icon nzType="control" nzTheme="outline"></span>
+              Mức kiểm soát
+            </button>
+          </nz-space>
+        </dxi-item>
+        <dxi-item location="after">
+          <div *dxTemplate>
+            <dx-button icon="refresh" (onClick)="resetFiltersAndSorting()">
+            </dx-button>
+          </div>
+        </dxi-item>
+        <dxi-item name="exportButton" location="after" />
+        <dxi-item name="columnChooserButton"></dxi-item>
+      </dxo-toolbar>
+
+      <dxi-column dataField="model" caption="Model" [visible]="true">
+        <dxo-header-filter [allowSelectAll]="false">
+          <dxo-search [enabled]="true"></dxo-search>
+        </dxo-header-filter>
+      </dxi-column>
+
+      <dxi-column
+        dataField="lotGroup"
+        caption="Lot Group"
+        [visible]="true"
+      >
+        <dxo-header-filter [allowSelectAll]="false">
+          <dxo-search [enabled]="true"></dxo-search>
+        </dxo-header-filter>
+      </dxi-column>
+
+      <dxi-column
+        dataField="lotNo"
+        caption="LotNo"
+        [visible]="true"
+      ></dxi-column>
+      <dxi-column
+        dataField="qty"
+        caption="Qty"
+        [visible]="true"
+        dataType="number"
+        format="#,##0.0"
+      ></dxi-column>
+
+      <dxi-column caption="Kết quả IQC">
+        <dxi-column
+          dataField="result1"
+          caption="Ngoại Quan"
+          [visible]="true"
+        ></dxi-column>
+
+        <dxi-column
+          dataField="result2"
+          caption="Kích thước"
+          [visible]="true"
+        ></dxi-column>
+
+        <dxi-column
+          dataField="result3"
+          caption="GP"
+          [visible]="true"
+        ></dxi-column>
+      </dxi-column>
+
+      <dxi-column caption="Mức kiểm soát">
+        <dxi-column
+          dataField="levelOfControl1"
+          caption="Ngoại Quan"
+          [visible]="true"
+        ></dxi-column>
+        <dxi-column
+          dataField="levelOfControl2"
+          caption="Kích thước"
+          [visible]="true"
+        ></dxi-column>
+      </dxi-column>
+
+      <dxi-column
+        dataField="checkDate"
+        caption="Ngày đánh giá"
+        dataType="date"
+        format="yyyy-MM-dd"
+        [visible]="true"
+      ></dxi-column>
+      <dxi-column
+        dataField="checkUserName"
+        caption="Người đánh giá"
+        [visible]="true"
+      ></dxi-column>
+
+      <dxi-column
+        dataField="remark"
+        caption="Remark"
+        [visible]="true"
+      ></dxi-column>
+
+      <dxo-paging [pageSize]="10"></dxo-paging>
+      <dxo-pager
+        [showPageSizeSelector]="true"
+        [allowedPageSizes]="[10, 25, 50, 100]"
+      >
+      </dxo-pager>
+    </dx-data-grid>
+  </nz-tab>
+
+  <nz-tab nzTitle="Download dữ liệu">
+    <dx-data-grid
+      keyExpr="id"
+      [dataSource]="iqcResults"
+      [showColumnLines]="true"
+      [showRowLines]="true"
+      [showBorders]="true"
+      [allowColumnResizing]="true"
+      [columnAutoWidth]="true"
+      [rowAlternationEnabled]="true"
+      (onSelectionChanged)="onSelectionChanged($event)"
+      (onExporting)="onExportClient($event)"
+    >
+      <!-- <dxo-selection
+        [selectAllMode]="'allPages'"
+        [showCheckBoxesMode]="'always'"
+        mode="multiple"
+      ></dxo-selection> -->
+
+      <dxo-filter-row [visible]="true"></dxo-filter-row>
+      <dxo-export [enabled]="true"></dxo-export>
+
+      <dxo-column-chooser
+        #columnChooser
+        [enabled]="true"
+        [mode]="'select'"
+        [title]="'Cột hiển thị'"
+      >
+      </dxo-column-chooser>
+
+      <dxo-header-filter [visible]="true"></dxo-header-filter>
+
+      <dxo-toolbar>
+        <!-- <dxi-item location="before">
+          <nz-space>
+            <button
+              *nzSpaceItem
+              nz-button
+              nzType="primary"
+              [disabled]="!selectedRows?.length"
+              (click)="openEvaluateModal()"
+            >
+              <span nz-icon nzType="check-circle" nzTheme="outline"></span>
+              Đánh giá
+            </button>
+            <button
+              *nzSpaceItem
+              nz-button
+              nzType="default"
+              (click)="openLevelOfControlModal()"
+            >
+              <span nz-icon nzType="control" nzTheme="outline"></span>
+              Mức kiểm soát
+            </button>
+          </nz-space>
+        </dxi-item> -->
+        <!-- <dxi-item location="after">
+          <div *dxTemplate>
+            <dx-button icon="refresh" (onClick)="resetFiltersAndSorting()">
+            </dx-button>
+          </div>
+        </dxi-item> -->
+        <dxi-item name="exportButton" location="after" />
+        <dxi-item name="columnChooserButton"></dxi-item>
+      </dxo-toolbar>
+
+      <dxi-column
+        dataField="requestNo"
+        caption="RequestNo"
+        [visible]="true"
+      ></dxi-column>
+      <dxi-column
+        dataField="invoice"
+        caption="Invoice"
+        [visible]="true"
+      ></dxi-column>
+      <dxi-column
+        dataField="supplier"
+        caption="Nhà cung cấp"
+        [visible]="true"
+      ></dxi-column>
+
+      <dxi-column dataField="model" caption="Model" [visible]="true">
+        <dxo-header-filter [allowSelectAll]="false">
+          <dxo-search [enabled]="true"></dxo-search>
+        </dxo-header-filter>
+      </dxi-column>
+
+      <dxi-column
+        dataField="lotGroup"
+        caption="Lot Group"
+        [visible]="true"
+        [groupIndex]="0"
+      >
+        <dxo-header-filter [allowSelectAll]="false">
+          <dxo-search [enabled]="true"></dxo-search>
+        </dxo-header-filter>
+      </dxi-column>
+
+      <dxi-column
+        dataField="lotNo"
+        caption="LotNo"
+        [visible]="true"
+      ></dxi-column>
+      <dxi-column
+        dataField="qty"
+        caption="Qty"
+        [visible]="true"
+        dataType="number"
+        format="#,##0.0"
+      ></dxi-column>
+
+      <dxi-column caption="Kết quả IQC">
+        <dxi-column
+          dataField="result1"
+          caption="Ngoại Quan"
+          [visible]="true"
+        ></dxi-column>
+
+        <dxi-column
+          dataField="result2"
+          caption="Kích thước"
+          [visible]="true"
+        ></dxi-column>
+
+        <dxi-column
+          dataField="result3"
+          caption="GP"
+          [visible]="true"
+        ></dxi-column>
+      </dxi-column>
+
+      <dxi-column caption="Mức kiểm soát">
+        <dxi-column
+          dataField="levelOfControl1"
+          caption="Ngoại Quan"
+          [visible]="true"
+        ></dxi-column>
+        <dxi-column
+          dataField="levelOfControl2"
+          caption="Kích thước"
+          [visible]="true"
+        ></dxi-column>
+      </dxi-column>
+
+      <dxi-column
+        dataField="checkDate"
+        caption="Ngày đánh giá"
+        dataType="date"
+        format="yyyy-MM-dd"
+        [visible]="true"
+      ></dxi-column>
+      <dxi-column
+        dataField="checkUserName"
+        caption="Người đánh giá"
+        [visible]="true"
+      ></dxi-column>
+
+      <dxi-column
+        dataField="remark"
+        caption="Remark"
+        [visible]="true"
+      ></dxi-column>
+
+      <dxo-summary>
+        <dxi-group-item
+          column="lotGroup"
+          summaryType="count"
+          displayFormat="{0} boxes"
         >
-          <span nz-icon nzType="check-circle" nzTheme="outline"></span>
-          Đánh giá
-        </button>
-      </nz-space>
-    </dxi-item>
-    <dxi-item location="after">
-      <div *dxTemplate>
-        <dx-button icon="refresh" (onClick)="resetFiltersAndSorting()">
-        </dx-button>
-      </div>
-    </dxi-item>
-    <dxi-item name="exportButton" location="after" />
-    <dxi-item name="columnChooserButton"></dxi-item>
-  </dxo-toolbar>
+        </dxi-group-item>
+        <dxi-group-item
+          column="qty"
+          summaryType="sum"
+          [showInGroupFooter]="false"
+          [alignByColumn]="true"
+          displayFormat="Total Qty: {0}"
+          valueFormat="#,##0.0"
+        >
+        </dxi-group-item>
+      </dxo-summary>
 
-  <dxi-column dataField="model" caption="Model" [visible]="true">
-    <dxo-header-filter [allowSelectAll]="false">
-      <dxo-search [enabled]="true"></dxo-search>
-    </dxo-header-filter>
-  </dxi-column>
+      <dxo-paging [pageSize]="10"></dxo-paging>
+      <dxo-pager
+        [showPageSizeSelector]="true"
+        [allowedPageSizes]="[10, 25, 50, 100]"
+      >
+      </dxo-pager>
+    </dx-data-grid>
 
-  <dxi-column dataField="lotGroup" caption="Lot Group" [visible]="true">
-    <dxo-header-filter [allowSelectAll]="false">
-      <dxo-search [enabled]="true"></dxo-search>
-    </dxo-header-filter>
-  </dxi-column>
 
-  <dxi-column dataField="lotNo" caption="LotNo" [visible]="true"></dxi-column>
-  <dxi-column
-    dataField="qty"
-    caption="Qty"
-    [visible]="true"
-    dataType="number"
-    format="#,##0.0"
-  ></dxi-column>
 
-  <dxi-column caption="Kết quả IQC">
-    <dxi-column
-      dataField="result1"
-      caption="Ngoại Quan"
-      [visible]="true"
-    ></dxi-column>
 
-    <dxi-column
-      dataField="result2"
-      caption="Kích thước"
-      [visible]="true"
-    ></dxi-column>
 
-    <dxi-column dataField="result3" caption="GP" [visible]="true"></dxi-column>
-  </dxi-column>
-
-  <dxi-column caption="Mức kiểm soát">
-    <dxi-column
-      dataField="levelOfControl1"
-      caption="Ngoại Quan"
-      [visible]="true"
-    ></dxi-column>
-    <dxi-column
-      dataField="levelOfControl2"
-      caption="Kích thước"
-      [visible]="true"
-    ></dxi-column>
-  </dxi-column>
-
-  <dxi-column
-    dataField="checkDate"
-    caption="Ngày đánh giá"
-    dataType="date"
-    format="yyyy-MM-dd"
-    [visible]="true"
-  ></dxi-column>
-  <dxi-column
-    dataField="checkUserName"
-    caption="Người đánh giá"
-    [visible]="true"
-  ></dxi-column>
-
-  <dxi-column dataField="remark" caption="Remark" [visible]="true"></dxi-column>
-
-  <dxo-paging [pageSize]="10"></dxo-paging>
-  <dxo-pager
-    [showPageSizeSelector]="true"
-    [allowedPageSizes]="[10, 25, 50, 100]"
-  >
-  </dxo-pager>
-</dx-data-grid>
+  </nz-tab>
+</nz-tabset>
 
 <nz-modal
   [(nzVisible)]="isOpenEvaluateModal"
@@ -306,6 +530,71 @@
     <button nz-button nzType="default" (click)="closeEvaluateModal()">
       Đóng
     </button>
-    <button nz-button nzType="primary" (click)="saveEvaluateData()" [nzLoading]="isLoading">Lưu</button>
+    <button
+      nz-button
+      nzType="primary"
+      (click)="saveEvaluateData()"
+      [nzLoading]="isLoading"
+    >
+      Lưu
+    </button>
   </ng-template>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="isOpenLevelOfControlModal"
+  nzTitle="Tìm mức độ kiểm soát"
+  nzWidth="750px"
+>
+  <ng-container *nzModalContent>
+    <table id="level-of-control-search" style="width: 100%">
+      <tr>
+        <th>Model</th>
+        <th>
+          <nz-input-group [nzSuffix]="suffixIconSearch">
+            <input
+              type="text"
+              nz-input
+              placeholder="Nhập mã Model"
+              [(ngModel)]="searchParam.model"
+            />
+          </nz-input-group>
+          <ng-template #suffixIconSearch>
+            <span
+              nz-icon
+              nzType="search"
+              (click)="getHistoryLevelOfControls()"
+            ></span>
+          </ng-template>
+        </th>
+      </tr>
+    </table>
+    <br />
+    <nz-table
+      #mucKiemSoatTbl
+      [nzData]="historyLevelOfControls"
+      nzSize="small"
+      nzBordered
+    >
+      <thead>
+        <tr>
+          <th>Kiểm soát ngoại quan</th>
+          <th>Kiểm soát kích thước</th>
+          <th>Ngày đánh giá</th>
+          <th>Người đánh giá</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of mucKiemSoatTbl.data">
+          <td>{{ data.levelOfControl1 }}</td>
+          <td>{{ data.levelOfControl2 }}</td>
+          <td>{{ data.updatedAt | date : "yyyy-MM-dd HH:mm" }}</td>
+          <td>{{ data.checkUser }}</td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button nzType="primary">Đóng</button>
+  </div>
 </nz-modal>

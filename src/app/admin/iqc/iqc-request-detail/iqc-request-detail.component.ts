@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { IqcService } from '../services/iqc.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -16,7 +16,7 @@ import { exportDataGrid } from 'devextreme/excel_exporter';
   templateUrl: './iqc-request-detail.component.html',
   styleUrl: './iqc-request-detail.component.scss'
 })
-export class IqcRequestDetailComponent implements OnInit {
+export class IqcRequestDetailComponent implements OnInit, AfterViewInit {
 
   @ViewChild('iqcDataGrid') iqcDataGrid!: DxDataGridComponent;
 
@@ -26,21 +26,28 @@ export class IqcRequestDetailComponent implements OnInit {
     private jwtHelperSvc: JwtHelperService,
     private activatedRoute: ActivatedRoute,
   ) {}
-
-  isOpenEvaluateModal: boolean = false
-  iqcRequest: IqcRequestDto = new IqcRequestDto();
-  iqcResults!: IqcResultDto [];
-  iqcLevelOfControls!: any [];
-  evaluateData: EvaluateDto = new EvaluateDto();
-  selectedRows: any;
-  isLoading: boolean = false
-
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.getIqcRequest();
     this.getIqcResults();
     this.getIqcLevelOfControls();
   }
 
+  ngOnInit(): void {
+    
+  }
+
+  isOpenEvaluateModal: boolean = false
+  iqcRequest: IqcRequestDto = new IqcRequestDto();
+  iqcResults!: IqcResultDto [];
+  iqcLevelOfControls!: any [];
+  historyLevelOfControls!: any [];
+  evaluateData: EvaluateDto = new EvaluateDto();
+  selectedRows: any;
+  isLoading: boolean = false
+  isOpenLevelOfControlModal: boolean = false
+  searchParam: any;
+
+  
   getIqcRequest() {
     let requestNo = this.activatedRoute.snapshot.paramMap.get('requestNo')?? '';
     this.iqcSvc.getIqcRequest(requestNo).subscribe(
@@ -51,10 +58,16 @@ export class IqcRequestDetailComponent implements OnInit {
   }
 
   getIqcResults() {
+
+    this.iqcDataGrid?.instance.beginCustomLoading(
+      `Đang load dữ liệu ...`
+    );
+
     let requestNo = this.activatedRoute.snapshot.paramMap.get('requestNo')?? '';
     this.iqcSvc.getIqcResults(requestNo).subscribe(
       response => {
         this.iqcResults = response.result
+        this.iqcDataGrid.instance.endCustomLoading();
       }
     )
   }
@@ -85,6 +98,14 @@ export class IqcRequestDetailComponent implements OnInit {
     this.iqcSvc.getIqcLevelOfControls().subscribe(
       response => {
         this.iqcLevelOfControls = response.result
+      }
+    )
+  }
+
+  getHistoryLevelOfControls() {
+    this.iqcSvc.getHistoryLevelOfControls(this.searchParam.model).subscribe(
+      response => {
+        this.historyLevelOfControls = response.result;
       }
     )
   }
@@ -120,8 +141,11 @@ export class IqcRequestDetailComponent implements OnInit {
         this.resetFiltersAndSorting();
       }
     )
-    
-    
+  }
+
+  openLevelOfControlModal() {
+    this.searchParam = {};
+    this.isOpenLevelOfControlModal = true;
   }
 
 

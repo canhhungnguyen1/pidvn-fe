@@ -59,6 +59,9 @@ export class IqcService {
     return this.httpClient.post(`${this.baseUrl}/IQC/PrepareDataCreateRequest`, searchParams);
   }
 
+  public getHistoryLevelOfControls(model: string) : Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/IQC/HistoryLevelOfControls?model=${model}`);
+  }
 
 
 
