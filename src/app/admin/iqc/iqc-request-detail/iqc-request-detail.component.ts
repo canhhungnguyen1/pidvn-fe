@@ -150,19 +150,50 @@ export class IqcRequestDetailComponent implements OnInit, AfterViewInit {
 
 
   onExportClient(event: any) {
-    console.log(event);
+    // console.log(event);
     
-    const workbook = new Workbook();    
-        const worksheet = workbook.addWorksheet('Main sheet');
-        exportDataGrid({
-            component: event.component,
-            worksheet: worksheet
-        }).then(function() {
-            workbook.xlsx.writeBuffer()
-                .then(function(buffer: BlobPart) {
-                    saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'IQC-DATA.xlsx');
-                });
+    // const workbook = new Workbook();    
+    //     const worksheet = workbook.addWorksheet('Main sheet');
+    //     exportDataGrid({
+    //         component: event.component,
+    //         worksheet: worksheet
+    //     }).then(function() {
+    //         workbook.xlsx.writeBuffer()
+    //             .then(function(buffer: BlobPart) {
+    //                 saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'IQC-DATA.xlsx');
+    //             });
+    //     });
+
+
+
+    this.iqcSvc.exportExcel(this.iqcRequest).subscribe(
+      response => {
+        const blob = new Blob([response], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         });
+
+        const data = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = data;
+        link.download = `${this.iqcRequest.requestNo}.xlsx`;
+        link.dispatchEvent(
+          new MouseEvent('click', {
+            bubbles: true,
+            cancelable: true,
+            view: window,
+          })
+        );
+
+
+        setTimeout(() => {
+          window.URL.revokeObjectURL(data);
+          link.remove();
+        }, 100);
+
+      }
+    )
+
+
   }
 
 }
