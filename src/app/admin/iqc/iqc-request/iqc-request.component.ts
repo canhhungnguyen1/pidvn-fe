@@ -18,8 +18,8 @@ import { IqcService } from '../services/iqc.service';
   styleUrl: './iqc-request.component.scss',
 })
 export class IqcRequestComponent implements OnInit, AfterViewInit {
-  // @ViewChild(DxDataGridComponent, { static: false })
-  // iqcRequestGrid!: DxDataGridComponent;
+  @ViewChild(DxDataGridComponent, { static: false })
+  iqcRequestGrid!: DxDataGridComponent;
 
   @ViewChild(DxDataGridComponent, { static: false })
   iqcDataGrid!: DxDataGridComponent;
@@ -67,13 +67,13 @@ export class IqcRequestComponent implements OnInit, AfterViewInit {
 
   getIqcRequests() {
 
-    // this.iqcRequestGrid?.instance.beginCustomLoading(
-    //   `Đang load dữ liệu ...`
-    // );
+    this.iqcRequestGrid?.instance.beginCustomLoading(
+      `Đang load dữ liệu ...`
+    );
 
     this.iqcSvc.getIqcRequests(this.searchParams).subscribe((response) => {
       this.iqcRequests = response.result;
-      // this.iqcRequestGrid.instance.endCustomLoading();
+      this.iqcRequestGrid.instance.endCustomLoading();
     });
   }
 

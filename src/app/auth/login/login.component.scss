@@ -417,13 +417,13 @@ form.sign-in-form {
 
 // Xoay nút đăng nhập
 
-// .moving-button {
-//   transition: transform 0.1s; /* Smooth transition for the rotation */
-// }
+.moving-button {
+  transition: transform 0.1s; /* Smooth transition for the rotation */
+}
 
-// .rotate {
-//   animation: spin 0.1s linear infinite;
-// }
+.rotate {
+  animation: spin 0.1s linear infinite;
+}
 
 @keyframes spin {
   from {

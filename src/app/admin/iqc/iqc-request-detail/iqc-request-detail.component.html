@@ -66,7 +66,12 @@
 
     <div nz-row nzJustify="start" [nzGutter]="24" style="margin-top: 5px">
       <div nz-col nzXs="24" nzSm="12" nzLg="4">
-        <label style="margin-top: 15px" nz-checkbox style="color: #007bff"
+        <label
+          style="margin-top: 15px"
+          nz-checkbox
+          style="color: #007bff"
+          [(ngModel)]="isChecked"
+          (ngModelChange)="updateStatusRequest($event)"
           >Đánh dấu đã xử lý</label
         >
       </div>
@@ -86,7 +91,7 @@
   [rowAlternationEnabled]="true"
   (onSelectionChanged)="onSelectionChanged($event)"
   (onExporting)="onExportClient($event)"
-  style="margin-top: 10px;"
+  style="margin-top: 10px"
 >
   <dxo-selection
     [selectAllMode]="'allPages'"
@@ -380,6 +385,12 @@
     </nz-table>
   </ng-container>
   <div *nzModalFooter>
-    <button nz-button nzType="default" (click)="isOpenLevelOfControlModal = false">Đóng</button>
+    <button
+      nz-button
+      nzType="default"
+      (click)="isOpenLevelOfControlModal = false"
+    >
+      Đóng
+    </button>
   </div>
 </nz-modal>

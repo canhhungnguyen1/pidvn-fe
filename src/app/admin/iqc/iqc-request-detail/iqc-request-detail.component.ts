@@ -14,17 +14,16 @@ import { exportDataGrid } from 'devextreme/excel_exporter';
 @Component({
   selector: 'app-iqc-request-detail',
   templateUrl: './iqc-request-detail.component.html',
-  styleUrl: './iqc-request-detail.component.scss'
+  styleUrl: './iqc-request-detail.component.scss',
 })
 export class IqcRequestDetailComponent implements OnInit, AfterViewInit {
-
   @ViewChild('iqcDataGrid') iqcDataGrid!: DxDataGridComponent;
 
   constructor(
     private toastr: ToastrService,
     private iqcSvc: IqcService,
     private jwtHelperSvc: JwtHelperService,
-    private activatedRoute: ActivatedRoute,
+    private activatedRoute: ActivatedRoute
   ) {}
   ngAfterViewInit(): void {
     this.getIqcRequest();
@@ -32,47 +31,42 @@ export class IqcRequestDetailComponent implements OnInit, AfterViewInit {
     this.getIqcLevelOfControls();
   }
 
-  ngOnInit(): void {
-    
-  }
+  ngOnInit(): void {}
 
-  isOpenEvaluateModal: boolean = false
+  isOpenEvaluateModal: boolean = false;
   iqcRequest: IqcRequestDto = new IqcRequestDto();
-  iqcResults!: IqcResultDto [];
-  iqcLevelOfControls!: any [];
-  historyLevelOfControls!: any [];
+  iqcResults!: IqcResultDto[];
+  iqcLevelOfControls!: any[];
+  historyLevelOfControls!: any[];
   evaluateData: EvaluateDto = new EvaluateDto();
   selectedRows: any;
-  isLoading: boolean = false
-  isOpenLevelOfControlModal: boolean = false
+  isLoading: boolean = false;
+  isOpenLevelOfControlModal: boolean = false;
   searchParam: any;
+  isChecked: boolean = false;
 
-  
   getIqcRequest() {
-    let requestNo = this.activatedRoute.snapshot.paramMap.get('requestNo')?? '';
-    this.iqcSvc.getIqcRequest(requestNo).subscribe(
-      response => {
-        this.iqcRequest = response.result
-      }
-    )
+    let requestNo =
+      this.activatedRoute.snapshot.paramMap.get('requestNo') ?? '';
+    this.iqcSvc.getIqcRequest(requestNo).subscribe((response) => {
+      this.iqcRequest = response.result;
+      this.iqcRequest.status == 3
+        ? (this.isChecked = true)
+        : (this.isChecked = false);
+    });
   }
 
   getIqcResults() {
+    this.iqcDataGrid?.instance.beginCustomLoading(`Đang load dữ liệu ...`);
 
-    this.iqcDataGrid?.instance.beginCustomLoading(
-      `Đang load dữ liệu ...`
-    );
-
-    let requestNo = this.activatedRoute.snapshot.paramMap.get('requestNo')?? '';
-    this.iqcSvc.getIqcResults(requestNo).subscribe(
-      response => {
-        this.iqcResults = response.result
-        this.iqcDataGrid.instance.endCustomLoading();
-      }
-    )
+    let requestNo =
+      this.activatedRoute.snapshot.paramMap.get('requestNo') ?? '';
+    this.iqcSvc.getIqcResults(requestNo).subscribe((response) => {
+      this.iqcResults = response.result;
+      this.iqcDataGrid.instance.endCustomLoading();
+    });
   }
 
-  
   onSelectionChanged(event: any) {
     this.selectedRows = event.selectedRowsData;
   }
@@ -80,7 +74,7 @@ export class IqcRequestDetailComponent implements OnInit, AfterViewInit {
   openEvaluateModal() {
     this.evaluateData = new EvaluateDto();
     console.log('openEvaluateModal: ', this.selectedRows);
-    this.isOpenEvaluateModal = true
+    this.isOpenEvaluateModal = true;
   }
 
   closeEvaluateModal() {
@@ -91,56 +85,54 @@ export class IqcRequestDetailComponent implements OnInit, AfterViewInit {
   resetFiltersAndSorting() {
     this.iqcDataGrid.instance.clearFilter();
     this.iqcDataGrid.instance.clearSorting();
-    this.iqcDataGrid.instance.clearSelection()
+    this.iqcDataGrid.instance.clearSelection();
   }
 
   getIqcLevelOfControls() {
-    this.iqcSvc.getIqcLevelOfControls().subscribe(
-      response => {
-        this.iqcLevelOfControls = response.result
-      }
-    )
+    this.iqcSvc.getIqcLevelOfControls().subscribe((response) => {
+      this.iqcLevelOfControls = response.result;
+    });
   }
 
   getHistoryLevelOfControls() {
-    this.iqcSvc.getHistoryLevelOfControls(this.searchParam.model).subscribe(
-      response => {
+    this.iqcSvc
+      .getHistoryLevelOfControls(this.searchParam.model)
+      .subscribe((response) => {
         this.historyLevelOfControls = response.result;
-      }
-    )
+      });
   }
 
   saveEvaluateData() {
-    this.isLoading = true
+    this.isLoading = true;
     let checkUser = this.jwtHelperSvc.decodeToken(
       localStorage.getItem('accessToken')?.toString()
     ).UserId;
 
-    for(const item of this.selectedRows) {
-      item.result1 = this.evaluateData.result1
-      item.result2 = this.evaluateData.result2
-      item.result3 = this.evaluateData.result3
-      item.levelOfControl1 = this.evaluateData.levelOfControl1
-      item.levelOfControl2 = this.evaluateData.levelOfControl2
-      item.remark = this.evaluateData.remark
+    for (const item of this.selectedRows) {
+      item.result1 = this.evaluateData.result1;
+      item.result2 = this.evaluateData.result2;
+      item.result3 = this.evaluateData.result3;
+      item.levelOfControl1 = this.evaluateData.levelOfControl1;
+      item.levelOfControl2 = this.evaluateData.levelOfControl2;
+      item.remark = this.evaluateData.remark;
       item.checkDate = new Date();
-      item.checkUser = checkUser
+      item.checkUser = checkUser;
     }
 
     this.iqcSvc.evaluateLotNos(this.selectedRows).subscribe(
-      response => {
-        this.isLoading = false
-        this.isOpenEvaluateModal = false
+      (response) => {
+        this.isLoading = false;
+        this.isOpenEvaluateModal = false;
         this.getIqcResults();
         this.resetFiltersAndSorting();
       },
-      error => {
-        this.isLoading = false
-        this.isOpenEvaluateModal = false
+      (error) => {
+        this.isLoading = false;
+        this.isOpenEvaluateModal = false;
         this.getIqcResults();
         this.resetFiltersAndSorting();
       }
-    )
+    );
   }
 
   openLevelOfControlModal() {
@@ -148,11 +140,10 @@ export class IqcRequestDetailComponent implements OnInit, AfterViewInit {
     this.isOpenLevelOfControlModal = true;
   }
 
-
   onExportClient(event: any) {
     // console.log(event);
-    
-    // const workbook = new Workbook();    
+
+    // const workbook = new Workbook();
     //     const worksheet = workbook.addWorksheet('Main sheet');
     //     exportDataGrid({
     //         component: event.component,
@@ -164,36 +155,41 @@ export class IqcRequestDetailComponent implements OnInit, AfterViewInit {
     //             });
     //     });
 
+    this.iqcSvc.exportExcel(this.iqcRequest).subscribe((response) => {
+      const blob = new Blob([response], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      });
 
+      const data = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = data;
+      link.download = `${this.iqcRequest.requestNo}.xlsx`;
+      link.dispatchEvent(
+        new MouseEvent('click', {
+          bubbles: true,
+          cancelable: true,
+          view: window,
+        })
+      );
 
-    this.iqcSvc.exportExcel(this.iqcRequest).subscribe(
-      response => {
-        const blob = new Blob([response], {
-          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        });
-
-        const data = window.URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = data;
-        link.download = `${this.iqcRequest.requestNo}.xlsx`;
-        link.dispatchEvent(
-          new MouseEvent('click', {
-            bubbles: true,
-            cancelable: true,
-            view: window,
-          })
-        );
-
-
-        setTimeout(() => {
-          window.URL.revokeObjectURL(data);
-          link.remove();
-        }, 100);
-
-      }
-    )
-
-
+      setTimeout(() => {
+        window.URL.revokeObjectURL(data);
+        link.remove();
+      }, 100);
+    });
   }
 
+  updateStatusRequest(event: any) {
+    console.log(event);
+
+    event === true ? this.iqcRequest.status = 3 : this.iqcRequest.status = 2 
+    
+    let request = {...this.iqcRequest}
+
+    this.iqcSvc.updateIqcRequest(request).subscribe(
+      response => {
+        this.iqcRequest = response.result
+      }
+    )
+  }
 }
