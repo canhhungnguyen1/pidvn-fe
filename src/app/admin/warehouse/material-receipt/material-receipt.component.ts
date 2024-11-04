@@ -5,6 +5,9 @@ import { MaterialVo } from './models/MaterialVo';
 import { PurWhRecordsSearchVo } from './models/PurWhRecordsSearchVo';
 import { PurWhRecordsVo } from './models/PurWhRecordsVo';
 import { MaterialReceiptService } from './services/material-receipt.service';
+import { Workbook } from 'exceljs';
+import * as saveAs from 'file-saver';
+import { exportDataGrid } from 'devextreme/excel_exporter';
 
 @Component({
   selector: 'app-material-receipt',
@@ -448,7 +451,23 @@ export class MaterialReceiptComponent implements OnInit {
       });
   }
 
-  onExportClient(event: any) {}
+  onExportClient(event: any) {
+    console.log(event);
+
+    const workbook = new Workbook();
+    const worksheet = workbook.addWorksheet('Main sheet');
+    exportDataGrid({
+      component: event.component,
+      worksheet: worksheet,
+    }).then(function () {
+      workbook.xlsx.writeBuffer().then(function (buffer: BlobPart) {
+        saveAs(
+          new Blob([buffer], { type: 'application/octet-stream' }),
+          'Data.xlsx'
+        );
+      });
+    });
+  }
 
   checkDataSauNhapKho() {
     this.materialReceiptService
