@@ -1,9 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {
-  DxDataGridModule
-} from 'devextreme-angular';
+import { DxDataGridModule } from 'devextreme-angular';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -36,7 +34,8 @@ import { RwhSendLwhComponent } from './relay-warehouse/rwh-send-lwh/rwh-send-lwh
 import { RwhSendPwhComponent } from './relay-warehouse/rwh-send-pwh/rwh-send-pwh.component';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
-
+import { NzFlexModule } from 'ng-zorro-antd/flex';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
 @NgModule({
   declarations: [
     RelayMaterialManagementComponent,
@@ -76,7 +75,9 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
     NzCollapseModule,
     NzDatePickerModule,
     NzToolTipModule,
-    NzTabsModule
-  ]
+    NzTabsModule,
+    NzFlexModule,
+    NzSpaceModule
+  ],
 })
-export class RelayMaterialManagementModule { }
+export class RelayMaterialManagementModule {}

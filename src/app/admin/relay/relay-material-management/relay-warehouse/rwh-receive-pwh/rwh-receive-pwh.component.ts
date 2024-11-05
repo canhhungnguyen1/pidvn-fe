@@ -1,14 +1,15 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ReWhService } from '../services/re-wh.service';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-rwh-receive-pwh',
   templateUrl: './rwh-receive-pwh.component.html',
   styleUrls: ['./rwh-receive-pwh.component.scss'],
 })
-export class RwhReceivePwhComponent implements OnInit {
+export class RwhReceivePwhComponent implements OnInit, AfterViewInit {
   @ViewChild('qrCodeIpt') qrCodeIpt!: ElementRef;
   @ViewChild('qaCardIpt') qaCardIpt!: ElementRef;
   @ViewChild('importQtyIpt') importQtyIpt!: ElementRef;
@@ -16,8 +17,11 @@ export class RwhReceivePwhComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private reWhSvc: ReWhService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private modalService: NzModalService
   ) {}
+
+  
 
   slipNo: any;
   users: any;
@@ -44,16 +48,33 @@ export class RwhReceivePwhComponent implements OnInit {
 
   lotNoEdit: string | null = null;
 
+  purWhHeader: any;
+
   ngOnInit(): void {
     this.slipNo = this.activatedRoute.snapshot.paramMap.get('slipNo');
     this.getMaterialsBySlipNo();
     this.getUsers();
+    
+  }
+
+  ngAfterViewInit(): void {
+    this.getPurWhHeader();
   }
 
   getUsers() {
     this.reWhSvc.getUsers({}).subscribe((response) => {
       this.users = response;
     });
+  }
+
+  getPurWhHeader() {
+    this.reWhSvc.getPurWhHeader(this.slipNo).subscribe(
+      response => {
+        this.purWhHeader = response
+        console.log('this.purWhHeader: ' , this.purWhHeader);
+        
+      }
+    )
   }
 
   /**
@@ -108,8 +129,15 @@ export class RwhReceivePwhComponent implements OnInit {
   }
 
   showModal(): void {
+
+    if (this.purWhHeader.status === '1') {
+      this.toastr.info('Phiếu đã được khóa !','Notification')
+      return
+    }
+
+
     if (!this.sender || !this.receiver) {
-      this.toastr.warning('Cần nhập thông tin người giao nhận');
+      this.toastr.warning('Cần nhập thông tin người giao nhận','Warning');
       return;
     }
     this.isOpenScanQRCodeModal = true;
@@ -213,6 +241,12 @@ export class RwhReceivePwhComponent implements OnInit {
   }
 
   openQACardModal() {
+
+    if (this.purWhHeader.status == '1') {
+      this.toastr.info('Phiếu đã được khóa !','Notification')
+      return;
+    }
+
     this.isOpenQACardModal = true;
     setTimeout(() => {
       this.qaCardIpt.nativeElement.focus();
@@ -232,8 +266,6 @@ export class RwhReceivePwhComponent implements OnInit {
   }
 
   moveMaterialToLineWh() {
-    debugger;
-
     this.isLoading = true;
 
     if (!this.qaCard) {
@@ -285,7 +317,10 @@ export class RwhReceivePwhComponent implements OnInit {
   }
 
   deleteLot(lotNo: any) {
-    console.log(lotNo);
+    if (this.purWhHeader.status === '1') {
+      this.toastr.info('Phiếu đã được khóa !','Notification')
+      return
+    }
     this.reWhSvc.deletePurWhRecordById(lotNo.id).subscribe(
       response => {
         this.getMaterialsBySlipNo();
@@ -293,5 +328,28 @@ export class RwhReceivePwhComponent implements OnInit {
       }
     )
   }
+
+
+  showConfirmLockRequest(): void {
+    this.modalService.confirm({
+      nzTitle: 'Lock Request',
+      nzContent: 'Xác nhận khóa phiếu',
+      nzOkText: 'OK',
+      nzCancelText: 'Cancel',
+      nzOnOk: () => this.lockRequest()
+    });
+  }
+
+  lockRequest(): void {
+    this.reWhSvc.lockRequest(this.slipNo).subscribe(
+      response => {
+        this.toastr.success('Phiếu đã được khóa !','Lock Request')
+        this.getPurWhHeader();
+      }
+    )
+  }
+
+
+ 
   
 }

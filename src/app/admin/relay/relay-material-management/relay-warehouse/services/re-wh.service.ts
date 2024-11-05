@@ -185,4 +185,25 @@ export class ReWhService {
       `${this.baseUrl}/Relay/MaterialControl/DeletePurWhRecord/${id}`
     );
   }
+
+  /**
+   * Khóa request nhận NVL từ Warehouse
+   */
+  public lockRequest(regNo: string): Observable<any> {
+    return this.httpClient.put(
+      `${this.baseUrl}/Relay/MaterialControl/LockRequest/${regNo}`,
+      {}
+    );
+  }
+
+  /**
+   * Lấy thông tin request
+   * @param regNo 
+   * @returns 
+   */
+  public getPurWhHeader(regNo: string): Observable<any> {
+    return this.httpClient.get(
+      `${this.baseUrl}/Relay/MaterialControl/PurWhHeader/${regNo}`
+    );
+  }
 }

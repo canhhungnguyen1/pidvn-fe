@@ -1,25 +1,40 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ReWhService } from '../services/re-wh.service';
+import { DxDataGridComponent } from 'devextreme-angular';
 
 @Component({
   selector: 'app-re-wh-requests',
   templateUrl: './re-wh-requests.component.html',
   styleUrls: ['./re-wh-requests.component.scss'],
 })
-export class ReWhRequestsComponent implements OnInit {
+export class ReWhRequestsComponent implements OnInit, AfterViewInit {
+
+  @ViewChild(DxDataGridComponent, { static: false })
+  requestGrid!: DxDataGridComponent;
+
   constructor(private router: Router, private reWhSvc: ReWhService) {}
 
-  slips: any;
-
   ngOnInit(): void {
+    
+  }
+
+  ngAfterViewInit(): void {
     this.getListPXK();
   }
 
+  slips: any;
+
+  
+
   getListPXK() {
+    this.requestGrid?.instance.beginCustomLoading(
+      `Đang load dữ liệu ...`
+    );
+
     this.reWhSvc.getSlips().subscribe((response) => {
       this.slips = response;
-      console.log('PXK: ', this.slips);
+      this.requestGrid.instance.endCustomLoading();
     });
   }
 
