@@ -37,10 +37,11 @@
           nz-button
           nzType="default"
           nz-tooltip
-          [nzTooltipTitle]="'Tạo request IQC cho hàng SORTING hoặc Re-Check (Hàng quá 6 tháng)'"
+          [nzTooltipTitle]="
+            'Tạo request IQC cho hàng SORTING hoặc Re-Check (Hàng quá 6 tháng)'
+          "
           [nzTooltipColor]="'blue'"
           (click)="redirectIqcReCheck()"
-          
         >
           <span nz-icon nzType="plus"></span>
           IQC REQUEST (RECHECK)
@@ -248,9 +249,12 @@
 </nz-modal>
 
 <nz-modal
+  #iqcRequestDetailModal
   [(nzVisible)]="isOpenIqcRequestDetailModal"
   [nzTitle]="'RequestNo: ' + iqcRequest.requestNo"
   nzWidth="100%"
+  (nzOnCancel)="isOpenIqcRequestDetailModal = false"
+  (nzOnOk)="isOpenIqcRequestDetailModal = false"
 >
   <ng-container *nzModalContent>
     <dx-data-grid
@@ -294,7 +298,7 @@
       <dxo-filter-row [visible]="true"></dxo-filter-row>
       <dxo-header-filter [visible]="true"></dxo-header-filter>
 
-      <dxi-column dataField="model" caption="Model" [visible]="true">
+      <dxi-column dataField="model" caption="Model" [visible]="true" [groupIndex]="0">
         <dxo-header-filter [allowSelectAll]="false">
           <dxo-search [enabled]="true"></dxo-search>
         </dxo-header-filter>
@@ -304,7 +308,8 @@
         dataField="lotGroup"
         caption="Lot Group"
         [visible]="true"
-        [groupIndex]="0"
+        [groupIndex]="1"
+        [autoExpandGroup]="false"
       >
         <dxo-header-filter [allowSelectAll]="false">
           <dxo-search [enabled]="true"></dxo-search>
@@ -402,7 +407,7 @@
       </dxo-pager>
     </dx-data-grid>
   </ng-container>
-  <ng-template [nzModalFooter]>
+  <!-- <ng-template [nzModalFooter]>
     <button
       nz-button
       nzType="default"
@@ -410,5 +415,5 @@
     >
       Đóng
     </button>
-  </ng-template>
+  </ng-template> -->
 </nz-modal>
