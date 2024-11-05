@@ -282,14 +282,18 @@
 
       <dxo-toolbar>
         <dxi-item location="before">
-          <div *dxTemplate>
-            <dx-button
-              [text]="this.expandAll ? 'Thu gọn' : 'Mở rộng'"
-              width="136"
-              (onClick)="toggleExpandAll()"
-            >
-            </dx-button>
-          </div>
+          <nz-space nzAlign="center">
+            <nz-tag id="expand" *nzSpaceItem (click)="toggleExpandAll()">
+              <span nz-icon [nzType]=" expandAll ? 'minus-circle' : 'plus-circle'"></span>
+              <span>{{expandAll ? 'Thu gọn' : 'Mở rộng'}}</span>
+            </nz-tag>
+            <div *nzSpaceItem>
+              <nz-tag *ngIf="iqcRequest.invoice" nzColor="success">Invoice: {{iqcRequest.invoice}}</nz-tag>
+            </div>
+            <div *nzSpaceItem>
+              <nz-tag *ngIf="iqcRequest.slipNo" nzColor="processing">SlipNo: {{iqcRequest.slipNo}}</nz-tag>
+            </div>
+          </nz-space>
         </dxi-item>
         <dxi-item name="exportButton" location="after" />
         <dxi-item name="columnChooserButton"></dxi-item>
@@ -298,7 +302,12 @@
       <dxo-filter-row [visible]="true"></dxo-filter-row>
       <dxo-header-filter [visible]="true"></dxo-header-filter>
 
-      <dxi-column dataField="model" caption="Model" [visible]="true" [groupIndex]="0">
+      <dxi-column
+        dataField="model"
+        caption="Model"
+        [visible]="true"
+        [groupIndex]="0"
+      >
         <dxo-header-filter [allowSelectAll]="false">
           <dxo-search [enabled]="true"></dxo-search>
         </dxo-header-filter>

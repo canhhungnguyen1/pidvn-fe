@@ -38,7 +38,7 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { IqcRecheckComponent } from './iqc-recheck/iqc-recheck.component';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
-
+import { NzTagModule } from 'ng-zorro-antd/tag';
 
 
 @NgModule({
@@ -72,7 +72,8 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
     DxValidatorModule,
     DxDropDownBoxModule,
     NzCheckboxModule,
-    NzTabsModule
+    NzTabsModule,
+    NzTagModule
   ],
 })
 export class IqcModule {}
