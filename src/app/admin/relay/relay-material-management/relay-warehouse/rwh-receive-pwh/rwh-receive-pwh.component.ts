@@ -48,17 +48,17 @@ export class RwhReceivePwhComponent implements OnInit, AfterViewInit {
 
   lotNoEdit: string | null = null;
 
-  purWhHeader: any;
+  isLocked: boolean = false;
 
   ngOnInit(): void {
     this.slipNo = this.activatedRoute.snapshot.paramMap.get('slipNo');
     this.getMaterialsBySlipNo();
     this.getUsers();
+    this.getLotRequestAndLotReceive();
     
   }
 
   ngAfterViewInit(): void {
-    this.getPurWhHeader();
   }
 
   getUsers() {
@@ -67,15 +67,6 @@ export class RwhReceivePwhComponent implements OnInit, AfterViewInit {
     });
   }
 
-  getPurWhHeader() {
-    this.reWhSvc.getPurWhHeader(this.slipNo).subscribe(
-      response => {
-        this.purWhHeader = response
-        console.log('this.purWhHeader: ' , this.purWhHeader);
-        
-      }
-    )
-  }
 
   /**
    * Lấy danh sách các gói NVL theo số phiếu xuất kho
@@ -130,11 +121,10 @@ export class RwhReceivePwhComponent implements OnInit, AfterViewInit {
 
   showModal(): void {
 
-    if (this.purWhHeader.status === '1') {
-      this.toastr.info('Phiếu đã được khóa !','Notification')
-      return
+    if (this.isLocked) {
+      this.toastr.warning('Phiếu đã khóa do đã nhận đủ NVL','Warning');
+      return;
     }
-
 
     if (!this.sender || !this.receiver) {
       this.toastr.warning('Cần nhập thông tin người giao nhận','Warning');
@@ -242,11 +232,6 @@ export class RwhReceivePwhComponent implements OnInit, AfterViewInit {
 
   openQACardModal() {
 
-    if (this.purWhHeader.status == '1') {
-      this.toastr.info('Phiếu đã được khóa !','Notification')
-      return;
-    }
-
     this.isOpenQACardModal = true;
     setTimeout(() => {
       this.qaCardIpt.nativeElement.focus();
@@ -316,40 +301,31 @@ export class RwhReceivePwhComponent implements OnInit, AfterViewInit {
     this.isOpenQACardModal = false
   }
 
-  deleteLot(lotNo: any) {
-    if (this.purWhHeader.status === '1') {
-      this.toastr.info('Phiếu đã được khóa !','Notification')
-      return
-    }
-    this.reWhSvc.deletePurWhRecordById(lotNo.id).subscribe(
+  // deleteLot(lotNo: any) {
+  //   this.reWhSvc.deletePurWhRecordById(lotNo.id).subscribe(
+  //     response => {
+  //       this.getMaterialsBySlipNo();
+  //       this.toastr.success('Đã xóa','Success')
+  //     }
+  //   )
+  // }
+
+
+
+  getLotRequestAndLotReceive() {
+    this.reWhSvc.getLotRequestAndLotReceive(this.slipNo).subscribe(
       response => {
-        this.getMaterialsBySlipNo();
-        this.toastr.success('Đã xóa','Success')
+        console.log('getLotRequestAndLotReceive: ', response.result);
+
+        let data = response.result;
+        
+        if (data.totalLotRequest === data.totalLotReceive) {
+          this.isLocked = true
+        }
       }
     )
   }
 
 
-  showConfirmLockRequest(): void {
-    this.modalService.confirm({
-      nzTitle: 'Lock Request',
-      nzContent: 'Xác nhận khóa phiếu',
-      nzOkText: 'OK',
-      nzCancelText: 'Cancel',
-      nzOnOk: () => this.lockRequest()
-    });
-  }
-
-  lockRequest(): void {
-    this.reWhSvc.lockRequest(this.slipNo).subscribe(
-      response => {
-        this.toastr.success('Phiếu đã được khóa !','Lock Request')
-        this.getPurWhHeader();
-      }
-    )
-  }
-
-
- 
   
 }

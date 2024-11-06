@@ -134,14 +134,15 @@
           >
             Chuyển NVL vào WH-LINE
           </button>
-        
-          <div *nzSpaceItem>
-            <button *ngIf="purWhHeader?.status !== '1'" nz-button nzType="default" (click)="showConfirmLockRequest()">
-              <span nz-icon nzType="lock" nzTheme="outline"></span>
-               Khóa phiếu
-            </button>
-          </div>
-          
+          <button
+            *nzSpaceItem
+            nz-button
+            nzType="default"
+            nzDanger
+            (click)="isOpenErrorModal = true"
+          >
+            <i nz-icon nzType="warning" nzTheme="outline"></i>
+          </button>
         </nz-space>
       </div>
     </div>
@@ -192,7 +193,7 @@
             >
               Đã nhận
             </span>
-            <span
+            <!-- <span
               *ngIf="lotNo.receiver"
               style="color: red; margin-left: 5px"
               nz-popconfirm
@@ -200,7 +201,7 @@
               (nzOnConfirm)="deleteLot(lotNo)"
             >
               Xóa
-            </span>
+            </span> -->
           </li>
         </ul>
       </td>

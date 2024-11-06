@@ -186,24 +186,30 @@ export class ReWhService {
     );
   }
 
-  /**
-   * Khóa request nhận NVL từ Warehouse
-   */
-  public lockRequest(regNo: string): Observable<any> {
-    return this.httpClient.put(
-      `${this.baseUrl}/Relay/MaterialControl/LockRequest/${regNo}`,
-      {}
-    );
-  }
+  // /**
+  //  * Khóa request nhận NVL từ Warehouse
+  //  */
+  // public lockRequest(regNo: string): Observable<any> {
+  //   return this.httpClient.put(
+  //     `${this.baseUrl}/Relay/MaterialControl/LockRequest/${regNo}`,
+  //     {}
+  //   );
+  // }
 
-  /**
-   * Lấy thông tin request
-   * @param regNo 
-   * @returns 
-   */
-  public getPurWhHeader(regNo: string): Observable<any> {
+  // /**
+  //  * Lấy thông tin request
+  //  * @param regNo
+  //  * @returns
+  //  */
+  // public getPurWhHeader(regNo: string): Observable<any> {
+  //   return this.httpClient.get(
+  //     `${this.baseUrl}/Relay/MaterialControl/PurWhHeader/${regNo}`
+  //   );
+  // }
+
+  getLotRequestAndLotReceive(requestNo: string): Observable<any> {
     return this.httpClient.get(
-      `${this.baseUrl}/Relay/MaterialControl/PurWhHeader/${regNo}`
+      `${this.baseUrl}/Relay/MaterialControl/GetLotRequestAndLotReceive?requestNo=${requestNo}`
     );
   }
 }
