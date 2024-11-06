@@ -1,0 +1,43 @@
+// .item {
+//   text-align: center;
+//   border: 1px solid #ccc;
+//   padding: 15px 10px;
+
+//   h6 {
+//     color: white;
+//     font-weight: bold;
+//   }
+// }
+
+// .receive {
+//   background: #3498db;
+//   cursor: pointer;
+// }
+
+.wrapper {
+  padding: 5px 0px;
+}
+
+.item {
+  padding: 20px 0px;
+
+  .title {
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+  }
+}
+
+.item:hover {
+  cursor: pointer;
+}
+
+.item.receive {
+  background: #3498db;
+}
+.item.process_recording {
+  background-color: #e07e37;
+}
+.item.date_code {
+  background-color: #959595c7;
+}

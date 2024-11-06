@@ -76,6 +76,13 @@ const routes: Routes = [
             (m) => m.RelayDefectRecordModule
           ),
       },
+      {
+        path: 'relay-process-recording',
+        loadChildren: () =>
+          import(
+            './relay-process-recording/relay-process-recording.module'
+          ).then((m) => m.RelayProcessRecordingModule),
+      },
     ],
   },
 ];
