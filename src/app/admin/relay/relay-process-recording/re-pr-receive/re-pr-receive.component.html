@@ -1,5 +1,5 @@
 <nz-collapse>
-  <nz-collapse-panel [nzHeader]="'Nhận NVL'" [nzActive]="true">
+  <nz-collapse-panel [nzHeader]="'Nhận NVL: ' + requestNo" [nzActive]="true">
     <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
       <div nz-col nzXs="16" nzSm="16" nzMd="16" nzLg="16">
         <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
@@ -37,3 +37,109 @@
     </div>
   </nz-collapse-panel>
 </nz-collapse>
+
+<dx-data-grid
+  style="margin-top: 10px"
+  #lotGrid
+  keyExpr="id"
+  [dataSource]="lots"
+  [showColumnLines]="true"
+  [showRowLines]="true"
+  [showBorders]="true"
+  [allowColumnResizing]="true"
+  [columnAutoWidth]="true"
+  [rowAlternationEnabled]="true"
+  (onExporting)="onExportClient($event)"
+  [grouping]="{ autoExpandAll: expandAll }"
+>
+  <dxo-grouping [autoExpandAll]="expandAll"></dxo-grouping>
+  <dxo-column-chooser
+    #columnChooser
+    [enabled]="true"
+    [mode]="'select'"
+    [title]="'Cột hiển thị'"
+  >
+  </dxo-column-chooser>
+  <dxo-load-panel [enabled]="true"></dxo-load-panel>
+  <dxo-export [enabled]="true"></dxo-export>
+
+  <dxo-toolbar>
+    <dxi-item location="before">
+      <button nz-button nzType="default" (click)="toggleExpandAll()">
+        <span nz-icon [nzType]="expandAll ? 'minus' : 'plus'"></span>
+        {{ expandAll ? "Thu gọn" : "Mở rộng" }}
+      </button>
+    </dxi-item>
+
+    <dxi-item name="exportButton" location="after" />
+    <dxi-item name="columnChooserButton" location="after"></dxi-item>
+  </dxo-toolbar>
+
+  <dxo-grouping [autoExpandAll]="expandAll"></dxo-grouping>
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
+  <dxo-header-filter [visible]="true"></dxo-header-filter>
+
+  <dxi-column
+    dataField="model"
+    caption="Model"
+    [visible]="true"
+    [groupIndex]="0"
+  >
+    <dxo-header-filter [allowSelectAll]="false">
+      <dxo-search [enabled]="true"></dxo-search>
+    </dxo-header-filter>
+  </dxi-column>
+
+  <dxi-column
+    dataField="lotGroup"
+    caption="Lot Group"
+    [visible]="true"
+    [groupIndex]="1"
+  >
+    <dxo-header-filter [allowSelectAll]="false">
+      <dxo-search [enabled]="true"></dxo-search>
+    </dxo-header-filter>
+  </dxi-column>
+
+  <dxi-column dataField="lotNo" caption="LotNo" [visible]="true"></dxi-column>
+
+  <dxi-column
+    dataField="qty"
+    caption="Qty"
+    [visible]="true"
+    dataType="number"
+    format="#,##0.0"
+  ></dxi-column>
+
+  <dxi-column
+    dataField="statusName"
+    caption="Status"
+    [visible]="true"
+    [cellTemplate]="statusCellTemplate"
+  ></dxi-column>
+
+  <dxo-summary>
+    <dxi-group-item
+      column="lotGroup"
+      summaryType="count"
+      displayFormat="{0} boxes"
+    >
+    </dxi-group-item>
+    <dxi-group-item
+      column="qty"
+      summaryType="sum"
+      [showInGroupFooter]="false"
+      [alignByColumn]="true"
+      displayFormat="Total Qty: {0}"
+      valueFormat="#,##0.0"
+    >
+    </dxi-group-item>
+  </dxo-summary>
+
+  <dxo-paging [pageSize]="100"></dxo-paging>
+  <dxo-pager
+    [showPageSizeSelector]="true"
+    [allowedPageSizes]="[10, 25, 50, 100]"
+  >
+  </dxo-pager>
+</dx-data-grid>

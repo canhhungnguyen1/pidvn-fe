@@ -301,14 +301,14 @@ export class RwhReceivePwhComponent implements OnInit, AfterViewInit {
     this.isOpenQACardModal = false
   }
 
-  // deleteLot(lotNo: any) {
-  //   this.reWhSvc.deletePurWhRecordById(lotNo.id).subscribe(
-  //     response => {
-  //       this.getMaterialsBySlipNo();
-  //       this.toastr.success('Đã xóa','Success')
-  //     }
-  //   )
-  // }
+  deleteLot(lotNo: any) {
+    this.reWhSvc.deletePurWhRecordById(lotNo.id).subscribe(
+      response => {
+        this.getMaterialsBySlipNo();
+        this.toastr.success('Đã xóa','Success')
+      }
+    )
+  }
 
 
 

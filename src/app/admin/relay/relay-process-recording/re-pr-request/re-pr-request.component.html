@@ -1,14 +1,29 @@
 <dx-data-grid
   #iqcRequestGrid
   keyExpr="id"
-  [dataSource]="[]"
+  [dataSource]="requests"
   [showColumnLines]="true"
   [showRowLines]="true"
   [showBorders]="true"
   [allowColumnResizing]="true"
   [columnAutoWidth]="true"
   [rowAlternationEnabled]="true"
+  (onRowClick)="onRowClick($event)"
 >
+  <dxo-toolbar>
+    <dxi-item location="before">
+      <dx-date-range-box
+        [(value)]="dateRange"
+        [startDate]="startDate"
+        [endDate]="endDate"
+        [displayFormat]="'yyyy/MM/dd'"
+        (onValueChanged)="onDateRangeChanged($event)"
+        style="width: 300px;"
+      >
+      </dx-date-range-box>
+    </dxi-item>
+  </dxo-toolbar>
+
   <dxo-column-chooser
     #columnChooser
     [enabled]="true"
@@ -35,6 +50,47 @@
     [visible]="true"
   ></dxi-column>
 
+  <dxi-column dataField="line" caption="Line" [visible]="true"></dxi-column>
+
+  <dxi-column dataField="parent" caption="Parent" [visible]="true"></dxi-column>
+
+  <dxi-column
+    caption="Số lot đã nhận"
+    cellTemplate="lotReceivedTemplate"
+  ></dxi-column>
+  <div
+    *dxTemplate="let item of 'lotReceivedTemplate'"
+    style="text-align: center"
+  >
+    <span
+      [class]="
+        item.data.totalLotReceive < item.data.totalLotRequest
+          ? 'red-color'
+          : 'blue-color'
+      "
+      style="font-weight: bold"
+    >
+      {{ item.data.totalLotReceive }} / {{ item.data.totalLotRequest }}
+    </span>
+  </div>
+
+  <dxi-column caption="Status" cellTemplate="statusTemplate"></dxi-column>
+  <div *dxTemplate="let item of 'statusTemplate'" style="text-align: center">
+    <span
+      [class]="
+        item.data.totalLotReceive < item.data.totalLotRequest
+          ? 'red-color'
+          : 'blue-color'
+      "
+      style="font-weight: bold"
+    >
+      {{
+        item.data.totalLotReceive < item.data.totalLotRequest
+          ? "Not yet"
+          : "Đã nhận đủ"
+      }}
+    </span>
+  </div>
 
   <dxo-paging [pageSize]="15"></dxo-paging>
   <dxo-pager

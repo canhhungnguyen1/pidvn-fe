@@ -17,6 +17,8 @@ import {
 } from 'devextreme-angular';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { RePrRequestComponent } from './re-pr-request/re-pr-request.component';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { DxDateRangeBoxModule } from 'devextreme-angular';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,8 @@ import { RePrRequestComponent } from './re-pr-request/re-pr-request.component';
     DxDataGridModule,
     DxSelectBoxModule,
     NzButtonModule,
+    NzIconModule,
+    DxDateRangeBoxModule
   ],
 })
 export class RelayProcessRecordingModule {}

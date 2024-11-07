@@ -14,7 +14,7 @@ const routes: Routes = [
     component: RePrRequestComponent
   },
   {
-    path: 'receive',
+    path: 'request',
     component: RePrReceiveComponent
   }
 ];
