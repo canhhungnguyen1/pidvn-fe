@@ -1,5 +1,5 @@
 <dx-data-grid
-  #iqcRequestGrid
+  #requestGrid
   keyExpr="id"
   [dataSource]="requests"
   [showColumnLines]="true"
@@ -21,6 +21,12 @@
         style="width: 300px;"
       >
       </dx-date-range-box>
+    </dxi-item>
+    <dxi-item location="before">
+      <div *dxTemplate>
+        <dx-button icon="search" style="margin-top: 8px;">
+        </dx-button>
+      </div>
     </dxi-item>
   </dxo-toolbar>
 

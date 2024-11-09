@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { LotDto } from '../models/LotDto';
 
 @Injectable({
   providedIn: 'root',
@@ -17,4 +18,16 @@ export class RePrService {
   public getRequestDetail(requestNo: any): Observable<any> {
     return this.httpClient.get(`${this.baseUrl}/Relay/ProcessRecording/Request?requestNo=${requestNo}`);
   }
+
+  public onReceiveMaterials(lots: LotDto []): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/Relay/ProcessRecording/ReceiveMaterials`, lots);
+  }
+
+  public validateLotReceive(lot: LotDto): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/Relay/ProcessRecording/ValidateLotReceive`, lot);
+  }
+  
+
+
+
 }

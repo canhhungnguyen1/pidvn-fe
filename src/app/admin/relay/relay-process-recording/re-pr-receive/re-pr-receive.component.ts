@@ -1,48 +1,76 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { RePrService } from '../services/re-pr.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LotDto } from 'src/app/admin/warehouse/wh-iqc-recheck/models/LotDto';
 import { Workbook } from 'exceljs';
 import { exportDataGrid } from 'devextreme/excel_exporter';
 import * as saveAs from 'file-saver';
-import { DxDataGridComponent } from 'devextreme-angular';
+import { DxDataGridComponent, DxTextBoxComponent } from 'devextreme-angular';
+import { LotDto } from '../models/LotDto';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-re-pr-receive',
   templateUrl: './re-pr-receive.component.html',
   styleUrl: './re-pr-receive.component.scss',
+  providers: [DatePipe]
 })
-export class RePrReceiveComponent implements OnInit {
-
+export class RePrReceiveComponent implements OnInit, AfterViewInit {
   @ViewChild(DxDataGridComponent, { static: false })
   lotGrid!: DxDataGridComponent;
 
+  @ViewChild('qtyIpt') qtyIpt!: ElementRef;
 
-  expandAll = true;
+  @ViewChild('qrCodeIpt') qrCodeIpt!: DxTextBoxComponent;
+  @ViewChild('userIdIpt') userIdIpt!: DxTextBoxComponent;
 
   constructor(
     private toastr: ToastrService,
     private rePrSvc: RePrService,
     private jwtHelperSvc: JwtHelperService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private datePipe: DatePipe
   ) {}
 
   ngOnInit(): void {
-    this.requestNo = this.activatedRoute.snapshot.queryParamMap.get('requestNo');
+    this.requestNo =
+      this.activatedRoute.snapshot.queryParamMap.get('requestNo');
+  }
+
+  ngAfterViewInit(): void {
     this.getRequestDetail();
   }
 
   lots: LotDto[] = [];
   requestNo: any;
+  expandAll = true;
+  isLoading: boolean = false;
+  isOpenReceiveModal: boolean = false;
+  isOpenLotScanErrorModal: boolean = false;
+
+  lotScanErrors: LotDto[] = []; // Lưu các lot khi scan nhận bị lỗi
+  litsLotScanOk: LotDto[] = []; // Lưu các lot khi scan nhận OK (insert vào database)
+  mapLotScanned: Map<string, LotDto> = new Map<string, LotDto>();
+
+
+  lotNoEdit: string | null = null;
 
   getRequestDetail() {
     let requestNo = this.activatedRoute.snapshot.queryParamMap.get('requestNo');
 
+    this.lotGrid?.instance.beginCustomLoading(`Đang load dữ liệu ...`);
+
     this.rePrSvc.getRequestDetail(requestNo).subscribe((response) => {
       this.lots = response.result;
+      this.lotGrid.instance.endCustomLoading();
     });
   }
 
@@ -64,29 +92,199 @@ export class RePrReceiveComponent implements OnInit {
     });
   }
 
-
   toggleExpandAll() {
     this.expandAll = !this.expandAll;
-
-    
-    const grid = this.lotGrid.instance;  // Lấy instance của DataGrid
-    grid.collapseRow(1);  // Thu gọn nhóm đầu tiên (theo groupIndex = 0)
-   
-    
   }
-
 
   statusCellTemplate(cellElement: any, cellInfo: any) {
+    const status = cellInfo.value;
+    let color = status === 'Received' ? 'blue' : 'red';
+    let statusName = status === 'Received' ? 'Received' : 'Not yet';
+    cellElement.style.color = color;
+    cellElement.innerText = statusName;
+  }
 
-    console.log('cellElement: ', cellElement);
-    
-    console.log('cellInfo: ', cellInfo);
-    
+  resetFiltersAndSorting() {
+    this.lotGrid.instance.clearFilter();
+    this.lotGrid.instance.clearSorting();
+  }
 
+  /**
+   * Mở modal scan nhận NVL
+   * @returns
+   */
+  openReceiveModal() {
+    this.lotScanErrors = new Array();
+    this.mapLotScanned = new Map<string, LotDto>();
+    this.litsLotScanOk = new Array();
+
+    let isReceivedAll = true;
+
+    for (const obj of this.lots) {
+      if (obj.status === 0) {
+        isReceivedAll = false;
+        break;
+      }
+    }
+
+    // Kiểm tra NVL trong phiếu đã nhận đủ thì không được nhận nữa
+    if (isReceivedAll) {
+      this.toastr.warning('Đã nhận đủ NVL', 'Warning');
+      return;
+    }
+
+    this.isOpenReceiveModal = true;
+
+    setTimeout(() => {
+      if (this.userIdIpt && this.userIdIpt.instance) {
+        // Gọi focus() để focus vào dx-text-box ngay khi component được khởi tạo
+        this.userIdIpt.instance.focus();
+      }
+    }, 500);
+  }
+
+  scanUserId(event: any) {
+    let userId = event.target.value.toUpperCase();
+    const inputElement = this.userIdIpt.instance
+      .element()
+      .querySelector('input');
+    if (userId.length !== 7 || !!isNaN(Number(userId))) {
+      this.toastr.warning('ID không hợp lệ', 'Warning');
+      if (inputElement) {
+        inputElement.select(); // Gọi select() trên input DOM
+      }
+      return;
+    }
+
+    this.qrCodeIpt.instance.focus();
+  }
+
+  
+
+  scanQRCode(event: any) {
+    /**
+     * Kiểm tra bắt buộc phải nhập mã nhân viên
+     */
+    const userID = this.userIdIpt.instance.option('value');
+    if (!userID) {
+      this.toastr.warning('Cần scan mã nhân viên', 'Warning');
+      return;
+    }
+
+    /**
+     * Scan NVL
+     * 1. kiểm tra nếu lot đã được ghi nhận, thì ko cho lưu
+     * 2. kiểm tra lot nếu không thuộc phiếu thì ko cho lưu
+     */
+    let qrInfo = event.target.value.toUpperCase().split(';');
+    this.selectTextInput('qrCodeIpt');
+
+    let isScanOK = false;
+
+    let obj = new LotDto();
+    obj.model = qrInfo[0];
+    obj.lotNo = qrInfo[3];
+    obj.qty = qrInfo[2];
+    obj.receiver = userID;
+    obj.date = new Date();
+    obj.recordType = 'RNP';
+    obj.flag = '5';
+    obj.reqNo = this.requestNo;
+
+    for (const item of this.lots) {
+      if (qrInfo[3] === item.lotNo) {
+        if (item.status == 1) {
+          // 1. Lot scan thuộc phiếu request và đã được ghi nhận
+          isScanOK = false;
+          obj.errorInfo = `Lot đã được scan nhận lúc: ${this.datePipe.transform(item.createdAt, 'yyyy-MM-dd HH:mm')}`;
+          this.lotScanErrors.push(obj);
+          this.toastr.warning('Lot đã được scan nhận', 'Warning');
+          return;
+        } else if (item.status == 0) {
+          // 2. Lot scan thuộc phiếu request và chưa được ghi nhận
+          isScanOK = true;
+        }
+      }
+    }
+
+    if (!isScanOK) {
+      // Trường hơp còn lại là Lot scan không thuộc phiếu request
+      obj.errorInfo = 'Lot không thuộc phiếu request';
+      this.toastr.warning('Lot không thuộc phiếu request', 'Warning');
+      this.lotScanErrors.push(obj);
+      this.selectTextInput('qrCodeIpt');
+      return;
+    }
+
+    this.rePrSvc.validateLotReceive(obj).subscribe(
+      response => {
+        this.mapLotScanned.set(obj.lotNo, response.result);
+        this.litsLotScanOk = Array.from(this.mapLotScanned.values()).reverse();
+        return;
+      }
+    )
+
+
+    
+  }
+
+  selectTextInput(input: string) {
+    if (input === 'userIdIpt') {
+      const inputElement = this.userIdIpt.instance
+        .element()
+        .querySelector('input');
+      if (inputElement) {
+        inputElement.select();
+        return;
+      }
+    }
+
+    if (input === 'qrCodeIpt') {
+      const inputElement = this.qrCodeIpt.instance
+        .element()
+        .querySelector('input');
+      if (inputElement) {
+        inputElement.select();
+        return;
+      }
+    }
+  }
+
+  onReceiveMaterial() {
+    this.isLoading = true;
+
+    let saveData = [...this.litsLotScanOk];
+
+    this.rePrSvc.onReceiveMaterials(saveData).subscribe(
+      (response) => {
+        this.getRequestDetail();
+        this.isOpenReceiveModal = false;
+        this.isLoading = false;
+      },
+      (error) => {
+        this.getRequestDetail();
+        this.isOpenReceiveModal = false;
+        this.isLoading = false;
+      }
+    );
   }
 
 
+  startEdit(data: any) {
+    setTimeout(() => {
+      this.qtyIpt.nativeElement.focus();
+    }, 500);
+    this.lotNoEdit = data.lotNo;
+  }
 
-
-
+  stopEdit(data: any): void {
+    console.log('stopEdit: ', data);
+    if (data.qty > data.remainQty) {
+      data.qty = data.remainQty
+    } else if (data.qty < 0) {
+      data.qty = 0
+    }
+    
+    this.lotNoEdit = null;
+  }
 }

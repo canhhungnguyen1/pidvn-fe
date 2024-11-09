@@ -19,16 +19,32 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { RePrRequestComponent } from './re-pr-request/re-pr-request.component';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { DxDateRangeBoxModule } from 'devextreme-angular';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import {
+  DxFormModule,
+  DxHtmlEditorModule,
+  DxTextBoxModule,
+  DxNumberBoxModule,
+  DxDateBoxModule,
+  DxMapModule,
+  DxValidatorModule,
+  DxDropDownBoxModule,
+} from 'devextreme-angular';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzTagModule } from 'ng-zorro-antd/tag';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     RelayProcessRecordingComponent,
     RePrMenuComponent,
     RePrReceiveComponent,
-    RePrRequestComponent
+    RePrRequestComponent,
   ],
   imports: [
     CommonModule,
+    FormsModule,
     RelayProcessRecordingRoutingModule,
     NzGridModule,
     NzFlexModule,
@@ -40,7 +56,19 @@ import { DxDateRangeBoxModule } from 'devextreme-angular';
     DxSelectBoxModule,
     NzButtonModule,
     NzIconModule,
-    DxDateRangeBoxModule
+    DxDateRangeBoxModule,
+    NzModalModule,
+    NzTableModule,
+    DxFormModule,
+    DxHtmlEditorModule,
+    DxTextBoxModule,
+    DxNumberBoxModule,
+    DxDateBoxModule,
+    DxMapModule,
+    DxValidatorModule,
+    DxDropDownBoxModule,
+    NzTagModule,
+    NzInputModule
   ],
 })
 export class RelayProcessRecordingModule {}
