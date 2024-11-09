@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { LotDto } from '../models/LotDto';
+import { SearchDto } from '../models/SearchDto';
 
 @Injectable({
   providedIn: 'root',
@@ -11,8 +12,8 @@ export class RePrService {
   constructor(private httpClient: HttpClient) {}
   private baseUrl = environment.baseUrl;
 
-  public getRequests(): Observable<any> {
-    return this.httpClient.get(`${this.baseUrl}/Relay/ProcessRecording/Requests`);
+  public getRequests(searchParam: SearchDto): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/Relay/ProcessRecording/Requests`,searchParam);
   }
 
   public getRequestDetail(requestNo: any): Observable<any> {

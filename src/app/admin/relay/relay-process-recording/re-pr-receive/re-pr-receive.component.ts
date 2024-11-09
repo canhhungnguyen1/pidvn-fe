@@ -168,6 +168,7 @@ export class RePrReceiveComponent implements OnInit, AfterViewInit {
     const userID = this.userIdIpt.instance.option('value');
     if (!userID) {
       this.toastr.warning('Cần scan mã nhân viên', 'Warning');
+      this.userIdIpt.instance.focus();
       return;
     }
 

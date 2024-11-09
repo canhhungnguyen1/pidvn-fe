@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { RePrService } from '../services/re-pr.service';
 import { RequestDto } from '../models/RequestDto';
 import { DxDataGridComponent } from 'devextreme-angular';
+import { SearchDto } from '../models/SearchDto';
 
 @Component({
   selector: 'app-re-pr-request',
@@ -24,22 +25,32 @@ export class RePrRequestComponent implements OnInit, AfterViewInit {
     private router: Router
   ) {}
 
+  requests: RequestDto[] = [];
+
+  searchParam: SearchDto = new SearchDto();
+
   ngOnInit(): void {
-    
+    const today = new Date();
+    const pastDate = new Date();
+    pastDate.setDate(today.getDate() - 30);
+    this.searchParam.dateRange = [pastDate, today]
   }
 
   ngAfterViewInit(): void {
     this.getRequests();
   }
+ 
 
-  requests: RequestDto[] = [];
+  onSearch() {
+    this.getRequests()
+  }
 
   getRequests() {
 
     this.requestGrid?.instance.beginCustomLoading(
       `Đang load dữ liệu ...`
     );
-    this.rePrSvc.getRequests().subscribe((response) => {
+    this.rePrSvc.getRequests(this.searchParam).subscribe((response) => {
       this.requests = response.result;
       this.requestGrid.instance.endCustomLoading();
     });
@@ -57,10 +68,7 @@ export class RePrRequestComponent implements OnInit, AfterViewInit {
 
 
 
-  // Khởi tạo giá trị mặc định cho startDate và endDate
-  dateRange: any = [new Date('2023-01-01'), new Date('2023-12-31')];
-  startDate: Date = new Date('2023-01-01');
-  endDate: Date = new Date('2023-12-31');
+  
 
   // Hàm để xử lý sự kiện thay đổi giá trị
   onDateRangeChanged(event: any) {

@@ -208,7 +208,7 @@
               (blur)="stopEdit(data)"
             />
           </td>
-          <td>{{ data.remainQty }}</td>
+          <td>{{ data.remainQty | number : "1.0-3" }}</td>
           <td
               style="text-align: center"
               nz-popconfirm

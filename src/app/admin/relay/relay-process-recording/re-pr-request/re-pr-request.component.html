@@ -13,18 +13,20 @@
   <dxo-toolbar>
     <dxi-item location="before">
       <dx-date-range-box
-        [(value)]="dateRange"
-        [startDate]="startDate"
-        [endDate]="endDate"
+        [(value)]="searchParam.dateRange"
+        [(startDate)]="searchParam.dateRange[0]"
+        [(endDate)]="searchParam.dateRange[1]"
         [displayFormat]="'yyyy/MM/dd'"
         (onValueChanged)="onDateRangeChanged($event)"
         style="width: 300px;"
+        startDateLabel="Ngày bắt đầu"
+        endDateLabel="Ngày kết thúc"
       >
       </dx-date-range-box>
     </dxi-item>
     <dxi-item location="before">
       <div *dxTemplate>
-        <dx-button icon="search" style="margin-top: 8px;">
+        <dx-button icon="search" style="margin-top: 8px;" (onClick)="onSearch()">
         </dx-button>
       </div>
     </dxi-item>
