@@ -1,0 +1,43 @@
+<dx-data-grid
+  #requestGrid
+  keyExpr="name"
+  [dataSource]="logFiles"
+  [showColumnLines]="true"
+  [showRowLines]="true"
+  [showBorders]="true"
+  [allowColumnResizing]="true"
+  [columnAutoWidth]="true"
+  [rowAlternationEnabled]="true"
+>
+  <dxo-header-filter [visible]="true"></dxo-header-filter>
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
+  <dxo-export [enabled]="true"></dxo-export>
+
+  <dxi-column dataField="name" caption="Name" [visible]="true"></dxi-column>
+
+  <dxi-column dataField="type" caption="Type" [visible]="true"></dxi-column>
+
+  <dxi-column
+    dataField="createdAt"
+    caption="Ngày tạo"
+    dataType="date"
+    format="yyyy-MM-dd HH:mm:ss"
+    [visible]="true"
+  ></dxi-column>
+
+  <dxi-column
+    dataField="path"
+    caption="Đường dẫn"
+    [visible]="true"
+  ></dxi-column>
+
+  <dxi-column
+    caption=""
+    cellTemplate="viewLogTemplate"
+  ></dxi-column>
+  <div *dxTemplate="let item of 'viewLogTemplate'" style="text-align: center">
+    <a (click)="viewLogFile(item.data)"
+      ><span nz-icon nzType="eye" nzTheme="outline"></span
+    ></a>
+  </div>
+</dx-data-grid>
