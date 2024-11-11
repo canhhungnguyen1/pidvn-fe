@@ -155,7 +155,7 @@ export class IqcRequestDetailComponent implements OnInit, AfterViewInit {
     //             });
     //     });
 
-    this.iqcSvc.exportExcel(this.iqcRequest).subscribe((response) => {
+    this.iqcSvc.exportExcel(this.iqcRequest, 'export').subscribe((response) => {
       const blob = new Blob([response], {
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       });

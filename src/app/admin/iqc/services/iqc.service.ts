@@ -64,10 +64,16 @@ export class IqcService {
   }
 
 
-  public exportExcel(iqcRequest: any): Observable<any> {
+  public exportExcel(iqcRequest: any, type: any): Observable<any> {
     return this.httpClient.post(
-      `${this.baseUrl}/IQC/ExportExcel`,iqcRequest,
+      `${this.baseUrl}/IQC/ExportExcel?type=${type}`,iqcRequest,
       { responseType: 'blob' }
+    );
+  }
+
+  public previewRequestDetail(iqcRequest: any, type: any): Observable<any> {
+    return this.httpClient.post(
+      `${this.baseUrl}/IQC/ExportExcel?type=${type}`,iqcRequest
     );
   }
 

@@ -280,7 +280,7 @@
       <dxo-load-panel [enabled]="false"></dxo-load-panel>
       <dxo-export [enabled]="true"></dxo-export>
 
-      <dxo-toolbar>
+      <!-- <dxo-toolbar>
         <dxi-item location="before">
           <nz-space nzAlign="center">
             <nz-tag id="expand" *nzSpaceItem (click)="toggleExpandAll()">
@@ -297,7 +297,7 @@
         </dxi-item>
         <dxi-item name="exportButton" location="after" />
         <dxi-item name="columnChooserButton"></dxi-item>
-      </dxo-toolbar>
+      </dxo-toolbar> -->
 
       <dxo-filter-row [visible]="true"></dxo-filter-row>
       <dxo-header-filter [visible]="true"></dxo-header-filter>
@@ -306,7 +306,6 @@
         dataField="model"
         caption="Model"
         [visible]="true"
-        [groupIndex]="0"
       >
         <dxo-header-filter [allowSelectAll]="false">
           <dxo-search [enabled]="true"></dxo-search>
@@ -317,19 +316,17 @@
         dataField="lotGroup"
         caption="Lot Group"
         [visible]="true"
-        [groupIndex]="1"
-        [autoExpandGroup]="false"
       >
         <dxo-header-filter [allowSelectAll]="false">
           <dxo-search [enabled]="true"></dxo-search>
         </dxo-header-filter>
       </dxi-column>
 
-      <dxi-column
+      <!-- <dxi-column
         dataField="lotNo"
         caption="LotNo"
         [visible]="true"
-      ></dxi-column>
+      ></dxi-column> -->
       <dxi-column
         dataField="qty"
         caption="Qty"
@@ -343,18 +340,21 @@
           dataField="result1"
           caption="Ngoại Quan"
           [visible]="true"
+          [cellTemplate]="resultCellTemplate"
         ></dxi-column>
 
         <dxi-column
           dataField="result2"
           caption="Kích thước"
           [visible]="true"
+          [cellTemplate]="resultCellTemplate"
         ></dxi-column>
 
         <dxi-column
           dataField="result3"
           caption="GP"
           [visible]="true"
+          [cellTemplate]="resultCellTemplate"
         ></dxi-column>
       </dxi-column>
 
@@ -390,7 +390,7 @@
         [visible]="true"
       ></dxi-column>
 
-      <dxo-summary>
+      <!-- <dxo-summary>
         <dxi-group-item
           column="lotGroup"
           summaryType="count"
@@ -406,7 +406,7 @@
           valueFormat="#,##0.0"
         >
         </dxi-group-item>
-      </dxo-summary>
+      </dxo-summary> -->
 
       <dxo-paging [pageSize]="10"></dxo-paging>
       <dxo-pager

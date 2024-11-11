@@ -202,7 +202,7 @@ export class AdminComponent implements OnInit {
     },
     {
       line: 'PRE-SWB',
-      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=PRE-SWBG`
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=PRE-SWB`
     },
     {
       line: '11G2-TH',

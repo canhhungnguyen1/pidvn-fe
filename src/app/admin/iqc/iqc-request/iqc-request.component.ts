@@ -172,7 +172,7 @@ export class IqcRequestComponent implements OnInit, AfterViewInit {
     );
 
     this.iqcSvc
-      .getIqcResults(this.iqcRequest.requestNo)
+      .previewRequestDetail(this.iqcRequest,"group")
       .subscribe((response) => {
         this.iqcResults = response.result;
         this.iqcDataGrid.instance.endCustomLoading();
@@ -234,4 +234,15 @@ export class IqcRequestComponent implements OnInit, AfterViewInit {
     this.toastr.warning('Bạn không có quyền truy cập', 'Warning');
     return;
   }
+
+
+
+  resultCellTemplate(cellElement: any, cellInfo: any) {
+    const result = cellInfo.value;
+    let color = result === 'OK' ? 'green' : 'red';
+    cellElement.style.color = color;
+    cellElement.innerText = result;
+  }
+
+
 }
