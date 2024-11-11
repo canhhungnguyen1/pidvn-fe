@@ -196,6 +196,24 @@ export class AdminComponent implements OnInit {
       line: 'GMT-3',
       link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=GMT-3`
     },
+    {
+      line: 'CS.ENC 2G',
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=CS.ENC 2G`
+    },
+    {
+      line: 'PRE-SWB',
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=PRE-SWBG`
+    },
+    {
+      line: '11G2-TH',
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=11G2-TH`
+    },
+    {
+      line: 'TEMP',
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=TEMP`
+    }
+
+
   ]
 
   fgWarehouseLink!: string;
