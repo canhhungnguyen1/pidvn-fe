@@ -8,6 +8,7 @@
   [allowColumnResizing]="true"
   [columnAutoWidth]="true"
   [rowAlternationEnabled]="true"
+  (onCellPrepared)="onCellPreparedIqcRequestGrid($event)"
 >
   <dxo-column-chooser
     #columnChooser
@@ -99,6 +100,11 @@
     dataField="supplier"
     caption="Supplier"
     [visible]="true"
+  ></dxi-column>
+  <dxi-column
+    dataField="status"
+    caption="Status Code"
+    [visible]="false"
   ></dxi-column>
   <dxi-column
     dataField="statusName"
@@ -268,6 +274,7 @@
       [columnAutoWidth]="true"
       [rowAlternationEnabled]="true"
       (onExporting)="onExportClient($event)"
+      (onCellPrepared)="onCellPreparedIqcDataGrid($event)"
     >
       <dxo-grouping [autoExpandAll]="expandAll"></dxo-grouping>
       <dxo-column-chooser
@@ -322,11 +329,6 @@
         </dxo-header-filter>
       </dxi-column>
 
-      <!-- <dxi-column
-        dataField="lotNo"
-        caption="LotNo"
-        [visible]="true"
-      ></dxi-column> -->
       <dxi-column
         dataField="qty"
         caption="Qty"
@@ -340,21 +342,18 @@
           dataField="result1"
           caption="Ngoại Quan"
           [visible]="true"
-          [cellTemplate]="resultCellTemplate"
         ></dxi-column>
 
         <dxi-column
           dataField="result2"
           caption="Kích thước"
           [visible]="true"
-          [cellTemplate]="resultCellTemplate"
         ></dxi-column>
 
         <dxi-column
           dataField="result3"
           caption="GP"
           [visible]="true"
-          [cellTemplate]="resultCellTemplate"
         ></dxi-column>
       </dxi-column>
 
@@ -390,24 +389,6 @@
         [visible]="true"
       ></dxi-column>
 
-      <!-- <dxo-summary>
-        <dxi-group-item
-          column="lotGroup"
-          summaryType="count"
-          displayFormat="{0} boxes"
-        >
-        </dxi-group-item>
-        <dxi-group-item
-          column="qty"
-          summaryType="sum"
-          [showInGroupFooter]="false"
-          [alignByColumn]="true"
-          displayFormat="Total Qty: {0}"
-          valueFormat="#,##0.0"
-        >
-        </dxi-group-item>
-      </dxo-summary> -->
-
       <dxo-paging [pageSize]="10"></dxo-paging>
       <dxo-pager
         [showPageSizeSelector]="true"
@@ -416,13 +397,4 @@
       </dxo-pager>
     </dx-data-grid>
   </ng-container>
-  <!-- <ng-template [nzModalFooter]>
-    <button
-      nz-button
-      nzType="default"
-      (click)="isOpenIqcRequestDetailModal = false"
-    >
-      Đóng
-    </button>
-  </ng-template> -->
 </nz-modal>

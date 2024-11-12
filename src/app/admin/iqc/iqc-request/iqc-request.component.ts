@@ -236,13 +236,38 @@ export class IqcRequestComponent implements OnInit, AfterViewInit {
   }
 
 
+  onCellPreparedIqcRequestGrid(e: any) {
+    if (e.rowType === 'data' && e.column.dataField === 'statusName') {
+      const statusValue = e.row.data.status;
+      if (statusValue === 1) {
+        e.cellElement.style.color = 'red'; // Màu chữ đỏ
+      } else if(statusValue === 2) {
+        e.cellElement.style.color = 'green';
+      } else if(statusValue === 3) {
+        e.cellElement.style.color = 'blue';
+      }
+    }
 
-  resultCellTemplate(cellElement: any, cellInfo: any) {
-    const result = cellInfo.value;
-    let color = result === 'OK' ? 'green' : 'red';
-    cellElement.style.color = color;
-    cellElement.innerText = result;
+
   }
+
+  onCellPreparedIqcDataGrid(e: any) {
+    if (e.rowType === 'data' ) {
+
+      if (e.column.dataField === 'result1' || e.column.dataField === 'result2' || e.column.dataField === 'result3') {
+        if (e.value === 'OK') {
+          e.cellElement.style.color = 'green';
+        }
+
+        if (e.value === 'NG') {
+          e.cellElement.style.color = 'red';
+        }
+      }
+
+
+    }
+  }
+
 
 
 }
