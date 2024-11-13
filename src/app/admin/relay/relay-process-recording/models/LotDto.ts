@@ -12,5 +12,6 @@ export class LotDto {
     flag!: string;
     errorInfo!: string;
     reqNo!: string;
-    createdAt!: Date
+    createdAt!: Date;
+    qrCode!: string;
 }

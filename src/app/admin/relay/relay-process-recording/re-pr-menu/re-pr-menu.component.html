@@ -16,11 +16,25 @@
     <div class="wrapper">
       <div
         class="item process_recording"
+        [routerLink]="['/admin/relay/material-management/lwh-send-line']"
         nz-flex
         [nzJustify]="'center'"
         [nzAlign]="'center'"
       >
-        <span class="title">Scan vào line</span>
+        <span class="title">Scan NVL vào Line</span>
+      </div>
+    </div>
+  </div>
+  <div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="4">
+    <div class="wrapper">
+      <div
+        class="item return_warehouse"
+        [routerLink]="['/admin/relay/material-management/rwh-send-pwh']"
+        nz-flex
+        [nzJustify]="'center'"
+        [nzAlign]="'center'"
+      >
+        <span class="title">Trả NVL về Kho</span>
       </div>
     </div>
   </div>
@@ -28,6 +42,7 @@
     <div class="wrapper">
       <div
         class="item date_code"
+        [routerLink]="['/admin/relay/relay-datecode']"
         nz-flex
         [nzJustify]="'center'"
         [nzAlign]="'center'"

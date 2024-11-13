@@ -32,6 +32,7 @@ import { RePrReceiveComponent } from './re-pr-receive/re-pr-receive.component';
 import { RePrRequestComponent } from './re-pr-request/re-pr-request.component';
 import { RelayProcessRecordingRoutingModule } from './relay-process-recording-routing.module';
 import { RelayProcessRecordingComponent } from './relay-process-recording.component';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { RelayProcessRecordingComponent } from './relay-process-recording.compon
     DxDropDownBoxModule,
     NzTagModule,
     NzInputModule,
+    NzPopconfirmModule
   ],
 })
 export class RelayProcessRecordingModule {}

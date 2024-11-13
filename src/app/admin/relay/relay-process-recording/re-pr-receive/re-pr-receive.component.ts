@@ -20,7 +20,7 @@ import { DatePipe } from '@angular/common';
   selector: 'app-re-pr-receive',
   templateUrl: './re-pr-receive.component.html',
   styleUrl: './re-pr-receive.component.scss',
-  providers: [DatePipe]
+  providers: [DatePipe],
 })
 export class RePrReceiveComponent implements OnInit, AfterViewInit {
   @ViewChild(DxDataGridComponent, { static: false })
@@ -60,7 +60,6 @@ export class RePrReceiveComponent implements OnInit, AfterViewInit {
   litsLotScanOk: LotDto[] = []; // Lưu các lot khi scan nhận OK (insert vào database)
   mapLotScanned: Map<string, LotDto> = new Map<string, LotDto>();
 
-
   lotNoEdit: string | null = null;
 
   getRequestDetail() {
@@ -97,11 +96,25 @@ export class RePrReceiveComponent implements OnInit, AfterViewInit {
   }
 
   statusCellTemplate(cellElement: any, cellInfo: any) {
-    const status = cellInfo.value;
-    let color = status === 'Received' ? 'blue' : 'red';
-    let statusName = status === 'Received' ? 'Received' : 'Not yet';
-    cellElement.style.color = color;
-    cellElement.innerText = statusName;
+    // const status = cellInfo.value;
+    // let color = status === 'Received' ? 'blue' : 'red';
+    // let statusName = status === 'Received' ? 'Received' : 'Not yet';
+    // cellElement.style.color = color;
+    // cellElement.innerText = statusName;
+  }
+
+  onCellPreparedLotGrid(e: any) {
+    if (e.rowType === 'data') {
+      if (e.column.dataField === 'statusName') {
+        const statusValue = e.row.data.status;
+
+        if (statusValue === 0) {
+          e.cellElement.style.color = 'red';
+        } else if (statusValue === 1) {
+          e.cellElement.style.color = 'blue';
+        }
+      }
+    }
   }
 
   resetFiltersAndSorting() {
@@ -159,8 +172,6 @@ export class RePrReceiveComponent implements OnInit, AfterViewInit {
     this.qrCodeIpt.instance.focus();
   }
 
-  
-
   scanQRCode(event: any) {
     /**
      * Kiểm tra bắt buộc phải nhập mã nhân viên
@@ -191,13 +202,17 @@ export class RePrReceiveComponent implements OnInit, AfterViewInit {
     obj.recordType = 'RNP';
     obj.flag = '5';
     obj.reqNo = this.requestNo;
+    obj.qrCode = event.target.value.toUpperCase()
 
     for (const item of this.lots) {
       if (qrInfo[3] === item.lotNo) {
         if (item.status == 1) {
           // 1. Lot scan thuộc phiếu request và đã được ghi nhận
           isScanOK = false;
-          obj.errorInfo = `Lot đã được scan nhận lúc: ${this.datePipe.transform(item.createdAt, 'yyyy-MM-dd HH:mm')}`;
+          obj.errorInfo = `Lot đã được scan nhận lúc: ${this.datePipe.transform(
+            item.createdAt,
+            'yyyy-MM-dd HH:mm'
+          )}`;
           this.lotScanErrors.push(obj);
           this.toastr.warning('Lot đã được scan nhận', 'Warning');
           return;
@@ -217,16 +232,11 @@ export class RePrReceiveComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    this.rePrSvc.validateLotReceive(obj).subscribe(
-      response => {
-        this.mapLotScanned.set(obj.lotNo, response.result);
-        this.litsLotScanOk = Array.from(this.mapLotScanned.values()).reverse();
-        return;
-      }
-    )
-
-
-    
+    this.rePrSvc.validateLotReceive(obj).subscribe((response) => {
+      this.mapLotScanned.set(obj.lotNo, response.result);
+      this.litsLotScanOk = Array.from(this.mapLotScanned.values()).reverse();
+      return;
+    });
   }
 
   selectTextInput(input: string) {
@@ -261,6 +271,7 @@ export class RePrReceiveComponent implements OnInit, AfterViewInit {
         this.getRequestDetail();
         this.isOpenReceiveModal = false;
         this.isLoading = false;
+        this.toastr.success('Lưu thành công','Thông báo')
       },
       (error) => {
         this.getRequestDetail();
@@ -269,7 +280,6 @@ export class RePrReceiveComponent implements OnInit, AfterViewInit {
       }
     );
   }
-
 
   startEdit(data: any) {
     setTimeout(() => {
@@ -281,11 +291,22 @@ export class RePrReceiveComponent implements OnInit, AfterViewInit {
   stopEdit(data: any): void {
     console.log('stopEdit: ', data);
     if (data.qty > data.remainQty) {
-      data.qty = data.remainQty
+      data.qty = data.remainQty;
     } else if (data.qty < 0) {
-      data.qty = 0
+      data.qty = 0;
     }
-    
+
     this.lotNoEdit = null;
+  }
+
+  /**
+   * Xóa QR Code vừa Scann
+   * @param data
+   */
+  deleteQRCodeScanned(data: any) {
+    console.log(this.mapLotScanned);
+    
+    this.mapLotScanned.delete(data.lotNo);
+    this.litsLotScanOk = Array.from(this.mapLotScanned.values()).reverse();
   }
 }

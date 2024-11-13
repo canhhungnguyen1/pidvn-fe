@@ -12,6 +12,7 @@
   [rowAlternationEnabled]="true"
   (onExporting)="onExportClient($event)"
   [grouping]="{ autoExpandAll: expandAll }"
+  (onCellPrepared)="onCellPreparedLotGrid($event)"
   style="margin-top: 10px"
 >
   <dxo-grouping [autoExpandAll]="expandAll"></dxo-grouping>
@@ -103,7 +104,6 @@
     dataField="statusName"
     caption="Status"
     [visible]="true"
-    [cellTemplate]="statusCellTemplate"
   ></dxi-column>
 
   <dxo-summary>
@@ -143,10 +143,10 @@
         <tr>
           <th>
             <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
-              <div nz-col nzXs="4" nzSm="4" nzMd="4" nzLg="4">
+              <div nz-col nzXs="6" nzSm="6" nzMd="6" nzLg="6">
                 <dx-text-box
                   #userIdIpt
-                  label="UserID"
+                  label="Scan ID người nhận"
                   labelLocation="left"
                   showColonAfterLabel="true"
                   [labelMode]="'static'"
@@ -154,10 +154,10 @@
                   (click)="selectTextInput('userIdIpt')"
                 ></dx-text-box>
               </div>
-              <div nz-col nzXs="20" nzSm="20" nzMd="20" nzLg="20">
+              <div nz-col nzXs="18" nzSm="18" nzMd="18" nzLg="18">
                 <dx-text-box
                   #qrCodeIpt
-                  label="QR Code"
+                  label="Scan tem NVL"
                   labelLocation="left"
                   showColonAfterLabel="true"
                   [labelMode]="'static'"
@@ -210,11 +210,12 @@
           </td>
           <td>{{ data.remainQty | number : "1.0-3" }}</td>
           <td
-              style="text-align: center"
-              nz-popconfirm
-              nzPopconfirmTitle="Có chắc chắn xóa không ?"
-              nzPopconfirmPlacement="top"
-              nzRight
+            style="text-align: center"
+            nz-popconfirm
+            nzPopconfirmTitle="Có chắc chắn xóa không ?"
+            (nzOnConfirm)="deleteQRCodeScanned(data)"
+            nzPopconfirmPlacement="top"
+            nzRight
             >
               <a style="color: red; font-weight: bold">Xóa</a>
             </td>
@@ -232,6 +233,7 @@
       nzType="primary"
       (click)="onReceiveMaterial()"
       [nzLoading]="isLoading"
+      [disabled]="litsLotScanOk.length <= 0"
     >
       <span nz-icon nzType="save"></span>
       Lưu
