@@ -27,6 +27,10 @@ export class RePrService {
   public validateLotReceive(lot: LotDto): Observable<any> {
     return this.httpClient.post(`${this.baseUrl}/Relay/ProcessRecording/ValidateLotReceive`, lot);
   }
+
+  public deleteLotReceived(lot: LotDto): Observable<any> {
+    return this.httpClient.put(`${this.baseUrl}/Relay/ProcessRecording/DeleteLotReceived`, lot);
+  }
   
 
 

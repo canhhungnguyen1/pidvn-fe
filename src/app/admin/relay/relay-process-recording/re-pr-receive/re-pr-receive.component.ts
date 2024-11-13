@@ -300,13 +300,32 @@ export class RePrReceiveComponent implements OnInit, AfterViewInit {
   }
 
   /**
-   * Xóa QR Code vừa Scann
+   * Xóa Lot vừa Scan để chuẩn bị lưu
    * @param data
    */
-  deleteQRCodeScanned(data: any) {
+  deleteLotScanned(data: any) {
     console.log(this.mapLotScanned);
-    
     this.mapLotScanned.delete(data.lotNo);
     this.litsLotScanOk = Array.from(this.mapLotScanned.values()).reverse();
+  }
+
+
+
+  /**
+   * Xóa lot đã nhận
+   */
+  deleteLotReceived(event: any) {
+    console.log('deleteLotReceived: ', event);
+    let obj = event.data
+
+    this.rePrSvc.deleteLotReceived(obj).subscribe(
+      response => {
+        this.getRequestDetail()
+        this.toastr.success('Xóa thành công','Thông báo');
+      }
+    )
+
+
+
   }
 }
