@@ -66,10 +66,6 @@ const routes: Routes = [
   {
     path: 'relay-material-traceability',
     component: RelayMaterialTraceabilityComponent,
-    canActivate: [RoleGuard],
-    data: {
-      roles: ['super_admin', 'MA Leader'],
-    },
   }
 ];
 

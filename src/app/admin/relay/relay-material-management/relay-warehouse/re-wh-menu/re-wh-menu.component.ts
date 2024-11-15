@@ -15,7 +15,7 @@ export class ReWhMenuComponent implements OnInit {
   menu: any = [
     {
       name: 'Nhận NVL từ kho PUR-WH',
-      route:'/admin/relay/relay-process-recording/requests'
+      route:'/admin/relay/material-management/re-wh-requests'
     },
     {
       name: 'Trả NVL về kho PUR-WH',

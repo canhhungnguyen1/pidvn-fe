@@ -1,0 +1,157 @@
+<div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+  <div nz-col nzXs="12" nzSm="18" nzLg="18">
+    <span class="attention"
+      >* Lưu ý: Scan theo thứ tự User ID, QA card, Process</span
+    >
+  </div>
+
+  <div nz-col nzXs="24" nzSm="24" nzLg="24">
+    <nz-table
+      id="infoTbl"
+      #infoTbl
+      [nzData]="['']"
+      nzBordered
+      nzSize="small"
+      nzFrontPagination="false"
+    >
+      <thead>
+        <tr>
+          <th colspan="3">
+            <!-- <input
+              id="infoIpt"
+              #infoIpt
+              nz-input
+              placeholder="Scan theo thứ tự User ID, QA card, Process"
+              (click)="infoIpt.select()"
+              
+              autocomplete="off"
+            /> -->
+
+            <dx-text-box
+              #infoIpt
+              label="Scan thông tin"
+              labelLocation="left"
+              showColonAfterLabel="true"
+              [labelMode]="'static'"
+              placeholder="Scan theo thứ tự User ID, QA card, Process"
+              (click)="selectTextInput('infoIpt')"
+              (keydown.enter)="scanInfo($event)"
+              [ngStyle]="{ color: 'red' }"
+            ></dx-text-box>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <label>Model: </label>
+            <span>{{ infoScan.model }}</span>
+          </td>
+          <td>
+            <label>Line: </label>
+            <span>{{ infoScan.line }}</span>
+          </td>
+          <td>
+            <label>Date: </label>
+            <span>{{ infoScan.date }}</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label>User: </label>
+            <span>{{ infoScan.user }}</span>
+          </td>
+          <td>
+            <label>Shift: </label>
+            <span>{{ infoScan.shift }}</span>
+          </td>
+          <td>
+            <label>Process: </label>
+            <span>{{ infoScan.processName }}</span>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>
+
+<nz-modal
+  id="importMaterialModal"
+  [(nzVisible)]="isOpenScanQRCodeModal"
+  [nzTitle]="nzTitleScanQRCodeModal"
+  nzWidth="100%"
+>
+  <ng-container *nzModalContent>
+    <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+      <nz-table [nzData]="['']" nzBordered nzFrontPagination="false">
+        <thead>
+          <tr>
+            <th>
+              <dx-text-box
+                #qrCodeIpt
+                label="Scan tem NVL"
+                labelLocation="left"
+                showColonAfterLabel="true"
+                [labelMode]="'static'"
+                (keydown.enter)="scanQRCode($event)"
+                (click)="selectTextInput('qrCodeIpt')"
+              ></dx-text-box>
+            </th>
+          </tr>
+        </thead>
+      </nz-table>
+
+      <nz-table
+        #lotScanTbl
+        [nzData]="litsLotScanOk"
+        nzBordered
+        nzSize="small"
+        [nzFrontPagination]="true"
+      >
+        <thead>
+          <tr>
+            <th>Part No</th>
+            <th>Lot No</th>
+            <th>Qty</th>
+            <th>Tồn</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of lotScanTbl.data">
+            <td>{{ data.model }}</td>
+            <td>{{ data.lotNo }}</td>
+            <td class="editable-row" style="text-align: right">
+              <div
+                class="editable-cell"
+                [hidden]="lotNoEdit === data.lotNo"
+                (click)="startEdit(data)"
+              >
+                {{ data.qty | number : "1.0-3" }}
+              </div>
+              <input
+                #qtyIpt
+                [hidden]="lotNoEdit !== data.lotNo"
+                type="number"
+                nz-input
+                [(ngModel)]="data.qty"
+                (blur)="stopEdit(data)"
+              />
+            </td>
+            <td>{{ data.remainQty | number : "1.0-3" }}</td>
+            <td
+              style="text-align: center"
+              nz-popconfirm
+              nzPopconfirmTitle="Có chắc chắn xóa không ?"
+              (nzOnConfirm)="deleteLotScanned(data)"
+              nzPopconfirmPlacement="top"
+              nzRight
+            >
+              <a style="color: red; font-weight: bold">Xóa</a>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </ng-container>
+</nz-modal>

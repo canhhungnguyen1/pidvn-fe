@@ -26,7 +26,7 @@ export class LoggerComponent implements OnInit{
 
 
   getLogFiles() {
-    let path = "D:\\IS\\CanhHung\\FDCS\\LogServer";
+    let path = "P:\\IS\\CanhHung\\FDCS\\LogServer";
     let searchParam = {
       path: path
     }

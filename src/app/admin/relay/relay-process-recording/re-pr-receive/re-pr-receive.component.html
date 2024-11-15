@@ -42,6 +42,11 @@
       </button>
     </dxi-item>
 
+    <dxi-item location="after">
+      <div *dxTemplate>
+        <dx-button icon="refresh" (onClick)="openSendToLineWhModal()">Chuyển NVL vào LINE-WH </dx-button>
+      </div>
+    </dxi-item>
     <dxi-item location="after" name="searchPanel"></dxi-item>
     <dxi-item location="after">
       <div *dxTemplate>
@@ -100,6 +105,20 @@
     format="#,##0.0"
   ></dxi-column>
 
+  <dxi-column dataField="receiverName" caption="Người nhận" [visible]="true">
+    <dxo-header-filter [allowSelectAll]="false">
+      <dxo-search [enabled]="true"></dxo-search>
+    </dxo-header-filter>
+  </dxi-column>
+
+  <dxi-column
+    dataField="updatedAt"
+    caption="Ngày nhận"
+    dataType="date"
+    format="yyyy-MM-dd HH:mm"
+    [visible]="true"
+  ></dxi-column>
+
   <dxi-column
     dataField="statusName"
     caption="Status"
@@ -114,6 +133,7 @@
   ></dxi-column>
   <div *dxTemplate="let item of 'actionTemplate'" style="text-align: center">
     <a
+      *ngIf="item.data.id"
       nz-popconfirm
       nzPopconfirmTitle="Bạn có chắc chắn xóa ?"
       nzPopconfirmPlacement="bottom"
@@ -293,5 +313,44 @@
         [visible]="true"
       ></dxi-column>
     </dx-data-grid>
+  </div>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="isOpenSendToLineWhModal"
+  nzTitle="Chuyển NVL đã nhận vào LINE-WH"
+  nzWidth="750px"
+>
+  <ng-container *nzModalContent>
+    <nz-table [nzData]="['']" nzBordered nzFrontPagination="false">
+      <thead>
+        <tr>
+          <th>
+            <dx-text-box
+              #userIdIpt
+              label="QA card"
+              labelLocation="left"
+              showColonAfterLabel="true"
+              [labelMode]="'static'"
+            ></dx-text-box>
+          </th>
+        </tr></thead
+    ></nz-table>
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="isOpenSendToLineWhModal = false">
+      <span nz-icon nzType="close"></span>
+      Đóng
+    </button>
+    <button
+      nz-button
+      nzType="primary"
+      (click)="sendToLineWh()"
+      [nzLoading]="isLoading"
+      [disabled]="litsLotScanOk.length <= 0"
+    >
+      <span nz-icon nzType="save"></span>
+      Lưu
+    </button>
   </div>
 </nz-modal>

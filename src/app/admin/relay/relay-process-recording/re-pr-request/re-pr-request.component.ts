@@ -32,7 +32,7 @@ export class RePrRequestComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     const today = new Date();
     const pastDate = new Date();
-    pastDate.setDate(today.getDate() - 30);
+    pastDate.setDate(today.getDate() - 120);
     this.searchParam.dateRange = [pastDate, today]
   }
 

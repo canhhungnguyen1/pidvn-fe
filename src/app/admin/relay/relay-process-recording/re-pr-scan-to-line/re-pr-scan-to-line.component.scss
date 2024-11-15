@@ -1,0 +1,21 @@
+span.attention {
+  font-style: italic;
+  color: red;
+}
+
+#infoTbl {
+  label {
+    color: black;
+    font-weight: bold;
+  }
+  span {
+    font-weight: bold;
+    color: blue;
+  }
+}
+
+#materialEditTbl {
+  td {
+    font-weight: bold;
+  }
+}

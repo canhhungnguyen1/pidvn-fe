@@ -219,6 +219,11 @@ export class RePrReceiveComponent implements OnInit, AfterViewInit {
         } else if (item.status == 0) {
           // 2. Lot scan thuộc phiếu request và chưa được ghi nhận
           isScanOK = true;
+          if (item.lotNo === obj.lotNo) {
+            obj.whUserCode = item.whUserCode
+            obj.sender = item.sender
+            break;
+          }
         }
       }
     }
@@ -233,7 +238,9 @@ export class RePrReceiveComponent implements OnInit, AfterViewInit {
     }
 
     this.rePrSvc.validateLotReceive(obj).subscribe((response) => {
-      this.mapLotScanned.set(obj.lotNo, response.result);
+      let data =  response.result;
+      data.id = null;
+      this.mapLotScanned.set(obj.lotNo, data);
       this.litsLotScanOk = Array.from(this.mapLotScanned.values()).reverse();
       return;
     });
@@ -261,6 +268,10 @@ export class RePrReceiveComponent implements OnInit, AfterViewInit {
     }
   }
 
+
+  /**
+   * Lưu xác nhận nhận NVL
+   */
   onReceiveMaterial() {
     this.isLoading = true;
 
@@ -279,6 +290,15 @@ export class RePrReceiveComponent implements OnInit, AfterViewInit {
         this.isLoading = false;
       }
     );
+
+
+
+
+
+    this.getRequestDetail();
+        this.isOpenReceiveModal = false;
+        this.isLoading = false;
+
   }
 
   startEdit(data: any) {
@@ -324,7 +344,32 @@ export class RePrReceiveComponent implements OnInit, AfterViewInit {
         this.toastr.success('Xóa thành công','Thông báo');
       }
     )
+  }
 
+
+
+  isOpenSendToLineWhModal: boolean = false
+
+  openSendToLineWhModal() {
+    this.isOpenSendToLineWhModal = true
+  }
+
+  /**
+   * Lưu xác nhận chuyển vào xe NVL
+   */
+  sendToLineWh() {
+
+    let saveData = [...this.litsLotScanOk];
+
+    for (const item of saveData) {
+
+
+
+    }
+
+
+    console.log('sendToLineWh: ', saveData);
+    
 
 
   }

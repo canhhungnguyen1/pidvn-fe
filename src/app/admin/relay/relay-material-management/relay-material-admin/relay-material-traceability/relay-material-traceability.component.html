@@ -116,6 +116,7 @@
 
   <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
 
+  <dxi-column dataField="reqNo" caption="Request No"></dxi-column>
   <dxi-column dataField="model" caption="Model"></dxi-column>
   <dxi-column dataField="partNo" caption="Part No"></dxi-column>
   <dxi-column dataField="lotNo" caption="Lot No"></dxi-column>
@@ -139,6 +140,13 @@
     dataField="createdAt"
     dataType="date"
     caption="Created At"
+    format="yyyy-MM-dd HH:mm"
+  >
+  </dxi-column>
+  <dxi-column
+    dataField="updatedAt"
+    dataType="date"
+    caption="Updated At"
     format="yyyy-MM-dd HH:mm"
   >
   </dxi-column>

@@ -33,6 +33,7 @@ import { RePrRequestComponent } from './re-pr-request/re-pr-request.component';
 import { RelayProcessRecordingRoutingModule } from './relay-process-recording-routing.module';
 import { RelayProcessRecordingComponent } from './relay-process-recording.component';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+import { RePrScanToLineComponent } from './re-pr-scan-to-line/re-pr-scan-to-line.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
     RePrMenuComponent,
     RePrReceiveComponent,
     RePrRequestComponent,
+    RePrScanToLineComponent
   ],
   imports: [
     CommonModule,

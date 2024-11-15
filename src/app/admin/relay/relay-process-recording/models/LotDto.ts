@@ -8,6 +8,8 @@ export class LotDto {
     remainQty!: number
     date!: Date;
     receiver!: string;
+    sender!:string;
+    whUserCode!:string;
     status!: number;
     flag!: string;
     errorInfo!: string;
