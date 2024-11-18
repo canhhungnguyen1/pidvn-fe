@@ -9,7 +9,7 @@
   [showBorders]="true"
   [allowColumnResizing]="true"
   [columnAutoWidth]="true"
-  [rowAlternationEnabled]="true"
+  [rowAlternationEnabled]="false"
   (onExporting)="onExportClient($event)"
   [grouping]="{ autoExpandAll: expandAll }"
   (onCellPrepared)="onCellPreparedLotGrid($event)"
@@ -327,11 +327,13 @@
         <tr>
           <th>
             <dx-text-box
-              #userIdIpt
+              #qaCardIpt
               label="QA card"
               labelLocation="left"
               showColonAfterLabel="true"
               [labelMode]="'static'"
+              (keydown.enter)="scanQRCard($event)"
+              (click)="selectTextInput('qaCardIpt')"
             ></dx-text-box>
           </th>
         </tr></thead

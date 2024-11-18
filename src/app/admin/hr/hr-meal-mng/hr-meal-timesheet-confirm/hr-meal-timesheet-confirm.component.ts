@@ -96,6 +96,12 @@ export class HrMealTimesheetConfirmComponent implements OnInit {
     window.open(allowanceCouponLink, '_blank');
   }
 
+  redirectAddCouponSpecial() {
+    let token2 = localStorage.getItem('token2');
+    let addCouponSpecia = `${this.baseUrlJava}/pidvn/admin?name=List_sepcial_cupon&accessToken=${token2}`
+    window.open(addCouponSpecia, '_blank');
+  }
+
 
   openUploadFileModal() {
     this.isOpenUploadFileModal = true

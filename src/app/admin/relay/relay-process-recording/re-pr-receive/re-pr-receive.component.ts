@@ -27,9 +27,10 @@ export class RePrReceiveComponent implements OnInit, AfterViewInit {
   lotGrid!: DxDataGridComponent;
 
   @ViewChild('qtyIpt') qtyIpt!: ElementRef;
-
   @ViewChild('qrCodeIpt') qrCodeIpt!: DxTextBoxComponent;
   @ViewChild('userIdIpt') userIdIpt!: DxTextBoxComponent;
+  @ViewChild('qaCardIpt') qaCardIpt!: DxTextBoxComponent;
+  
 
   constructor(
     private toastr: ToastrService,
@@ -111,9 +112,23 @@ export class RePrReceiveComponent implements OnInit, AfterViewInit {
         if (statusValue === 0) {
           e.cellElement.style.color = 'red';
         } else if (statusValue === 1) {
-          e.cellElement.style.color = 'blue';
+          e.cellElement.style.color = 'green';
         }
       }
+
+      if (e.column.dataField === 'lotNo') {
+        const statusValue = e.row.data.status;
+        if (statusValue === 1) {
+          e.cellElement.style.backgroundColor  = 'rgb(197, 225, 165)';
+          e.cellElement.style.fontWeight = 'bold';
+        }
+
+      }
+
+
+
+
+
     }
   }
 
@@ -239,7 +254,7 @@ export class RePrReceiveComponent implements OnInit, AfterViewInit {
 
     this.rePrSvc.validateLotReceive(obj).subscribe((response) => {
       let data =  response.result;
-      data.id = null;
+      data.date = new Date();
       this.mapLotScanned.set(obj.lotNo, data);
       this.litsLotScanOk = Array.from(this.mapLotScanned.values()).reverse();
       return;
@@ -259,6 +274,16 @@ export class RePrReceiveComponent implements OnInit, AfterViewInit {
 
     if (input === 'qrCodeIpt') {
       const inputElement = this.qrCodeIpt.instance
+        .element()
+        .querySelector('input');
+      if (inputElement) {
+        inputElement.select();
+        return;
+      }
+    }
+
+    if (input === 'qaCardIpt') {
+      const inputElement = this.qaCardIpt.instance
         .element()
         .querySelector('input');
       if (inputElement) {
@@ -352,6 +377,20 @@ export class RePrReceiveComponent implements OnInit, AfterViewInit {
 
   openSendToLineWhModal() {
     this.isOpenSendToLineWhModal = true
+    setTimeout(() => {
+      if (this.qaCardIpt && this.qaCardIpt.instance) {
+        // Gọi focus() để focus vào dx-text-box ngay khi component được khởi tạo
+        this.qaCardIpt.instance.focus();
+      }
+    }, 500);
+  }
+
+
+  scanQRCard(event: any) {
+
+    const inputValue = this.qaCardIpt.value; // Lấy giá trị của ô input
+    console.log(inputValue); // In ra giá trị
+    
   }
 
   /**
@@ -359,10 +398,24 @@ export class RePrReceiveComponent implements OnInit, AfterViewInit {
    */
   sendToLineWh() {
 
+    
+    if (!this.qaCardIpt.value) {
+      this.toastr.warning('Cần scan QA card','Warning')
+      return
+    }
+
+
+    let qrCard = this.qaCardIpt.value.split('*'); // Lấy giá trị của ô QA card
+
+    
+
     let saveData = [...this.litsLotScanOk];
 
     for (const item of saveData) {
-
+      item.recordType = 'RDC'
+      item.date = new Date();
+      item.parent = qrCard[0];
+      
 
 
     }

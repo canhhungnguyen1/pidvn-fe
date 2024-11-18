@@ -201,8 +201,12 @@ export class AdminComponent implements OnInit {
       link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=CS.ENC 2G`
     },
     {
-      line: 'PRE-SWB',
-      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=PRE-SWB`
+      line: 'LOSE-G1',
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=LOSE-G1`
+    },
+    {
+      line: 'LOSE-G2',
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=LOSE-G2`
     },
     {
       line: '11G2-TH',

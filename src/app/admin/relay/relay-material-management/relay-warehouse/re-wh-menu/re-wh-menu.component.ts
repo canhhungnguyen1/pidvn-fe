@@ -36,6 +36,10 @@ export class ReWhMenuComponent implements OnInit {
     {
       name: 'Kiểm kê NVL',
       route:'/admin/relay/relay-inventory/main'
-    }
+    },
+    {
+      name: 'Nhận NVL từ kho PUR-WH (IT đang test Version 2)',
+      route:'/admin/relay/relay-process-recording/requests'
+    },
   ]
 }
