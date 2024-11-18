@@ -48,7 +48,7 @@ export class RePrRequestComponent implements OnInit, AfterViewInit {
   getRequests() {
 
     this.requestGrid?.instance.beginCustomLoading(
-      `Đang load dữ liệu ...`
+      `Đang tải dữ liệu ...`
     );
     this.rePrSvc.getRequests(this.searchParam).subscribe((response) => {
       this.requests = response.result;

@@ -387,10 +387,8 @@ export class RePrReceiveComponent implements OnInit, AfterViewInit {
 
 
   scanQRCard(event: any) {
-
-    const inputValue = this.qaCardIpt.value; // Lấy giá trị của ô input
-    console.log(inputValue); // In ra giá trị
-    
+    // const inputValue = this.qaCardIpt.value; // Lấy giá trị của ô input
+    this.selectTextInput('qaCardIpt')
   }
 
   /**
@@ -407,21 +405,31 @@ export class RePrReceiveComponent implements OnInit, AfterViewInit {
 
     let qrCard = this.qaCardIpt.value.split('*'); // Lấy giá trị của ô QA card
 
-    
-
     let saveData = [...this.litsLotScanOk];
 
     for (const item of saveData) {
-      item.recordType = 'RDC'
-      item.date = new Date();
+      item.recordType = 'RDC';
+      item.flag = '5';
+      item.reqNo = null;
       item.parent = qrCard[0];
-      
-
-
+      item.line = qrCard[1];
+      item.date = new Date(qrCard[2]);
+      item.shift = qrCard[3];
+      item.qaCard = this.qaCardIpt.value
+      item.sender = item.receiver
+      item.createdAt = new Date();
+      item.updatedAt = new Date();
     }
 
 
-    console.log('sendToLineWh: ', saveData);
+    this.rePrSvc.sendToLineWh(saveData).subscribe(
+      response => {
+        this.isOpenSendToLineWhModal = false
+      },
+      error => {
+        this.isOpenSendToLineWhModal = false
+      }
+    )
     
 
 

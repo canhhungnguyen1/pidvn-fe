@@ -32,6 +32,9 @@ export class RePrService {
     return this.httpClient.put(`${this.baseUrl}/Relay/ProcessRecording/DeleteLotReceived`, lot);
   }
   
+  public sendToLineWh(lots: LotDto []) : Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/Relay/ProcessRecording/SendToLineWh`, lots);
+  }
 
 
 
