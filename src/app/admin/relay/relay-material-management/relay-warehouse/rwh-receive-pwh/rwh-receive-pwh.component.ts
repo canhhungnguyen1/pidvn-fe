@@ -54,7 +54,7 @@ export class RwhReceivePwhComponent implements OnInit, AfterViewInit {
     this.slipNo = this.activatedRoute.snapshot.paramMap.get('slipNo');
     this.getMaterialsBySlipNo();
     this.getUsers();
-    this.getLotRequestAndLotReceive();
+    // this.getLotRequestAndLotReceive();
     
   }
 
@@ -312,19 +312,19 @@ export class RwhReceivePwhComponent implements OnInit, AfterViewInit {
 
 
 
-  getLotRequestAndLotReceive() {
-    this.reWhSvc.getLotRequestAndLotReceive(this.slipNo).subscribe(
-      response => {
-        console.log('getLotRequestAndLotReceive: ', response.result);
+  // getLotRequestAndLotReceive() {
+  //   this.reWhSvc.getLotRequestAndLotReceive(this.slipNo).subscribe(
+  //     response => {
+  //       console.log('getLotRequestAndLotReceive: ', response.result);
 
-        let data = response.result;
+  //       let data = response.result;
         
-        if (data.totalLotRequest === data.totalLotReceive) {
-          this.isLocked = true
-        }
-      }
-    )
-  }
+  //       if (data.totalLotRequest === data.totalLotReceive) {
+  //         this.isLocked = true
+  //       }
+  //     }
+  //   )
+  // }
 
 
   

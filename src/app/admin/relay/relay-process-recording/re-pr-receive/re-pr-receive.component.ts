@@ -421,13 +421,17 @@ export class RePrReceiveComponent implements OnInit, AfterViewInit {
       item.updatedAt = new Date();
     }
 
-
+    this.isLoading = true;
     this.rePrSvc.sendToLineWh(saveData).subscribe(
       response => {
         this.isOpenSendToLineWhModal = false
+        this.isLoading = false;
+        this.toastr.success('Chuyển vào xe NVL thành công','Thông báo')
       },
       error => {
         this.isOpenSendToLineWhModal = false
+        this.isLoading = false;
+        this.toastr.error(`Error: ${error}`,'Lỗi')
       }
     )
     

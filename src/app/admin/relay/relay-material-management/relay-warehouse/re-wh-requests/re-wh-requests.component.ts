@@ -39,8 +39,14 @@ export class ReWhRequestsComponent implements OnInit, AfterViewInit {
   }
 
   onRowClick(event: any) {
+    // this.router.navigate([
+    //   `admin/relay/material-management/re-wh-requests/${event.data.slipNo}`,
+    // ]);
+
+
     this.router.navigate([
-      `admin/relay/material-management/re-wh-requests/${event.data.slipNo}`,
+      `admin/relay/relay-process-recording/request?requestNo=${event.data.slipNo}`,
     ]);
+
   }
 }

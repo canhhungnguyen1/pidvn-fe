@@ -12,10 +12,12 @@ export class ReWhMenuComponent implements OnInit {
   ngOnInit(): void {
   }
 
+
+  // admin/relay/material-management/re-wh-requests
   menu: any = [
     {
       name: 'Nhận NVL từ kho PUR-WH',
-      route:'/admin/relay/material-management/re-wh-requests'
+      route:'/admin/relay/relay-process-recording/requests'
     },
     {
       name: 'Trả NVL về kho PUR-WH',
