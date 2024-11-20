@@ -102,7 +102,7 @@ export class HrMealTimesheetConfirmComponent implements OnInit {
     window.open(addCouponSpecia, '_blank');
   }
 
-  redirectTongHopVeAn() {
+  redirectDanhSachTruVeAn() {
     let token2 = localStorage.getItem('token2');
     let tongHopVeAn = `${this.baseUrlJava}/pidvn/admin?name=Rep_hr_tong_hop_cham_cong&accessToken=${token2}`
     window.open(tongHopVeAn, '_blank');

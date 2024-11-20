@@ -122,14 +122,10 @@ export class RePrReceiveComponent implements OnInit, AfterViewInit {
           e.cellElement.style.backgroundColor  = 'rgb(197, 225, 165)';
           e.cellElement.style.fontWeight = 'bold';
         }
-
       }
-
-
-
-
-
     }
+
+
   }
 
   resetFiltersAndSorting() {
