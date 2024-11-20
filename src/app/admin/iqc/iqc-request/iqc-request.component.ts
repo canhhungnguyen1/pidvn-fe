@@ -23,7 +23,7 @@ export class IqcRequestComponent implements OnInit, AfterViewInit {
 
   @ViewChild(DxDataGridComponent, { static: false })
   iqcDataGrid!: DxDataGridComponent;
-  
+
   jwt: any;
 
   constructor(
@@ -38,15 +38,15 @@ export class IqcRequestComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    const previousMonthDate = new Date(new Date().setMonth(new Date().getMonth() - 1));
+    const previousMonthDate = new Date(
+      new Date().setMonth(new Date().getMonth() - 1)
+    );
     this.searchParams.dateRange = [previousMonthDate, new Date()];
     this.getIqcRequests();
     this.getSlipNo();
   }
 
-  ngOnInit(): void {
-    
-  }
+  ngOnInit(): void {}
 
   iqcRequests!: IqcRequestDto[];
   purWhRecordDtos!: PurWhRecordDto[];
@@ -59,17 +59,12 @@ export class IqcRequestComponent implements OnInit, AfterViewInit {
   expandAll = true;
   isLoading: boolean = false;
 
-  
-
   searchParams = {
     dateRange: [new Date(), new Date()],
   };
 
   getIqcRequests() {
-
-    this.iqcRequestGrid?.instance.beginCustomLoading(
-      `Đang load dữ liệu ...`
-    );
+    this.iqcRequestGrid?.instance.beginCustomLoading(`Đang load dữ liệu ...`);
 
     this.iqcSvc.getIqcRequests(this.searchParams).subscribe((response) => {
       this.iqcRequests = response.result;
@@ -149,11 +144,10 @@ export class IqcRequestComponent implements OnInit, AfterViewInit {
 
     this.iqcSvc.createIqcRequest(this.iqcRequest).subscribe(
       (response) => {
-        
         this.toastr.success('Tạo thành công', 'Success');
         this.isOpenIqcRequestOutSideModal = false;
         this.isLoading = false;
-        this.getIqcRequests()
+        this.getIqcRequests();
       },
       (error) => {
         this.isLoading = false;
@@ -167,12 +161,10 @@ export class IqcRequestComponent implements OnInit, AfterViewInit {
     this.iqcRequest = event;
     this.isOpenIqcRequestDetailModal = true;
 
-    this.iqcDataGrid?.instance.beginCustomLoading(
-      `Đang load dữ liệu ...`
-    );
+    this.iqcDataGrid?.instance.beginCustomLoading(`Đang load dữ liệu ...`);
 
     this.iqcSvc
-      .previewRequestDetail(this.iqcRequest,"group")
+      .previewRequestDetail(this.iqcRequest, 'group')
       .subscribe((response) => {
         this.iqcResults = response.result;
         this.iqcDataGrid.instance.endCustomLoading();
@@ -224,37 +216,36 @@ export class IqcRequestComponent implements OnInit, AfterViewInit {
   }
 
   redirectIqcDetail(item: any) {
-
     let userRoles = this.jwt.Roles;
     if (userRoles.includes('PIH QA 2') || userRoles.includes('PIH QA-IQC')) {
       this.router.navigate(['admin/iqc/request', item.requestNo]);
-      return
+      return;
     }
 
     this.toastr.warning('Bạn không có quyền truy cập', 'Warning');
     return;
   }
 
-
   onCellPreparedIqcRequestGrid(e: any) {
     if (e.rowType === 'data' && e.column.dataField === 'statusName') {
       const statusValue = e.row.data.status;
       if (statusValue === 1) {
         e.cellElement.style.color = 'red'; // Màu chữ đỏ
-      } else if(statusValue === 2) {
+      } else if (statusValue === 2) {
         e.cellElement.style.color = 'green';
-      } else if(statusValue === 3) {
+      } else if (statusValue === 3) {
         e.cellElement.style.color = 'blue';
       }
     }
-
-
   }
 
   onCellPreparedIqcDataGrid(e: any) {
-    if (e.rowType === 'data' ) {
-
-      if (e.column.dataField === 'result1' || e.column.dataField === 'result2' || e.column.dataField === 'result3') {
+    if (e.rowType === 'data') {
+      if (
+        e.column.dataField === 'result1' ||
+        e.column.dataField === 'result2' ||
+        e.column.dataField === 'result3'
+      ) {
         if (e.value === 'OK') {
           e.cellElement.style.color = 'green';
         }
@@ -263,11 +254,18 @@ export class IqcRequestComponent implements OnInit, AfterViewInit {
           e.cellElement.style.color = 'red';
         }
       }
-
-
     }
   }
 
+  viewGuide() {
+    this.iqcSvc
+    .viewGuide({})
+    .subscribe((responseMessage) => {
+      let file = new Blob([responseMessage], { type: 'application/pdf' });
+      var fileURL = URL.createObjectURL(file);
+      window.open(fileURL);
+    });
 
 
+  }
 }

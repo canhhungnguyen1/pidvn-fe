@@ -45,37 +45,53 @@ export class IqcService {
     return this.httpClient.get(`${this.baseUrl}/IQC/IqcLevelOfControls`);
   }
 
-  public evaluateLotNos(iqcResults: IqcResultDto []): Observable<any> { 
-    return this.httpClient.post(`${this.baseUrl}/IQC/EvaluateLotNos`, iqcResults);
+  public evaluateLotNos(iqcResults: IqcResultDto[]): Observable<any> {
+    return this.httpClient.post(
+      `${this.baseUrl}/IQC/EvaluateLotNos`,
+      iqcResults
+    );
   }
-
 
   public getLotsInventory(): Observable<any> {
     return this.httpClient.get(`${this.baseUrl}/IQC/InventoryLots`);
   }
 
-
   public prepareDataCreateRequest(searchParams: any): Observable<any> {
-    return this.httpClient.post(`${this.baseUrl}/IQC/PrepareDataCreateRequest`, searchParams);
+    return this.httpClient.post(
+      `${this.baseUrl}/IQC/PrepareDataCreateRequest`,
+      searchParams
+    );
   }
 
-  public getHistoryLevelOfControls(model: string) : Observable<any> {
-    return this.httpClient.get(`${this.baseUrl}/IQC/HistoryLevelOfControls?model=${model}`);
+  public getHistoryLevelOfControls(model: string): Observable<any> {
+    return this.httpClient.get(
+      `${this.baseUrl}/IQC/HistoryLevelOfControls?model=${model}`
+    );
   }
-
 
   public exportExcel(iqcRequest: any, type: any): Observable<any> {
     return this.httpClient.post(
-      `${this.baseUrl}/IQC/ExportExcel?type=${type}`,iqcRequest,
+      `${this.baseUrl}/IQC/ExportExcel?type=${type}`,
+      iqcRequest,
       { responseType: 'blob' }
     );
   }
 
   public previewRequestDetail(iqcRequest: any, type: any): Observable<any> {
     return this.httpClient.post(
-      `${this.baseUrl}/IQC/ExportExcel?type=${type}`,iqcRequest
+      `${this.baseUrl}/IQC/ExportExcel?type=${type}`,
+      iqcRequest
     );
   }
 
-
+  /**
+   * Xem hướng dẫn sử dụng
+   * @param
+   * @returns
+   */
+  public viewGuide(obj: any) {
+    return this.httpClient.post<any>(`${this.baseUrl}/IQC/ViewGuide`, obj, {
+      responseType: 'arraybuffer' as 'json',
+    });
+  }
 }

@@ -19,7 +19,7 @@
   </dxo-column-chooser>
 
   <dxo-toolbar>
-    <dxi-item location="before">
+    <dxi-item location="before" style="margin-bottom: -15px;">
       <nz-space>
         <button
           *nzSpaceItem
@@ -51,7 +51,7 @@
     </dxi-item>
     <dxi-item location="after">
       <nz-space>
-        <nz-range-picker
+        <!-- <nz-range-picker
           [(ngModel)]="searchParams.dateRange"
           nzFormat="yyyy-MM-dd"
           nzMode="date"
@@ -59,14 +59,33 @@
           [nzTooltipTitle]="'Ngày tạo request'"
           [nzTooltipColor]="'blue'"
         >
-        </nz-range-picker>
-        <button nz-button nzType="default" (click)="getIqcRequests()">
+        </nz-range-picker> -->
+
+        <dx-date-range-box
+          *nzSpaceItem
+          [(value)]="searchParams.dateRange"
+          [(startDate)]="searchParams.dateRange[0]"
+          [(endDate)]="searchParams.dateRange[1]"
+          [displayFormat]="'yyyy/MM/dd'"
+          style="width: 300px"
+          startDateLabel="Ngày bắt đầu"
+          endDateLabel="Ngày kết thúc"
+          style="margin-bottom: 8px; margin-right: -8px;"
+        >
+        </dx-date-range-box>
+
+        <dx-button *nzSpaceItem icon="search" style="margin-bottom: -28px;" (onClick)="getIqcRequests()">
+        </dx-button>
+        <!-- <button nz-button nzType="default" (click)="getIqcRequests()">
           <span nz-icon nzType="search"></span>
-        </button>
+        </button> -->
       </nz-space>
     </dxi-item>
-    <dxi-item name="exportButton" location="after" />
-    <dxi-item name="columnChooserButton" location="after"></dxi-item>
+    <dxi-item name="exportButton" location="after" style="margin-top: 8px;"/>
+    <dxi-item name="columnChooserButton" location="after" style="margin-top: 8px;"></dxi-item>
+    <dxi-item location="after">
+      <dx-button icon="sun" (onClick)="viewGuide()"> </dx-button>
+    </dxi-item>
   </dxo-toolbar>
 
   <dxo-header-filter [visible]="true"></dxo-header-filter>
@@ -309,21 +328,13 @@
       <dxo-filter-row [visible]="true"></dxo-filter-row>
       <dxo-header-filter [visible]="true"></dxo-header-filter>
 
-      <dxi-column
-        dataField="model"
-        caption="Model"
-        [visible]="true"
-      >
+      <dxi-column dataField="model" caption="Model" [visible]="true">
         <dxo-header-filter [allowSelectAll]="false">
           <dxo-search [enabled]="true"></dxo-search>
         </dxo-header-filter>
       </dxi-column>
 
-      <dxi-column
-        dataField="lotGroup"
-        caption="Lot Group"
-        [visible]="true"
-      >
+      <dxi-column dataField="lotGroup" caption="Lot Group" [visible]="true">
         <dxo-header-filter [allowSelectAll]="false">
           <dxo-search [enabled]="true"></dxo-search>
         </dxo-header-filter>

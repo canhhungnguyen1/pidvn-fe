@@ -33,6 +33,7 @@ import {
   DxMapModule,
   DxValidatorModule,
   DxDropDownBoxModule,
+  DxDateRangeBoxModule
 } from 'devextreme-angular';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
@@ -73,7 +74,8 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
     DxDropDownBoxModule,
     NzCheckboxModule,
     NzTabsModule,
-    NzTagModule
+    NzTagModule,
+    DxDateRangeBoxModule
   ],
 })
 export class IqcModule {}
