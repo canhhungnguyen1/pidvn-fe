@@ -272,6 +272,7 @@ export class AdminComponent implements OnInit {
   traceDataXuoi!:string
   traceDataNguoc!:string
   traceDataTheoLoSXPIH!:string
+  tracedatatong!:string
 
 
   ePurchaseLink!: string
@@ -346,7 +347,7 @@ export class AdminComponent implements OnInit {
     this.traceDataXuoi = `${this.baseUrlJava}/pidvn/report?name=Rep_Truy_vet_xuoi&accessToken=${token2}`
     this.traceDataNguoc = `${this.baseUrlJava}/pidvn/ma/trace/trace_data_reverse?accessToken=${token2}`
     this.traceDataTheoLoSXPIH = `https://10.92.176.57:8080/tracebacks.structure`
-
+    this.tracedatatong = `${this.baseUrlJava}/pidvn/ma/trace/trace_data_steps?accessToken=${token2}`
 
     this.ePurchaseLink =`${this.baseUrlJava}/pidvn/pur/purchase/menu?accessToken=${token2}`
     this.pihProcessScannerLinkv2 = `${this.baseUrlJavaHttps}/pidvn/pih/pih_process_scaner/pih_process_menu?accessToken=${token2}`
