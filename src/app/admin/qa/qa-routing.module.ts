@@ -32,6 +32,10 @@ const routes: Routes = [
       {
         path: 'qa-training-matrix',
         loadChildren: () => import('./qa-training-matrix/qa-training-matrix.module').then(m => m.QaTrainingMatrixModule)
+      },
+      {
+        path: 'qa-icp-data',
+        loadChildren: () => import('./qa-icp-data/qa-icp-data.module').then(m => m.QaIcpDataModule)
       }
     ],
   },

@@ -1,0 +1,153 @@
+<div nz-row nzJustify="start" [nzGutter]="24">
+  <div nz-col nzXs="16" nzSm="16" nzLg="16">
+    <dx-data-grid
+      #icpGrid
+      [dataSource]="icpData"
+      keyExpr="id"
+      [showColumnLines]="true"
+      [showRowLines]="true"
+      [showBorders]="true"
+      [allowColumnResizing]="true"
+      [columnAutoWidth]="true"
+      [rowAlternationEnabled]="false"
+      (onExporting)="onExportClient($event)"
+    >
+      <dxo-column-chooser
+        #columnChooser
+        [enabled]="true"
+        [mode]="'select'"
+        [title]="'Cột hiển thị'"
+      >
+      </dxo-column-chooser>
+
+      <dxo-search-panel [visible]="true"></dxo-search-panel>
+      <dxo-load-panel [enabled]="false"></dxo-load-panel>
+      <dxo-export [enabled]="true"></dxo-export>
+
+      <dxo-toolbar>
+        <dxi-item location="before">
+          <!-- <dx-select-box
+            style="margin-top: 0px; width: 200px"
+            label="Model"
+            labelLocation="left"
+            showColonAfterLabel="true"
+            [labelMode]="'static'"
+            displayExpr="name"
+            valueExpr="name"
+            [dataSource]="models"
+            [searchEnabled]="true"
+            [showClearButton]="true"
+            (onValueChanged)="onChangeParentModel($event)"
+          ></dx-select-box> -->
+
+          <nz-select
+            nzShowSearch
+            nzAllowClear
+            nzPlaceHolder="Chọn Model"
+            [(ngModel)]="icpDto.parentModel"
+            (ngModelChange)="onChangeParentModel($event)"
+            style="width: 200px"
+          >
+            <nz-option
+              *ngFor="let model of models"
+              [nzValue]="model.name"
+              [nzLabel]="model.name"
+            >
+            </nz-option>
+          </nz-select>
+        </dxi-item>
+
+        <dxi-item
+          name="addRowButton"
+          location="after"
+          showText="always"
+          [label]="'add'"
+        ></dxi-item>
+        <dxi-item name="searchPanel" location="after"></dxi-item>
+        <dxi-item name="exportButton" location="after"></dxi-item>
+        <dxi-item name="columnChooserButton" location="after"></dxi-item>
+      </dxo-toolbar>
+
+      <dxo-filter-row [visible]="true"></dxo-filter-row>
+      <dxo-header-filter [visible]="true"></dxo-header-filter>
+
+      <dxi-column
+        dataField="childModel"
+        caption="Part No"
+        [visible]="true"
+        [groupIndex]="0"
+      >
+        <dxo-header-filter [allowSelectAll]="true">
+          <dxo-search [enabled]="true"></dxo-search>
+        </dxo-header-filter>
+      </dxi-column>
+
+      <dxi-column dataField="shortName" caption="Part Name" [visible]="true">
+        <dxo-header-filter [allowSelectAll]="true">
+          <dxo-search [enabled]="true"></dxo-search>
+        </dxo-header-filter>
+      </dxi-column>
+
+      <dxi-column dataField="material" caption="Material" [visible]="true">
+        <dxo-header-filter [allowSelectAll]="true">
+          <dxo-search [enabled]="true"></dxo-search>
+        </dxo-header-filter>
+      </dxi-column>
+
+      <dxi-column dataField="supplier" caption="Supplier" [visible]="true">
+        <dxo-header-filter [allowSelectAll]="true">
+          <dxo-search [enabled]="true"></dxo-search>
+        </dxo-header-filter>
+      </dxi-column>
+
+      <dxi-column dataField="testNo" caption="Test No" [visible]="true">
+        <dxo-header-filter [allowSelectAll]="true">
+          <dxo-search [enabled]="true"></dxo-search>
+        </dxo-header-filter>
+      </dxi-column>
+
+      <dxi-column
+        dataField="expiredDate"
+        caption="Ngày hết hạn"
+        dataType="date"
+        format="yyyy-MM-dd"
+        [visible]="true"
+      >
+        <dxo-header-filter [allowSelectAll]="true">
+          <dxo-search [enabled]="true"></dxo-search>
+        </dxo-header-filter>
+      </dxi-column>
+
+      <dxi-column caption="Action" cellTemplate="fileTemplate"></dxi-column>
+      <div *dxTemplate="let item of 'fileTemplate'" style="text-align: center">
+        <a
+          ><span
+            nz-icon
+            nzType="eye"
+            nzTheme="outline"
+            (click)="previewFile(item)"
+            alt="Xem trước"
+          ></span
+        ></a>
+      </div>
+
+      <dxo-paging [pageSize]="15"></dxo-paging>
+      <dxo-pager
+        [showPageSizeSelector]="true"
+        [allowedPageSizes]="[10, 15, 20, 50, 100]"
+      >
+      </dxo-pager>
+    </dx-data-grid>
+  </div>
+  <div nz-col nzXs="8" nzSm="8" nzLg="8">
+    <nz-collapse>
+      <nz-collapse-panel
+        [nzHeader]="icpDto.testNo"
+        [nzActive]="true"
+        [nzShowArrow]="true"
+      >
+        <iframe [src]="pdfSrc" width="100%" height="600px"></iframe>
+      </nz-collapse-panel>
+    </nz-collapse>
+  </div>
+</div>
