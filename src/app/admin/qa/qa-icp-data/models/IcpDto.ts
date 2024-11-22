@@ -5,4 +5,5 @@ export class IcpDto {
   material!: string;
   supplier!: string;
   testNo!: string;
+  expiredDate!: string;
 }

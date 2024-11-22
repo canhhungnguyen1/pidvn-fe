@@ -1,5 +1,5 @@
 <div nz-row nzJustify="start" [nzGutter]="24">
-  <div nz-col nzXs="16" nzSm="16" nzLg="16">
+  <div nz-col nzXs="15" nzSm="15" nzLg="15">
     <dx-data-grid
       #icpGrid
       [dataSource]="icpData"
@@ -41,10 +41,11 @@
           ></dx-select-box> -->
 
           <nz-select
+            #parentModelSelect
             nzShowSearch
             nzAllowClear
             nzPlaceHolder="Chọn Model"
-            [(ngModel)]="icpDto.parentModel"
+            [(ngModel)]="parentModelSelected"
             (ngModelChange)="onChangeParentModel($event)"
             style="width: 200px"
           >
@@ -57,12 +58,15 @@
           </nz-select>
         </dxi-item>
 
-        <dxi-item
-          name="addRowButton"
-          location="after"
-          showText="always"
-          [label]="'add'"
-        ></dxi-item>
+        <dxi-item location="after" *ngIf="parentModelSelected">
+          <dx-button icon="plus" (onClick)="openIcpModal('insert', null)">
+          </dx-button>
+        </dxi-item>
+
+        <dxi-item location="after" *ngIf="parentModelSelected">
+          <dx-button icon="upload" (onClick)="opentUploadTestReports()"> </dx-button>
+        </dxi-item>
+
         <dxi-item name="searchPanel" location="after"></dxi-item>
         <dxi-item name="exportButton" location="after"></dxi-item>
         <dxi-item name="columnChooserButton" location="after"></dxi-item>
@@ -70,6 +74,20 @@
 
       <dxo-filter-row [visible]="true"></dxo-filter-row>
       <dxo-header-filter [visible]="true"></dxo-header-filter>
+
+      <dxi-column caption="" cellTemplate="fileTemplate"></dxi-column>
+      <div *dxTemplate="let item of 'fileTemplate'" style="text-align: center">
+        <a>
+          <span
+            nz-icon
+            nzType="eye"
+            nzTheme="outline"
+            (click)="previewFile(item)"
+            alt="Xem trước"
+          >
+          </span>
+        </a>
+      </div>
 
       <dxi-column
         dataField="childModel"
@@ -118,17 +136,19 @@
         </dxo-header-filter>
       </dxi-column>
 
-      <dxi-column caption="Action" cellTemplate="fileTemplate"></dxi-column>
-      <div *dxTemplate="let item of 'fileTemplate'" style="text-align: center">
+      <dxi-column caption="Action" cellTemplate="actionTemplate"></dxi-column>
+      <div
+        *dxTemplate="let item of 'actionTemplate'"
+        style="text-align: center"
+      >
+        <a (click)="openIcpModal('update', item.data)">Sửa</a> |
         <a
-          ><span
-            nz-icon
-            nzType="eye"
-            nzTheme="outline"
-            (click)="previewFile(item)"
-            alt="Xem trước"
-          ></span
-        ></a>
+          style="color: red"
+          nz-popconfirm
+          nzPopconfirmTitle="Bạn có muốn xóa không?"
+          (nzOnConfirm)="deleteIcpData(item.data)"
+          >Xóa</a
+        >
       </div>
 
       <dxo-paging [pageSize]="15"></dxo-paging>
@@ -139,15 +159,182 @@
       </dxo-pager>
     </dx-data-grid>
   </div>
-  <div nz-col nzXs="8" nzSm="8" nzLg="8">
+  <div nz-col nzXs="9" nzSm="9" nzLg="9">
     <nz-collapse>
       <nz-collapse-panel
-        [nzHeader]="icpDto.testNo"
+        [nzHeader]="'Test No: ' + icpDto.testNo"
         [nzActive]="true"
         [nzShowArrow]="true"
       >
-        <iframe [src]="pdfSrc" width="100%" height="600px"></iframe>
+        <nz-spin *ngIf="isLoading" nzTip="Hệ thống đang tải dữ liệu ...">
+          <nz-alert
+            nzType="info"
+            nzMessage="Tải dữ liệu Test report"
+            nzDescription="Hiển thị thông tin về Test report"
+          ></nz-alert>
+        </nz-spin>
+
+        <iframe
+          *ngIf="!isLoading"
+          [src]="pdfSrc"
+          width="100%"
+          height="600px"
+        ></iframe>
       </nz-collapse-panel>
     </nz-collapse>
   </div>
 </div>
+
+<nz-modal [(nzVisible)]="isOpenIcpModal" nzTitle="Lưu ICP data">
+  <ng-container *nzModalContent>
+    <dx-validation-group #validatorGroup>
+      <nz-table
+        #basicTable
+        [nzData]="['']"
+        nzFrontPagination="false"
+        nzBordered
+      >
+        <tbody>
+          <tr>
+            <td>
+              <dx-select-box
+                label="Part No"
+                labelLocation="left"
+                showColonAfterLabel="true"
+                [labelMode]="'static'"
+                displayExpr="pncomp"
+                valueExpr="pncomp"
+                [dataSource]="psMasters"
+                [searchEnabled]="true"
+                [showClearButton]="true"
+                [(value)]="icpDto.childModel"
+              >
+                <dx-validator>
+                  <dxi-validation-rule
+                    type="required"
+                    message="Part No is required"
+                  ></dxi-validation-rule>
+                </dx-validator>
+              </dx-select-box>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <dx-text-box
+                label="Material"
+                labelLocation="left"
+                showColonAfterLabel="true"
+                [labelMode]="'static'"
+                [(value)]="icpDto.material"
+              >
+                <dx-validator>
+                  <dxi-validation-rule
+                    type="required"
+                    message="Material is required"
+                  ></dxi-validation-rule>
+                </dx-validator>
+              </dx-text-box>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <dx-text-box
+                label="Supplier"
+                labelLocation="left"
+                showColonAfterLabel="true"
+                [labelMode]="'static'"
+                [(value)]="icpDto.supplier"
+              >
+                <dx-validator>
+                  <dxi-validation-rule
+                    type="required"
+                    message="Supplier is required"
+                  ></dxi-validation-rule>
+                </dx-validator>
+              </dx-text-box>
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              <dx-text-box
+                label="Test No"
+                labelLocation="left"
+                showColonAfterLabel="true"
+                [labelMode]="'static'"
+                [(value)]="icpDto.testNo"
+              >
+                <dx-validator>
+                  <dxi-validation-rule
+                    type="required"
+                    message="Test No is required"
+                  ></dxi-validation-rule>
+                </dx-validator>
+              </dx-text-box>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <dx-date-box
+                label="Expired Date"
+                labelLocation="left"
+                showColonAfterLabel="true"
+                [labelMode]="'static'"
+                [displayFormat]="'yyyy-MM-dd'"
+                [(value)]="icpDto.expiredDate"
+              >
+                <dx-validator>
+                  <dxi-validation-rule
+                    type="required"
+                    message="Expired Date is required"
+                  ></dxi-validation-rule>
+                </dx-validator>
+              </dx-date-box>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </dx-validation-group>
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="isOpenIcpModal = false">
+      Cancel
+    </button>
+    <button nz-button nzType="primary" (click)="onSaveIcpData()" [nzLoading]="isLoading">Save</button>
+  </div>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="isOpenUploadTestReportModal"
+  nzTitle="Upload test report"
+>
+  <ng-container *nzModalContent>
+    <dx-file-uploader
+      #fileUploader
+      [multiple]="true"
+      selectButtonText="Select file"
+      labelText=""
+      [accept]="'.pdf'"
+      [uploadMode]="'useForm'"
+      [inputAttr]="{ 'aria-label': 'Select file' }"
+    >
+    </dx-file-uploader>
+  </ng-container>
+  <div *nzModalFooter>
+    <button
+      nz-button
+      nzType="primary"
+      (click)="uploadTestReports()"
+      [nzLoading]="isLoading"
+    >
+      Save
+    </button>
+    <button
+      nz-button
+      nzType="default"
+      (click)="isOpenUploadTestReportModal = false"
+    >
+      Đóng
+    </button>
+  </div>
+</nz-modal>

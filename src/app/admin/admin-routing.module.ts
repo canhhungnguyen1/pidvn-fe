@@ -32,7 +32,7 @@ const routes: Routes = [
         loadChildren: () => import('./is/is.module').then((m) => m.IsModule),
         canActivate: [RoleGuard],
         data: {
-          roles: ['super_admin', 'is_basic', 'IS_advance'],
+          roles: ['super_admin', 'IS Basic', 'IS Advance'],
         },
       },
       {
