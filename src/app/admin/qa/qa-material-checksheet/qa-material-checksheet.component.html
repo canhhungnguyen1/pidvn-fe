@@ -1,0 +1,119 @@
+<dx-data-grid
+  #qaCardGrid
+  keyExpr="id"
+  [dataSource]="qaCards"
+  [showColumnLines]="true"
+  [showRowLines]="true"
+  [showBorders]="true"
+  [allowColumnResizing]="true"
+  [columnAutoWidth]="true"
+  [rowAlternationEnabled]="true"
+>
+  <dxo-column-chooser
+    #columnChooser
+    [enabled]="true"
+    [mode]="'select'"
+    [title]="'Cột hiển thị'"
+  >
+  </dxo-column-chooser>
+
+  <dxo-toolbar>
+    <dxi-item location="before">
+      <dx-date-range-box
+        [(value)]="searchParams.dateRange"
+        [(startDate)]="searchParams.dateRange[0]"
+        [(endDate)]="searchParams.dateRange[1]"
+        [displayFormat]="'yyyy/MM/dd'"
+        style="width: 300px"
+        startDateLabel="Ngày bắt đầu"
+        endDateLabel="Ngày kết thúc"
+      >
+      </dx-date-range-box>
+    </dxi-item>
+    <dxi-item name="exportButton" location="after" style="margin-top: 8px" />
+    <dxi-item
+      name="columnChooserButton"
+      location="after"
+      style="margin-top: 8px"
+    ></dxi-item>
+    <dxi-item location="after"> </dxi-item>
+  </dxo-toolbar>
+
+  <dxo-header-filter [visible]="true"></dxo-header-filter>
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
+  <dxo-export [enabled]="true"></dxo-export>
+
+  <dxi-column
+    caption=""
+    cellTemplate="previewTemplate"
+    [fixed]="true"
+    fixedPosition="left"
+  ></dxi-column>
+  <div *dxTemplate="let item of 'previewTemplate'" style="text-align: center">
+    <a (click)="openPsMasterDetailModal(item.data)"
+      ><span nz-icon nzType="eye" nzTheme="outline"></span
+    ></a>
+  </div>
+
+  <dxi-column dataField="qaCard" caption="QA Card"></dxi-column>
+  <dxi-column dataField="model" caption="Model"></dxi-column>
+  <dxi-column dataField="line" caption="Line"></dxi-column>
+  <dxi-column dataField="shift" caption="Shift"></dxi-column>
+  <dxi-column
+    dataField="date"
+    caption="Date"
+    dataType="date"
+    format="yyyy-MM-dd"
+  ></dxi-column>
+
+  <dxo-paging [pageSize]="20"></dxo-paging>
+  <dxo-pager
+    [showPageSizeSelector]="true"
+    [allowedPageSizes]="[10, 15, 20, 25, 50]"
+  >
+  </dxo-pager>
+</dx-data-grid>
+
+<nz-modal
+  [(nzVisible)]="isOpenPsMasterModal"
+  [nzTitle]="qaCardSelected?.qaCard"
+  nzWidth="100%"
+  (nzOnCancel)="isOpenPsMasterModal = false"
+  [nzFooter]="modalFooter"
+>
+  <ng-container *nzModalContent>
+    <dx-data-grid
+      #psMasterGrid
+      keyExpr="pncomp"
+      [dataSource]="psMasters"
+      [showColumnLines]="true"
+      [showRowLines]="true"
+      [showBorders]="true"
+      [allowColumnResizing]="true"
+      [columnAutoWidth]="true"
+      [rowAlternationEnabled]="true"
+    >
+      <dxi-column dataField="pncomp" caption="Model Check"></dxi-column>
+      <dxi-column dataField="cpn" caption="Model sử dụng"></dxi-column>
+      <dxi-column dataField="clotno" caption="LotNo"></dxi-column>
+      <dxi-column
+        dataField="qty"
+        caption="Qty"
+        dataType="number"
+        format="#,##0.0"
+      ></dxi-column>
+      <dxi-column dataField="processName" caption="Công đoạn"></dxi-column>
+      <dxi-column
+        dataField="updatedAt"
+        caption="Thời gian"
+        dataType="date"
+        format="yyyy-MM-dd HH:mm:ss"
+      ></dxi-column>
+    </dx-data-grid>
+  </ng-container>
+  <ng-template #modalFooter>
+    <button nz-button nzType="default" (click)="isOpenPsMasterModal = false">
+      Đóng
+    </button>
+  </ng-template>
+</nz-modal>

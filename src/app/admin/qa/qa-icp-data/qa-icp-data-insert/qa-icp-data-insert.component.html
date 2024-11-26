@@ -26,20 +26,6 @@
 
       <dxo-toolbar>
         <dxi-item location="before">
-          <!-- <dx-select-box
-            style="margin-top: 0px; width: 200px"
-            label="Model"
-            labelLocation="left"
-            showColonAfterLabel="true"
-            [labelMode]="'static'"
-            displayExpr="name"
-            valueExpr="name"
-            [dataSource]="models"
-            [searchEnabled]="true"
-            [showClearButton]="true"
-            (onValueChanged)="onChangeParentModel($event)"
-          ></dx-select-box> -->
-
           <nz-select
             #parentModelSelect
             nzShowSearch
@@ -64,7 +50,8 @@
         </dxi-item>
 
         <dxi-item location="after" *ngIf="parentModelSelected">
-          <dx-button icon="upload" (onClick)="opentUploadTestReports()"> </dx-button>
+          <dx-button icon="upload" (onClick)="opentUploadTestReports()">
+          </dx-button>
         </dxi-item>
 
         <dxi-item name="searchPanel" location="after"></dxi-item>
@@ -160,7 +147,39 @@
     </dx-data-grid>
   </div>
   <div nz-col nzXs="9" nzSm="9" nzLg="9">
-    <nz-collapse>
+    <nz-card
+      style="width: 100%"
+      [nzTitle]="'Test No: ' + icpDto.testNo"
+      [nzExtra]="extraTemplate"
+    >
+      <nz-spin *ngIf="isLoading" nzTip="Hệ thống đang tải dữ liệu ...">
+        <nz-alert
+          nzType="info"
+          nzMessage="Tải dữ liệu Test report"
+          nzDescription="Hiển thị thông tin về Test report"
+        ></nz-alert>
+      </nz-spin>
+
+      <iframe
+        *ngIf="!isLoading"
+        [src]="pdfSrc"
+        width="100%"
+        height="600px"
+      ></iframe>
+    </nz-card>
+    <ng-template #extraTemplate>
+      <a
+        ><span
+          class="download-report"
+          nz-icon
+          nzType="cloud-download"
+          nzTheme="outline"
+          (click)="downloadFile()"
+        ></span
+      ></a>
+    </ng-template>
+
+    <!-- <nz-collapse>
       <nz-collapse-panel
         [nzHeader]="'Test No: ' + icpDto.testNo"
         [nzActive]="true"
@@ -181,7 +200,7 @@
           height="600px"
         ></iframe>
       </nz-collapse-panel>
-    </nz-collapse>
+    </nz-collapse> -->
   </div>
 </div>
 
@@ -300,7 +319,14 @@
     <button nz-button nzType="default" (click)="isOpenIcpModal = false">
       Cancel
     </button>
-    <button nz-button nzType="primary" (click)="onSaveIcpData()" [nzLoading]="isLoading">Save</button>
+    <button
+      nz-button
+      nzType="primary"
+      (click)="onSaveIcpData()"
+      [nzLoading]="isLoading"
+    >
+      Save
+    </button>
   </div>
 </nz-modal>
 

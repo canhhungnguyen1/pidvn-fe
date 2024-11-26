@@ -11,35 +11,33 @@ import { FormsModule } from '@angular/forms';
 import {
   DxButtonModule,
   DxDataGridModule,
-  DxSelectBoxModule,
-} from 'devextreme-angular';
-import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
-import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
-import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzModalModule } from 'ng-zorro-antd/modal';
-import { NzSelectModule } from 'ng-zorro-antd/select';
-import { NzTableModule } from 'ng-zorro-antd/table';
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
-import { IqcRequestDetailComponent } from './iqc-request-detail/iqc-request-detail.component';
-import { IqcRequestComponent } from './iqc-request/iqc-request.component';
-import { NzCollapseModule } from 'ng-zorro-antd/collapse';
-import { NzGridModule } from 'ng-zorro-antd/grid';
-import {
+  DxDateBoxModule,
+  DxDateRangeBoxModule,
+  DxDropDownBoxModule,
   DxFormModule,
   DxHtmlEditorModule,
-  DxTextBoxModule,
-  DxNumberBoxModule,
-  DxDateBoxModule,
   DxMapModule,
+  DxNumberBoxModule,
+  DxSelectBoxModule,
+  DxTextBoxModule,
   DxValidatorModule,
-  DxDropDownBoxModule,
-  DxDateRangeBoxModule
 } from 'devextreme-angular';
-import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
-import { IqcRecheckComponent } from './iqc-recheck/iqc-recheck.component';
+import { NzCollapseModule } from 'ng-zorro-antd/collapse';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzTagModule } from 'ng-zorro-antd/tag';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { IqcRecheckComponent } from './iqc-recheck/iqc-recheck.component';
+import { IqcRequestDetailComponent } from './iqc-request-detail/iqc-request-detail.component';
+import { IqcRequestComponent } from './iqc-request/iqc-request.component';
 
 
 @NgModule({

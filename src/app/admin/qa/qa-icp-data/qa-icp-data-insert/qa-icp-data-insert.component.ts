@@ -104,6 +104,11 @@ export class QaIcpDataInsertComponent implements OnInit {
     );
   }
 
+  downloadFile() {
+    console.log(this.icpDto.testNo);
+    alert(this.icpDto.testNo)
+  }
+
   onExportClient(event: any) {
     const workbook = new Workbook();
     const worksheet = workbook.addWorksheet('Main sheet');

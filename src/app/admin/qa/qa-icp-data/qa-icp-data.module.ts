@@ -30,6 +30,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+import { NzCardModule } from 'ng-zorro-antd/card';
 @NgModule({
   declarations: [QaIcpDataComponent, QaIcpDataInsertComponent],
   imports: [
@@ -59,7 +60,8 @@ import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
     NzSpinModule,
     NzAlertModule,
     DxValidationGroupModule,
-    NzPopconfirmModule
+    NzPopconfirmModule,
+    NzCardModule
   ],
 })
 export class QaIcpDataModule {}

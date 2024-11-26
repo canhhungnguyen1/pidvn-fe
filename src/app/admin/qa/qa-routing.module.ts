@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { QaComponent } from './qa.component';
+import { QaMaterialChecksheetComponent } from './qa-material-checksheet/qa-material-checksheet.component';
 
 const routes: Routes = [
   {
@@ -36,6 +37,10 @@ const routes: Routes = [
       {
         path: 'qa-icp-data',
         loadChildren: () => import('./qa-icp-data/qa-icp-data.module').then(m => m.QaIcpDataModule)
+      },
+      {
+        path: 'qa-material-checksheet',
+        component: QaMaterialChecksheetComponent
       }
     ],
   },
