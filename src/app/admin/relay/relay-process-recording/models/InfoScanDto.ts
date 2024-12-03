@@ -1,12 +1,12 @@
 export class InfoScan {
-  qaCard?: string
-  model?: string;
-  line?: string;
-  date?: string;
-  shift?: string;
-  user?: string;
-  processId?: string;
-  processName?: string;
+  qaCard!: string
+  model!: string;
+  line!: string;
+  date!: string;
+  shift!: string;
+  user!: string;
+  processId!: number;
+  processName!: string;
 
   // Constructor với giá trị mặc định
   constructor(
@@ -16,7 +16,7 @@ export class InfoScan {
     date: string = "",
     shift: string = "",
     user: string = "",
-    processId: string = "",
+    processId: number = 0,
     processName: string = ""
   ) {
     this.qaCard = qaCard;

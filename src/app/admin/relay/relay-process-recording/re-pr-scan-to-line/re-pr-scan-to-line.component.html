@@ -17,16 +17,6 @@
       <thead>
         <tr>
           <th colspan="3">
-            <!-- <input
-              id="infoIpt"
-              #infoIpt
-              nz-input
-              placeholder="Scan theo thứ tự User ID, QA card, Process"
-              (click)="infoIpt.select()"
-              
-              autocomplete="off"
-            /> -->
-
             <dx-text-box
               #infoIpt
               label="Scan thông tin"
@@ -73,6 +63,90 @@
       </tbody>
     </nz-table>
   </div>
+
+  <div nz-col nzXs="24" nzSm="24" nzLg="24">
+    <nz-tabset style="margin-top: -30px;">
+      <nz-tab nzTitle="Danh sách theo model">
+        <dx-data-grid
+          style="margin-top: -15px;"
+          keyExpr="id"
+          [dataSource]="materials"
+          [showColumnLines]="true"
+          [showRowLines]="true"
+          [showBorders]="true"
+          [allowColumnResizing]="true"
+          [columnAutoWidth]="true"
+          [rowAlternationEnabled]="true"
+        >
+          <dxo-header-filter [visible]="true"></dxo-header-filter>
+          <dxo-filter-row [visible]="true"></dxo-filter-row>
+          <dxo-export [enabled]="false"></dxo-export>
+
+          <dxi-column
+            dataField="cpn"
+            caption="PartNo"
+            [groupIndex]="1"
+            [visible]="true"
+          >
+            <dxo-header-filter [allowSelectAll]="false">
+              <dxo-search [enabled]="true"></dxo-search>
+            </dxo-header-filter>
+          </dxi-column>
+          <dxi-column
+            dataField="clotno"
+            caption="LotNo"
+            [visible]="true"
+          ></dxi-column>
+          <dxi-column
+            dataField="qty"
+            caption="Qty"
+            dataType="number"
+            format="#,##0.0"
+            [visible]="true"
+          ></dxi-column>
+
+          <dxi-column
+            caption="Action"
+            cellTemplate="actionTemplate"
+            [fixed]="true"
+            fixedPosition="right"
+          ></dxi-column>
+          <div
+            *dxTemplate="let item of 'actionTemplate'"
+            style="text-align: center"
+          >
+            <a style="color: red">Xóa</a>
+          </div>
+
+          <dxo-summary>
+            <dxi-group-item
+              column="cpn"
+              summaryType="count"
+              displayFormat="{0} boxes"
+            >
+            </dxi-group-item>
+            <dxi-group-item
+              column="qty"
+              summaryType="sum"
+              [showInGroupFooter]="false"
+              [alignByColumn]="true"
+              displayFormat="Total Qty: {0}"
+              valueFormat="#,##0.0"
+            >
+            </dxi-group-item>
+          </dxo-summary>
+
+          <dxo-paging [pageSize]="15"></dxo-paging>
+          <dxo-pager
+            [showPageSizeSelector]="true"
+            [allowedPageSizes]="[10, 15, 25, 50]"
+          >
+          </dxo-pager>
+        </dx-data-grid>
+      </nz-tab>
+      <nz-tab nzTitle="Danh sách theo thứ tự"></nz-tab>
+    </nz-tabset>
+  </div>
 </div>
 
 <nz-modal
@@ -83,75 +157,110 @@
 >
   <ng-container *nzModalContent>
     <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
-      <nz-table [nzData]="['']" nzBordered nzFrontPagination="false">
-        <thead>
-          <tr>
-            <th>
-              <dx-text-box
-                #qrCodeIpt
-                label="Scan tem NVL"
-                labelLocation="left"
-                showColonAfterLabel="true"
-                [labelMode]="'static'"
-                (keydown.enter)="scanQRCode($event)"
-                (click)="selectTextInput('qrCodeIpt')"
-              ></dx-text-box>
-            </th>
-          </tr>
-        </thead>
-      </nz-table>
+      <div nz-col nzXs="24" nzSm="24" nzLg="24">
+        <nz-table
+          [nzData]="['']"
+          nzBordered
+          nzFrontPagination="false"
+          nzSize="small"
+          style="margin-top: -15px"
+        >
+          <thead>
+            <tr>
+              <th>
+                <dx-text-box
+                  #qrCodeIpt
+                  label="Scan tem NVL"
+                  labelLocation="left"
+                  showColonAfterLabel="true"
+                  [labelMode]="'static'"
+                  (keydown.enter)="scanQRCode($event)"
+                  (click)="selectTextInput('qrCodeIpt')"
+                ></dx-text-box>
 
-      <nz-table
-        #lotScanTbl
-        [nzData]="litsLotScanOk"
-        nzBordered
-        nzSize="small"
-        [nzFrontPagination]="true"
-      >
-        <thead>
-          <tr>
-            <th>Part No</th>
-            <th>Lot No</th>
-            <th>Qty</th>
-            <th>Tồn</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let data of lotScanTbl.data">
-            <td>{{ data.model }}</td>
-            <td>{{ data.lotNo }}</td>
-            <td class="editable-row" style="text-align: right">
-              <div
-                class="editable-cell"
-                [hidden]="lotNoEdit === data.lotNo"
-                (click)="startEdit(data)"
+                <nz-alert
+                  *ngIf="responseQRScan?.status == 'ERROR'"
+                  nzType="error"
+                  [nzMessage]="responseQRScan?.information"
+                  [nzDescription]="responseQRScan?.message"
+                  nzShowIcon
+                  style="margin-top: 5px"
+                ></nz-alert>
+              </th>
+            </tr>
+          </thead>
+        </nz-table>
+      </div>
+
+      <div nz-col nzXs="24" nzSm="24" nzLg="24">
+        <nz-table
+          #lotScanTbl
+          [nzData]="litsLotScanOk"
+          nzBordered
+          nzSize="small"
+          [nzFrontPagination]="true"
+          style="margin-top: -15px"
+        >
+          <thead>
+            <tr>
+              <th>Part No</th>
+              <th>Lot No</th>
+              <th>Qty</th>
+              <th>Tồn</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of lotScanTbl.data">
+              <td>{{ data.model }}</td>
+              <td>{{ data.lotNo }}</td>
+              <td class="editable-row" style="text-align: right">
+                <div
+                  class="editable-cell"
+                  [hidden]="lotNoEdit === data.lotNo"
+                  (click)="startEdit(data)"
+                >
+                  {{ data.qty | number : "1.0-3" }}
+                </div>
+                <input
+                  #qtyIpt
+                  [hidden]="lotNoEdit !== data.lotNo"
+                  type="number"
+                  nz-input
+                  [(ngModel)]="data.qty"
+                  (blur)="stopEdit(data)"
+                />
+              </td>
+              <td style="text-align: right">
+                {{ data.remainQty | number : "1.0-3" }}
+              </td>
+              <td
+                style="text-align: center"
+                nz-popconfirm
+                nzPopconfirmTitle="Có chắc chắn xóa không ?"
+                (nzOnConfirm)="deleteLotScanned(data)"
+                nzPopconfirmPlacement="top"
+                nzRight
               >
-                {{ data.qty | number : "1.0-3" }}
-              </div>
-              <input
-                #qtyIpt
-                [hidden]="lotNoEdit !== data.lotNo"
-                type="number"
-                nz-input
-                [(ngModel)]="data.qty"
-                (blur)="stopEdit(data)"
-              />
-            </td>
-            <td>{{ data.remainQty | number : "1.0-3" }}</td>
-            <td
-              style="text-align: center"
-              nz-popconfirm
-              nzPopconfirmTitle="Có chắc chắn xóa không ?"
-              (nzOnConfirm)="deleteLotScanned(data)"
-              nzPopconfirmPlacement="top"
-              nzRight
-            >
-              <a style="color: red; font-weight: bold">Xóa</a>
-            </td>
-          </tr>
-        </tbody>
-      </nz-table>
+                <a style="color: red; font-weight: bold">Xóa</a>
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </div>
     </div>
   </ng-container>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="isOpenScanQRCodeModal = false">
+      Đóng
+    </button>
+    <button
+      nz-button
+      nzType="primary"
+      (click)="insertToLine()"
+      [nzLoading]="isLoading"
+    >
+      Lưu
+    </button>
+  </div>
 </nz-modal>

@@ -21,4 +21,5 @@ export class LotDto {
     qaCard!:string;
     line!: string;
     shift!: string;
+    ordinal!: number;
 }

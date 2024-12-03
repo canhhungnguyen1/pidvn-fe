@@ -8,17 +8,34 @@
   [columnAutoWidth]="true"
   [rowAlternationEnabled]="true"
 >
+  <dxo-column-chooser
+    #columnChooser
+    [enabled]="true"
+    [mode]="'select'"
+    [title]="'Cột hiển thị'"
+  >
+  </dxo-column-chooser>
   <dxo-toolbar>
     <dxi-item location="before">
-      <button
+      <dx-button
+        icon="plus"
+        type="default"
+        (onClick)="openCreateRequestInventoryModal()"
+        text="Tạo phiếu kiểm kê"
+      >
+      </dx-button>
+
+      <!-- <button
         nz-button
         nzType="primary"
         (click)="openCreateRequestInventoryModal()"
       >
         <span nz-icon nzType="plus"></span>
         Tạo phiếu kiểm kê
-      </button>
+      </button> -->
     </dxi-item>
+
+    <dxi-item name="columnChooserButton" location="after"></dxi-item>
   </dxo-toolbar>
 
   <dxo-paging [pageSize]="10"></dxo-paging>
@@ -38,6 +55,7 @@
     dataType="date"
     format="yyyy-MM-dd HH:mm:ss"
     caption="Ngày tính data lý thuyết"
+    [visible]="false"
   ></dxi-column>
   <dxi-column
     dataField="inventoryCloseDate"
@@ -49,7 +67,13 @@
   <dxi-column dataField="createdBy" caption="Người tạo"></dxi-column>
   <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
 
-  <dxi-column caption="Action" cellTemplate="actionTemplate" alignment="center">
+  <dxi-column
+    caption="Action"
+    cellTemplate="actionTemplate"
+    alignment="center"
+    [fixed]="true"
+    fixedPosition="right"
+  >
     <div *dxTemplate="let item of 'actionTemplate'" style="text-align: center">
       <a style="color: blue" (click)="redirectDetail(item)">Chi tiết</a>
     </div>

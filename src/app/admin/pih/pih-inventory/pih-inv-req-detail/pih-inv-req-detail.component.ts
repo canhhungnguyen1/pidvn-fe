@@ -165,13 +165,13 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
   openScanInventoryModal() {
 
     let conditionScanInventory = new Date(this.inventoryRequestInfo.inventoryCloseDate).getDay() - new Date().getDay() 
-    if (conditionScanInventory < 0) {
-      this.toastr.warning(
-        `Đã quá thời hạn kiểm kê`,
-        `${this.userLoginName} ơi !`
-      );
-      return;
-    }
+    // if (conditionScanInventory < 0) {
+    //   this.toastr.warning(
+    //     `Đã quá thời hạn kiểm kê`,
+    //     `${this.userLoginName} ơi !`
+    //   );
+    //   return;
+    // }
 
     /**
      * Kiểm tra phiếu đã quá thời gian kiểm kê chưa

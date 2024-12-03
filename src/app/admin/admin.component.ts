@@ -42,6 +42,7 @@ export class AdminComponent implements OnInit {
   contractLink!: string;
   paymentLink!: string;
   priceLink!:string;
+  createSupplierLink!: string;
   eDummyLink!: string;
   eChangeDraftLink!: string;
   relayDashboardLink!: string;
@@ -306,6 +307,9 @@ export class AdminComponent implements OnInit {
     this.contractLink = `${this.baseUrlJava}/pidvn/acc/contract/menu?accessToken=${token2}`
     this.paymentLink = `${this.baseUrlJava}/pidvn/acc/payment/menu?accessToken=${token2}`
     this.priceLink = `${this.baseUrlJava}/pidvn/acc/price/menu?accessToken=${token2}`
+    this.createSupplierLink = `${this.baseUrlJava}/pidvn/admin?name=pidvn_acc_supplier_profile_rq&accessToken=${token2}`
+
+
     this.eDummyLink = `${this.baseUrlJava}/pidvn/pe/dummy/menu?accessToken=${token2}`
 
     this.eChangeDraftLink = `${this.baseUrlJava}/pidvn/pe/changedraft/menu?accessToken=${token2}`

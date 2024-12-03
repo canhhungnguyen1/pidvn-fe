@@ -142,11 +142,13 @@ export class IqcRecheckComponent implements OnInit {
         this.getLotsInventory();
         this.isLoading = false;
         this.closeCreateModalRequest()
+        this.toastr.success('Tạo request thành công','Thông báo')
       },
       (error) => {
         this.isLoading = false;
         this.isOpenCreateModalRequest = false;
         this.closeCreateModalRequest()
+        this.toastr.error(error,'Error')
       }
     );
 
