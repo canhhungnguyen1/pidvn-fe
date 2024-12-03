@@ -216,6 +216,14 @@ export class AdminComponent implements OnInit {
     {
       line: 'TEMP',
       link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=TEMP`
+    },
+    {
+      line: '11G1-OUT',
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=11G1-OUT`
+    },
+    {
+      line: '11G2-OUT',
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=11G2-OUT`
     }
 
 
