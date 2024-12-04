@@ -41,7 +41,7 @@ export class QaIcpDataService {
   }
 
   /**
-   * Xem file Drawing
+   * Xem file Test report
    * @param file
    * @returns
    */
@@ -49,6 +49,18 @@ export class QaIcpDataService {
     return this.httpClient.post<any>(`${this.baseUrl}/QA/ICP/Preview`, params, {
       responseType: 'arraybuffer' as 'json',
     });
+  }
+
+  /**
+   * 
+   * @returns 
+   */
+  public downloadFile(obj: any): Observable<any> {
+    return this.httpClient.post(
+      `${this.baseUrl}/QA/ICP/Download`,
+      obj,
+      { responseType: 'blob' }
+    );
   }
 
 

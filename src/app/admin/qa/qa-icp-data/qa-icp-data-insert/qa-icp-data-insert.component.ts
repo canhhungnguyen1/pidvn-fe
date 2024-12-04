@@ -104,9 +104,33 @@ export class QaIcpDataInsertComponent implements OnInit {
     );
   }
 
+
   downloadFile() {
-    console.log(this.icpDto.testNo);
-    alert(this.icpDto.testNo)
+    console.log(this.icpDto);
+    
+    this.qaIcpDataSvc.downloadFile(this.icpDto).subscribe(
+      response => {
+        console.log(response);
+      const blob = new Blob([response], {
+        // type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      });
+      const data = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = data;
+      link.download = `${this.icpDto.testNo}.pdf`;
+      link.dispatchEvent(
+        new MouseEvent('click', {
+          bubbles: true,
+          cancelable: true,
+          view: window,
+        })
+      );
+      setTimeout(() => {
+        window.URL.revokeObjectURL(data);
+        link.remove();
+      }, 100);
+      }
+    )
   }
 
   onExportClient(event: any) {
