@@ -198,11 +198,20 @@
 
   <dxi-column
     dataField="checkDate"
-    caption="Ngày đánh giá"
+    caption="Ngày đánh giá (CheckDate)"
     dataType="date"
     format="yyyy-MM-dd"
     [visible]="true"
   ></dxi-column>
+
+  <dxi-column
+    dataField="date"
+    caption="Ngày đánh giá (Date)"
+    dataType="date"
+    format="yyyy-MM-dd"
+    [visible]="false"
+  ></dxi-column>
+
   <dxi-column
     dataField="checkUserName"
     caption="Người đánh giá"
@@ -210,6 +219,17 @@
   ></dxi-column>
 
   <dxi-column dataField="remark" caption="Remark" [visible]="true"></dxi-column>
+
+
+  <dxi-column
+    caption="Rút mẫu"
+    cellTemplate="checkSampleTemplate"
+    [fixed]="true"
+    fixedPosition="right"
+  ></dxi-column>
+  <div *dxTemplate="let item of 'checkSampleTemplate'" style="text-align: center">
+    <label nz-checkbox [(ngModel)]="item.data.checkSample" (ngModelChange)="setCheckSample(item)"></label>
+  </div>
 
   <dxo-paging [pageSize]="10"></dxo-paging>
   <dxo-pager

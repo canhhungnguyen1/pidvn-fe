@@ -6,6 +6,9 @@ import { ToastrService } from 'ngx-toastr';
 import { IqcRequestDto } from '../models/IqcRequestDto';
 import { IqcResultDto } from '../models/IqcResultDto';
 import { IqcService } from '../services/iqc.service';
+import { Workbook } from 'exceljs';
+import { exportDataGrid } from 'devextreme/excel_exporter';
+import * as saveAs from 'file-saver';
 
 @Component({
   selector: 'app-iqc-recheck',
@@ -166,5 +169,23 @@ export class IqcRecheckComponent implements OnInit {
     //       this.isOpenCreateModalRequest = false;
     //     }
     //   );
+  }
+
+  onExportClient(event: any) {
+    console.log(event);
+
+    const workbook = new Workbook();
+    const worksheet = workbook.addWorksheet('Main sheet');
+    exportDataGrid({
+      component: event.component,
+      worksheet: worksheet,
+    }).then(function () {
+      workbook.xlsx.writeBuffer().then(function (buffer: BlobPart) {
+        saveAs(
+          new Blob([buffer], { type: 'application/octet-stream' }),
+          'DataGrid.xlsx'
+        );
+      });
+    });
   }
 }

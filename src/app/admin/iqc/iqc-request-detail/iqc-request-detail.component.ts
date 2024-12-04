@@ -62,6 +62,10 @@ export class IqcRequestDetailComponent implements OnInit, AfterViewInit {
     let requestNo =
       this.activatedRoute.snapshot.paramMap.get('requestNo') ?? '';
     this.iqcSvc.getIqcResults(requestNo).subscribe((response) => {
+
+      console.log('AAA: ', response);
+      
+
       this.iqcResults = response.result;
       this.iqcDataGrid.instance.endCustomLoading();
     });
@@ -116,6 +120,7 @@ export class IqcRequestDetailComponent implements OnInit, AfterViewInit {
       item.levelOfControl2 = this.evaluateData.levelOfControl2;
       item.remark = this.evaluateData.remark;
       item.checkDate = new Date();
+      item.date = new Date();
       item.checkUser = checkUser;
     }
 
@@ -189,6 +194,23 @@ export class IqcRequestDetailComponent implements OnInit, AfterViewInit {
     this.iqcSvc.updateIqcRequest(request).subscribe(
       response => {
         this.iqcRequest = response.result
+      }
+    )
+  }
+
+  setCheckSample(event: any) {
+
+    console.log('setCheckSample: ', event.data);
+
+    let param = {
+      checkSample: event.data.checkSample
+    }
+    this.iqcSvc.setCheckSample(event.data.id, param).subscribe(
+      response => {
+        this.toastr.success(`Cập nhật thành công`,'Thông báo')
+      },
+      error => {
+        this.toastr.error(error,'Có lỗi')
       }
     )
   }

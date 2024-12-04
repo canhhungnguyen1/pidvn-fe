@@ -10,6 +10,7 @@
       [columnAutoWidth]="true"
       [rowAlternationEnabled]="true"
       (onSelectionChanged)="onSelectionChanged($event)"
+      (onExporting)="onExportClient($event)"
     >
       <dxo-selection
         [selectAllMode]="'allPages'"
@@ -79,6 +80,11 @@
         format="yyyy-MM-dd"
         [visible]="true"
         alignment="center"
+      ></dxi-column>
+      <dxi-column
+        dataField="factoryCode"
+        caption="Nhà máy"
+        [visible]="true"
       ></dxi-column>
       <dxi-column
         dataField="daySinceIqc"

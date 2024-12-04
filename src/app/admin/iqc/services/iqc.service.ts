@@ -89,9 +89,17 @@ export class IqcService {
    * @param
    * @returns
    */
-  public viewGuide(obj: any) {
+  public viewGuide(obj: any): Observable<any> {
     return this.httpClient.post<any>(`${this.baseUrl}/IQC/ViewGuide`, obj, {
       responseType: 'arraybuffer' as 'json',
     });
+  }
+
+
+  public setCheckSample(id: number, param: any): Observable<any> {
+    return this.httpClient.patch(
+      `${this.baseUrl}/IQC/IqcResult/${id}/SetCheckSample`,
+      param
+    );
   }
 }

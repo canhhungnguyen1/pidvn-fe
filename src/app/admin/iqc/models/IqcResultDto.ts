@@ -9,4 +9,5 @@ export class IqcResultDto {
     keyInId!:string;
     qty!:string;
     date!: Date;
+    checkSample!: boolean
 }
