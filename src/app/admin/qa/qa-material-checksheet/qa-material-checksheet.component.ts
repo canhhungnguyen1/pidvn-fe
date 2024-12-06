@@ -46,9 +46,12 @@ import { QaMaterialCheckSheetService } from './qa-material-checksheet.service';
   styleUrl: './qa-material-checksheet.component.scss',
 })
 export class QaMaterialChecksheetComponent implements OnInit {
-
   @ViewChild(DxDataGridComponent, { static: false })
   psMasterGrid!: DxDataGridComponent;
+
+  @ViewChild(DxDataGridComponent, { static: false })
+  qaCardGrid!: DxDataGridComponent;
+  
 
   constructor(
     private router: Router,
@@ -62,6 +65,11 @@ export class QaMaterialChecksheetComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    let today = new Date();
+    this.searchParams.dateRange = [new Date(today.setDate(today.getDate() - 1)), new Date()];
+
+
     this.getQaCards();
   }
 
@@ -73,28 +81,40 @@ export class QaMaterialChecksheetComponent implements OnInit {
   qaCards: any;
   isOpenPsMasterModal: boolean = false;
   qaCardSelected: any;
-  psMasters: any
+  psMasters: any;
 
   getQaCards() {
-    this.qaMaterialCheckSheetSvc.getQACards().subscribe((response) => {
+
+    this.qaCardGrid?.instance.beginCustomLoading(`Đang load dữ liệu ...`);
+
+    this.qaMaterialCheckSheetSvc.getQACards(this.searchParams).subscribe((response) => {
       this.qaCards = response.result;
+      this.qaCardGrid?.instance.endCustomLoading();
     });
   }
 
   openPsMasterDetailModal(event: any) {
     console.log('openPsMasterDetailModal: ', event);
-    this.qaCardSelected = event
+    this.qaCardSelected = event;
     this.isOpenPsMasterModal = true;
 
     this.psMasterGrid.instance.beginCustomLoading(`Đang load dữ liệu ...`);
 
-    this.qaMaterialCheckSheetSvc.getPsMasters(event.qaCard).subscribe(
-      response => {
-        this.psMasters = response.result
+    this.qaMaterialCheckSheetSvc
+      .getPsMasters(event.qaCard)
+      .subscribe((response) => {
+        this.psMasters = response.result;
         this.psMasterGrid.instance.endCustomLoading();
+      });
+  }
+
+  onCellPreparedPsMasterGrid(e: any) {
+    if (e.rowType === 'data') {
+      if (e.column.dataField === 'cpn') {
+        if (e.value === null) {
+          e.cellElement.innerText = "Không sử dụng hoặc sai NVL";
+        }
       }
-    )
-
-
+    }
   }
 }

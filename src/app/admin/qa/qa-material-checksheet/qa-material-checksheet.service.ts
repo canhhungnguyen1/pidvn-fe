@@ -9,18 +9,18 @@ import { environment } from 'src/environments/environment';
 export class QaMaterialCheckSheetService {
   constructor(private httpClient: HttpClient) {}
 
-  private baseUrl = environment.baseUrl; 
+  private baseUrl = environment.baseUrl;
 
-  public getQACards(): Observable<any> {
-    return this.httpClient.get(
-        `${this.baseUrl}/QA/MaterialCheckSheet/QaCards`
-      );
+  public getQACards(searchParams: any): Observable<any> {
+    return this.httpClient.post(
+      `${this.baseUrl}/QA/MaterialCheckSheet/QaCards`,
+      searchParams
+    );
   }
 
   public getPsMasters(qaCard: string): Observable<any> {
     return this.httpClient.get(
-        `${this.baseUrl}/QA/MaterialCheckSheet/PsMasters?qaCard=${qaCard}`
-      );
+      `${this.baseUrl}/QA/MaterialCheckSheet/PsMasters?qaCard=${qaCard}`
+    );
   }
-
 }
