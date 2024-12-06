@@ -161,7 +161,7 @@
     </dx-data-grid>
   </nz-tab>
 
-  <nz-tab nzTitle="Chênh lệch thực tế / lý thuyết">
+  <!-- <nz-tab nzTitle="Chênh lệch thực tế / lý thuyết">
     <dx-data-grid
       #balanceGrid
       [dataSource]="balanceData"
@@ -219,9 +219,9 @@
       >
       </dxo-pager>
     </dx-data-grid>
-  </nz-tab>
+  </nz-tab> -->
 
-  <nz-tab nzTitle="Kiểm kê NVL thô">
+  <!-- <nz-tab nzTitle="Kiểm kê NVL thô">
     <dx-data-grid
       keyExpr="id"
       [dataSource]="rawMaterialInventory"
@@ -270,7 +270,7 @@
       >
       </dxo-pager>
     </dx-data-grid>
-  </nz-tab>
+  </nz-tab> -->
 </nz-tabset>
 
 <nz-modal
@@ -288,55 +288,6 @@
     >
       <thead>
         <tr>
-          <!-- <th style="width: 15%">Khu vực</th>
-          <th style="width: 30%">
-            <nz-select
-              style="width: 100%"
-              nzPlaceHolder="Chọn khu vực"
-              nzAllowClear
-              nzShowSearch
-              (ngModelChange)="onChangeArea($event)"
-              [(ngModel)]="inventoryArea"
-            >
-              <nz-option
-                *ngFor="let area of inventoryAreaList"
-                [nzValue]="area.id"
-                [nzLabel]="area.name"
-              >
-              </nz-option>
-            </nz-select>
-          </th>
-          <th style="width: 10%">Type</th>
-          <th style="width: 30%">
-            <nz-select
-              style="width: 100%"
-              nzPlaceHolder="Type"
-              nzAllowClear
-              nzShowSearch
-              (ngModelChange)="onChangeArea($event)"
-              [(ngModel)]="inventoryArea"
-            >
-              <nz-option [nzValue]="'CX'" [nzLabel]="'Chờ xuất'"></nz-option>
-              <nz-option [nzValue]="'CXN'" [nzLabel]="'Chờ xác nhận'"></nz-option>
-              <nz-option [nzValue]="'CST'" [nzLabel]="'Chờ sorting'"></nz-option>
-              <nz-option [nzValue]="'RT'" [nzLabel]="'Return'"></nz-option>
-              <nz-option [nzValue]="'NG'" [nzLabel]="'NG'"></nz-option>
-            </nz-select>
-          </th>
-          <th style="width: 15%">Label</th>
-          <th>
-            <input
-              id="labelIpt"
-              #labelIpt
-              nz-input
-              placeholder="Scan tem NVL"
-              (keydown.enter)="scanLabel($event)"
-              (click)="labelIpt.select()"
-              autocomplete="off"
-              autofocus="true"
-            />
-          </th> -->
-
           <th>
             <dx-select-box
               label="Chọn khu vực"
@@ -383,6 +334,7 @@
               (click)="labelIpt.select()"
               autocomplete="off"
               autofocus="true"
+              style="margin-bottom: -20px;"
             />
           </th>
         </tr>

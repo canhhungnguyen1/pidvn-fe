@@ -87,7 +87,7 @@ export class PihInvRequestComponent implements OnInit {
       localStorage.getItem('accessToken')?.toString()
     ).FullName.split(' ').reverse()[0]
 
-    if (!obj.inventoryType || !obj.calculateTheoryDataDate || !obj.inventoryCloseDate) {
+    if (!obj.inventoryType || !obj.inventoryCloseDate) {
       this.toastr.warning('Cần nhập các trường bắt buộc nhé',`Bạn ${name} ơi!`)
       return;
     }   
