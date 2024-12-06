@@ -232,6 +232,8 @@ export class AdminComponent implements OnInit {
   fgWarehouseLink!: string;
   checkTemWHLink!: string
   reportTemWHLink!: string;
+  getDppLink!: string;
+  reportDppIspLink!: string;
   surveyLink!: string;
   examTestRelayLink!: string;
   examTestVrEncLink!: string;
@@ -326,6 +328,8 @@ export class AdminComponent implements OnInit {
     this.listOpLineVR = `${this.baseUrlJava}/pidvn/ma/skillmap/list_op_inline?area=EMC`;
     this.fgWarehouseLink = `${this.baseUrlJava}/pidvn/sales/fg?accessToken=${token2}`
     this.checkTemWHLink = `${this.baseUrlJava}/pidvn/sales/fg/checktemWH?accessToken=${token2}`
+    this.getDppLink = `${this.baseUrlJava}/pidvn/sales/readfiledpp/readfiledpp?accessToken=${token2}`
+    this.reportDppIspLink = `${this.baseUrlJava}/pidvn/report?name=Rep_get_dppisp&accessToken=${token2}`
     this.reportTemWHLink = `${this.baseUrlJava}/pidvn/sales/fg/reportchecktemwh?accessToken=${token2}`
     this.surveyLink = `${this.baseUrlJava}/pidvn/acc/coi/menu?accessToken=${token2}`
     this.examTestRelayLink = `${this.baseUrlJava}/pidvn/ma/exam?area=Relay`
@@ -418,7 +422,9 @@ export class AdminComponent implements OnInit {
           <li>Ms. Hồng: 0985 186 819</li>
           <li>Ms. Yên: 0989 554 217</li>
           <li>Mr. Hà: 0888 694 234</li>
+          <li>Mr. Sáng: 0983 472 995</li>
           <li>Mr. Khoa: 0966 333 594</li>
+          <li>Mr. Nam: 091 328 9955</li>
           <li><a href='#' target="_blank">Mr. Hưng: 0966 939 859</a></li>
         </ul>
       `,

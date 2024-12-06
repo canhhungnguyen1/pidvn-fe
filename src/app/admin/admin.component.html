@@ -850,6 +850,21 @@
               DOT</a
             >
           </li>
+
+          <li nz-submenu nzTitle="Dpp, Isp Data">
+            <ul>
+              <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
+                <a class="externalLink" [href]="getDppLink" target="blank"
+                  >Đọc Dữ Liệu File DPP, ISP</a
+                >
+              </li>
+              <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
+                <a class="externalLink" [href]="reportDppIspLink" target="blank"
+                  >Báo cáo DPP, ISP</a
+                >
+              </li>
+            </ul>
+          </li>
         </ul>
       </li>
       <li nz-submenu nzTitle="PACKING" nzIcon="dropbox">
