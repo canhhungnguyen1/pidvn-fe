@@ -50,6 +50,7 @@
       [height]="650"
       [showBorders]="true"
       [dataSource]="dataSource"
+      (onExporting)="onExporting($event)"
     >
       <dxo-field-chooser [enabled]="true"></dxo-field-chooser>
       <dxo-export [enabled]="true"></dxo-export>

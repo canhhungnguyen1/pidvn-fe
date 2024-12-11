@@ -147,13 +147,13 @@
   </dxo-toolbar>
 
   <dxi-column dataField="model" caption="Model" [visible]="true">
-    <dxo-header-filter [allowSelectAll]="false">
+    <dxo-header-filter [allowSelectAll]="true">
       <dxo-search [enabled]="true"></dxo-search>
     </dxo-header-filter>
   </dxi-column>
 
   <dxi-column dataField="lotGroup" caption="Lot Group" [visible]="true">
-    <dxo-header-filter [allowSelectAll]="false">
+    <dxo-header-filter [allowSelectAll]="true">
       <dxo-search [enabled]="true"></dxo-search>
     </dxo-header-filter>
   </dxi-column>
@@ -198,7 +198,7 @@
 
   <dxi-column
     dataField="checkDate"
-    caption="Ngày đánh giá (CheckDate)"
+    caption="Ngày đánh giá"
     dataType="date"
     format="yyyy-MM-dd"
     [visible]="true"
@@ -220,15 +220,21 @@
 
   <dxi-column dataField="remark" caption="Remark" [visible]="true"></dxi-column>
 
-
   <dxi-column
     caption="Rút mẫu"
     cellTemplate="checkSampleTemplate"
     [fixed]="true"
     fixedPosition="right"
   ></dxi-column>
-  <div *dxTemplate="let item of 'checkSampleTemplate'" style="text-align: center">
-    <label nz-checkbox [(ngModel)]="item.data.checkSample" (ngModelChange)="setCheckSample(item)"></label>
+  <div
+    *dxTemplate="let item of 'checkSampleTemplate'"
+    style="text-align: center"
+  >
+    <label
+      nz-checkbox
+      [(ngModel)]="item.data.checkSample"
+      (ngModelChange)="setCheckSample(item)"
+    ></label>
   </div>
 
   <dxo-paging [pageSize]="10"></dxo-paging>
@@ -240,6 +246,8 @@
 </dx-data-grid>
 
 <nz-modal
+  nzDraggable
+  nzCentered
   [(nzVisible)]="isOpenEvaluateModal"
   nzTitle="Đánh giá hàng loạt"
   [nzWidth]="'900px'"

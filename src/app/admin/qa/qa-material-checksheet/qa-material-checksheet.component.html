@@ -68,6 +68,15 @@
     dataType="date"
     format="yyyy-MM-dd"
   ></dxi-column>
+  <dxi-column dataField="judgment" caption="Đánh giá"></dxi-column>
+  <dxi-column
+    dataField="createdAt"
+    caption="Ngày đánh giá"
+    dataType="date"
+    format="yyyy-MM-dd"
+  ></dxi-column>
+  <dxi-column dataField="createdByName" caption="Người đánh giá"></dxi-column>
+  <dxi-column dataField="remark" caption="Remark"></dxi-column>
 
   <dxo-paging [pageSize]="20"></dxo-paging>
   <dxo-pager
@@ -85,59 +94,216 @@
   [nzFooter]="modalFooter"
 >
   <ng-container *nzModalContent>
-    <dx-data-grid
-      #psMasterGrid
-      keyExpr="pncomp"
-      [dataSource]="psMasters"
-      [showColumnLines]="true"
-      [showRowLines]="true"
-      [showBorders]="true"
-      [allowColumnResizing]="true"
-      [columnAutoWidth]="true"
-      [rowAlternationEnabled]="true"
-      (onCellPrepared)="onCellPreparedPsMasterGrid($event)"
-    >
-      <dxo-toolbar>
-        <dxi-item location="before">
-          <button nz-button nzType="primary">
-            <span nz-icon nzType="check-circle" nzTheme="outline"></span>
-            Xác nhận
-          </button>
-        </dxi-item>
-      </dxo-toolbar>
-
-      <dxo-header-filter [visible]="true"></dxo-header-filter>
-      <dxo-filter-row [visible]="true"></dxo-filter-row>
-      <dxo-export [enabled]="true"></dxo-export>
-
-      <dxi-column dataField="pncomp" caption="Model Check"></dxi-column>
-      <dxi-column dataField="cpn" caption="Model sử dụng"></dxi-column>
-      <dxi-column dataField="clotno" caption="LotNo"></dxi-column>
-      <dxi-column
-        dataField="qty"
-        caption="Qty"
-        dataType="number"
-        format="#,##0.0"
-      ></dxi-column>
-      <dxi-column dataField="processName" caption="Công đoạn"></dxi-column>
-      <dxi-column
-        dataField="updatedAt"
-        caption="Thời gian"
-        dataType="date"
-        format="yyyy-MM-dd HH:mm:ss"
-      ></dxi-column>
-
-      <dxo-paging [pageSize]="10"></dxo-paging>
-      <dxo-pager
-        [showPageSizeSelector]="true"
-        [allowedPageSizes]="[10, 25, 50, 100]"
+    <div nz-row [nzGutter]="24">
+      <div
+        *ngIf="qaCardSelected.judgment"
+        nz-col
+        nzXs="8"
+        nzSm="8"
+        nzMd="8"
+        nzLg="8"
       >
-      </dxo-pager>
-    </dx-data-grid>
+        <nz-collapse>
+          <nz-collapse-panel [nzHeader]="'Thông tin đánh giá'" [nzActive]="true">
+            <nz-table
+              id="confirm-tbl-info"
+              [nzData]="['']"
+              nzBordered
+              nzFrontPagination="false"
+              nzSize="small"
+            >
+              <tbody>
+                <tr>
+                  <td><label>QA Card</label></td>
+                  <td colspan="3">{{ qaCardSelected.qaCard }}</td>
+                </tr>
+
+                <tr>
+                  <td><label>Model</label></td>
+                  <td>{{ qaCardSelected.model }}</td>
+                  <td><label>Line</label></td>
+                  <td>{{ qaCardSelected.line }}</td>
+                </tr>
+
+                <tr>
+                  <td><label>Date</label></td>
+                  <td>{{ qaCardSelected.date | date : "yyyy-MM-dd" }}</td>
+                  <td><label>Shift</label></td>
+                  <td>{{ qaCardSelected.shift }}</td>
+                </tr>
+
+                <tr>
+                  <td><label>Đánh giá</label></td>
+                  <td>
+                    <nz-radio-group [ngModel]="qaCardSelected.judgment">
+                      <label nz-radio nzValue="OK" style="color: green"
+                        >OK</label
+                      >
+                      <label nz-radio nzValue="NG" style="color: red">NG</label>
+                    </nz-radio-group>
+                  </td>
+                  <td><label>Ngày đánh giá</label></td>
+                  <td>{{ qaCardSelected.createdAt | date : "yyyy-MM-dd" }}</td>
+                </tr>
+
+                <tr>
+                  <td><label>Người đánh giá</label></td>
+                  <td colspan="3">
+                    {{ qaCardSelected.createdByName }} -
+                    {{ qaCardSelected.createdBy }}
+                  </td>
+                </tr>
+
+                <tr>
+                  <td><label>Ghi chú</label></td>
+                  <td colspan="3">
+                    <textarea
+                      [ngModel]="qaCardSelected.remark"
+                      nz-input
+                      rows="2"
+                      maxlength="25"
+                      readonly
+                    ></textarea>
+                  </td>
+                </tr>
+              </tbody>
+            </nz-table>
+          </nz-collapse-panel>
+        </nz-collapse>
+      </div>
+      <div
+        nz-col
+        [nzXs]="qaCardSelected.judgment ? 16 : 24"
+        [nzSm]="qaCardSelected.judgment ? 16 : 24"
+        [nzMd]="qaCardSelected.judgment ? 16 : 24"
+        [nzLg]="qaCardSelected.judgment ? 16 : 24"
+      >
+      <nz-collapse>
+        <nz-collapse-panel [nzHeader]="'Nguyên vật liệu sử dụng'" [nzActive]="true">
+          <dx-data-grid
+          #psMasterGrid
+          keyExpr="pncomp"
+          [dataSource]="psMasters"
+          [showColumnLines]="true"
+          [showRowLines]="true"
+          [showBorders]="true"
+          [allowColumnResizing]="true"
+          [columnAutoWidth]="true"
+          [rowAlternationEnabled]="true"
+          (onCellPrepared)="onCellPreparedPsMasterGrid($event)"
+        >
+          <dxo-toolbar>
+            <dxi-item location="before" *ngIf="!qaCardSelected.judgment">
+              <button
+                nz-button
+                nzType="primary"
+                (click)="openConfirmChecksheetModal()"
+              >
+                <span nz-icon nzType="check-circle" nzTheme="outline"></span>
+                Xác nhận
+              </button>
+            </dxi-item>
+          </dxo-toolbar>
+
+          <dxo-header-filter [visible]="true"></dxo-header-filter>
+          <dxo-filter-row [visible]="true"></dxo-filter-row>
+          <dxo-export [enabled]="false"></dxo-export>
+
+          <dxi-column dataField="pncomp" caption="Model Check"></dxi-column>
+          <dxi-column dataField="cpn" caption="Model sử dụng"></dxi-column>
+          <dxi-column dataField="clotno" caption="LotNo"></dxi-column>
+          <dxi-column
+            dataField="qty"
+            caption="Qty"
+            dataType="number"
+            format="#,##0.0"
+          ></dxi-column>
+          <dxi-column dataField="processName" caption="Công đoạn"></dxi-column>
+          <dxi-column
+            dataField="updatedAt"
+            caption="Thời gian"
+            dataType="date"
+            format="yyyy-MM-dd HH:mm:ss"
+          ></dxi-column>
+
+          <dxo-paging [pageSize]="15"></dxo-paging>
+          <dxo-pager
+            [showPageSizeSelector]="true"
+            [allowedPageSizes]="[10, 15, 25, 50, 100]"
+          >
+          </dxo-pager>
+        </dx-data-grid>
+        </nz-collapse-panel>
+      </nz-collapse>
+
+        
+      </div>
+    </div>
   </ng-container>
   <ng-template #modalFooter>
     <button nz-button nzType="default" (click)="isOpenPsMasterModal = false">
       Đóng
     </button>
   </ng-template>
+</nz-modal>
+
+<nz-modal
+  nzDraggable
+  nzCentered
+  [(nzVisible)]="isOpenConfirmChecksheetModal"
+  nzTitle="CheckSheet Confirm"
+  (nzOnOk)="handleConfirmChecksheet()"
+  (nzOnCancel)="isOpenConfirmChecksheetModal = false"
+>
+  <ng-container *nzModalContent>
+    <span>Xác nhận tình trạng sử dụng NVL</span>
+    <nz-table
+      id="confirm-tbl"
+      [nzData]="['']"
+      nzBordered
+      nzFrontPagination="false"
+      nzSize="small"
+    >
+      <tbody>
+        <tr>
+          <td><label>Model</label></td>
+          <td>{{ qaCardSelected.model }}</td>
+          <td><label>Line</label></td>
+          <td>{{ qaCardSelected.line }}</td>
+        </tr>
+        <tr>
+          <td><label>Date</label></td>
+          <td>{{ qaCardSelected.date | date : "yyyy-MM-dd" }}</td>
+          <td><label>Shift</label></td>
+          <td>{{ qaCardSelected.shift }}</td>
+        </tr>
+        <tr>
+          <td><label>Người xác nhận</label></td>
+          <td colspan="3">{{ jwt.FullName }} - {{ jwt.Username }}</td>
+        </tr>
+        <tr>
+          <td><label>Đánh giá</label></td>
+          <td colspan="3">
+            <nz-radio-group [(ngModel)]="qaCardSelected.judgment">
+              <label nz-radio nzValue="OK" style="color: green">OK</label>
+              <label nz-radio nzValue="NG" style="color: red">NG</label>
+            </nz-radio-group>
+          </td>
+        </tr>
+        <tr>
+          <td><label>Ghi chú</label></td>
+          <td colspan="3">
+            <nz-textarea-count [nzMaxCharacterCount]="25">
+              <textarea
+                [(ngModel)]="qaCardSelected.remark"
+                nz-input
+                rows="2"
+                maxlength="25"
+              ></textarea>
+            </nz-textarea-count>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
 </nz-modal>

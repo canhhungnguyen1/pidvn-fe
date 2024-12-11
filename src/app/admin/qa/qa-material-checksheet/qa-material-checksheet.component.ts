@@ -2,46 +2,13 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import {
-  DxButtonModule,
-  DxDataGridComponent,
-  DxDataGridModule,
-  DxDateBoxModule,
-  DxDateRangeBoxModule,
-  DxDropDownBoxModule,
-  DxFormModule,
-  DxHtmlEditorModule,
-  DxMapModule,
-  DxNumberBoxModule,
-  DxSelectBoxModule,
-  DxTextBoxModule,
-  DxValidatorModule,
+  DxDataGridComponent
 } from 'devextreme-angular';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzModalModule } from 'ng-zorro-antd/modal';
 import { ToastrService } from 'ngx-toastr';
 import { QaMaterialCheckSheetService } from './qa-material-checksheet.service';
 
 @Component({
   selector: 'app-qa-material-checksheet',
-  standalone: true,
-  imports: [
-    DxDataGridModule,
-    NzIconModule,
-    NzModalModule,
-    DxButtonModule,
-    DxDateBoxModule,
-    DxDateRangeBoxModule,
-    DxDropDownBoxModule,
-    DxFormModule,
-    DxHtmlEditorModule,
-    DxMapModule,
-    DxNumberBoxModule,
-    DxSelectBoxModule,
-    DxTextBoxModule,
-    DxValidatorModule,
-    NzButtonModule,
-  ],
   templateUrl: './qa-material-checksheet.component.html',
   styleUrl: './qa-material-checksheet.component.scss',
 })
@@ -82,6 +49,7 @@ export class QaMaterialChecksheetComponent implements OnInit {
   isOpenPsMasterModal: boolean = false;
   qaCardSelected: any;
   psMasters: any;
+  isOpenConfirmChecksheetModal: boolean = false
 
   getQaCards() {
 
@@ -94,6 +62,7 @@ export class QaMaterialChecksheetComponent implements OnInit {
   }
 
   openPsMasterDetailModal(event: any) {
+    this.psMasters = []
     console.log('openPsMasterDetailModal: ', event);
     this.qaCardSelected = event;
     this.isOpenPsMasterModal = true;
@@ -117,4 +86,28 @@ export class QaMaterialChecksheetComponent implements OnInit {
       }
     }
   }
+
+  openConfirmChecksheetModal() {
+    this.isOpenConfirmChecksheetModal = true
+  }
+
+  handleConfirmChecksheet() {
+
+    this.qaCardSelected.createdBy = this.jwt.Username;
+  
+    console.log('aaa: ', this.qaCardSelected);
+    
+
+    this.qaMaterialCheckSheetSvc.confirmCheckSheet(this.qaCardSelected).subscribe(
+      response => {
+        this.getQaCards();
+        this.isOpenConfirmChecksheetModal = false
+        this.isOpenPsMasterModal = false;
+      }
+    )
+    
+  }
+
+
+  
 }

@@ -23,4 +23,11 @@ export class QaMaterialCheckSheetService {
       `${this.baseUrl}/QA/MaterialCheckSheet/PsMasters?qaCard=${qaCard}`
     );
   }
+
+  public confirmCheckSheet(obj: any): Observable<any> {
+    return this.httpClient.post(
+      `${this.baseUrl}/QA/MaterialCheckSheet/Confirm`,
+      obj
+    );
+  }
 }

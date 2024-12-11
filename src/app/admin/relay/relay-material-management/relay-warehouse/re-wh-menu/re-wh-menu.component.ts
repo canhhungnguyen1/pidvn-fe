@@ -19,10 +19,10 @@ export class ReWhMenuComponent implements OnInit {
       name: 'Nhận NVL từ kho PUR-WH',
       route:'/admin/relay/relay-process-recording/requests'
     },
-    {
-      name: 'Trả NVL về kho PUR-WH',
-      route:'/admin/relay/material-management/rwh-send-pwh'
-    },
+    // {
+    //   name: 'Trả NVL về kho PUR-WH',
+    //   route:'/admin/relay/material-management/rwh-send-pwh'
+    // },
     {
       name: 'Chuyển NVL vào xe NVL (LINE-WH)',
       route:'/admin/relay/material-management/rwh-send-lwh'
@@ -35,13 +35,13 @@ export class ReWhMenuComponent implements OnInit {
       name: 'Thống kê NVL',
       route:'/admin/relay/material-management/relay-material-traceability'
     },
-    {
-      name: 'Kiểm kê NVL',
-      route:'/admin/relay/relay-inventory/main'
-    },
-    {
-      name: 'Nhận NVL từ kho PUR-WH (IT đang test Version 2)',
-      route:'/admin/relay/relay-process-recording/requests'
-    },
+    // {
+    //   name: 'Kiểm kê NVL',
+    //   route:'/admin/relay/relay-inventory/main'
+    // },
+    // {
+    //   name: 'Nhận NVL từ kho PUR-WH (IT đang test Version 2)',
+    //   route:'/admin/relay/relay-process-recording/requests'
+    // },
   ]
 }

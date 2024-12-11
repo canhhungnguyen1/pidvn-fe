@@ -222,11 +222,17 @@ export class AdminComponent implements OnInit {
       link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=11G1-OUT`
     },
     {
-      line: '11G2-OUT',
-      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=11G2-OUT`
+      line: '11G2-OUT-1',
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=11G2-OUT-1`
+    },
+    {
+      line: '11G2-OUT-2',
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=11G2-OUT-2`
+    },
+    {
+      line: '11G2-OUT-3',
+      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=11G2-OUT-3`
     }
-
-
   ]
 
   fgWarehouseLink!: string;

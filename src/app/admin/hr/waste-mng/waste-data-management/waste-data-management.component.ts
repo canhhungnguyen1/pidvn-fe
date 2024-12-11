@@ -3,6 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ToastrService } from 'ngx-toastr';
 import { WasteMngService } from '../services/waste-mng.service';
+import { Workbook } from 'exceljs';
+import { exportDataGrid, exportPivotGrid } from 'devextreme/excel_exporter';
+import * as saveAs from 'file-saver';
+import { DxPivotGridTypes } from 'devextreme-angular/ui/pivot-grid';
 
 @Component({
   selector: 'app-waste-data-management',
@@ -87,11 +91,28 @@ export class WasteDataManagementComponent implements OnInit {
               dataType: 'number',
               area: 'data',
               summaryType: 'sum',
-              format: { style: "currency", currency: "VND", useGrouping: true }
-            }
+              format: { style: 'currency', currency: 'VND', useGrouping: true },
+            },
           ],
           store: this.wasteDetailData,
         };
       });
+  }
+
+  onExporting(e: DxPivotGridTypes.ExportingEvent) {
+    const workbook = new Workbook();
+    const worksheet = workbook.addWorksheet('Data');
+
+    exportPivotGrid({
+      component: e.component,
+      worksheet,
+    }).then(() => {
+      workbook.xlsx.writeBuffer().then((buffer) => {
+        saveAs(
+          new Blob([buffer], { type: 'application/octet-stream' }),
+          'Summary.xlsx'
+        );
+      });
+    });
   }
 }

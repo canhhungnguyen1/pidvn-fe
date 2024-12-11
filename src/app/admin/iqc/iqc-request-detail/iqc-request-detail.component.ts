@@ -129,13 +129,15 @@ export class IqcRequestDetailComponent implements OnInit, AfterViewInit {
         this.isLoading = false;
         this.isOpenEvaluateModal = false;
         this.getIqcResults();
-        this.resetFiltersAndSorting();
+        // this.resetFiltersAndSorting();
+        this.iqcDataGrid.instance.clearSelection();
+        
       },
       (error) => {
         this.isLoading = false;
         this.isOpenEvaluateModal = false;
         this.getIqcResults();
-        this.resetFiltersAndSorting();
+        //this.resetFiltersAndSorting();
       }
     );
   }
