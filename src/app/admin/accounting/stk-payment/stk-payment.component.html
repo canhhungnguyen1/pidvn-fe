@@ -2,10 +2,6 @@
   <nz-breadcrumb-item>Accounting</nz-breadcrumb-item>
   <nz-breadcrumb-item>Account Payment</nz-breadcrumb-item>
 </nz-breadcrumb>
-<nz-breadcrumb>
-  <nz-breadcrumb-item>Accounting</nz-breadcrumb-item>
-  <nz-breadcrumb-item>Account Payment</nz-breadcrumb-item>
-</nz-breadcrumb>
 <dx-data-grid
   id="gridContainer"
   style="margin-top: 5px"
@@ -82,13 +78,13 @@
   </dxo-pager>
 </dx-data-grid>
 
-<nz-modal [(nzVisible)]="isOpenModal" [nzTitle]="modalTitle" nzWidth="800px">
+<nz-modal [(nzVisible)]="isOpenModal" [nzTitle]="modalTitle" nzWidth="800px" (nzOnCancel)="cancelSave()">
   <ng-container *nzModalContent>
     <nz-table
       nzSize="small"
       nzBordered
       [nzData]="['']"
-      nzFrontPagination="false"
+      nzFrontPagination="false" 
     >
       <thead>
         <tr>
