@@ -240,6 +240,8 @@ export class AdminComponent implements OnInit {
   reportTemWHLink!: string;
   getDppLink!: string;
   reportDppIspLink!: string;
+  deleteDppLink!: string;
+  viewDppLink!: string;
   surveyLink!: string;
   examTestRelayLink!: string;
   examTestVrEncLink!: string;
@@ -336,6 +338,8 @@ export class AdminComponent implements OnInit {
     this.checkTemWHLink = `${this.baseUrlJava}/pidvn/sales/fg/checktemWH?accessToken=${token2}`
     this.getDppLink = `${this.baseUrlJava}/pidvn/sales/readfiledpp/readfiledpp?accessToken=${token2}`
     this.reportDppIspLink = `${this.baseUrlJava}/pidvn/report?name=Rep_get_dppisp&accessToken=${token2}`
+    this.deleteDppLink = `https://10.92.176.57:8080/upload_dpps.delete`
+    this.viewDppLink = `https://10.92.176.57:8080/upload_dpps.data_dpp`
     this.reportTemWHLink = `${this.baseUrlJava}/pidvn/sales/fg/reportchecktemwh?accessToken=${token2}`
     this.surveyLink = `${this.baseUrlJava}/pidvn/acc/coi/menu?accessToken=${token2}`
     this.examTestRelayLink = `${this.baseUrlJava}/pidvn/ma/exam?area=Relay`
