@@ -159,7 +159,7 @@
               {{ data.remark }}
             </p>
           </td>
-          <td style="font-weight: bold; color: green; text-align: right;">
+          <td style="font-weight: bold; color: green; text-align: right">
             {{ data.qty | number : "1.0-3" }}
           </td>
           <td style="text-align: center">
@@ -335,6 +335,18 @@
           <td>Qty</td>
           <td>
             <input nz-input [(ngModel)]="materialEdit.qty" />
+          </td>
+        </tr>
+        <tr>
+          <td>Thời gian</td>
+          <td>
+            <nz-date-picker
+              style="width: 100%;"
+              [(ngModel)]="materialEdit.insertTime"
+              nzShowTime
+              nzFormat="yyyy-MM-dd HH:mm:ss"
+              ngModel
+            ></nz-date-picker>
           </td>
         </tr>
       </tbody>

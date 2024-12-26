@@ -363,11 +363,17 @@ export class LwhSendLineComponent implements OnInit, AfterViewInit {
   materialEdit: any;
 
   openEditMaterialModal(data: any) {
+    console.log('DATA Edit: ', data);
+    
     this.materialEdit = { ...data };
     this.isOpenEditMaterialModal = true
   }
 
   editMaterial() {
+
+    console.log('DATA EDIT: ', this.materialEdit);
+    
+    
     this.rePrSvc.editMaterialControl(this.materialEdit).subscribe(
       response => {
         this.getMaterials();
