@@ -447,6 +447,16 @@
             >
           </li>
 
+          <li nz-menu-item nzMatchRouter>
+            <a
+              class="externalLink"
+              [href]="m2Link"
+              target="_blank"
+              (click)="onHideSidebar()"
+              >M2</a
+            >
+          </li>
+
           <li nz-submenu nzTitle="Skill Map">
             <ul>
               <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
@@ -864,7 +874,7 @@
                 >
               </li>
 
-              <!-- <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
+              <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
                 <a class="externalLink" [href]="deleteDppLink" target="blank"
                   >Delete DPP</a
                 >
@@ -874,7 +884,7 @@
                 <a class="externalLink" [href]="viewDppLink" target="blank"
                   >View Dpp</a
                 >
-              </li> -->
+              </li>
             </ul>
           </li>
         </ul>

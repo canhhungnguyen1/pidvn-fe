@@ -217,18 +217,18 @@ export class AdminComponent implements OnInit {
       line: 'TEMP',
       link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=TEMP`
     },
-    {
-      line: '11G1-OUT',
-      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=11G1-OUT`
-    },
-    {
-      line: '11G2-OUT-1',
-      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=11G2-OUT-1`
-    },
-    {
-      line: '11G2-OUT-2',
-      link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=11G2-OUT-2`
-    },
+    // {
+    //   line: '11G1-OUT',
+    //   link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=11G1-OUT`
+    // },
+    // {
+    //   line: '11G2-OUT-1',
+    //   link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=11G2-OUT-1`
+    // },
+    // {
+    //   line: '11G2-OUT-2',
+    //   link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=11G2-OUT-2`
+    // },
     {
       line: '11G2-OUT-3',
       link: `${this.baseUrlJava}/pidvn/ma/skillmap/checkskill?line=11G2-OUT-3`
@@ -300,7 +300,8 @@ export class AdminComponent implements OnInit {
   pihProcessScannerLinkv2!: string;
   pihPrintLabelLink!: string;
   uploadFileLink!:string;
-  stampingDieManagerLink!: string
+  stampingDieManagerLink!: string;
+  m2Link!: string;
   editEmailLink!: string;
   smartPIDLink!: string;
 
@@ -338,8 +339,8 @@ export class AdminComponent implements OnInit {
     this.checkTemWHLink = `${this.baseUrlJava}/pidvn/sales/fg/checktemWH?accessToken=${token2}`
     this.getDppLink = `${this.baseUrlJava}/pidvn/sales/readfiledpp/readfiledpp?accessToken=${token2}`
     this.reportDppIspLink = `${this.baseUrlJava}/pidvn/report?name=Rep_get_dppisp&accessToken=${token2}`
-    this.deleteDppLink = `https://10.92.176.57:8080/upload_dpps.delete`
-    this.viewDppLink = `https://10.92.176.57:8080/upload_dpps.data_dpp`
+    this.deleteDppLink = `${this.baseUrlJava}/pidvn/report?name=Rep_get_dpp_delete&accessToken=${token2}`
+    this.viewDppLink = `${this.baseUrlJava}/pidvn/report?name=Rep_get_dpp_view&accessToken=${token2}`
     this.reportTemWHLink = `${this.baseUrlJava}/pidvn/sales/fg/reportchecktemwh?accessToken=${token2}`
     this.surveyLink = `${this.baseUrlJava}/pidvn/acc/coi/menu?accessToken=${token2}`
     this.examTestRelayLink = `${this.baseUrlJava}/pidvn/ma/exam?area=Relay`
@@ -381,6 +382,8 @@ export class AdminComponent implements OnInit {
     this.uploadFileLink = `${this.baseUrlJava}/pidvn/common/uploadfile/upload?accessToken=${token2}`
 
     this.stampingDieManagerLink = `${this.baseUrlJava}/pidvn/vr/stamping/menu?accessToken=${token2}`
+    this.m2Link = `${this.baseUrlJava}/pidvn/vr/m2_managerment/menu?accessToken=${token2}`
+    
     this.editEmailLink = `${this.baseUrlJava}/pidvn/admin?name=pidvn_list_email&accessToken=${token2}`
 
     this.smartPIDLink = `${this.baseUrlJava}/pidvn/chatbot?accessToken=${token2}`
