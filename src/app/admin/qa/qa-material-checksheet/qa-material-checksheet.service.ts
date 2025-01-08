@@ -30,4 +30,17 @@ export class QaMaterialCheckSheetService {
       obj
     );
   }
+
+  public getCheckSheetRecords(qaCard: string): Observable<any> {
+    return this.httpClient.get(
+      `${this.baseUrl}/QA/MaterialCheckSheet/CheckSheetRecords?qaCard=${qaCard}`
+    );
+  }
+
+  public scanMaterial(obj: any) : Observable<any> {
+    return this.httpClient.post(
+      `${this.baseUrl}/QA/MaterialCheckSheet/ScanMaterial`,
+      obj
+    );
+  }
 }
