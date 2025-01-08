@@ -57,7 +57,8 @@ export class RelayDatecodeComponent implements OnInit, AfterViewInit {
     date: new Date(),
     shift: null,
     customerCode: null,
-    recordType: null
+    recordType: null,
+    remark: null
   };
 
   area: any;
@@ -215,6 +216,7 @@ export class RelayDatecodeComponent implements OnInit, AfterViewInit {
     this.dateCodeSave.customerCode = null;
     this.dateCodeSave.dateCode = null;
     this.dateCodeSave.qty = 0;
+    this.dateCodeSave.remark = null;
   }
 
   deleteDatCode(data: any) {
