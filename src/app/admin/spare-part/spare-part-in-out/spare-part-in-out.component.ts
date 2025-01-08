@@ -308,7 +308,7 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
      * TODO: Push server to save
      */
     this.sparePartSvc.saveSparePartRecords(arr).subscribe((response) => {
-      // this.getSparePartRecords();
+      this.getSparePartRecords();
       this.isOpenOutputSparePartModal = false;
       this.toastr.success('OK', ' Lưu thành công');
       this.resetInputForm();
