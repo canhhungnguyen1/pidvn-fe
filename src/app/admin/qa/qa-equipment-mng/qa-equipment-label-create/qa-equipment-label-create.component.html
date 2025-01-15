@@ -58,7 +58,7 @@
   <table
     class="calibration-label"
     *ngFor="let label of labels"
-    style="width: 3.1cm"
+    style="width: 3.2cm"
   >
     <thead>
       <th colSpan="5">
@@ -75,7 +75,7 @@
           <span class="title">ID: </span
           ><span class="value">{{ label.idNo }}</span>
         </td>
-        <td style="border-left: 1px solid #ccc">
+        <td style="border-left: 1px solid #ccc; width: 20%;">
           <span class="title">By:</span>
           <span class="value">{{ label.by }}</span>
         </td>
@@ -99,8 +99,8 @@
             [allowEmptyString]="true"
             [cssClass]="'center'"
             [elementType]="'img'"
-            [errorCorrectionLevel]="'M'"
-            [margin]="4"
+            [errorCorrectionLevel]="'Q'"
+            [margin]="1"
             [scale]="1"
             [width]="20"
           ></qrcode>
