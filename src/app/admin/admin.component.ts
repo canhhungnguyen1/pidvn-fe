@@ -360,9 +360,9 @@ export class AdminComponent implements OnInit {
     this.iqcLink.skillmap.relay = `${this.baseUrlJavaHttps}/pidvn/ma/skillmap/checkskillmap?line=SKILL_RELAY`;
     this.iqcLink.skillmap.vr = `${this.baseUrlJavaHttps}/pidvn/ma/skillmap/checkskillmap?line=SKILL_VR`;
     this.iqcLink.skillmap.xrf = `${this.baseUrlJavaHttps}/pidvn/ma/skillmap/checkskillmap?line=SKILL_XRF`;
-    this.pihLink.skillmap.coilRelay = `${this.baseUrlJavaHttps}/pidvn/ma/skillmap/checkskillmap?line=COIL_RELAY`
-    this.pihLink.skillmap.pressRelay = `${this.baseUrlJavaHttps}/pidvn/ma/skillmap/checkskillmap?line=PRESS_RELAY`
-    this.pihLink.skillmap.moldRelay = `${this.baseUrlJavaHttps}/pidvn/ma/skillmap/checkskillmap?line=MOLD_RELAY`
+    this.pihLink.skillmap.coilRelay = `${this.baseUrlJava}/pidvn/ma/skillmap/checkskillmap?line=COIL_RELAY`
+    this.pihLink.skillmap.pressRelay = `${this.baseUrlJava}/pidvn/ma/skillmap/checkskillmap?line=PRESS_RELAY`
+    this.pihLink.skillmap.moldRelay = `${this.baseUrlJava}/pidvn/ma/skillmap/checkskillmap?line=MOLD_RELAY`
     this.examHistoryIQCLink = `${this.baseUrlJava}/pidvn/ma/exam/listexam?area=IQC`;
     this.examHistoryRelayLink = `${this.baseUrlJava}/pidvn/ma/exam/listexam?area=Relay`;
     this.examHistoryEMCLink = `${this.baseUrlJava}/pidvn/ma/exam/listexam?area=EMC`;
