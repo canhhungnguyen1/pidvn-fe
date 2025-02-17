@@ -286,6 +286,7 @@ export class AdminComponent implements OnInit {
   pihProcessReport!: string;
 
   materialWarehouseLink! :string;
+  materialFifoLink! : string;
   dotLink!: string;
   quanLyBaiKiemTraLink!: string;
   dangKyLamBaiKiemTraLink!: string;
@@ -369,6 +370,7 @@ export class AdminComponent implements OnInit {
     this.relayECOPLink = `${this.baseUrlJava}/pidvn/ma/ecop/menu?accessToken=${token2}`;
     this.pihProcessReport = `${this.baseUrlJava}/pidvn/pih/pih_process/pih_process_report?accessToken=${accessToken}`
     this.materialWarehouseLink = `${this.baseUrlJava}/pidvn/pur/wh?pn=&qty=&req_no=&type=1&accessToken=${token2}`
+    this.materialFifoLink = `${this.baseUrlJava}/pidvn/pur/fifo?pn=&qty=&req_no=&type=1&accessToken=${token2}`
     this.dotLink = `${this.baseUrlJava}/pidvn/sales/isp/isp_dot?accessToken=${token2}`
     this.quanLyBaiKiemTraLink = `${this.baseUrlJava}/pidvn/ma/exam/action?accessToken=${token2}`
     this.dangKyLamBaiKiemTraLink = `${this.baseUrlJava}/pidvn/ma/exam/register?accessToken=${token2}`
