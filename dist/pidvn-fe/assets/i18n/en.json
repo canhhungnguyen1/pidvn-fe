@@ -1,0 +1,8 @@
+{
+    "common": {
+        "greeting":"Hello",
+        "personalInformation":"Personal Information",
+        "changePassword":"Change Password",
+        "logout":"Logout"
+    }
+}

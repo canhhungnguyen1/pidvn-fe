@@ -1,0 +1,8 @@
+{
+    "common": {
+        "greeting":"Xin chào",
+        "personalInformation":"Thông tin cá nhân",
+        "changePassword":"Đổi mật khẩu",
+        "logout":"Đăng xuất"
+    }
+}
