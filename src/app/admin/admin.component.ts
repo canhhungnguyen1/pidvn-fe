@@ -46,6 +46,7 @@ export class AdminComponent implements OnInit {
   eDummyLink!: string;
   eChangeDraftLink!: string;
   relayDashboardLink!: string;
+  relayCqmrLink!: string;
   listExpired!: string;
   listOpLineRelay!: string;
   listOpLineVR!: string;
@@ -317,6 +318,7 @@ export class AdminComponent implements OnInit {
     //this.dynamicReport();
 
     this.relayDashboardLink = `${this.baseUrlJava}/pidvn/ma/production/dashboard`
+    this.relayCqmrLink = `${this.baseUrlJava}/pidvn/ma/production/cqmr?line=TB7&accessToken=${token2}`
     this.eCommitLink = `${this.baseUrlJava}/pidvn/hr/commit/menu?accessToken=${token2}`
     this.eLawLink = `${this.baseUrlJava}/pidvn/hr/law/menu?accessToken=${token2}`
     this.eLeaveLink = `${this.baseUrlJava}/pidvn/hr/leave/menu?accessToken=${token2}`

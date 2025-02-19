@@ -201,6 +201,16 @@
               >Dashboard</a
             >
           </li>
+
+          <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
+            <a
+              class="externalLink"
+              [href]="relayCqmrLink"
+              target="_blank"
+              (click)="onHideSidebar()"
+              >CQMR</a
+            >
+          </li>
           <li nz-submenu nzTitle="Relay Process Recording">
             <ul>
               <li
