@@ -288,6 +288,22 @@
                   (onValueChanged)="changeGoodsType($event)"
                 ></dx-select-box>
               </td>
+
+              <td width="15%">
+                <dx-select-box
+                  label="Rack"
+                  labelLocation="left"
+                  showColonAfterLabel="true"
+                  [labelMode]="'floating'"
+                  displayExpr="name"
+                  valueExpr="id"
+                  [dataSource]=data_rack
+                  [(value)]="rackType"
+                  (onValueChanged)="changerackType($event)"
+                  [searchEnabled]="true"
+                ></dx-select-box>
+              </td>
+              
               <td width="15%">
                 <dx-select-box
                   label="Giao dịch"
@@ -306,6 +322,7 @@
                   (onValueChanged)="changeTransactionType($event)"
                 ></dx-select-box>
               </td>
+              
 
               <td width="15%" *ngIf="transactionType == 'INPUT'">
                 <dx-text-box

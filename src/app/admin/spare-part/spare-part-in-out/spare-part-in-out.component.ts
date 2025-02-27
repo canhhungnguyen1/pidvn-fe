@@ -105,6 +105,7 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
   userCode: any;
   insertType: string = 'manual'; // Kiểu insert là manual hay upload bằng excel
   goodsType: any; // Loại hàng user chọn (M4 or M8)
+  rackType: any; // Loại rack
   transactionType: any; // Loại giao dịch: "INPUT | OUTPUT | OK_RETURN | NG_RETURN"
 
   // Upload Excel: các biến liên quan đến upload file
@@ -216,16 +217,26 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
       return;
     }
 
+    if (!this.rackType) {
+      this.toastr.warning('Cần chọn rack hàng', 'Warning');
+      return;
+    }
+
     if (!this.transactionType) {
       this.toastr.warning('Cần chọn loại giao dịch', 'Warning');
       return;
     }
+
+
 
     if (this.transactionType === 'OUTPUT' && this.goodsType === 'M4') {
       if (!this.factoryCode) {
         this.toastr.warning('Cần chọn nhà máy', 'Warning');
         return;
       }
+
+
+      
 
       // if (!this.machine) {
       //   this.toastr.warning('Cần chọn Machine', 'Warning');
@@ -265,10 +276,12 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
       requestNo: this.request ? this.request.requestNo : null,
       userCode: this.userCode,
       goodsType: this.goodsType,
+      rackType: this.rackType,
       type: this.transactionType,
       po: this.po,
       supplier: this.supplier,
     });
+    console.log(obj);
 
     this.listSparePartScanned.push(obj);
     this.listSparePartScanned.reverse();
@@ -291,6 +304,7 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
     this.supplier = null;
     this.transactionType = null;
     this.goodsType = null;
+    this.rackType = null;
     this.factoryCode = null;
     this.machine = null;
     this.line = null;
@@ -399,6 +413,12 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
     this.sparePartQrCodeIpt.nativeElement.select();
   }
 
+  changerackType(event: any) {
+    console.log('changerackType: ',event);
+    this.rackType = event.value
+    this.sparePartQrCodeIpt.nativeElement.select();
+  }
+
   /**
    *
    * @param event Chọn loại giao dịch
@@ -443,4 +463,68 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
         this.sparePartRequestDetails = response;
       });
   }
+
+
+
+  data_rack = [
+{ id: 'R1-A-1', name:'R1-A-1'},
+{ id: 'R1-A-2', name:'R1-A-2'},
+{ id: 'R1-A-3', name:'R1-A-3'},
+{ id: 'R1-A-4', name:'R1-A-4'},
+{ id: 'R1-B-1', name:'R1-B-1'},
+{ id: 'R1-B-2', name:'R1-B-2'},
+{ id: 'R1-B-3', name:'R1-B-3'},
+{ id: 'R1-B-4', name:'R1-B-4'},
+{ id: 'R1-C-1', name:'R1-C-1'},
+{ id: 'R1-C-2', name:'R1-C-2'},
+{ id: 'R1-C-3', name:'R1-C-3'},
+{ id: 'R1-C-4', name:'R1-C-4'},
+{ id: 'R1-D-1', name:'R1-D-1'},
+{ id: 'R1-D-2', name:'R1-D-2'},
+{ id: 'R2-A-1', name:'R2-A-1'},
+{ id: 'R2-A-2', name:'R2-A-2'},
+{ id: 'R2-A-3', name:'R2-A-3'},
+{ id: 'R2-A-4', name:'R2-A-4'},
+{ id: 'R2-B-1', name:'R2-B-1'},
+{ id: 'R2-B-2', name:'R2-B-2'},
+{ id: 'R2-B-3', name:'R2-B-3'},
+{ id: 'R2-B-4', name:'R2-B-4'},
+{ id: 'R2-C-1', name:'R2-C-1'},
+{ id: 'R2-C-2', name:'R2-C-2'},
+{ id: 'R2-C-3', name:'R2-C-3'},
+{ id: 'R2-C-4', name:'R2-C-4'},
+{ id: 'R3-A-1', name:'R3-A-1'},
+{ id: 'R3-A-2', name:'R3-A-2'},
+{ id: 'R3-A-3', name:'R3-A-3'},
+{ id: 'R3-A-4', name:'R3-A-4'},
+{ id: 'R3-B-1', name:'R3-B-1'},
+{ id: 'R3-B-2', name:'R3-B-2'},
+{ id: 'R3-B-3', name:'R3-B-3'},
+{ id: 'R3-B-4', name:'R3-B-4'},
+{ id: 'R3-C-1', name:'R3-C-1'},
+{ id: 'R3-C-2', name:'R3-C-2'},
+{ id: 'R3-C-3', name:'R3-C-3'},
+{ id: 'R3-C-4', name:'R3-C-4'},
+{ id: 'R3-D-1', name:'R3-D-1'},
+{ id: 'R3-D-2', name:'R3-D-2'},
+{ id: 'R3-D-3', name:'R3-D-3'},
+{ id: 'R3-D-4', name:'R3-D-4'},
+{ id: 'R4-A-1', name:'R4-A-1'},
+{ id: 'R4-A-2', name:'R4-A-2'},
+{ id: 'R4-A-3', name:'R4-A-3'},
+{ id: 'R4-B-1', name:'R4-B-1'},
+{ id: 'R4-B-2', name:'R4-B-2'},
+{ id: 'R4-B-3', name:'R4-B-3'},
+{ id: 'R4-C-1', name:'R4-C-1'},
+{ id: 'R4-C-2', name:'R4-C-2'},
+{ id: 'R4-C-3', name:'R4-C-3'},
+{ id: 'R5-A-1', name:'R5-A-1'},
+{ id: 'R5-A-2', name:'R5-A-2'},
+{ id: 'R5-A-3', name:'R5-A-3'},
+{ id: 'R5-A-4', name:'R5-A-4'},
+{ id: 'R6-A-2', name:'R6-A-2'},
+{ id: 'R6-B-2', name:'R6-B-2'},
+{ id: 'R6-C-2', name:'R6-C-2'},
+{ id: 'R6-C-3', name:'R6-C-3'}
+  ]
 }
