@@ -8,6 +8,7 @@ import { SparePartIvtReqDetailComponent } from './spare-part-inventory/spare-par
 import { SparePartReportsComponent } from './spare-part-reports/spare-part-reports.component';
 import { SparePartRequestsComponent } from './spare-part-requests/spare-part-requests.component';
 import { RoleGuard } from 'src/app/guards/role.guard';
+import { SparePartIvtComponent } from './spare-part-ivt/spare-part-ivt.component';
 
 
 const routes: Routes = [
@@ -45,7 +46,13 @@ const routes: Routes = [
   {
     path: 'spare-part-requests',
     component: SparePartRequestsComponent
-  }
+  },
+
+  {
+    path: 'spare-part-ivt',
+    component: SparePartIvtComponent
+  },
+  
 
 ];
 

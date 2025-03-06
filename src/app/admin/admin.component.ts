@@ -310,6 +310,7 @@ export class AdminComponent implements OnInit {
   m2Link!: string;
   editEmailLink!: string;
   smartPIDLink!: string;
+  dynamicSystemLink!: string;
 
    ngOnInit(): void {
     let accessToken = localStorage.getItem('accessToken');
@@ -395,6 +396,8 @@ export class AdminComponent implements OnInit {
     this.editEmailLink = `${this.baseUrlJava}/pidvn/admin?name=pidvn_list_email&accessToken=${token2}`
 
     this.smartPIDLink = `${this.baseUrlJava}/pidvn/chatbot?accessToken=${token2}`
+
+    this.dynamicSystemLink = `${this.baseUrlJava}/pidvn/admin?name=pidvn_system_command&accessToken=${token2}`
 
 
   }

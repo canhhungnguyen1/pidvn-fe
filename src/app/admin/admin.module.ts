@@ -31,6 +31,7 @@ import {
   DxButtonModule,
   DxDataGridModule,
   DxSelectBoxModule,
+  DxTreeListModule,
 } from 'devextreme-angular';
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import {
     DxButtonModule,
     DxDataGridModule,
     DxSelectBoxModule,
+    DxTreeListModule,
     NzSpinModule,
     NzFlexModule
   ],

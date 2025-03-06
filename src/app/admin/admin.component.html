@@ -48,6 +48,27 @@
           </a>
         </span>
       </li>
+
+      <li nz-menu-item nzTooltipPlacement="right" nzMatchRouter>
+        <img
+          id="chat-bot"
+          src="../../assets/images/system-integration.png"
+          width="26"
+          style="margin-top: -10px; margin-left: -2px"
+        />
+        <span>
+          <a
+            class="externalLink"
+            [href]="dynamicSystemLink"
+            (click)="onHideSidebar()"
+            target="_blank"
+          >
+          Dynamic system
+          </a>
+        </span>
+      </li>
+
+
       <li nz-menu-item nzTooltipPlacement="right" nzMatchRouter>
         <i nz-icon nzType="upload"></i>
         <span>

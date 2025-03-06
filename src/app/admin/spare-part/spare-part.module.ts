@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { DxButtonModule, DxDataGridModule, DxSelectBoxModule } from 'devextreme-angular';
+import { DxButtonModule, DxDataGridModule, DxSelectBoxModule, DxTreeListModule } from 'devextreme-angular';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -33,6 +33,7 @@ import { SparePartIvtReqComponent } from './spare-part-inventory/spare-part-ivt-
 import { SparePartPrintQrComponent } from './spare-part-print-qr/spare-part-print-qr.component';
 import { SparePartReportsComponent } from './spare-part-reports/spare-part-reports.component';
 import { SparePartRequestsComponent } from './spare-part-requests/spare-part-requests.component';
+import { SparePartIvtComponent } from './spare-part-ivt/spare-part-ivt.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { SparePartRequestsComponent } from './spare-part-requests/spare-part-req
     SparePartIvtReqComponent,
     SparePartIvtReqDetailComponent,
     SparePartReportsComponent,
+    SparePartIvtComponent,
     SparePartPrintQrComponent,
     SparePartRequestsComponent
   ],
@@ -70,6 +72,7 @@ import { SparePartRequestsComponent } from './spare-part-requests/spare-part-req
     QRCodeModule,
     DxChartModule,
     DxPieChartModule,
+    DxTreeListModule,
     NgxPrintModule,
     DxTextBoxModule,
     DxSelectBoxModule,
