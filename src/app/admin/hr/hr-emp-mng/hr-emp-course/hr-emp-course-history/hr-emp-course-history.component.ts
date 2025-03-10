@@ -5,7 +5,9 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
 import { environment } from 'src/environments/environment';
 import { ToastrService } from 'ngx-toastr';
-
+import { Workbook } from 'exceljs';
+import { exportDataGrid } from 'devextreme/excel_exporter';
+import * as saveAs from 'file-saver';
 
 @Component({
   selector: 'app-hr-emp-course-history',
@@ -59,5 +61,20 @@ export class HrEmpCourseHistoryComponent implements OnInit {
     this.isOpenModalUpload = true;
     this.fileUploadApi = `${this.baseUrl}/HR/Course/UploadTrainingRecordData`;
   }
+
+
+  onExportClient(event: any) {
+      const workbook = new Workbook();    
+          const worksheet = workbook.addWorksheet('Main sheet');
+          exportDataGrid({
+              component: event.component,
+              worksheet: worksheet
+          }).then(function() {
+              workbook.xlsx.writeBuffer()
+                  .then(function(buffer: BlobPart) {
+                      saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'History-Data.xlsx');
+                  });
+          });
+    }
 
 }

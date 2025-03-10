@@ -22,6 +22,7 @@
   [columnResizingMode]="'widget'"
   [allowColumnReordering]="true"
   [columnAutoWidth]="true"
+  (onExporting)="onExportClient($event)"
 >
   <dxo-filter-row [visible]="true"></dxo-filter-row>
   <dxo-export [enabled]="true"></dxo-export>
