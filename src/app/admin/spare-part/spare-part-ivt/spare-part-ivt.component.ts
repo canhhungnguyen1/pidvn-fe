@@ -1,17 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { SparePartService } from '../services/spare-part.service';
-
+import DataSource from 'devextreme/data/data_source';
+interface DataItem {
+  ID: number;
+  name: string;
+}
 @Component({
   selector: 'spare-part-ivt',
   templateUrl: './spare-part-ivt.component.html',
-  styleUrl: './spare-part-ivt.component.scss',
+  styleUrls: ['./spare-part-ivt.component.scss'], // Sửa lại tên đúng
+})
+@Injectable({
+  providedIn: 'root', // Hoặc module providers
 })
 export class SparePartIvtComponent implements OnInit {
-[x: string]: any;
+  [x: string]: any;
   value: any;
-  dataSource: any;
+  dataSource: DataSource[] = [];
   scannedCode: any;
   scannedcodeaf: String = '';
 
@@ -20,20 +27,30 @@ export class SparePartIvtComponent implements OnInit {
     private sparePartSvc: SparePartService
   ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   onEnter(event: any): void {
     this.scannedCode = (event.target as HTMLInputElement).value;
     console.log('Enter key pressed. Scanned code:', this.scannedCode);
-  
-    // Xử lý mã quét sau khi nhấn Enter
-    this.getMaterialIvt(this.scannedCode);
+    let exists = (this.dataSource as unknown as DataItem[]).some(
+      (item) => item.ID === this.scannedCode
+    );
+    if (this.scannedCode == '') {
+      alert('Cần bắn NVL');
+      return;
+    }
+    if (exists) {
+      alert('Mã NVL: ' + this.scannedCode + ' đã được scan');
+      return;
+    } else this.getMaterialIvt(this.scannedCode);
   }
 
   getMaterialIvt(scannedCode: any) {
     this.sparePartSvc.getSparePartsivt().subscribe((response) => {
-      this.dataSource = response;
+      const newItem = { ...response[0], ID: this.scannedCode };
+
+      this.dataSource.push(newItem);
+      this.dataSource = [...this.dataSource];
       console.log(this.dataSource);
 
       this.resetInput();
@@ -42,6 +59,23 @@ export class SparePartIvtComponent implements OnInit {
 
   resetInput(): void {
     this.scannedCode = ''; // Đặt lại giá trị input về chuỗi rỗng
-    console.log(this.scannedCode)
   }
+
+  calculateDifference(rowData: any): number {
+    return rowData.default - rowData.tonkho;
+  }
+
+  customCellRender(cellElement: any, cellInfo: any) {
+    const value = cellInfo.value;
+    console.log(value)
+    const color = value > 0 ? 'green' : value < 0 ? 'red' : 'black';
+    cellElement.innerHTML = `<span style="color: ${color}">${value}</span>`;
+  }
+
+
+  getColor(value: number): string {
+    return value > 0 ? 'green' : value < 0 ? 'red' : 'black';
+  }
+
+  
 }
