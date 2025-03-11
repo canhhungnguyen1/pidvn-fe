@@ -528,6 +528,7 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
     { id: 'R6-B-1', name:'R6-B-1'},
     { id: 'R6-B-2', name:'R6-B-2'},
     { id: 'R6-B-3', name:'R6-B-3'},
+    { id: 'R6-C-1', name:'R6-C-1'},
     { id: 'R6-C-2', name:'R6-C-2'},
     { id: 'R6-C-3', name:'R6-C-3'}
   ]
