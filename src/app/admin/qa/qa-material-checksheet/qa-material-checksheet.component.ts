@@ -12,6 +12,8 @@ import { QaMaterialCheckSheetService } from './qa-material-checksheet.service';
 })
 export class QaMaterialChecksheetComponent implements OnInit {
   @ViewChild('labelIpt') labelIpt!: DxTextBoxComponent;
+  @ViewChild('userIdIpt') userIdIpt!: DxTextBoxComponent;
+  
 
   @ViewChild(DxDataGridComponent, { static: false })
   psMasterGrid!: DxDataGridComponent;
@@ -53,6 +55,7 @@ export class QaMaterialChecksheetComponent implements OnInit {
 
   psMasterArr: any;
   checkSheetRecords: any;
+  userScan: any;
 
   getQaCards() {
     this.qaCardGrid?.instance.beginCustomLoading(`Đang load dữ liệu ...`);
@@ -70,6 +73,11 @@ export class QaMaterialChecksheetComponent implements OnInit {
     console.log('openPsMasterDetailModal: ', event);
     this.qaCardSelected = event;
     this.isOpenPsMasterModal = true;
+
+
+    setTimeout(() => {
+      this.userIdIpt.instance.focus();
+    }, 500);
 
     this.psMasterGrid.instance.beginCustomLoading(`Đang load dữ liệu ...`);
 
@@ -140,6 +148,7 @@ export class QaMaterialChecksheetComponent implements OnInit {
       qaCard: this.qaCardSelected.qaCard,
       lotNo: lotNo,
       label: label,
+      username: this.userScan
     };
 
     if (!this.psMasterArr.includes(partNo)) {
@@ -157,6 +166,25 @@ export class QaMaterialChecksheetComponent implements OnInit {
     this.selectTextInput('labelIpt');
   }
 
+
+  scanUserId(event: any) {
+    let dataScan = event.target.value;
+
+    // Nếu chưa scan mã nhân viên thì thông báo
+
+    if (isNaN(dataScan)) {
+      this.toastr.warning('Cần scan mã nhân viên','Warning')
+      this.selectTextInput('userIdIpt')
+      return
+    }
+
+    this.userScan = dataScan;
+
+    this.labelIpt.instance.focus();
+
+
+  }
+
   selectTextInput(input: string) {
     if (input === 'labelIpt') {
       const inputElement = this.labelIpt.instance
@@ -167,5 +195,25 @@ export class QaMaterialChecksheetComponent implements OnInit {
         return;
       }
     }
+
+    if (input === 'userIdIpt') {
+      const inputElement = this.userIdIpt.instance
+        .element()
+        .querySelector('input');
+      if (inputElement) {
+        inputElement.select();
+        return;
+      }
+    }
   }
+
+  onCellPrepared(e: any) {
+    if (e.rowType === 'data' && e.column.dataField === 'remark') {
+      const remark = e.row.data.remark;
+      if (remark === 'SAI NVL') {
+        e.cellElement.style.color = 'red'; // Màu chữ đỏ
+      }
+    }
+  }
+
 }
