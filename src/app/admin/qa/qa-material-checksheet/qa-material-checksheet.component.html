@@ -193,6 +193,18 @@
             >
               <thead>
                 <tr>
+                  <th width="30%">
+                    <dx-text-box
+                      #userIdIpt
+                      label="Nhân viên"
+                      labelLocation="left"
+                      showColonAfterLabel="true"
+                      [labelMode]="'static'"
+                      placeholder="Mã NV"
+                      (keydown.enter)="scanUserId($event)"
+                      (click)="selectTextInput('userIdIpt')"
+                    ></dx-text-box>
+                  </th>
                   <th>
                     <dx-text-box
                       #labelIpt
@@ -218,7 +230,8 @@
               [allowColumnResizing]="true"
               [columnAutoWidth]="true"
               [rowAlternationEnabled]="true"
-            > 
+              (onCellPrepared)="onCellPrepared($event)"
+            >
               <dxi-column dataField="lotNo" caption="Lot No"></dxi-column>
               <dxi-column dataField="remark" caption="Remark"></dxi-column>
               <dxi-column
@@ -227,6 +240,14 @@
                 dataType="date"
                 format="yyyy-MM-dd HH:mm:ss"
               ></dxi-column>
+
+              <dxo-paging [pageSize]="10"></dxo-paging>
+              <dxo-pager
+                [showPageSizeSelector]="true"
+                [allowedPageSizes]="[10, 15, 25, 50, 100]"
+              >
+              </dxo-pager>
+              
             </dx-data-grid>
           </nz-tab>
           <nz-tab nzTitle="Nguyên vật liệu sử dụng">
