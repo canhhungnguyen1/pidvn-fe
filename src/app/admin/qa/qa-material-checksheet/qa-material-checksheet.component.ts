@@ -152,7 +152,7 @@ export class QaMaterialChecksheetComponent implements OnInit {
       obj.result = 'NG';
     } else {
       obj.remark = 'OK';
-      obj.result = 'NG';
+      obj.result = 'OK';
     }
 
     this.qaMaterialCheckSheetSvc.scanMaterial(obj).subscribe((response) => {
@@ -201,6 +201,11 @@ export class QaMaterialChecksheetComponent implements OnInit {
   }
 
   onCellPrepared(e: any) {
+    if (e.rowType === 'header') {
+      e.cellElement.style.backgroundColor = '#000080'; // Change background color
+      e.cellElement.style.color = '#ffffff'; // Change text color for better visibility
+    }
+
     if (e.rowType === 'data') {
       const result = e.row.data.result;
 
