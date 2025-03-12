@@ -532,4 +532,15 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
     { id: 'R6-C-2', name:'R6-C-2'},
     { id: 'R6-C-3', name:'R6-C-3'}
   ]
+
+
+  // Style header
+  onCellPreparedHistory(e: any) {
+    if (e.rowType === 'header') {
+      e.cellElement.style.backgroundColor = '#000080'; // Change background color
+      e.cellElement.style.color = '#ffffff'; // Change text color for better visibility
+      e.cellElement.style.fontWeight = 'bold'
+    }
+  }
+
 }

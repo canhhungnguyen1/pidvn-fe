@@ -10,6 +10,7 @@
     [columnAutoWidth]="true"
     [rowAlternationEnabled]="true"
     (onExporting)="onExportClient($event)"
+    (onCellPrepared)="onCellPreparedHistory($event)"
   >
     <dxo-header-filter [visible]="true"></dxo-header-filter>
     <dxo-filter-row [visible]="true"></dxo-filter-row>
