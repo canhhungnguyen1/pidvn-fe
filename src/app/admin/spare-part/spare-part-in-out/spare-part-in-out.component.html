@@ -11,6 +11,7 @@
     [rowAlternationEnabled]="true"
     (onExporting)="onExportClient($event)"
   >
+    <dxo-header-filter [visible]="true"></dxo-header-filter>
     <dxo-filter-row [visible]="true"></dxo-filter-row>
     <dxo-export [enabled]="true"></dxo-export>
 
@@ -101,6 +102,11 @@
         ]"
       >
       </dxo-lookup>
+    </dxi-column>
+    <dxi-column dataField="rackType" caption="Rack" [visible]="false">
+      <dxo-header-filter [allowSelectAll]="true">
+        <dxo-search [enabled]="true"></dxo-search>
+      </dxo-header-filter>
     </dxi-column>
     <dxi-column dataField="po" caption="PO"></dxi-column>
     <dxi-column dataField="supplier" caption="Supplier"></dxi-column>
@@ -297,13 +303,13 @@
                   [labelMode]="'floating'"
                   displayExpr="name"
                   valueExpr="id"
-                  [dataSource]=data_rack
+                  [dataSource]="data_rack"
                   [(value)]="rackType"
                   (onValueChanged)="changerackType($event)"
                   [searchEnabled]="true"
                 ></dx-select-box>
               </td>
-              
+
               <td width="15%">
                 <dx-select-box
                   label="Giao dịch"
@@ -322,7 +328,6 @@
                   (onValueChanged)="changeTransactionType($event)"
                 ></dx-select-box>
               </td>
-              
 
               <td width="15%" *ngIf="transactionType == 'INPUT'">
                 <dx-text-box
