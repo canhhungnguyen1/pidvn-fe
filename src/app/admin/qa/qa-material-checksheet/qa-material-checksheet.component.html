@@ -8,6 +8,8 @@
   [allowColumnResizing]="true"
   [columnAutoWidth]="true"
   [rowAlternationEnabled]="true"
+  (onRowClick)="onRowClickQaCard($event)"
+  (onCellPrepared)="onCellPreparedQaCard($event)"
 >
   <dxo-column-chooser
     #columnChooser
@@ -46,7 +48,7 @@
   <dxo-filter-row [visible]="true"></dxo-filter-row>
   <dxo-export [enabled]="true"></dxo-export>
 
-  <dxi-column
+  <!-- <dxi-column
     caption=""
     cellTemplate="previewTemplate"
     [fixed]="true"
@@ -56,7 +58,7 @@
     <a (click)="openPsMasterDetailModal(item.data)"
       ><span nz-icon nzType="eye" nzTheme="outline"></span
     ></a>
-  </div>
+  </div> -->
 
   <dxi-column dataField="qaCard" caption="QA Card"></dxi-column>
   <dxi-column dataField="model" caption="Model"></dxi-column>
@@ -68,17 +70,18 @@
     dataType="date"
     format="yyyy-MM-dd"
   ></dxi-column>
-  <dxi-column dataField="judgment" caption="Đánh giá"></dxi-column>
+  <dxi-column dataField="judgment" caption="Đánh giá" [visible]="false"></dxi-column>
   <dxi-column
     dataField="createdAt"
     caption="Ngày đánh giá"
     dataType="date"
     format="yyyy-MM-dd"
+    [visible]="false"
   ></dxi-column>
-  <dxi-column dataField="createdByName" caption="Người đánh giá"></dxi-column>
-  <dxi-column dataField="remark" caption="Remark"></dxi-column>
+  <dxi-column dataField="createdByName" caption="Người đánh giá" [visible]="false"></dxi-column>
+  <dxi-column dataField="remark" caption="Remark" [visible]="false"></dxi-column>
 
-  <dxo-paging [pageSize]="20"></dxo-paging>
+  <dxo-paging [pageSize]="15"></dxo-paging>
   <dxo-pager
     [showPageSizeSelector]="true"
     [allowedPageSizes]="[10, 15, 20, 25, 50]"
@@ -181,53 +184,9 @@
         [nzMd]="qaCardSelected.judgment ? 16 : 24"
         [nzLg]="qaCardSelected.judgment ? 16 : 24"
       >
-        <nz-tabset style="margin-top: -20px">
+        <!-- <nz-tabset style="margin-top: -20px">
           <nz-tab nzTitle="Scan NVL">
-            <nz-table
-              id="infoTbl"
-              #infoTbl
-              [nzData]="['']"
-              nzBordered
-              nzSize="small"
-              nzFrontPagination="false"
-            >
-              <thead>
-                <tr>
-                  <th>
-                    <dx-text-box
-                      #labelIpt
-                      label="Scan tem NVL"
-                      labelLocation="left"
-                      showColonAfterLabel="true"
-                      [labelMode]="'static'"
-                      placeholder="Scan tem NVL"
-                      (keydown.enter)="scanMaterial($event)"
-                      (click)="selectTextInput('labelIpt')"
-                    ></dx-text-box>
-                  </th>
-                </tr>
-              </thead>
-            </nz-table>
-            <dx-data-grid
-              #psMasterGrid
-              keyExpr="id"
-              [dataSource]="checkSheetRecords"
-              [showColumnLines]="true"
-              [showRowLines]="true"
-              [showBorders]="true"
-              [allowColumnResizing]="true"
-              [columnAutoWidth]="true"
-              [rowAlternationEnabled]="true"
-            > 
-              <dxi-column dataField="lotNo" caption="Lot No"></dxi-column>
-              <dxi-column dataField="remark" caption="Remark"></dxi-column>
-              <dxi-column
-                dataField="updatedAt"
-                caption="Thời gian"
-                dataType="date"
-                format="yyyy-MM-dd HH:mm:ss"
-              ></dxi-column>
-            </dx-data-grid>
+            
           </nz-tab>
           <nz-tab nzTitle="Nguyên vật liệu sử dụng">
             <dx-data-grid
@@ -291,7 +250,77 @@
               </dxo-pager>
             </dx-data-grid>
           </nz-tab>
-        </nz-tabset>
+        </nz-tabset> -->
+
+        <nz-table
+          id="infoTbl"
+          #infoTbl
+          [nzData]="['']"
+          nzBordered
+          nzSize="small"
+          nzFrontPagination="false"
+          style="margin-top: -20px"
+        >
+          <thead>
+            <tr>
+              <th width="30%">
+                <dx-text-box
+                  #userIdIpt
+                  label="Nhân viên"
+                  labelLocation="left"
+                  showColonAfterLabel="true"
+                  [labelMode]="'static'"
+                  placeholder="Mã NV"
+                  (keydown.enter)="scanUserId($event)"
+                  (click)="selectTextInput('userIdIpt')"
+                ></dx-text-box>
+              </th>
+              <th>
+                <dx-text-box
+                  #labelIpt
+                  label="Scan tem NVL"
+                  labelLocation="left"
+                  showColonAfterLabel="true"
+                  [labelMode]="'static'"
+                  placeholder="Scan tem NVL"
+                  (keydown.enter)="scanMaterial($event)"
+                  (click)="selectTextInput('labelIpt')"
+                ></dx-text-box>
+              </th>
+            </tr>
+          </thead>
+        </nz-table>
+        <dx-data-grid
+          #psMasterGrid
+          keyExpr="id"
+          [dataSource]="checkSheetRecords"
+          [showColumnLines]="true"
+          [showRowLines]="true"
+          [showBorders]="true"
+          [allowColumnResizing]="true"
+          [columnAutoWidth]="true"
+          [rowAlternationEnabled]="true"
+          (onCellPrepared)="onCellPrepared($event)"
+          style="margin-top: -20px"
+        >
+          <dxi-column dataField="lotNo" caption="Lot No"></dxi-column>
+          <dxi-column dataField="result" caption="Kết quả"></dxi-column>
+          <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
+          <dxi-column
+            dataField="updatedAt"
+            caption="Thời gian"
+            dataType="date"
+            format="yyyy-MM-dd HH:mm"
+          ></dxi-column>
+          <dxi-column dataField="username" caption="User"></dxi-column>
+
+          <dxo-paging [pageSize]="10"></dxo-paging>
+          <dxo-pager
+            [showPageSizeSelector]="true"
+            [allowedPageSizes]="[10, 15, 25, 50, 100]"
+          >
+          </dxo-pager>
+        </dx-data-grid>
       </div>
     </div>
   </ng-container>
