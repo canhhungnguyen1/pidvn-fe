@@ -10,7 +10,7 @@ interface DataItem {
 @Component({
   selector: 'spare-part-ivt',
   templateUrl: './spare-part-ivt.component.html',
-  styleUrls: ['./spare-part-ivt.component.scss'], // Sửa lại tên đúng
+  styleUrls: ['./spare-part-ivt.component.scss'], 
 })
 @Injectable({
   providedIn: 'root', // Hoặc module providers
@@ -21,6 +21,7 @@ export class SparePartIvtComponent implements OnInit {
   dataSource: DataSource[] = [];
   scannedCode: any;
   scannedcodeaf: String = '';
+
 
   constructor(
     private toastr: ToastrService,
@@ -62,7 +63,8 @@ export class SparePartIvtComponent implements OnInit {
   }
 
   calculateDifference(rowData: any): number {
-    return rowData.default - rowData.tonkho;
+    rowData.subtraction = rowData.default - rowData.tonkho;
+    return rowData.subtraction;
   }
 
   customCellRender(cellElement: any, cellInfo: any) {
