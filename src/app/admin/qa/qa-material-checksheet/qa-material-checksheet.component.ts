@@ -90,6 +90,8 @@ export class QaMaterialChecksheetComponent implements OnInit {
       .getPsMasters(event.qaCard)
       .subscribe((response) => {
         this.psMasters = response.result;
+        console.log('psMasters: ', this.psMasters);
+        
         this.psMasterArr = this.convertPsMasterToArray(this.psMasters);
       });
   }
