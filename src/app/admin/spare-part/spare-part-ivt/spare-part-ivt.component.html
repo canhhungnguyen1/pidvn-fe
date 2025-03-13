@@ -1,4 +1,4 @@
-<p>spare-part-ivt works!</p>
+<div>Bảng Kiểm Kê Hàng Spare Part</div>
 <input
   nz-input
   [(ngModel)]="scannedCode"
@@ -60,13 +60,26 @@
       caption="Chênh Lệch"
       dataType="number"
       [calculateCellValue]="calculateDifference"
-      cellRender={customCellRender}
+      cellTemplate="chenhlechTemplate"
     >
-   
     </dxi-column>
+    <div
+      *dxTemplate="let item of 'chenhlechTemplate'"
+    >
+      <span
+        [class]="
+          item.data.subtraction < 0
+            ? 'red-color'
+            : item.data.subtraction > 0
+            ? 'green-color'
+            : 'blue-color'
+        "
+        style="font-weight: bold"
+      >
+        {{ item.data.subtraction }}
+      </span>
+    </div>
 
     <dxi-column dataField="date" dataType="date" caption="Ngày"></dxi-column>
   </dx-data-grid>
-
-  
 </div>
