@@ -28,7 +28,6 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
   @ViewChild('labelTable', { read: ElementRef })
   labelTable!: ElementRef;
 
-
   constructor(
     private toastr: ToastrService,
     private activatedRoute: ActivatedRoute,
@@ -60,7 +59,7 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
   userLoginName: any;
   inventoryRequestInfo: any;
 
-  errMsg: any
+  errMsg: any;
 
   /**
    * Các variable phần kiểm kê nvl thô
@@ -70,7 +69,6 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
   rawMaterialInventory: any;
 
   apiUploadExcelRawMaterialInventory: any;
-
 
   ngOnInit(): void {
     this.userLoginName = this.jwtHelperSvc
@@ -85,8 +83,7 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
     this.getInventoryArea();
     this.getInventoryRequestById(this.requestId);
 
-
-    this.apiUploadExcelRawMaterialInventory = `${this.baseUrl}/PIH/Inventory/UploadRawMaterialInventoryData?requestId=${this.requestId}`
+    this.apiUploadExcelRawMaterialInventory = `${this.baseUrl}/PIH/Inventory/UploadRawMaterialInventoryData?requestId=${this.requestId}`;
   }
 
   ngAfterViewInit(): void {}
@@ -150,22 +147,25 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
   }
 
   onExportClient(event: any, fileName: any) {
-    const workbook = new Workbook();    
-        const worksheet = workbook.addWorksheet('Main sheet');
-        exportDataGrid({
-            component: event.component,
-            worksheet: worksheet
-        }).then(function() {
-            workbook.xlsx.writeBuffer()
-                .then(function(buffer: BlobPart) {
-                    saveAs(new Blob([buffer], { type: 'application/octet-stream' }), `${fileName}.xlsx`);
-                });
-        });
+    const workbook = new Workbook();
+    const worksheet = workbook.addWorksheet('Main sheet');
+    exportDataGrid({
+      component: event.component,
+      worksheet: worksheet,
+    }).then(function () {
+      workbook.xlsx.writeBuffer().then(function (buffer: BlobPart) {
+        saveAs(
+          new Blob([buffer], { type: 'application/octet-stream' }),
+          `${fileName}.xlsx`
+        );
+      });
+    });
   }
 
   openScanInventoryModal() {
-
-    let conditionScanInventory = new Date(this.inventoryRequestInfo.inventoryCloseDate).getDay() - new Date().getDay() 
+    let conditionScanInventory =
+      new Date(this.inventoryRequestInfo.inventoryCloseDate).getDay() -
+      new Date().getDay();
     // if (conditionScanInventory < 0) {
     //   this.toastr.warning(
     //     `Đã quá thời hạn kiểm kê`,
@@ -208,9 +208,16 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
       return;
     }
 
+    console.log('this.listLotsScanned: ', this.listLotsScanned);
+
     this.isLoadingSaveInventoryData = true;
     this.pihInventorySvc
-      .saveListInventoryData(this.listLotsScanned, this.requestId, this.inventoryArea, this.goodsType)
+      .saveListInventoryData(
+        this.listLotsScanned,
+        this.requestId,
+        this.inventoryArea,
+        this.goodsType
+      )
       .subscribe((response) => {
         this.toastr.success('Đã lưu', 'Response');
         this.resultSaveInventoryData = response;
@@ -219,7 +226,7 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
         this.isOpenResultSaveInventoryModal = true;
         this.mapLotsScanned = new Map();
         this.listLotsScanned = new Array();
-        
+
         this.inventoryArea = null;
         this.goodsType = null;
         this.materialTruck = null;
@@ -237,7 +244,7 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
   }
   /**
    * Chọn loại hàng
-   * @param event 
+   * @param event
    */
   onChangeGoodsType(event: any) {
     console.log('onChangeGoodsType: ', event);
@@ -250,7 +257,6 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
   }
 
   scanLabel(event: any) {
-
     if (!this.inventoryArea) {
       this.toastr.warning(
         `Cần chọn khu vực kiểm kê `,
@@ -261,10 +267,7 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
     }
 
     if (!this.goodsType) {
-      this.toastr.warning(
-        `Cần chọn loại hàng `,
-        `${this.userLoginName} ơi !`
-      );
+      this.toastr.warning(`Cần chọn loại hàng `, `${this.userLoginName} ơi !`);
       this.labelIpt.nativeElement.select();
       return;
     }
@@ -277,14 +280,11 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
     let qty = 0;
     let lotNo = '';
 
-    if (event.target.value.includes(';')){
-
+    if (event.target.value.includes(';')) {
       // Tem to
       if (data[0] === 'B') {
-        
-        
         console.log('data[0]: ', data[0]);
-        
+
         partNo = data[1];
         qty = data[3];
         lotNo = data[4];
@@ -298,7 +298,7 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
           inventoryArea: this.inventoryArea,
           outerLotNo: lotNo.toUpperCase(),
           goodsType: this.goodsType,
-          materialTruck: this.materialTruck
+          materialTruck: this.materialTruck,
         };
 
         this.mapLotsScanned.set(lotNo, obj);
@@ -308,10 +308,8 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
         return;
       }
 
-
       // Tem nhỏ
       if (data[0] !== 'B') {
-
         console.log('data[0]: ', data[0]);
 
         partNo = data[0];
@@ -325,26 +323,25 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
           date: new Date(),
           requestId: this.requestId,
           inventoryArea: this.inventoryArea,
-          goodsType: this.goodsType
+          goodsType: this.goodsType,
+          materialTruck: this.materialTruck,
         };
 
-
         this.pihInventorySvc.scanLabel(obj.lotNo).subscribe(
-          response => {
+          (response) => {
             this.mapLotsScanned.set(lotNo, obj);
             this.listLotsScanned = Array.from(this.mapLotsScanned.values());
             this.totalQtyScanned = this.sumQtyScanned(this.listLotsScanned);
-            this.errMsg = null
+            this.errMsg = null;
             setTimeout(() => {
               this.scrollToBottom();
             }, 0);
-            
-          }, 
-          error => {
-            this.errMsg = error
+          },
+          (error) => {
+            this.errMsg = error;
           }
         );
-        return
+        return;
       }
     } else {
       // Trường hợp hàng Elektrisola
@@ -361,7 +358,8 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
           date: new Date(),
           requestId: this.requestId,
           inventoryArea: this.inventoryArea,
-          goodsType: this.goodsType
+          goodsType: this.goodsType,
+          materialTruck: this.materialTruck,
         };
 
         this.mapLotsScanned.set(lotNo, obj);
@@ -394,7 +392,7 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
     this.listLotsScanned = new Array();
     this.mapLotsScanned = new Map();
     this.totalQtyScanned = 0;
-    this.errMsg = null
+    this.errMsg = null;
   }
 
   /**
@@ -402,15 +400,13 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
    */
   scrollToBottom(): void {
     try {
-      const tableBody = this.labelTable.nativeElement.querySelector('.ant-table-body');
+      const tableBody =
+        this.labelTable.nativeElement.querySelector('.ant-table-body');
       tableBody.scrollTop = tableBody.scrollHeight;
     } catch (err) {
       console.error('Error scrolling to bottom of table', err);
     }
   }
-
-
-
 
   startEdit(data: any) {
     setTimeout(() => {
@@ -431,7 +427,7 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
 
   closeScanInventoryModal() {
     this.isOpenScanInventoryModal = false;
-    this.resetScanLabel()
+    this.resetScanLabel();
   }
 
   isOpenEditQtyModal: boolean = false;
@@ -489,59 +485,59 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
     }
   }
 
-
-
-
   /**
    * Kiểm kê nvl thô
    */
-
 
   openRawMaterialInventoryModal() {
     this.isOpenRawMaterialInventoryModal = true;
   }
 
   downloadTemplateUploadRawMaterialInventory() {
-    this.pihInventorySvc.downloadTemplateUploadRawMaterialInventory().subscribe(
-      response => {
+    this.pihInventorySvc
+      .downloadTemplateUploadRawMaterialInventory()
+      .subscribe((response) => {
         console.log(response);
-      const blob = new Blob([response], {
-        // type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        const blob = new Blob([response], {
+          // type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        });
+        const data = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = data;
+        link.download = `TemplateRawMaterialInventoryData.xlsx`;
+        link.dispatchEvent(
+          new MouseEvent('click', {
+            bubbles: true,
+            cancelable: true,
+            view: window,
+          })
+        );
+        setTimeout(() => {
+          window.URL.revokeObjectURL(data);
+          link.remove();
+        }, 100);
       });
-      const data = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = data;
-      link.download = `TemplateRawMaterialInventoryData.xlsx`;
-      link.dispatchEvent(
-        new MouseEvent('click', {
-          bubbles: true,
-          cancelable: true,
-          view: window,
-        })
-      );
-      setTimeout(() => {
-        window.URL.revokeObjectURL(data);
-        link.remove();
-      }, 100);
-      }
-    )
   }
 
   getRawMaterialInventoryData() {
     this.isLoadingGetRawMaterialInventory = true;
     this.pihInventorySvc.getRawMaterialInventoryData(this.requestId).subscribe(
-      response => {
-        this.rawMaterialInventory = response
+      (response) => {
+        this.rawMaterialInventory = response;
         this.isLoadingGetRawMaterialInventory = false;
       },
-      error => {
+      (error) => {
         this.isLoadingGetRawMaterialInventory = false;
       }
-    )
+    );
   }
 
-
-
-
-
+  // Style header
+  onCellInventoryData(e: any) {
+    if (e.rowType === 'header') {
+      e.cellElement.style.backgroundColor = '#000080'; // Change background color
+      e.cellElement.style.color = '#ffffff'; // Change text color for better visibility
+      e.cellElement.style.fontWeight = 'bold';
+    }
+  }
 }

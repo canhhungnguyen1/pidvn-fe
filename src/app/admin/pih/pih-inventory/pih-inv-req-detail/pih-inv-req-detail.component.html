@@ -33,8 +33,9 @@
       [columnAutoWidth]="true"
       [rowAlternationEnabled]="true"
       (onExporting)="onExportClient($event, 'Data')"
+      (onCellPrepared)="onCellInventoryData($event)"
     >
-      <dxo-paging [pageSize]="10"></dxo-paging>
+      <dxo-header-filter [visible]="true"></dxo-header-filter>
       <dxo-filter-row [visible]="true"></dxo-filter-row>
       <dxo-export [enabled]="true"></dxo-export>
 
@@ -57,6 +58,7 @@
         dataField="inventoryArea"
         caption="Khu vực kiểm kê"
       ></dxi-column>
+      <dxi-column dataField="materialTruck" caption="Xe hàng"></dxi-column>
       <dxi-column
         dataField="createdAt"
         caption="Date"
