@@ -43,6 +43,7 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
   inventoryData: any;
   inventoryArea: any; // Khu vực kiểm kê
   goodsType: any; // Loại hàng : CX, CXN, CST, RT, NG ...
+  materialTruck: any; // Xe NVL
   inventoryAreaList: any;
   isOpenScanInventoryModal: boolean = false;
   isOpenResultSaveInventoryModal: boolean = false;
@@ -221,6 +222,7 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
         
         this.inventoryArea = null;
         this.goodsType = null;
+        this.materialTruck = null;
 
         this.getInventoryData(this.requestId);
       });
@@ -239,7 +241,11 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
    */
   onChangeGoodsType(event: any) {
     console.log('onChangeGoodsType: ', event);
-    
+    this.labelIpt.nativeElement.select();
+  }
+
+  onChangeMaterialTruck(event: any) {
+    console.log('onChangeMaterialTruck: ', event);
     this.labelIpt.nativeElement.select();
   }
 
@@ -291,7 +297,8 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
           requestId: this.requestId,
           inventoryArea: this.inventoryArea,
           outerLotNo: lotNo.toUpperCase(),
-          goodsType: this.goodsType
+          goodsType: this.goodsType,
+          materialTruck: this.materialTruck
         };
 
         this.mapLotsScanned.set(lotNo, obj);
