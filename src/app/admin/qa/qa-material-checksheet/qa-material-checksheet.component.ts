@@ -229,4 +229,29 @@ export class QaMaterialChecksheetComponent implements OnInit {
       e.cellElement.style.color = '#ffffff'; // Change text color for better visibility
     }
   }
+
+  deleteMaterialScan(e: any) {
+
+    
+    
+    if (e.username != this.jwt.Username) {
+      this.toastr.warning('Bạn chỉ có thể xóa dữ liệu do bạn nhập','Warning')
+      return
+    }
+
+    this.qaMaterialCheckSheetSvc.deleteMaterialScan(e.id).subscribe(
+      response =>{
+        this.toastr.success('Xóa thành công','Thông báo')
+        this.selectTextInput('labelIpt');
+        this.qaMaterialCheckSheetSvc.getCheckSheetRecords(this.qaCardSelected.qaCard).subscribe(
+          response => {
+            this.checkSheetRecords = response.result;
+          }
+        )
+       
+      }
+    )
+
+    
+  }
 }

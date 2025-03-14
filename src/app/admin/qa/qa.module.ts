@@ -30,6 +30,7 @@ import { QaRoutingModule } from './qa-routing.module';
 import { QaMaterialChecksheetComponent } from './qa-material-checksheet/qa-material-checksheet.component';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 @NgModule({
   declarations: [QaIqcCheckComponent, QaMaterialChecksheetComponent],
   imports: [
@@ -63,7 +64,8 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
     NzTableModule,
     NzInputModule,
     NzRadioModule,
-    NzTabsModule
+    NzTabsModule,
+    NzPopconfirmModule
   ],
 })
 export class QaModule {}

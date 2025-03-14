@@ -70,7 +70,11 @@
     dataType="date"
     format="yyyy-MM-dd"
   ></dxi-column>
-  <dxi-column dataField="judgment" caption="Đánh giá" [visible]="false"></dxi-column>
+  <dxi-column
+    dataField="judgment"
+    caption="Đánh giá"
+    [visible]="false"
+  ></dxi-column>
   <dxi-column
     dataField="createdAt"
     caption="Ngày đánh giá"
@@ -78,8 +82,16 @@
     format="yyyy-MM-dd"
     [visible]="false"
   ></dxi-column>
-  <dxi-column dataField="createdByName" caption="Người đánh giá" [visible]="false"></dxi-column>
-  <dxi-column dataField="remark" caption="Remark" [visible]="false"></dxi-column>
+  <dxi-column
+    dataField="createdByName"
+    caption="Người đánh giá"
+    [visible]="false"
+  ></dxi-column>
+  <dxi-column
+    dataField="remark"
+    caption="Remark"
+    [visible]="false"
+  ></dxi-column>
 
   <dxo-paging [pageSize]="15"></dxo-paging>
   <dxo-pager
@@ -313,6 +325,24 @@
             format="yyyy-MM-dd HH:mm"
           ></dxi-column>
           <dxi-column dataField="username" caption="User"></dxi-column>
+          <dxi-column
+            caption="Action"
+            cellTemplate="actionTemplate"
+            [fixed]="true"
+            fixedPosition="right"
+          ></dxi-column>
+          <div
+            *dxTemplate="let item of 'actionTemplate'"
+            style="text-align: center"
+          >
+            <a
+              nz-popconfirm
+              nzPopconfirmTitle="Bạn chắc chắn xóa ?"
+              nzPopconfirmPlacement="bottom"
+              (nzOnConfirm)="deleteMaterialScan(item.data)"
+              >Xóa</a
+            >
+          </div>
 
           <dxo-paging [pageSize]="10"></dxo-paging>
           <dxo-pager

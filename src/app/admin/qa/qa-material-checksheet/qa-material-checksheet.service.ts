@@ -43,4 +43,10 @@ export class QaMaterialCheckSheetService {
       obj
     );
   }
+
+  public deleteMaterialScan(id: number): Observable<any> {
+    return this.httpClient.delete(
+      `${this.baseUrl}/QA/MaterialCheckSheet/CheckSheetRecords/${id}`,
+    );
+  }
 }
