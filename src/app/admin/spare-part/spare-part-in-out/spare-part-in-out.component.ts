@@ -217,17 +217,15 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    if (!this.rackType) {
-      this.toastr.warning('Cần chọn rack hàng', 'Warning');
-      return;
-    }
-
     if (!this.transactionType) {
       this.toastr.warning('Cần chọn loại giao dịch', 'Warning');
       return;
     }
 
-
+    if (!this.rackType && this.transactionType == 'INPUT') {
+      this.toastr.warning('Cần chọn rack hàng', 'Warning');
+      return;
+    }
 
     if (this.transactionType === 'OUTPUT' && this.goodsType === 'M4') {
       if (!this.factoryCode) {
