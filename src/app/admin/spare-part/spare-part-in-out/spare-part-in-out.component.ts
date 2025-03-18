@@ -143,6 +143,13 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
   line: any; // line Selected
   request: any; // request Selected
 
+  // Biến liên quan chuyển rack
+  isOpenModalChangeRack: boolean = false
+  rackChangeInfo: any = {}
+
+
+
+
   getLineStandard() {
     this.sparePartSvc.getLineStandard().subscribe((response) => {
       this.lines = response;
@@ -538,6 +545,11 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
     { id: 'R6-C-3', name:'R6-C-3'}
   ]
 
+  saveChangeRack() {
+    console.log('rackChangeInfo: ', this.rackChangeInfo);
+    
+  }
+
 
   // Style header
   onCellPreparedHistory(e: any) {
@@ -547,5 +559,8 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
       e.cellElement.style.fontWeight = 'bold'
     }
   }
+
+
+
 
 }
