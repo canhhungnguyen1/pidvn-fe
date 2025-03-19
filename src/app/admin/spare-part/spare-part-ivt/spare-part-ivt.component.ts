@@ -10,7 +10,7 @@ interface DataItem {
 @Component({
   selector: 'spare-part-ivt',
   templateUrl: './spare-part-ivt.component.html',
-  styleUrls: ['./spare-part-ivt.component.scss'], 
+  styleUrls: ['./spare-part-ivt.component.scss'],
 })
 @Injectable({
   providedIn: 'root', // Hoặc module providers
@@ -21,6 +21,8 @@ export class SparePartIvtComponent implements OnInit {
   dataSource: DataSource[] = [];
   scannedCode: any;
   scannedcodeaf: String = '';
+  date_time: any;
+
 
 
   constructor(
@@ -28,7 +30,16 @@ export class SparePartIvtComponent implements OnInit {
     private sparePartSvc: SparePartService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0'); // Tháng bắt đầu từ 0, nên +1
+    const day = String(now.getDate()).padStart(2, '0');
+    
+    this.date_time = `${year}-${month}-${day}`;
+    console.log(this.date_time);
+
+  }
 
   onEnter(event: any): void {
     this.scannedCode = (event.target as HTMLInputElement).value;
@@ -48,7 +59,7 @@ export class SparePartIvtComponent implements OnInit {
 
   getMaterialIvt(scannedCode: any) {
     this.sparePartSvc.getSparePartsivt().subscribe((response) => {
-      const newItem = { ...response[0], ID: this.scannedCode };
+      const newItem = { ...response[0], ID: this.scannedCode, date_time: this.date_time };
 
       this.dataSource.push(newItem);
       this.dataSource = [...this.dataSource];
@@ -69,15 +80,23 @@ export class SparePartIvtComponent implements OnInit {
 
   customCellRender(cellElement: any, cellInfo: any) {
     const value = cellInfo.value;
-    console.log(value)
+    console.log(value);
     const color = value > 0 ? 'green' : value < 0 ? 'red' : 'black';
     cellElement.innerHTML = `<span style="color: ${color}">${value}</span>`;
   }
-
 
   getColor(value: number): string {
     return value > 0 ? 'green' : value < 0 ? 'red' : 'black';
   }
 
-  
+  Save_data() {
+   this.sparePartSvc.saveSparePartIvt(this.dataSource).subscribe(
+      (response: any) => {
+        console.log('Data saved successfully', response); // Xử lý dữ liệu trả về từ API
+      },
+      (error: any) => {
+        console.error('Error saving data', error); // Xử lý lỗi khi gọi API
+      }
+    );
+  }
 }

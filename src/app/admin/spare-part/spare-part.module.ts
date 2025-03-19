@@ -5,6 +5,7 @@ import { DxButtonModule, DxDataGridModule, DxSelectBoxModule, DxTreeListModule }
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { SearchOutline } from '@ant-design/icons-angular/icons';
 import { NzQRCodeModule } from 'ng-zorro-antd/qr-code';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { SparePartInOutComponent } from './spare-part-in-out/spare-part-in-out.component';

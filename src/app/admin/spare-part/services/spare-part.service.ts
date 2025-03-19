@@ -64,6 +64,11 @@ export class SparePartService {
     );
   }
 
+  saveSparePartIvt(request: any): Observable<any>  {
+    console.log(request)
+    return this.httpClient.post(`${this.baseUrl}/SparePart/SaveSparePartIvt`,request);
+  }
+
   getLineStandard(): Observable<any> {
     return this.httpClient.get(`${this.baseUrl}/SparePart/Lines`);
   }

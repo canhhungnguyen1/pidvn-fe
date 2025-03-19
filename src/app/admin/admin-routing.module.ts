@@ -5,6 +5,7 @@ import { RoleGuard } from '../guards/role.guard';
 import { AdminComponent } from './admin.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { ReportsComponent } from './reports/reports.component';
+import { RealtimeComponentComponent } from './WebSocket/realtime-component/realtime-component.component';
 
 const routes: Routes = [
   {
@@ -106,6 +107,10 @@ const routes: Routes = [
       {
         path: 'reports',
         component: ReportsComponent,
+      },
+      {
+        path: 'realtime',
+        component: RealtimeComponentComponent,
       },
       {
         path: 'dashboard',
