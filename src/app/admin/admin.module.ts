@@ -33,12 +33,15 @@ import {
   DxSelectBoxModule,
   DxTreeListModule,
 } from 'devextreme-angular';
+import { RealtimeComponentComponent } from './WebSocket/realtime-component/realtime-component.component';
+
 @NgModule({
   declarations: [
     AdminComponent,
     WelcomeComponent,
     QaComponent,
     ReportsComponent,
+    RealtimeComponentComponent
   ],
   imports: [
     CommonModule,
