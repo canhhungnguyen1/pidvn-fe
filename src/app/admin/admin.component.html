@@ -40,6 +40,24 @@
         <span>
           <a
             class="externalLink"
+            [href]="CommonApprovalLink"
+            (click)="onHideSidebar()"
+            target="_blank"
+          >
+          Common Approval
+          </a>
+        </span>
+      </li>
+      <li nz-menu-item nzTooltipPlacement="right" nzMatchRouter>
+        <img
+          id="chat-bot"
+          src="../../assets/images/chatbot.png"
+          width="30"
+          style="margin-top: -14px; margin-left: -2px"
+        />
+        <span>
+          <a
+            class="externalLink"
             [href]="smartPIDLink"
             (click)="onHideSidebar()"
             target="_blank"
