@@ -1,22 +1,52 @@
-<nz-breadcrumb>
+<!-- <nz-breadcrumb>
   <nz-breadcrumb-item> QA </nz-breadcrumb-item>
   <nz-breadcrumb-item> OQC</nz-breadcrumb-item>
   <nz-breadcrumb-item> Evaluate</nz-breadcrumb-item>
 </nz-breadcrumb>
-<br />
+<br /> -->
 <nz-collapse>
-  <nz-collapse-panel [nzHeader]="headerTitle" [nzActive]="true">
+  <nz-collapse-panel
+    [nzHeader]="'Thông tin request: ' + reqNo"
+    [nzActive]="true"
+  >
     <table id="infoTable" *ngIf="requestInfo">
       <tbody>
         <tr>
           <td><label>QA Card</label></td>
           <td>{{ requestInfo?.qaCard }}</td>
-          <td><label>Số lượng</label></td>
+          <td><label>Total Qty</label></td>
           <td>{{ requestInfo?.qty | number : "1.0-3" }}</td>
+          <td *ngIf="requestInfo?.judgment" style="text-align: center">
+            <label style="font-weight: bold">Final Result</label>
+          </td>
+        </tr>
+        <tr>
+          <td><label>Date Code</label></td>
+          <td>
+            <ul>
+              <li
+                *ngFor="
+                  let item of requestInfo?.dateCode.split(';');
+                  let i = index
+                "
+              >
+                {{ item.split(":")[0] }} :
+                {{ item.split(":")[1] | number : "1.0-3" }}
+              </li>
+            </ul>
+          </td>
+          <td><label>Ngày check</label></td>
+          <td>
+            {{
+              requestInfo?.oqcDate == null
+                ? "NA"
+                : (requestInfo.oqcDate | date : "yyyy-MM-dd HH:mm:ss")
+            }}
+          </td>
           <td
             *ngIf="requestInfo?.judgment"
             id="evaluate"
-            rowspan="3"
+            rowspan="2"
             style="font-size: 20px"
             [style.background]="
               requestInfo?.judgment == 'OK' ? '#1bc742' : 'red'
@@ -26,21 +56,26 @@
           </td>
         </tr>
         <tr>
-          <td><label>Date Code</label></td>
-          <td>{{ requestInfo?.dateCode }}</td>
-          <td><label>Ngày check</label></td>
-          <td>{{ requestInfo?.oqcDate | date : "yyyy-MM-dd HH:mm:ss" }}</td>
-        </tr>
-        <tr>
           <td><label>Trạng thái</label></td>
           <td>
-            <nz-radio-group [ngModel]="requestInfo.requestStatusId" (ngModelChange)="changeRequestStatus($event)">
+            <nz-radio-group
+              [ngModel]="requestInfo.requestStatusId"
+              (ngModelChange)="changeRequestStatus($event)"
+            >
               <div nz-radio [nzValue]="2">Đang xử lý</div>
               <div nz-radio [nzValue]="3">Đã xử lý</div>
             </nz-radio-group>
           </td>
-          <td></td>
-          <td></td>
+          <td>
+            <label>Cảnh báo</label>
+          </td>
+          <td>
+            <nz-tag [nzColor]="systemValidateData?.dateCodeData[0].rate > 20 ? '#f50':'#87d068'">
+              {{systemValidateData?.dateCodeData[0].rate > 20 ? 'NG' : 'OK'}}
+              (Rate: {{systemValidateData?.dateCodeData[0].rate}}%)
+            </nz-tag>
+            <a (click)="isOpenSystemValidate = true">Chi tiết</a>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -92,7 +127,6 @@
   <nz-tab nzTitle="Document">
     <ng-container *ngTemplateOutlet="document"></ng-container>
   </nz-tab>
-  
 </nz-tabset>
 
 <ng-template #masterData>
@@ -287,18 +321,134 @@
     <dxo-filter-row [visible]="true"></dxo-filter-row>
 
     <dxi-column caption="Issue No" dataField="issueNo"></dxi-column>
-    <dxi-column
-      caption="Doc Group"
-      dataField="docGroupName"
-    ></dxi-column>
+    <dxi-column caption="Doc Group" dataField="docGroupName"></dxi-column>
     <!-- <dxi-column caption="Doc Type" dataField="docTypeName"></dxi-column> -->
     <dxi-column caption="Name" dataField="title"></dxi-column>
 
-
-    <dxi-column caption="Action" cellTemplate="actionTemplate" alignment="center">
+    <dxi-column
+      caption="Action"
+      cellTemplate="actionTemplate"
+      alignment="center"
+    >
       <div *dxTemplate="let item of 'actionTemplate'">
         <a (click)="previewDocumentPE(item)" style="color: green">Xem</a>
       </div>
     </dxi-column>
   </dx-data-grid>
 </ng-template>
+
+<!-- Show dữ liệu scan -->
+<nz-modal
+  [(nzVisible)]="isOpenSystemValidate"
+  nzTitle="System Validate"
+  (nzOnCancel)="isOpenSystemValidate = false"
+  (nzOnOk)="isOpenSystemValidate = false"
+  nzWidth="80%"
+>
+  <ng-container *nzModalContent>
+    <div nz-row nzJustify="start" nzAlign="top" [nzGutter]="24">
+      <div nz-col nzXs="14" nzSm="14" nzLg="14">
+        <nz-collapse>
+          <nz-collapse-panel [nzHeader]="'Check số lượng'" [nzActive]="true">
+            <nz-table
+              #dateCodeTable
+              [nzData]="systemValidateData?.dateCodeData"
+              nzBordered
+              nzSize="small"
+              [nzPageSize]="10"
+              nzFrontPagination="false"
+            >
+              <thead>
+                <tr>
+                  <th colspan="4">
+                    <nz-tag [nzColor]="'purple'"> QA Card: {{ qaCard }}</nz-tag>
+                  </th>
+                </tr>
+                <tr>
+                  <th>DateCode</th>
+                  <th>Qty</th>
+                  <th>Scan Qty</th>
+                  <th>Rate</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of dateCodeTable.data">
+                  <td>{{ data.dateCode }}</td>
+                  <td>{{ data.qty | number : "1.0-3" }}</td>
+                  <td>{{ data.actualScanQty | number : "1.0-3" }}</td>
+                  <td>
+                    {{
+                      data.dateMarking === data.dateQaCard ? data.rate : "NA"
+                    }}
+                    %
+                  </td>
+                </tr>
+                <tr *ngIf="dateCodeTable.data[0].rate > 20">
+                  <td colspan="4" style="color: red;">
+                    <nz-tag
+                      [nzColor]="'red'"
+                      [nzBordered]="false"
+                    >
+                      Cảnh báo: tỷ lệ giữa Qty marking so với Qty scan trên line > 20% =>
+                    </nz-tag>
+
+                    <nz-tag [nzColor]="'#f50'">NG</nz-tag>
+                  </td>
+                </tr>
+              </tbody>
+            </nz-table>
+          </nz-collapse-panel>
+        </nz-collapse>
+      </div>
+      <div nz-col nzXs="10" nzSm="10" nzLg="10">
+        <nz-collapse>
+          <nz-collapse-panel
+            [nzHeader]="'Dữ liệu scan trên line'"
+            [nzActive]="true"
+          >
+            <nz-table
+              #psMasterTable
+              [nzData]="systemValidateData?.psMasterData"
+              nzBordered
+              nzSize="small"
+              [nzPageSize]="10"
+            >
+              <thead>
+                <tr>
+                  <th colspan="2">
+                    <nz-tag [nzColor]="'purple'"
+                      >Model: {{ qaCard.split("*")[0] }}</nz-tag
+                    >
+                  </th>
+                </tr>
+                <tr>
+                  <th>PartNo</th>
+                  <th>Qty</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of psMasterTable.data">
+                  <td>{{ data.pncomp }}</td>
+                  <td>
+                    <nz-tag
+                      *ngIf="!data.qty"
+                      [nzColor]="'red'"
+                      [nzBordered]="false"
+                      >Không sử dụng hoặc chưa scan NVL</nz-tag
+                    >
+                    {{ data.qty | number : "1.0-3" }}
+                  </td>
+                </tr>
+              </tbody>
+            </nz-table>
+          </nz-collapse-panel>
+        </nz-collapse>
+      </div>
+    </div>
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="isOpenSystemValidate = false">
+      Đóng
+    </button>
+  </div>
+</nz-modal>

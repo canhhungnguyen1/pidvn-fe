@@ -30,14 +30,20 @@
       <div nz-col nzXs="12" nzSm="12" nzLg="5">
         <label nzXs="24" nzSm="24" nzLg="24">Ngày request</label>
         <div nzXs="24" nzSm="24" nzLg="24">
-          <nz-range-picker [(ngModel)]="searchParams.requestDateRange" nzFormat="yyyy-MM-dd" nzMode="date">
+          <nz-range-picker
+            [(ngModel)]="searchParams.requestDateRange"
+            nzFormat="yyyy-MM-dd"
+            nzMode="date"
+          >
           </nz-range-picker>
         </div>
       </div>
       <div nz-col nzXs="12" nzSm="12" nzLg="5">
         <label nzXs="24" nzSm="24" nzLg="24">&nbsp;</label>
         <div nzXs="24" nzSm="24" nzLg="24">
-          <button nz-button nzType="primary" (click)="onSearch()">Search</button>
+          <button nz-button nzType="primary" (click)="onSearch()">
+            Search
+          </button>
         </div>
       </div>
     </div>
@@ -102,8 +108,27 @@
     [visible]="false"
   ></dxi-column>
   <dxi-column caption="Model" dataField="model"></dxi-column>
-  <dxi-column caption="Shift" dataField="shift" alignment="center" width="45"></dxi-column>
-  <dxi-column caption="Date Code" dataField="dateCode"></dxi-column>
+  <dxi-column
+    caption="Shift"
+    dataField="shift"
+    alignment="center"
+    width="45"
+  ></dxi-column>
+
+  <dxi-column
+    caption="Date Code"
+    dataField="dateCode"
+    cellTemplate="dateCodeTemplate"
+  >
+    <div *dxTemplate="let item of 'dateCodeTemplate'">
+      <ul style="margin-left: -29px">
+        <li *ngFor="let a of item.data.dateCode.split(';')">
+          {{ a.split(":")[0] }} : {{ a.split(":")[1] | number : "1.0-3" }}
+        </li>
+      </ul>
+    </div>
+  </dxi-column>
+
   <dxi-column
     caption="Qty"
     dataField="qty"
@@ -137,13 +162,11 @@
   >
     <div
       *dxTemplate="let item of 'deliveryDateTemplate'"
-      style="text-align: center; color: blue;"
+      style="text-align: center; color: blue"
     >
-      <span>{{ item.data.deliveryDate | date: "yyyy-MM-dd" }}</span>
+      <span>{{ item.data.deliveryDate | date : "yyyy-MM-dd" }}</span>
     </div>
   </dxi-column>
-
-  
 
   <dxi-column caption="Remark" dataField="remark" width="100"></dxi-column>
 

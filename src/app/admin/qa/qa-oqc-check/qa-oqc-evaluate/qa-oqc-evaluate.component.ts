@@ -32,9 +32,6 @@ export class QaOqcEvaluateComponent implements OnInit {
 
   baseUrl = environment.baseUrl;
   jwt: any;
-
-  headerTitle!: string;
-
   reqNo: any;
   qaCard: any;
   requestStatus: any;
@@ -50,13 +47,13 @@ export class QaOqcEvaluateComponent implements OnInit {
   documents: any;
   documentsPE: any;
 
+  isOpenSystemValidate: boolean = false; // hiển thị modal show dữ liệu scan
+  systemValidateData: any
+
   ngOnInit(): void {
     this.reqNo = this.activatedRoute.snapshot.queryParams['reqNo'];
     this.qaCard = this.activatedRoute.snapshot.queryParams['qaCard'];
-    this.requestStatus =
-      this.activatedRoute.snapshot.queryParams['requestStatus'];
-
-    this.headerTitle = `Thông tin request: ${this.reqNo}`
+    this.requestStatus = this.activatedRoute.snapshot.queryParams['requestStatus'];
 
     this.getRequestInfo({ reqNo: this.reqNo });
     // this.getOqcMasterData(this.reqNo, this.qaCard);
@@ -65,6 +62,17 @@ export class QaOqcEvaluateComponent implements OnInit {
     this.getDocuments({model: this.qaCard.split('*')[0]});
 
     this.getDocumentsPE(this.qaCard.split('*')[0]);
+
+    this.systemValidate(this.qaCard);
+    
+  }
+
+  systemValidate(qaCard: string) {
+    this.qaOqcSvc.systemValidate(qaCard).subscribe(
+      response => {
+        this.systemValidateData = response
+      }
+    )
   }
 
   getOqcMasterData(reqNo: any, qaCard: any) {

@@ -31,6 +31,7 @@ import { QaMaterialChecksheetComponent } from './qa-material-checksheet/qa-mater
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 @NgModule({
   declarations: [QaIqcCheckComponent, QaMaterialChecksheetComponent],
   imports: [
@@ -65,7 +66,8 @@ import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
     NzInputModule,
     NzRadioModule,
     NzTabsModule,
-    NzPopconfirmModule
+    NzPopconfirmModule,
+    NzTagModule
   ],
 })
 export class QaModule {}

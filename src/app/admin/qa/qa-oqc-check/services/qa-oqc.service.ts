@@ -69,4 +69,9 @@ export class QaOqcService {
     return this.httpClient.get(`${this.baseUrl}/QA/OqcCheck/ChangeConfigAudit?configValue=${configValue}`);
   }
 
+
+  public systemValidate(qaCard: string): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/QA/OqcCheck/SystemValidate?qaCard=${qaCard}`);
+  }
+
 }

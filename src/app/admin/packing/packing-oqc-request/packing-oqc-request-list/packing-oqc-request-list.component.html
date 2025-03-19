@@ -103,7 +103,19 @@
   ></dxi-column>
   <dxi-column caption="Model" dataField="model"></dxi-column>
   <dxi-column caption="Shift" dataField="shift" alignment="center"></dxi-column>
-  <dxi-column caption="Date Code" dataField="dateCode"></dxi-column>
+  <dxi-column
+    caption="Date Code"
+    dataField="dateCode"
+    cellTemplate="dateCodeTemplate"
+  >
+    <div *dxTemplate="let item of 'dateCodeTemplate'">
+      <ul style="margin-left: -29px">
+        <li *ngFor="let a of item.data.dateCode.split(';')">
+          {{ a.split(":")[0] }} : {{ a.split(":")[1] | number : "1.0-3" }}
+        </li>
+      </ul>
+    </div>
+  </dxi-column>
 
   <dxi-column caption="Số lượng" dataField="qty" cellTemplate="qtyTemplate">
     <div *dxTemplate="let item of 'qtyTemplate'" style="text-align: right">
