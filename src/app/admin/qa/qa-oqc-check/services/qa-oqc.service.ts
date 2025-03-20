@@ -29,14 +29,16 @@ export class QaOqcService {
   // }
 
   /**
-   * 
-   * @param searchVo 
-   * @returns 
+   *
+   * @param searchVo
+   * @returns
    */
   public getOqcRequests(searchVo: any): Observable<any> {
-    return this.httpClient.post(`${this.baseUrl}/QA/OqcCheck/Requests`, searchVo);
+    return this.httpClient.post(
+      `${this.baseUrl}/QA/OqcCheck/Requests`,
+      searchVo
+    );
   }
-  
 
   public updateOqcRequest(oqcReqVo: any): Observable<any> {
     return this.httpClient.put(`${this.baseUrl}/QA/OqcCheck/Request`, oqcReqVo);
@@ -66,12 +68,32 @@ export class QaOqcService {
   }
 
   public changeConfigAudit(configValue: string): Observable<any> {
-    return this.httpClient.get(`${this.baseUrl}/QA/OqcCheck/ChangeConfigAudit?configValue=${configValue}`);
+    return this.httpClient.get(
+      `${this.baseUrl}/QA/OqcCheck/ChangeConfigAudit?configValue=${configValue}`
+    );
   }
-
 
   public systemValidate(qaCard: string): Observable<any> {
-    return this.httpClient.get(`${this.baseUrl}/QA/OqcCheck/SystemValidate?qaCard=${qaCard}`);
+    return this.httpClient.get(
+      `${this.baseUrl}/QA/OqcCheck/SystemValidate?qaCard=${qaCard}`
+    );
   }
 
+  public uploadFileResult(
+    file: File,
+    oqcRequestVo: any
+  ): Observable<any> {
+    const formData = new FormData();
+
+    // Đính kèm file vào formData
+    formData.append('file', file); // Đảm bảo tên 'file' khớp với @RequestPart trong Spring Boot
+
+    // Đính kèm đối tượng projectActivity dưới dạng JSON
+    formData.append('oqcRequestVo', new Blob([JSON.stringify(oqcRequestVo)], { type: 'application/json' }));
+    
+    return this.httpClient.post(
+      `${this.baseUrl}/QA/OqcCheck/UploadFileResult`,
+      formData
+    );
+  }
 }

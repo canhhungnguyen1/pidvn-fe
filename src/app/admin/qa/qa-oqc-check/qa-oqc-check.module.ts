@@ -25,6 +25,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzTagModule } from 'ng-zorro-antd/tag';
+import { DxFileUploaderModule } from 'devextreme-angular';
 @NgModule({
   declarations: [
     QaOqcCheckComponent,
@@ -53,7 +54,8 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
     NzIconModule,
     NzDatePickerModule,
     NzSwitchModule,
-    NzTagModule
+    NzTagModule,
+    DxFileUploaderModule
   ],
 })
 export class QaOqcCheckModule {}

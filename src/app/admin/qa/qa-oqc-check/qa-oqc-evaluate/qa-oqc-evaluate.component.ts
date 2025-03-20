@@ -7,7 +7,8 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { QaOqcDocumentService } from '../../qa-oqc-document/services/qa-oqc-document.service';
 import { PackingOqcRequestService } from 'src/app/admin/packing/packing-oqc-request/services/packing-oqc-request.service';
 import { ToastrService } from 'ngx-toastr';
-
+import * as XLSX from 'xlsx'; // Import thư viện xlsx
+import { DxFileUploaderComponent } from 'devextreme-angular';
 @Component({
   selector: 'app-qa-oqc-evaluate',
   templateUrl: './qa-oqc-evaluate.component.html',
@@ -16,6 +17,8 @@ import { ToastrService } from 'ngx-toastr';
 export class QaOqcEvaluateComponent implements OnInit {
 
   @ViewChild('valueIpt') valueIpt!: ElementRef;
+  @ViewChild('fileUploader', { static: false }) fileUploader!: DxFileUploaderComponent;
+  
 
   constructor(
     private qaOqcSvc: QaOqcService,
@@ -40,7 +43,7 @@ export class QaOqcEvaluateComponent implements OnInit {
   requestInfo: any;
   oqcMasterData: any;
   isOpenModalHandleRequest: boolean = false;
-  isShowUploadFileModal: boolean = false;
+  // isShowUploadFileModal: boolean = false;
   uploadFileApi: string = '';
   oqcDataFiles: any;
 
@@ -98,8 +101,11 @@ export class QaOqcEvaluateComponent implements OnInit {
   }
 
   openUploadFileModal() {
-    this.isShowUploadFileModal = true;
-    this.uploadFileApi = `${this.baseUrl}/QA/OqcCheck/UploadFile?createdBy=${this.jwt.Username}&reqNo=${this.reqNo}`;
+    // this.isShowUploadFileModal = true;
+    //this.uploadFileApi = `${this.baseUrl}/QA/OqcCheck/UploadFile?createdBy=${this.jwt.Username}&reqNo=${this.reqNo}`;
+    this.isOpenUploadFileModal = true
+    this.remark = null
+    this.cellValueResult = null
   }
 
   getOqcDataFiles(searchParam: any) {
@@ -116,7 +122,7 @@ export class QaOqcEvaluateComponent implements OnInit {
   closeUploadFileModal() {
     this.getOqcDataFiles({ reqNo: this.reqNo });
     this.getRequestInfo({ reqNo: this.reqNo });
-    this.isShowUploadFileModal = false
+    // this.isShowUploadFileModal = false
 
   }
 
@@ -237,6 +243,77 @@ export class QaOqcEvaluateComponent implements OnInit {
 
 
     
+  }
+
+
+
+  isOpenUploadFileModal: boolean = false
+  cellValueResult: any; // kết quả từ file excel up lên
+  remark: any
+  isLoading: boolean = false
+
+
+  // Hàm đọc file Excel khi người dùng chọn
+  onFileUploaded(event: any): void {
+    const file = event.value[0]; // Lấy file đã chọn
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        const binaryString = e.target.result;
+        const wb = XLSX.read(binaryString, { type: 'binary' });
+        const ws = wb.Sheets[wb.SheetNames[0]];
+        const cell = ws['R39'];
+
+        if (cell) {
+          this.cellValueResult = cell.v;
+        } else {
+          this.cellValueResult = 'Không tìm thấy ô R39';
+        }
+
+        console.log('Giá trị ô R39:', this.cellValueResult);
+      };
+      reader.readAsBinaryString(file);
+    }
+  }
+
+  // Upload file kết quả lên server
+  uploadFileResult() {
+
+    let rate = this.systemValidateData?.dateCodeData[0].rate
+    const selectedFile = this.fileUploader.value[0]
+
+    if(!selectedFile) {
+      this.toastr.warning('Cần chọn file','Warning')
+      return
+    }
+
+    if (rate > 20 && this.cellValueResult === 'OK') {
+
+      if(this.remark == null || this.remark == '') {
+        this.toastr.warning('Cần nhập remark (Rate > 20%)','Warning')
+        return
+      }
+    }
+
+
+    this.isLoading = true;
+
+    let requestInfo = {
+      createdBy: this.jwt.Username,
+      reqNo: this.reqNo,
+      remark: this.remark
+    }
+    
+    this.qaOqcSvc.uploadFileResult(selectedFile, requestInfo).subscribe(
+      response => {
+        this.getOqcDataFiles({ reqNo: this.reqNo })
+        this.getRequestInfo({ reqNo: this.reqNo });
+        this.remark = null;
+        this.isOpenUploadFileModal = false
+        this.isLoading = false;
+      }
+    )
+
   }
 
 }

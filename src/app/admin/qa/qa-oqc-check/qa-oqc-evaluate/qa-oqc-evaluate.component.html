@@ -70,9 +70,15 @@
             <label>Cảnh báo</label>
           </td>
           <td>
-            <nz-tag [nzColor]="systemValidateData?.dateCodeData[0].rate > 20 ? '#f50':'#87d068'">
-              {{systemValidateData?.dateCodeData[0].rate > 20 ? 'NG' : 'OK'}}
-              (Rate: {{systemValidateData?.dateCodeData[0].rate}}%)
+            <nz-tag
+              [nzColor]="
+                systemValidateData?.dateCodeData[0].rate > 20
+                  ? '#f50'
+                  : '#87d068'
+              "
+            >
+              {{ systemValidateData?.dateCodeData[0].rate > 20 ? "NG" : "OK" }}
+              (Rate: {{ systemValidateData?.dateCodeData[0].rate }}%)
             </nz-tag>
             <a (click)="isOpenSystemValidate = true">Chi tiết</a>
           </td>
@@ -111,7 +117,7 @@
 <nz-tabset
   [nzType]="'line'"
   (nzSelectedIndexChange)="nzSelectedIndexChange($event)"
-  [nzSelectedIndex]="1"
+  [nzSelectedIndex]="2"
 >
   <!-- <nz-tab nzTitle="Master Data">
     <ng-container *ngTemplateOutlet="masterData"></ng-container>
@@ -127,6 +133,9 @@
   <nz-tab nzTitle="Document">
     <ng-container *ngTemplateOutlet="document"></ng-container>
   </nz-tab>
+  <!-- <nz-tab nzTitle="Hưng Test">
+    <ng-container *ngTemplateOutlet="hungTest"></ng-container>
+  </nz-tab> -->
 </nz-tabset>
 
 <ng-template #masterData>
@@ -288,7 +297,7 @@
     <div nz-col nzXs="12" nzSm="12" nzLg="12"></div>
   </div>
 
-  <nz-modal [(nzVisible)]="isShowUploadFileModal" nzTitle="Upload file">
+  <!-- <nz-modal [(nzVisible)]="isShowUploadFileModal" nzTitle="Upload file">
     <ng-container *nzModalContent>
       <nz-upload [nzAction]="uploadFileApi">
         <button nz-button>
@@ -301,6 +310,59 @@
       <button nz-button nzType="primary" (click)="closeUploadFileModal()">
         Đóng
       </button>
+    </div>
+  </nz-modal> -->
+  <nz-modal [(nzVisible)]="isOpenUploadFileModal" [nzTitle]="'Upload file'">
+    <ng-container *nzModalContent>
+      <nz-table
+        [nzData]="['']"
+        nzSize="small"
+        nzBordered
+        nzFrontPagination="false"
+        class="project-activity"
+      >
+        <tbody>
+          <tr>
+            <td><label>File</label></td>
+            <td colspan="2">
+              <dx-file-uploader
+                #fileUploader
+                [multiple]="false"
+                selectButtonText="Select file"
+                labelText=""
+                accept=".xls, .xlsx, .xlsm"
+                uploadMode="useForm"
+                [inputAttr]="{ 'aria-label': 'Select file' }"
+                (onValueChanged)="onFileUploaded($event)"
+              >
+              </dx-file-uploader>
+            </td>
+          </tr>
+          <tr>
+            <td><label>Remark</label></td>
+            <td>
+              <textarea rows="2" nz-input [(ngModel)]="remark"></textarea>
+              <span style="font-size: 9; font-style: italic;">Lý do cho Pass OQC</span>
+            </td>
+            <td>
+              <span>Result: </span>
+              <nz-tag *ngIf="cellValueResult" [nzColor]="cellValueResult == 'NG' ? '#f50' : '#87d068'">
+                {{ cellValueResult }}
+              </nz-tag>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </ng-container>
+    <div *nzModalFooter>
+      <button
+        nz-button
+        nzType="default"
+        (click)="isOpenUploadFileModal = false"
+      >
+        Đóng
+      </button>
+      <button nz-button nzType="primary" (click)="uploadFileResult()" [nzLoading]="isLoading">Lưu</button>
     </div>
   </nz-modal>
 </ng-template>
@@ -336,6 +398,14 @@
     </dxi-column>
   </dx-data-grid>
 </ng-template>
+
+<!-- <ng-template #hungTest>
+  <button nz-button [nzType]="'primary'" (click)="isOpenUploadFileModal = true">
+    Upload dữ liệu
+  </button>
+
+  
+</ng-template> -->
 
 <!-- Show dữ liệu scan -->
 <nz-modal
@@ -384,12 +454,10 @@
                   </td>
                 </tr>
                 <tr *ngIf="dateCodeTable.data[0].rate > 20">
-                  <td colspan="4" style="color: red;">
-                    <nz-tag
-                      [nzColor]="'red'"
-                      [nzBordered]="false"
-                    >
-                      Cảnh báo: tỷ lệ giữa Qty marking so với Qty scan trên line > 20% =>
+                  <td colspan="4" style="color: red">
+                    <nz-tag [nzColor]="'red'" [nzBordered]="false">
+                      Cảnh báo: tỷ lệ giữa Qty marking so với Qty scan trên line
+                      > 20% =>
                     </nz-tag>
 
                     <nz-tag [nzColor]="'#f50'">NG</nz-tag>
