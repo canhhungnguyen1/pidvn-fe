@@ -34,7 +34,7 @@ export class QaMaterialChecksheetComponent implements OnInit {
   ngOnInit(): void {
     let today = new Date();
     this.searchParams.dateRange = [
-      new Date(today.setDate(today.getDate() - 1)),
+      new Date(today.setDate(today.getDate() - 10)),
       new Date(),
     ];
 
