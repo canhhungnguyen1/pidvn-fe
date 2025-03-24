@@ -66,6 +66,14 @@
         format="yyyy-MM-dd HH:mm:ss"
       ></dxi-column>
 
+      <dxo-summary>
+        <dxi-total-item
+          column="qty"
+          summaryType="sum"
+          valueFormat="#,##0"
+        ></dxi-total-item>
+      </dxo-summary>
+
       <dxo-paging [pageSize]="10"></dxo-paging>
       <dxo-pager
         [showPageSizeSelector]="true"
