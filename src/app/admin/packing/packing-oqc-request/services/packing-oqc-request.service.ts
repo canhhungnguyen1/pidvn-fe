@@ -28,5 +28,10 @@ export class PackingOqcRequestService {
   }
 
 
+  public systemValidate(qaCard: any): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/Packing/OqcRequest/SystemValidate?qaCard=${qaCard}`)
+  }
+
+
 
 }

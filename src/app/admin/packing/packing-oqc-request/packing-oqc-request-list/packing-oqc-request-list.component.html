@@ -191,7 +191,7 @@
   </dxo-pager>
 </dx-data-grid>
 
-<nz-modal [(nzVisible)]="isOpenModal" nzTitle="Tạo request OQC" nzWidth="750px">
+<nz-modal [(nzVisible)]="isOpenModal" nzTitle="Tạo request OQC" nzWidth="100%">
   <ng-container *nzModalContent>
     <div *ngIf="qaCards">
       <nz-table
@@ -204,7 +204,7 @@
         <thead>
           <tr>
             <th>QA Card</th>
-            <th colSpan="4">
+            <th colSpan="3">
               <nz-select
                 style="width: 100%"
                 nzShowSearch
@@ -220,6 +220,10 @@
                 ></nz-option>
               </nz-select>
             </th>
+            <!-- <th>
+              <label>Cảnh báo: </label>
+              <nz-tag [nzColor]="'#f50'">NG</nz-tag>
+            </th> -->
           </tr>
         </thead>
         <tbody>
@@ -248,63 +252,119 @@
         </tbody>
       </nz-table>
 
-      <nz-table
-        id="dateCodeTbl"
-        #dateCodeTbl
-        [nzData]="requestCreate.dateCodes"
-        nzBordered
-        nzSize="small"
-        nzFrontPagination="false"
+      <div
+        nz-row
+        nzJustify="start"
+        nzAlign="top"
+        [nzGutter]="24"
+        style="margin-top: -20px"
       >
-        <thead>
-          <tr>
-            <th>Date Code</th>
-            <th>Customer Code</th>
-            <th>Qty</th>
-            <th>Người tạo</th>
-            <th>Created At</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let data of dateCodeTbl.data">
-            <td>{{ data.dateCode }}</td>
-            <td>{{ data.customerCode }}</td>
-            <td style="text-align: right">
-              {{ data.qty | number : "1.0-3" }}
-            </td>
-            <td>{{ data.employeeName }}</td>
-            <td>{{ data.createdAt | date : "yyyy-MM-dd HH:mm" }}</td>
-          </tr>
-          <tr id="sorting" *ngIf="requestCreate.qaCard">
-            <td colspan="2">
-              <label style="font-weight: bold">Tổng số</label>
-            </td>
-            <td style="text-align: right">
-              <label
-                style="color: green; font-weight: bold"
-                *ngIf="!requestCreate.isSorting"
-                >{{ requestCreate.totalQty | number : "1.0-3" }}</label
-              >
-              <dx-number-box
-                *ngIf="requestCreate.isSorting"
-                id="total-qty"
-                format="#,##0"
-                [(value)]="requestCreate.sortingQty"
-              ></dx-number-box>
-            </td>
-            <td><label style="font-weight: bold">Hàng sorting</label></td>
-            <td>
-              <nz-radio-group
-                [(ngModel)]="requestCreate.isSorting"
-                (ngModelChange)="changeMode($event)"
-              >
-                <label nz-radio [nzValue]="true">Yes</label>
-                <label nz-radio [nzValue]="false">No</label>
-              </nz-radio-group>
-            </td>
-          </tr>
-        </tbody>
-      </nz-table>
+        <div nz-col nzXs="14" nzSm="14" nzLg="14">
+          <label>Thông tin DateCode</label>
+          <nz-table
+            id="dateCodeTbl"
+            #dateCodeTbl
+            [nzData]="requestCreate.dateCodes"
+            nzBordered
+            nzSize="small"
+            nzFrontPagination="false"
+          >
+            <thead>
+              <tr>
+                <th>Date Code</th>
+                <th>Customer Code</th>
+                <th>Qty</th>
+                <th>Người tạo</th>
+                <th>Rate</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of dateCodeTbl.data">
+                <td>{{ data.dateCode }}</td>
+                <td>{{ data.customerCode }}</td>
+                <td style="text-align: right">
+                  {{ data.qty | number : "1.0-3" }}
+                </td>
+                <td>{{ data.employeeName }}</td>
+                <td>
+                  {{
+                    this.systemValidate?.dateCodeRate[0].dateCode ===
+                    data.dateCode
+                      ? this.systemValidate?.dateCodeRate[0].rate + '%'
+                      : ""
+                  }}
+                </td>
+              </tr>
+              <tr id="sorting" *ngIf="requestCreate.qaCard">
+                <td colspan="2">
+                  <label style="font-weight: bold">Tổng số</label>
+                </td>
+                <td style="text-align: right">
+                  <label
+                    style="color: green; font-weight: bold"
+                    *ngIf="!requestCreate.isSorting"
+                    >{{ requestCreate.totalQty | number : "1.0-3" }}</label
+                  >
+                  <dx-number-box
+                    *ngIf="requestCreate.isSorting"
+                    id="total-qty"
+                    format="#,##0"
+                    [(value)]="requestCreate.sortingQty"
+                  ></dx-number-box>
+                </td>
+                <td>
+                  <label style="font-weight: bold">Hàng sorting</label>
+                </td>
+                <td>
+                  <nz-radio-group
+                    [(ngModel)]="requestCreate.isSorting"
+                    (ngModelChange)="changeMode($event)"
+                  >
+                    <label nz-radio [nzValue]="true">Yes</label>
+                    <label nz-radio [nzValue]="false">No</label>
+                  </nz-radio-group>
+                </td>
+              </tr>
+            </tbody>
+          </nz-table>
+        </div>
+        <div nz-col nzXs="10" nzSm="10" nzLg="10">
+          <label>Thông tin NVL</label>
+          <nz-table
+            id="modelScannedTbl"
+            #modelScannedTbl
+            *ngIf="systemValidate"
+            [nzData]="systemValidate.dataScan"
+            nzBordered
+            nzSize="small"
+            nzFrontPagination="false"
+            [nzScroll]="{ y: '250px' }"
+          >
+            <thead>
+              <tr>
+                <th>Part</th>
+                <th>Qty (Scan vào line)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of modelScannedTbl.data">
+                <td>{{ data.model }}</td>
+                <td>
+                  <!-- {{data.scanQty === null ? 'Chưa scan NVL' : data.scanQty | number : "1.0-3"}} -->
+
+                  <nz-tag
+                    *ngIf="!data.scanQty"
+                    [nzColor]="'red'"
+                    [nzBordered]="false"
+                    >Không sử dụng hoặc chưa scan NVL</nz-tag
+                  >
+                  {{ data.scanQty | number : "1.0-3" }}
+                </td>
+              </tr>
+            </tbody>
+          </nz-table>
+        </div>
+      </div>
     </div>
     <hr />
     <nz-table

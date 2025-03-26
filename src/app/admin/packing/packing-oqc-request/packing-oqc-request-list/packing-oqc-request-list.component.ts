@@ -25,8 +25,11 @@ export class PackingOqcRequestListComponent implements OnInit {
 
   searchParams = {
     requestStatusList: [],
-    requestDateRange: [new Date().setDate(new Date().getDate()-7), new Date()]
-  }
+    requestDateRange: [
+      new Date().setDate(new Date().getDate() - 7),
+      new Date(),
+    ],
+  };
 
   oqcRequests: any;
   qaCards: any;
@@ -46,7 +49,6 @@ export class PackingOqcRequestListComponent implements OnInit {
   isSorting: string = 'NO';
   remark: any;
 
-
   // Version 2
   requestCreate: any = {
     qaCard: null,
@@ -56,8 +58,8 @@ export class PackingOqcRequestListComponent implements OnInit {
     isSorting: false,
     sortingQty: 0,
     priority: 2,
-    remark: null
-  }
+    remark: null,
+  };
 
   requestUpdate: any;
 
@@ -69,7 +71,6 @@ export class PackingOqcRequestListComponent implements OnInit {
     this.qaOqcSvc.getOqcRequests(searchVo).subscribe((response) => {
       this.oqcRequests = response;
       console.log('Request list: ', this.oqcRequests);
-      
     });
   }
 
@@ -84,58 +85,69 @@ export class PackingOqcRequestListComponent implements OnInit {
     this.priority = 2;
   }
 
+
   createOqcRequest() {
-
-    
-
+    debugger
     // Kiểm tra trường hợp chưa nhập DateCode
     if (!this.requestCreate.totalQty) {
       this.toastr.warning('Relay chưa nhập Date Code', 'Warning');
       return;
     }
 
+
+    // Validate tỷ lệ số lượng lớn hơn 20%
+
+    if (this.systemValidate.dateCodeRate[0].rate > 20) {
+      this.errorCreateRequestMsg = `Tỷ lệ Qty của ${this.systemValidate.dateCodeRate[0].dateCode} so với Qty thực tế scan lớn hơn 20% (Cần kiểm tra NVL đã scan đủ chưa)`
+      return
+    }
+
+    
+
+
+
     // Trường hợp sorting thì cần nhập số lượng
     if (this.requestCreate.isSorting) {
-      
-      if ( this.requestCreate.sortingQty <= 0) {
+      if (this.requestCreate.sortingQty <= 0) {
         this.toastr.warning('Cần nhập Qty sau sorting', 'Warning');
         return;
       }
-      if ( this.requestCreate.sortingQty > this.requestCreate.totalQty) {
-        this.toastr.warning(`Qty không được vượt quá ${this.requestCreate.totalQty}`, 'Warning');
+      if (this.requestCreate.sortingQty > this.requestCreate.totalQty) {
+        this.toastr.warning(
+          `Qty không được vượt quá ${this.requestCreate.totalQty}`,
+          'Warning'
+        );
         return;
       }
     }
 
+    (this.requestCreate.createdBy = this.jwtHelperSvc.decodeToken(
+      localStorage.getItem('accessToken')?.toString()
+    ).Username),
+      console.log('DATA PUSH: ', this.requestCreate);
 
-    this.requestCreate.createdBy = this.jwtHelperSvc.decodeToken(
-          localStorage.getItem('accessToken')?.toString()
-        ).Username,
+    this.packingOqcRequestSvc
+      .createOqcRequest(this.requestCreate)
+      .subscribe((response) => {
+        console.log(response);
 
-    console.log('DATA PUSH: ', this.requestCreate);
-    
+        if (response.status == 'ERROR') {
+          this.errorCreateRequestMsg = response.messages;
 
-    this.packingOqcRequestSvc.createOqcRequest(this.requestCreate).subscribe((response) => {
-      console.log(response);
+          return;
+        }
 
-      if (response.status == 'ERROR') {
-        this.errorCreateRequestMsg = response.messages;
-
-        return;
-      }
-
-      // TODO
-      this.getOqcRequests(this.searchParams);
-      this.handleCancel();
-      this.requestCreate.sortingQty = 0;
-      this.requestCreate.remark = null;
-      this.requestCreate.isSorting = 'NO';
-      this.toastr.success('Thành công', 'Success');
-    });
+        // TODO
+        this.getOqcRequests(this.searchParams);
+        this.handleCancel();
+        this.requestCreate.sortingQty = 0;
+        this.requestCreate.remark = null;
+        this.requestCreate.isSorting = 'NO';
+        this.toastr.success('Thành công', 'Success');
+      });
   }
 
   openModal() {
-    
     this.getQaCards();
 
     this.requestCreate.qaCard = null;
@@ -146,7 +158,8 @@ export class PackingOqcRequestListComponent implements OnInit {
     this.requestCreate.sortingQty = 0;
     this.requestCreate.priority = 2;
     this.requestCreate.remark = null;
-    
+    this.systemValidate = {}
+
     this.isOpenModal = true;
   }
 
@@ -156,12 +169,31 @@ export class PackingOqcRequestListComponent implements OnInit {
     this.getDateCodes(event);
   }
 
-  getDateCodes(qaCard: string | null) {
-    this.reDateCodeSvc.getDateCodes(qaCard).subscribe((response) => {
-      this.requestCreate.dateCodes = response;
+  systemValidate: any = {}
 
+  getDateCodes(qaCard: string | null) {
+    // this.reDateCodeSvc.getDateCodes(qaCard).subscribe((response) => {
+    //   this.requestCreate.dateCodes = response;
+
+    //   console.log('dateCodes: ', this.requestCreate.dateCodes);
+
+    //   let totalQty = 0;
+
+    //   this.requestCreate.dateCodes.forEach((element: any) => {
+    //     totalQty += element.qty;
+    //   });
+
+    //   this.requestCreate.totalQty = totalQty;
+    // });
+
+    
+
+    this.packingOqcRequestSvc.systemValidate(qaCard).subscribe((response) => {
+      this.requestCreate.dateCodes = response.dateCodes;
+
+      this.systemValidate.dateCodeRate = response.dateCodeRate
+      this.systemValidate.dataScan = response.dataScan
       console.log('dateCodes: ', this.requestCreate.dateCodes);
-      
 
       let totalQty = 0;
 
@@ -196,61 +228,53 @@ export class PackingOqcRequestListComponent implements OnInit {
 
   changeMode(event: any) {
     console.log(event);
-    
+
     // this.requestCreate.isSorting = event == 'YES' ? true : false;
   }
 
   onExportClient(event: any) {}
 
-
   openDetailModal(item: any) {
     console.log('Item: ', item.data);
 
-    this.requestUpdate =  {...item.data}
+    this.requestUpdate = { ...item.data };
 
-    this.isOpenDetailModal = true
-    
+    this.isOpenDetailModal = true;
   }
 
-
   closeDetailModal() {
-    this.isOpenDetailModal = false
+    this.isOpenDetailModal = false;
   }
 
   updateOqcRequest() {
     console.log('Item Update: ', this.requestUpdate);
 
-
-    if (this.requestUpdate.sortingQty > this.requestUpdate.qty ) {
-      this.toastr.warning(`SL sau Sorting không được vượt quá ${this.requestUpdate.qty}`,'Warning')
-      return
+    if (this.requestUpdate.sortingQty > this.requestUpdate.qty) {
+      this.toastr.warning(
+        `SL sau Sorting không được vượt quá ${this.requestUpdate.qty}`,
+        'Warning'
+      );
+      return;
     }
 
     // TODO
 
-    this.packingOqcRequestSvc.updateOqcRequest(this.requestUpdate).subscribe(
-      response => {
+    this.packingOqcRequestSvc
+      .updateOqcRequest(this.requestUpdate)
+      .subscribe((response) => {
         console.log('OqcRequestUpdate: ', response);
-        
-        this.toastr.success('Update thành công !', 'Success')
-        this.getOqcRequests(this.searchParams)
-        this.isOpenDetailModal = false
-      }
-    )
+
+        this.toastr.success('Update thành công !', 'Success');
+        this.getOqcRequests(this.searchParams);
+        this.isOpenDetailModal = false;
+      });
   }
 
   onSearch() {
     console.log('searchParams: ', this.searchParams);
-    
-    this.qaOqcSvc.getOqcRequests(this.searchParams).subscribe(
-      response => {
-        this.oqcRequests = response
-      }
-    ); 
 
-
-
-
-
+    this.qaOqcSvc.getOqcRequests(this.searchParams).subscribe((response) => {
+      this.oqcRequests = response;
+    });
   }
 }
