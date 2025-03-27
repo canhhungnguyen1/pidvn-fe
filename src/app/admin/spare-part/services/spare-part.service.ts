@@ -21,8 +21,18 @@ export class SparePartService {
     return this.httpClient.get(`${this.baseUrl}/SparePart/SpareParts`);
   }
 
-  getSparePartsivt(): Observable<any> {
-    return this.httpClient.get(`${this.baseUrl}/SparePart/SparePartsivt`);
+  getSparePartsivt(scannedCode: any): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/SparePart/SparePartsivt?code=${scannedCode}`, scannedCode);
+  }
+
+
+  getSparePartsivthis(): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/SparePart/SparePartsivthis`);
+  }
+
+
+  getSparePartsivtDetail(ivtNo: any): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/SparePart/SparePartsivtdetail?ivtNo=${ivtNo}`, ivtNo);
   }
 
   saveSparePart(sparePart: any): Observable<any> {

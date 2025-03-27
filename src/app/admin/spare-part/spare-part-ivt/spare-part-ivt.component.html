@@ -1,13 +1,26 @@
-<div>Bảng Kiểm Kê Hàng Spare Part</div>
-<input
-  nz-input
-  [(ngModel)]="scannedCode"
-  autofocus
-  placeholder="Scan Material Code"
-  type="text"
-  (keydown.enter)="onEnter($event)"
-  style="width: 30%"
-/>
+<div style="" class="tooljig_title">Bảng kiểm kê Kho ToolJig</div>
+<div class = "ivt_home">
+  <div class="ivt_back" style="color: #40A9FF; font-size: 16px; font-weight: 500;"   (click)="back_to_ivt()" >Back</div>
+  <div class="ivt_inventory" style="font-size: 16px; font-weight: 500;">/Inventory</div>
+</div>
+<div class="tooljig_input">
+  <input
+    class="toojig_input_code"
+    nz-input
+    [(ngModel)]="scannedCode"
+    autofocus
+    placeholder="Scan Material Code"
+    type="text"
+    (keydown.enter)="onEnter($event)"
+  />
+
+  <div class="tooljig_input_no">
+    <div class="ivt_code_name" style="color: brown; font-size: 15; font-weight: 600;">
+      Inventory Code: 
+    </div>
+  {{tooljig_no}}
+  </div>
+</div>
 
 <div id="data-grid-demo">
   <dx-data-grid
@@ -51,7 +64,7 @@
 
     <!-- Cột Số Lượng Thực Tế cho phép chỉnh sửa -->
     <dxi-column
-      dataField="default"
+      dataField="current"
       caption="Thực Tế"
       dataType="number"
     ></dxi-column>
@@ -63,32 +76,27 @@
       cellTemplate="chenhlechTemplate"
     >
     </dxi-column>
-    <div
-      *dxTemplate="let item of 'chenhlechTemplate'"
-    >
+    <div *dxTemplate="let item of 'chenhlechTemplate'">
       <span
         [class]="
-          item.data.subtraction < 0
+          item.data.ivt_dif < 0
             ? 'red-color'
-            : item.data.subtraction > 0
+            : item.data.ivt_dif > 0
             ? 'green-color'
             : 'blue-color'
         "
         style="font-weight: bold"
       >
-        {{ item.data.subtraction }}
+        {{ item.data.ivt_dif }}
       </span>
     </div>
 
     <dxi-column dataField="date" dataType="date" caption="Ngày"></dxi-column>
   </dx-data-grid>
-
-
 </div>
-
-<button nz-button nzType="primary" (click)="Save_data()">
-  <span nz-icon nzType="save" style="color: white" ></span>
-  Save
-</button>
-
-
+<div class="tooljig_btn_save">
+  <button nz-button nzType="primary" (click)="confirm()">
+    <span nz-icon nzType="save" style="color: white"></span>
+    Save
+  </button>
+</div>
