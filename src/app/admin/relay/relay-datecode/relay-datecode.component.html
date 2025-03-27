@@ -16,7 +16,6 @@
               <th><label style="color: black">QA Card</label></th>
               <th colSpan="2">
                 <nz-select
-                  ngModel="lucy"
                   nzShowSearch
                   nzAllowClear
                   [(ngModel)]="qaCard"
@@ -57,7 +56,13 @@
       </div>
       <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="2"></div>
     </div>
-    <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
+    <div
+      nz-row
+      nzJustify="start"
+      nzAlign="middle"
+      [nzGutter]="24"
+      style="margin-top: -15px"
+    >
       <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="2"></div>
       <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="20">
         <nz-table
@@ -67,6 +72,7 @@
           nzBordered
           nzSize="small"
           nzFrontPagination="false"
+          [nzLoading]="isLoadingTbl"
         >
           <thead>
             <tr>
@@ -111,6 +117,89 @@
             </tr>
           </tbody>
         </nz-table>
+      </div>
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="2"></div>
+    </div>
+
+    <div
+      nz-row
+      nzJustify="start"
+      nzAlign="middle"
+      [nzGutter]="24"
+      style="margin-top: -10px"
+    >
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="2"></div>
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="20">
+        <!-- <nz-table
+          id="dateCodeTbl"
+          #materialTbl
+          [nzData]="materialScanned"
+          nzBordered
+          nzSize="small"
+          nzFrontPagination="false"
+        >
+          <thead>
+            <tr>
+              <th style="font-weight: bold">Part No</th>
+              <th style="font-weight: bold">Qty (Kho trung chuyển)</th>
+              <th style="font-weight: bold">Qty (Scan vào line)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of materialTbl.data">
+              <td>{{ data.model }}</td>
+              <td>{{ data.receiveQty | number : "1.0-3" }}</td>
+              <td>
+                <nz-tag
+                    *ngIf="!data.scanQty"
+                    [nzColor]="'red'"
+                    [nzBordered]="false"
+                    >Không sử dụng hoặc chưa scan NVL</nz-tag
+                  >
+                  {{ data.scanQty | number : "1.0-3" }}
+              </td>
+            </tr>
+          </tbody>
+        </nz-table> -->
+
+        <dx-data-grid
+          keyExpr="model"
+          #materialTbl
+          [dataSource]="materialScanned"
+          [showColumnLines]="true"
+          [showRowLines]="true"
+          [showBorders]="true"
+          [allowColumnResizing]="true"
+          [columnAutoWidth]="true"
+          [rowAlternationEnabled]="true"
+          (onCellPrepared)="onCellPreparedMaterialTbl($event)"
+        >
+          <dxi-column
+            dataField="model"
+            caption="Part No"
+            alignment="left"
+          ></dxi-column>
+          <dxi-column
+            dataField="receiveQty"
+            caption="Qty (Kho trung chuyển)"
+            alignment="right"
+            dataType="number"
+            format="#,##0"
+          ></dxi-column>
+          <dxi-column
+            caption="Qty (Scan vào line)"
+            cellTemplate="scanQtyTemplate"
+          ></dxi-column>
+          <div
+            *dxTemplate="let item of 'scanQtyTemplate'"
+            style="text-align: right"
+          >
+            <nz-tag *ngIf="!item.data.scanQty" [nzColor]="'red'" [nzBordered]="false"
+              >Không sử dụng hoặc chưa scan NVL</nz-tag
+            >
+            {{ item.data.scanQty | number : "1.0-3" }}
+          </div>
+        </dx-data-grid>
       </div>
       <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="2"></div>
     </div>
@@ -189,7 +278,11 @@
                     <label>Remark</label>
                   </td>
                   <td>
-                    <input nz-input placeholder="Ghi chú" [(ngModel)]="dateCodeSave.remark" />
+                    <input
+                      nz-input
+                      placeholder="Ghi chú"
+                      [(ngModel)]="dateCodeSave.remark"
+                    />
                   </td>
                 </tr>
               </tbody>
@@ -246,7 +339,6 @@
         caption="Created At"
         format="yyyy-MM-dd HH:mm"
       ></dxi-column>
-
 
       <dxo-paging [pageSize]="10"></dxo-paging>
       <dxo-pager

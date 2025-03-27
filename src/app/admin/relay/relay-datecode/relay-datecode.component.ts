@@ -12,6 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Workbook } from 'exceljs';
 import { exportDataGrid } from 'devextreme/excel_exporter';
 import * as saveAs from 'file-saver';
+import { DxDataGridComponent } from 'devextreme-angular';
 
 @Component({
   selector: 'app-relay-datecode',
@@ -22,6 +23,8 @@ export class RelayDatecodeComponent implements OnInit, AfterViewInit {
   // @ViewChild('infoIpt') infoIpt!: ElementRef;
   @ViewChild('dateCodeIpt') dateCodeIpt!: ElementRef;
   @ViewChild('qtyIpt') qtyIpt!: ElementRef;
+  @ViewChild(DxDataGridComponent, { static: false })
+  materialTbl!: DxDataGridComponent;
 
   constructor(
     private reDateCodeSvc: RelayDateCodeService,
@@ -58,7 +61,7 @@ export class RelayDatecodeComponent implements OnInit, AfterViewInit {
     shift: null,
     customerCode: null,
     recordType: null,
-    remark: null
+    remark: null,
   };
 
   area: any;
@@ -77,6 +80,7 @@ export class RelayDatecodeComponent implements OnInit, AfterViewInit {
   }
 
   dataSanXuat: any;
+  materialScanned: any;
 
   getAllDateCode() {
     this.reDateCodeSvc.getAllDateCode().subscribe((response) => {
@@ -89,6 +93,7 @@ export class RelayDatecodeComponent implements OnInit, AfterViewInit {
     console.log('AAA : ', event);
   }
 
+  isLoadingTbl: boolean = false
   /**
    * Scan QA card, lấy dữ liệu DateCode và Customer Code
    * @param event
@@ -112,11 +117,22 @@ export class RelayDatecodeComponent implements OnInit, AfterViewInit {
 
     this.getDateCodes(data);
     this.getCustomerCodeByQACard(data);
+    this.getMaterialScanned(data);
   }
 
   getDateCodes(qaCard: string | null) {
+    this.isLoadingTbl = true
     this.reDateCodeSvc.getDateCodes(qaCard).subscribe((response) => {
       this.dateCodes = response;
+      this.isLoadingTbl = false
+    });
+  }
+
+  getMaterialScanned(qaCard: string) {
+    this.materialTbl?.instance.beginCustomLoading(`Đang load dữ liệu ...`);
+    this.reDateCodeSvc.getMaterialScanned(qaCard).subscribe((response) => {
+      this.materialScanned = response;
+      this.materialTbl?.instance.endCustomLoading();
     });
   }
 
@@ -137,8 +153,6 @@ export class RelayDatecodeComponent implements OnInit, AfterViewInit {
   }
 
   onSave() {
-  
-
     if (!this.dateCodeSave.dateCode || !this.dateCodeSave.qty) {
       this.toastr.warning('Cần nhập DateCode; Qty', 'Warning');
       return;
@@ -162,8 +176,7 @@ export class RelayDatecodeComponent implements OnInit, AfterViewInit {
     this.dateCodeSave.line = this.qaCardInfo.line;
     this.dateCodeSave.shift = this.qaCardInfo.shift;
     this.dateCodeSave.date = new Date(this.qaCardInfo.date);
-    this.dateCodeSave.recordType = this.area
-
+    this.dateCodeSave.recordType = this.area;
 
     this.reDateCodeSvc.createDateCode(this.dateCodeSave).subscribe(
       (response) => {
@@ -180,35 +193,28 @@ export class RelayDatecodeComponent implements OnInit, AfterViewInit {
     );
   }
 
-  private isValidInputDateCode(area: string) : any {
-
-    debugger
+  private isValidInputDateCode(area: string): any {
+    debugger;
 
     if (area === 'RELAY') {
-      const regex = /[0-9](0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1])[A-Z][0-9]/;
+      const regex =
+        /[0-9](0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1])[A-Z][0-9]/;
       if (!regex.test(this.dateCodeSave.dateCode!)) {
-
         let result = {
           isValid: false,
-          msg: 'Date Code không đúng định dạng'
-        }
+          msg: 'Date Code không đúng định dạng',
+        };
         return result;
       }
     }
 
     if (area === 'VR-ENC') {
-      
     }
-
-
-
-
-
 
     let result = {
       isValid: true,
-      msg: 'Date Code hợp lệ'
-    }
+      msg: 'Date Code hợp lệ',
+    };
     return result;
   }
 
@@ -232,17 +238,19 @@ export class RelayDatecodeComponent implements OnInit, AfterViewInit {
   }
 
   onExportClient(event: any) {
-    const workbook = new Workbook();    
-        const worksheet = workbook.addWorksheet('Main sheet');
-        exportDataGrid({
-            component: event.component,
-            worksheet: worksheet
-        }).then(function() {
-            workbook.xlsx.writeBuffer()
-                .then(function(buffer: BlobPart) {
-                    saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'M4M8-History.xlsx');
-                });
-        });
+    const workbook = new Workbook();
+    const worksheet = workbook.addWorksheet('Main sheet');
+    exportDataGrid({
+      component: event.component,
+      worksheet: worksheet,
+    }).then(function () {
+      workbook.xlsx.writeBuffer().then(function (buffer: BlobPart) {
+        saveAs(
+          new Blob([buffer], { type: 'application/octet-stream' }),
+          'M4M8-History.xlsx'
+        );
+      });
+    });
   }
 
   addDateCode() {
@@ -267,5 +275,13 @@ export class RelayDatecodeComponent implements OnInit, AfterViewInit {
     this.reDateCodeSvc.getQACards().subscribe((response) => {
       this.qaCards = response;
     });
+  }
+
+  onCellPreparedMaterialTbl(e: any) {
+    if (e.rowType === 'header') {
+      e.cellElement.style.backgroundColor = '#fafafa'; // Change background color
+      e.cellElement.style.color = '#000000'; // Change text color for better visibility
+      e.cellElement.style.fontWeight = 'bold';
+    }
   }
 }
