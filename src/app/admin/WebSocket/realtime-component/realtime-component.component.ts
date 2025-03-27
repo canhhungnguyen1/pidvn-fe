@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { WebsocketService } from '../service/realtime.service';
+// import { WebsocketService } from '../service/realtime.service';
 
 
 @Component({
@@ -10,12 +10,12 @@ import { WebsocketService } from '../service/realtime.service';
 export class RealtimeComponentComponent {
   message: string = '';
 
-  constructor(private websocketService: WebsocketService) {
+  // constructor(private websocketService: WebsocketService) {
     
-  }
+  // }
 
-  sendMessage() {
-    this.websocketService.sendMessage(this.message);
-    this.message = '';
-  }
+  // sendMessage() {
+  //   this.websocketService.sendMessage(this.message);
+  //   this.message = '';
+  // }
 }
