@@ -35,6 +35,8 @@ import { SparePartPrintQrComponent } from './spare-part-print-qr/spare-part-prin
 import { SparePartReportsComponent } from './spare-part-reports/spare-part-reports.component';
 import { SparePartRequestsComponent } from './spare-part-requests/spare-part-requests.component';
 import { SparePartIvtComponent } from './spare-part-ivt/spare-part-ivt.component';
+import { SparePartIvtHisComponent } from './spare-part-ivt-his/spare-part-ivt-his.component';
+import { SparePartIvtDetailComponent } from './spare-part-ivt-detail/spare-part-ivt-detail.component';
 
 @NgModule({
   declarations: [
@@ -46,8 +48,10 @@ import { SparePartIvtComponent } from './spare-part-ivt/spare-part-ivt.component
     SparePartIvtReqDetailComponent,
     SparePartReportsComponent,
     SparePartIvtComponent,
+    SparePartIvtHisComponent,
     SparePartPrintQrComponent,
-    SparePartRequestsComponent
+    SparePartRequestsComponent,
+    SparePartIvtDetailComponent
   ],
   imports: [
     CommonModule,
@@ -77,7 +81,8 @@ import { SparePartIvtComponent } from './spare-part-ivt/spare-part-ivt.component
     NgxPrintModule,
     DxTextBoxModule,
     DxSelectBoxModule,
-    NzCollapseModule
+    NzCollapseModule,
+    DxDataGridModule,
   ],
 })
 export class SparePartModule {}
