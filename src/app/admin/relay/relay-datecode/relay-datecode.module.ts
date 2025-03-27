@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { RelayDatecodeRoutingModule } from './relay-datecode-routing.module';
-import {  RelayDatecodeComponent } from './relay-datecode.component';
+import { RelayDatecodeComponent } from './relay-datecode.component';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzGridModule } from 'ng-zorro-antd/grid';
@@ -14,11 +14,10 @@ import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { DxDataGridModule } from 'devextreme-angular';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 
 @NgModule({
-  declarations: [
-    RelayDatecodeComponent
-  ],
+  declarations: [RelayDatecodeComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -32,7 +31,8 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
     NzPopconfirmModule,
     NzInputModule,
     NzTabsModule,
-    NzSelectModule
-  ]
+    NzSelectModule,
+    NzTagModule
+  ],
 })
-export class RelayDatecodeModule { }
+export class RelayDatecodeModule {}

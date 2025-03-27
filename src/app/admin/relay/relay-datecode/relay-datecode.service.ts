@@ -39,4 +39,9 @@ export class RelayDateCodeService {
   public getQACardByValue(qaCard: string): Observable<any> {
     return this.httpClient.get(`${this.baseUrl}/Relay/DateCodeMng/QACard?qaCard=${qaCard}`)
   }
+
+  public getMaterialScanned(qaCard: string): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/Relay/DateCodeMng/MaterialScanned?qaCard=${qaCard}`)
+  }
+  
 }

@@ -97,10 +97,12 @@ export class PackingOqcRequestListComponent implements OnInit {
 
     // Validate tỷ lệ số lượng lớn hơn 20%
 
+    /*
     if (this.systemValidate.dateCodeRate[0].rate > 20) {
       this.errorCreateRequestMsg = `Tỷ lệ Qty của ${this.systemValidate.dateCodeRate[0].dateCode} so với Qty thực tế scan lớn hơn 20% (Cần kiểm tra NVL đã scan đủ chưa)`
       return
     }
+    */
 
     
 
