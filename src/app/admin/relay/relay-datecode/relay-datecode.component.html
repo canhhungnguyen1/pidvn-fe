@@ -127,41 +127,10 @@
       nzAlign="middle"
       [nzGutter]="24"
       style="margin-top: -10px"
+      *ngIf="area == 'RELAY'"
     >
       <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="2"></div>
       <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="20">
-        <!-- <nz-table
-          id="dateCodeTbl"
-          #materialTbl
-          [nzData]="materialScanned"
-          nzBordered
-          nzSize="small"
-          nzFrontPagination="false"
-        >
-          <thead>
-            <tr>
-              <th style="font-weight: bold">Part No</th>
-              <th style="font-weight: bold">Qty (Kho trung chuyển)</th>
-              <th style="font-weight: bold">Qty (Scan vào line)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let data of materialTbl.data">
-              <td>{{ data.model }}</td>
-              <td>{{ data.receiveQty | number : "1.0-3" }}</td>
-              <td>
-                <nz-tag
-                    *ngIf="!data.scanQty"
-                    [nzColor]="'red'"
-                    [nzBordered]="false"
-                    >Không sử dụng hoặc chưa scan NVL</nz-tag
-                  >
-                  {{ data.scanQty | number : "1.0-3" }}
-              </td>
-            </tr>
-          </tbody>
-        </nz-table> -->
-
         <dx-data-grid
           keyExpr="model"
           #materialTbl
@@ -187,6 +156,7 @@
             format="#,##0"
           ></dxi-column>
           <dxi-column
+            dataField="scanQty"
             caption="Qty (Scan vào line)"
             cellTemplate="scanQtyTemplate"
           ></dxi-column>
@@ -199,6 +169,23 @@
             >
             {{ item.data.scanQty | number : "1.0-3" }}
           </div>
+
+          <dxo-summary>
+            <dxi-total-item
+              column="receiveQty"
+              summaryType="sum"
+              valueFormat="#,##0"
+              displayFormat="Tổng: {0}"
+            ></dxi-total-item>
+      
+            <dxi-total-item
+              column="scanQty"
+              summaryType="sum"
+              valueFormat="#,##0"
+              displayFormat="Tổng: {0}"
+            ></dxi-total-item>
+          </dxo-summary>
+
         </dx-data-grid>
       </div>
       <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="2"></div>
