@@ -160,7 +160,7 @@ export class PackingOqcRequestListComponent implements OnInit {
     this.requestCreate.sortingQty = 0;
     this.requestCreate.priority = 2;
     this.requestCreate.remark = null;
-    this.systemValidate = {}
+    // this.systemValidate = {}
 
     this.isOpenModal = true;
   }
@@ -171,7 +171,7 @@ export class PackingOqcRequestListComponent implements OnInit {
     this.getDateCodes(event);
   }
 
-  systemValidate: any = {}
+  // systemValidate: any = {}
 
   getDateCodes(qaCard: string | null) {
     // this.reDateCodeSvc.getDateCodes(qaCard).subscribe((response) => {
@@ -193,8 +193,8 @@ export class PackingOqcRequestListComponent implements OnInit {
     this.packingOqcRequestSvc.systemValidate(qaCard).subscribe((response) => {
       this.requestCreate.dateCodes = response.dateCodes;
 
-      this.systemValidate.dateCodeRate = response.dateCodeRate
-      this.systemValidate.dataScan = response.dataScan
+      // this.systemValidate.dateCodeRate = response.dateCodeRate
+      // this.systemValidate.dataScan = response.dataScan
       console.log('dateCodes: ', this.requestCreate.dateCodes);
 
       let totalQty = 0;

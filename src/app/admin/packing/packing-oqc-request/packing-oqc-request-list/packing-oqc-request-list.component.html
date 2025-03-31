@@ -259,8 +259,7 @@
         [nzGutter]="24"
         style="margin-top: -20px"
       >
-        <div nz-col nzXs="14" nzSm="14" nzLg="14">
-          <label>Thông tin DateCode</label>
+        <div nz-col nzXs="24" nzSm="24" nzLg="24">
           <nz-table
             id="dateCodeTbl"
             #dateCodeTbl
@@ -275,7 +274,6 @@
                 <th>Customer Code</th>
                 <th>Qty</th>
                 <th>Người tạo</th>
-                <th>Rate</th>
               </tr>
             </thead>
             <tbody>
@@ -286,14 +284,6 @@
                   {{ data.qty | number : "1.0-3" }}
                 </td>
                 <td>{{ data.employeeName }}</td>
-                <td>
-                  {{
-                    this.systemValidate?.dateCodeRate[0].dateCode ===
-                    data.dateCode
-                      ? this.systemValidate?.dateCodeRate[0].rate + '%'
-                      : ""
-                  }}
-                </td>
               </tr>
               <tr id="sorting" *ngIf="requestCreate.qaCard">
                 <td colspan="2">
@@ -323,42 +313,6 @@
                     <label nz-radio [nzValue]="true">Yes</label>
                     <label nz-radio [nzValue]="false">No</label>
                   </nz-radio-group>
-                </td>
-              </tr>
-            </tbody>
-          </nz-table>
-        </div>
-        <div nz-col nzXs="10" nzSm="10" nzLg="10">
-          <label>Thông tin NVL</label>
-          <nz-table
-            id="modelScannedTbl"
-            #modelScannedTbl
-            *ngIf="systemValidate"
-            [nzData]="systemValidate.dataScan"
-            nzBordered
-            nzSize="small"
-            nzFrontPagination="false"
-            [nzScroll]="{ y: '250px' }"
-          >
-            <thead>
-              <tr>
-                <th>Part</th>
-                <th>Qty (Scan vào line)</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let data of modelScannedTbl.data">
-                <td>{{ data.model }}</td>
-                <td>
-                  <!-- {{data.scanQty === null ? 'Chưa scan NVL' : data.scanQty | number : "1.0-3"}} -->
-
-                  <nz-tag
-                    *ngIf="!data.scanQty"
-                    [nzColor]="'red'"
-                    [nzBordered]="false"
-                    >Không sử dụng hoặc chưa scan NVL</nz-tag
-                  >
-                  {{ data.scanQty | number : "1.0-3" }}
                 </td>
               </tr>
             </tbody>
