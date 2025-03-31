@@ -174,27 +174,9 @@ export class PackingOqcRequestListComponent implements OnInit {
   // systemValidate: any = {}
 
   getDateCodes(qaCard: string | null) {
-    // this.reDateCodeSvc.getDateCodes(qaCard).subscribe((response) => {
-    //   this.requestCreate.dateCodes = response;
+    this.reDateCodeSvc.getDateCodes(qaCard).subscribe((response) => {
+      this.requestCreate.dateCodes = response;
 
-    //   console.log('dateCodes: ', this.requestCreate.dateCodes);
-
-    //   let totalQty = 0;
-
-    //   this.requestCreate.dateCodes.forEach((element: any) => {
-    //     totalQty += element.qty;
-    //   });
-
-    //   this.requestCreate.totalQty = totalQty;
-    // });
-
-    
-
-    this.packingOqcRequestSvc.systemValidate(qaCard).subscribe((response) => {
-      this.requestCreate.dateCodes = response.dateCodes;
-
-      // this.systemValidate.dateCodeRate = response.dateCodeRate
-      // this.systemValidate.dataScan = response.dataScan
       console.log('dateCodes: ', this.requestCreate.dateCodes);
 
       let totalQty = 0;
@@ -205,6 +187,24 @@ export class PackingOqcRequestListComponent implements OnInit {
 
       this.requestCreate.totalQty = totalQty;
     });
+
+    
+
+    // this.packingOqcRequestSvc.systemValidate(qaCard).subscribe((response) => {
+    //   this.requestCreate.dateCodes = response.dateCodes;
+
+    //   this.systemValidate.dateCodeRate = response.dateCodeRate
+    //   this.systemValidate.dataScan = response.dataScan
+    //   console.log('dateCodes: ', this.requestCreate.dateCodes);
+
+    //   let totalQty = 0;
+
+    //   this.requestCreate.dateCodes.forEach((element: any) => {
+    //     totalQty += element.qty;
+    //   });
+
+    //   this.requestCreate.totalQty = totalQty;
+    // });
   }
 
   getQaCards() {

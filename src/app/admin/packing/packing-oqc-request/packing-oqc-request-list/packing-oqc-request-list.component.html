@@ -274,6 +274,7 @@
                 <th>Customer Code</th>
                 <th>Qty</th>
                 <th>Người tạo</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -284,6 +285,7 @@
                   {{ data.qty | number : "1.0-3" }}
                 </td>
                 <td>{{ data.employeeName }}</td>
+                <td></td>
               </tr>
               <tr id="sorting" *ngIf="requestCreate.qaCard">
                 <td colspan="2">
