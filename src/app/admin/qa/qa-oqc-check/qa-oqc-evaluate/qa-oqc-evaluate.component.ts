@@ -50,8 +50,8 @@ export class QaOqcEvaluateComponent implements OnInit {
   documents: any;
   documentsPE: any;
 
-  isOpenSystemValidate: boolean = false; // hiển thị modal show dữ liệu scan
-  systemValidateData: any
+  // isOpenSystemValidate: boolean = false; // hiển thị modal show dữ liệu scan
+  // systemValidateData: any
 
   ngOnInit(): void {
     this.reqNo = this.activatedRoute.snapshot.queryParams['reqNo'];
@@ -66,17 +66,17 @@ export class QaOqcEvaluateComponent implements OnInit {
 
     this.getDocumentsPE(this.qaCard.split('*')[0]);
 
-    this.systemValidate(this.qaCard);
+    // this.systemValidate(this.qaCard);
     
   }
 
-  systemValidate(qaCard: string) {
-    this.qaOqcSvc.systemValidate(qaCard).subscribe(
-      response => {
-        this.systemValidateData = response
-      }
-    )
-  }
+  // systemValidate(qaCard: string) {
+  //   this.qaOqcSvc.systemValidate(qaCard).subscribe(
+  //     response => {
+  //       this.systemValidateData = response
+  //     }
+  //   )
+  // }
 
   getOqcMasterData(reqNo: any, qaCard: any) {
     this.qaOqcSvc.getOqcMasterData(reqNo, qaCard).subscribe((response) => {
@@ -279,7 +279,7 @@ export class QaOqcEvaluateComponent implements OnInit {
   // Upload file kết quả lên server
   uploadFileResult() {
 
-    let rate = this.systemValidateData?.dateCodeData[0].rate
+    // let rate = this.systemValidateData?.dateCodeData[0].rate
     const selectedFile = this.fileUploader.value[0]
 
     if(!selectedFile) {
@@ -287,13 +287,13 @@ export class QaOqcEvaluateComponent implements OnInit {
       return
     }
 
-    if (rate > 20 && this.cellValueResult === 'OK') {
+    // if (rate > 20 && this.cellValueResult === 'OK') {
 
-      if(this.remark == null || this.remark == '') {
-        this.toastr.warning('Cần nhập remark (Rate > 20%)','Warning')
-        return
-      }
-    }
+    //   if(this.remark == null || this.remark == '') {
+    //     this.toastr.warning('Cần nhập remark (Rate > 20%)','Warning')
+    //     return
+    //   }
+    // }
 
 
     this.isLoading = true;

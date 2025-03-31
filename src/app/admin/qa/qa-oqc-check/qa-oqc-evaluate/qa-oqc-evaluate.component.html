@@ -66,10 +66,10 @@
               <div nz-radio [nzValue]="3">Đã xử lý</div>
             </nz-radio-group>
           </td>
-          <td>
+          <!-- <td>
             <label>Cảnh báo</label>
-          </td>
-          <td>
+          </td> -->
+          <!-- <td>
             <nz-tag
               [nzColor]="
                 systemValidateData?.dateCodeData[0].rate > 20
@@ -81,7 +81,7 @@
               (Rate: {{ systemValidateData?.dateCodeData[0].rate }}%)
             </nz-tag>
             <a (click)="isOpenSystemValidate = true">Chi tiết</a>
-          </td>
+          </td> -->
         </tr>
       </tbody>
     </table>
@@ -408,7 +408,7 @@
 </ng-template> -->
 
 <!-- Show dữ liệu scan -->
-<nz-modal
+<!-- <nz-modal
   [(nzVisible)]="isOpenSystemValidate"
   nzTitle="System Validate"
   (nzOnCancel)="isOpenSystemValidate = false"
@@ -519,4 +519,4 @@
       Đóng
     </button>
   </div>
-</nz-modal>
+</nz-modal> -->
