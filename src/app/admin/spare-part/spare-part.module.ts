@@ -1,7 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { DxButtonModule, DxDataGridModule, DxSelectBoxModule, DxTreeListModule } from 'devextreme-angular';
+import {
+  DxButtonModule,
+  DxDataGridModule,
+  DxSelectBoxModule,
+  DxTreeListModule,
+  DxValidationGroupModule,
+  DxValidatorModule,
+} from 'devextreme-angular';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -16,7 +23,11 @@ import { SparePartsComponent } from './spare-parts/spare-parts.component';
 
 import { FormsModule } from '@angular/forms';
 import { QRCodeModule } from 'angularx-qrcode';
-import { DxChartModule, DxPieChartModule, DxTextBoxModule } from 'devextreme-angular';
+import {
+  DxChartModule,
+  DxPieChartModule,
+  DxTextBoxModule,
+} from 'devextreme-angular';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -51,7 +62,7 @@ import { SparePartIvtDetailComponent } from './spare-part-ivt-detail/spare-part-
     SparePartIvtHisComponent,
     SparePartPrintQrComponent,
     SparePartRequestsComponent,
-    SparePartIvtDetailComponent
+    SparePartIvtDetailComponent,
   ],
   imports: [
     CommonModule,
@@ -83,6 +94,8 @@ import { SparePartIvtDetailComponent } from './spare-part-ivt-detail/spare-part-
     DxSelectBoxModule,
     NzCollapseModule,
     DxDataGridModule,
+    DxValidationGroupModule,
+    DxValidatorModule,
   ],
 })
 export class SparePartModule {}

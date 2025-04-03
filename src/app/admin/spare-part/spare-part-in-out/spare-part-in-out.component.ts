@@ -10,7 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 import { SparePartService } from '../services/spare-part.service';
 import { SparePartRecordVo } from '../models/SparePartRecordVo';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { DxDataGridComponent, DxTextBoxComponent } from 'devextreme-angular';
+import { DxDataGridComponent, DxTextBoxComponent, DxValidationGroupComponent } from 'devextreme-angular';
 import { environment } from 'src/environments/environment';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { HttpClient, HttpRequest, HttpResponse } from '@angular/common/http';
@@ -33,6 +33,11 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
 
   @ViewChild(DxDataGridComponent, { static: false })
   sparePartOutputGrid!: DxDataGridComponent;
+
+  @ViewChild('validatorChangeRack', { static: false })
+  validatorChangeRack!: DxValidationGroupComponent;
+
+  @ViewChild(DxTextBoxComponent) partNumberCrIpt!: DxTextBoxComponent;
 
   baseUrl = environment.baseUrl;
 
@@ -96,6 +101,8 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
     dateRange: [new Date(), new Date()],
   };
 
+  isLoading: boolean = false;
+
   whUserCode: any;
   sparePartRecords: any;
   isOpenOutputSparePartModal: boolean = false;
@@ -145,7 +152,8 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
 
   // Biến liên quan chuyển rack
   isOpenModalChangeRack: boolean = false
-  rackChangeInfo: any = {}
+  rackChangeInfo: any = {} // Biến lưu thông tin chuyển rack
+
 
 
 
@@ -545,8 +553,50 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
     { id: 'R6-C-3', name:'R6-C-3'}
   ]
 
+
+  openModalChangeRack() {
+    this.rackChangeInfo = {}
+    this.isOpenModalChangeRack = true
+
+    setTimeout(() => {
+      this.partNumberCrIpt.instance.focus();
+    }, 500);
+
+    
+  }
+
   saveChangeRack() {
-    console.log('rackChangeInfo: ', this.rackChangeInfo);
+
+    let username = this.jwtHelperSvc.decodeToken(
+      localStorage.getItem('accessToken')?.toString()
+    ).Username;
+
+    this.rackChangeInfo.username = username;
+
+
+    if (!this.rackChangeInfo.partNumber) {
+      this.toastr.warning('Cần scan Part Number','Warning');
+      return
+    }
+
+    if (this.rackChangeInfo.fromRack === this.rackChangeInfo.toRack) {
+      this.toastr.warning('From Rack và To Rack cần khác nhau','Warning');
+      return
+    }
+
+
+    this.isLoading = true;
+
+    console.log(this.rackChangeInfo);
+    
+    this.sparePartSvc.changeRack(this.rackChangeInfo).subscribe(
+      response => {
+        this.toastr.success('Đã lưu lại lịch sử chuyển Rack','Notification')
+        this.isOpenModalChangeRack = false
+        this.isLoading = false;
+      }
+    )
+
     
   }
 

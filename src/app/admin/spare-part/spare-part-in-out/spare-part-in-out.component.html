@@ -46,7 +46,7 @@
             nz-button
             nzType="primary"
             style="background: #ff7b00; border: 1px solid #ff7b00"
-            (click)="isOpenModalChangeRack = true"
+            (click)="openModalChangeRack()"
           >
             <span nz-icon nzType="swap" nzTheme="outline"></span>
             CHUYỂN RACK
@@ -684,73 +684,87 @@
   (nzOnCancel)="isOpenModalChangeRack = false"
 >
   <ng-container *nzModalContent>
-    <nz-table
-      [nzData]="['']"
-      nzFrontPagination="false"
-      nzBordered
-      nzSize="small"
-    >
-      <thead>
-        <tr>
-          <th>
-            <dx-text-box
-              #infoIpt
-              label="Part Number"
-              labelLocation="left"
-              showColonAfterLabel="true"
-              [labelMode]="'static'"
-              placeholder="Scan Part Number"
-              [ngStyle]="{ color: 'red' }"
-              [(value)]="rackChangeInfo.partNumber"
-            ></dx-text-box>
-          </th>
-          <th>
-            <dx-select-box
-              label="From Rack"
-              labelLocation="left"
-              showColonAfterLabel="true"
-              [labelMode]="'static'"
-              displayExpr="id"
-              valueExpr="id"
-              [dataSource]="data_rack"
-              [searchEnabled]="true"
-              [showClearButton]="true"
-              [(value)]="rackChangeInfo.fromRack"
-            ></dx-select-box>
-          </th>
-          <th>
-            <dx-select-box
-              label="To Rack"
-              labelLocation="left"
-              showColonAfterLabel="true"
-              [labelMode]="'static'"
-              displayExpr="id"
-              valueExpr="id"
-              [dataSource]="data_rack"
-              [searchEnabled]="true"
-              [showClearButton]="true"
-              [(value)]="rackChangeInfo.toRack"
-            ></dx-select-box>
-          </th>
-          <th>
-            <dx-text-box
-              #infoIpt
-              label="Qty"
-              labelLocation="left"
-              showColonAfterLabel="true"
-              [labelMode]="'static'"
-              placeholder="Nhập số lượng"
-              [ngStyle]="{ color: 'red' }"
-              [mode]="'number'"
-              [(value)]="rackChangeInfo.qty"
-            ></dx-text-box>
-          </th>
-        </tr>
-      </thead>
-    </nz-table>
+    <dx-validation-group #validatorChangeRack>
+      <nz-table
+        [nzData]="['']"
+        nzFrontPagination="false"
+        nzBordered
+        nzSize="small"
+      >
+        <thead>
+          <tr>
+            <th>
+              <dx-text-box
+                #partNumberCrIpt
+                label="Part Number"
+                labelLocation="left"
+                showColonAfterLabel="true"
+                [labelMode]="'static'"
+                placeholder="Scan Part Number"
+                [ngStyle]="{ color: 'red' }"
+                [(value)]="rackChangeInfo.partNumber"
+              >
+              <dx-validator>
+                <dxi-validation-rule
+                  type="required"
+                  message="Part Number is required"
+                ></dxi-validation-rule>
+              </dx-validator>
+              </dx-text-box>
+            </th>
+            <th>
+              <dx-select-box
+                label="From Rack"
+                labelLocation="left"
+                showColonAfterLabel="true"
+                [labelMode]="'static'"
+                displayExpr="id"
+                valueExpr="id"
+                [dataSource]="data_rack"
+                [searchEnabled]="true"
+                [showClearButton]="true"
+                [(value)]="rackChangeInfo.fromRack"
+              >
+                <dx-validator>
+                  <dxi-validation-rule
+                    type="required"
+                    message="From Rack is required"
+                  ></dxi-validation-rule>
+                </dx-validator>
+              </dx-select-box>
+            </th>
+            <th>
+              <dx-select-box
+                label="To Rack"
+                labelLocation="left"
+                showColonAfterLabel="true"
+                [labelMode]="'static'"
+                displayExpr="id"
+                valueExpr="id"
+                [dataSource]="data_rack"
+                [searchEnabled]="true"
+                [showClearButton]="true"
+                [(value)]="rackChangeInfo.toRack"
+              >
+                <dx-validator>
+                  <dxi-validation-rule
+                    type="required"
+                    message="To Rack is required"
+                  ></dxi-validation-rule>
+                </dx-validator>
+              </dx-select-box>
+            </th>
+          </tr>
+        </thead>
+      </nz-table>
+    </dx-validation-group>
   </ng-container>
   <div *nzModalFooter>
-    <button nz-button nzType="default" (click)="isOpenModalChangeRack">Đóng</button>
-    <button nz-button nzType="primary" (click)="saveChangeRack()">Chuyển rack</button>
+    <button nz-button nzType="default" (click)="isOpenModalChangeRack = false">
+      Đóng
+    </button>
+    <button nz-button nzType="primary" [nzLoading]="isLoading" (click)="saveChangeRack()">
+      Chuyển rack
+    </button>
   </div>
 </nz-modal>

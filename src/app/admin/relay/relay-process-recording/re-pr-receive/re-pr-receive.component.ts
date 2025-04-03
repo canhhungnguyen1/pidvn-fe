@@ -391,15 +391,13 @@ export class RePrReceiveComponent implements OnInit, AfterViewInit {
    * Lưu xác nhận chuyển vào xe NVL
    */
   sendToLineWh() {
-
     
     if (!this.qaCardIpt.value) {
       this.toastr.warning('Cần scan QA card','Warning')
       return
     }
 
-
-    let qrCard = this.qaCardIpt.value.split('*'); // Lấy giá trị của ô QA card
+    let qrCard = this.qaCardIpt.value.toLocaleUpperCase().split('*'); // Lấy giá trị của ô QA card
 
     let saveData = [...this.litsLotScanOk];
 

@@ -121,6 +121,10 @@ export class SparePartService {
     return this.httpClient.post(`${this.baseUrl}/SparePart/SparePartRecordsByStandardPrice`, searchVo);
   }
   
+
+  changeRack(obj: any): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/SparePart/ChangeRack`, obj);
+  }
   
 }
 
