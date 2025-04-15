@@ -100,7 +100,12 @@
         <dxo-search [enabled]="true"></dxo-search>
       </dxo-header-filter>
     </dxi-column>
-    <dxi-column dataField="rackType" caption="Rack" [visible]="true">
+    <dxi-column dataField="fromRack" caption="FromRack" [visible]="true">
+      <dxo-header-filter [allowSelectAll]="true">
+        <dxo-search [enabled]="true"></dxo-search>
+      </dxo-header-filter>
+    </dxi-column>
+    <dxi-column dataField="toRack" caption="ToRack" [visible]="true">
       <dxo-header-filter [allowSelectAll]="true">
         <dxo-search [enabled]="true"></dxo-search>
       </dxo-header-filter>
@@ -765,6 +770,7 @@
   [(nzVisible)]="isOpenModalChangeRack"
   nzTitle="Chuyển Rack"
   nzWidth="60%"
+  (nzOnCancel)="isOpenModalChangeRack = false" (nzOnOk)="isOpenModalChangeRack = false"
 >
   <ng-container *nzModalContent>
     <nz-table
