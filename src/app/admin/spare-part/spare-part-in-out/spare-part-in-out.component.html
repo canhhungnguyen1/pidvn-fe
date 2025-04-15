@@ -91,28 +91,14 @@
 
     <dxi-column dataField="qty" caption="Qty" alignment="right"></dxi-column>
     <dxi-column dataField="type" caption="Type">
-      <dxo-lookup
-        displayExpr="name"
-        valueExpr="id"
-        [dataSource]="[
-          { id: 'Nhập kho', name: 'Nhập kho' },
-          { id: 'Xuất kho', name: 'Xuất kho' },
-          { id: 'Trả về (OK)', name: 'Trả về (OK)' },
-          { id: 'Trả VỀ (NG)', name: 'Trả VỀ (NG)' }
-        ]"
-      >
-      </dxo-lookup>
+      <dxo-header-filter [allowSelectAll]="true">
+        <dxo-search [enabled]="true"></dxo-search>
+      </dxo-header-filter>
     </dxi-column>
-    <dxi-column dataField="goodsType" caption="Loại hàng">
-      <dxo-lookup
-        displayExpr="name"
-        valueExpr="id"
-        [dataSource]="[
-          { id: 'M4', name: 'M4' },
-          { id: 'M8', name: 'M8' }
-        ]"
-      >
-      </dxo-lookup>
+    <dxi-column dataField="goodsType" caption="Loại hàng" [visible]="false">
+      <dxo-header-filter [allowSelectAll]="true">
+        <dxo-search [enabled]="true"></dxo-search>
+      </dxo-header-filter>
     </dxi-column>
     <dxi-column dataField="rackType" caption="Rack" [visible]="true">
       <dxo-header-filter [allowSelectAll]="true">
@@ -125,18 +111,18 @@
     <dxi-column dataField="line" caption="Line"></dxi-column>
     <dxi-column dataField="whUser" caption="WH User"></dxi-column>
     <dxi-column dataField="otherUser" caption="Other User"></dxi-column>
-    <dxi-column
+    <!-- <dxi-column
       dataField="date"
       caption="Date"
       dataType="date"
       format="yyyy-MM-dd"
-    ></dxi-column>
+    ></dxi-column> -->
     <dxi-column
       alignment="center"
       dataField="createdAt"
-      caption="Time"
+      caption="Thời gian"
       dataType="date"
-      format="HH:mm"
+      format="yyyy-MM-dd HH:mm"
     ></dxi-column>
     <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
 
@@ -315,8 +301,8 @@
                   displayExpr="name"
                   valueExpr="id"
                   [dataSource]="data_rack"
-                  [(value)]="rackType"
-                  (onValueChanged)="changerackType($event)"
+                  [(value)]="fromRack"
+                  (onValueChanged)="changeRack($event)"
                   [searchEnabled]="true"
                 ></dx-select-box>
               </td>
@@ -675,8 +661,8 @@
   </div>
 </nz-modal>
 
-<!-- Chuyển rack -->
-<nz-modal
+<!-- Chuyển rack1 -->
+<!-- <nz-modal
   [(nzVisible)]="isOpenModalChangeRack"
   nzTitle="Chuyển Rack"
   nzWidth="50%"
@@ -704,12 +690,12 @@
                 [ngStyle]="{ color: 'red' }"
                 [(value)]="rackChangeInfo.partNumber"
               >
-              <dx-validator>
-                <dxi-validation-rule
-                  type="required"
-                  message="Part Number is required"
-                ></dxi-validation-rule>
-              </dx-validator>
+                <dx-validator>
+                  <dxi-validation-rule
+                    type="required"
+                    message="Part Number is required"
+                  ></dxi-validation-rule>
+                </dx-validator>
               </dx-text-box>
             </th>
             <th>
@@ -763,8 +749,117 @@
     <button nz-button nzType="default" (click)="isOpenModalChangeRack = false">
       Đóng
     </button>
-    <button nz-button nzType="primary" [nzLoading]="isLoading" (click)="saveChangeRack()">
+    <button
+      nz-button
+      nzType="primary"
+      [nzLoading]="isLoading"
+      (click)="saveChangeRack()"
+    >
       Chuyển rack
     </button>
   </div>
+</nz-modal> -->
+
+<!-- Chuyển rack2 -->
+<nz-modal
+  [(nzVisible)]="isOpenModalChangeRack"
+  nzTitle="Chuyển Rack"
+  nzWidth="60%"
+>
+  <ng-container *nzModalContent>
+    <nz-table
+      [nzData]="['']"
+      nzFrontPagination="false"
+      nzBordered
+      nzSize="small"
+    >
+      <thead>
+        <tr>
+          <th>
+            <dx-text-box
+              #userCodeCrIpt
+              label="Mã nhân viên"
+              labelLocation="left"
+              showColonAfterLabel="true"
+              [labelMode]="'static'"
+              [readOnly]="false"
+              (keydown.enter)="scanChangeRack('USER_CODE', $event)"
+              (click)="selectTextInput('userCodeCrIpt')"
+            ></dx-text-box>
+          </th>
+          <th>
+            <dx-text-box
+              #partNumberCrIpt
+              label="Part Number"
+              labelLocation="left"
+              showColonAfterLabel="true"
+              [labelMode]="'static'"
+              [readOnly]="false"
+              (keydown.enter)="scanChangeRack('PART_NUMBER', $event)"
+              (click)="selectTextInput('partNumberCrIpt')"
+            ></dx-text-box>
+          </th>
+        </tr>
+      </thead>
+    </nz-table>
+    <dx-data-grid
+      keyExpr="partNumber"
+      [showBorders]="true"
+      [dataSource]="listSparePartScanned"
+      [showColumnLines]="true"
+      [showRowLines]="true"
+      [allowColumnResizing]="true"
+      [columnMinWidth]="50"
+      [columnAutoWidth]="true"
+      style="margin-top: -25px"
+      (onSaved)="saveChangeRack($event)"
+    >
+      <dxo-editing
+        mode="batch"
+        [allowUpdating]="true"
+        [selectTextOnEditStart]="true"
+      >
+      </dxo-editing>
+      <dxi-column
+        dataField="partNumber"
+        caption="Part"
+        [allowEditing]="false"
+      ></dxi-column>
+      <dxi-column [width]="60" dataField="qty" caption="Qty">
+        <dxi-validation-rule
+          type="range"
+          [min]="0"
+          message="Qty phải lớn hơn 0"
+        >
+        </dxi-validation-rule>
+      </dxi-column>
+      <dxi-column dataField="fromRack" caption="From Rack">
+        <dxo-lookup
+          [allowClearing]="true"
+          [dataSource]="data_rack"
+          displayExpr="name"
+          valueExpr="id"
+        >
+          <dxi-validation-rule
+            [type]="'required'"
+            [message]="'From Rack không được bỏ trống'"
+          ></dxi-validation-rule>
+        </dxo-lookup>
+      </dxi-column>
+      <dxi-column dataField="toRack" caption="To Rack">
+        <dxo-lookup
+          [allowClearing]="true"
+          [dataSource]="data_rack"
+          displayExpr="name"
+          valueExpr="id"
+        >
+          <dxi-validation-rule
+            [type]="'required'"
+            [message]="'To Rack không được bỏ trống'"
+          ></dxi-validation-rule>
+        </dxo-lookup>
+      </dxi-column>
+      <dxi-column dataField="remark" caption="Ghi chú"> </dxi-column>
+    </dx-data-grid>
+  </ng-container>
 </nz-modal>

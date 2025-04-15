@@ -10,7 +10,11 @@ import { ToastrService } from 'ngx-toastr';
 import { SparePartService } from '../services/spare-part.service';
 import { SparePartRecordVo } from '../models/SparePartRecordVo';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { DxDataGridComponent, DxTextBoxComponent, DxValidationGroupComponent } from 'devextreme-angular';
+import {
+  DxDataGridComponent,
+  DxTextBoxComponent,
+  DxValidationGroupComponent,
+} from 'devextreme-angular';
 import { environment } from 'src/environments/environment';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { HttpClient, HttpRequest, HttpResponse } from '@angular/common/http';
@@ -37,8 +41,10 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
   @ViewChild('validatorChangeRack', { static: false })
   validatorChangeRack!: DxValidationGroupComponent;
 
-  @ViewChild(DxTextBoxComponent) partNumberCrIpt!: DxTextBoxComponent;
-
+  @ViewChild('partNumberCrIpt', { static: false })
+  partNumberCrIpt!: DxTextBoxComponent;
+  @ViewChild('userCodeCrIpt', { static: false })
+  userCodeCrIpt!: DxTextBoxComponent;
   baseUrl = environment.baseUrl;
 
   constructor(
@@ -72,7 +78,8 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
     ).Username;
 
     // Trường hợp xuất hàng M4 chọn từ màn hình danh sách request
-    const requestId = this.activatedRoute.snapshot.queryParamMap.get('requestId');
+    const requestId =
+      this.activatedRoute.snapshot.queryParamMap.get('requestId');
     if (requestId) {
       this.isOpenOutputSparePartModal = true;
       this.goodsType = 'M4';
@@ -82,13 +89,11 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
       this.getRequestDetail(requestId);
 
       this.sparePartRequestSvc.getRequests({}).subscribe((response) => {
-        
         this.request = response.find(
           (item: any) => item.id === Number(requestId)
         );
 
         console.log('Request', this.request);
-        
       });
     }
   }
@@ -101,8 +106,6 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
     dateRange: [new Date(), new Date()],
   };
 
-  isLoading: boolean = false;
-
   whUserCode: any;
   sparePartRecords: any;
   isOpenOutputSparePartModal: boolean = false;
@@ -112,7 +115,7 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
   userCode: any;
   insertType: string = 'manual'; // Kiểu insert là manual hay upload bằng excel
   goodsType: any; // Loại hàng user chọn (M4 or M8)
-  rackType: any; // Loại rack
+  fromRack: any; // Loại rack
   transactionType: any; // Loại giao dịch: "INPUT | OUTPUT | OK_RETURN | NG_RETURN"
 
   // Upload Excel: các biến liên quan đến upload file
@@ -151,12 +154,8 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
   request: any; // request Selected
 
   // Biến liên quan chuyển rack
-  isOpenModalChangeRack: boolean = false
-  rackChangeInfo: any = {} // Biến lưu thông tin chuyển rack
-
-
-
-
+  isOpenModalChangeRack: boolean = false;
+  rackChangeInfo: any = {}; // Biến lưu thông tin chuyển rack
 
   getLineStandard() {
     this.sparePartSvc.getLineStandard().subscribe((response) => {
@@ -195,17 +194,19 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
   }
 
   onExportClient(event: any) {
-    const workbook = new Workbook();    
-        const worksheet = workbook.addWorksheet('Main sheet');
-        exportDataGrid({
-            component: event.component,
-            worksheet: worksheet
-        }).then(function() {
-            workbook.xlsx.writeBuffer()
-                .then(function(buffer: BlobPart) {
-                    saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'M4M8-History.xlsx');
-                });
-        });
+    const workbook = new Workbook();
+    const worksheet = workbook.addWorksheet('Main sheet');
+    exportDataGrid({
+      component: event.component,
+      worksheet: worksheet,
+    }).then(function () {
+      workbook.xlsx.writeBuffer().then(function (buffer: BlobPart) {
+        saveAs(
+          new Blob([buffer], { type: 'application/octet-stream' }),
+          'M4M8-History.xlsx'
+        );
+      });
+    });
   }
 
   scanUserCode(event: any) {
@@ -237,7 +238,7 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    if (!this.rackType && this.transactionType == 'INPUT') {
+    if (!this.fromRack && this.transactionType == 'INPUT') {
       this.toastr.warning('Cần chọn rack hàng', 'Warning');
       return;
     }
@@ -247,9 +248,6 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
         this.toastr.warning('Cần chọn nhà máy', 'Warning');
         return;
       }
-
-
-      
 
       // if (!this.machine) {
       //   this.toastr.warning('Cần chọn Machine', 'Warning');
@@ -289,7 +287,7 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
       requestNo: this.request ? this.request.requestNo : null,
       userCode: this.userCode,
       goodsType: this.goodsType,
-      rackType: this.rackType,
+      fromRack: this.fromRack,
       type: this.transactionType,
       po: this.po,
       supplier: this.supplier,
@@ -317,7 +315,7 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
     this.supplier = null;
     this.transactionType = null;
     this.goodsType = null;
-    this.rackType = null;
+    this.fromRack = null;
     this.factoryCode = null;
     this.machine = null;
     this.line = null;
@@ -380,10 +378,9 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
   // Edit SparePart record
   openModalEditSparePartRecord(item: any) {
     console.log(item);
-    
+
     this.sparePartRecordEdit = item;
     this.isOpenModalEditSparePartRecord = true;
-    
 
     console.log(this.sparePartRecordEdit);
   }
@@ -421,14 +418,18 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
    * @param event Chọn loại hàng M4 or M8
    */
   changeGoodsType(event: any) {
-    console.log('changeGoodsType: ',event);
-    this.goodsType = event.value
+    console.log('changeGoodsType: ', event);
+    this.goodsType = event.value;
     this.sparePartQrCodeIpt.nativeElement.select();
   }
 
-  changerackType(event: any) {
-    console.log('changerackType: ',event);
-    this.rackType = event.value
+  /**
+   * Chọn Rack
+   * @param event 
+   */
+  changeRack(event: any) {
+    console.log('Chọn Rack: ', event);
+    this.fromRack = event.value;
     this.sparePartQrCodeIpt.nativeElement.select();
   }
 
@@ -437,9 +438,9 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
    * @param event Chọn loại giao dịch
    */
   changeTransactionType(event: any) {
-    console.log('changeTransactionType: ',event);
-    this.transactionType = event.value
-    
+    console.log('changeTransactionType: ', event);
+    this.transactionType = event.value;
+
     this.sparePartQrCodeIpt.nativeElement.select();
 
     this.sparePartRequestDetails = new Array();
@@ -464,8 +465,8 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
     const selectedItem = event.component.option('selectedItem');
     this.request = selectedItem;
 
-    console.log('getSparePartRequestDetails',this.request);
-    
+    console.log('getSparePartRequestDetails', this.request);
+
     this.getRequestDetail(selectedItem.id);
   }
 
@@ -477,173 +478,236 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
       });
   }
 
-
-
   data_rack = [
-    { id: 'R1-A-1', name:'R1-A-1'},
-    { id: 'R1-A-2', name:'R1-A-2'},
-    { id: 'R1-A-3', name:'R1-A-3'},
-    { id: 'R1-A-4', name:'R1-A-4'},
-    { id: 'R1-B-1', name:'R1-B-1'},
-    { id: 'R1-B-2', name:'R1-B-2'},
-    { id: 'R1-B-3', name:'R1-B-3'},
-    { id: 'R1-B-4', name:'R1-B-4'},
-    { id: 'R1-C-1', name:'R1-C-1'},
-    { id: 'R1-C-2', name:'R1-C-2'},
-    { id: 'R1-C-3', name:'R1-C-3'},
-    { id: 'R1-C-4', name:'R1-C-4'},
-    { id: 'R1-D-1', name:'R1-D-1'},
-    { id: 'R1-D-2', name:'R1-D-2'},
-    { id: 'R1-D-3', name:'R1-D-3'},
-    { id: 'R2-A-1', name:'R2-A-1'},
-    { id: 'R2-A-2', name:'R2-A-2'},
-    { id: 'R2-A-3', name:'R2-A-3'},
-    { id: 'R2-A-4', name:'R2-A-4'},
-    { id: 'R2-B-1', name:'R2-B-1'},
-    { id: 'R2-B-2', name:'R2-B-2'},
-    { id: 'R2-B-3', name:'R2-B-3'},
-    { id: 'R2-B-4', name:'R2-B-4'},
-    { id: 'R2-C-1', name:'R2-C-1'},
-    { id: 'R2-C-2', name:'R2-C-2'},
-    { id: 'R2-C-3', name:'R2-C-3'},
-    { id: 'R2-C-4', name:'R2-C-4'},
-    { id: 'R3-A-1', name:'R3-A-1'},
-    { id: 'R3-A-2', name:'R3-A-2'},
-    { id: 'R3-A-3', name:'R3-A-3'},
-    { id: 'R3-A-4', name:'R3-A-4'},
-    { id: 'R3-B-1', name:'R3-B-1'},
-    { id: 'R3-B-2', name:'R3-B-2'},
-    { id: 'R3-B-3', name:'R3-B-3'},
-    { id: 'R3-B-4', name:'R3-B-4'},
-    { id: 'R3-C-1', name:'R3-C-1'},
-    { id: 'R3-C-2', name:'R3-C-2'},
-    { id: 'R3-C-3', name:'R3-C-3'},
-    { id: 'R3-C-4', name:'R3-C-4'},
-    { id: 'R3-D-1', name:'R3-D-1'},
-    { id: 'R3-D-2', name:'R3-D-2'},
-    { id: 'R3-D-3', name:'R3-D-3'},
-    { id: 'R3-D-4', name:'R3-D-4'},
-    { id: 'R4-A-1', name:'R4-A-1'},
-    { id: 'R4-A-2', name:'R4-A-2'},
-    { id: 'R4-A-3', name:'R4-A-3'},
-    { id: 'R4-B-1', name:'R4-B-1'},
-    { id: 'R4-B-2', name:'R4-B-2'},
-    { id: 'R4-B-3', name:'R4-B-3'},
-    { id: 'R4-C-1', name:'R4-C-1'},
-    { id: 'R4-C-2', name:'R4-C-2'},
-    { id: 'R4-C-3', name:'R4-C-3'},
-    { id: 'R5-A-1', name:'R5-A-1'},
-    { id: 'R5-A-2', name:'R5-A-2'},
-    { id: 'R5-A-3', name:'R5-A-3'},
-    { id: 'R5-A-4', name:'R5-A-4'},
-    { id: 'R5-B-1', name:'R5-B-1'},
-    { id: 'R5-B-2', name:'R5-B-2'},
-    { id: 'R5-B-3', name:'R5-B-3'},
-    { id: 'R5-C-1', name:'R5-C-1'},
-    { id: 'R5-C-2', name:'R5-C-2'},
-    { id: 'R5-C-3', name:'R5-C-3'},
-    { id: 'R6-A-1', name:'R6-A-1'},
-    { id: 'R6-A-2', name:'R6-A-2'},
-    { id: 'R6-A-3', name:'R6-A-3'},
-    { id: 'R6-B-1', name:'R6-B-1'},
-    { id: 'R6-B-2', name:'R6-B-2'},
-    { id: 'R6-B-3', name:'R6-B-3'},
-    { id: 'R6-C-1', name:'R6-C-1'},
-    { id: 'R6-C-2', name:'R6-C-2'},
-    { id: 'R6-C-3', name:'R6-C-3'},
-    { id: 'T1-A-1', name:'T1-A-1'},
-    { id: 'T1-A-2', name:'T1-A-2'},
-    { id: 'T1-A-3', name:'T1-A-3'},
-    { id: 'T1-B-1', name:'T1-B-1'},
-    { id: 'T1-B-2', name:'T1-B-2'},
-    { id: 'T1-B-3', name:'T1-B-3'},
-    { id: 'T1-C-1', name:'T1-C-1'},
-    { id: 'T1-C-2', name:'T1-C-2'},
-    { id: 'T1-C-3', name:'T1-C-3'},
-    { id: 'PIH-R1-A-1', name:'PIH-R1-A-1'},
-    { id: 'PIH-R1-A-2', name:'PIH-R1-A-2'},
-    { id: 'PIH-R1-A-3', name:'PIH-R1-A-3'},
-    { id: 'PIH-R1-A-4', name:'PIH-R1-A-4'},
-    { id: 'PIH-R1-B-1', name:'PIH-R1-B-1'},
-    { id: 'PIH-R1-B-2', name:'PIH-R1-B-2'},
-    { id: 'PIH-R1-B-3', name:'PIH-R1-B-3'},
-    { id: 'PIH-R1-B-4', name:'PIH-R1-B-4'},
-    { id: 'PIH-R1-C-1', name:'PIH-R1-C-1'},
-    { id: 'PIH-R1-C-2', name:'PIH-R1-C-2'},
-    { id: 'PIH-R1-C-3', name:'PIH-R1-C-3'},
-    { id: 'PIH-R1-C-4', name:'PIH-R1-C-4'},
-    { id: 'PIH-R2-A-1', name:'PIH-R2-A-1'},
-    { id: 'PIH-R2-A-2', name:'PIH-R2-A-2'},
-    { id: 'PIH-R2-A-3', name:'PIH-R2-A-3'},
-    { id: 'PIH-R2-A-4', name:'PIH-R2-A-4'},
-    { id: 'PIH-R2-B-1', name:'PIH-R2-B-1'},
-    { id: 'PIH-R2-B-2', name:'PIH-R2-B-2'},
-    { id: 'PIH-R2-B-3', name:'PIH-R2-B-3'},
-    { id: 'PIH-R2-B-4', name:'PIH-R2-B-4'},
-    { id: 'PIH-R2-C-1', name:'PIH-R2-C-1'},
-    { id: 'PIH-R2-C-2', name:'PIH-R2-C-2'},
-    { id: 'PIH-R2-C-3', name:'PIH-R2-C-3'},
-    { id: 'PIH-R2-C-4', name:'PIH-R2-C-4'}
-  ]
+    { id: 'R1-A-1', name: 'R1-A-1' },
+    { id: 'R1-A-2', name: 'R1-A-2' },
+    { id: 'R1-A-3', name: 'R1-A-3' },
+    { id: 'R1-A-4', name: 'R1-A-4' },
+    { id: 'R1-B-1', name: 'R1-B-1' },
+    { id: 'R1-B-2', name: 'R1-B-2' },
+    { id: 'R1-B-3', name: 'R1-B-3' },
+    { id: 'R1-B-4', name: 'R1-B-4' },
+    { id: 'R1-C-1', name: 'R1-C-1' },
+    { id: 'R1-C-2', name: 'R1-C-2' },
+    { id: 'R1-C-3', name: 'R1-C-3' },
+    { id: 'R1-C-4', name: 'R1-C-4' },
+    { id: 'R1-D-1', name: 'R1-D-1' },
+    { id: 'R1-D-2', name: 'R1-D-2' },
+    { id: 'R1-D-3', name: 'R1-D-3' },
+    { id: 'R2-A-1', name: 'R2-A-1' },
+    { id: 'R2-A-2', name: 'R2-A-2' },
+    { id: 'R2-A-3', name: 'R2-A-3' },
+    { id: 'R2-A-4', name: 'R2-A-4' },
+    { id: 'R2-B-1', name: 'R2-B-1' },
+    { id: 'R2-B-2', name: 'R2-B-2' },
+    { id: 'R2-B-3', name: 'R2-B-3' },
+    { id: 'R2-B-4', name: 'R2-B-4' },
+    { id: 'R2-C-1', name: 'R2-C-1' },
+    { id: 'R2-C-2', name: 'R2-C-2' },
+    { id: 'R2-C-3', name: 'R2-C-3' },
+    { id: 'R2-C-4', name: 'R2-C-4' },
+    { id: 'R3-A-1', name: 'R3-A-1' },
+    { id: 'R3-A-2', name: 'R3-A-2' },
+    { id: 'R3-A-3', name: 'R3-A-3' },
+    { id: 'R3-A-4', name: 'R3-A-4' },
+    { id: 'R3-B-1', name: 'R3-B-1' },
+    { id: 'R3-B-2', name: 'R3-B-2' },
+    { id: 'R3-B-3', name: 'R3-B-3' },
+    { id: 'R3-B-4', name: 'R3-B-4' },
+    { id: 'R3-C-1', name: 'R3-C-1' },
+    { id: 'R3-C-2', name: 'R3-C-2' },
+    { id: 'R3-C-3', name: 'R3-C-3' },
+    { id: 'R3-C-4', name: 'R3-C-4' },
+    { id: 'R3-D-1', name: 'R3-D-1' },
+    { id: 'R3-D-2', name: 'R3-D-2' },
+    { id: 'R3-D-3', name: 'R3-D-3' },
+    { id: 'R3-D-4', name: 'R3-D-4' },
+    { id: 'R4-A-1', name: 'R4-A-1' },
+    { id: 'R4-A-2', name: 'R4-A-2' },
+    { id: 'R4-A-3', name: 'R4-A-3' },
+    { id: 'R4-B-1', name: 'R4-B-1' },
+    { id: 'R4-B-2', name: 'R4-B-2' },
+    { id: 'R4-B-3', name: 'R4-B-3' },
+    { id: 'R4-C-1', name: 'R4-C-1' },
+    { id: 'R4-C-2', name: 'R4-C-2' },
+    { id: 'R4-C-3', name: 'R4-C-3' },
+    { id: 'R5-A-1', name: 'R5-A-1' },
+    { id: 'R5-A-2', name: 'R5-A-2' },
+    { id: 'R5-A-3', name: 'R5-A-3' },
+    { id: 'R5-A-4', name: 'R5-A-4' },
+    { id: 'R5-B-1', name: 'R5-B-1' },
+    { id: 'R5-B-2', name: 'R5-B-2' },
+    { id: 'R5-B-3', name: 'R5-B-3' },
+    { id: 'R5-C-1', name: 'R5-C-1' },
+    { id: 'R5-C-2', name: 'R5-C-2' },
+    { id: 'R5-C-3', name: 'R5-C-3' },
+    { id: 'R6-A-1', name: 'R6-A-1' },
+    { id: 'R6-A-2', name: 'R6-A-2' },
+    { id: 'R6-A-3', name: 'R6-A-3' },
+    { id: 'R6-B-1', name: 'R6-B-1' },
+    { id: 'R6-B-2', name: 'R6-B-2' },
+    { id: 'R6-B-3', name: 'R6-B-3' },
+    { id: 'R6-C-1', name: 'R6-C-1' },
+    { id: 'R6-C-2', name: 'R6-C-2' },
+    { id: 'R6-C-3', name: 'R6-C-3' },
+    { id: 'T1-A-1', name: 'T1-A-1' },
+    { id: 'T1-A-2', name: 'T1-A-2' },
+    { id: 'T1-A-3', name: 'T1-A-3' },
+    { id: 'T1-B-1', name: 'T1-B-1' },
+    { id: 'T1-B-2', name: 'T1-B-2' },
+    { id: 'T1-B-3', name: 'T1-B-3' },
+    { id: 'T1-C-1', name: 'T1-C-1' },
+    { id: 'T1-C-2', name: 'T1-C-2' },
+    { id: 'T1-C-3', name: 'T1-C-3' },
+    { id: 'PIH-R1-A-1', name: 'PIH-R1-A-1' },
+    { id: 'PIH-R1-A-2', name: 'PIH-R1-A-2' },
+    { id: 'PIH-R1-A-3', name: 'PIH-R1-A-3' },
+    { id: 'PIH-R1-A-4', name: 'PIH-R1-A-4' },
+    { id: 'PIH-R1-B-1', name: 'PIH-R1-B-1' },
+    { id: 'PIH-R1-B-2', name: 'PIH-R1-B-2' },
+    { id: 'PIH-R1-B-3', name: 'PIH-R1-B-3' },
+    { id: 'PIH-R1-B-4', name: 'PIH-R1-B-4' },
+    { id: 'PIH-R1-C-1', name: 'PIH-R1-C-1' },
+    { id: 'PIH-R1-C-2', name: 'PIH-R1-C-2' },
+    { id: 'PIH-R1-C-3', name: 'PIH-R1-C-3' },
+    { id: 'PIH-R1-C-4', name: 'PIH-R1-C-4' },
+    { id: 'PIH-R2-A-1', name: 'PIH-R2-A-1' },
+    { id: 'PIH-R2-A-2', name: 'PIH-R2-A-2' },
+    { id: 'PIH-R2-A-3', name: 'PIH-R2-A-3' },
+    { id: 'PIH-R2-A-4', name: 'PIH-R2-A-4' },
+    { id: 'PIH-R2-B-1', name: 'PIH-R2-B-1' },
+    { id: 'PIH-R2-B-2', name: 'PIH-R2-B-2' },
+    { id: 'PIH-R2-B-3', name: 'PIH-R2-B-3' },
+    { id: 'PIH-R2-B-4', name: 'PIH-R2-B-4' },
+    { id: 'PIH-R2-C-1', name: 'PIH-R2-C-1' },
+    { id: 'PIH-R2-C-2', name: 'PIH-R2-C-2' },
+    { id: 'PIH-R2-C-3', name: 'PIH-R2-C-3' },
+    { id: 'PIH-R2-C-4', name: 'PIH-R2-C-4' },
+  ];
 
+  /**
+   * Code Change Rack
+   */
 
   openModalChangeRack() {
-    this.rackChangeInfo = {}
-    this.isOpenModalChangeRack = true
+    this.rackChangeInfo = {};
+    this.isOpenModalChangeRack = true;
+
+    this.mapSparePartScanned = new Map();
+    this.listSparePartScanned = new Array();
 
     setTimeout(() => {
-      this.partNumberCrIpt.instance.focus();
+      this.userCodeCrIpt?.instance?.focus();
     }, 500);
-
-    
   }
 
-  saveChangeRack() {
+  /**
+   * Scan chuyển RACK
+   * @param type USER_CODE: mã nhân viên, PART_NUMBER: mã tool/jig
+   * @param event
+   * @returns
+   */
+  scanChangeRack(type: string, event: any) {
+    // Scan UserCode
+    if (type === 'USER_CODE') {
+      console.log('Mã nhân viên:', event.target.value);
+      this.rackChangeInfo.userCode = event.target.value
 
-    let username = this.jwtHelperSvc.decodeToken(
-      localStorage.getItem('accessToken')?.toString()
-    ).Username;
+      // Focus sang ô nhập Part Number
+      this.partNumberCrIpt?.instance?.focus();
 
-    this.rackChangeInfo.username = username;
-
-
-    if (!this.rackChangeInfo.partNumber) {
-      this.toastr.warning('Cần scan Part Number','Warning');
-      return
+      return;
     }
 
-    if (this.rackChangeInfo.fromRack === this.rackChangeInfo.toRack) {
-      this.toastr.warning('From Rack và To Rack cần khác nhau','Warning');
-      return
+    // Scan Partnumber
+    if (type === 'PART_NUMBER') {
+      console.log('Mã PART_NUMBER:', event.target.value);
+
+      let obj = Object.assign({
+        whUserCode: this.rackChangeInfo.userCode,
+        partNumber: event.target.value.toUpperCase().trim(),
+        date: new Date(),
+        qty: 0,
+        type: 'CHANGE_RACK',  // Change Rack
+        fromRack: null,
+        toRack:null,
+        remark: null
+      });
+      console.log(obj);
+  
+      this.listSparePartScanned.push(obj);
+      this.listSparePartScanned.reverse();
+      this.selectTextInput('partNumberCrIpt')
+      return;
     }
 
 
-    this.isLoading = true;
 
-    console.log(this.rackChangeInfo);
-    
-    this.sparePartSvc.changeRack(this.rackChangeInfo).subscribe(
-      response => {
-        this.toastr.success('Đã lưu lại lịch sử chuyển Rack','Notification')
-        this.isOpenModalChangeRack = false
-        this.isLoading = false;
+  }
+
+  selectTextInput(input: string) {
+    if (input === 'userCodeCrIpt') {
+      const inputElement = this.userCodeCrIpt.instance
+        .element()
+        .querySelector('input');
+      if (inputElement) {
+        inputElement.select();
+        return;
       }
-    )
+    }
 
-    
+    if (input === 'partNumberCrIpt') {
+      const inputElement = this.partNumberCrIpt.instance
+        .element()
+        .querySelector('input');
+      if (inputElement) {
+        inputElement.select();
+        return;
+      }
+    }
   }
 
+  async saveChangeRack(event: any) {
+    // let username = this.jwtHelperSvc.decodeToken(
+    //   localStorage.getItem('accessToken')?.toString()
+    // ).Username;
+
+    // this.rackChangeInfo.username = username;
+    // if (!this.rackChangeInfo.userCode) {
+    //   this.toastr.warning('Cần scan mã nhân viên', 'Warning');
+    //   return;
+    // }
+
+    // if (!this.rackChangeInfo.partNumber) {
+    //   this.toastr.warning('Cần scan Part Number', 'Warning');
+    //   return;
+    // }
+
+    // if (this.rackChangeInfo.fromRack === this.rackChangeInfo.toRack) {
+    //   this.toastr.warning('From Rack và To Rack cần khác nhau', 'Warning');
+    //   return;
+    // }
+
+    let arr = new Array();
+
+    await event.changes.forEach((item: any) => {
+      arr.push(item.data);
+    });
+
+    console.log('SAVE CHANGE RACK: ', arr);
+
+    this.sparePartSvc.changeRack(arr).subscribe((response) => {
+      this.toastr.success('Đã lưu lại lịch sử chuyển Rack', 'Notification');
+      this.isOpenModalChangeRack = false;
+    });
+  }
 
   // Style header
   onCellPreparedHistory(e: any) {
     if (e.rowType === 'header') {
       e.cellElement.style.backgroundColor = '#000080'; // Change background color
       e.cellElement.style.color = '#ffffff'; // Change text color for better visibility
-      e.cellElement.style.fontWeight = 'bold'
+      e.cellElement.style.fontWeight = 'bold';
     }
   }
-
-
-
-
 }
