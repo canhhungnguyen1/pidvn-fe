@@ -633,6 +633,7 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
 
       // Focus sang ô nhập Part Number
       this.partNumberCrIpt?.instance?.focus();
+      this.selectTextInput('partNumberCrIpt')
 
       return;
     }
@@ -640,6 +641,12 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
     // Scan Partnumber
     if (type === 'PART_NUMBER') {
       console.log('Mã PART_NUMBER:', event.target.value);
+
+      if (!this.rackChangeInfo.userCode) {
+        this.toastr.warning('Cần scan mã nhân viên','Warning')
+        this.userCodeCrIpt?.instance?.focus();
+        return
+      }
 
       let obj = Object.assign({
         whUserCode: this.rackChangeInfo.userCode,
