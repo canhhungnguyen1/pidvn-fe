@@ -770,7 +770,8 @@
   [(nzVisible)]="isOpenModalChangeRack"
   nzTitle="Chuyển Rack"
   nzWidth="60%"
-  (nzOnCancel)="isOpenModalChangeRack = false" (nzOnOk)="isOpenModalChangeRack = false"
+  (nzOnCancel)="isOpenModalChangeRack = false"
+  (nzOnOk)="isOpenModalChangeRack = false"
 >
   <ng-container *nzModalContent>
     <nz-table
@@ -792,6 +793,22 @@
               (keydown.enter)="scanChangeRack('USER_CODE', $event)"
               (click)="selectTextInput('userCodeCrIpt')"
             ></dx-text-box>
+          </th>
+          <th>
+            <dx-select-box
+              label="Loại hàng"
+              labelLocation="left"
+              showColonAfterLabel="true"
+              [labelMode]="'floating'"
+              displayExpr="name"
+              valueExpr="id"
+              [dataSource]="[
+                { id: 'M4', name: 'M4' },
+                { id: 'M8', name: 'M8' }
+              ]"
+              [(value)]="goodsType"
+              (onValueChanged)="scanChangeRack('GOODS_TYPE',$event)"
+            ></dx-select-box>
           </th>
           <th>
             <dx-text-box

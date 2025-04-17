@@ -648,6 +648,13 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
         return
       }
 
+      if (!this.rackChangeInfo.goodsType) {
+        this.toastr.warning('Cần chọn loại hàng','Warning')
+        this.selectTextInput('partNumberCrIpt')
+        return
+      }
+
+
       let obj = Object.assign({
         whUserCode: this.rackChangeInfo.userCode,
         partNumber: event.target.value.toUpperCase().trim(),
@@ -656,7 +663,8 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
         type: 'CHANGE_RACK',  // Change Rack
         fromRack: null,
         toRack:null,
-        remark: null
+        remark: null,
+        goodsType: this.rackChangeInfo.goodsType
       });
       console.log(obj);
   
@@ -666,7 +674,12 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
       return;
     }
 
-
+    // Chọn loại hàng
+    if (type === 'GOODS_TYPE') {
+      this.rackChangeInfo.goodsType = event.value
+      this.selectTextInput('partNumberCrIpt')
+      return;
+    }
 
   }
 
