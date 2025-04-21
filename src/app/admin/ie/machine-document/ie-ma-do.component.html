@@ -106,7 +106,6 @@
             caption="Time"
             dataType="date"
             format="yyyy-MM-dd HH:mm"
-            [sortOrder]="'desc'"
           ></dxi-column>
 
           <dxo-summary>
@@ -114,6 +113,7 @@
               column="machineCode"
               summaryType="count"
               displayFormat="{0} files"
+              groupIndex="0"
             >
             </dxi-group-item>
           </dxo-summary>

@@ -78,6 +78,7 @@ export class IeMaDoComponent implements OnInit {
     };
 
     this.ieMaDoSvc.uploadFile(selectedFile.value, obj).subscribe((response) => {
+      this.toastr.success('Upload thành công','Success')
       console.log('response: ', response);
       this.getMachineFiles();
       this.isLoading = false;
