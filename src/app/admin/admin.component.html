@@ -241,7 +241,7 @@
             >
           </li>
 
-          <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
+          <!-- <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
             <a
               class="externalLink"
               [href]="relayCqmrLink"
@@ -249,7 +249,34 @@
               (click)="onHideSidebar()"
               >CQMR</a
             >
+          </li> -->
+
+          <li nz-submenu nzTitle="CQMR">
+            <ul>
+              <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
+                <a class="externalLink" [href]="relayCqmrQuantityLink" target="_blank"
+                  >Quantity</a
+                >
+              </li>
+              <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
+                <a class="externalLink" [href]="relayCqmrQualityLink" target="_blank"
+                  >Quality</a
+                >
+              </li>
+              <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
+                <a class="externalLink" [href]="relayCqmrLostTimeLink" target="_blank"
+                  >Loss Time</a
+                >
+              </li>
+            </ul>
           </li>
+
+
+
+
+
+
+
           <li nz-submenu nzTitle="Relay Process Recording">
             <ul>
               <li

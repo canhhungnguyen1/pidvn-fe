@@ -308,6 +308,9 @@ export class AdminComponent implements OnInit {
   smartPIDLink!: string;
   CommonApprovalLink!: String;
   dynamicSystemLink!: string;
+  relayCqmrQuantityLink!:string;
+  relayCqmrQualityLink!: string;
+  relayCqmrLostTimeLink!: string
 
   ngOnInit(): void {
     let accessToken = localStorage.getItem('accessToken');
@@ -384,16 +387,16 @@ export class AdminComponent implements OnInit {
     this.pihProcessScannerLinkv2 = `${this.baseUrlJavaHttps}/pidvn/pih/pih_process_scaner/pih_process_menu?accessToken=${token2}`;
     this.pihPrintLabelLink = `${this.baseUrlJava}/pidvn/pih/pih_print_label/pih_print_label?accessToken=${token2}`;
     this.uploadFileLink = `${this.baseUrlJava}/pidvn/common/uploadfile/upload?accessToken=${token2}`;
-
     this.stampingDieManagerLink = `${this.baseUrlJava}/pidvn/vr/stamping/menu?accessToken=${token2}`;
     this.m2Link = `${this.baseUrlJava}/pidvn/vr/m2_managerment/menu?accessToken=${token2}`;
-
     this.editEmailLink = `${this.baseUrlJava}/pidvn/admin?name=pidvn_list_email&accessToken=${token2}`;
-
     this.smartPIDLink = `${this.baseUrlJava}/pidvn/chatbot?accessToken=${token2}`;
     this.CommonApprovalLink = `${this.baseUrlJava}/pidvn/admin?name=pidvn_view_approval&accessToken=${token2}`;
-
     this.dynamicSystemLink = `${this.baseUrlJava}/pidvn/admin?name=pidvn_system_command&accessToken=${token2}`;
+
+    this.relayCqmrQuantityLink = `${this.baseUrlJava}/pidvn/admin?name=pidvn_cqmr_qty&accessToken=${token2}`;
+    this.relayCqmrQualityLink = `${this.baseUrlJava}/pidvn/admin?name=pidvn_cqmr_quality&accessToken=${token2}`;
+    this.relayCqmrLostTimeLink = `${this.baseUrlJava}/pidvn/admin?name=pidvn_losstime_logs&accessToken=${token2}`;
   }
 
   weatherInfo: any;
