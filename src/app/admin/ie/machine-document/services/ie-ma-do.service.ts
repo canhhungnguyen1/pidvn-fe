@@ -36,4 +36,12 @@ export class IeMaDoService {
     // Gửi POST request
     return this.httpClient.post(`${this.baseUrl}/IE/Machine/File`, formData);
   }
+
+  public downloadFile(file: any): Observable<any> {
+    return this.httpClient.post(
+      `${this.baseUrl}/IE/Machine/DownloadFile`,
+      file,
+      { responseType: 'blob' }
+    );
+  }
 }

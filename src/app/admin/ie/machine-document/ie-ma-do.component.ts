@@ -92,4 +92,34 @@ export class IeMaDoComponent implements OnInit {
     this.machineCode = null;
     // this.getMachines();
   }
+
+
+
+  downloadFile(event: any) {
+    
+
+    this.ieMaDoSvc.downloadFile(event.data).subscribe(response => {
+
+      console.log(response);
+      const blob = new Blob([response], {
+        // type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      });
+      const data = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = data;
+      link.download = `${event.data.name}`;
+      link.dispatchEvent(
+        new MouseEvent('click', {
+          bubbles: true,
+          cancelable: true,
+          view: window,
+        })
+      );
+      setTimeout(() => {
+        window.URL.revokeObjectURL(data);
+        link.remove();
+      }, 100);
+    })
+    
+  }
 }

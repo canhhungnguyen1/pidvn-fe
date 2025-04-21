@@ -108,6 +108,19 @@
             format="yyyy-MM-dd HH:mm"
           ></dxi-column>
 
+          <dxi-column
+            caption="Action"
+            cellTemplate="actionTemplate"
+            [fixed]="true"
+            fixedPosition="right"
+          ></dxi-column>
+          <div
+            *dxTemplate="let item of 'actionTemplate'"
+            style="text-align: center"
+          >
+            <a (click)="downloadFile(item)">Tải xuống</a>
+          </div>
+
           <dxo-summary>
             <dxi-group-item
               column="machineCode"
