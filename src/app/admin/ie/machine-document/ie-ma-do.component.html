@@ -106,6 +106,7 @@
             caption="Time"
             dataType="date"
             format="yyyy-MM-dd HH:mm"
+            [sortOrder]="'desc'"
           ></dxi-column>
 
           <dxo-summary>
@@ -116,6 +117,13 @@
             >
             </dxi-group-item>
           </dxo-summary>
+
+          <dxo-paging [pageSize]="10"></dxo-paging>
+          <dxo-pager
+            [showPageSizeSelector]="true"
+            [allowedPageSizes]="[10, 25, 50, 100]"
+          >
+          </dxo-pager>
         </dx-data-grid> </nz-collapse-panel
     ></nz-collapse>
   </div>
