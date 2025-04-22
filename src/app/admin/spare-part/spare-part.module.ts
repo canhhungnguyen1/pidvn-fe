@@ -45,9 +45,6 @@ import { SparePartIvtReqComponent } from './spare-part-inventory/spare-part-ivt-
 import { SparePartPrintQrComponent } from './spare-part-print-qr/spare-part-print-qr.component';
 import { SparePartReportsComponent } from './spare-part-reports/spare-part-reports.component';
 import { SparePartRequestsComponent } from './spare-part-requests/spare-part-requests.component';
-import { SparePartIvtComponent } from './spare-part-ivt/spare-part-ivt.component';
-import { SparePartIvtHisComponent } from './spare-part-ivt-his/spare-part-ivt-his.component';
-import { SparePartIvtDetailComponent } from './spare-part-ivt-detail/spare-part-ivt-detail.component';
 
 @NgModule({
   declarations: [
@@ -58,11 +55,8 @@ import { SparePartIvtDetailComponent } from './spare-part-ivt-detail/spare-part-
     SparePartIvtReqComponent,
     SparePartIvtReqDetailComponent,
     SparePartReportsComponent,
-    SparePartIvtComponent,
-    SparePartIvtHisComponent,
     SparePartPrintQrComponent,
     SparePartRequestsComponent,
-    SparePartIvtDetailComponent,
   ],
   imports: [
     CommonModule,
