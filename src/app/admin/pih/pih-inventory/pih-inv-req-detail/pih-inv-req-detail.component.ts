@@ -3,7 +3,9 @@ import {
   Component,
   ElementRef,
   OnInit,
+  QueryList,
   ViewChild,
+  ViewChildren,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -21,7 +23,11 @@ import * as saveAs from 'file-saver';
 })
 export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
   @ViewChild('labelIpt') labelIpt!: ElementRef;
-  @ViewChild('importQtyIpt') importQtyIpt!: ElementRef;
+  // @ViewChild('importQtyIpt') importQtyIpt!: ElementRef;
+  @ViewChildren('importQtyIpt') importQtyIpts!: QueryList<ElementRef>;
+
+
+
   @ViewChild(DxDataGridComponent, { static: false })
   balanceGrid!: DxDataGridComponent;
 
@@ -412,15 +418,26 @@ export class PihInvReqDetailComponent implements OnInit, AfterViewInit {
   }
 
   startEdit(data: any) {
-    setTimeout(() => {
-      this.importQtyIpt.nativeElement.select();
-    }, 400);
+    // setTimeout(() => {
+    //   this.importQtyIpt.nativeElement.select();
+    // }, 400);
     this.lotNoEdit = data.lotNo;
+    setTimeout(() => {
+      const inputToFocus = this.importQtyIpts.find(
+        (input, index) => this.listLotsScanned[index].lotNo === data.lotNo
+      );
+      if (inputToFocus) {
+        inputToFocus.nativeElement.focus();
+        inputToFocus.nativeElement.select(); // Bôi đen text
+      }
+    }, 0);
+
   }
 
   stopEdit(): void {
     this.lotNoEdit = null;
-    this.importQtyIpt.nativeElement.select();
+    // this.importQtyIpt.nativeElement.select();
+    this.totalQtyScanned = this.sumQtyScanned(this.listLotsScanned);
   }
 
   deleteLabelScanned(data: any) {
