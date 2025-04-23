@@ -1,65 +1,71 @@
-<nz-tabset>
-  <nz-tab nzTitle="Phiếu kiểm kê">
-    <dx-data-grid
-      keyExpr="id"
-      [dataSource]="inventoryRequests"
-      [showColumnLines]="true"
-      [showRowLines]="true"
-      [showBorders]="true"
-      [allowColumnResizing]="true"
-      [columnAutoWidth]="true"
-      [rowAlternationEnabled]="true"
-    >
-      <dxo-toolbar>
-        <dxi-item location="before">
-          <button
-            nz-button
-            nzType="primary"
-            (click)="openCreateRequestInventoryModal()"
-          >
-            <span nz-icon nzType="plus"></span>
-            Tạo phiếu kiểm kê
-          </button>
-        </dxi-item>
-      </dxo-toolbar>
-
-      <dxo-paging [pageSize]="10"></dxo-paging>
-      <dxo-filter-row [visible]="true"></dxo-filter-row>
-
-      <dxi-column dataField="reqNo" caption="Request No"></dxi-column>
-
-      <dxi-column
-        dataField="inventoryDate"
-        dataType="date"
-        caption="Ngày kiểm kê"
-        format="yyyy-MM-dd"
-      ></dxi-column>
-      <dxi-column
-        dataField="inventoryCloseDate"
-        dataType="date"
-        caption="Ngày chốt kiểm kê"
-        format="yyyy-MM-dd"
-      ></dxi-column>
-
-      <dxi-column dataField="createdBy" caption="Người tạo"></dxi-column>
-      <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
-
-      <dxi-column
-        caption="Action"
-        cellTemplate="actionTemplate"
-        alignment="center"
+<dx-data-grid
+  keyExpr="id"
+  [dataSource]="inventoryRequests"
+  [showColumnLines]="true"
+  [showRowLines]="true"
+  [showBorders]="true"
+  [allowColumnResizing]="true"
+  [columnAutoWidth]="true"
+  [rowAlternationEnabled]="true"
+>
+  <dxo-column-chooser
+    #columnChooser
+    [enabled]="true"
+    [mode]="'select'"
+    [title]="'Cột hiển thị'"
+  >
+  </dxo-column-chooser>
+  <dxo-toolbar>
+    <dxi-item location="before">
+      <dx-button
+        icon="plus"
+        type="default"
+        text="Tạo phiếu kiểm kê"
+        (onClick)="openCreateRequestInventoryModal()"
       >
-        <div
-          *dxTemplate="let item of 'actionTemplate'"
-          style="text-align: center"
-        >
-          <a style="color: blue" (click)="redirectDetail(item)">Chi tiết</a>
-        </div>
-      </dxi-column>
-    </dx-data-grid>
-  </nz-tab>
-  <nz-tab nzTitle="Tồn kho thực tế hiện tại"></nz-tab>
-</nz-tabset>
+      </dx-button>
+    </dxi-item>
+
+    <dxi-item name="columnChooserButton" location="after"></dxi-item>
+  </dxo-toolbar>
+
+  
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
+  
+  <dxi-column dataField="reqNo" caption="Request No"></dxi-column>
+  <dxi-column
+    dataField="inventoryCloseDate"
+    dataType="date"
+    format="yyyy-MM-dd"
+    caption="Ngày chốt kiểm kê"
+    [visible]="true"
+  ></dxi-column>
+  <dxi-column
+    dataField="createdBy"
+    caption="Người tạo (ID)"
+    [visible]="true"
+  ></dxi-column>
+  <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
+  <dxi-column
+    caption="Action"
+    cellTemplate="actionTemplate"
+    alignment="center"
+    [fixed]="true"
+    fixedPosition="left"
+  >
+    <div *dxTemplate="let item of 'actionTemplate'" style="text-align: center">
+      <a style="color: blue" (click)="redirectDetail(item)">Chi tiết</a>
+    </div>
+  </dxi-column>
+
+  
+  <dxo-paging [pageSize]="10"></dxo-paging>
+  <dxo-pager
+    [showPageSizeSelector]="true"
+    [allowedPageSizes]="[10, 25, 50, 100]"
+  >
+  </dxo-pager>
+</dx-data-grid>
 
 <nz-modal
   [(nzVisible)]="isOpenCreateRequestInventoryModal"
@@ -77,23 +83,13 @@
       <tbody>
         <tr>
           <td><label>Phiếu kiểm kê</label></td>
-          <td>{{ ivtReq }}</td>
+          <td>{{ ivtReq.reqNo }}</td>
         </tr>
         <tr>
           <td><label>Người tạo</label></td>
-          <td>{{ jwt.FullName }} - {{ jwt.Username }}</td>
+          <td>{{ ivtReq.createdBy }} - {{ ivtReq.createdByName }}</td>
         </tr>
-        <tr>
-          <td><label>Ngày kiểm kê</label><span style="color: red">*</span></td>
-          <td>
-            <nz-date-picker
-              style="width: 100%"
-              [nzDisabledDate]="disabledDate"
-              nzPlaceHolder="Chọn ngày kiểm kê"
-              [(ngModel)]="ivtDate"
-            ></nz-date-picker>
-          </td>
-        </tr>
+
         <tr>
           <td>
             <label>Ngày chốt kiểm kê</label><span style="color: red">*</span>
@@ -101,16 +97,19 @@
           <td>
             <nz-date-picker
               style="width: 100%"
-              [nzDisabledDate]="disabledDate"
-              nzPlaceHolder="Chọn ngày chốt kiểm kê"
-              [(ngModel)]="ivtCloseDate"
+              [(ngModel)]="ivtReq.inventoryCloseDate"
             ></nz-date-picker>
           </td>
         </tr>
+
         <tr>
           <td><label>Ghi chú</label></td>
           <td>
-            <textarea rows="2" nz-input [(ngModel)]="remark"></textarea>
+            <textarea
+              rows="2"
+              nz-input
+              [(ngModel)]="this.ivtReq.remark"
+            ></textarea>
           </td>
         </tr>
       </tbody>
@@ -120,15 +119,15 @@
     <button
       nz-button
       nzType="default"
-      (click)="closeCreateRequestInventoryModal()"
+      (click)="isOpenCreateRequestInventoryModal = false"
     >
       Hủy
     </button>
     <button
       nz-button
       nzType="primary"
-      (click)="createInventoryRequest()"
       [nzLoading]="isLoading"
+      (click)="createInventoryRequest()"
     >
       Tạo
     </button>

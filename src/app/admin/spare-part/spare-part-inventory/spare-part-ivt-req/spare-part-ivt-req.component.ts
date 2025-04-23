@@ -1,106 +1,86 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Router } from '@angular/router';
 import { SparePartService } from '../../services/spare-part.service';
 import { differenceInCalendarDays, setHours } from 'date-fns';
+import { SparePartIvtService } from '../../services/spare-part-ivt.service';
 @Component({
   selector: 'app-spare-part-ivt-req',
   templateUrl: './spare-part-ivt-req.component.html',
-  styleUrls: ['./spare-part-ivt-req.component.scss']
+  styleUrls: ['./spare-part-ivt-req.component.scss'],
 })
-export class SparePartIvtReqComponent {
-
-  constructor (
+export class SparePartIvtReqComponent implements OnInit {
+  constructor(
     private toastr: ToastrService,
     private jwtHelperSvc: JwtHelperService,
-    private sparePartSvc: SparePartService,
+    private sparePartIvtSvc: SparePartIvtService,
     private router: Router
   ) {}
-
-  
-
-  jwt: any
-
-  inventoryRequests: any;
-
-  disabledDate = (current: Date): boolean =>
-    differenceInCalendarDays(current, new Date()) < 0;
-
-  userLogin = {
-    username: '',
-    fullName: ''
-  }
-
-  ivtReq: any;
-  ivtDate:any; // Ngày kiểm kê
-  ivtCloseDate:any; // Ngày chốt kiểm kê
-  remark: any;
 
   ngOnInit(): void {
     this.jwt = this.jwtHelperSvc.decodeToken(
       localStorage.getItem('accessToken')?.toString()
-    )
+    );
 
     this.getInventoryRequests();
   }
 
-  isOpenCreateRequestInventoryModal: boolean = false;
 
-  isLoading: boolean = false;
+  jwt: any;
+  isLoading: boolean = false
+  isOpenCreateRequestInventoryModal: boolean = false;
+  inventoryRequests: any; // danh sách các request
+  ivtReq:any = {};
+
+
 
   openCreateRequestInventoryModal() {
+    this.ivtReq = {}
 
     let currentDate = new Date().toJSON().slice(0, 10).replace(/-/g, '');
-
-    this.ivtReq = `IVT-${currentDate}`;
-
-    this.isOpenCreateRequestInventoryModal = true
-
+    this.ivtReq.reqNo = `IVT-${currentDate}`;
+    this.ivtReq.createdBy = this.jwt.Username
+    this.ivtReq.createdByName = this.jwt.FullName
+    this.isOpenCreateRequestInventoryModal = true;
   }
 
-  closeCreateRequestInventoryModal() {
-    this.isOpenCreateRequestInventoryModal = false
-    this.remark = null
-  }
-
-
-  createInventoryRequest() {
-    this.isLoading = true;
-    let obj = {
-      reqNo: this.ivtReq,
-      createdBy: this.jwt.Username,
-      remark: this.remark,
-      inventoryDate: this.ivtDate,
-      inventoryCloseDate: this.ivtCloseDate
-    }
-
-    this.sparePartSvc.saveSparePartInventoryRequest(obj).subscribe(
-      response => {
-        this.getInventoryRequests();
-        this.isOpenCreateRequestInventoryModal = false
-        this.isLoading = false;
-      },
-      error => {
-        this.isLoading = false;
-      }
-    )
-  }
 
   getInventoryRequests() {
-    this.sparePartSvc.getSparePartInventoryRequests().subscribe(
+    this.sparePartIvtSvc.getInventoryRequests().subscribe(
       response => {
-        this.inventoryRequests = response
+        this.inventoryRequests = response.result.reverse()
       }
     )
   }
 
+  createInventoryRequest() {
+
+    this.isLoading = true
+    
+    let obj = {
+      reqNo: this.ivtReq.reqNo,
+      createdBy: this.ivtReq.createdBy,
+      remark: this.ivtReq.remark,
+      inventoryCloseDate: this.ivtReq.inventoryCloseDate,
+    };
+  
+    console.log('createInventoryRequest: ', obj);
+    
+  
+    this.sparePartIvtSvc.createInventoryRequest(obj).subscribe(
+      response => {
+        this.isLoading = false
+      }
+    )
+
+  }
 
   redirectDetail(item: any) {
-    console.log(item.data)
+    console.log(item.data);
     this.router.navigate(
       [`admin/spare-part/spare-part-inventory-request`, `${item.data.id}`],
       { queryParams: { reqNo: item.data.reqNo } }
-    )
+    );
   }
 }

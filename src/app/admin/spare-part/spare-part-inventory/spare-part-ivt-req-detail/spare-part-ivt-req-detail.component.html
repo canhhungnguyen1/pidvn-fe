@@ -12,33 +12,16 @@
         <label style="font-weight: bold; color: green"> {{ requestNo }} </label>
       </th>
       <th style="text-align: right">
-        <nz-space>
-          <button
-            *nzSpaceItem
-            nz-button
-            nzType="primary"
-            (click)="openScanInventoryModal()"
-          >
-            <span nz-icon nzType="qrcode"></span>
-            Scan kiểm kê
-          </button>
-
-          <button
-            *nzSpaceItem
-            nz-button
-            (click)="openModalUploadExcelInventory()"
-          >
-            <span nz-icon nzType="upload"></span>
-            Upload dữ liệu kiểm kê
-          </button>
-        </nz-space>
+        <button nz-button nzType="primary" (click)="openScanInventoryModal()">
+          <span nz-icon nzType="qrcode"></span>
+          Scan kiểm kê
+        </button>
       </th>
     </tr>
   </thead>
 </nz-table>
 
 <dx-data-grid
-  #ivtDataGrid
   keyExpr="id"
   [dataSource]="inventoryData"
   [showColumnLines]="true"
@@ -47,51 +30,18 @@
   [allowColumnResizing]="true"
   [columnAutoWidth]="true"
   [rowAlternationEnabled]="true"
-  style="margin-top: -20px"
 >
-  <dxo-paging [pageSize]="10"></dxo-paging>
   <dxo-filter-row [visible]="true"></dxo-filter-row>
-  <dxo-export [enabled]="true"></dxo-export>
-
-  <dxo-toolbar>
-    <dxi-item location="before">
-      <span class="ivt-data" style="color: blue"> Dữ liệu kiểm kê : {{inventoryRequest?.inventoryDate | date: "MM-yyyy"}}</span>
-    </dxi-item>
-
-    <dxi-item name="exportButton"></dxi-item>
-  </dxo-toolbar>
-
-  <dxi-column dataField="partNumber" caption="Part No"></dxi-column>
-  <dxi-column dataField="galileoName" caption="Galileo Name"></dxi-column>
-  <dxi-column dataField="position" caption="Position"></dxi-column>
-  <dxi-column dataField="factoryCode" caption="Factory Code"></dxi-column>
-  <dxi-column dataField="unit" caption="Unit"></dxi-column>
-  <dxi-column dataField="qty" caption="Qty" alignment="right"></dxi-column>
-  <dxi-column dataField="standardPrice" caption="Standard Price"></dxi-column>
-  <dxi-column dataField="totalPrice" caption="Total Amount"></dxi-column>
-  <dxi-column dataField="currencyCode" caption="Currency Code"></dxi-column>
-
+  <dxi-column dataField="partNumber" caption="PartNumber"></dxi-column>
+  <dxi-column dataField="rack" caption="RackNo"></dxi-column>
+  <dxi-column dataField="qty" caption="Số lượng"></dxi-column>
+  <dxi-column dataField="createdBy" caption="User Scan"></dxi-column>
   <dxi-column
     dataField="createdAt"
-    caption="Date"
+    caption="Thời gian"
     dataType="date"
     format="yyyy-MM-dd HH:mm:ss"
   ></dxi-column>
-
-  <dxo-summary>
-    <dxi-total-item
-      column="totalPrice"
-      summaryType="sum"
-      valueFormat="#,##0"
-    ></dxi-total-item>
-  </dxo-summary>
-
-  <dxo-paging [pageSize]="10"></dxo-paging>
-  <dxo-pager
-    [showPageSizeSelector]="true"
-    [allowedPageSizes]="[10, 25, 50, 100]"
-  >
-  </dxo-pager>
 </dx-data-grid>
 
 <nz-modal
@@ -109,48 +59,65 @@
     >
       <thead>
         <tr>
-          <th width="10%">Part</th>
-          <th width="55%">
-            <input
-              id="labelIpt"
+          <th>
+            <dx-select-box
+              label="RACK"
+              labelLocation="left"
+              showColonAfterLabel="true"
+              [dataSource]="racks"
+              [searchEnabled]="true"
+              [labelMode]="'static'"
+              displayExpr="name"
+              valueExpr="name"
+              [(ngModel)]="ivtRecord.rack"
+              (onValueChanged)="changeRack($event)"
+            ></dx-select-box>
+          </th>
+          <th>
+            <dx-text-box
+              #userIpt
+              label="Nhân viên"
+              labelLocation="left"
+              showColonAfterLabel="true"
+              [labelMode]="'static'"
+              placeholder="Scan mã nhân viên"
+              (keydown.enter)="scanUser($event)"
+              [(ngModel)]="ivtRecord.whUserCode"
+              (click)="selectTextInput('userIpt')"
+            ></dx-text-box>
+          </th>
+          <th>
+            <dx-text-box
               #labelIpt
-              nz-input
-              placeholder="Part Number"
+              label="Mã Spare Part"
+              labelLocation="left"
+              showColonAfterLabel="true"
+              [labelMode]="'static'"
+              placeholder="Scan mã Spare Part"
               (keydown.enter)="scanLabel($event)"
-              (click)="labelIpt.select()"
-              autocomplete="off"
-              autofocus="true"
-            />
-          </th>
-          <th width="10%">Qty</th>
-          <th width="15%">
-            <input #qtyIpt type="number" nz-input autocomplete="off" min="0" />
-          </th>
-          <th width="10%">
-            <button
-              nz-button
-              nzType="primary"
-              style="background: green; border: green"
-            >
-              <span nz-icon nzType="plus"></span>
-              Add
-            </button>
+              [(ngModel)]="ivtRecord.partNumber"
+              (click)="selectTextInput('labelIpt')"
+            ></dx-text-box>
           </th>
         </tr>
       </thead>
     </nz-table>
+
     <nz-table
+      nzBordered
       #labelTable
       nzSize="small"
-      nzBordered
-      [nzData]="listPartsScanned"
+      [nzData]="listLabelScanned"
+      nzFrontPagination="false"
       style="margin-top: -20px"
+      nzFrontPagination="true"
+      [nzPageSize]="10"
     >
       <thead>
         <tr>
-          <th>Part Number</th>
-          <th>Qty (Tồn)</th>
-          <th>Action</th>
+          <th nzWidth="150px">Part Number</th>
+          <th nzWidth="150px">Qty (Tồn)</th>
+          <th nzWidth="100px">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -158,15 +125,30 @@
           <td>
             <label>{{ data.partNumber }}</label>
           </td>
-          <td>
-            <label>{{ data.qty }}</label>
+
+          <td class="editable-row" style="text-align: right">
+            <div
+              class="editable-cell"
+              [hidden]="labelEdit === data.partNumber"
+              (click)="startEdit(data.partNumber)"
+            >
+              {{ data.qty | number : "1.0-3" }}
+            </div>
+            <input
+              #qtyInput
+              [hidden]="labelEdit !== data.partNumber"
+              type="number"
+              nz-input
+              [(ngModel)]="data.qty"
+              (blur)="stopEdit()"
+            />
           </td>
           <td
             style="text-align: center"
             nz-popconfirm
             nzPopconfirmTitle="Có chắc chắn xóa không ?"
             nzPopconfirmPlacement="top"
-            nzRight
+            (nzOnConfirm)="deleteLabelScanned(data)"
           >
             <a style="color: red; font-weight: bold">Xóa</a>
           </td>
@@ -174,41 +156,24 @@
       </tbody>
     </nz-table>
   </ng-container>
-
   <div *nzModalFooter>
-    <button nz-button nzType="default" (click)="closeScanInventoryModal()">
-      Hủy
-    </button>
-    <button nz-button nzType="primary" [nzLoading]="isLoadingSaveInventoryData">
-      Lưu dữ liệu
-    </button>
-  </div>
-</nz-modal>
-
-<nz-modal
-  [(nzVisible)]="isOpenModalUploadExcelInventory"
-  nzTitle="Upload dữ liệu kiểm kê"
-  nzWidth="750px"
->
-  <ng-container *nzModalContent>
-    <nz-upload [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload">
-      <button nz-button>
-        <span nz-icon nzType="upload"></span>
-        Chọn file upload
-      </button>
-    </nz-upload>
     <button
       nz-button
-      [nzType]="'primary'"
-      [nzLoading]="uploading"
-      (click)="handleUploadExcel()"
-      [disabled]="fileList.length === 0"
-      style="margin-top: 16px"
+      nz-popconfirm
+      nzPopconfirmTitle="Nếu đóng sẽ xóa toàn bộ dữ liệu đã scan"
+      nzType="default"
+      (nzOnConfirm)="isOpenScanInventoryModal = false"
     >
-      {{ uploading ? "Uploading" : "Start Upload" }}
+      Đóng
     </button>
-  </ng-container>
-  <div *nzModalFooter>
-    <button nz-button nzType="default">Đóng</button>
+    <button
+      nz-button
+      nzType="primary"
+      [nzLoading]="isLoading"
+      (click)="saveListInventoryData()"
+      [disabled]="!listLabelScanned.length"
+    >
+      Lưu dữ liệu
+    </button>
   </div>
 </nz-modal>

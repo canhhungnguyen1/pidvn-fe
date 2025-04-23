@@ -87,6 +87,10 @@ export class SparePartService {
     return this.httpClient.get(`${this.baseUrl}/SparePart/Machines`);
   }
 
+  getRacks(): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/SparePart/Racks`);
+  }
+
   /**
    * Kiem ke
    */

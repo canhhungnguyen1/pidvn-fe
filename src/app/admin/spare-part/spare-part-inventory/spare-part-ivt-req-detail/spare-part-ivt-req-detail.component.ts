@@ -1,176 +1,154 @@
 import {
-  AfterViewInit,
   Component,
   ElementRef,
   OnInit,
+  QueryList,
   ViewChild,
+  ViewChildren,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { SparePartService } from '../../services/spare-part.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { NzUploadFile } from 'ng-zorro-antd/upload';
-import { HttpClient, HttpRequest, HttpResponse } from '@angular/common/http';
-import { filter } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
-import { DxDataGridComponent } from 'devextreme-angular';
+import { ToastrService } from 'ngx-toastr';
+import { SparePartIvtService } from '../../services/spare-part-ivt.service';
+import { SparePartService } from '../../services/spare-part.service';
+import { DxTextBoxComponent } from 'devextreme-angular';
 
 @Component({
   selector: 'app-spare-part-ivt-req-detail',
   templateUrl: './spare-part-ivt-req-detail.component.html',
   styleUrls: ['./spare-part-ivt-req-detail.component.scss'],
 })
-export class SparePartIvtReqDetailComponent implements OnInit, AfterViewInit {
-  
-  @ViewChild(DxDataGridComponent, { static: false })
-  ivtDataGrid!: DxDataGridComponent;
+export class SparePartIvtReqDetailComponent implements OnInit {
+  @ViewChild('labelIpt', { static: false })
+  labelIpt!: DxTextBoxComponent;
+  @ViewChild('userIpt', { static: false })
+  userIpt!: DxTextBoxComponent;
 
-  @ViewChild('labelIpt') labelIpt!: ElementRef;
-  @ViewChild('qtyIpt') qtyIpt!: ElementRef;
-  @ViewChild('importQtyIpt') importQtyIpt!: ElementRef;
-
-  baseUrl = environment.baseUrl;
+  @ViewChildren('qtyInput') qtyInputs!: QueryList<ElementRef>;
 
   constructor(
     private toastr: ToastrService,
     private activatedRoute: ActivatedRoute,
+    private sparePartIvtSvc: SparePartIvtService,
     private sparePartSvc: SparePartService,
-    private jwtHelperSvc: JwtHelperService,
-    private http: HttpClient
+    private jwtHelperSvc: JwtHelperService
   ) {}
-
-  requestId: any;
-  requestNo: any;
-  inventoryRequest: any;
-  inventoryData: any;
-  isOpenScanInventoryModal: boolean = false;
-  isOpenModalUploadExcelInventory: boolean = false
-
-
-  isLoadingSaveInventoryData: boolean = false;
-  uploading = false;
-  fileList: NzUploadFile[] = [];
-  uploadExcelApi: any;
-  uploadResult: any;
-  
-  
-  mapPartsScanned: Map<string, any> = new Map();
-  listPartsScanned: Array<any> = new Array();
 
   ngOnInit(): void {
     this.requestId = Number(this.activatedRoute.snapshot.params['id']);
     this.requestNo = this.activatedRoute.snapshot.queryParamMap.get('reqNo');
-    this.getInventoryRequest(this.requestId);
+    this.getInventoryData();
+    this.getRacks();
+
   }
 
-  ngAfterViewInit(): void {
-    this.getInventoryData(this.requestId);
-  }
+  racks: any;
+  requestNo: any;
+  requestId: any;
+  isOpenScanInventoryModal: boolean = false;
+  ivtRecord: any = {};
+  isLoading: boolean = false;
+  mapLabelScanned: Map<string, any> = new Map();
+  listLabelScanned: Array<any> = new Array();
+  labelEdit: string | null = null;
+  inventoryData: any;
 
-
-  getInventoryRequest(requestId: number) {
-    this.sparePartSvc.getInventoryRequest(requestId).subscribe(
-      response => {
-        this.inventoryRequest = response
-      }
-    )
+  getRacks() {
+    this.sparePartSvc.getRacks().subscribe((response) => {
+      this.racks = response;
+    });
   }
 
   openScanInventoryModal() {
-    /**
-     * Kiểm tra phiếu đã quá thời gian kiểm kê chưa
-     * Đang để lớn hơn 5 ngày sẽ không cho kiểm kê
-     */
-    let reqDateStr = this.requestNo.split('-')[1];
-    let pattern = /(\d{4})(\d{2})(\d{2})/;
-    let reqDate = new Date(reqDateStr.replace(pattern, '$1-$2-$3'));
-    let curDate = new Date();
-    const diffTime = Math.abs(reqDate.getTime() - curDate.getTime());
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    this.isOpenScanInventoryModal = true;
+    this.listLabelScanned = new Array();
+    this.mapLabelScanned = new Map();
+    this.ivtRecord = {};
+  }
 
-    if (diffDays > 5) {
-      this.toastr.warning('Đã quá thời gian kiểm kê', 'Warning');
-      return;
+  changeRack(event: any) {
+    this.selectTextInput('userIpt');
+  }
+
+  scanUser(event: any) {
+    this.ivtRecord.whUserCode = event.target.value.trim().toUpperCase();
+    this.selectTextInput('labelIpt');
+  }
+
+  startEdit(data: any) {
+    this.labelEdit = data;
+    setTimeout(() => {
+      const inputToFocus = this.qtyInputs.find(
+        (input, index) => this.listLabelScanned[index].partNumber === data
+      );
+      if (inputToFocus) {
+        inputToFocus.nativeElement.focus();
+        inputToFocus.nativeElement.select(); // Bôi đen text
+      }
+    }, 0);
+  }
+
+  stopEdit(): void {
+    this.labelEdit = null;
+  }
+
+  scanLabel(event: any) {
+    this.selectTextInput('labelIpt');
+    let obj = {
+      requestId: this.requestId,
+      partNumber: event.target.value.trim().toUpperCase(),
+      rack: this.ivtRecord.rack,
+      createdBy: this.ivtRecord.whUserCode,
+      qty: 0,
+    };
+
+    this.mapLabelScanned.set(obj.partNumber, obj);
+    this.listLabelScanned = Array.from(this.mapLabelScanned.values()).reverse();
+  }
+
+  deleteLabelScanned(data: any) {
+    this.mapLabelScanned.delete(data.partNumber);
+    this.listLabelScanned = Array.from(this.mapLabelScanned.values()).reverse();
+  }
+
+  selectTextInput(input: string) {
+    if (input === 'userIpt') {
+      const inputElement = this.userIpt.instance
+        .element()
+        .querySelector('input');
+      if (inputElement) {
+        inputElement.select();
+        return;
+      }
     }
 
-
-    this.isOpenScanInventoryModal = true;
-
-    setTimeout(() => {
-      this.labelIpt.nativeElement.focus()
-    }, 500)
-
-
-
-
+    if (input === 'labelIpt') {
+      const inputElement = this.labelIpt.instance
+        .element()
+        .querySelector('input');
+      if (inputElement) {
+        inputElement.select();
+        return;
+      }
+    }
   }
 
-  closeScanInventoryModal() {
-    this.isOpenScanInventoryModal = false;
-  }
-
-  getInventoryData(requestId: any) {
-
-    let name = this.jwtHelperSvc.decodeToken(
-      localStorage.getItem('accessToken')?.toString()
-    ).FullName.split(' ').reverse()[0]
-
-    this.ivtDataGrid?.instance.beginCustomLoading(
-      `Bạn ${name} ơi đợi tý nhé! \n Hệ thống đang lấy dữ liệu`
-    );
-
-    this.sparePartSvc.getInventoryData(requestId).subscribe(
+  getInventoryData() {
+    this.sparePartIvtSvc.getInventoryData(this.requestId).subscribe(
       response => {
-        this.inventoryData = response
-        this.ivtDataGrid.instance.endCustomLoading();
+        this.inventoryData = response.result
       }
     )
   }
 
-  scanLabel(event: any) { 
-    this.qtyIpt.nativeElement.focus()
+  saveListInventoryData() {
+    console.log(this.listLabelScanned);
+    this.sparePartIvtSvc.saveInventoryData(this.listLabelScanned).subscribe(
+      response => {
+        this.toastr.success('Lưu data thành công','Thông báo')
+        this.getInventoryData();
+        this.isOpenScanInventoryModal = false
+      }
+    )
   }
-
-  openModalUploadExcelInventory() {
-    this.isOpenModalUploadExcelInventory = true;
-    this.uploadExcelApi = `${this.baseUrl}/SparePart/Inventory/UploadExcel?requestId=${this.requestId}`;
-  }
-
-  beforeUpload = (file: NzUploadFile): boolean => {
-    this.fileList = this.fileList.concat(file);
-    return false;
-  };
-
-  handleUploadExcel(): void {
-    const formData = new FormData();
-
-    this.fileList.forEach((file: any) => {
-      formData.append('file', file);
-    });
-
-    this.uploading = true;
-
-    const req = new HttpRequest('POST', this.uploadExcelApi, formData, {
-      // reportProgress: true
-    });
-
-    this.http
-      .request(req)
-      .pipe(filter((e) => e instanceof HttpResponse))
-      .subscribe(
-        (response: any) => {
-          this.uploading = false;
-          console.log('RESPONSE UPLOAD: ', response);
-          this.fileList = [];
-          this.uploadResult = response.body;
-        },
-        () => {
-          this.uploading = false;
-        }
-      );
-  }
-
-  
-
- 
 }

@@ -583,21 +583,17 @@ export class SparePartInOutComponent implements OnInit, AfterViewInit {
     { id: 'PIH-R2-C-2', name: 'PIH-R2-C-2' },
     { id: 'PIH-R2-C-3', name: 'PIH-R2-C-3' },
     { id: 'PIH-R2-C-4', name: 'PIH-R2-C-4' },
-
     { id: 'PIH-E-R1-B-1', name: 'PIH-E-R1-B-1' },
     { id: 'PIH-E-R1-B-2', name: 'PIH-E-R1-B-2' },
     { id: 'PIH-E-R1-B-3', name: 'PIH-E-R1-B-3' },
-
     { id: 'PIH-E-R2-A-1', name: 'PIH-E-R2-A-1' },
     { id: 'PIH-E-R2-A-2', name: 'PIH-E-R2-A-2' },
     { id: 'PIH-E-R2-A-3', name: 'PIH-E-R2-A-3' },
     { id: 'PIH-E-R2-A-4', name: 'PIH-E-R2-A-4' },
-
     { id: 'PIH-E-R2-B-1', name: 'PIH-E-R2-B-1' },
     { id: 'PIH-E-R2-B-2', name: 'PIH-E-R2-B-2' },
     { id: 'PIH-E-R2-B-3', name: 'PIH-E-R2-B-3' },
     { id: 'PIH-E-R2-B-4', name: 'PIH-E-R2-B-4' },
-
     { id: 'PIH-E-R2-C-1', name: 'PIH-E-R2-C-1' },
     { id: 'PIH-E-R2-C-2', name: 'PIH-E-R2-C-2' },
     { id: 'PIH-E-R2-C-3', name: 'PIH-E-R2-C-3' },
