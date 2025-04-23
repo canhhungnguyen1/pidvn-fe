@@ -31,8 +31,8 @@
 
   
   <dxo-filter-row [visible]="true"></dxo-filter-row>
-  
-  <dxi-column dataField="reqNo" caption="Request No"></dxi-column>
+
+  <dxi-column dataField="reqNo" caption="Phiếu kiểm kê"></dxi-column>
   <dxi-column
     dataField="inventoryCloseDate"
     dataType="date"
@@ -46,6 +46,13 @@
     [visible]="true"
   ></dxi-column>
   <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
+  <dxi-column
+    dataField="createdAt"
+    dataType="date"
+    format="yyyy-MM-dd"
+    caption="Ngày tạo"
+    [visible]="true"
+  ></dxi-column>
   <dxi-column
     caption="Action"
     cellTemplate="actionTemplate"

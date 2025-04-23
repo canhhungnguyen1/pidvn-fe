@@ -71,7 +71,7 @@ export class SparePartIvtReqDetailComponent implements OnInit {
   }
 
   scanUser(event: any) {
-    this.ivtRecord.whUserCode = event.target.value.trim().toUpperCase();
+    this.ivtRecord.createdBy = event.target.value.trim().toUpperCase();
     this.selectTextInput('labelIpt');
   }
 
@@ -93,12 +93,23 @@ export class SparePartIvtReqDetailComponent implements OnInit {
   }
 
   scanLabel(event: any) {
+
+    if (!this.ivtRecord.createdBy) {
+      this.toastr.warning('Cần scan mã nhân viên','Cảnh báo')
+      return
+    }
+
+    if (!this.ivtRecord.rack) {
+      this.toastr.warning('Cần chọn rack','Cảnh báo')
+      return
+    }
+
     this.selectTextInput('labelIpt');
     let obj = {
       requestId: this.requestId,
       partNumber: event.target.value.trim().toUpperCase(),
       rack: this.ivtRecord.rack,
-      createdBy: this.ivtRecord.whUserCode,
+      createdBy: this.ivtRecord.createdBy,
       qty: 0,
     };
 

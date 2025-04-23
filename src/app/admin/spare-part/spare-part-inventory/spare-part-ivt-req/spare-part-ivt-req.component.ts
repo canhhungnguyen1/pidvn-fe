@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
-import { JwtHelperService } from '@auth0/angular-jwt';
 import { Router } from '@angular/router';
-import { SparePartService } from '../../services/spare-part.service';
-import { differenceInCalendarDays, setHours } from 'date-fns';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { ToastrService } from 'ngx-toastr';
 import { SparePartIvtService } from '../../services/spare-part-ivt.service';
 @Component({
   selector: 'app-spare-part-ivt-req',
@@ -71,6 +69,11 @@ export class SparePartIvtReqComponent implements OnInit {
     this.sparePartIvtSvc.createInventoryRequest(obj).subscribe(
       response => {
         this.isLoading = false
+        this.isOpenCreateRequestInventoryModal = false
+      },
+      error => {
+        this.isLoading = false
+        this.isOpenCreateRequestInventoryModal = false
       }
     )
 
