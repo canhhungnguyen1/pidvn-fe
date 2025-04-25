@@ -12,6 +12,9 @@ import { ToastrService } from 'ngx-toastr';
 import { SparePartIvtService } from '../../services/spare-part-ivt.service';
 import { SparePartService } from '../../services/spare-part.service';
 import { DxTextBoxComponent } from 'devextreme-angular';
+import { Workbook } from 'exceljs';
+import saveAs from 'file-saver';
+import { exportDataGrid } from 'devextreme/excel_exporter';
 
 @Component({
   selector: 'app-spare-part-ivt-req-detail',
@@ -162,4 +165,21 @@ export class SparePartIvtReqDetailComponent implements OnInit {
       }
     )
   }
+
+
+  onExportClient(event: any, fileName: any) {
+      const workbook = new Workbook();
+      const worksheet = workbook.addWorksheet('Main sheet');
+      exportDataGrid({
+        component: event.component,
+        worksheet: worksheet,
+      }).then(function () {
+        workbook.xlsx.writeBuffer().then(function (buffer: BlobPart) {
+          saveAs(
+            new Blob([buffer], { type: 'application/octet-stream' }),
+            `${fileName}.xlsx`
+          );
+        });
+      });
+    }
 }

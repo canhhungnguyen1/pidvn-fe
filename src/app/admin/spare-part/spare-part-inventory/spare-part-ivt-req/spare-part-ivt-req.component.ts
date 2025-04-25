@@ -24,59 +24,73 @@ export class SparePartIvtReqComponent implements OnInit {
     this.getInventoryRequests();
   }
 
-
   jwt: any;
-  isLoading: boolean = false
+  isLoading: boolean = false;
   isOpenCreateRequestInventoryModal: boolean = false;
   inventoryRequests: any; // danh sách các request
-  ivtReq:any = {};
-
-
+  ivtReq: any = {};
 
   openCreateRequestInventoryModal() {
-    this.ivtReq = {}
-
-    let currentDate = new Date().toJSON().slice(0, 10).replace(/-/g, '');
-    this.ivtReq.reqNo = `IVT-${currentDate}`;
-    this.ivtReq.createdBy = this.jwt.Username
-    this.ivtReq.createdByName = this.jwt.FullName
+    this.ivtReq = {};
+    this.ivtReq.reqNo = this.generateIvtCode(this.inventoryRequests)
+    this.ivtReq.createdBy = this.jwt.Username;
+    this.ivtReq.createdByName = this.jwt.FullName;
     this.isOpenCreateRequestInventoryModal = true;
   }
 
-
   getInventoryRequests() {
-    this.sparePartIvtSvc.getInventoryRequests().subscribe(
-      response => {
-        this.inventoryRequests = response.result.reverse()
-      }
-    )
+    this.sparePartIvtSvc.getInventoryRequests().subscribe((response) => {
+      this.inventoryRequests = response.result.reverse();
+    });
   }
 
   createInventoryRequest() {
+    this.isLoading = true;
 
-    this.isLoading = true
-    
     let obj = {
       reqNo: this.ivtReq.reqNo,
       createdBy: this.ivtReq.createdBy,
       remark: this.ivtReq.remark,
       inventoryCloseDate: this.ivtReq.inventoryCloseDate,
     };
-  
-    console.log('createInventoryRequest: ', obj);
-    
-  
-    this.sparePartIvtSvc.createInventoryRequest(obj).subscribe(
-      response => {
-        this.isLoading = false
-        this.isOpenCreateRequestInventoryModal = false
-      },
-      error => {
-        this.isLoading = false
-        this.isOpenCreateRequestInventoryModal = false
-      }
-    )
 
+    this.sparePartIvtSvc.createInventoryRequest(obj).subscribe(
+      (response) => {
+        this.isLoading = false;
+        this.isOpenCreateRequestInventoryModal = false;
+      },
+      (error) => {
+        this.isLoading = false;
+        this.isOpenCreateRequestInventoryModal = false;
+      }
+    );
+  }
+
+  /**
+   * Tạo mã IVT theo định dạng: IVT-YYYYMMDD-XX
+   * - YYYYMMDD: ngày hiện tại
+   * - XX: số lượng dòng có createdAt bằng ngày hiện tại (định dạng 2 chữ số)
+   */
+  private generateIvtCode(data: any): string {
+    // Lấy ngày hiện tại (giờ UTC)
+    const today = new Date();
+
+    // Lấy phần ngày (yyyy-mm-dd) từ định dạng ISO
+    const todayDate = today.toISOString().split('T')[0]; // ví dụ: "2025-04-25"
+
+    // Lọc các item có ngày createdAt trùng với ngày hiện tại
+    const filteredData = data.filter((item: any) =>
+      item.createdAt.startsWith(todayDate)
+    );
+
+    // Định dạng ngày theo kiểu YYYYMMDD để ghép chuỗi
+    const formattedDate = todayDate.replace(/-/g, ''); // ví dụ: "20250425"
+
+    // Chuyển số lượng thành chuỗi có ít nhất 2 chữ số (đệm số 0 nếu cần)
+    const paddedCount = String(filteredData.length+1).padStart(2, '0'); // ví dụ: "03"
+
+    // Trả về chuỗi theo định dạng yêu cầu: IVT-YYYYMMDD-XX
+    return `IVT-${formattedDate}-${paddedCount}`;
   }
 
   redirectDetail(item: any) {

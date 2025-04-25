@@ -8,14 +8,14 @@
   <thead>
     <tr>
       <th>
-        <label style="font-weight: bold">Mã kiểm kê:</label>
-        <label style="font-weight: bold; color: green"> {{ requestNo }} </label>
-      </th>
-      <th style="text-align: right">
         <button nz-button nzType="primary" (click)="openScanInventoryModal()">
           <span nz-icon nzType="qrcode"></span>
           Scan kiểm kê
         </button>
+      </th>
+      <th style="text-align: right">
+        <label style="font-weight: bold">Mã kiểm kê:</label>
+        <label style="font-weight: bold; color: green"> {{ requestNo }} </label>
       </th>
     </tr>
   </thead>
@@ -30,18 +30,29 @@
   [allowColumnResizing]="true"
   [columnAutoWidth]="true"
   [rowAlternationEnabled]="true"
+  (onExporting)="onExportClient($event, 'InventoryData')"
+  style="margin-top: -30px"
 >
+  <dxo-export [enabled]="true"></dxo-export>
   <dxo-filter-row [visible]="true"></dxo-filter-row>
   <dxi-column dataField="partNumber" caption="PartNumber"></dxi-column>
   <dxi-column dataField="rack" caption="RackNo"></dxi-column>
   <dxi-column dataField="qty" caption="Số lượng"></dxi-column>
-  <dxi-column dataField="createdBy" caption="User Scan"></dxi-column>
+  <dxi-column dataField="createdBy" caption="User Scan (ID)"></dxi-column>
+  <dxi-column dataField="createdByName" caption="User Scan (Name)"></dxi-column>
   <dxi-column
     dataField="createdAt"
     caption="Thời gian"
     dataType="date"
     format="yyyy-MM-dd HH:mm:ss"
   ></dxi-column>
+
+  <dxo-paging [pageSize]="10"></dxo-paging>
+  <dxo-pager
+    [showPageSizeSelector]="true"
+    [allowedPageSizes]="[10, 25, 50, 100]"
+  >
+  </dxo-pager>
 </dx-data-grid>
 
 <nz-modal
