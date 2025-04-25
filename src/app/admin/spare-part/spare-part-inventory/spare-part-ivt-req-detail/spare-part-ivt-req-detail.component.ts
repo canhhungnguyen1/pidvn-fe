@@ -164,7 +164,8 @@ export class SparePartIvtReqDetailComponent implements OnInit {
       });
   }
 
-  onExportClient(event: any, fileName: any) {
+  onExportClient(event: any) {
+    let fileName = this.requestNo;
     const workbook = new Workbook();
     const worksheet = workbook.addWorksheet('Main sheet');
     exportDataGrid({
@@ -181,9 +182,28 @@ export class SparePartIvtReqDetailComponent implements OnInit {
   }
 
 
-
   onRowRemoving(event: any) {
-    console.log('event: ', event);
+    console.log('event: ', event.data);
+
+    let currentUser = this.jwtHelperSvc.decodeToken(
+      localStorage.getItem('accessToken')?.toString()
+    ).Username;
+
+    if(currentUser !=+ event.data.createdBy) {
+      event.cancel = true; // Hủy việc xoá dòng
+      this.toastr.warning('Bạn không có quyền xóa dữ liệu này','Warning')
+      return;
+    }
+
+    this.sparePartIvtSvc.deleteInventoryData(event.data.id).subscribe(
+      response => {
+        this.toastr.success('Xóa thành công','Thông báo')
+      },
+      error => {
+        this.toastr.error('Lỗi khi xóa', 'Error');
+        event.cancel = true; // Hủy xoá nếu API lỗi
+      }
+    )
   }
 
   onRowUpdated(event: any) {

@@ -41,4 +41,10 @@ export class SparePartIvtService {
       obj
     );
   }
+
+  deleteInventoryData(id: any): Observable<any> {
+    return this.httpClient.delete(
+      `${this.baseUrl}/SparePartInventory/InventoryData/${id}`
+    );
+  }
 }

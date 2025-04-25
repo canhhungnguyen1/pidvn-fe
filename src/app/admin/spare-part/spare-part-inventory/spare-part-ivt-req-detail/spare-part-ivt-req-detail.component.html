@@ -30,7 +30,7 @@
   [allowColumnResizing]="true"
   [columnAutoWidth]="true"
   [rowAlternationEnabled]="true"
-  (onExporting)="onExportClient($event, 'InventoryData')"
+  (onExporting)="onExportClient($event)"
   (onRowRemoving)="onRowRemoving($event)"
   (onRowUpdated)="onRowUpdated($event)"
   style="margin-top: -30px"
@@ -38,7 +38,11 @@
   <dxo-export [enabled]="true"></dxo-export>
   <dxo-header-filter [visible]="true"></dxo-header-filter>
   <dxo-filter-row [visible]="true"></dxo-filter-row>
-  <dxi-column dataField="requestId" caption="RequestId" [visible]="false"></dxi-column>
+  <dxi-column
+    dataField="requestId"
+    caption="RequestId"
+    [visible]="false"
+  ></dxi-column>
   <dxi-column dataField="partNumber" caption="PartNumber"></dxi-column>
   <dxi-column dataField="rack" caption="RackNo"></dxi-column>
   <dxi-column dataField="qty" caption="Số lượng"></dxi-column>
@@ -55,7 +59,7 @@
     mode="popup"
     [allowAdding]="false"
     [allowUpdating]="true"
-    [allowDeleting]="false"
+    [allowDeleting]="true"
   >
     <dxo-popup
       [width]="600"
@@ -87,7 +91,10 @@
         editorType="dxNumberBox"
         [isRequired]="true"
       ></dxi-item>
-      <dxi-item dataField="createdBy" [isRequired]="true"></dxi-item>
+      <dxi-item
+        dataField="createdBy"
+        [editorOptions]="{ readOnly: true }"
+      ></dxi-item>
 
       <dxi-item
         dataField="createdByName"
@@ -99,6 +106,14 @@
       ></dxi-item>
     </dxo-form>
   </dxo-editing>
+
+  <dxo-summary>
+    <dxi-total-item
+      column="partNumber"
+      summaryType="count"
+      displayFormat="Số dòng: {0}"
+    ></dxi-total-item>
+  </dxo-summary>
 
   <dxo-paging [pageSize]="10"></dxo-paging>
   <dxo-pager
