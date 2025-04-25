@@ -42,7 +42,6 @@ export class SparePartIvtReqDetailComponent implements OnInit {
     this.requestNo = this.activatedRoute.snapshot.queryParamMap.get('reqNo');
     this.getInventoryData();
     this.getRacks();
-
   }
 
   racks: any;
@@ -96,15 +95,14 @@ export class SparePartIvtReqDetailComponent implements OnInit {
   }
 
   scanLabel(event: any) {
-
     if (!this.ivtRecord.createdBy) {
-      this.toastr.warning('Cần scan mã nhân viên','Cảnh báo')
-      return
+      this.toastr.warning('Cần scan mã nhân viên', 'Cảnh báo');
+      return;
     }
 
     if (!this.ivtRecord.rack) {
-      this.toastr.warning('Cần chọn rack','Cảnh báo')
-      return
+      this.toastr.warning('Cần chọn rack', 'Cảnh báo');
+      return;
     }
 
     this.selectTextInput('labelIpt');
@@ -148,38 +146,53 @@ export class SparePartIvtReqDetailComponent implements OnInit {
   }
 
   getInventoryData() {
-    this.sparePartIvtSvc.getInventoryData(this.requestId).subscribe(
-      response => {
-        this.inventoryData = response.result
-      }
-    )
+    this.sparePartIvtSvc
+      .getInventoryData(this.requestId)
+      .subscribe((response) => {
+        this.inventoryData = response.result;
+      });
   }
 
   saveListInventoryData() {
     console.log(this.listLabelScanned);
-    this.sparePartIvtSvc.saveInventoryData(this.listLabelScanned).subscribe(
-      response => {
-        this.toastr.success('Lưu data thành công','Thông báo')
+    this.sparePartIvtSvc
+      .saveInventoryData(this.listLabelScanned)
+      .subscribe((response) => {
+        this.toastr.success('Lưu data thành công', 'Thông báo');
         this.getInventoryData();
-        this.isOpenScanInventoryModal = false
+        this.isOpenScanInventoryModal = false;
+      });
+  }
+
+  onExportClient(event: any, fileName: any) {
+    const workbook = new Workbook();
+    const worksheet = workbook.addWorksheet('Main sheet');
+    exportDataGrid({
+      component: event.component,
+      worksheet: worksheet,
+    }).then(function () {
+      workbook.xlsx.writeBuffer().then(function (buffer: BlobPart) {
+        saveAs(
+          new Blob([buffer], { type: 'application/octet-stream' }),
+          `${fileName}.xlsx`
+        );
+      });
+    });
+  }
+
+
+
+  onRowRemoving(event: any) {
+    console.log('event: ', event);
+  }
+
+  onRowUpdated(event: any) {
+    console.log('event: ', event.data);
+    this.sparePartIvtSvc.updateInventoryData(event.data).subscribe(
+      response => {
+        this.toastr.success('Update thành công','Thông báo')
       }
     )
   }
 
-
-  onExportClient(event: any, fileName: any) {
-      const workbook = new Workbook();
-      const worksheet = workbook.addWorksheet('Main sheet');
-      exportDataGrid({
-        component: event.component,
-        worksheet: worksheet,
-      }).then(function () {
-        workbook.xlsx.writeBuffer().then(function (buffer: BlobPart) {
-          saveAs(
-            new Blob([buffer], { type: 'application/octet-stream' }),
-            `${fileName}.xlsx`
-          );
-        });
-      });
-    }
 }

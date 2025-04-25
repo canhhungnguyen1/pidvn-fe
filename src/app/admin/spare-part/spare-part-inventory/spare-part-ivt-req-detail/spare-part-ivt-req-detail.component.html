@@ -31,10 +31,14 @@
   [columnAutoWidth]="true"
   [rowAlternationEnabled]="true"
   (onExporting)="onExportClient($event, 'InventoryData')"
+  (onRowRemoving)="onRowRemoving($event)"
+  (onRowUpdated)="onRowUpdated($event)"
   style="margin-top: -30px"
 >
   <dxo-export [enabled]="true"></dxo-export>
+  <dxo-header-filter [visible]="true"></dxo-header-filter>
   <dxo-filter-row [visible]="true"></dxo-filter-row>
+  <dxi-column dataField="requestId" caption="RequestId" [visible]="false"></dxi-column>
   <dxi-column dataField="partNumber" caption="PartNumber"></dxi-column>
   <dxi-column dataField="rack" caption="RackNo"></dxi-column>
   <dxi-column dataField="qty" caption="Số lượng"></dxi-column>
@@ -46,6 +50,55 @@
     dataType="date"
     format="yyyy-MM-dd HH:mm:ss"
   ></dxi-column>
+
+  <dxo-editing
+    mode="popup"
+    [allowAdding]="false"
+    [allowUpdating]="true"
+    [allowDeleting]="false"
+  >
+    <dxo-popup
+      [width]="600"
+      [height]="400"
+      title="Thông tin Spare Part"
+      [showTitle]="true"
+      [dragEnabled]="true"
+    ></dxo-popup>
+
+    <dxo-form>
+      <dxi-item
+        dataField="partNumber"
+        [isRequired]="true"
+        [editorOptions]="{ placeholder: 'Nhập Part Number', readOnly: true }"
+      ></dxi-item>
+      <dxi-item
+        dataField="rack"
+        editorType="dxSelectBox"
+        [editorOptions]="{
+          items: racks,
+          valueExpr: 'name',
+          displayExpr: 'name',
+          placeholder: 'Chọn vị trí rack',
+          searchEnabled: true
+        }"
+      ></dxi-item>
+      <dxi-item
+        dataField="qty"
+        editorType="dxNumberBox"
+        [isRequired]="true"
+      ></dxi-item>
+      <dxi-item dataField="createdBy" [isRequired]="true"></dxi-item>
+
+      <dxi-item
+        dataField="createdByName"
+        [editorOptions]="{ readOnly: true }"
+      ></dxi-item>
+      <dxi-item
+        dataField="createdAt"
+        [editorOptions]="{ readOnly: true }"
+      ></dxi-item>
+    </dxo-form>
+  </dxo-editing>
 
   <dxo-paging [pageSize]="10"></dxo-paging>
   <dxo-pager

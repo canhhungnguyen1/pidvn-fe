@@ -24,7 +24,7 @@ export class SparePartIvtService {
 
   getInventoryData(requestId: any): Observable<any> {
     return this.httpClient.get(
-      `${this.baseUrl}/SparePartInventory/InventoryData?requestId=${requestId}`,
+      `${this.baseUrl}/SparePartInventory/InventoryData?requestId=${requestId}`
     );
   }
 
@@ -32,6 +32,13 @@ export class SparePartIvtService {
     return this.httpClient.post(
       `${this.baseUrl}/SparePartInventory/InventoryData`,
       data
+    );
+  }
+
+  updateInventoryData(obj: any): Observable<any> {
+    return this.httpClient.put(
+      `${this.baseUrl}/SparePartInventory/InventoryData`,
+      obj
     );
   }
 }
