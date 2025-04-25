@@ -203,7 +203,7 @@
 >
   <ng-container *nzModalContent>
     <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
-      <div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="12">
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24">
         <label nzXs="24" nzSm="24" nzLg="24"
           >Nhóm chất thải <span class="requied">*</span></label
         >
@@ -217,7 +217,7 @@
         </div>
       </div>
 
-      <div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="12">
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24">
         <label nzXs="24" nzSm="24" nzLg="24"
           >Loại chất thải <span class="requied">*</span></label
         >
@@ -242,7 +242,7 @@
     <!-- <nz-divider></nz-divider> -->
     <br />
     <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
-      <div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="12">
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24">
         <label nzXs="24" nzSm="24" nzLg="24">
           {{wasteMaster.wasteGroup == 3 ? 'Khối lượng cả bì': 'Khối lượng thực tế'}} <span class="requied">*</span>
         </label>
@@ -255,7 +255,7 @@
           </ng-template>
         </div>
       </div>
-      <div *ngIf="wasteMaster.wasteGroup == 3" nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="12">
+      <div *ngIf="wasteMaster.wasteGroup == 3" nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24">
         <label nzXs="24" nzSm="24" nzLg="24">Số lượng bao <span class="requied">*</span></label>
         <div nzXs="24" nzSm="24" nzLg="24">
           <nz-select [(ngModel)]="packagingAmount">
@@ -275,19 +275,19 @@
       nzAlign="top"
       [nzGutter]="24"
     >
-      <div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="12">
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24">
         <label nzXs="24" nzSm="24" nzLg="24">Số kẹp chì <span class="requied">*</span></label>
         <div nzXs="24" nzSm="24" nzLg="24">
           <input nz-input placeholder="Số kẹp chì" [(ngModel)]="sealNo" />
         </div>
       </div>
-      <div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="12">
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24">
         <label nzXs="24" nzSm="24" nzLg="24">Số bao bì <span class="requied">*</span></label>
         <div nzXs="24" nzSm="24" nzLg="24">
           <input nz-input placeholder="Số bao bì" [(ngModel)]="packagingNo" />
         </div>
       </div>
-      <div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="12">
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24">
         <label nzXs="24" nzSm="24" nzLg="24">Ảnh mô tả</label>
         <div nzXs="24" nzSm="24" nzLg="24">
           <img
