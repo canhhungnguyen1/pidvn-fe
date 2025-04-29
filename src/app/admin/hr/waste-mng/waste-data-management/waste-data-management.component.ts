@@ -33,6 +33,8 @@ export class WasteDataManagementComponent implements OnInit {
   }
 
   onSearch() {
+    console.log('this.wasteSearchVo: ', this.wasteSearchVo);
+    
     this.getWasteData();
   }
 
