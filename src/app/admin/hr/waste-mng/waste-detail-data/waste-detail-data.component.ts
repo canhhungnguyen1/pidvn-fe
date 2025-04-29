@@ -7,6 +7,9 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable, Observer } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { WasteMngService } from '../services/waste-mng.service';
+import { Workbook } from 'exceljs';
+import saveAs from 'file-saver';
+import { exportDataGrid } from 'devextreme/excel_exporter';
 
 const getBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
   new Promise((resolve, reject) => {
@@ -283,8 +286,8 @@ export class WasteDetailDataComponent implements OnInit {
 
   onExcelDownload() {
     let searchVo = {
-      wasteMaster: this.activatedRoute.snapshot.paramMap.get('id')
-    }
+      wasteMaster: this.activatedRoute.snapshot.paramMap.get('id'),
+    };
 
     this.wasteMngSvc.onExcelDownload(searchVo).subscribe((response) => {
       const blob = new Blob([response], {
@@ -315,24 +318,40 @@ export class WasteDetailDataComponent implements OnInit {
     let masterId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
     this.wasteMngSvc.getPdfReport(masterId).subscribe((response) => {
       let file = new Blob([response], { type: 'application/pdf' });
-        let fileURL = URL.createObjectURL(file);
-        let fileName = `aaa.pdf`;
+      let fileURL = URL.createObjectURL(file);
+      let fileName = `aaa.pdf`;
 
-        // Create a link element to download the file with the file name
-        let a = document.createElement('a');
-        a.href = fileURL;
-        a.download = fileName;
-        document.body.appendChild(a);
-        a.click();
+      // Create a link element to download the file with the file name
+      let a = document.createElement('a');
+      a.href = fileURL;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
 
-        // Open the file in a new window
-        window.open(fileURL);
+      // Open the file in a new window
+      window.open(fileURL);
 
-        // Remove the link element after the download
-        setTimeout(() => {
-          document.body.removeChild(a);
-          URL.revokeObjectURL(fileURL);
-        }, 100);
+      // Remove the link element after the download
+      setTimeout(() => {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(fileURL);
+      }, 100);
+    });
+  }
+
+  onExportClient(event: any) {
+    const workbook = new Workbook();
+    const worksheet = workbook.addWorksheet('Main sheet');
+    exportDataGrid({
+      component: event.component,
+      worksheet: worksheet,
+    }).then(function () {
+      workbook.xlsx.writeBuffer().then(function (buffer: BlobPart) {
+        saveAs(
+          new Blob([buffer], { type: 'application/octet-stream' }),
+          'Data.xlsx'
+        );
+      });
     });
   }
 }

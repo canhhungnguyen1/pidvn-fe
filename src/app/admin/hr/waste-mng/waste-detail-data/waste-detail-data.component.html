@@ -107,64 +107,125 @@
   </div>
 </div>
 
-<nz-table
-  *ngIf="!isShowSummary"
-  #wasteDetailTbl
-  nzBordered
-  [nzScroll]="{ x: '800px' }"
-  [nzData]="wasteDetails"
-  style="margin-top: 5px"
->
-  <thead>
-    <tr>
-      <th style="width: 20px">#</th>
-      <th style="width: 100px">Loại chất thải</th>
-      <th style="width: 80px">{{wasteMaster?.wasteGroup == 3 ? 'Khối lượng Gross' : 'Khối lượng'}}</th>
-      <th *ngIf="wasteMaster?.wasteGroup == 3" style="width: 80px">Khối lượng Net </th>
-      <th *ngIf="wasteMaster?.wasteGroup == 3" style="width: 80px">Số kẹp chì</th>
-      <th *ngIf="wasteMaster?.wasteGroup == 3" style="width: 80px">Số bao bì</th>
-      <th style="width: 80px">Thời gian</th>
-      <th style="width: 60px">Đơn giá</th>
-      <th style="width: 60px">Ghi chú</th>
-      <th style="width: 60px" nzRight>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let data of wasteDetailTbl.data; let i = index">
-      <td>{{ i + 1 }}</td>
-      <td>{{ data.wasteTypeName }}</td>
-      <td style="text-align: right">{{ data.weight }} (Kg)</td>
-      <td *ngIf="wasteMaster?.wasteGroup == 3" style="text-align: right">{{ data.netWeight }} (Kg)</td>
-      <td *ngIf="wasteMaster?.wasteGroup == 3" style="text-align: right">{{ data.sealNo }}</td>
-      <td *ngIf="wasteMaster?.wasteGroup == 3" style="text-align: right">{{ data.packagingNo }}</td>
-     
-      <td style="text-align: center">
-        {{ data.createdAt | date: "yyyy-MM-dd HH:mm" }}
-      </td>
-      <td style="text-align: right">{{ data.price }}</td>
-      <td>{{ data.remark }}</td>
-      <td
-        nzRight
-        style="text-align: center; color: red"
-        nz-popconfirm
-        nzPopconfirmTitle="Bạn có chắc chắn muốn xóa ?"
-        (nzOnConfirm)="removeWasteDetailData(data)"
-        nzPopconfirmPlacement="left"
+<nz-tabset>
+  <nz-tab nzTitle="Tab 1">
+    <dx-data-grid
+      keyExpr="id"
+      [dataSource]="wasteDetails"
+      [showColumnLines]="true"
+      [showRowLines]="true"
+      [showBorders]="true"
+      [allowColumnResizing]="true"
+      [columnAutoWidth]="true"
+      [rowAlternationEnabled]="true"
+      (onExporting)="onExportClient($event)"
+    >
+      <dxo-export [enabled]="true"></dxo-export>
+      <dxi-column
+        dataField="wasteTypeName"
+        caption="Loại chất thải"
+      ></dxi-column>
+      <dxi-column dataField="weight" caption="Khối lượng"></dxi-column>
+      <dxi-column
+        dataField="netWeight"
+        caption="Khối lượng Net"
+        *ngIf="wasteMaster?.wasteGroup == 3"
+      ></dxi-column>
+      <dxi-column
+        dataField="sealNo"
+        caption="Số kẹp chì"
+        *ngIf="wasteMaster?.wasteGroup == 3"
+      ></dxi-column>
+      <dxi-column
+        dataField="packagingNo"
+        caption="Số bao bì"
+        *ngIf="wasteMaster?.wasteGroup == 3"
+      ></dxi-column>
+      <dxi-column
+        alignment="center"
+        dataField="createdAt"
+        caption="Thời gian"
+        dataType="date"
+        format="yyyy-MM-dd HH:mm"
+      ></dxi-column>
+      <dxi-column dataField="packagingNo" caption="Đơn giá"></dxi-column>
+      <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
+      <dxo-paging [pageSize]="10"></dxo-paging>
+      <dxo-pager
+        [showPageSizeSelector]="true"
+        [allowedPageSizes]="[10, 25, 50, 100]"
       >
-        Xóa
-      </td>
-    </tr>
-  </tbody>
-</nz-table>
+      </dxo-pager>
+    </dx-data-grid>
+  </nz-tab>
+  <nz-tab nzTitle="Tab 2">
+    <nz-table
+      *ngIf="!isShowSummary"
+      #wasteDetailTbl
+      nzBordered
+      [nzScroll]="{ x: '800px' }"
+      [nzData]="wasteDetails"
+      style="margin-top: 5px"
+    >
+      <thead>
+        <tr>
+          <th style="width: 20px">#</th>
+          <th style="width: 100px">Loại chất thải</th>
+          <th style="width: 80px">
+            {{
+              wasteMaster?.wasteGroup == 3 ? "Khối lượng Gross" : "Khối lượng"
+            }}
+          </th>
+          <th *ngIf="wasteMaster?.wasteGroup == 3" style="width: 80px">
+            Khối lượng Net
+          </th>
+          <th *ngIf="wasteMaster?.wasteGroup == 3" style="width: 80px">
+            Số kẹp chì
+          </th>
+          <th *ngIf="wasteMaster?.wasteGroup == 3" style="width: 80px">
+            Số bao bì
+          </th>
+          <th style="width: 80px">Thời gian</th>
+          <th style="width: 60px">Đơn giá</th>
+          <th style="width: 60px">Ghi chú</th>
+          <th style="width: 60px" nzRight>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of wasteDetailTbl.data; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ data.wasteTypeName }}</td>
+          <td style="text-align: right">{{ data.weight }} (Kg)</td>
+          <td *ngIf="wasteMaster?.wasteGroup == 3" style="text-align: right">
+            {{ data.netWeight }} (Kg)
+          </td>
+          <td *ngIf="wasteMaster?.wasteGroup == 3" style="text-align: right">
+            {{ data.sealNo }}
+          </td>
+          <td *ngIf="wasteMaster?.wasteGroup == 3" style="text-align: right">
+            {{ data.packagingNo }}
+          </td>
 
-
-
-
-
-
-
-
-
+          <td style="text-align: center">
+            {{ data.createdAt | date : "yyyy-MM-dd HH:mm" }}
+          </td>
+          <td style="text-align: right">{{ data.price }}</td>
+          <td>{{ data.remark }}</td>
+          <td
+            nzRight
+            style="text-align: center; color: red"
+            nz-popconfirm
+            nzPopconfirmTitle="Bạn có chắc chắn muốn xóa ?"
+            (nzOnConfirm)="removeWasteDetailData(data)"
+            nzPopconfirmPlacement="left"
+          >
+            Xóa
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </nz-tab>
+</nz-tabset>
 
 <nz-table
   *ngIf="isShowSummary"
@@ -178,8 +239,12 @@
     <tr>
       <th style="width: 20px">#</th>
       <th style="width: 100px">Loại chất thải</th>
-      <th style="width: 60px"> {{wasteMaster.wasteGroup == 3 ? 'Khối lượng Gross' : 'Khối lượng'}}</th>
-      <th *ngIf="wasteMaster.wasteGroup == 3" style="width: 60px">Khối lượng Net </th>
+      <th style="width: 60px">
+        {{ wasteMaster.wasteGroup == 3 ? "Khối lượng Gross" : "Khối lượng" }}
+      </th>
+      <th *ngIf="wasteMaster.wasteGroup == 3" style="width: 60px">
+        Khối lượng Net
+      </th>
       <th style="width: 60px">Đơn giá</th>
       <th style="width: 60px">Ghi chú</th>
     </tr>
@@ -189,7 +254,9 @@
       <td>{{ i + 1 }}</td>
       <td>{{ data.wasteTypeName }}</td>
       <td style="text-align: right">{{ data.weight }} (Kg)</td>
-      <td *ngIf="wasteMaster.wasteGroup == 3" style="text-align: right">{{ data.netWeight }} (Kg)</td>
+      <td *ngIf="wasteMaster.wasteGroup == 3" style="text-align: right">
+        {{ data.netWeight }} (Kg)
+      </td>
       <td style="text-align: right">{{ data.price }}</td>
       <td>{{ data.remark }}</td>
     </tr>
@@ -244,7 +311,12 @@
     <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
       <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24">
         <label nzXs="24" nzSm="24" nzLg="24">
-          {{wasteMaster.wasteGroup == 3 ? 'Khối lượng cả bì': 'Khối lượng thực tế'}} <span class="requied">*</span>
+          {{
+            wasteMaster.wasteGroup == 3
+              ? "Khối lượng cả bì"
+              : "Khối lượng thực tế"
+          }}
+          <span class="requied">*</span>
         </label>
         <div nzXs="24" nzSm="24" nzLg="24">
           <nz-input-group [nzPrefix]="prefixTemplateUser" nzSuffix="KG">
@@ -255,8 +327,17 @@
           </ng-template>
         </div>
       </div>
-      <div *ngIf="wasteMaster.wasteGroup == 3" nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24">
-        <label nzXs="24" nzSm="24" nzLg="24">Số lượng bao <span class="requied">*</span></label>
+      <div
+        *ngIf="wasteMaster.wasteGroup == 3"
+        nz-col
+        nzXs="24"
+        nzSm="24"
+        nzMd="24"
+        nzLg="24"
+      >
+        <label nzXs="24" nzSm="24" nzLg="24"
+          >Số lượng bao <span class="requied">*</span></label
+        >
         <div nzXs="24" nzSm="24" nzLg="24">
           <nz-select [(ngModel)]="packagingAmount">
             <nz-option [nzValue]="1" nzLabel="1 bao"></nz-option>
@@ -276,13 +357,17 @@
       [nzGutter]="24"
     >
       <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24">
-        <label nzXs="24" nzSm="24" nzLg="24">Số kẹp chì <span class="requied">*</span></label>
+        <label nzXs="24" nzSm="24" nzLg="24"
+          >Số kẹp chì <span class="requied">*</span></label
+        >
         <div nzXs="24" nzSm="24" nzLg="24">
           <input nz-input placeholder="Số kẹp chì" [(ngModel)]="sealNo" />
         </div>
       </div>
       <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24">
-        <label nzXs="24" nzSm="24" nzLg="24">Số bao bì <span class="requied">*</span></label>
+        <label nzXs="24" nzSm="24" nzLg="24"
+          >Số bao bì <span class="requied">*</span></label
+        >
         <div nzXs="24" nzSm="24" nzLg="24">
           <input nz-input placeholder="Số bao bì" [(ngModel)]="packagingNo" />
         </div>
@@ -312,7 +397,6 @@
         ></textarea>
       </div>
     </div>
-
   </ng-container>
   <div *nzModalFooter>
     <button nz-button nzType="default" (click)="cancelInsert()">Hủy</button>
