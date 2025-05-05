@@ -256,6 +256,45 @@ export class PihStopLineMainComponent implements OnInit {
     this.stopTimeSelected.type = stopGroup.stopTypeId;
   }
 
+  /**
+   * Lấy ngày theo ca kíp
+   */
+  private getDateByShift(date: any, shift: any) {
+
+    if (shift === 2) {
+      return this.adjustDateIfInEarlyRange(date, "00:00", "07:00");
+    }else if(shift === 4){
+      return this.adjustDateIfInEarlyRange(date, "00:00", "05:30");
+    }else if(shift === 7){
+      return this.adjustDateIfInEarlyRange(date, "00:00", "06:00");
+    }else if(shift === 9){
+      return this.adjustDateIfInEarlyRange(date, "00:00", "07:00");
+    }
+    return date
+  }
+
+  private adjustDateIfInEarlyRange(date: Date, fromStr: string, toStr: string): Date {
+    const toMinutes = (str: string): number => {
+      const [hh, mm] = str.split(":").map(Number);
+      return hh * 60 + mm;
+    };
+  
+    const timeMinutes = date.getHours() * 60 + date.getMinutes();
+    const from = toMinutes(fromStr);
+    const to = toMinutes(toStr);
+  
+    // Nếu nằm trong khoảng, trừ đi 1 ngày
+    if (timeMinutes >= from && timeMinutes <= to) {
+      const adjusted = new Date(date);
+      adjusted.setDate(adjusted.getDate() - 1);
+      return adjusted;
+    }
+  
+    // Ngược lại, trả nguyên ngày
+    return date;
+  }
+  
+
   onSave() {
     console.log('stopTimeSelected ', this.stopTimeSelected);
 
@@ -265,12 +304,13 @@ export class PihStopLineMainComponent implements OnInit {
       line: this.stopTimeSelected.line,
       startTime: this.stopTimeSelected.startTime,
       stopTime: this.stopTimeSelected.stopTime,
-      date: this.stopTimeSelected.date,
+      date:  this.getDateByShift(this.stopTimeSelected.startTime, this.stopTimeSelected.shift),
       userCode: this.jwtHelperSvc.decodeToken(
         localStorage.getItem('accessToken')?.toString()
       ).Username,
       shift: this.stopTimeSelected.shift,
       remark: this.stopTimeSelected.remark,
+      model: this.stopTimeSelected.model
     };
 
     this.validateData(obj);
@@ -290,8 +330,6 @@ export class PihStopLineMainComponent implements OnInit {
             new Date(),
           ],
         };
-
-        //this.getStopTimes(searchParams);
 
         this.pihStopLineSvc.getStopTimes(searchParams).subscribe((response) => {
           this.stopTimes = response;
@@ -319,8 +357,6 @@ export class PihStopLineMainComponent implements OnInit {
       this.stopTimeSelected.remark = null;
       this.errorMsg = null
 
-      //this.isOpenModal = false;
-      //this.resetData();
     });
   }
 
@@ -330,6 +366,7 @@ export class PihStopLineMainComponent implements OnInit {
   }
 
   resetData() {
+    this.models = null
     this.errorMsg = null;
     this.stopTimeSelected.id = null;
     this.stopTimeSelected.date = null;
@@ -341,6 +378,7 @@ export class PihStopLineMainComponent implements OnInit {
     this.stopTimeSelected.line = null;
     this.stopTimeSelected.shift = null;
     this.stopTimeSelected.remark = null;
+    this.stopTimeSelected.model = null
   }
 
   onExportClient(event: any) {
@@ -361,9 +399,32 @@ export class PihStopLineMainComponent implements OnInit {
     this.stopTimeSelected.date = $event;
   }
 
+  models: any = [];
   onChangeStartTime($event: any) {
+    this.stopTimeSelected.model = null
     this.stopTimeSelected.startTime = $event
     this.stopTimeSelected.date = $event
+
+
+
+    let searchParams = {
+      line: this.stopTimeSelected.line,
+      shift: this.stopTimeSelected.shift,
+      fromDate: this.stopTimeSelected.startTime
+    }
+
+    // 
+    this.pihStopLineSvc.getModels(searchParams).subscribe(
+      response => {
+        this.models = response;
+
+        console.log('this.models: ', this.models);
+        
+      }
+    )
+
+
+
   }
 
   onChangeStopTime($event: any) {

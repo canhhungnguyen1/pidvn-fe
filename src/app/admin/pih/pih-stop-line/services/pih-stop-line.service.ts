@@ -4,11 +4,10 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PihStopLineService {
-
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {}
 
   private baseUrl = environment.baseUrl;
 
@@ -19,49 +18,50 @@ export class PihStopLineService {
   }
 
   public getLines(): Observable<any> {
-    return this.httpClient.get(
-      `${this.baseUrl}/PIH/StopLine/Lines`
-    );
+    return this.httpClient.get(`${this.baseUrl}/PIH/StopLine/Lines`);
   }
 
   public getShifts(): Observable<any> {
-    return this.httpClient.get(
-      `${this.baseUrl}/PIH/StopLine/Shifts`
-    );
+    return this.httpClient.get(`${this.baseUrl}/PIH/StopLine/Shifts`);
   }
 
   public getStopTypes(): Observable<any> {
-    return this.httpClient.get(
-      `${this.baseUrl}/PIH/StopLine/StopTypes`
-    );
+    return this.httpClient.get(`${this.baseUrl}/PIH/StopLine/StopTypes`);
   }
 
   public getStopGroups(): Observable<any> {
-    return this.httpClient.get(
-      `${this.baseUrl}/PIH/StopLine/StopGroups`
-    );
+    return this.httpClient.get(`${this.baseUrl}/PIH/StopLine/StopGroups`);
   }
 
   public getStopItems(): Observable<any> {
-    return this.httpClient.get(
-      `${this.baseUrl}/PIH/StopLine/StopItems`
-    );
+    return this.httpClient.get(`${this.baseUrl}/PIH/StopLine/StopItems`);
   }
 
   public createStopTime(stopTime: any): Observable<any> {
-    return this.httpClient.post(`${this.baseUrl}/PIH/StopLine/StopTime`,stopTime);
+    return this.httpClient.post(
+      `${this.baseUrl}/PIH/StopLine/StopTime`,
+      stopTime
+    );
   }
 
   public updateStopTime(stopTime: any): Observable<any> {
-    return this.httpClient.put(`${this.baseUrl}/PIH/StopLine/StopTime`,stopTime);
+    return this.httpClient.put(
+      `${this.baseUrl}/PIH/StopLine/StopTime`,
+      stopTime
+    );
   }
 
   public getStopTimes(searchVo: any): Observable<any> {
-    return this.httpClient.post(`${this.baseUrl}/PIH/StopLine/StopTimes`,searchVo);
+    return this.httpClient.post(
+      `${this.baseUrl}/PIH/StopLine/StopTimes`,
+      searchVo
+    );
   }
 
   public deleteStopTime(id: number): Observable<any> {
-    return this.httpClient.delete(`${this.baseUrl}/PIH/StopLine/StopTime/${id}`)
+    return this.httpClient.delete(
+      `${this.baseUrl}/PIH/StopLine/StopTime/${id}`
+    );
   }
 
   public getProductTypeIdByUser(username: string): Observable<any> {
@@ -70,6 +70,7 @@ export class PihStopLineService {
     );
   }
 
-
-
+  public getModels(obj: any): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/PIH/StopLine/Models`, obj);
+  }
 }

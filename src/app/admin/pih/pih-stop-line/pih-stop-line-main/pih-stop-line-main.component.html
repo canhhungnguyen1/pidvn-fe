@@ -203,8 +203,21 @@
               </nz-option>
             </nz-select>
           </td>
-          <td></td>
-          <td></td>
+          <td><label>Model</label><span class="required">*</span></td>
+          <td>
+            <nz-select
+              nzShowSearch
+              nzAllowClear
+              [(ngModel)]="stopTimeSelected.model"
+            >
+              <nz-option
+                *ngFor="let model of models"
+                [nzValue]="model.name"
+                [nzLabel]="model.name"
+              >
+              </nz-option>
+            </nz-select>
+          </td>
         </tr>
         <tr>
           <td><label>Máy</label><span class="required">*</span></td>
@@ -326,6 +339,7 @@
               [(ngModel)]="stopTimeSelected.startTime"
               nzPlaceHolder="Thời gian bắt đầu"
               (nzOnOk)="onChangeStartTime($event)"
+              (ngModelChange)="onChangeStartTime($event)"
             ></nz-date-picker>
             ->
             <nz-date-picker
@@ -334,6 +348,7 @@
               [(ngModel)]="stopTimeSelected.stopTime"
               nzPlaceHolder="Thời gian kết thúc"
               (nzOnOk)="onChangeStopTime($event)"
+              (ngModelChange)="onChangeStopTime($event)"
             ></nz-date-picker>
           </td>
         </tr>
