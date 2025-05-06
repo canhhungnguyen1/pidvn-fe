@@ -357,6 +357,7 @@ export class PihStopLineMainComponent implements OnInit {
       this.stopTimeSelected.startTime = null;
       this.stopTimeSelected.stopTime = null;
       this.stopTimeSelected.remark = null;
+      this.models = [];
       this.errorMsg = null
 
     });
