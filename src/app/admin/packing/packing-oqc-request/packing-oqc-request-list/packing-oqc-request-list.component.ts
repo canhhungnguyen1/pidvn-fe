@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { ToastrService } from 'ngx-toastr';
 import { QaOqcService } from 'src/app/admin/qa/qa-oqc-check/services/qa-oqc.service';
 import { RelayDateCodeService } from 'src/app/admin/relay/relay-datecode/relay-datecode.service';
 import { PackingOqcRequestService } from '../services/packing-oqc-request.service';
+import { DxDataGridComponent } from 'devextreme-angular';
 
 @Component({
   selector: 'app-packing-oqc-request-list',
@@ -11,8 +12,11 @@ import { PackingOqcRequestService } from '../services/packing-oqc-request.servic
   styleUrls: ['./packing-oqc-request-list.component.scss'],
 })
 export class PackingOqcRequestListComponent implements OnInit {
-  isOpenModal: boolean = false;
+  @ViewChild(DxDataGridComponent, { static: false })
+  materialTbl!: DxDataGridComponent;
 
+  materialScanned: any[] = [];
+  isOpenModal: boolean = false;
   isOpenDetailModal: boolean = false;
 
   constructor(
@@ -85,15 +89,13 @@ export class PackingOqcRequestListComponent implements OnInit {
     this.priority = 2;
   }
 
-
   createOqcRequest() {
-    debugger
+    debugger;
     // Kiểm tra trường hợp chưa nhập DateCode
     if (!this.requestCreate.totalQty) {
       this.toastr.warning('Relay chưa nhập Date Code', 'Warning');
       return;
     }
-
 
     // Validate tỷ lệ số lượng lớn hơn 20%
 
@@ -103,10 +105,6 @@ export class PackingOqcRequestListComponent implements OnInit {
       return
     }
     */
-
-    
-
-
 
     // Trường hợp sorting thì cần nhập số lượng
     if (this.requestCreate.isSorting) {
@@ -169,6 +167,10 @@ export class PackingOqcRequestListComponent implements OnInit {
     this.requestCreate.qaCard = event;
     this.requestCreate.qaCardSplit = event.split('*');
     this.getDateCodes(event);
+
+    this.getMaterialScanned(event);
+
+
   }
 
   // systemValidate: any = {}
@@ -187,8 +189,6 @@ export class PackingOqcRequestListComponent implements OnInit {
 
       this.requestCreate.totalQty = totalQty;
     });
-
-    
 
     // this.packingOqcRequestSvc.systemValidate(qaCard).subscribe((response) => {
     //   this.requestCreate.dateCodes = response.dateCodes;
@@ -277,6 +277,15 @@ export class PackingOqcRequestListComponent implements OnInit {
 
     this.qaOqcSvc.getOqcRequests(this.searchParams).subscribe((response) => {
       this.oqcRequests = response;
+    });
+  }
+
+  getMaterialScanned(qaCard: string) {
+    this.materialScanned = [];
+    this.materialTbl?.instance.beginCustomLoading(`Đang load dữ liệu ...`);
+    this.reDateCodeSvc.getMaterialScanned(qaCard).subscribe((response) => {
+      this.materialScanned = response;
+      this.materialTbl?.instance.endCustomLoading();
     });
   }
 }
