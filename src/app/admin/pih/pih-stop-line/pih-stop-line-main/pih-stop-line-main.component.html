@@ -8,14 +8,22 @@
       <div nz-col nzXs="12" nzSm="12" nzLg="5">
         <label nzXs="24" nzSm="24" nzLg="24">Start Time</label>
         <div nzXs="24" nzSm="24" nzLg="24">
-          <nz-range-picker nzFormat="yyyy-MM-dd" nzMode="date" [(ngModel)]="searchParams.startTimeRange">
+          <nz-range-picker
+            nzFormat="yyyy-MM-dd"
+            nzMode="date"
+            [(ngModel)]="searchParams.startTimeRange"
+          >
           </nz-range-picker>
         </div>
       </div>
       <div nz-col nzXs="12" nzSm="12" nzLg="5">
         <label nzXs="24" nzSm="24" nzLg="24">Ngày tạo</label>
         <div nzXs="24" nzSm="24" nzLg="24">
-          <nz-range-picker nzFormat="yyyy-MM-dd" nzMode="date" [(ngModel)]="searchParams.createdAtRange">
+          <nz-range-picker
+            nzFormat="yyyy-MM-dd"
+            nzMode="date"
+            [(ngModel)]="searchParams.createdAtRange"
+          >
           </nz-range-picker>
         </div>
       </div>
@@ -71,7 +79,12 @@
       <div nz-col nzXs="12" nzSm="12" nzLg="3">
         <label nzXs="24" nzSm="24" nzLg="24">&nbsp;</label>
         <div nzXs="24" nzSm="24" nzLg="24">
-          <button nz-button nzType="primary" style="float: right" (click)="onSearch()">
+          <button
+            nz-button
+            nzType="primary"
+            style="float: right"
+            (click)="onSearch()"
+          >
             Tìm kiếm
           </button>
         </div>
@@ -203,9 +216,12 @@
               </nz-option>
             </nz-select>
           </td>
-          <td><label>Model</label><span class="required">*</span></td>
+          <td>
+            <label *ngIf="models.length > 0">Model</label><span *ngIf="models.length > 0" class="required">*</span>
+          </td>
           <td>
             <nz-select
+              *ngIf="models.length > 0"
               nzShowSearch
               nzAllowClear
               [(ngModel)]="stopTimeSelected.model"

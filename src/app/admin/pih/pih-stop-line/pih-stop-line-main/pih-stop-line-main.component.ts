@@ -56,6 +56,8 @@ export class PihStopLineMainComponent implements OnInit {
     createdAtRange: [new Date().setDate(new Date().getDate() - 7), new Date()],
   };
 
+  models: any = [];
+
   onSearch() {
     console.log(this.searchParams);
 
@@ -366,7 +368,7 @@ export class PihStopLineMainComponent implements OnInit {
   }
 
   resetData() {
-    this.models = null
+    this.models = []
     this.errorMsg = null;
     this.stopTimeSelected.id = null;
     this.stopTimeSelected.date = null;
@@ -390,7 +392,7 @@ export class PihStopLineMainComponent implements OnInit {
         }).then(function() {
             workbook.xlsx.writeBuffer()
                 .then(function(buffer: BlobPart) {
-                    saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'M4M8-History.xlsx');
+                    saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Data.xlsx');
                 });
         });
   }
@@ -399,7 +401,6 @@ export class PihStopLineMainComponent implements OnInit {
     this.stopTimeSelected.date = $event;
   }
 
-  models: any = [];
   onChangeStartTime($event: any) {
     this.stopTimeSelected.model = null
     this.stopTimeSelected.startTime = $event
@@ -457,6 +458,12 @@ export class PihStopLineMainComponent implements OnInit {
 
     if (diff < 1 || diff > 721) {
       this.errorMsg = 'Thời gian không hợp lệ';
+      return;
+    }
+
+    // Kiểm tra bắt buộc chọn nếu có models
+    if (this.models.length > 0 && obj.model == null) {
+      this.errorMsg = 'Model không được để trống'
       return;
     }
 
