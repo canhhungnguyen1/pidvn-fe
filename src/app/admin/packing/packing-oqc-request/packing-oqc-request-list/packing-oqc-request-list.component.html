@@ -64,6 +64,7 @@
   (onRowPrepared)="onRowPrepared($event)"
   (onExporting)="onExportClient($event)"
 >
+  <dxo-header-filter [visible]="true"></dxo-header-filter>
   <dxo-filter-row [visible]="true"></dxo-filter-row>
   <dxo-export [enabled]="true"></dxo-export>
   <dxo-column-chooser #columnChooser [enabled]="true" [mode]="'select'">
@@ -453,13 +454,50 @@
           >
           </dxo-pager>
         </dx-data-grid>
+
+        <span>Tỷ lệ: Qty (DateCode) so với Qty (Line scan) </span>
+
+        <nz-table
+          nzBordered
+          nzFrontPagination="false"
+          nzSize="small"
+          [nzData]="['']"
+        >
+          <thead>
+            <tr>
+              <th>Qty (DateCode)</th>
+              <th>Qty (Line Scanned)</th>
+              <th>Tỷ lệ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ requestCreate.totalQty | number : "1.0-3" }}</td>
+              <td>{{ totalQtyMaterialScanned | number : "1.0-3" }}</td>
+              <td>
+                {{
+                  (requestCreate.totalQty && totalQtyMaterialScanned
+                    ? (requestCreate.totalQty / totalQtyMaterialScanned) * 100
+                    : 0
+                  ) | number : "1.0-3"
+                }}
+                %
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
       </div>
     </div>
   </ng-container>
 
   <div *nzModalFooter>
     <button nz-button nzType="default" (click)="handleCancel()">Hủy</button>
-    <button nz-button nzType="primary" (click)="createOqcRequest()" [disabled]="materialScanned.length === 0">
+    <button
+      nz-button
+      nzType="primary"
+      (click)="createOqcRequest()"
+      [disabled]="materialScanned.length === 0"
+    >
       Tạo Request
     </button>
   </div>
