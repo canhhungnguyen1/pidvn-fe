@@ -92,13 +92,11 @@ export class PackingOqcRequestListComponent implements OnInit {
   }
 
   createOqcRequest() {
-
     // Kiểm tra trường hợp chưa nhập DateCode
     if (!this.requestCreate.totalQty) {
       this.toastr.warning('Chưa nhập Date Code', 'Warning');
       return;
     }
-
 
     // Kiểm tra nếu chưa scan NVL
     for (let i = 0; i < this.materialScanned.length; i++) {
@@ -110,11 +108,16 @@ export class PackingOqcRequestListComponent implements OnInit {
     }
 
     // Kiểm tra tỷ lệ scan NVL
-    if((this.requestCreate.totalQty / this.totalQtyMaterialScanned * 100) > 20) {
-      this.toastr.warning(`Không thể tạo request vì Qty Date Code so với Qty Scan trong line > 20%`, 'Warning');
-      return
+    if (
+      (this.requestCreate.totalQty / this.totalQtyMaterialScanned) * 100 >
+      20
+    ) {
+      this.toastr.warning(
+        `Không thể tạo request vì Qty Date Code so với Qty Scan trong line > 20%`,
+        'Warning'
+      );
+      return;
     }
-
 
     // Trường hợp sorting thì cần nhập số lượng
     if (this.requestCreate.isSorting) {
@@ -134,8 +137,7 @@ export class PackingOqcRequestListComponent implements OnInit {
     (this.requestCreate.createdBy = this.jwtHelperSvc.decodeToken(
       localStorage.getItem('accessToken')?.toString()
     ).Username),
-
-    console.log('DATA PUSH: ', this.requestCreate);
+      console.log('DATA PUSH: ', this.requestCreate);
 
     this.packingOqcRequestSvc
       .createOqcRequest(this.requestCreate)
@@ -176,16 +178,16 @@ export class PackingOqcRequestListComponent implements OnInit {
   selectQaCard(event: any) {
     this.requestCreate.qaCard = event;
     this.requestCreate.qaCardSplit = event.split('*');
-    // this.getDateCodes(event);
-    // this.getMaterialScanned(event);
 
-    // Bắt đầu loading nếu cần
+    // Bắt đầu loading
     this.materialTbl?.instance.beginCustomLoading(`Đang load dữ liệu ...`);
 
     // Gọi 2 API song song
     forkJoin({
       dateCodes: this.reDateCodeSvc.getDateCodes(event),
-      materials: this.reDateCodeSvc.getMaterialScanned(event),
+      materials: this.reDateCodeSvc.getMaterialScanned(
+        `${this.requestCreate.qaCardSplit[0]}*${this.requestCreate.qaCardSplit[1]}*${this.requestCreate.qaCardSplit[2]}`
+      ),
     }).subscribe({
       next: ({
         dateCodes,
