@@ -501,7 +501,7 @@ export class AdminComponent implements OnInit {
 
   isOpenNotification: boolean = false;
   isOpenNotificationModal() {
-    this.isOpenNotification = true;
+    this.isOpenNotification = false;
   }
 
   handleCancel() {
