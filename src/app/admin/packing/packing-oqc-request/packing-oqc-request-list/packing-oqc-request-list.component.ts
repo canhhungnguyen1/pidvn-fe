@@ -5,6 +5,7 @@ import { QaOqcService } from 'src/app/admin/qa/qa-oqc-check/services/qa-oqc.serv
 import { RelayDateCodeService } from 'src/app/admin/relay/relay-datecode/relay-datecode.service';
 import { PackingOqcRequestService } from '../services/packing-oqc-request.service';
 import { DxDataGridComponent } from 'devextreme-angular';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-packing-oqc-request-list',
@@ -15,6 +16,7 @@ export class PackingOqcRequestListComponent implements OnInit {
   @ViewChild(DxDataGridComponent, { static: false })
   materialTbl!: DxDataGridComponent;
 
+  totalQtyMaterialScanned: number = 0;
   materialScanned: any[] = [];
   isOpenModal: boolean = false;
   isOpenDetailModal: boolean = false;
@@ -90,21 +92,29 @@ export class PackingOqcRequestListComponent implements OnInit {
   }
 
   createOqcRequest() {
-    debugger;
+
     // Kiểm tra trường hợp chưa nhập DateCode
     if (!this.requestCreate.totalQty) {
-      this.toastr.warning('Relay chưa nhập Date Code', 'Warning');
+      this.toastr.warning('Chưa nhập Date Code', 'Warning');
       return;
     }
 
-    // Validate tỷ lệ số lượng lớn hơn 20%
 
-    /*
-    if (this.systemValidate.dateCodeRate[0].rate > 20) {
-      this.errorCreateRequestMsg = `Tỷ lệ Qty của ${this.systemValidate.dateCodeRate[0].dateCode} so với Qty thực tế scan lớn hơn 20% (Cần kiểm tra NVL đã scan đủ chưa)`
+    // Kiểm tra nếu chưa scan NVL
+    for (let i = 0; i < this.materialScanned.length; i++) {
+      const element = this.materialScanned[i];
+      if (!element.scanQty || element.scanQty <= 0) {
+        this.toastr.warning(`Chưa scan đủ NVL trong line`, 'Warning');
+        break;
+      }
+    }
+
+    // Kiểm tra tỷ lệ scan NVL
+    if((this.requestCreate.totalQty / this.totalQtyMaterialScanned * 100) > 20) {
+      this.toastr.warning(`Không thể tạo request vì Qty Date Code so với Qty Scan trong line > 20%`, 'Warning');
       return
     }
-    */
+
 
     // Trường hợp sorting thì cần nhập số lượng
     if (this.requestCreate.isSorting) {
@@ -124,7 +134,8 @@ export class PackingOqcRequestListComponent implements OnInit {
     (this.requestCreate.createdBy = this.jwtHelperSvc.decodeToken(
       localStorage.getItem('accessToken')?.toString()
     ).Username),
-      console.log('DATA PUSH: ', this.requestCreate);
+
+    console.log('DATA PUSH: ', this.requestCreate);
 
     this.packingOqcRequestSvc
       .createOqcRequest(this.requestCreate)
@@ -149,7 +160,8 @@ export class PackingOqcRequestListComponent implements OnInit {
 
   openModal() {
     this.getQaCards();
-
+    this.materialScanned = [];
+    this.totalQtyMaterialScanned = 0;
     this.requestCreate.qaCard = null;
     this.requestCreate.dateCodes = null;
     this.requestCreate.totalQty = 0;
@@ -158,22 +170,63 @@ export class PackingOqcRequestListComponent implements OnInit {
     this.requestCreate.sortingQty = 0;
     this.requestCreate.priority = 2;
     this.requestCreate.remark = null;
-    // this.systemValidate = {}
-
     this.isOpenModal = true;
   }
 
   selectQaCard(event: any) {
     this.requestCreate.qaCard = event;
     this.requestCreate.qaCardSplit = event.split('*');
-    this.getDateCodes(event);
+    // this.getDateCodes(event);
+    // this.getMaterialScanned(event);
 
-    this.getMaterialScanned(event);
+    // Bắt đầu loading nếu cần
+    this.materialTbl?.instance.beginCustomLoading(`Đang load dữ liệu ...`);
 
+    // Gọi 2 API song song
+    forkJoin({
+      dateCodes: this.reDateCodeSvc.getDateCodes(event),
+      materials: this.reDateCodeSvc.getMaterialScanned(event),
+    }).subscribe({
+      next: ({
+        dateCodes,
+        materials,
+      }: {
+        dateCodes: any[];
+        materials: any[];
+      }) => {
+        // Gán dữ liệu cho biến
+        this.requestCreate.dateCodes = dateCodes;
+        this.materialScanned = materials;
 
+        // Tính tổng số lượng Qty (DateCode)
+        let totalQty = 0;
+        dateCodes.forEach((element: any) => {
+          totalQty += element.qty;
+        });
+        this.requestCreate.totalQty = totalQty;
+
+        // Tính tổng số lượng Qty (Material)
+        let totalMaterialQty = 0;
+        materials.forEach((element: any) => {
+          totalMaterialQty += element.scanQty;
+        });
+        this.totalQtyMaterialScanned = totalMaterialQty;
+
+        // Kết thúc loading
+        this.materialTbl?.instance.endCustomLoading();
+
+        console.log('✅ Cập nhật thành công:', {
+          dateCodes,
+          materials,
+          totalQty,
+        });
+      },
+      error: (err: unknown) => {
+        console.error('❌ Lỗi khi gọi API:', err);
+        this.materialTbl?.instance.endCustomLoading();
+      },
+    });
   }
-
-  // systemValidate: any = {}
 
   getDateCodes(qaCard: string | null) {
     this.reDateCodeSvc.getDateCodes(qaCard).subscribe((response) => {
@@ -189,22 +242,6 @@ export class PackingOqcRequestListComponent implements OnInit {
 
       this.requestCreate.totalQty = totalQty;
     });
-
-    // this.packingOqcRequestSvc.systemValidate(qaCard).subscribe((response) => {
-    //   this.requestCreate.dateCodes = response.dateCodes;
-
-    //   this.systemValidate.dateCodeRate = response.dateCodeRate
-    //   this.systemValidate.dataScan = response.dataScan
-    //   console.log('dateCodes: ', this.requestCreate.dateCodes);
-
-    //   let totalQty = 0;
-
-    //   this.requestCreate.dateCodes.forEach((element: any) => {
-    //     totalQty += element.qty;
-    //   });
-
-    //   this.requestCreate.totalQty = totalQty;
-    // });
   }
 
   getQaCards() {
