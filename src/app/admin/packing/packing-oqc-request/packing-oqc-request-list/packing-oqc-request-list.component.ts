@@ -108,16 +108,16 @@ export class PackingOqcRequestListComponent implements OnInit {
     }
 
     // Kiểm tra tỷ lệ scan NVL
-    if (
-      (this.requestCreate.totalQty / this.totalQtyMaterialScanned) * 100 >
-      20
-    ) {
-      this.toastr.warning(
-        `Không thể tạo request vì Qty Date Code so với Qty Scan trong line > 20%`,
-        'Warning'
-      );
-      return;
-    }
+    // if (
+    //   (this.requestCreate.totalQty / this.totalQtyMaterialScanned) * 100 >
+    //   20
+    // ) {
+    //   this.toastr.warning(
+    //     `Không thể tạo request vì Qty Date Code so với Qty Scan trong line > 20%`,
+    //     'Warning'
+    //   );
+    //   return;
+    // }
 
     // Trường hợp sorting thì cần nhập số lượng
     if (this.requestCreate.isSorting) {
