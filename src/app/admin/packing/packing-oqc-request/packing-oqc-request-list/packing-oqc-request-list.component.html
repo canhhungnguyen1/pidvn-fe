@@ -110,11 +110,16 @@
     cellTemplate="dateCodeTemplate"
   >
     <div *dxTemplate="let item of 'dateCodeTemplate'">
-      <ul style="margin-left: -29px">
+      <ul style="margin-left: -29px" *ngIf="item.data.dateCode">
         <li *ngFor="let a of item.data.dateCode.split(';')">
           {{ a.split(":")[0] }} : {{ a.split(":")[1] | number : "1.0-3" }}
         </li>
       </ul>
+      <span
+        style="color: red; font-style: italic; font-size: 13px"
+        *ngIf="!item.data.dateCode"
+        >Không có Date Code</span
+      >
     </div>
   </dxi-column>
 
