@@ -9,10 +9,6 @@ const routes: Routes = [
         component: IsComponent,
         children: [
             {
-                path: 'device-management',
-                loadChildren: () => import('./device-management/device-management.module').then(m => m.DeviceManagementModule)
-            },
-            {
                 path: 'logger',
                 component: LoggerComponent
             }
