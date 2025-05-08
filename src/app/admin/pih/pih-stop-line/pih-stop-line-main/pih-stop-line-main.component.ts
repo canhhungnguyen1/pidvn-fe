@@ -215,29 +215,11 @@ export class PihStopLineMainComponent implements OnInit {
   }
 
   onChangeStopTypes($event: any) {
-    // console.log('onChangeStopTypes: ', $event);
-    // this.stopGroups = new Array();
-    // for (const group of this.groups) {
-    //   if (group.stopTypeId == $event) {
-    //     this.stopGroups.push(group);
-    //   }
-    // }
-    // console.log('listStopGroup: ', this.stopGroups);
+    
   }
 
   onChangeStopGroups($event: any) {
-    // console.log('onChangeStopGroups: ', $event);
-    // this.stopItems = new Array();
-    // for (const item of this.items) {
-    //   if (!item.productTypes) {
-    //     continue;
-    //   }
-    //   let productTypes = item.productTypes?.split(',');
-    //   if (item.stopGroupId == $event && productTypes.includes(this.productTypeSelected.toString())) {
-    //     this.stopItems.push(item);
-    //   }
-    // }
-    // console.log('listStopItems: ', this.stopItems);
+    
   }
 
   onChangeStopItems($event: any) {
