@@ -170,8 +170,6 @@ export class PihStopLineMainComponent implements OnInit {
         }
       }
 
-      
-
       this.stopTimeSelected.id = data.id;
       this.stopTimeSelected.item = data.itemId;
       this.stopTimeSelected.date = data.date;
@@ -267,26 +265,7 @@ export class PihStopLineMainComponent implements OnInit {
   }
   
 
-  isFirstTimeSave: boolean = true;
-
   onSave() {
-
-    // Nêu như là lần đầu tiên save thì gọi api lấy dữ liệu models
-    if (this.isFirstTimeSave) {
-      let searchParams = {
-        line: this.stopTimeSelected.line,
-        shift: this.stopTimeSelected.shift,
-        fromDate: this.stopTimeSelected.startTime
-      }
-  
-      // 
-      this.pihStopLineSvc.getModels(searchParams).subscribe(
-        response => {
-          this.models = response;
-          console.log('this.models: ', this.models);
-        }
-      )
-    }
 
     let obj = {
       id: this.stopTimeSelected.id,
@@ -309,48 +288,13 @@ export class PihStopLineMainComponent implements OnInit {
       return;
     }
 
-    console.log('stopTimeSelected ', this.stopTimeSelected);
-    
-
-    // if (obj.id) {
-    //   this.pihStopLineSvc.updateStopTime(obj).subscribe((response) => {
-    //     this.toastr.success('OK', 'Success');
-
-    //     let searchParams = {
-    //       startTimeRange: null,
-    //       createdAtRange: [
-    //         new Date().setDate(new Date().getDate() - 7),
-    //         new Date(),
-    //       ],
-    //     };
-
-    //     this.pihStopLineSvc.getStopTimes(searchParams).subscribe((response) => {
-    //       this.stopTimes = response;
-    //       this.isOpenModal = false;
-    //       this.resetData();
-    //       this.getProductTypeIdByUser();
-    //     });
-    //   });
-    //   return;
-    // }
 
     this.pihStopLineSvc.createStopTime(obj).subscribe((response) => {
       this.toastr.success('OK', 'Success');
-
-      // let searchParams = {
-      //   startTimeRange: null,
-      //   createdAtRange: [
-      //     new Date().setDate(new Date().getDate() - 7),
-      //     new Date(),
-      //   ],
-      // };
-      // this.getStopTimes(searchParams);
       this.stopTimeSelected.startTime = null;
       this.stopTimeSelected.stopTime = null;
       this.stopTimeSelected.remark = null;
-      // this.models = [];
       this.errorMsg = null;
-      this.isFirstTimeSave = false;
     });
   }
 
@@ -383,8 +327,6 @@ export class PihStopLineMainComponent implements OnInit {
     this.stopTimeSelected.shift = null;
     this.stopTimeSelected.remark = null;
     this.stopTimeSelected.model = null
-
-    this.isFirstTimeSave = true;
   }
 
   onExportClient(event: any) {
@@ -406,27 +348,21 @@ export class PihStopLineMainComponent implements OnInit {
   }
 
   onChangeStartTime($event: any) {
-    // this.stopTimeSelected.model = null
+    this.stopTimeSelected.model = null
     this.stopTimeSelected.startTime = $event
     this.stopTimeSelected.date = $event
 
-    // let searchParams = {
-    //   line: this.stopTimeSelected.line,
-    //   shift: this.stopTimeSelected.shift,
-    //   fromDate: this.stopTimeSelected.startTime
-    // }
+    let searchParams = {
+      line: this.stopTimeSelected.line,
+      shift: this.stopTimeSelected.shift,
+      fromDate: this.stopTimeSelected.startTime
+    }
 
-    // // 
-    // this.pihStopLineSvc.getModels(searchParams).subscribe(
-    //   response => {
-    //     this.models = response;
-
-    //     console.log('this.models: ', this.models);
-        
-    //   }
-    // )
-
-
+    this.pihStopLineSvc.getModels(searchParams).subscribe(
+      response => {
+        this.models = response;
+      }
+    )
 
   }
 
