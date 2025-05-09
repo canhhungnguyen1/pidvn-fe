@@ -267,8 +267,26 @@ export class PihStopLineMainComponent implements OnInit {
   }
   
 
+  isFirstTimeSave: boolean = true;
+
   onSave() {
-    console.log('stopTimeSelected ', this.stopTimeSelected);
+
+    // Nêu như là lần đầu tiên save thì gọi api lấy dữ liệu models
+    if (this.isFirstTimeSave) {
+      let searchParams = {
+        line: this.stopTimeSelected.line,
+        shift: this.stopTimeSelected.shift,
+        fromDate: this.stopTimeSelected.startTime
+      }
+  
+      // 
+      this.pihStopLineSvc.getModels(searchParams).subscribe(
+        response => {
+          this.models = response;
+          console.log('this.models: ', this.models);
+        }
+      )
+    }
 
     let obj = {
       id: this.stopTimeSelected.id,
@@ -291,55 +309,68 @@ export class PihStopLineMainComponent implements OnInit {
       return;
     }
 
-    if (obj.id) {
-      this.pihStopLineSvc.updateStopTime(obj).subscribe((response) => {
-        this.toastr.success('OK', 'Success');
+    console.log('stopTimeSelected ', this.stopTimeSelected);
+    
 
-        let searchParams = {
-          startTimeRange: null,
-          createdAtRange: [
-            new Date().setDate(new Date().getDate() - 7),
-            new Date(),
-          ],
-        };
+    // if (obj.id) {
+    //   this.pihStopLineSvc.updateStopTime(obj).subscribe((response) => {
+    //     this.toastr.success('OK', 'Success');
 
-        this.pihStopLineSvc.getStopTimes(searchParams).subscribe((response) => {
-          this.stopTimes = response;
-          this.isOpenModal = false;
-          this.resetData();
-          this.getProductTypeIdByUser();
-        });
-      });
-      return;
-    }
+    //     let searchParams = {
+    //       startTimeRange: null,
+    //       createdAtRange: [
+    //         new Date().setDate(new Date().getDate() - 7),
+    //         new Date(),
+    //       ],
+    //     };
+
+    //     this.pihStopLineSvc.getStopTimes(searchParams).subscribe((response) => {
+    //       this.stopTimes = response;
+    //       this.isOpenModal = false;
+    //       this.resetData();
+    //       this.getProductTypeIdByUser();
+    //     });
+    //   });
+    //   return;
+    // }
 
     this.pihStopLineSvc.createStopTime(obj).subscribe((response) => {
       this.toastr.success('OK', 'Success');
 
-      let searchParams = {
-        startTimeRange: null,
-        createdAtRange: [
-          new Date().setDate(new Date().getDate() - 7),
-          new Date(),
-        ],
-      };
-      this.getStopTimes(searchParams);
+      // let searchParams = {
+      //   startTimeRange: null,
+      //   createdAtRange: [
+      //     new Date().setDate(new Date().getDate() - 7),
+      //     new Date(),
+      //   ],
+      // };
+      // this.getStopTimes(searchParams);
       this.stopTimeSelected.startTime = null;
       this.stopTimeSelected.stopTime = null;
       this.stopTimeSelected.remark = null;
-      this.models = [];
-      this.errorMsg = null
-
+      // this.models = [];
+      this.errorMsg = null;
+      this.isFirstTimeSave = false;
     });
   }
 
   onCancel() {
     this.isOpenModal = false;
+    let searchParams = {
+      startTimeRange: null,
+      createdAtRange: [
+        new Date().setDate(new Date().getDate() - 7),
+        new Date(),
+      ],
+    };
+    this.getStopTimes(searchParams);
+
     this.resetData();
   }
 
   resetData() {
-    this.models = []
+  
+    this.models = [];
     this.errorMsg = null;
     this.stopTimeSelected.id = null;
     this.stopTimeSelected.date = null;
@@ -352,6 +383,8 @@ export class PihStopLineMainComponent implements OnInit {
     this.stopTimeSelected.shift = null;
     this.stopTimeSelected.remark = null;
     this.stopTimeSelected.model = null
+
+    this.isFirstTimeSave = true;
   }
 
   onExportClient(event: any) {
@@ -373,27 +406,25 @@ export class PihStopLineMainComponent implements OnInit {
   }
 
   onChangeStartTime($event: any) {
-    this.stopTimeSelected.model = null
+    // this.stopTimeSelected.model = null
     this.stopTimeSelected.startTime = $event
     this.stopTimeSelected.date = $event
 
+    // let searchParams = {
+    //   line: this.stopTimeSelected.line,
+    //   shift: this.stopTimeSelected.shift,
+    //   fromDate: this.stopTimeSelected.startTime
+    // }
 
+    // // 
+    // this.pihStopLineSvc.getModels(searchParams).subscribe(
+    //   response => {
+    //     this.models = response;
 
-    let searchParams = {
-      line: this.stopTimeSelected.line,
-      shift: this.stopTimeSelected.shift,
-      fromDate: this.stopTimeSelected.startTime
-    }
-
-    // 
-    this.pihStopLineSvc.getModels(searchParams).subscribe(
-      response => {
-        this.models = response;
-
-        console.log('this.models: ', this.models);
+    //     console.log('this.models: ', this.models);
         
-      }
-    )
+    //   }
+    // )
 
 
 
@@ -432,8 +463,8 @@ export class PihStopLineMainComponent implements OnInit {
       return;
     }
 
-    // Kiểm tra bắt buộc chọn nếu có models
-    if (this.models.length > 0 && obj.model == null) {
+    // Kiểm tra bắt buộc chọn models
+    if (obj.model == null) {
       this.errorMsg = 'Model không được để trống'
       return;
     }
