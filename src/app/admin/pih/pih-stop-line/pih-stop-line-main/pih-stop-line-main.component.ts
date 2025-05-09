@@ -59,8 +59,6 @@ export class PihStopLineMainComponent implements OnInit {
   models: any = [];
 
   onSearch() {
-    console.log(this.searchParams);
-
     this.getStopTimes(this.searchParams);
   }
 
@@ -84,14 +82,12 @@ export class PihStopLineMainComponent implements OnInit {
   getProductTypes(productId: number) {
     this.pihStopLineSvc.getProductTypes(productId).subscribe((response) => {
       this.productTypes = response;
-      console.log('productTypes: ', this.productTypes);
     });
   }
 
   getLines() {
     this.pihStopLineSvc.getLines().subscribe((response) => {
       this.lines = response;
-      console.log('lines: ', this.lines);
     });
   }
   getShifts() {
@@ -103,7 +99,6 @@ export class PihStopLineMainComponent implements OnInit {
   getStopTimes(searchParams: any) {
     this.pihStopLineSvc.getStopTimes(searchParams).subscribe((response) => {
       this.stopTimes = response;
-      console.log('stopTimes: ', response);
       this.getProductTypeIdByUser();
     });
   }
@@ -111,7 +106,6 @@ export class PihStopLineMainComponent implements OnInit {
   getStopTypes() {
     this.pihStopLineSvc.getStopTypes().subscribe((response) => {
       this.stopTypes = response;
-      console.log('stopTypes: ', response);
     });
   }
 
@@ -192,8 +186,6 @@ export class PihStopLineMainComponent implements OnInit {
   }
 
   onChangeProductTypes($event: any) {
-    console.log('onChangeProductTypes: ', $event);
-
     this.stopItems = new Array();
 
     this.productTypeSelected = $event;
@@ -211,43 +203,21 @@ export class PihStopLineMainComponent implements OnInit {
       }
     }
 
-    console.log('listStopItems: ', this.stopItems);
   }
 
   onChangeStopTypes($event: any) {
-    // console.log('onChangeStopTypes: ', $event);
-    // this.stopGroups = new Array();
-    // for (const group of this.groups) {
-    //   if (group.stopTypeId == $event) {
-    //     this.stopGroups.push(group);
-    //   }
-    // }
-    // console.log('listStopGroup: ', this.stopGroups);
+    
   }
 
   onChangeStopGroups($event: any) {
-    // console.log('onChangeStopGroups: ', $event);
-    // this.stopItems = new Array();
-    // for (const item of this.items) {
-    //   if (!item.productTypes) {
-    //     continue;
-    //   }
-    //   let productTypes = item.productTypes?.split(',');
-    //   if (item.stopGroupId == $event && productTypes.includes(this.productTypeSelected.toString())) {
-    //     this.stopItems.push(item);
-    //   }
-    // }
-    // console.log('listStopItems: ', this.stopItems);
+    
   }
 
   onChangeStopItems($event: any) {
-    console.log($event);
 
     let stopItem = this.stopItems.find((item) => {
       return item.id == $event;
     });
-
-    console.log(stopItem);
 
     this.stopTimeSelected.group = stopItem.stopGroupId;
 
@@ -297,8 +267,26 @@ export class PihStopLineMainComponent implements OnInit {
   }
   
 
+  isFirstTimeSave: boolean = true;
+
   onSave() {
-    console.log('stopTimeSelected ', this.stopTimeSelected);
+
+    // Nêu như là lần đầu tiên save thì gọi api lấy dữ liệu models
+    if (this.isFirstTimeSave) {
+      let searchParams = {
+        line: this.stopTimeSelected.line,
+        shift: this.stopTimeSelected.shift,
+        fromDate: this.stopTimeSelected.startTime
+      }
+  
+      // 
+      this.pihStopLineSvc.getModels(searchParams).subscribe(
+        response => {
+          this.models = response;
+          console.log('this.models: ', this.models);
+        }
+      )
+    }
 
     let obj = {
       id: this.stopTimeSelected.id,
@@ -321,55 +309,68 @@ export class PihStopLineMainComponent implements OnInit {
       return;
     }
 
-    if (obj.id) {
-      this.pihStopLineSvc.updateStopTime(obj).subscribe((response) => {
-        this.toastr.success('OK', 'Success');
+    console.log('stopTimeSelected ', this.stopTimeSelected);
+    
 
-        let searchParams = {
-          startTimeRange: null,
-          createdAtRange: [
-            new Date().setDate(new Date().getDate() - 7),
-            new Date(),
-          ],
-        };
+    // if (obj.id) {
+    //   this.pihStopLineSvc.updateStopTime(obj).subscribe((response) => {
+    //     this.toastr.success('OK', 'Success');
 
-        this.pihStopLineSvc.getStopTimes(searchParams).subscribe((response) => {
-          this.stopTimes = response;
-          this.isOpenModal = false;
-          this.resetData();
-          this.getProductTypeIdByUser();
-        });
-      });
-      return;
-    }
+    //     let searchParams = {
+    //       startTimeRange: null,
+    //       createdAtRange: [
+    //         new Date().setDate(new Date().getDate() - 7),
+    //         new Date(),
+    //       ],
+    //     };
+
+    //     this.pihStopLineSvc.getStopTimes(searchParams).subscribe((response) => {
+    //       this.stopTimes = response;
+    //       this.isOpenModal = false;
+    //       this.resetData();
+    //       this.getProductTypeIdByUser();
+    //     });
+    //   });
+    //   return;
+    // }
 
     this.pihStopLineSvc.createStopTime(obj).subscribe((response) => {
       this.toastr.success('OK', 'Success');
 
-      let searchParams = {
-        startTimeRange: null,
-        createdAtRange: [
-          new Date().setDate(new Date().getDate() - 7),
-          new Date(),
-        ],
-      };
-      this.getStopTimes(searchParams);
+      // let searchParams = {
+      //   startTimeRange: null,
+      //   createdAtRange: [
+      //     new Date().setDate(new Date().getDate() - 7),
+      //     new Date(),
+      //   ],
+      // };
+      // this.getStopTimes(searchParams);
       this.stopTimeSelected.startTime = null;
       this.stopTimeSelected.stopTime = null;
       this.stopTimeSelected.remark = null;
-      this.models = [];
-      this.errorMsg = null
-
+      // this.models = [];
+      this.errorMsg = null;
+      this.isFirstTimeSave = false;
     });
   }
 
   onCancel() {
     this.isOpenModal = false;
+    let searchParams = {
+      startTimeRange: null,
+      createdAtRange: [
+        new Date().setDate(new Date().getDate() - 7),
+        new Date(),
+      ],
+    };
+    this.getStopTimes(searchParams);
+
     this.resetData();
   }
 
   resetData() {
-    this.models = []
+  
+    this.models = [];
     this.errorMsg = null;
     this.stopTimeSelected.id = null;
     this.stopTimeSelected.date = null;
@@ -382,6 +383,8 @@ export class PihStopLineMainComponent implements OnInit {
     this.stopTimeSelected.shift = null;
     this.stopTimeSelected.remark = null;
     this.stopTimeSelected.model = null
+
+    this.isFirstTimeSave = true;
   }
 
   onExportClient(event: any) {
@@ -403,27 +406,25 @@ export class PihStopLineMainComponent implements OnInit {
   }
 
   onChangeStartTime($event: any) {
-    this.stopTimeSelected.model = null
+    // this.stopTimeSelected.model = null
     this.stopTimeSelected.startTime = $event
     this.stopTimeSelected.date = $event
 
+    // let searchParams = {
+    //   line: this.stopTimeSelected.line,
+    //   shift: this.stopTimeSelected.shift,
+    //   fromDate: this.stopTimeSelected.startTime
+    // }
 
+    // // 
+    // this.pihStopLineSvc.getModels(searchParams).subscribe(
+    //   response => {
+    //     this.models = response;
 
-    let searchParams = {
-      line: this.stopTimeSelected.line,
-      shift: this.stopTimeSelected.shift,
-      fromDate: this.stopTimeSelected.startTime
-    }
-
-    // 
-    this.pihStopLineSvc.getModels(searchParams).subscribe(
-      response => {
-        this.models = response;
-
-        console.log('this.models: ', this.models);
+    //     console.log('this.models: ', this.models);
         
-      }
-    )
+    //   }
+    // )
 
 
 
@@ -462,8 +463,8 @@ export class PihStopLineMainComponent implements OnInit {
       return;
     }
 
-    // Kiểm tra bắt buộc chọn nếu có models
-    if (this.models.length > 0 && obj.model == null) {
+    // Kiểm tra bắt buộc chọn models
+    if (obj.model == null) {
       this.errorMsg = 'Model không được để trống'
       return;
     }
@@ -495,8 +496,6 @@ export class PihStopLineMainComponent implements OnInit {
     this.pihStopLineSvc
       .getProductTypeIdByUser(username)
       .subscribe((response) => {
-        console.log('getProductTypeIdByUser: ', response);
-
         if (response.productTypeId) {
           this.onChangeProductTypes(response.productTypeId);
         }
