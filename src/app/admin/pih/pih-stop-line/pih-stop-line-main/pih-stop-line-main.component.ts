@@ -59,8 +59,6 @@ export class PihStopLineMainComponent implements OnInit {
   models: any = [];
 
   onSearch() {
-    console.log(this.searchParams);
-
     this.getStopTimes(this.searchParams);
   }
 
@@ -84,14 +82,12 @@ export class PihStopLineMainComponent implements OnInit {
   getProductTypes(productId: number) {
     this.pihStopLineSvc.getProductTypes(productId).subscribe((response) => {
       this.productTypes = response;
-      console.log('productTypes: ', this.productTypes);
     });
   }
 
   getLines() {
     this.pihStopLineSvc.getLines().subscribe((response) => {
       this.lines = response;
-      console.log('lines: ', this.lines);
     });
   }
   getShifts() {
@@ -103,7 +99,6 @@ export class PihStopLineMainComponent implements OnInit {
   getStopTimes(searchParams: any) {
     this.pihStopLineSvc.getStopTimes(searchParams).subscribe((response) => {
       this.stopTimes = response;
-      console.log('stopTimes: ', response);
       this.getProductTypeIdByUser();
     });
   }
@@ -111,7 +106,6 @@ export class PihStopLineMainComponent implements OnInit {
   getStopTypes() {
     this.pihStopLineSvc.getStopTypes().subscribe((response) => {
       this.stopTypes = response;
-      console.log('stopTypes: ', response);
     });
   }
 
@@ -192,8 +186,6 @@ export class PihStopLineMainComponent implements OnInit {
   }
 
   onChangeProductTypes($event: any) {
-    console.log('onChangeProductTypes: ', $event);
-
     this.stopItems = new Array();
 
     this.productTypeSelected = $event;
@@ -211,7 +203,6 @@ export class PihStopLineMainComponent implements OnInit {
       }
     }
 
-    console.log('listStopItems: ', this.stopItems);
   }
 
   onChangeStopTypes($event: any) {
@@ -223,13 +214,10 @@ export class PihStopLineMainComponent implements OnInit {
   }
 
   onChangeStopItems($event: any) {
-    console.log($event);
 
     let stopItem = this.stopItems.find((item) => {
       return item.id == $event;
     });
-
-    console.log(stopItem);
 
     this.stopTimeSelected.group = stopItem.stopGroupId;
 
@@ -477,8 +465,6 @@ export class PihStopLineMainComponent implements OnInit {
     this.pihStopLineSvc
       .getProductTypeIdByUser(username)
       .subscribe((response) => {
-        console.log('getProductTypeIdByUser: ', response);
-
         if (response.productTypeId) {
           this.onChangeProductTypes(response.productTypeId);
         }
