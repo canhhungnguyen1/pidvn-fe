@@ -34,4 +34,11 @@
   <dxi-column dataField="faCode" caption="FA Code"></dxi-column>
   <dxi-column dataField="status" caption="Trạng thái"></dxi-column>
   <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
+
+  <dxo-paging [pageSize]="12"></dxo-paging>
+  <dxo-pager
+    [showPageSizeSelector]="true"
+    [allowedPageSizes]="[10, 25, 50, 100]"
+  >
+  </dxo-pager>
 </dx-data-grid>

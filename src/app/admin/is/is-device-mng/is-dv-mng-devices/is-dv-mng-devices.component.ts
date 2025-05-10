@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { ToastrService } from 'ngx-toastr';
+import { IsDeviceMngService } from '../services/is-device-mng.service';
 
 @Component({
   selector: 'app-is-dv-mng-devices',
@@ -6,28 +10,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrl: './is-dv-mng-devices.component.scss',
 })
 export class IsDvMngDevicesComponent implements OnInit {
-  devices: any[] = [
-    {
-      id: 1,
-      name: '27535-GMVF9C3',
-      model: 'Latitude 7310',
-      type: 'Laptop',
-      faCode:'F-2023040011-M-1',
-      status: 'Active',
-      remark: 'None',
-    },
-    {
-      id: 2,
-      name: '12345-XYZ',
-      model: 'Surface Pro 7',
-      type: 'Tablet',
-      faCode:'F-2023040011-M-2',
-      status: 'Inactive',
-      remark: 'Needs repair',
-    },
-  ];
+  constructor(
+    private router: Router,
+    private isDeviceMngSvc: IsDeviceMngService,
+    private jwtSvc: JwtHelperService,
+    private toastr: ToastrService
+  ) {}
+
+  devices: any[] = [];
 
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    this.isDeviceMngSvc.getDevices().subscribe((response) => {
+      this.devices = response.result;
+    });
   }
 }
