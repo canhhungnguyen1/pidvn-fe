@@ -15,6 +15,7 @@
   [allowColumnResizing]="true"
   [columnAutoWidth]="true"
   [rowAlternationEnabled]="true"
+  (onSaved)="saveTransaction($event)"
 >
   <dxo-header-filter [visible]="true"></dxo-header-filter>
   <dxo-filter-row [visible]="true"></dxo-filter-row>
@@ -29,14 +30,23 @@
   </dxo-column-chooser>
 
   <dxi-column dataField="deviceName" caption="Tên thiết bị">
-    <dxi-validation-rule type="required" message="Tên thiết bị bắt buộc chọn"></dxi-validation-rule>
+    <dxi-validation-rule
+      type="required"
+      message="Tên thiết bị bắt buộc chọn"
+    ></dxi-validation-rule>
   </dxi-column>
   <dxi-column dataField="recordType" caption="Loại giao dich">
-    <dxi-validation-rule type="required" message="Loại giao dich bắt buộc chọn"></dxi-validation-rule>
+    <dxi-validation-rule
+      type="required"
+      message="Loại giao dich bắt buộc chọn"
+    ></dxi-validation-rule>
   </dxi-column>
   <dxi-column dataField="status" caption="IT UserCode"></dxi-column>
   <dxi-column dataField="picCode" caption="PIC Code">
-    <dxi-validation-rule type="required" message="PIC Code bắt buộc chọn"></dxi-validation-rule>
+    <dxi-validation-rule
+      type="required"
+      message="PIC Code bắt buộc chọn"
+    ></dxi-validation-rule>
   </dxi-column>
 
   <dxo-editing
@@ -81,8 +91,8 @@
         editorType="dxSelectBox"
         [editorOptions]="{
           items: devices,
-          valueExpr: 'id',
-          displayExpr: 'name',
+          valueExpr: 'name',
+          displayExpr: displayDeviceName,
           placeholder: 'Tên thiết bị',
           searchEnabled: true
         }"

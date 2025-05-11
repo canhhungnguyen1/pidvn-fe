@@ -13,15 +13,76 @@ export class IsDvMngDevicesComponent implements OnInit {
   constructor(
     private router: Router,
     private isDeviceMngSvc: IsDeviceMngService,
-    private jwtSvc: JwtHelperService,
+    private jwtHelperSvc: JwtHelperService,
     private toastr: ToastrService
   ) {}
 
-  devices: any[] = [];
-
   ngOnInit(): void {
-    this.isDeviceMngSvc.getDevices().subscribe((response) => {
-      this.devices = response.result;
+    this.getDevices();
+    this.getTransactions();
+    this.getUsers();
+  }
+
+  devices: any[] = [];
+  users: any[] = [];
+
+  recordTypes: any[] = [
+    {
+      id: 'IN',
+      name: 'Nhận lại',
+    },
+    {
+      id: 'OUT',
+      name: 'Bàn giao',
+    },
+  ];
+
+  transactions: any[] = [];
+
+  getDevices() {
+    this.isDeviceMngSvc.getDevices().subscribe((res: any) => {
+      this.devices = res.result;
     });
+  }
+
+  getTransactions() {
+    this.isDeviceMngSvc.getTransactions().subscribe(
+      responsse => {
+        this.transactions = responsse.result
+      }
+    )
+  }
+
+  getUsers() {
+    this.isDeviceMngSvc.getUsers().subscribe((res: any) => {
+      this.users = res.result;
+    });
+  }
+
+  // Hàm hiển thị custom
+  displayDeviceName = (item: any): string => {
+    return item ? `(${item.type}) - ${item.name}` : '';
+  };
+
+  saveTransaction(event: any): void {
+    
+    const itUserCode = this.jwtHelperSvc.decodeToken(
+      localStorage.getItem('accessToken') || ''
+    )?.Username;
+
+    const obj = {
+      ...event.changes[0].data,
+      itUserCode,
+      id: null
+    };
+
+    console.log('saveTransaction: ', obj);
+    
+
+    this.isDeviceMngSvc.saveTransaction(obj).subscribe(
+      response => {
+        this.getDevices();
+      }
+    )
   }
 }

@@ -13,7 +13,7 @@ export class IsDvMngHistoryComponent implements OnInit {
   constructor(
     private router: Router,
     private isDeviceMngSvc: IsDeviceMngService,
-    private jwtSvc: JwtHelperService,
+    private jwtHelperSvc: JwtHelperService,
     private toastr: ToastrService
   ) {}
 
@@ -38,7 +38,6 @@ export class IsDvMngHistoryComponent implements OnInit {
 
   transactions: any[] = [];
 
-
   getDevices() {
     this.isDeviceMngSvc.getDevices().subscribe((res: any) => {
       this.devices = res.result;
@@ -49,5 +48,27 @@ export class IsDvMngHistoryComponent implements OnInit {
     this.isDeviceMngSvc.getUsers().subscribe((res: any) => {
       this.users = res.result;
     });
+  }
+
+  // Hàm hiển thị custom
+  displayDeviceName = (item: any): string => {
+    return item ? `(${item.type}) - ${item.name}` : '';
+  };
+
+  saveTransaction(event: any): void {
+    const itUserCode = this.jwtHelperSvc.decodeToken(
+      localStorage.getItem('accessToken') || ''
+    )?.Username;
+
+    const obj = {
+      ...event.changes[0].data,
+      itUserCode,
+    };
+
+    this.isDeviceMngSvc.saveTransaction(obj).subscribe(
+      response => {
+        this.getDevices();
+      }
+    )
   }
 }

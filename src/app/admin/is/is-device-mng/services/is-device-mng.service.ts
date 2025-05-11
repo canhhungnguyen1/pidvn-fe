@@ -14,8 +14,18 @@ export class IsDeviceMngService {
   public getDevices(): Observable<any> {
     return this.httpClient.get(`${this.baseUrl}/IS/DeviceManagement/Devices`);
   }
+  public getTransactions(): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/IS/DeviceManagement/Transactions`);
+  }
 
   public getUsers(): Observable<any> {
     return this.httpClient.get(`${this.baseUrl}/IS/DeviceManagement/Users`);
+  }
+
+  public saveTransaction(transaction: any): Observable<any> {
+    return this.httpClient.post(
+      `${this.baseUrl}/IS/DeviceManagement/Transaction`,
+      transaction
+    );
   }
 }
