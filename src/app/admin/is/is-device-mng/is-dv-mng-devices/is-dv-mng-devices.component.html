@@ -18,6 +18,7 @@
       [columnAutoWidth]="true"
       [rowAlternationEnabled]="false"
       [hoverStateEnabled]="true"
+      (onCellPrepared)="onCellPreparedHistory($event)"
     >
       <dxo-header-filter [visible]="true"></dxo-header-filter>
       <dxo-filter-row [visible]="true"></dxo-filter-row>
@@ -33,12 +34,19 @@
       >
       </dxo-column-chooser>
 
-      <dxi-column dataField="name" caption="Tên thiết bị"></dxi-column>
+      <dxi-column dataField="name" caption="Tên thiết bị">
+        <dxo-header-filter [allowSelectAll]="true">
+          <dxo-search [enabled]="true"></dxo-search>
+        </dxo-header-filter>
+      </dxi-column>
       <dxi-column dataField="model" caption="Model"></dxi-column>
       <dxi-column dataField="type" caption="Loại thiết bị"></dxi-column>
       <dxi-column dataField="faCode" caption="FA Code"></dxi-column>
-      <dxi-column dataField="status" caption="Trạng thái" [visible]="true"></dxi-column>
-      
+      <dxi-column
+        dataField="status"
+        caption="Trạng thái"
+        [visible]="true"
+      ></dxi-column>
 
       <dxi-column
         dataField="recordTypeName"
@@ -54,7 +62,11 @@
         format="yyyy-MM-dd"
         alignment="center"
       ></dxi-column>
-      <dxi-column dataField="remark" caption="Ghi chú" [visible]="true"></dxi-column>
+      <dxi-column
+        dataField="remark"
+        caption="Ghi chú"
+        [visible]="true"
+      ></dxi-column>
 
       <dxi-column
         caption="Action"
@@ -68,6 +80,10 @@
       >
         <a (click)="openDeviceDetailModal(item.data)">Detail</a>
       </div>
+
+      <dxo-summary>
+        <dxi-total-item column="name" summaryType="count" displayFormat="Tổng: {0} (thiết bị)"></dxi-total-item>
+      </dxo-summary>
 
       <dxo-paging [pageSize]="12"></dxo-paging>
       <dxo-pager
@@ -89,6 +105,7 @@
       [columnAutoWidth]="true"
       [rowAlternationEnabled]="true"
       (onSaved)="saveTransaction($event)"
+      (onCellPrepared)="onCellPreparedHistory($event)"
     >
       <dxo-header-filter [visible]="true"></dxo-header-filter>
       <dxo-filter-row [visible]="true"></dxo-filter-row>
@@ -225,36 +242,39 @@
     >
       <tbody>
         <tr>
-          <td>Device Name</td>
+          <td><label>Tên thiết bị</label></td>
           <td>{{ deviceSelected?.name }}</td>
           <td rowspan="4" style="text-align: center; vertical-align: middle">
             <img
               *ngIf="deviceSelected.type === 'LAPTOP'"
-              src="../../../../../assets/images/devices/Laptop.jpg"
+              nz-image
+              nzSrc="../../../../../assets/images/devices/LAPTOP.png"
               width="35%"
             />
             <img
               *ngIf="deviceSelected.type === 'PC-AIO'"
-              src="../../../../../assets/images/devices/PC-AIO.png"
+              nz-image
+              nzSrc="../../../../../assets/images/devices/PC-AIO.png"
               width="35%"
             />
             <img
               *ngIf="deviceSelected.type === 'PC'"
-              src="../../../../../assets/images/devices/PC.jpg"
+              nz-image
+              nzSrc="../../../../../assets/images/devices/PC.jpg"
               width="35%"
             />
           </td>
         </tr>
         <tr>
-          <td>Model</td>
+          <td><label>Model</label></td>
           <td>{{ deviceSelected?.model }}</td>
         </tr>
         <tr>
-          <td>Device Type</td>
+          <td><label>Loại thiết bị</label></td>
           <td>{{ deviceSelected?.type }}</td>
         </tr>
         <tr>
-          <td>FA Code</td>
+          <td><label>FA Code</label></td>
           <td>{{ deviceSelected?.faCode }}</td>
         </tr>
       </tbody>
@@ -275,23 +295,23 @@
     >
       <tbody>
         <tr>
-          <td>Type</td>
+          <td><label>Loại giao dịch</label></td>
           <td>{{ deviceSelected?.recordTypeName }}</td>
-          <td>Ngày Giao/Nhận</td>
+          <td><label>Ngày Giao/Nhận</label></td>
           <td>{{ deviceSelected?.date | date : "yyyy-MM-dd" }}</td>
         </tr>
         <tr>
-          <td>P.I.C</td>
+          <td><label>P.I.C</label></td>
           <td>{{ deviceSelected?.picName }} - {{ deviceSelected?.picCode }}</td>
-          <td>Section</td>
+          <td><label>Section</label></td>
           <td>{{ deviceSelected?.sectionName }}</td>
         </tr>
         <tr>
-          <td>IT User</td>
+          <td><label>IT User</label></td>
           <td>
             {{ deviceSelected?.itUserName }} - {{ deviceSelected?.itUserCode }}
           </td>
-          <td>Remark</td>
+          <td><label>Remark</label></td>
           <td>{{ deviceSelected?.remark }}</td>
         </tr>
       </tbody>

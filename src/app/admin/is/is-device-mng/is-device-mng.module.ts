@@ -16,6 +16,7 @@ import { IsDvMngMenuComponent } from './is-dv-mng-menu/is-dv-mng-menu.component'
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzImageModule } from 'ng-zorro-antd/image';
 @NgModule({
   declarations: [IsDvMngMenuComponent, IsDvMngDevicesComponent, IsDvMngHistoryComponent],
   imports: [
@@ -29,7 +30,8 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
     NzTabsModule,
     NzModalModule,
     NzTableModule,
-    NzDividerModule
+    NzDividerModule,
+    NzImageModule
   ],
 })
 export class IsDeviceMngModule {}

@@ -40,7 +40,7 @@ export class IsDvMngDevicesComponent implements OnInit {
 
   transactions: any[] = [];
 
-  isOpenDeviceDetailModal: boolean = false
+  isOpenDeviceDetailModal: boolean = false;
 
   getDevices() {
     this.isDeviceMngSvc.getDevices().subscribe((res: any) => {
@@ -49,11 +49,9 @@ export class IsDvMngDevicesComponent implements OnInit {
   }
 
   getTransactions() {
-    this.isDeviceMngSvc.getTransactions().subscribe(
-      responsse => {
-        this.transactions = responsse.result
-      }
-    )
+    this.isDeviceMngSvc.getTransactions().subscribe((responsse) => {
+      this.transactions = responsse.result;
+    });
   }
 
   getUsers() {
@@ -68,7 +66,6 @@ export class IsDvMngDevicesComponent implements OnInit {
   };
 
   saveTransaction(event: any): void {
-    
     const itUserCode = this.jwtHelperSvc.decodeToken(
       localStorage.getItem('accessToken') || ''
     )?.Username;
@@ -76,27 +73,34 @@ export class IsDvMngDevicesComponent implements OnInit {
     const obj = {
       ...event.changes[0].data,
       itUserCode,
-      id: null
+      id: null,
     };
 
     this.isDeviceMngSvc.saveTransaction(obj).subscribe(
-      response => {
-        this.toastr.success('Đã lưu lại lịch sử','Thành công')
+      (response) => {
+        this.toastr.success('Đã lưu lại lịch sử', 'Thành công');
         this.getDevices();
         this.getTransactions();
       },
-      error => {
+      (error) => {
         this.getDevices();
         this.getTransactions();
       }
-    )
+    );
   }
 
-
   openDeviceDetailModal(event: any) {
-    this.deviceSelected = event
+    this.deviceSelected = event;
     this.isOpenDeviceDetailModal = true;
     console.log(event);
-    
+  }
+
+  // Style header
+  onCellPreparedHistory(e: any) {
+    if (e.rowType === 'header') {
+      e.cellElement.style.backgroundColor = '#000080'; // Change background color
+      e.cellElement.style.color = '#ffffff'; // Change text color for better visibility
+      e.cellElement.style.fontWeight = 'bold';
+    }
   }
 }
