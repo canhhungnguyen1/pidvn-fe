@@ -82,7 +82,7 @@
       </div>
 
       <dxo-summary>
-        <dxi-total-item column="name" summaryType="count" displayFormat="Tổng: {0} (thiết bị)"></dxi-total-item>
+        <dxi-total-item column="name" summaryType="count" displayFormat="Tổng: {0} (Thiết bị)"></dxi-total-item>
       </dxo-summary>
 
       <dxo-paging [pageSize]="12"></dxo-paging>
@@ -244,24 +244,24 @@
         <tr>
           <td><label>Tên thiết bị</label></td>
           <td>{{ deviceSelected?.name }}</td>
-          <td rowspan="4" style="text-align: center; vertical-align: middle">
+          <td rowspan="2" colspan="2" style="text-align: center; vertical-align: middle">
             <img
               *ngIf="deviceSelected.type === 'LAPTOP'"
               nz-image
               nzSrc="../../../../../assets/images/devices/LAPTOP.png"
-              width="35%"
+              width="25%"
             />
             <img
               *ngIf="deviceSelected.type === 'PC-AIO'"
               nz-image
               nzSrc="../../../../../assets/images/devices/PC-AIO.png"
-              width="35%"
+              width="25%"
             />
             <img
               *ngIf="deviceSelected.type === 'PC'"
               nz-image
               nzSrc="../../../../../assets/images/devices/PC.jpg"
-              width="35%"
+              width="25%"
             />
           </td>
         </tr>
@@ -272,10 +272,14 @@
         <tr>
           <td><label>Loại thiết bị</label></td>
           <td>{{ deviceSelected?.type }}</td>
+          <td><label>FA Code</label></td>
+          <td>{{ deviceSelected?.faCode ? deviceSelected?.faCode : 'N/A' }}</td>
         </tr>
         <tr>
-          <td><label>FA Code</label></td>
-          <td>{{ deviceSelected?.faCode }}</td>
+          <td><label>Thương hiệu</label></td>
+          <td>{{ deviceSelected?.brand }}</td>
+          <td><label>Hệ điều hành</label></td>
+          <td>{{ deviceSelected?.os }}</td>
         </tr>
       </tbody>
     </nz-table>

@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { IsDvMngMenuComponent } from './is-dv-mng-menu/is-dv-mng-menu.component';
 import { IsDvMngDevicesComponent } from './is-dv-mng-devices/is-dv-mng-devices.component';
-import { IsDvMngHistoryComponent } from './is-dv-mng-history/is-dv-mng-history.component';
+import { IsDvMngMenuComponent } from './is-dv-mng-menu/is-dv-mng-menu.component';
 
 const routes: Routes = [
   {
@@ -12,10 +11,6 @@ const routes: Routes = [
   {
     path: 'devices',
     component: IsDvMngDevicesComponent
-  },
-  {
-    path: 'history',
-    component: IsDvMngHistoryComponent
   }
 ];
 
