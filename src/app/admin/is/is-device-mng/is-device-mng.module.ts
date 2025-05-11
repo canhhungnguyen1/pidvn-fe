@@ -13,7 +13,9 @@ import { IsDeviceMngRoutingModule } from './is-device-mng-routing.module';
 import { IsDvMngDevicesComponent } from './is-dv-mng-devices/is-dv-mng-devices.component';
 import { IsDvMngHistoryComponent } from './is-dv-mng-history/is-dv-mng-history.component';
 import { IsDvMngMenuComponent } from './is-dv-mng-menu/is-dv-mng-menu.component';
-
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
 @NgModule({
   declarations: [IsDvMngMenuComponent, IsDvMngDevicesComponent, IsDvMngHistoryComponent],
   imports: [
@@ -24,7 +26,10 @@ import { IsDvMngMenuComponent } from './is-dv-mng-menu/is-dv-mng-menu.component'
     DxDataGridModule,
     DxSelectBoxModule,
     NzBreadCrumbModule,
-    NzTabsModule
+    NzTabsModule,
+    NzModalModule,
+    NzTableModule,
+    NzDividerModule
   ],
 })
 export class IsDeviceMngModule {}

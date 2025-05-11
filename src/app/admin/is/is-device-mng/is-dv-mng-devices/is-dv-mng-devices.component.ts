@@ -24,6 +24,7 @@ export class IsDvMngDevicesComponent implements OnInit {
   }
 
   devices: any[] = [];
+  deviceSelected: any;
   users: any[] = [];
 
   recordTypes: any[] = [
@@ -38,6 +39,8 @@ export class IsDvMngDevicesComponent implements OnInit {
   ];
 
   transactions: any[] = [];
+
+  isOpenDeviceDetailModal: boolean = false
 
   getDevices() {
     this.isDeviceMngSvc.getDevices().subscribe((res: any) => {
@@ -76,13 +79,24 @@ export class IsDvMngDevicesComponent implements OnInit {
       id: null
     };
 
-    console.log('saveTransaction: ', obj);
-    
-
     this.isDeviceMngSvc.saveTransaction(obj).subscribe(
       response => {
+        this.toastr.success('Đã lưu lại lịch sử','Thành công')
         this.getDevices();
+        this.getTransactions();
+      },
+      error => {
+        this.getDevices();
+        this.getTransactions();
       }
     )
+  }
+
+
+  openDeviceDetailModal(event: any) {
+    this.deviceSelected = event
+    this.isOpenDeviceDetailModal = true;
+    console.log(event);
+    
   }
 }

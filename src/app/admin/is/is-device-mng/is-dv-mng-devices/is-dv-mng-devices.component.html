@@ -37,8 +37,8 @@
       <dxi-column dataField="model" caption="Model"></dxi-column>
       <dxi-column dataField="type" caption="Loại thiết bị"></dxi-column>
       <dxi-column dataField="faCode" caption="FA Code"></dxi-column>
-      <dxi-column dataField="status" caption="Trạng thái"></dxi-column>
-      <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
+      <dxi-column dataField="status" caption="Trạng thái" [visible]="true"></dxi-column>
+      
 
       <dxi-column
         dataField="recordTypeName"
@@ -54,6 +54,20 @@
         format="yyyy-MM-dd"
         alignment="center"
       ></dxi-column>
+      <dxi-column dataField="remark" caption="Ghi chú" [visible]="true"></dxi-column>
+
+      <dxi-column
+        caption="Action"
+        cellTemplate="actionTemplate"
+        [fixed]="true"
+        fixedPosition="right"
+      ></dxi-column>
+      <div
+        *dxTemplate="let item of 'actionTemplate'"
+        style="text-align: center"
+      >
+        <a (click)="openDeviceDetailModal(item.data)">Detail</a>
+      </div>
 
       <dxo-paging [pageSize]="12"></dxo-paging>
       <dxo-pager
@@ -124,6 +138,7 @@
         format="yyyy-MM-dd"
         alignment="center"
       ></dxi-column>
+      <dxi-column dataField="remark" caption="Remark"></dxi-column>
 
       <dxo-editing
         mode="popup"
@@ -173,6 +188,8 @@
               searchEnabled: true
             }"
           ></dxi-item>
+
+          <dxi-item dataField="remark"> </dxi-item>
         </dxo-form>
       </dxo-editing>
 
@@ -185,3 +202,99 @@
     </dx-data-grid>
   </nz-tab>
 </nz-tabset>
+
+<nz-modal
+  [(nzVisible)]="isOpenDeviceDetailModal"
+  nzTitle="Thông tin thiết bị"
+  (nzOnCancel)="isOpenDeviceDetailModal = false"
+  (nzOnOk)="isOpenDeviceDetailModal = false"
+  [nzWidth]="800"
+>
+  <ng-container *nzModalContent>
+    <nz-divider
+      nzText="Device Info"
+      nzOrientation="left"
+      style="margin-top: -20px"
+    ></nz-divider>
+    <nz-table
+      #deviceInfoTable
+      nzSize="small"
+      nzBordered
+      [nzData]="['']"
+      nzFrontPagination="false"
+    >
+      <tbody>
+        <tr>
+          <td>Device Name</td>
+          <td>{{ deviceSelected?.name }}</td>
+          <td rowspan="4" style="text-align: center; vertical-align: middle">
+            <img
+              *ngIf="deviceSelected.type === 'LAPTOP'"
+              src="../../../../../assets/images/devices/Laptop.jpg"
+              width="35%"
+            />
+            <img
+              *ngIf="deviceSelected.type === 'PC-AIO'"
+              src="../../../../../assets/images/devices/PC-AIO.png"
+              width="35%"
+            />
+            <img
+              *ngIf="deviceSelected.type === 'PC'"
+              src="../../../../../assets/images/devices/PC.jpg"
+              width="35%"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>Model</td>
+          <td>{{ deviceSelected?.model }}</td>
+        </tr>
+        <tr>
+          <td>Device Type</td>
+          <td>{{ deviceSelected?.type }}</td>
+        </tr>
+        <tr>
+          <td>FA Code</td>
+          <td>{{ deviceSelected?.faCode }}</td>
+        </tr>
+      </tbody>
+    </nz-table>
+    <nz-divider
+      *ngIf="deviceSelected.transactionId"
+      nzText="Transction Info"
+      nzOrientation="left"
+      style="margin-top: -20px"
+    ></nz-divider>
+    <nz-table
+      *ngIf="deviceSelected.transactionId"
+      #transactionInfoTable
+      nzSize="small"
+      nzBordered
+      [nzData]="['']"
+      nzFrontPagination="false"
+    >
+      <tbody>
+        <tr>
+          <td>Type</td>
+          <td>{{ deviceSelected?.recordTypeName }}</td>
+          <td>Ngày Giao/Nhận</td>
+          <td>{{ deviceSelected?.date | date : "yyyy-MM-dd" }}</td>
+        </tr>
+        <tr>
+          <td>P.I.C</td>
+          <td>{{ deviceSelected?.picName }} - {{ deviceSelected?.picCode }}</td>
+          <td>Section</td>
+          <td>{{ deviceSelected?.sectionName }}</td>
+        </tr>
+        <tr>
+          <td>IT User</td>
+          <td>
+            {{ deviceSelected?.itUserName }} - {{ deviceSelected?.itUserCode }}
+          </td>
+          <td>Remark</td>
+          <td>{{ deviceSelected?.remark }}</td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
+</nz-modal>
