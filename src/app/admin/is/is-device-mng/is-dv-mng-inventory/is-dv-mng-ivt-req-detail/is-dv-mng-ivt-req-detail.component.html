@@ -83,7 +83,7 @@
           <td
             rowspan="4"
             colspan="2"
-            style="text-align: center; vertical-align: middle; width: 50%;"
+            style="text-align: center; vertical-align: middle; width: 50%"
           >
             <img
               *ngIf="device.type === 'LAPTOP'"
@@ -129,6 +129,21 @@
           <td><label>Serial</label></td>
           <td>
             {{ device?.serialNo ? device?.serialNo : "N/A" }}
+          </td>
+        </tr>
+        <tr>
+          <td><label>Vị trí</label></td>
+          <td>
+            <nz-select style="width: 100%;">
+              <nz-option nzValue="jack" nzLabel="Vị trí 1"></nz-option>
+              <nz-option nzValue="lucy" nzLabel="Vị trí 2"></nz-option>
+            </nz-select>
+          </td>
+          <td><label>Ghi chú kiểm kê</label></td>
+          <td>
+            <nz-textarea-count [nzMaxCharacterCount]="100">
+              <textarea rows="1" nz-input></textarea>
+            </nz-textarea-count>
           </td>
         </tr>
       </tbody>

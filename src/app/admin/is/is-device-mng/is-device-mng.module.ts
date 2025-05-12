@@ -24,6 +24,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 @NgModule({
   declarations: [
     IsDvMngMenuComponent,
@@ -49,7 +50,8 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
     NzIconModule,
     NzInputModule,
     NzSpinModule,
-    NzAlertModule
+    NzAlertModule,
+    NzSelectModule
   ],
 })
 export class IsDeviceMngModule {}
