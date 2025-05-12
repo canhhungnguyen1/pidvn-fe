@@ -7,4 +7,14 @@ import { Component } from '@angular/core';
 })
 export class IsDvMngIvtReqDetailComponent {
 
+  requestNo: any
+  isOpenScanInventoryModal:boolean = false;
+
+  openScanInventoryModal() {
+    this.isOpenScanInventoryModal = true;
+  }
+
+  getDevice() {
+    console.log();
+  }
 }

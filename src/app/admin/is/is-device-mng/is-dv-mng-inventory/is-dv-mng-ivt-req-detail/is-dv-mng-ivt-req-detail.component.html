@@ -1,1 +1,53 @@
-<p>is-dv-mng-ivt-req-detail works!</p>
+<nz-table
+  #basicTable
+  [nzData]="['']"
+  nzFrontPagination="false"
+  nzBordered
+  nzSize="small"
+>
+  <thead>
+    <tr>
+      <th>
+        <button nz-button nzType="primary" (click)="openScanInventoryModal()">
+          <span nz-icon nzType="qrcode"></span>
+          Scan kiểm kê
+        </button>
+      </th>
+      <th style="text-align: right">
+        <label style="font-weight: bold">Mã kiểm kê:</label>
+        <label style="font-weight: bold; color: green"> {{ requestNo }} </label>
+      </th>
+    </tr>
+  </thead>
+</nz-table>
+
+<nz-modal
+  [(nzVisible)]="isOpenScanInventoryModal"
+  nzTitle="Dữ liệu scan kiểm kê"
+  nzWidth="750px"
+>
+  <ng-container *nzModalContent>
+    <nz-table
+      [nzData]="['']"
+      nzFrontPagination="false"
+      nzBordered
+      nzSize="small"
+      style="margin-top: -15px"
+    >
+      <thead>
+        <tr>
+          <th>Mã thiết bị</th>
+          <th>
+            <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+              <input type="text" nz-input placeholder="Scan mã thiết bị" (blur)="getDevice()" />
+            </nz-input-group>
+            <ng-template #suffixIconButton>
+              <button nz-button nzType="primary" nzSearch (click)="getDevice()">
+                <span nz-icon nzType="search"></span>
+              </button>
+            </ng-template>
+          </th>
+        </tr>
+      </thead>
+    </nz-table> </ng-container
+></nz-modal>

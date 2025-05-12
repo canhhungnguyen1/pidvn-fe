@@ -20,6 +20,8 @@ import { IsDvMngIvtReqComponent } from './is-dv-mng-inventory/is-dv-mng-ivt-req/
 import { IsDvMngIvtReqDetailComponent } from './is-dv-mng-inventory/is-dv-mng-ivt-req-detail/is-dv-mng-ivt-req-detail.component';
 import { FormsModule } from '@angular/forms';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzInputModule } from 'ng-zorro-antd/input';
 @NgModule({
   declarations: [
     IsDvMngMenuComponent,
@@ -41,7 +43,9 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     NzTableModule,
     NzDividerModule,
     NzImageModule,
-    NzButtonModule
+    NzButtonModule,
+    NzIconModule,
+    NzInputModule
   ],
 })
 export class IsDeviceMngModule {}
