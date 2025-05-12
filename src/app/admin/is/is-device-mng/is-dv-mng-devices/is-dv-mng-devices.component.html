@@ -82,7 +82,11 @@
       </div>
 
       <dxo-summary>
-        <dxi-total-item column="name" summaryType="count" displayFormat="Tổng: {0} (Thiết bị)"></dxi-total-item>
+        <dxi-total-item
+          column="name"
+          summaryType="count"
+          displayFormat="Tổng: {0} (Thiết bị)"
+        ></dxi-total-item>
       </dxo-summary>
 
       <dxo-paging [pageSize]="12"></dxo-paging>
@@ -161,7 +165,7 @@
         mode="popup"
         [allowAdding]="true"
         [allowUpdating]="false"
-        [allowDeleting]="true"
+        [allowDeleting]="false"
       >
         <dxo-popup
           [width]="800"
@@ -229,9 +233,10 @@
 >
   <ng-container *nzModalContent>
     <nz-divider
-      nzText="Device Info"
+      nzText="Device Infomation"
       nzOrientation="left"
       style="margin-top: -20px"
+      nzPlain="true"
     ></nz-divider>
     <nz-table
       #deviceInfoTable
@@ -244,7 +249,11 @@
         <tr>
           <td><label>Tên thiết bị</label></td>
           <td>{{ deviceSelected?.name }}</td>
-          <td rowspan="2" colspan="2" style="text-align: center; vertical-align: middle">
+          <td
+            rowspan="4"
+            colspan="2"
+            style="text-align: center; vertical-align: middle"
+          >
             <img
               *ngIf="deviceSelected.type === 'LAPTOP'"
               nz-image
@@ -272,22 +281,33 @@
         <tr>
           <td><label>Loại thiết bị</label></td>
           <td>{{ deviceSelected?.type }}</td>
-          <td><label>FA Code</label></td>
-          <td>{{ deviceSelected?.faCode ? deviceSelected?.faCode : 'N/A' }}</td>
         </tr>
         <tr>
           <td><label>Thương hiệu</label></td>
           <td>{{ deviceSelected?.brand }}</td>
+        </tr>
+        <tr>
+          <td><label>Ngày mua</label></td>
+          <td>{{ deviceSelected?.purchaseDate | date : "yyyy-MM-dd" }}</td>
+          <td><label>FA Code</label></td>
+          <td>{{ deviceSelected?.faCode ? deviceSelected?.faCode : "N/A" }}</td>
+        </tr>
+        <tr>
           <td><label>Hệ điều hành</label></td>
           <td>{{ deviceSelected?.os }}</td>
+          <td><label>Serial</label></td>
+          <td>
+            {{ deviceSelected?.serialNo ? deviceSelected?.serialNo : "N/A" }}
+          </td>
         </tr>
       </tbody>
     </nz-table>
     <nz-divider
       *ngIf="deviceSelected.transactionId"
-      nzText="Transction Info"
+      nzText="Transction Infomation"
       nzOrientation="left"
       style="margin-top: -20px"
+      nzPlain="true"
     ></nz-divider>
     <nz-table
       *ngIf="deviceSelected.transactionId"

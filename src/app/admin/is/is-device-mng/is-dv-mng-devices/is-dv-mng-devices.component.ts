@@ -73,7 +73,8 @@ export class IsDvMngDevicesComponent implements OnInit {
     const obj = {
       ...event.changes[0].data,
       itUserCode,
-      id: null,
+      date: new Date(),
+      id: null
     };
 
     this.isDeviceMngSvc.saveTransaction(obj).subscribe(
