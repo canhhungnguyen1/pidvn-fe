@@ -24,7 +24,7 @@
 <nz-modal
   [(nzVisible)]="isOpenScanInventoryModal"
   nzTitle="Dữ liệu scan kiểm kê"
-  nzWidth="750px"
+  nzWidth="100%"
 >
   <ng-container *nzModalContent>
     <nz-table
@@ -39,15 +39,99 @@
           <th>Mã thiết bị</th>
           <th>
             <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-              <input type="text" nz-input placeholder="Scan mã thiết bị" (blur)="getDevice()" />
+              <input
+                type="text"
+                nz-input
+                placeholder="Scan mã thiết bị"
+                (blur)="getDevice($event)"
+              />
             </nz-input-group>
             <ng-template #suffixIconButton>
-              <button nz-button nzType="primary" nzSearch (click)="getDevice()">
+              <button
+                nz-button
+                nzType="primary"
+                nzSearch
+                (click)="getDevice($event)"
+                [nzLoading]="isLoading"
+              >
                 <span nz-icon nzType="search"></span>
               </button>
             </ng-template>
           </th>
         </tr>
       </thead>
-    </nz-table> </ng-container
-></nz-modal>
+    </nz-table>
+    <nz-spin *ngIf="isLoading" nzTip="Hệ thống đang tải dữ liệu ...">
+      <nz-alert
+        nzType="info"
+        nzMessage="Hệ thông đang tải dữ liệu"
+        nzDescription="Hiển thị thông tin về thiết bị"
+      ></nz-alert>
+    </nz-spin>
+    <nz-table
+      *ngIf="device"
+      #deviceInfoTable
+      nzSize="small"
+      nzBordered
+      [nzData]="['']"
+      nzFrontPagination="false"
+    >
+      <tbody>
+        <tr>
+          <td><label>Tên thiết bị</label></td>
+          <td>{{ device?.name }}</td>
+          <td
+            rowspan="4"
+            colspan="2"
+            style="text-align: center; vertical-align: middle; width: 50%;"
+          >
+            <img
+              *ngIf="device.type === 'LAPTOP'"
+              nz-image
+              nzSrc="../../../../../assets/images/devices/LAPTOP.png"
+              width="25%"
+            />
+            <img
+              *ngIf="device.type === 'PC-AIO'"
+              nz-image
+              nzSrc="../../../../../assets/images/devices/PC-AIO.png"
+              width="25%"
+            />
+            <img
+              *ngIf="device.type === 'PC'"
+              nz-image
+              nzSrc="../../../../../assets/images/devices/PC.jpg"
+              width="25%"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td><label>Model</label></td>
+          <td>{{ device?.model }}</td>
+        </tr>
+        <tr>
+          <td><label>Loại thiết bị</label></td>
+          <td>{{ device?.type }}</td>
+        </tr>
+        <tr>
+          <td><label>Thương hiệu</label></td>
+          <td>{{ device?.brand }}</td>
+        </tr>
+        <tr>
+          <td><label>Ngày mua</label></td>
+          <td>{{ device?.purchaseDate | date : "yyyy-MM-dd" }}</td>
+          <td><label>FA Code</label></td>
+          <td>{{ device?.faCode ? device?.faCode : "N/A" }}</td>
+        </tr>
+        <tr>
+          <td><label>Hệ điều hành</label></td>
+          <td>{{ device?.os }}</td>
+          <td><label>Serial</label></td>
+          <td>
+            {{ device?.serialNo ? device?.serialNo : "N/A" }}
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
+</nz-modal>

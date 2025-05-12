@@ -23,12 +23,24 @@ export class IsDvMngIvtReqDetailComponent implements OnInit {
 
   requestNo: any;
   isOpenScanInventoryModal: boolean = false;
+  device: any;
+  isLoading: boolean = false
 
   openScanInventoryModal() {
     this.isOpenScanInventoryModal = true;
   }
 
-  getDevice() {
-    console.log();
+  getDevice(event: any) {
+    this.isLoading = true;
+    this.isDeviceMngSvc.getDevice(event.target.value).subscribe(
+      response => {
+        this.device = response.result
+        this.isLoading = false;
+      },
+      error => {
+        this.device = null
+        this.isLoading = false;
+      }
+    )
   }
 }
