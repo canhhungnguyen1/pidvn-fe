@@ -42,6 +42,7 @@
       <dxi-column dataField="model" caption="Model"></dxi-column>
       <dxi-column dataField="type" caption="Loại thiết bị"></dxi-column>
       <dxi-column dataField="faCode" caption="FA Code"></dxi-column>
+      <dxi-column dataField="locationName" caption="Vị trí"></dxi-column>
       <dxi-column
         dataField="status"
         caption="Trạng thái"
@@ -107,7 +108,8 @@
       [showBorders]="true"
       [allowColumnResizing]="true"
       [columnAutoWidth]="true"
-      [rowAlternationEnabled]="true"
+      [rowAlternationEnabled]="false"
+      [hoverStateEnabled]="true"
       (onSaved)="saveTransaction($event)"
       (onCellPrepared)="onCellPreparedHistory($event)"
     >
@@ -150,6 +152,12 @@
         ></dxi-validation-rule>
       </dxi-column>
       <dxi-column dataField="picName" caption="PIC Name"></dxi-column>
+      <dxi-column dataField="locationId" caption="Vị trí">
+        <dxi-validation-rule
+          type="required"
+          message="Location bắt buộc chọn"
+        ></dxi-validation-rule>
+      </dxi-column>
 
       <dxi-column dataField="sectionName" caption="Section"></dxi-column>
       <dxi-column
@@ -206,6 +214,17 @@
               valueExpr: 'name',
               displayExpr: displayDeviceName,
               placeholder: 'Tên thiết bị',
+              searchEnabled: true
+            }"
+          ></dxi-item>
+          <dxi-item
+            dataField="locationId"
+            editorType="dxSelectBox"
+            [editorOptions]="{
+              items: locations,
+              valueExpr: 'id',
+              displayExpr: 'name',
+              placeholder: 'Vị trí',
               searchEnabled: true
             }"
           ></dxi-item>

@@ -5,6 +5,7 @@ import {
   DxButtonModule,
   DxDataGridModule,
   DxSelectBoxModule,
+  DxTextBoxModule,
 } from 'devextreme-angular';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
@@ -40,6 +41,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
     DxButtonModule,
     DxDataGridModule,
     DxSelectBoxModule,
+    DxTextBoxModule,
     NzBreadCrumbModule,
     NzTabsModule,
     NzModalModule,
@@ -52,6 +54,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
     NzSpinModule,
     NzAlertModule,
     NzSelectModule
+    
   ],
 })
 export class IsDeviceMngModule {}

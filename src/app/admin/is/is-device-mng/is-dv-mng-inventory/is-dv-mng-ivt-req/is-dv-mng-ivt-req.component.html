@@ -17,7 +17,7 @@
   </dxo-column-chooser>
   <dxo-toolbar>
     <dxi-item location="before">
-      <dx-button icon="plus" type="default" text="Tạo phiếu kiểm kê">
+      <dx-button icon="plus" type="default" text="Tạo phiếu kiểm kê" (onClick)="openCreateRequestInventoryModal()">
       </dx-button>
     </dxi-item>
 
@@ -26,7 +26,7 @@
 
   <dxo-filter-row [visible]="true"></dxo-filter-row>
 
-  <dxi-column dataField="reqNo" caption="Phiếu kiểm kê"></dxi-column>
+  <dxi-column dataField="requestNo" caption="Phiếu kiểm kê"></dxi-column>
 
   <dxi-column
     dataField="createdBy"
@@ -36,7 +36,7 @@
   <dxi-column
     dataField="createdByName"
     caption="Người tạo (Name)"
-    [visible]="true"
+    [visible]="false"
   ></dxi-column>
   <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
   <dxi-column
@@ -82,7 +82,7 @@
       <tbody>
         <tr>
           <td><label>Phiếu kiểm kê</label></td>
-          <td>{{ ivtReq.reqNo }}</td>
+          <td>{{ ivtReq.requestNo }}</td>
         </tr>
         <tr>
           <td><label>Người tạo</label></td>
@@ -114,6 +114,7 @@
       nz-button
       nzType="primary"
       [nzLoading]="isLoading"
+      (click)="createdInventoryRequest()"
     >
       Tạo
     </button>

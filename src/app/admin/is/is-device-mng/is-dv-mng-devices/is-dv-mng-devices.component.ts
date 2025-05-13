@@ -21,6 +21,7 @@ export class IsDvMngDevicesComponent implements OnInit {
     this.getDevices();
     this.getTransactions();
     this.getUsers();
+    this.getLocations();
   }
 
   devices: any[] = [];
@@ -39,6 +40,7 @@ export class IsDvMngDevicesComponent implements OnInit {
   ];
 
   transactions: any[] = [];
+  locations: any[] = [];
 
   isOpenDeviceDetailModal: boolean = false;
 
@@ -57,6 +59,12 @@ export class IsDvMngDevicesComponent implements OnInit {
   getUsers() {
     this.isDeviceMngSvc.getUsers().subscribe((res: any) => {
       this.users = res.result;
+    });
+  }
+
+  getLocations() {
+    this.isDeviceMngSvc.getLocations().subscribe((res: any) => {
+      this.locations = res.result;
     });
   }
 

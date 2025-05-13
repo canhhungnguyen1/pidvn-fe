@@ -18,13 +18,21 @@ export class IsDvMngIvtReqDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    this.getLocations();
   }
 
   requestNo: any;
   isOpenScanInventoryModal: boolean = false;
   device: any;
-  isLoading: boolean = false
+  isLoading: boolean = false;
+  isLoadingSaveInventory: boolean = false;
+  locations: any [] = [];
+
+  getLocations() {
+    this.isDeviceMngSvc.getLocations().subscribe((res: any) => {
+      this.locations = res.result;
+    });
+  }
 
   openScanInventoryModal() {
     this.isOpenScanInventoryModal = true;
@@ -47,5 +55,10 @@ export class IsDvMngIvtReqDetailComponent implements OnInit {
         this.isLoading = false;
       }
     )
+  }
+
+  saveInventoryData() {
+    this.isLoadingSaveInventory = true;
+    
   }
 }
