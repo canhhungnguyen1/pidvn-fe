@@ -1,0 +1,232 @@
+<nz-table
+  #basicTable
+  [nzData]="['']"
+  nzFrontPagination="false"
+  nzBordered
+  nzSize="small"
+>
+  <thead>
+    <tr>
+      <th>
+        <button nz-button nzType="primary" (click)="openScanInventoryModal()">
+          <span nz-icon nzType="qrcode"></span>
+          Scan kiểm kê
+        </button>
+      </th>
+      <th style="text-align: right">
+        <label style="font-weight: bold">Mã kiểm kê:</label>
+        <label style="font-weight: bold; color: green"> {{ requestNo }} </label>
+      </th>
+    </tr>
+  </thead>
+</nz-table>
+
+<dx-data-grid
+  keyExpr="id"
+  #devicesGrid
+  [dataSource]="[]"
+  [showColumnLines]="true"
+  [showRowLines]="true"
+  [showBorders]="true"
+  [allowColumnResizing]="true"
+  [columnAutoWidth]="true"
+  [rowAlternationEnabled]="false"
+  [hoverStateEnabled]="true"
+  style="margin-top: -25px"
+>
+  <dxo-header-filter [visible]="true"></dxo-header-filter>
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
+  <dxo-export [enabled]="true"></dxo-export>
+
+  <dxo-toolbar>
+    <dxi-item location="before">
+      <span class="ivt-data" style="color: blue"
+        >Danh sách thiết bị đã kiểm kê</span
+      >
+    </dxi-item>
+
+    <dxi-item name="exportButton"></dxi-item>
+  </dxo-toolbar>
+
+  <dxi-column dataField="name" caption="Tên thiết bị">
+    <dxo-header-filter [allowSelectAll]="true">
+      <dxo-search [enabled]="true"></dxo-search>
+    </dxo-header-filter>
+  </dxi-column>
+
+  <dxi-column dataField="locationName" caption="Vị trí"></dxi-column>
+  <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
+  <dxi-column dataField="createdBy" caption="Người kiểm kê"></dxi-column>
+  <dxi-column
+    dataField="date"
+    caption="Thời gian"
+    dataType="date"
+    format="yyyy-MM-dd"
+    alignment="center"
+  ></dxi-column>
+</dx-data-grid>
+
+<nz-modal
+  [(nzVisible)]="isOpenScanInventoryModal"
+  nzTitle="Thông tin thiết bị"
+  nzWidth="100%"
+>
+  <ng-container *nzModalContent>
+    <nz-table
+      [nzData]="['']"
+      nzFrontPagination="false"
+      nzBordered
+      nzSize="small"
+      style="margin-top: -15px"
+    >
+      <thead>
+        <tr>
+          <th>Mã thiết bị</th>
+          <th>
+            <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+              <input
+                #deviceNameIpt
+                type="text"
+                nz-input
+                placeholder="Scan mã thiết bị"
+                (blur)="getDevice($event)"
+              />
+            </nz-input-group>
+            <ng-template #suffixIconButton>
+              <button
+                nz-button
+                nzType="primary"
+                nzSearch
+                (click)="getDevice($event)"
+                [nzLoading]="isLoading"
+              >
+                <span nz-icon nzType="search"></span>
+              </button>
+            </ng-template>
+          </th>
+        </tr>
+      </thead>
+    </nz-table>
+    <nz-spin
+      style="margin-top: -15px"
+      *ngIf="isLoading"
+      nzTip="Hệ thống đang tải dữ liệu ..."
+    >
+      <nz-alert
+        nzType="info"
+        nzMessage="Hệ thông đang tải dữ liệu"
+        nzDescription="Hiển thị thông tin về thiết bị"
+      ></nz-alert>
+    </nz-spin>
+    <nz-table
+      *ngIf="device"
+      #deviceInfoTable
+      nzSize="small"
+      nzBordered
+      [nzData]="['']"
+      nzFrontPagination="false"
+      style="margin-top: -15px"
+    >
+      <tbody>
+        <tr>
+          <td><label>Tên thiết bị</label></td>
+          <td>{{ device?.name }}</td>
+          <td
+            rowspan="4"
+            colspan="2"
+            style="text-align: center; vertical-align: middle; width: 50%"
+          >
+            <img
+              *ngIf="device.type === 'LAPTOP'"
+              nz-image
+              nzSrc="../../../../../assets/images/devices/LAPTOP.png"
+              width="25%"
+            />
+            <img
+              *ngIf="device.type === 'PC-AIO'"
+              nz-image
+              nzSrc="../../../../../assets/images/devices/PC-AIO.png"
+              width="25%"
+            />
+            <img
+              *ngIf="device.type === 'PC'"
+              nz-image
+              nzSrc="../../../../../assets/images/devices/PC.jpg"
+              width="25%"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td><label>Model</label></td>
+          <td>{{ device?.model }}</td>
+        </tr>
+        <tr>
+          <td><label>Loại thiết bị</label></td>
+          <td>{{ device?.type }}</td>
+        </tr>
+        <tr>
+          <td><label>Thương hiệu</label></td>
+          <td>{{ device?.brand }}</td>
+        </tr>
+        <tr>
+          <td><label>Ngày mua</label></td>
+          <td>{{ device?.purchaseDate | date : "yyyy-MM-dd" }}</td>
+          <td><label>FA Code</label></td>
+          <td>{{ device?.faCode ? device?.faCode : "N/A" }}</td>
+        </tr>
+        <tr>
+          <td><label>Hệ điều hành</label></td>
+          <td>{{ device?.os }}</td>
+          <td><label>Serial</label></td>
+          <td>
+            {{ device?.serialNo ? device?.serialNo : "N/A" }}
+          </td>
+        </tr>
+        <tr>
+          <td><label>Vị trí</label></td>
+          <td>
+            <dx-select-box
+              label="Location"
+              labelLocation="left"
+              showColonAfterLabel="true"
+              placeholder="Chọn vị trí"
+              [dataSource]="locations"
+              [searchEnabled]="true"
+              [labelMode]="'hidden'"
+              displayExpr="name"
+              valueExpr="id"
+            ></dx-select-box>
+          </td>
+          <td><label>Ghi chú kiểm kê</label></td>
+          <td>
+            <dx-text-box
+              label="Remark"
+              labelLocation="left"
+              showColonAfterLabel="true"
+              [labelMode]="'hidden'"
+              placeholder="Ghi chú"
+            ></dx-text-box>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
+  <div *nzModalFooter>
+    <button
+      nz-button
+      nzType="default"
+      (click)="isOpenScanInventoryModal = false"
+    >
+      Đóng
+    </button>
+    <button
+      nz-button
+      nzType="primary"
+      (click)="saveInventoryData()"
+      [nzLoading]="isLoadingSaveInventory"
+    >
+      <span nz-icon nzType="save"></span>
+      Lưu
+    </button>
+  </div>
+</nz-modal>
