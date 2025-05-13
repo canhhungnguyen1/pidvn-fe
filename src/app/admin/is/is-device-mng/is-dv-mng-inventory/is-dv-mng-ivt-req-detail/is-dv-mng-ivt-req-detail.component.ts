@@ -31,6 +31,11 @@ export class IsDvMngIvtReqDetailComponent implements OnInit {
   }
 
   getDevice(event: any) {
+    if (!event.target.value) {
+      this.toastr.warning('Cần scan mã thiết bị','Warning');
+      return;
+    }
+
     this.isLoading = true;
     this.isDeviceMngSvc.getDevice(event.target.value).subscribe(
       response => {
