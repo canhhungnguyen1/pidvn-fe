@@ -39,7 +39,13 @@ export class IsDvMngIvtReqComponent implements OnInit {
     )
   }
 
-  redirectDetail(item: any) {}
+  redirectDetail(item: any) {
+    console.log(item.data);
+    this.router.navigate(
+      [`admin/is/is-device-mng/inventory-requests`, `${item.data.id}`],
+      { queryParams: { reqNo: item.data.requestNo } }
+    );
+  }
 
   openCreateRequestInventoryModal() {
     this.ivtReq = {};

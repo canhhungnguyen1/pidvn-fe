@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { IsDeviceMngService } from '../../services/is-device-mng.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { ToastrService } from 'ngx-toastr';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-is-dv-mng-ivt-req-detail',
@@ -10,18 +11,25 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./is-dv-mng-ivt-req-detail.component.scss'],
 })
 export class IsDvMngIvtReqDetailComponent implements OnInit {
+
+  @ViewChild('deviceNameIpt') deviceNameIpt!: ElementRef;
+  
   constructor(
     private router: Router,
     private isDeviceMngSvc: IsDeviceMngService,
     private jwtHelperSvc: JwtHelperService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private activatedRoute: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
+    this.requestId = Number(this.activatedRoute.snapshot.params['id']);
+    this.requestNo = this.activatedRoute.snapshot.queryParamMap.get('reqNo');
     this.getLocations();
   }
 
   requestNo: any;
+  requestId: any;
   isOpenScanInventoryModal: boolean = false;
   device: any;
   isLoading: boolean = false;
@@ -35,7 +43,12 @@ export class IsDvMngIvtReqDetailComponent implements OnInit {
   }
 
   openScanInventoryModal() {
+    this.device = null;
     this.isOpenScanInventoryModal = true;
+    setTimeout(() => {
+      this.deviceNameIpt.nativeElement.focus();
+    }, 500);
+    
   }
 
   getDevice(event: any) {

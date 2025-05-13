@@ -56,7 +56,7 @@
 
   <dxi-column dataField="locationName" caption="Vị trí"></dxi-column>
   <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
-  <dxi-column dataField="remark" caption="Người kiểm kê"></dxi-column>
+  <dxi-column dataField="createdBy" caption="Người kiểm kê"></dxi-column>
   <dxi-column
     dataField="date"
     caption="Thời gian"
@@ -85,6 +85,7 @@
           <th>
             <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
               <input
+                #deviceNameIpt
                 type="text"
                 nz-input
                 placeholder="Scan mã thiết bị"
