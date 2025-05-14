@@ -54,4 +54,17 @@ export class IsDeviceMngService {
       requestDto
     );
   }
+
+  public saveInventoryData(ivtData: any): Observable<any> {
+    return this.httpClient.post(
+      `${this.baseUrl}/IS/DeviceManagement/Inventory/Data`,
+      ivtData
+    );
+  }
+
+  public getInventoryData(requestId: any): Observable<any> {
+    return this.httpClient.get(
+      `${this.baseUrl}/IS/DeviceManagement/Inventory/Data?requestId=${requestId}`
+    );
+  }
 }
