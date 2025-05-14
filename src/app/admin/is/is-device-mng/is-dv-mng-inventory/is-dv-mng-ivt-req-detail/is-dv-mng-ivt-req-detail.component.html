@@ -48,20 +48,26 @@
     <dxi-item name="exportButton"></dxi-item>
   </dxo-toolbar>
 
-  <dxi-column dataField="deviceName" caption="Tên thiết bị">
+  <dxi-column
+    dataField="deviceName"
+    caption="Tên thiết bị"
+    [fixed]="true"
+    fixedPosition="left"
+  >
     <dxo-header-filter [allowSelectAll]="true">
       <dxo-search [enabled]="true"></dxo-search>
     </dxo-header-filter>
   </dxi-column>
-
+<dxi-column dataField="deviceType" caption="Loại thiết bị"></dxi-column>
   <dxi-column dataField="locationName" caption="Vị trí"></dxi-column>
+  <dxi-column dataField="createdBy" caption="Người kiểm kê (ID)" [visible]="false"></dxi-column>
+  <dxi-column dataField="createdByName" caption="Người kiểm kê (Name)"></dxi-column>
   <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
-  <dxi-column dataField="createdBy" caption="Người kiểm kê"></dxi-column>
   <dxi-column
-    dataField="date"
+    dataField="createdAt"
     caption="Thời gian"
     dataType="date"
-    format="yyyy-MM-dd"
+    format="yyyy-MM-dd HH:mm"
     alignment="center"
   ></dxi-column>
 </dx-data-grid>
@@ -89,7 +95,7 @@
                 type="text"
                 nz-input
                 placeholder="Scan mã thiết bị"
-                (blur)="getDevice($event)"
+                (blur)="getDevice()"
               />
             </nz-input-group>
             <ng-template #suffixIconButton>
@@ -97,14 +103,18 @@
                 nz-button
                 nzType="primary"
                 nzSearch
-                (click)="getDevice($event)"
+                (click)="getDevice()"
                 [nzLoading]="isLoading"
               >
                 <span nz-icon nzType="search"></span>
+                Tìm kiếm
               </button>
             </ng-template>
           </th>
-          <th style="color: green; text-align: center; font-weight: bold;">{{requestNo}}</th>
+          <th style="text-align: center">
+            <span style="color: black; font-weight: bold">Mã kiểm kê: </span>
+            <span style="color: green; font-weight: bold">{{ requestNo }}</span>
+          </th>
         </tr>
       </thead>
     </nz-table>

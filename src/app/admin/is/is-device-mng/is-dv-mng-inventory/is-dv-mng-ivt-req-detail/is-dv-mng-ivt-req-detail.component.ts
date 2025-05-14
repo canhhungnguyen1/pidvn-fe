@@ -48,7 +48,7 @@ export class IsDvMngIvtReqDetailComponent implements OnInit {
     this.isDeviceMngSvc
       .getInventoryData(this.requestId)
       .subscribe((response) => {
-        this.inventoryData = response.result;
+        this.inventoryData = response.result.reverse();
       });
   }
 
@@ -60,14 +60,14 @@ export class IsDvMngIvtReqDetailComponent implements OnInit {
     }, 500);
   }
 
-  getDevice(event: any) {
-    if (!event.target.value) {
+  getDevice() {
+    if (!this.deviceNameIpt.nativeElement.value) {
       this.toastr.warning('Cần scan mã thiết bị', 'Warning');
       return;
     }
 
     this.isLoading = true;
-    this.isDeviceMngSvc.getDevice(event.target.value).subscribe(
+    this.isDeviceMngSvc.getDevice(this.deviceNameIpt.nativeElement.value).subscribe(
       (response) => {
         this.device = response.result;
         this.isLoading = false;
@@ -78,6 +78,8 @@ export class IsDvMngIvtReqDetailComponent implements OnInit {
       }
     );
   }
+
+
 
   saveInventoryData() {
     this.isLoadingSaveInventory = true;
@@ -100,7 +102,10 @@ export class IsDvMngIvtReqDetailComponent implements OnInit {
         this.getInventoryData();
         this.isLoadingSaveInventory = false;
         this.toastr.success('Thành công', 'Success');
-        this.isOpenScanInventoryModal = false;
+        this.deviceNameIpt.nativeElement.value = null
+        this.deviceNameIpt.nativeElement.focus();
+        this.device = null
+
       },
       (error) => {
         this.isLoadingSaveInventory = false;
