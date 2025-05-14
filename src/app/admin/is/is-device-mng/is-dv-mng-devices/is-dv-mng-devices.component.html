@@ -103,6 +103,7 @@
       keyExpr="id"
       #transactionGrid
       [dataSource]="transactions"
+      [dataSource]="devices"
       [showColumnLines]="true"
       [showRowLines]="true"
       [showBorders]="true"
@@ -125,7 +126,7 @@
       >
       </dxo-column-chooser>
 
-      <dxi-column dataField="deviceName" caption="Tên thiết bị">
+      <dxi-column dataField="deviceName" caption="Tên thiết bị" fixed="true">
         <dxi-validation-rule
           type="required"
           message="Tên thiết bị bắt buộc chọn"
