@@ -26,12 +26,13 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 @NgModule({
   declarations: [
     IsDvMngMenuComponent,
     IsDvMngDevicesComponent,
     IsDvMngIvtReqComponent,
-    IsDvMngIvtReqDetailComponent
+    IsDvMngIvtReqDetailComponent,
   ],
   imports: [
     CommonModule,
@@ -53,8 +54,8 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
     NzInputModule,
     NzSpinModule,
     NzAlertModule,
-    NzSelectModule
-    
+    NzSelectModule,
+    NzToolTipModule,
   ],
 })
 export class IsDeviceMngModule {}

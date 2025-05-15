@@ -340,22 +340,38 @@
     >
       <tbody>
         <tr>
-          <td><label>Loại giao dịch</label></td>
+          <td><label>Giao dịch</label></td>
           <td>{{ deviceSelected?.recordTypeName }}</td>
           <td><label>Ngày Giao/Nhận</label></td>
           <td>{{ deviceSelected?.date | date : "yyyy-MM-dd" }}</td>
         </tr>
         <tr>
           <td><label>P.I.C</label></td>
-          <td>{{ deviceSelected?.picName }} - {{ deviceSelected?.picCode }}</td>
-          <td><label>Section</label></td>
-          <td>{{ deviceSelected?.sectionName }}</td>
+          <td nz-tooltip [nzTooltipTitle]="titleTemplatePICUser">
+            {{ deviceSelected?.picName }}
+          </td>
+          <ng-template #titleTemplatePICUser>
+            <ul style="margin-left: -25px;">
+              <li>Tên nhân viên: {{ deviceSelected?.picName }}</li>
+              <li>Mã nhân viên: {{ deviceSelected?.picCode }}</li>
+              <li>Bộ phận: {{ deviceSelected?.sectionName }}</li>
+            </ul>
+          </ng-template>
+          <td><label>Vị trí</label></td>
+          <td>{{ deviceSelected?.locationName }}</td>
         </tr>
         <tr>
           <td><label>IT User</label></td>
-          <td>
-            {{ deviceSelected?.itUserName }} - {{ deviceSelected?.itUserCode }}
+          <td nz-tooltip [nzTooltipTitle]="titleTemplateItUser">
+            {{ deviceSelected?.itUserName }}
           </td>
+          <ng-template #titleTemplateItUser>
+            <ul style="margin-left: -25px;">
+              <li>Tên nhân viên: {{ deviceSelected?.itUserName }}</li>
+              <li>Mã nhân viên: {{ deviceSelected?.itUserCode }}</li>
+              <li>Bộ phận: IT</li>
+            </ul>
+          </ng-template>
           <td><label>Remark</label></td>
           <td>{{ deviceSelected?.remark }}</td>
         </tr>
