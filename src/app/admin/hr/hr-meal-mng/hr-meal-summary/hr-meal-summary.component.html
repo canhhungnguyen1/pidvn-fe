@@ -62,17 +62,18 @@
       [showRowLines]="true"
       [showBorders]="true"
     >
+      <dxo-header-filter [visible]="true"></dxo-header-filter>
       <dxo-filter-row [visible]="true"></dxo-filter-row>
       <dxo-export [enabled]="true"></dxo-export>
       <dxo-column-chooser #columnChooser [enabled]="true" [mode]="'select'">
       </dxo-column-chooser>
 
-      <dxo-toolbar>
-        <dxi-item location="before"> </dxi-item>
-      </dxo-toolbar>
-
       <dxi-column dataField="rowNum" caption="STT"></dxi-column>
-      <dxi-column dataField="codeEmp" caption="Mã nhân viên"></dxi-column>
+      <dxi-column dataField="codeEmp" caption="Mã nhân viên">
+        <dxo-header-filter [allowSelectAll]="true">
+          <dxo-search [enabled]="true"></dxo-search>
+        </dxo-header-filter>
+      </dxi-column>
       <dxi-column dataField="profileName" caption="Họ tên"></dxi-column>
       <dxi-column
         dataField="timeLog"
@@ -88,7 +89,11 @@
         format="yyyy-MM-dd"
         alignment="center"
       ></dxi-column>
-      <dxi-column dataField="lineCode" caption="Line Code"></dxi-column>
+      <dxi-column dataField="lineCode" caption="Line Code">
+        <dxo-header-filter [allowSelectAll]="true">
+          <dxo-search [enabled]="true"></dxo-search>
+        </dxo-header-filter>
+      </dxi-column>
       <dxi-column dataField="lineName" caption="Line Name"></dxi-column>
       <dxi-column dataField="orgStructureName" caption="Bộ phận"></dxi-column>
 
