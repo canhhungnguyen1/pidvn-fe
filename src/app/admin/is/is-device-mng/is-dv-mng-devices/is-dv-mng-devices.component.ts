@@ -3,6 +3,9 @@ import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { ToastrService } from 'ngx-toastr';
 import { IsDeviceMngService } from '../services/is-device-mng.service';
+import { Workbook } from 'exceljs';
+import { exportDataGrid } from 'devextreme/excel_exporter';
+import saveAs from 'file-saver';
 
 @Component({
   selector: 'app-is-dv-mng-devices',
@@ -82,7 +85,7 @@ export class IsDvMngDevicesComponent implements OnInit {
       ...event.changes[0].data,
       itUserCode,
       date: new Date(),
-      id: null
+      id: null,
     };
 
     this.isDeviceMngSvc.saveTransaction(obj).subscribe(
@@ -111,5 +114,21 @@ export class IsDvMngDevicesComponent implements OnInit {
       e.cellElement.style.color = '#ffffff'; // Change text color for better visibility
       e.cellElement.style.fontWeight = 'bold';
     }
+  }
+
+  onExportDevices(event: any) {
+    const workbook = new Workbook();
+    const worksheet = workbook.addWorksheet('Devices');
+    exportDataGrid({
+      component: event.component,
+      worksheet: worksheet,
+    }).then(function () {
+      workbook.xlsx.writeBuffer().then(function (buffer: BlobPart) {
+        saveAs(
+          new Blob([buffer], { type: 'application/octet-stream' }),
+          'Devices.xlsx'
+        );
+      });
+    });
   }
 }

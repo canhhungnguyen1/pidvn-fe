@@ -19,6 +19,7 @@
       [rowAlternationEnabled]="false"
       [hoverStateEnabled]="true"
       (onCellPrepared)="onCellPreparedHistory($event)"
+      (onExporting)="onExportDevices($event)"
     >
       <dxo-header-filter [visible]="true"></dxo-header-filter>
       <dxo-filter-row [visible]="true"></dxo-filter-row>
@@ -53,7 +54,18 @@
 
       <dxi-column dataField="model" caption="Model"></dxi-column>
       <dxi-column dataField="type" caption="Loại thiết bị"></dxi-column>
-      <dxi-column dataField="faCode" caption="FA Code"></dxi-column>
+      <dxi-column
+        dataField="faCode"
+        caption="FA Code"
+        [visible]="false"
+      ></dxi-column>
+      <dxi-column
+        dataField="purchaseDate"
+        caption="Ngày mua"
+        dataType="date"
+        format="yyyy-MM-dd"
+        alignment="center"
+      ></dxi-column>
       <dxi-column dataField="locationName" caption="Vị trí"></dxi-column>
       <dxi-column
         dataField="status"
@@ -65,7 +77,12 @@
         dataField="recordTypeName"
         caption="Transaction Type"
       ></dxi-column>
-      <dxi-column dataField="picCode" caption="PIC Code"></dxi-column>
+      <dxi-column
+        dataField="picCode"
+        caption="PIC Code"
+        [visible]="false"
+        alignment="center"
+      ></dxi-column>
       <dxi-column dataField="picName" caption="PIC Name"></dxi-column>
       <dxi-column dataField="sectionName" caption="Section"></dxi-column>
       <dxi-column
