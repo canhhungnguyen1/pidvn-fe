@@ -209,6 +209,8 @@
               nzShowSearch
               nzAllowClear
               [(ngModel)]="stopTimeSelected.shift"
+              [nzDisabled]="!stopTimeSelected.line"
+              nzPlaceHolder="Chọn Ca"
             >
               <nz-option
                 *ngFor="let shift of shifts"
@@ -287,6 +289,7 @@
               nzPlaceHolder="Thời gian bắt đầu"
               (nzOnOk)="onChangeStartTime($event)"
               (ngModelChange)="onChangeStartTime($event)"
+              [nzDisabled]="!stopTimeSelected.shift"
             ></nz-date-picker>
             ->
             <nz-date-picker
@@ -296,6 +299,7 @@
               nzPlaceHolder="Thời gian kết thúc"
               (nzOnOk)="onChangeStopTime($event)"
               (ngModelChange)="onChangeStopTime($event)"
+              [nzDisabled]="!stopTimeSelected.startTime"
             ></nz-date-picker>
           </td>
         </tr>
