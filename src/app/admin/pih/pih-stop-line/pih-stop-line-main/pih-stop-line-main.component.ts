@@ -400,7 +400,7 @@ export class PihStopLineMainComponent implements OnInit {
     }
 
     // Kiểm tra bắt buộc chọn models
-    // if (obj.model == null) {
+    // if (obj.model != null && obj.model.length == 0) {
     //   this.errorMsg = 'Model không được để trống'
     //   return;
     // }
