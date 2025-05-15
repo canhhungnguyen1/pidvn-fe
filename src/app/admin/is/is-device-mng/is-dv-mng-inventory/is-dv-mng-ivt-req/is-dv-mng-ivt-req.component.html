@@ -17,7 +17,12 @@
   </dxo-column-chooser>
   <dxo-toolbar>
     <dxi-item location="before">
-      <dx-button icon="plus" type="default" text="Tạo phiếu kiểm kê" (onClick)="openCreateRequestInventoryModal()">
+      <dx-button
+        icon="plus"
+        type="default"
+        text="Tạo phiếu kiểm kê"
+        (onClick)="openCreateRequestInventoryModal()"
+      >
       </dx-button>
     </dxi-item>
 
@@ -26,7 +31,17 @@
 
   <dxo-filter-row [visible]="true"></dxo-filter-row>
 
-  <dxi-column dataField="requestNo" caption="Phiếu kiểm kê"></dxi-column>
+  <dxi-column
+    dataField="requestNo"
+    caption="Phiếu kiểm kê"
+    cellTemplate="requestNoTemplate"
+    [fixed]="true"
+    fixedPosition="left"
+  >
+  </dxi-column>
+  <div *dxTemplate="let item of 'requestNoTemplate'">
+    <a (click)="redirectDetail(item)">{{ item.data.requestNo }}</a>
+  </div>
 
   <dxi-column
     dataField="createdBy"
@@ -46,7 +61,7 @@
     caption="Ngày tạo"
     [visible]="true"
   ></dxi-column>
-  <dxi-column
+  <!-- <dxi-column
     caption="Action"
     cellTemplate="actionTemplate"
     alignment="center"
@@ -56,7 +71,7 @@
     <div *dxTemplate="let item of 'actionTemplate'" style="text-align: center">
       <a style="color: blue" (click)="redirectDetail(item)">Chi tiết</a>
     </div>
-  </dxi-column>
+  </dxi-column> -->
 
   <dxo-paging [pageSize]="10"></dxo-paging>
   <dxo-pager
@@ -92,11 +107,7 @@
         <tr>
           <td><label>Ghi chú</label></td>
           <td>
-            <textarea
-              rows="2"
-              nz-input
-              [(ngModel)]="ivtReq.remark"
-            ></textarea>
+            <textarea rows="2" nz-input [(ngModel)]="ivtReq.remark"></textarea>
           </td>
         </tr>
       </tbody>
