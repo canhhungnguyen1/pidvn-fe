@@ -36,11 +36,21 @@
       >
       </dxo-column-chooser>
 
-      <dxi-column dataField="name" caption="Tên thiết bị">
+      <dxi-column
+        dataField="name"
+        caption="Tên thiết bị"
+        cellTemplate="deviceNameTemplate"
+        [fixed]="true"
+        fixedPosition="left"
+      >
         <dxo-header-filter [allowSelectAll]="true">
           <dxo-search [enabled]="true"></dxo-search>
         </dxo-header-filter>
       </dxi-column>
+      <div *dxTemplate="let item of 'deviceNameTemplate'">
+        <a (click)="openDeviceDetailModal(item.data)">{{ item.data.name }}</a>
+      </div>
+
       <dxi-column dataField="model" caption="Model"></dxi-column>
       <dxi-column dataField="type" caption="Loại thiết bị"></dxi-column>
       <dxi-column dataField="faCode" caption="FA Code"></dxi-column>
@@ -71,7 +81,7 @@
         [visible]="true"
       ></dxi-column>
 
-      <dxi-column
+      <!-- <dxi-column
         caption="Action"
         cellTemplate="actionTemplate"
         [fixed]="true"
@@ -82,7 +92,7 @@
         style="text-align: center"
       >
         <a (click)="openDeviceDetailModal(item.data)">Detail</a>
-      </div>
+      </div> -->
 
       <dxo-summary>
         <dxi-total-item
@@ -351,7 +361,7 @@
             {{ deviceSelected?.picName }}
           </td>
           <ng-template #titleTemplatePICUser>
-            <ul style="margin-left: -25px;">
+            <ul style="margin-left: -25px">
               <li>Tên nhân viên: {{ deviceSelected?.picName }}</li>
               <li>Mã nhân viên: {{ deviceSelected?.picCode }}</li>
               <li>Bộ phận: {{ deviceSelected?.sectionName }}</li>
@@ -366,14 +376,14 @@
             {{ deviceSelected?.itUserName }}
           </td>
           <ng-template #titleTemplateItUser>
-            <ul style="margin-left: -25px;">
+            <ul style="margin-left: -25px">
               <li>Tên nhân viên: {{ deviceSelected?.itUserName }}</li>
               <li>Mã nhân viên: {{ deviceSelected?.itUserCode }}</li>
               <li>Bộ phận: IT</li>
             </ul>
           </ng-template>
           <td><label>Remark</label></td>
-          <td>{{ deviceSelected?.remark }}</td>
+          <td>{{ deviceSelected?.transactionRemark }}</td>
         </tr>
       </tbody>
     </nz-table>
