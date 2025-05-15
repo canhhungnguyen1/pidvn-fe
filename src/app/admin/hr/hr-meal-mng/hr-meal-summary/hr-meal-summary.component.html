@@ -89,6 +89,7 @@
         format="yyyy-MM-dd"
         alignment="center"
       ></dxi-column>
+      <dxi-column dataField="couponType" caption="Loại vé"></dxi-column>
       <dxi-column dataField="lineCode" caption="Line Code">
         <dxo-header-filter [allowSelectAll]="true">
           <dxo-search [enabled]="true"></dxo-search>
@@ -96,6 +97,7 @@
       </dxi-column>
       <dxi-column dataField="lineName" caption="Line Name"></dxi-column>
       <dxi-column dataField="orgStructureName" caption="Bộ phận"></dxi-column>
+      
 
       <dxo-paging [pageSize]="50"></dxo-paging>
       <dxo-pager
