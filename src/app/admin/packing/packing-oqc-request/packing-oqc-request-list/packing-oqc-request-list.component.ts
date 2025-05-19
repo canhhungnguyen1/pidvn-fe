@@ -185,9 +185,7 @@ export class PackingOqcRequestListComponent implements OnInit {
     // Gọi 2 API song song
     forkJoin({
       dateCodes: this.reDateCodeSvc.getDateCodes(event),
-      materials: this.reDateCodeSvc.getMaterialScanned(
-        `${this.requestCreate.qaCardSplit[0]}*${this.requestCreate.qaCardSplit[1]}*${this.requestCreate.qaCardSplit[2]}`
-      ),
+      materials: this.reDateCodeSvc.getMaterialScanned(event),
     }).subscribe({
       next: ({
         dateCodes,
