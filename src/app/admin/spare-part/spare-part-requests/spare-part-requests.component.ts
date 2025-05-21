@@ -122,6 +122,7 @@ export class SparePartRequestsComponent implements OnInit {
       )
       .subscribe((response) => {
         this.getRequests();
+        this.toastr.success('Tạo request thành công', 'Success');
       });
 
     this.closeRequestModal();
