@@ -277,8 +277,18 @@ export class SparePartRequestsComponent implements OnInit {
    * @param item
    */
   openConfirmReturnModal(item: any) {
-    this.partNumberSelected = item.data;
 
+    let roles = this.jwt.Roles;
+    console.log('roles: ', roles);
+    const hasPermission = roles.some((role: string) => role === "Pur WH 1" || role === "Pur WH 2");
+
+    if (!hasPermission) {
+      this.toastr.warning('Bạn không có quyền xác nhận trả hàng', 'Warning');
+      return;
+    }
+
+
+    this.partNumberSelected = item.data;
     console.log('partNumberSelected: ', this.partNumberSelected);
     this.isOpenConfirmReturnModal = true;
   }
