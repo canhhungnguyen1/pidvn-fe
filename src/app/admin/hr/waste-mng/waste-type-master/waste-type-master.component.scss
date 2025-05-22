@@ -1,0 +1,17 @@
+#labelTbl {
+  table,
+  th,
+  td {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+
+  .ellipsis {
+    display: inline-block;
+    max-width: 100%; /* hoặc giá trị cụ thể như 200px */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: bottom;
+  }
+}
