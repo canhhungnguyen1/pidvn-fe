@@ -5,6 +5,7 @@ import { WasteDetailDataComponent } from './waste-detail-data/waste-detail-data.
 import { WasteMainComponent } from './waste-main/waste-main.component';
 import { WasteMasterDataComponent } from './waste-master-data/waste-master-data.component';
 import { WasteMngComponent } from './waste-mng.component';
+import { WasteTypeMasterComponent } from './waste-type-master/waste-type-master.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,10 @@ const routes: Routes = [
       {
         path:'data-management',
         component: WasteDataManagementComponent
+      },
+      {
+        path:'waste-type',
+        component: WasteTypeMasterComponent
       }
     ]
   }
