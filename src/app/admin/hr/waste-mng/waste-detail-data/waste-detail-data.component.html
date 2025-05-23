@@ -148,7 +148,7 @@
         dataType="date"
         format="yyyy-MM-dd HH:mm"
       ></dxi-column>
-      <dxi-column dataField="packagingNo" caption="Đơn giá"></dxi-column>
+      <!-- <dxi-column dataField="packagingNo" caption="Đơn giá"></dxi-column> -->
       <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
       <dxo-paging [pageSize]="10"></dxo-paging>
       <dxo-pager
@@ -299,7 +299,7 @@
             <nz-option
               *ngFor="let type of wasteTypes"
               [nzValue]="type.id"
-              [nzLabel]="type.name + ' - (Mã Code: ' + type.qrCode + ')'"
+              [nzLabel]="type.name"
             >
             </nz-option>
           </nz-select>
