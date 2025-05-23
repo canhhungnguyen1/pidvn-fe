@@ -1,6 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { DxDataGridComponent, DxValidatorComponent } from 'devextreme-angular';
+import {
+  DxDataGridComponent,
+  DxValidationGroupComponent,
+  DxValidatorComponent,
+} from 'devextreme-angular';
 import { ToastrService } from 'ngx-toastr';
 import { SparePartRecordVo } from '../models/SparePartRecordVo';
 import { SparePartService } from '../services/spare-part.service';
@@ -22,9 +26,8 @@ export class SparePartRequestsComponent implements OnInit {
     private toastr: ToastrService,
     private sparePartSvc: SparePartService,
     private sparePartRequestSvc: SparePartRequestsService,
-    private jwtHelperSvc: JwtHelperService,
+    private jwtHelperSvc: JwtHelperService
   ) {
-
     this.jwt = this.jwtHelperSvc.decodeToken(
       localStorage.getItem('accessToken')?.toString()
     );
@@ -39,8 +42,10 @@ export class SparePartRequestsComponent implements OnInit {
   }
 
   requests: any;
+  requestTypeSelected: any; // Loại yêu cầu (Order hoặc Return)
   isOpenRequestModal: boolean = false;
   isOpenRequestDetailModal: boolean = false;
+  isOpenConfirmReturnModal: boolean = false;
   spareParts!: SparePartRecordVo[];
 
   subsectionSelected: any; // Bộ phận được chọn
@@ -61,14 +66,13 @@ export class SparePartRequestsComponent implements OnInit {
   sparePartsReqDetail: any; // danh sách hàng theo request
   sparePartReqSelected: any;
 
-
   // 2 biến này để hứng dữ liệu order list
   orderListSet: any = new Set();
   orderListArr: any;
 
   requestDate: any = new Date();
   getRequests() {
-    let params = {date: new Date()}
+    let params = { date: new Date() };
     this.sparePartRequestSvc.getRequests(params).subscribe((response) => {
       this.requests = response;
     });
@@ -101,20 +105,24 @@ export class SparePartRequestsComponent implements OnInit {
     });
 
     if (arr.length == 0) {
-      this.toastr.warning('Cần chọn part number','Warning')
+      this.toastr.warning('Cần chọn part number', 'Warning');
       return;
     }
-
-
 
     /**
      * Xử lý lưu list data
      */
     console.log('onSaving: ', arr);
     this.sparePartRequestSvc
-      .createRequest(arr, this.factorySelected, this.subsectionSelected)
+      .createRequest(
+        arr,
+        this.factorySelected,
+        this.subsectionSelected,
+        this.requestTypeSelected
+      )
       .subscribe((response) => {
         this.getRequests();
+        this.toastr.success('Tạo request thành công', 'Success');
       });
 
     this.closeRequestModal();
@@ -132,7 +140,8 @@ export class SparePartRequestsComponent implements OnInit {
     this.orderListArr = new Array();
     this.orderListSet = new Set();
     this.factorySelected = null;
-    this.subsectionSelected = null
+    this.subsectionSelected = null;
+    this.requestTypeSelected = null;
   }
 
   openRequestDetailModal(item: any) {
@@ -178,6 +187,12 @@ export class SparePartRequestsComponent implements OnInit {
    * @param item
    */
   addToRequest(item: any) {
+    // Loại request
+    if (!this.requestTypeSelected) {
+      this.toastr.warning('Cần chọn loại request', 'Warning');
+      return;
+    }
+
     // Check chọn khu vực
     if (!this.factorySelected) {
       this.toastr.warning('Cần chọn khu vực', 'Warning');
@@ -203,7 +218,7 @@ export class SparePartRequestsComponent implements OnInit {
 
   /**
    * Xóa bớt các item đã order
-   * @param item 
+   * @param item
    */
   deleteItemOrderList(item: any) {
     for (let obj of this.orderListSet) {
@@ -216,48 +231,108 @@ export class SparePartRequestsComponent implements OnInit {
   }
 
   onChangeRequestDate(event: any) {
-    console.log('onChangeRequestDate: ',event );
-    
-    let params = {date: event}
+    console.log('onChangeRequestDate: ', event);
+
+    let params = { date: event };
     this.sparePartRequestSvc.getRequests(params).subscribe((response) => {
       this.requests = response;
     });
-    
   }
 
-
   deleteRequest() {
-    debugger
+    debugger;
 
     let roles = this.jwt.Roles;
 
     let userLogin = this.jwtHelperSvc.decodeToken(
       localStorage.getItem('accessToken')?.toString()
-    ).Username
-
-    
+    ).Username;
 
     if (this.sparePartReqSelected.data.amountAct > 0) {
-      this.toastr.warning('Không thể xóa request đã xuất hàng !','Warning')
-      return
-    }
-
-
-    if (userLogin != this.sparePartReqSelected.data.createdBy) {
-      this.toastr.warning('Chỉ người tạo mới có quyền xóa !','Warning')
+      this.toastr.warning('Không thể xóa request đã xuất hàng !', 'Warning');
       return;
     }
 
-    this.sparePartRequestSvc.deleteSparePartRequest(this.sparePartReqSelected.data.id).subscribe(
-      response => {
-        this.isOpenRequestDetailModal = false
-        this.getRequests();
-      },
-      error => {
-        this.isOpenRequestDetailModal = false
-      }
-    )
+    if (userLogin != this.sparePartReqSelected.data.createdBy) {
+      this.toastr.warning('Chỉ người tạo mới có quyền xóa !', 'Warning');
+      return;
+    }
+
+    this.sparePartRequestSvc
+      .deleteSparePartRequest(this.sparePartReqSelected.data.id)
+      .subscribe(
+        (response) => {
+          this.isOpenRequestDetailModal = false;
+          this.getRequests();
+        },
+        (error) => {
+          this.isOpenRequestDetailModal = false;
+        }
+      );
+  }
+
+  partNumberSelected: any;
+  /**
+   * Mở modal xác nhận trả hàng
+   * @param item
+   */
+  openConfirmReturnModal(item: any) {
+
+    let roles = this.jwt.Roles;
+    console.log('roles: ', roles);
+    const hasPermission = roles.some((role: string) => role === "Pur WH 1" || role === "Pur WH 2");
+
+    if (!hasPermission) {
+      this.toastr.warning('Bạn không có quyền xác nhận trả hàng', 'Warning');
+      return;
+    }
 
 
+    this.partNumberSelected = item.data;
+    console.log('partNumberSelected: ', this.partNumberSelected);
+    this.isOpenConfirmReturnModal = true;
+  }
+
+  @ViewChild('formGroup')
+  formGroup!: DxValidationGroupComponent;
+
+  /**
+   * Xác nhận trả hàng
+   */
+  confirmReturn() {
+    console.log('jwt: ', this.jwt);
+
+    const result = this.formGroup.instance.validate();
+    if (!result.isValid) {
+      return;
+    }
+
+    let obj = {
+      partNumber: this.partNumberSelected.partNumber,
+      requestNo: this.sparePartReqSelected.data.requestNo,
+      qty: this.partNumberSelected.requestQty,
+      whUserCode: this.jwt.Username,
+      receiveUserCode: this.sparePartReqSelected.data.createdBy,
+      type: this.partNumberSelected.recordType,
+      goodsType: 'M4',
+      factoryCode: this.sparePartReqSelected.data.factoryCode,
+      insertType: 'manual',
+      date: new Date(),
+    };
+    console.log('confirmReturn: ', obj);
+
+    let arr = new Array();
+    arr.push(obj);
+
+    this.sparePartSvc.saveSparePartRecords(arr).subscribe((response) => {
+      this.isOpenConfirmReturnModal = false;
+      this.toastr.success('Trả hàng thành công', 'Success');
+
+      this.sparePartRequestSvc
+        .getRequestDetail(this.sparePartReqSelected.data.id)
+        .subscribe((response) => {
+          this.sparePartsReqDetail = response;
+        });
+    });
   }
 }

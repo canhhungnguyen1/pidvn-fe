@@ -24,14 +24,18 @@ import { WasteMainComponent } from './waste-main/waste-main.component';
 import { WasteMasterDataComponent } from './waste-master-data/waste-master-data.component';
 import { WasteMngRoutingModule } from './waste-mng-routing.module';
 import { WasteMngComponent } from './waste-mng.component';
-
+import { WasteTypeMasterComponent } from './waste-type-master/waste-type-master.component';
+import { NzQRCodeModule } from 'ng-zorro-antd/qr-code';
+import { QRCodeModule } from 'angularx-qrcode';
+import { NgxPrintModule } from 'ngx-print';
 @NgModule({
   declarations: [
     WasteMngComponent,
     WasteMainComponent,
     WasteMasterDataComponent,
     WasteDetailDataComponent,
-    WasteDataManagementComponent
+    WasteDataManagementComponent,
+    WasteTypeMasterComponent,
   ],
   imports: [
     CommonModule,
@@ -54,7 +58,10 @@ import { WasteMngComponent } from './waste-mng.component';
     NzCollapseModule,
     NzTabsModule,
     NzPopconfirmModule,
-    NzImageModule
-  ]
+    NzImageModule,
+    NzQRCodeModule,
+    QRCodeModule,
+    NgxPrintModule
+  ],
 })
-export class WasteMngModule { }
+export class WasteMngModule {}

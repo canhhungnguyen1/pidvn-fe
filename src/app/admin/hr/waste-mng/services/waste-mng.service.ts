@@ -118,9 +118,17 @@ export class WasteMngService {
     );
   }
 
-
-
   getPdfReport(masterId: number) {
-    return this.httpClient.get(`${this.baseUrl}/HR/WasteMng/ExportMasterData?masterId=${masterId}`, { responseType: 'blob' });
+    return this.httpClient.get(
+      `${this.baseUrl}/HR/WasteMng/ExportMasterData?masterId=${masterId}`,
+      { responseType: 'blob' }
+    );
+  }
+
+  getWasteTypeVer2(searchVo: any): Observable<any> {
+    return this.httpClient.post(
+      `${this.baseUrl}/HR/WasteMng/WasteType/v2`,
+      searchVo
+    );
   }
 }

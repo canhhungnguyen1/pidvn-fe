@@ -45,6 +45,7 @@ import { SparePartIvtReqComponent } from './spare-part-inventory/spare-part-ivt-
 import { SparePartPrintQrComponent } from './spare-part-print-qr/spare-part-print-qr.component';
 import { SparePartReportsComponent } from './spare-part-reports/spare-part-reports.component';
 import { SparePartRequestsComponent } from './spare-part-requests/spare-part-requests.component';
+import { DxNumberBoxModule } from 'devextreme-angular/ui/number-box';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { SparePartRequestsComponent } from './spare-part-requests/spare-part-req
     NzGridModule,
     DxButtonModule,
     DxDataGridModule,
+    DxNumberBoxModule,
     NzQRCodeModule,
     NzButtonModule,
     NzSpaceModule,
