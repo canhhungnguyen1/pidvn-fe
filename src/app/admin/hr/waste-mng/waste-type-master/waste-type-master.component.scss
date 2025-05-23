@@ -6,12 +6,48 @@
     border-collapse: collapse;
   }
 
-  .ellipsis {
-    display: inline-block;
-    max-width: 100%; /* hoặc giá trị cụ thể như 200px */
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    vertical-align: bottom;
+  .wasteTypeName {
+    font-size: 25px;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  .wasteGroupName {
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  .qrCode {
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  width: 100%;
+}
+
+.a4-half-table {
+  width: 105mm; /* hoặc dùng 50% nếu container cha là khổ A4 */
+  max-width: 100%;
+  margin: 0 auto; /* căn giữa */
+  page-break-inside: avoid; /* tránh bị chia trang khi in */
+}
+
+.a4-half-table td,
+.a4-half-table th {
+  padding: 4px 6px;
+  font-size: 12px;
+}
+
+@media print {
+  body {
+    width: 210mm;
+    height: 297mm;
+    margin: 0;
+  }
+
+  .a4-half-table {
+    width: 105mm;
   }
 }

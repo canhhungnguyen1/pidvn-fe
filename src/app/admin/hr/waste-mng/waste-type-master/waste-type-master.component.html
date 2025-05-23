@@ -57,10 +57,10 @@
       <div nz-row nzJustify="start" nzAlign="middle" [nzGutter]="24">
         <div
           nz-col
-          nzXs="8"
-          nzSm="12"
-          nzMd="12"
-          nzLg="8"
+          nzXs="24"
+          nzSm="24"
+          nzMd="24"
+          nzLg="12"
           *ngFor="let row of selectedRows"
         >
           <nz-table
@@ -69,16 +69,17 @@
             nzFrontPagination="false"
             id="labelTbl"
             nzSize="small"
-            style="margin-top: 2px;"
+            style="margin-top: 50px;"
+            class="a4-half-table"
           >
             <tbody>
               <tr>
                 <td colspan="2">
-                  <span class="ellipsis">{{ row.wasteTypeName }}</span>
+                  <span class="wasteTypeName">{{ row.wasteTypeName }}</span>
                 </td>
               </tr>
               <tr>
-                <td style="text-align: center">
+                <td style="text-align: center; width: 30%;">
                   <ng-container
                     *ngIf="
                       row.qrCode && row.qrCode.trim().length > 0;
@@ -93,7 +94,7 @@
                       [errorCorrectionLevel]="'M'"
                       [margin]="4"
                       [scale]="1"
-                      [width]="80"
+                      [width]="350"
                     ></qrcode>
                   </ng-container>
 
@@ -107,8 +108,8 @@
                 </td>
                 <td>
                   <ul style="margin-left: -35px; list-style: none">
-                    <li>QR Code: {{ row.qrCode ? row.qrCode : 'Không có mã QR' }}</li>
-                    <li>{{ row.wasteGroupName }}</li>
+                    <li class="qrCode">QR Code: {{ row.qrCode ? row.qrCode : 'Không có mã QR' }}</li>
+                    <li class="wasteGroupName">{{ row.wasteGroupName }}</li>
                   </ul>
                 </td>
               </tr>

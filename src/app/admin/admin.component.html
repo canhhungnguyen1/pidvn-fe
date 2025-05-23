@@ -613,6 +613,15 @@
               <li
                 nz-menu-item
                 nzMatchRouter
+                [routerLink]="['/admin/hr/waste-mng/waste-type']"
+                [queryParams]="{ type: 'USER' }"
+                (click)="onHideSidebar()"
+              >
+                QR Code
+              </li>
+              <li
+                nz-menu-item
+                nzMatchRouter
                 [routerLink]="['/admin/hr/waste-mng/master']"
                 [queryParams]="{ type: 'USER' }"
                 (click)="onHideSidebar()"
