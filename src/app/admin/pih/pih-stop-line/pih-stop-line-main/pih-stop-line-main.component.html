@@ -169,7 +169,8 @@
             </nz-select>
           </td>
           <td>
-            <label *ngIf="models.length > 0">Model</label><span *ngIf="models.length > 0" class="required">*</span>
+            <label *ngIf="models.length > 0">Model</label
+            ><span *ngIf="models.length > 0" class="required">*</span>
           </td>
           <td>
             <nz-select
@@ -278,10 +279,21 @@
             </nz-select>
           </td>
         </tr>
+        <tr class="only_press" *ngIf="showOnlyPress">
+          <td><label>Số hộp</label><span class="required">*</span></td>
+          <td colspan="3">
+            <input
+              nz-input
+              placeholder="Nhập số hộp"
+              [(ngModel)]="num_box"
+              type="text"
+            />
+          </td>
+        </tr>
+
         <tr>
           <td><label>Thời gian</label><span class="required">*</span></td>
           <td colspan="3">
-            
             <nz-date-picker
               nzShowTime
               nzFormat="yyyy-MM-dd HH:mm"
