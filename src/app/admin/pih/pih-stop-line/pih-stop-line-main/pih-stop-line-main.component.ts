@@ -35,8 +35,10 @@ export class PihStopLineMainComponent implements OnInit {
   stopTypes = new Array();
   stopGroups = new Array();
   stopItems = new Array();
+    showOnlyPress: boolean = false;
 
   stopTimes: any;
+  num_box: String = '';
 
   stopTimeSelected: any = {
     id: null,
@@ -184,6 +186,7 @@ export class PihStopLineMainComponent implements OnInit {
   }
 
   onChangeProductTypes($event: any) {
+    this.check_area($event);
     this.stopItems = new Array();
 
     this.productTypeSelected = $event;
@@ -201,6 +204,13 @@ export class PihStopLineMainComponent implements OnInit {
       }
     }
 
+  }
+
+    // thêm số hộp khu vực press
+  check_area($event: any) {
+    if ($event == 25) {
+      this.showOnlyPress = true;
+    }
   }
 
   onChangeStopTypes($event: any) {
@@ -270,6 +280,7 @@ export class PihStopLineMainComponent implements OnInit {
     let obj = {
       id: this.stopTimeSelected.id,
       stopItemId: this.stopTimeSelected.item,
+      num_box: this.num_box,
       line: this.stopTimeSelected.line,
       startTime: this.stopTimeSelected.startTime,
       stopTime: this.stopTimeSelected.stopTime,
@@ -371,6 +382,11 @@ export class PihStopLineMainComponent implements OnInit {
   }
 
   validateData(obj: any) {
+    if ((obj.num_box == null || obj.num_box == '')&& this.productTypeSelected == 25) {
+      this.errorMsg = 'Số hộp không được để trống';
+      return;
+    }
+
     if (obj.stopItemId == null) {
       this.errorMsg = 'Item không được để trống';
       return;
