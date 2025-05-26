@@ -264,132 +264,173 @@
   nzTitle="Thông tin thiết bị"
   (nzOnCancel)="isOpenDeviceDetailModal = false"
   (nzOnOk)="isOpenDeviceDetailModal = false"
-  [nzWidth]="800"
+  [nzWidth]="'100vw'"
+  [nzStyle]="{ top: '5vh' }"
+  [nzBodyStyle]="{ height: '80vh', overflow: 'auto' }"
 >
   <ng-container *nzModalContent>
-    <nz-divider
-      nzText="Device Infomation"
-      nzOrientation="left"
-      style="margin-top: -20px"
-      nzPlain="true"
-    ></nz-divider>
-    <nz-table
-      #deviceInfoTable
-      nzSize="small"
-      nzBordered
-      [nzData]="['']"
-      nzFrontPagination="false"
-    >
-      <tbody>
-        <tr>
-          <td><label>Tên thiết bị</label></td>
-          <td>{{ deviceSelected?.name }}</td>
-          <td
-            rowspan="4"
-            colspan="2"
-            style="text-align: center; vertical-align: middle"
-          >
-            <img
-              *ngIf="deviceSelected.type === 'LAPTOP'"
-              nz-image
-              nzSrc="../../../../../assets/images/devices/LAPTOP.png"
-              width="25%"
-            />
-            <img
-              *ngIf="deviceSelected.type === 'PC-AIO'"
-              nz-image
-              nzSrc="../../../../../assets/images/devices/PC-AIO.png"
-              width="25%"
-            />
-            <img
-              *ngIf="deviceSelected.type === 'PC'"
-              nz-image
-              nzSrc="../../../../../assets/images/devices/PC.jpg"
-              width="25%"
-            />
-          </td>
-        </tr>
-        <tr>
-          <td><label>Model</label></td>
-          <td>{{ deviceSelected?.model }}</td>
-        </tr>
-        <tr>
-          <td><label>Loại thiết bị</label></td>
-          <td>{{ deviceSelected?.type }}</td>
-        </tr>
-        <tr>
-          <td><label>Thương hiệu</label></td>
-          <td>{{ deviceSelected?.brand }}</td>
-        </tr>
-        <tr>
-          <td><label>Ngày mua</label></td>
-          <td>{{ deviceSelected?.purchaseDate | date : "yyyy-MM-dd" }}</td>
-          <td><label>FA Code</label></td>
-          <td>{{ deviceSelected?.faCode ? deviceSelected?.faCode : "N/A" }}</td>
-        </tr>
-        <tr>
-          <td><label>Hệ điều hành</label></td>
-          <td>{{ deviceSelected?.os }}</td>
-          <td><label>Serial</label></td>
-          <td>
-            {{ deviceSelected?.serialNo ? deviceSelected?.serialNo : "N/A" }}
-          </td>
-        </tr>
-      </tbody>
-    </nz-table>
-    <nz-divider
-      *ngIf="deviceSelected.transactionId"
-      nzText="Transction Infomation"
-      nzOrientation="left"
-      style="margin-top: -20px"
-      nzPlain="true"
-    ></nz-divider>
-    <nz-table
-      *ngIf="deviceSelected.transactionId"
-      #transactionInfoTable
-      nzSize="small"
-      nzBordered
-      [nzData]="['']"
-      nzFrontPagination="false"
-    >
-      <tbody>
-        <tr>
-          <td><label>Giao dịch</label></td>
-          <td>{{ deviceSelected?.recordTypeName }}</td>
-          <td><label>Ngày Giao/Nhận</label></td>
-          <td>{{ deviceSelected?.date | date : "yyyy-MM-dd" }}</td>
-        </tr>
-        <tr>
-          <td><label>P.I.C</label></td>
-          <td nz-tooltip [nzTooltipTitle]="titleTemplatePICUser">
-            {{ deviceSelected?.picName }}
-          </td>
-          <ng-template #titleTemplatePICUser>
-            <ul style="margin-left: -25px">
-              <li>Tên nhân viên: {{ deviceSelected?.picName }}</li>
-              <li>Mã nhân viên: {{ deviceSelected?.picCode }}</li>
-              <li>Bộ phận: {{ deviceSelected?.sectionName }}</li>
-            </ul>
-          </ng-template>
-          <td><label>Vị trí</label></td>
-          <td>{{ deviceSelected?.locationName }}</td>
-        </tr>
-        <tr>
-          <td><label>IT User</label></td>
-          <td nz-tooltip [nzTooltipTitle]="titleTemplateItUser">
-            {{ deviceSelected?.itUserName }}
-          </td>
-          <ng-template #titleTemplateItUser>
-            <ul style="margin-left: -25px">
-              <li>Tên nhân viên: {{ deviceSelected?.itUserName }}</li>
-              <li>Mã nhân viên: {{ deviceSelected?.itUserCode }}</li>
-              <li>Bộ phận: IT</li>
-            </ul>
-          </ng-template>
-          <td><label>Remark</label></td>
-          <td>{{ deviceSelected?.transactionRemark }}</td>
-        </tr>
-      </tbody>
-    </nz-table>
+    <div nz-row nzJustify="start" nzAlign="top" [nzGutter]="24">
+      <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12">
+        <nz-divider
+          nzText="Device Infomation"
+          nzOrientation="left"
+          style="margin-top: -20px"
+          nzPlain="true"
+        ></nz-divider>
+        <nz-table
+          #deviceInfoTable
+          nzSize="small"
+          nzBordered
+          [nzData]="['']"
+          nzFrontPagination="false"
+        >
+          <tbody>
+            <tr>
+              <td><label>Tên thiết bị</label></td>
+              <td>{{ deviceSelected?.name }}</td>
+              <td
+                rowspan="4"
+                colspan="2"
+                style="text-align: center; vertical-align: middle"
+              >
+                <img
+                  *ngIf="deviceSelected.type === 'LAPTOP'"
+                  nz-image
+                  nzSrc="../../../../../assets/images/devices/LAPTOP.png"
+                  width="25%"
+                />
+                <img
+                  *ngIf="deviceSelected.type === 'PC-AIO'"
+                  nz-image
+                  nzSrc="../../../../../assets/images/devices/PC-AIO.png"
+                  width="25%"
+                />
+                <img
+                  *ngIf="deviceSelected.type === 'PC'"
+                  nz-image
+                  nzSrc="../../../../../assets/images/devices/PC.jpg"
+                  width="25%"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td><label>Model</label></td>
+              <td>{{ deviceSelected?.model }}</td>
+            </tr>
+            <tr>
+              <td><label>Loại thiết bị</label></td>
+              <td>{{ deviceSelected?.type }}</td>
+            </tr>
+            <tr>
+              <td><label>Thương hiệu</label></td>
+              <td>{{ deviceSelected?.brand }}</td>
+            </tr>
+            <tr>
+              <td><label>Ngày mua</label></td>
+              <td>{{ deviceSelected?.purchaseDate | date : "yyyy-MM-dd" }}</td>
+              <td><label>FA Code</label></td>
+              <td>
+                {{ deviceSelected?.faCode ? deviceSelected?.faCode : "N/A" }}
+              </td>
+            </tr>
+            <tr>
+              <td><label>Hệ điều hành</label></td>
+              <td>{{ deviceSelected?.os }}</td>
+              <td><label>Serial</label></td>
+              <td>
+                {{
+                  deviceSelected?.serialNo ? deviceSelected?.serialNo : "N/A"
+                }}
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+        <nz-divider
+          *ngIf="deviceSelected.transactionId"
+          nzText="Transction Infomation"
+          nzOrientation="left"
+          style="margin-top: -20px"
+          nzPlain="true"
+        ></nz-divider>
+        <nz-table
+          *ngIf="deviceSelected.transactionId"
+          #transactionInfoTable
+          nzSize="small"
+          nzBordered
+          [nzData]="['']"
+          nzFrontPagination="false"
+        >
+          <tbody>
+            <tr>
+              <td><label>Giao dịch</label></td>
+              <td>{{ deviceSelected?.recordTypeName }}</td>
+              <td><label>Ngày Giao/Nhận</label></td>
+              <td>{{ deviceSelected?.date | date : "yyyy-MM-dd" }}</td>
+            </tr>
+            <tr>
+              <td><label>P.I.C</label></td>
+              <td nz-tooltip [nzTooltipTitle]="titleTemplatePICUser">
+                {{ deviceSelected?.picName }}
+              </td>
+              <ng-template #titleTemplatePICUser>
+                <ul style="margin-left: -25px">
+                  <li>Tên nhân viên: {{ deviceSelected?.picName }}</li>
+                  <li>Mã nhân viên: {{ deviceSelected?.picCode }}</li>
+                  <li>Bộ phận: {{ deviceSelected?.sectionName }}</li>
+                </ul>
+              </ng-template>
+              <td><label>Vị trí</label></td>
+              <td>{{ deviceSelected?.locationName }}</td>
+            </tr>
+            <tr>
+              <td><label>IT User</label></td>
+              <td nz-tooltip [nzTooltipTitle]="titleTemplateItUser">
+                {{ deviceSelected?.itUserName }}
+              </td>
+              <ng-template #titleTemplateItUser>
+                <ul style="margin-left: -25px">
+                  <li>Tên nhân viên: {{ deviceSelected?.itUserName }}</li>
+                  <li>Mã nhân viên: {{ deviceSelected?.itUserCode }}</li>
+                  <li>Bộ phận: IT</li>
+                </ul>
+              </ng-template>
+              <td><label>Remark</label></td>
+              <td>{{ deviceSelected?.transactionRemark }}</td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </div>
+      <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12">
+        <nz-divider
+          nzText="License Infomation"
+          nzOrientation="left"
+          style="margin-top: -20px"
+          nzPlain="true"
+        ></nz-divider>
+        <dx-data-grid
+          keyExpr="id"
+          #devicesGrid
+          [dataSource]="[]"
+          [showColumnLines]="true"
+          [showRowLines]="true"
+          [showBorders]="true"
+          [allowColumnResizing]="true"
+          [columnAutoWidth]="true"
+          [rowAlternationEnabled]="false"
+          [hoverStateEnabled]="true"
+          style="margin-top: -20px"
+        >
+          <dxo-header-filter [visible]="true"></dxo-header-filter>
+          <dxo-filter-row [visible]="true"></dxo-filter-row>
+          <dxo-export [enabled]="true"></dxo-export>
+          <dxo-column-chooser #columnChooser [enabled]="true" [mode]="'select'">
+          </dxo-column-chooser>
+
+          <dxi-column dataField="name" caption="Phần mềm"></dxi-column>
+          <dxi-column dataField="startDate" caption="Ngày bắt đầu"></dxi-column>
+          <dxi-column dataField="endDate" caption="Ngày kết thúc"></dxi-column>
+        </dx-data-grid>
+      </div>
+    </div>
   </ng-container>
 </nz-modal>
