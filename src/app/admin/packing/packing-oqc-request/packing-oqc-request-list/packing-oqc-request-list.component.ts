@@ -6,6 +6,7 @@ import { RelayDateCodeService } from 'src/app/admin/relay/relay-datecode/relay-d
 import { PackingOqcRequestService } from '../services/packing-oqc-request.service';
 import { DxDataGridComponent } from 'devextreme-angular';
 import { forkJoin } from 'rxjs';
+import notify from 'devextreme/ui/notify';
 
 @Component({
   selector: 'app-packing-oqc-request-list',
@@ -20,6 +21,8 @@ export class PackingOqcRequestListComponent implements OnInit {
   materialScanned: any[] = [];
   isOpenModal: boolean = false;
   isOpenDetailModal: boolean = false;
+  isOpenSpecialModal: boolean = false; // Trường hợp ko scan đủ nguyên vật liệu
+  isLoading: boolean = false;
 
   constructor(
     private reDateCodeSvc: RelayDateCodeService,
@@ -89,9 +92,16 @@ export class PackingOqcRequestListComponent implements OnInit {
     this.qaCardInfo.value = null;
     this.errorCreateRequestMsg = null;
     this.priority = 2;
+
+    this.requestCreate.sortingQty = 0;
+    this.requestCreate.remark = null;
+    this.requestCreate.isSorting = 'NO';
+    this.isOpenSpecialModal = false;
   }
 
   createOqcRequest() {
+    let isAbnormal = false; // Trường hợp bất thường
+
     // Kiểm tra trường hợp chưa nhập DateCode
     if (!this.requestCreate.totalQty) {
       this.toastr.warning('Chưa nhập Date Code', 'Warning');
@@ -103,22 +113,28 @@ export class PackingOqcRequestListComponent implements OnInit {
       const element = this.materialScanned[i];
       if (!element.scanQty || element.scanQty <= 0) {
         this.toastr.warning(`Chưa scan đủ NVL trong line`, 'Warning');
+        isAbnormal = true;
         break;
       }
     }
 
-    // Kiểm tra tỷ lệ scan NVL
-    // if (
-    //   (this.requestCreate.totalQty / this.totalQtyMaterialScanned) * 100 >
-    //   20
-    // ) {
-    //   this.toastr.warning(
-    //     `Không thể tạo request vì Qty Date Code so với Qty Scan trong line > 20%`,
-    //     'Warning'
-    //   );
-    //   return;
-    // }
+    if (!this.materialScanned.length || this.materialScanned.length <= 0) {
+      this.toastr.warning('Chưa scan đủ NVL trong line', 'Warning');
+      isAbnormal = true;
+    }
 
+    isAbnormal = true; // By pass: true => cần xác nhận
+
+    if (isAbnormal) {
+      this.handleAbnormalRequest();
+      return;
+    }
+
+    // Trường hợp bình thường
+    this.handleNormalRequest();
+  }
+
+  handleNormalRequest() {
     // Trường hợp sorting thì cần nhập số lượng
     if (this.requestCreate.isSorting) {
       if (this.requestCreate.sortingQty <= 0) {
@@ -150,7 +166,6 @@ export class PackingOqcRequestListComponent implements OnInit {
           return;
         }
 
-        // TODO
         this.getOqcRequests(this.searchParams);
         this.handleCancel();
         this.requestCreate.sortingQty = 0;
@@ -158,6 +173,41 @@ export class PackingOqcRequestListComponent implements OnInit {
         this.requestCreate.isSorting = 'NO';
         this.toastr.success('Thành công', 'Success');
       });
+  }
+
+  handleAbnormalRequest() {
+    // TODO: Xử lý trường hợp bất thường
+    this.isOpenSpecialModal = true;
+    (this.requestCreate.createdBy = this.jwtHelperSvc.decodeToken(
+      localStorage.getItem('accessToken')?.toString()
+    ).Username),
+      (this.requestCreate.remark = 'Dây truyền không scan đủ NVL vào hệ thống');
+    this.requestCreate.isSpecialRequest = 1;
+  }
+
+  /**
+   * Call API để tạo yêu cầu bất thường
+   */
+  createAbnormalRequest() {
+    this.isLoading = true;
+    this.packingOqcRequestSvc.createOqcRequest(this.requestCreate).subscribe(
+      (response) => {
+        console.log(response);
+
+        if (response.status == 'ERROR') {
+          this.errorCreateRequestMsg = response.messages;
+          return;
+        }
+
+        this.getOqcRequests(this.searchParams);
+        this.handleCancel();
+        this.toastr.success('Thành công', 'Success');
+        this.isLoading = false;
+      },
+      (error) => {
+        this.isLoading = false;
+      }
+    );
   }
 
   openModal() {
@@ -247,6 +297,22 @@ export class PackingOqcRequestListComponent implements OnInit {
   getQaCards() {
     this.reDateCodeSvc.getQACards().subscribe((response) => {
       this.qaCards = response;
+
+      // Mock data
+      this.qaCards = [
+        {
+          qaCard: 'ACTE5CR1K06*TE3*2025-05-27*A8*001',
+          createdAt: '2025-05-26T09:28:11.000+00:00',
+        },
+        {
+          qaCard: 'ACTF1CA6A03*TF*2025-05-16*D*001',
+          createdAt: '2025-05-26T09:28:11.000+00:00',
+        },
+        {
+          qaCard: 'ACTB2C1A65*TB2*2025-05-26*D*001',
+          createdAt: '2025-05-26T09:28:11.000+00:00',
+        },
+      ];
     });
   }
 

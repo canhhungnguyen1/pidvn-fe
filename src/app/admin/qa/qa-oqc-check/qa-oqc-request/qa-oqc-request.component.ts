@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { QaOqcService } from '../services/qa-oqc.service';
 import notify from 'devextreme/ui/notify';
+import { RelayDateCodeService } from 'src/app/admin/relay/relay-datecode/relay-datecode.service';
 
 @Component({
   selector: 'app-qa-oqc-request',
@@ -9,7 +10,11 @@ import notify from 'devextreme/ui/notify';
   styleUrls: ['./qa-oqc-request.component.scss'],
 })
 export class QaOqcRequestComponent implements OnInit {
-  constructor(private router: Router, private qaOqcSvc: QaOqcService) {
+  constructor(
+    private router: Router,
+    private qaOqcSvc: QaOqcService,
+    private relayDateCodeSvc: RelayDateCodeService
+  ) {
     this.settingsButtonOptions = {
       text: 'Settings',
       onClick: () => {
@@ -27,13 +32,18 @@ export class QaOqcRequestComponent implements OnInit {
 
   searchParams = {
     requestStatusList: [],
-    requestDateRange: [new Date().setDate(new Date().getDate()-7), new Date()]
-  }
+    requestDateRange: [
+      new Date().setDate(new Date().getDate() - 7),
+      new Date(),
+    ],
+  };
 
   settingsButtonOptions: any;
-  printButtonOptions: any
+  printButtonOptions: any;
 
   isAudit: boolean = false;
+
+  isOpenAcceptModal: boolean = false;
 
   ngOnInit(): void {
     this.getConfigAudit();
@@ -41,6 +51,7 @@ export class QaOqcRequestComponent implements OnInit {
   }
 
   oqcRequests: any;
+  oqcSpecialRequests: any;
 
   status: any = [
     { id: 1, value: 'Chờ xử lý' },
@@ -51,14 +62,96 @@ export class QaOqcRequestComponent implements OnInit {
   getOqcRequests(searchVo: any) {
     this.qaOqcSvc.getOqcRequests(searchVo).subscribe((response) => {
       this.oqcRequests = response;
+      this.getSpecialRequest(this.oqcRequests);
       console.log('oqcRequests: ', this.oqcRequests);
-      
     });
   }
 
-  handleRequest(item: any) {
-    console.log(item);
+  getSpecialRequest(oqcRequests: any) {
+    this.oqcSpecialRequests = oqcRequests.filter(
+      (item: any) => item.isSpecialRequest === 1
+    );
 
+    console.log('oqcSpecialRequests: ', this.oqcSpecialRequests);
+  }
+
+  handleRequest(item: any) {
+    /**
+     * Trường hợp request đặc biệt (cần xác nhận)
+     */
+    if (item.data.isSpecialRequest === 1) {
+      /**
+       * Nếu chưa được xác nhận
+       * => Kiểm tra nếu đã scan đủ NVL thì cho pass
+       */
+      if (!item.data.acceptedResult) {
+        console.log('Chưa được xác nhận');
+        // Call API lấy dữ liệu đã scan NVL
+        this.relayDateCodeSvc
+          .getMaterialScanned(item.data.qaCard)
+          .subscribe((response) => {
+            // Kiểm tra nếu chưa scan đủ NVL thì thông báo
+            let isAbnormal = false;
+
+
+            /**
+             * Check đã scan đủ NVL chưa
+             */
+            isAbnormal = false // By Pass
+
+            // TH1: chưa scan đủ NVL => Thông báo và không cho chuyển trạng thái
+            if (isAbnormal) {
+              console.log('TH1: chưa scan đủ NVL => Thông báo và không cho chuyển trạng thái');
+              
+              notify(
+                'Vui lòng chờ người phụ trách duyệt trước khi xử lý.',
+                'error',
+                3000
+              );
+              return;
+            }
+
+            // TH2: đã scan đủ NVL => chuyển trạng thái [Chờ xử lý] sang [Đang xử lý]
+            console.log('TH2: đã scan đủ NVL => chuyển trạng thái [Chờ xử lý] sang [Đang xử lý]');
+            this.changeStatusRequest(item);
+            return;
+          });
+
+        return;
+      }
+
+      /**
+       * Trường hợp đã xác nhận (Kết quả: APPROVED)
+       * => chuyển trạng thái [Chờ xử lý] sang [Đang xử lý]
+       * => Điều hướng sang trang detail
+       */
+      if (item.data.acceptedResult === 'APPROVED') {
+        this.changeStatusRequest(item);
+      }
+
+      /**
+       * Trường hợp đã xác nhận (Kết quả: REJECTED)
+       * => Không cho chuyển hướng và cập nhật trạng thái
+       */
+      if (item.data.acceptedResult === 'REJECTED') {
+        let msg = `Request ${item.data.reqNo} đã REJECTED`;
+        notify(msg, 'error', 3000);
+        return;
+      }
+    }
+
+    /**
+     * Trường hợp request normal
+     */
+    console.log('Normal Request');
+    this.changeStatusRequest(item);
+  }
+
+  /**
+   * Chuyển trạng thái từ [Chờ xử lý] sang [Đang xử lý]q
+   * Điều hướng sang trang detail
+   */
+  changeStatusRequest(item: any) {
     let oqcReqVo = {
       reqNo: item.data.reqNo,
       requestStatusId: 2, // Đang xử lý
@@ -95,35 +188,33 @@ export class QaOqcRequestComponent implements OnInit {
   onExportClient(event: any) {}
 
   onSearch() {
-    console.log('searchParams: ', this.searchParams);
-    
-    this.qaOqcSvc.getOqcRequests(this.searchParams).subscribe(
-      response => {
-        this.oqcRequests = response
-      }
-    ); 
+    this.qaOqcSvc.getOqcRequests(this.searchParams).subscribe((response) => {
+      this.oqcRequests = response;
+      this.getSpecialRequest(this.oqcRequests);
+    });
   }
 
-
   changeAuditConfig(event: any) {
-    console.log('changeAuditConfig: ',event);
+    console.log('changeAuditConfig: ', event);
 
     let configValue = event == true ? 'TRUE' : 'FALSE';
 
-    console.log(configValue)
+    console.log(configValue);
 
-    this.qaOqcSvc.changeConfigAudit(configValue).subscribe(
-      response => {
-        this.getOqcRequests(this.searchParams);
-      }
-    )
+    this.qaOqcSvc.changeConfigAudit(configValue).subscribe((response) => {
+      this.getOqcRequests(this.searchParams);
+    });
   }
 
   getConfigAudit() {
-    this.qaOqcSvc.getConfigAudit().subscribe(
-      response => {
-        this.isAudit = response.configValue == 'TRUE' ? true : false
-      }
-    )
+    this.qaOqcSvc.getConfigAudit().subscribe((response) => {
+      this.isAudit = response.configValue == 'TRUE' ? true : false;
+    });
+  }
+
+  requestSelected: any;
+  openAcceptModal(item: any) {
+    this.requestSelected = item;
+    this.isOpenAcceptModal = true;
   }
 }
