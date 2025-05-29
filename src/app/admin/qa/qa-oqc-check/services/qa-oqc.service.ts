@@ -79,21 +79,34 @@ export class QaOqcService {
     );
   }
 
-  public uploadFileResult(
-    file: File,
-    oqcRequestVo: any
-  ): Observable<any> {
+  public uploadFileResult(file: File, oqcRequestVo: any): Observable<any> {
     const formData = new FormData();
 
     // Đính kèm file vào formData
     formData.append('file', file); // Đảm bảo tên 'file' khớp với @RequestPart trong Spring Boot
 
     // Đính kèm đối tượng projectActivity dưới dạng JSON
-    formData.append('oqcRequestVo', new Blob([JSON.stringify(oqcRequestVo)], { type: 'application/json' }));
-    
+    formData.append(
+      'oqcRequestVo',
+      new Blob([JSON.stringify(oqcRequestVo)], { type: 'application/json' })
+    );
+
     return this.httpClient.post(
       `${this.baseUrl}/QA/OqcCheck/UploadFileResult`,
       formData
+    );
+  }
+
+
+  /**
+   * Xử lý phê duyệt nếu là Abnormal request
+   * @param obj 
+   * @returns 
+   */
+  public handleAbnormalRequest(obj: any): Observable<any> {
+    return this.httpClient.post(
+      `${this.baseUrl}/QA/OqcCheck/HandleAbnormalRequest`,
+      obj
     );
   }
 }

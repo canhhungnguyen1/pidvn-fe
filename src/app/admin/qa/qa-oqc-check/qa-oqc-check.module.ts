@@ -26,11 +26,18 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { DxFileUploaderModule } from 'devextreme-angular';
+import { QaOqcAbnormalRequestComponent } from './qa-oqc-abnormal-request/qa-oqc-abnormal-request.component';
+import { QaOqcAbnormalRequestDetailComponent } from './qa-oqc-abnormal-request-detail/qa-oqc-abnormal-request-detail.component';
+import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
 @NgModule({
   declarations: [
     QaOqcCheckComponent,
     QaOqcRequestComponent,
     QaOqcEvaluateComponent,
+    QaOqcAbnormalRequestComponent,
+    QaOqcAbnormalRequestDetailComponent
   ],
   imports: [
     CommonModule,
@@ -55,7 +62,10 @@ import { DxFileUploaderModule } from 'devextreme-angular';
     NzDatePickerModule,
     NzSwitchModule,
     NzTagModule,
-    DxFileUploaderModule
+    DxFileUploaderModule,
+    NzSkeletonModule,
+    NzSpinModule,
+    NzAlertModule
   ],
 })
 export class QaOqcCheckModule {}

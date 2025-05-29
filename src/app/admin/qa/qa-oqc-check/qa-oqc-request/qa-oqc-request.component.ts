@@ -97,7 +97,7 @@ export class QaOqcRequestComponent implements OnInit {
             /**
              * Check đã scan đủ NVL chưa
              */
-            isAbnormal = false // By Pass
+            isAbnormal = true // By Pass
 
             // TH1: chưa scan đủ NVL => Thông báo và không cho chuyển trạng thái
             if (isAbnormal) {
@@ -134,7 +134,7 @@ export class QaOqcRequestComponent implements OnInit {
        * => Không cho chuyển hướng và cập nhật trạng thái
        */
       if (item.data.acceptedResult === 'REJECTED') {
-        let msg = `Request ${item.data.reqNo} đã REJECTED`;
+        let msg = `Request ${item.data.reqNo} đã REJECTED; Remark: ${item.data.specialRemark}`;
         notify(msg, 'error', 3000);
         return;
       }

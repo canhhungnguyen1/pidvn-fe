@@ -643,7 +643,7 @@
       >(*) Chú ý: Do trong dây truyền chưa scan đủ NVL nên request cần phải chấp
       nhận đặc biệt để cho phép OQC đánh giá</span
     >
-    <textarea
+    <!-- <textarea
       rows="3"
       nz-input
       placeholder="Nhập ghi chú"
@@ -651,12 +651,27 @@
       maxlength="100"
       [readOnly]="true"
       style="margin-top: 5px"
-    ></textarea>
+    ></textarea> -->
+    <dx-text-area
+      label="Ghi chú"
+      [(value)]="requestCreate.remark"
+      [height]="80"
+      placeholder="Nhập nội dung..."
+      [maxLength]="200"
+      [readOnly]="true"
+      style="margin-top: 15px"
+    >
+    </dx-text-area>
   </ng-container>
 
   <div *nzModalFooter>
     <button nz-button nzType="default" (click)="handleCancel()">Hủy</button>
-    <button nz-button nzType="primary" (click)="createAbnormalRequest()" [nzLoading]="isLoading">
+    <button
+      nz-button
+      nzType="primary"
+      (click)="createAbnormalRequest()"
+      [nzLoading]="isLoading"
+    >
       Tạo yêu cầu đặc biệt
     </button>
   </div>

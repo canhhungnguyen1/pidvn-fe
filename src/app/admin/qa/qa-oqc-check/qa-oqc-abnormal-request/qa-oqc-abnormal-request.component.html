@@ -1,0 +1,135 @@
+<dx-data-grid
+  id="gridContainer"
+  style="margin-top: 5px"
+  [dataSource]="oqcAbnormalRequests"
+  [showColumnLines]="true"
+  [showRowLines]="true"
+  [showBorders]="true"
+  [allowColumnResizing]="true"
+  [columnAutoWidth]="true"
+  [rowAlternationEnabled]="false"
+  [hoverStateEnabled]="true"
+>
+  <dxo-header-filter [visible]="true"></dxo-header-filter>
+  <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+  <dxo-export [enabled]="true"></dxo-export>
+  <dxo-column-chooser #columnChooser [enabled]="true" [mode]="'select'">
+  </dxo-column-chooser>
+
+  <dxo-selection mode="single"></dxo-selection>
+
+  <dxo-toolbar>
+
+    <dxi-item location="before">
+        <span style="color: blue;">Danh sách request cần phê duyệt</span>
+    </dxi-item>
+
+    <dxi-item name="exportButton"></dxi-item>
+    <dxi-item name="columnChooserButton"></dxi-item>
+  </dxo-toolbar>
+
+  <dxi-column caption="Mã request" dataField="reqNo">
+    <dxo-header-filter [allowSelectAll]="true">
+      <dxo-search [enabled]="true"></dxo-search>
+    </dxo-header-filter>
+  </dxi-column>
+  <dxi-column caption="QA card" dataField="qaCard" [visible]="false">
+    <dxo-header-filter [allowSelectAll]="true">
+      <dxo-search [enabled]="true"></dxo-search>
+    </dxo-header-filter>
+  </dxi-column>
+  <dxi-column caption="Model" dataField="model">
+    <dxo-header-filter [allowSelectAll]="true">
+      <dxo-search [enabled]="true"></dxo-search>
+    </dxo-header-filter>
+  </dxi-column>
+  <dxi-column caption="Shift" dataField="shift" alignment="center">
+    <dxo-header-filter [allowSelectAll]="true">
+      <dxo-search [enabled]="true"></dxo-search>
+    </dxo-header-filter>
+  </dxi-column>
+
+  <dxi-column
+    caption="Date Code"
+    dataField="dateCode"
+    cellTemplate="dateCodeTemplate"
+  >
+    <div *dxTemplate="let item of 'dateCodeTemplate'">
+      <ul style="margin-left: -29px" *ngIf="item.data.dateCode">
+        <li *ngFor="let a of item.data.dateCode.split(';')">
+          {{ a.split(":")[0] }} : {{ a.split(":")[1] | number : "1.0-3" }}
+        </li>
+      </ul>
+      <span
+        style="color: red; font-style: italic; font-size: 13px"
+        *ngIf="!item.data.dateCode"
+        >Không có Date Code</span
+      >
+    </div>
+  </dxi-column>
+
+  <dxi-column
+    caption="Qty"
+    dataField="qty"
+    dataType="number"
+    format="#,##0"
+  ></dxi-column>
+  <dxi-column
+    caption="Người request"
+    dataField="createdByName"
+    [visible]="false"
+  ></dxi-column>
+  <dxi-column
+    caption="Ngày tạo"
+    dataField="createdAt"
+    dataType="date"
+    format="yyyy-MM-dd"
+    alignment="center"
+    [visible]="false"
+  ></dxi-column>
+
+  <dxi-column
+    caption="Ngày xuất"
+    dataField="deliveryDate"
+    dataType="date"
+    format="yyyy-MM-dd"
+    alignment="center"
+    cellTemplate="deliveryDateTemplate"
+  >
+    <div
+      *dxTemplate="let item of 'deliveryDateTemplate'"
+      style="text-align: center; color: blue"
+    >
+      <span>{{ item.data.deliveryDate | date : "yyyy-MM-dd" }}</span>
+    </div>
+  </dxi-column>
+
+  <dxi-column caption="Remark" dataField="remark"></dxi-column>
+
+  <dxi-column caption="Status" dataField="requestStatusName" alignment="center">
+    <dxo-lookup
+      [dataSource]="[
+        { id: 1, value: 'Chờ xử lý' },
+        { id: 2, value: 'Đang xử lý' },
+        { id: 3, value: 'Đã xử lý' }
+      ]"
+      displayExpr="value"
+      valueExpr="value"
+    >
+    </dxo-lookup>
+  </dxi-column>
+  <dxi-column
+    caption="Action"
+    cellTemplate="actionTemplate"
+    [fixed]="true"
+    fixedPosition="right"
+  >
+    <div
+      *dxTemplate="let item of 'actionTemplate'"
+      style="text-align: center;"
+    >
+        <a (click)="redirectAbnormalDetail(item.data)" style="color: green;">Phê duyệt Request</a>
+
+    </div>
+  </dxi-column>
+</dx-data-grid>

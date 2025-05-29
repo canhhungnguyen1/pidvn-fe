@@ -1,0 +1,117 @@
+<div nz-row>
+  <div nz-col nzSpan="12" nzOffset="6">
+    <nz-table
+      *ngIf="request; else errorTpl"
+      #basicTable
+      [nzData]="['']"
+      nzBordered
+      nzSize="small"
+      nzFrontPagination="false"
+    >
+      <tbody>
+        <tr>
+          <td colspan="3" style="text-align: center">
+            <label style="font-size: 20px">Phê duyệt yêu cầu</label>
+          </td>
+        </tr>
+        <tr>
+          <td><label>Request</label></td>
+          <td colspan="2">{{ request?.reqNo }}</td>
+        </tr>
+        <tr>
+          <td><label>QA Card</label></td>
+          <td colspan="2">{{ request?.qaCard }}</td>
+        </tr>
+        <tr>
+          <td><label>DateCode</label></td>
+          <td colspan="2">
+            <ul style="margin-left: -29px" *ngIf="request?.dateCode">
+              <li *ngFor="let a of request?.dateCode.split(';')">
+                {{ a.split(":")[0] }} : {{ a.split(":")[1] | number : "1.0-3" }}
+              </li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><label>Model</label></td>
+          <td colspan="2">{{ request?.model }}</td>
+        </tr>
+        <tr>
+          <td><label>Qty</label></td>
+          <td colspan="2">{{ request?.qty | number : "1.0-3" }}</td>
+        </tr>
+        <tr>
+          <td><label>Reason</label></td>
+          <td colspan="2">{{ request.remark }}</td>
+        </tr>
+
+        <ng-container *ngIf="isAccepted">
+          <tr>
+            <td><label>Approve</label></td>
+            <td style="font-weight: bold" colspan="2">
+              <label
+                [ngStyle]="{
+                  color: request.acceptedResult === 'REJECTED' ? 'red' : 'green'
+                }"
+              >
+                {{ request.acceptedResult }}
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <td><label>Remark</label></td>
+            <td>
+              {{ request.specialRemark }}
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td colspan="3">
+                <a routerLink="/admin/qa/qa-oqc-check/oqc-abnormal-requests">Đi đến trang danh sách request cần phê duyệt</a>
+            </td>
+          </tr>
+        </ng-container>
+
+        <ng-container *ngIf="!isAccepted">
+          <tr>
+            <td><label>Approve</label></td>
+            <td style="font-weight: bold" colspan="2">
+              <nz-radio-group [(ngModel)]="request.acceptedResult">
+                <label nz-radio nzValue="APPROVED" style="color: green"
+                  >APPROVE</label
+                >
+                <label nz-radio nzValue="REJECTED" style="color: red"
+                  >REJECT</label
+                >
+              </nz-radio-group>
+            </td>
+          </tr>
+          <tr>
+            <td><label>Remark</label></td>
+            <td>
+              <input
+                nz-input
+                placeholder="Ghi chú"
+                style="float: left"
+                [(ngModel)]="request.specialRemark"
+              />
+            </td>
+            <td>
+              <button nz-button nzType="primary" (click)="handleAbnormalRequest()" [nzLoading]="isLoading">Xác nhận</button>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </nz-table>
+
+    <ng-template #errorTpl>
+      <nz-spin nzTip="Hệ thống đang tải dữ liệu ..." style="margin-top: 20px">
+        <nz-alert
+          nzType="info"
+          nzMessage="Tải dữ liệu"
+          nzDescription="Hiển thị thông tin về Request"
+        ></nz-alert>
+      </nz-spin>
+    </ng-template>
+  </div>
+</div>
