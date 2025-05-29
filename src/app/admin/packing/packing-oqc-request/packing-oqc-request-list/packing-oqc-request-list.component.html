@@ -91,9 +91,12 @@
     cellTemplate="detailTemplate"
   >
     <div *dxTemplate="let item of 'detailTemplate'" style="text-align: center">
-      <a style="color: blue" (click)="openDetailModal(item)">{{
-        item.data.reqNo
-      }}</a>
+      <a (click)="openDetailModal(item)">
+        {{ item.data.reqNo }}
+      </a>
+      <div>
+        {{ item.data.isSpecialRequest == 1 ? " (Cần xác nhận)" : "" }}
+      </div>
     </div>
   </dxi-column>
 
@@ -197,6 +200,7 @@
   </dxo-pager>
 </dx-data-grid>
 
+<!-- Tạo request OQC Modal -->
 <nz-modal [(nzVisible)]="isOpenModal" nzTitle="Tạo request OQC" nzWidth="100%">
   <ng-container *nzModalContent>
     <div nz-row nzJustify="start" nzAlign="top" [nzGutter]="24">
@@ -497,17 +501,13 @@
 
   <div *nzModalFooter>
     <button nz-button nzType="default" (click)="handleCancel()">Hủy</button>
-    <button
-      nz-button
-      nzType="primary"
-      (click)="createOqcRequest()"
-      [disabled]="materialScanned.length === 0"
-    >
+    <button nz-button nzType="primary" (click)="createOqcRequest()">
       Tạo Request
     </button>
   </div>
 </nz-modal>
 
+<!-- Thông tin Request -->
 <nz-modal
   [(nzVisible)]="isOpenDetailModal"
   nzTitle="Thông tin Request"
@@ -627,6 +627,54 @@
       (nzOnConfirm)="updateOqcRequest()"
     >
       Lưu
+    </button>
+  </div>
+</nz-modal>
+
+<!-- Request Đặc biệt trường hợp ko scan hàng đủ -->
+<nz-modal
+  [(nzVisible)]="isOpenSpecialModal"
+  nzTitle="Yêu cầu chấp nhận đặc biệt"
+  nzDraggable
+  nzCentered
+>
+  <ng-container *nzModalContent>
+    <span style="color: red; font-style: italic"
+      >(*) Chú ý: Do trong dây truyền chưa scan đủ NVL nên request cần phải chấp
+      nhận đặc biệt để cho phép OQC đánh giá</span
+    >
+    <!-- <textarea
+      rows="3"
+      nz-input
+      placeholder="Nhập ghi chú"
+      [(ngModel)]="requestCreate.remark"
+      maxlength="100"
+      [readOnly]="true"
+      style="margin-top: 5px"
+    ></textarea> -->
+    <dx-text-area
+      label="Ghi chú"
+      [(value)]="requestCreate.remark"
+      [height]="80"
+      placeholder="Nhập nội dung..."
+      [maxLength]="200"
+      [readOnly]="true"
+      style="margin-top: 15px"
+    >
+    </dx-text-area>
+  </ng-container>
+
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="handleCancel()">Hủy</button>
+    <button
+      nz-popconfirm
+      nzPopconfirmTitle="Bạn có chắc chắn muốn tạo request?"
+      nz-button
+      nzType="primary"
+      (nzOnConfirm)="createAbnormalRequest()"
+      [nzLoading]="isLoading"
+    >
+      Tạo yêu cầu đặc biệt
     </button>
   </div>
 </nz-modal>

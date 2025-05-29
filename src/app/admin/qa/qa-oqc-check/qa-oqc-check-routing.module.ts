@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { QaOqcCheckComponent } from './qa-oqc-check.component';
 import { QaOqcEvaluateComponent } from './qa-oqc-evaluate/qa-oqc-evaluate.component';
 import { QaOqcRequestComponent } from './qa-oqc-request/qa-oqc-request.component';
+import { QaOqcAbnormalRequestComponent } from './qa-oqc-abnormal-request/qa-oqc-abnormal-request.component';
+import { QaOqcAbnormalRequestDetailComponent } from './qa-oqc-abnormal-request-detail/qa-oqc-abnormal-request-detail.component';
 
 const routes: Routes = [
   {
@@ -16,7 +18,16 @@ const routes: Routes = [
       {
         path: 'oqc-evaluate',
         component: QaOqcEvaluateComponent
+      },
+      {
+        path: 'oqc-abnormal-requests',
+        component: QaOqcAbnormalRequestComponent
+      },
+      {
+        path: 'oqc-abnormal-request/:reqNo',
+        component: QaOqcAbnormalRequestDetailComponent
       }
+      
     ]
   }
 ];
