@@ -123,7 +123,7 @@ export class PackingOqcRequestListComponent implements OnInit {
       isAbnormal = true;
     }
 
-    isAbnormal = true; // By pass: true => cần xác nhận
+    // isAbnormal = true; // By pass: true => cần xác nhận
 
     if (isAbnormal) {
       this.handleAbnormalRequest();
@@ -157,12 +157,12 @@ export class PackingOqcRequestListComponent implements OnInit {
 
     this.packingOqcRequestSvc
       .createOqcRequest(this.requestCreate)
-      .subscribe((response) => {
+      .subscribe(
+      (response) => {
         console.log(response);
 
         if (response.status == 'ERROR') {
           this.errorCreateRequestMsg = response.messages;
-
           return;
         }
 
@@ -172,7 +172,13 @@ export class PackingOqcRequestListComponent implements OnInit {
         this.requestCreate.remark = null;
         this.requestCreate.isSorting = 'NO';
         this.toastr.success('Thành công', 'Success');
-      });
+      },
+      error => {
+        this.handleCancel();
+      }
+    
+    
+    );
   }
 
   handleAbnormalRequest() {
@@ -196,6 +202,7 @@ export class PackingOqcRequestListComponent implements OnInit {
 
         if (response.status == 'ERROR') {
           this.errorCreateRequestMsg = response.messages;
+          this.isOpenSpecialModal = false
           return;
         }
 
@@ -299,20 +306,20 @@ export class PackingOqcRequestListComponent implements OnInit {
       this.qaCards = response;
 
       // Mock data
-      this.qaCards = [
-        {
-          qaCard: 'ACTE5CR1K06*TE3*2025-05-27*A8*001',
-          createdAt: '2025-05-26T09:28:11.000+00:00',
-        },
-        {
-          qaCard: 'ACTF1CA6A03*TF*2025-05-16*D*001',
-          createdAt: '2025-05-26T09:28:11.000+00:00',
-        },
-        {
-          qaCard: 'ACTB2C1A65*TB2*2025-05-26*D*001',
-          createdAt: '2025-05-26T09:28:11.000+00:00',
-        },
-      ];
+      // this.qaCards = [
+      //   {
+      //     qaCard: 'ACTE5CR1K06*TE3*2025-05-27*A8*001',
+      //     createdAt: '2025-05-26T09:28:11.000+00:00',
+      //   },
+      //   {
+      //     qaCard: 'ACTF1CA6A03*TF*2025-05-16*D*001',
+      //     createdAt: '2025-05-26T09:28:11.000+00:00',
+      //   },
+      //   {
+      //     qaCard: 'ACTB2C1A65*TB2*2025-05-26*D*001',
+      //     createdAt: '2025-05-26T09:28:11.000+00:00',
+      //   },
+      // ];
     });
   }
 

@@ -667,9 +667,11 @@
   <div *nzModalFooter>
     <button nz-button nzType="default" (click)="handleCancel()">Hủy</button>
     <button
+      nz-popconfirm
+      nzPopconfirmTitle="Bạn có chắc chắn muốn tạo request?"
       nz-button
       nzType="primary"
-      (click)="createAbnormalRequest()"
+      (nzOnConfirm)="createAbnormalRequest()"
       [nzLoading]="isLoading"
     >
       Tạo yêu cầu đặc biệt
