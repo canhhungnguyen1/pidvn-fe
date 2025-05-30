@@ -56,8 +56,13 @@
   [rowAlternationEnabled]="true"
   (onExporting)="onExportClient($event)"
 >
+  <dxo-header-filter [visible]="true"></dxo-header-filter>
   <dxo-export [enabled]="true"></dxo-export>
   <dxo-filter-row [visible]="true"></dxo-filter-row>
+  
+  <dxo-column-chooser #columnChooser [enabled]="true" [mode]="'select'">
+  </dxo-column-chooser>
+
   <dxo-paging [pageSize]="10"></dxo-paging>
   <dxo-pager
     [showPageSizeSelector]="true"
@@ -88,6 +93,7 @@
 
   <dxi-column dataField="lineName" caption="Line"></dxi-column>
   <dxi-column dataField="model" caption="Model"></dxi-column>
+  <dxi-column dataField="numBox" caption="Số box"></dxi-column>
   <dxi-column dataField="groupName" caption="Nhóm"></dxi-column>
   <dxi-column dataField="typeName" caption="Loại"></dxi-column>
   <dxi-column dataField="itemName" caption="Hạng mục"></dxi-column>
