@@ -5,7 +5,7 @@
   <nz-breadcrumb-item>Danh sách thiết bị</nz-breadcrumb-item>
 </nz-breadcrumb> -->
 
-<nz-tabset>
+<nz-tabset [(nzSelectedIndex)]="selectedTabIndex">
   <nz-tab nzTitle="Danh sách thiết bị">
     <dx-data-grid
       keyExpr="id"
@@ -20,6 +20,7 @@
       [hoverStateEnabled]="true"
       (onCellPrepared)="onCellPreparedHistory($event)"
       (onExporting)="onExportDevices($event)"
+      (onSelectionChanged)="onSelectionChanged($event)"
     >
       <dxo-header-filter [visible]="true"></dxo-header-filter>
       <dxo-filter-row [visible]="true"></dxo-filter-row>
@@ -27,7 +28,11 @@
       <dxo-column-chooser #columnChooser [enabled]="true" [mode]="'select'">
       </dxo-column-chooser>
 
-      <dxo-selection mode="single"></dxo-selection>
+      <dxo-selection
+        [selectAllMode]="'allPages'"
+        [showCheckBoxesMode]="'always'"
+        mode="multiple"
+      ></dxo-selection>
 
       <dxo-column-chooser
         #columnChooser
@@ -36,6 +41,26 @@
         [title]="'Cột hiển thị'"
       >
       </dxo-column-chooser>
+
+      <dxo-toolbar>
+        <dxi-item location="before">
+          <nz-space>
+            <ng-container *ngIf="selectedRows?.length">
+              <button
+                *nzSpaceItem
+                nz-button
+                nzType="default"
+                (click)="goToTab(2)"
+              >
+                <span nz-icon nzType="qrcode"></span>
+                QR Code
+              </button>
+            </ng-container>
+          </nz-space>
+        </dxi-item>
+        <dxi-item name="exportButton" location="after" />
+        <dxi-item name="columnChooserButton" location="after"></dxi-item>
+      </dxo-toolbar>
 
       <dxi-column
         dataField="name"
@@ -256,6 +281,67 @@
       >
       </dxo-pager>
     </dx-data-grid>
+  </nz-tab>
+  <nz-tab nzTitle="Tem thiết bị" *ngIf="selectedRows?.length">
+    <nz-space>
+      <button
+        *nzSpaceItem
+        nz-button
+        nzType="primary"
+        printSectionId="printLabel"
+        ngxPrint
+        [useExistingCss]="true"
+        (click)="printLabel()"
+      >
+        <span nz-icon nzType="printer"></span>
+        Print
+      </button>
+    </nz-space>
+
+    <nz-divider style="margin: 2px 0px"></nz-divider>
+
+    <div id="printLabel">
+      <table
+        class="label"
+        style="width: 5.2cm"
+        *ngFor="let label of selectedRows"
+      >
+        <tbody>
+          <tr>
+            <td style="text-align: center; font-weight: bold; width: 22%">
+              PIDVN
+            </td>
+            <td style="width: 25%">Code</td>
+            <td>{{ label.name }}</td>
+          </tr>
+          <tr>
+            <td rowspan="3" style="text-align: center">
+              <qrcode
+                [qrdata]="label.name"
+                [allowEmptyString]="true"
+                [cssClass]="'center'"
+                [elementType]="'img'"
+                [errorCorrectionLevel]="'Q'"
+                [margin]="1"
+                [scale]="1"
+                [width]="35"
+                style="float: left"
+              ></qrcode>
+            </td>
+            <td>Model</td>
+            <td>{{ label.model }}</td>
+          </tr>
+          <tr>
+            <td>Start Date</td>
+            <td>{{ label.purchaseDate | date : "yyyy-MM-dd" }}</td>
+          </tr>
+          <tr>
+            <td>Serial</td>
+            <td>{{ label.serial }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </nz-tab>
 </nz-tabset>
 

@@ -46,6 +46,16 @@ export class IsDvMngDevicesComponent implements OnInit {
   locations: any[] = [];
 
   isOpenDeviceDetailModal: boolean = false;
+  selectedRows: any;
+  selectedTabIndex = 0;
+
+  onSelectionChanged(event: any) {
+    this.selectedRows = event.selectedRowsData;
+  }
+
+  goToTab(index: number): void {
+    this.selectedTabIndex = index;
+  }
 
   getDevices() {
     this.isDeviceMngSvc.getDevices().subscribe((res: any) => {
@@ -131,4 +141,9 @@ export class IsDvMngDevicesComponent implements OnInit {
       });
     });
   }
+
+  printLabel() {
+    console.log(this.selectedRows)
+  }
+
 }
