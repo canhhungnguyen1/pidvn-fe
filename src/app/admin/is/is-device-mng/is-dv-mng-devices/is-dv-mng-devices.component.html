@@ -58,6 +58,11 @@
             </ng-container>
           </nz-space>
         </dxi-item>
+
+        <dxi-item location="after">
+          <dx-button icon="refresh" (onClick)="getDevices()"> </dx-button>
+        </dxi-item>
+
         <dxi-item name="exportButton" location="after" />
         <dxi-item name="columnChooserButton" location="after"></dxi-item>
       </dxo-toolbar>

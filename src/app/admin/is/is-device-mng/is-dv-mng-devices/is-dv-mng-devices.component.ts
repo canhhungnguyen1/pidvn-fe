@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { ToastrService } from 'ngx-toastr';
@@ -6,6 +6,7 @@ import { IsDeviceMngService } from '../services/is-device-mng.service';
 import { Workbook } from 'exceljs';
 import { exportDataGrid } from 'devextreme/excel_exporter';
 import saveAs from 'file-saver';
+import { DxDataGridComponent } from 'devextreme-angular';
 
 @Component({
   selector: 'app-is-dv-mng-devices',
@@ -13,6 +14,8 @@ import saveAs from 'file-saver';
   styleUrl: './is-dv-mng-devices.component.scss',
 })
 export class IsDvMngDevicesComponent implements OnInit {
+  @ViewChild('devicesGrid') devicesGrid!: DxDataGridComponent;
+
   constructor(
     private router: Router,
     private isDeviceMngSvc: IsDeviceMngService,
@@ -58,9 +61,23 @@ export class IsDvMngDevicesComponent implements OnInit {
   }
 
   getDevices() {
-    this.isDeviceMngSvc.getDevices().subscribe((res: any) => {
-      this.devices = res.result;
-    });
+    this.devicesGrid?.instance.beginCustomLoading(`Đang tải dữ liệu ...`);
+    this.isDeviceMngSvc.getDevices().subscribe(
+      (res: any) => {
+        this.devices = res.result;
+        this.resetFiltersAndSorting();
+        this.devicesGrid.instance.endCustomLoading();
+      },
+      (error) => {
+        this.devicesGrid.instance.endCustomLoading();
+      }
+    );
+  }
+
+  resetFiltersAndSorting() {
+    this.devicesGrid.instance.clearFilter();
+    this.devicesGrid.instance.clearSorting();
+    this.devicesGrid.instance.clearSelection();
   }
 
   getTransactions() {
@@ -143,7 +160,6 @@ export class IsDvMngDevicesComponent implements OnInit {
   }
 
   printLabel() {
-    console.log(this.selectedRows)
+    console.log(this.selectedRows);
   }
-
 }
