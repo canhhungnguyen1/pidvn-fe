@@ -93,11 +93,17 @@ export class QaOqcRequestComponent implements OnInit {
             // Kiểm tra nếu chưa scan đủ NVL thì thông báo
             let isAbnormal = false;
 
-
             /**
              * Check đã scan đủ NVL chưa
              */
-            isAbnormal = true // By Pass
+            for (let i = 0; i < response; i++) {
+              const element = response[i];
+              if (!element.scanQty || element.scanQty <= 0) {
+                isAbnormal = true;
+                break;
+              }
+            }
+            //isAbnormal = true // By Pass
 
             // TH1: chưa scan đủ NVL => Thông báo và không cho chuyển trạng thái
             if (isAbnormal) {
@@ -148,7 +154,7 @@ export class QaOqcRequestComponent implements OnInit {
   }
 
   /**
-   * Chuyển trạng thái từ [Chờ xử lý] sang [Đang xử lý]q
+   * Chuyển trạng thái từ [Chờ xử lý] sang [Đang xử lý]
    * Điều hướng sang trang detail
    */
   changeStatusRequest(item: any) {

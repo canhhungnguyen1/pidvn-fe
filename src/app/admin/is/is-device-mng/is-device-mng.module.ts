@@ -27,6 +27,9 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { QRCodeModule } from 'angularx-qrcode';
+import { NgxPrintModule } from 'ngx-print';
 @NgModule({
   declarations: [
     IsDvMngMenuComponent,
@@ -56,6 +59,9 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     NzAlertModule,
     NzSelectModule,
     NzToolTipModule,
+    NzSpaceModule,
+    QRCodeModule,
+    NgxPrintModule
   ],
 })
 export class IsDeviceMngModule {}

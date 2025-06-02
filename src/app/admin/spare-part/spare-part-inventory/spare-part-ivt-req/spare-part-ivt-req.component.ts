@@ -40,7 +40,7 @@ export class SparePartIvtReqComponent implements OnInit {
 
   getInventoryRequests() {
     this.sparePartIvtSvc.getInventoryRequests().subscribe((response) => {
-      this.inventoryRequests = response.result.reverse();
+      this.inventoryRequests = response.result;
     });
   }
 

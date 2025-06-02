@@ -1,6 +1,19 @@
 nz-table {
-    label {
-        font-weight: bold;
-        color: #6600c5;
-    }
+  label {
+    font-weight: bold;
+    color: #6600c5;
+  }
+}
+
+.label {
+  th,
+  td {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+
+  font-size: 10px;
+  float: left;
+  margin: 2px;
+  width: 150px;
 }
