@@ -93,12 +93,21 @@ export class QaOqcRequestComponent implements OnInit {
             // Kiểm tra nếu chưa scan đủ NVL thì thông báo
             let isAbnormal = false;
 
+            if (!response.length) {
+              notify(
+                'Vui lòng chờ người phụ trách duyệt trước khi xử lý, hoặc trong dây truyền cần scan đủ NVL lên hệ thống!',
+                'error',
+                3000
+              );
+              return;
+            }
+
             /**
              * Check đã scan đủ NVL chưa
              */
-            for (let i = 0; i < response; i++) {
+            for (let i = 0; i < response.length; i++) {
               const element = response[i];
-              if (!element.scanQty || element.scanQty <= 0) {
+              if (!element.scanQty) {
                 isAbnormal = true;
                 break;
               }
@@ -110,7 +119,7 @@ export class QaOqcRequestComponent implements OnInit {
               console.log('TH1: chưa scan đủ NVL => Thông báo và không cho chuyển trạng thái');
               
               notify(
-                'Vui lòng chờ người phụ trách duyệt trước khi xử lý.',
+                'Vui lòng chờ người phụ trách duyệt trước khi xử lý, hoặc trong dây truyền cần scan đủ NVL lên hệ thống!',
                 'error',
                 3000
               );
