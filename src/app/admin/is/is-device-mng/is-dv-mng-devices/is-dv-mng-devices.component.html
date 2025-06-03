@@ -46,21 +46,27 @@
         <dxi-item location="before">
           <nz-space>
             <ng-container *ngIf="selectedRows?.length">
-              <button
+              <dx-button
                 *nzSpaceItem
-                nz-button
-                nzType="default"
-                (click)="goToTab(2)"
+                stylingMode="contained"
+                icon="print"
+                (onClick)="goToTab(2)"
+                text="QR Code"
               >
-                <span nz-icon nzType="qrcode"></span>
-                QR Code
-              </button>
+              </dx-button>
+
+              <ng-container *ngIf="selectedRows?.length">
+
+                <dx-button
+                  *nzSpaceItem
+                  stylingMode="contained"
+                  icon="refresh"
+                  (onClick)="getDevices()"
+                >
+                </dx-button>
+              </ng-container>
             </ng-container>
           </nz-space>
-        </dxi-item>
-
-        <dxi-item location="after">
-          <dx-button icon="refresh" (onClick)="getDevices()"> </dx-button>
         </dxi-item>
 
         <dxi-item name="exportButton" location="after" />
@@ -199,17 +205,40 @@
       </dxi-column>
       <dxi-column dataField="recordTypeName" caption="Loại giao dich">
       </dxi-column>
-      <dxi-column dataField="itUserCode" caption="IT UserCode" [visible]="false"></dxi-column>
-      <dxi-column dataField="itUserName" caption="IT Name" [visible]="false"></dxi-column>
-      <dxi-column dataField="picCode" caption="PIC Code" [visible]="false"></dxi-column>
+      <dxi-column
+        dataField="itUserCode"
+        caption="IT UserCode"
+        [visible]="false"
+      ></dxi-column>
+      <dxi-column
+        dataField="itUserName"
+        caption="IT Name"
+        [visible]="false"
+      ></dxi-column>
+      <dxi-column
+        dataField="picCode"
+        caption="PIC Code"
+        [visible]="false"
+      ></dxi-column>
       <dxi-column dataField="picName" caption="PIC Name"></dxi-column>
       <dxi-column dataField="locationCode" caption="Vị trí"></dxi-column>
 
       <dxi-column dataField="picSectionName" caption="Section"></dxi-column>
-      <dxi-column dataField="picSectionCode" caption="Section (Code)" [visible]="false"></dxi-column>
+      <dxi-column
+        dataField="picSectionCode"
+        caption="Section (Code)"
+        [visible]="false"
+      ></dxi-column>
 
-      <dxi-column dataField="picSubsectionName" caption="Subsection"></dxi-column>
-      <dxi-column dataField="picSubsectionCode" caption="Subsection (Code)" [visible]="false"></dxi-column>
+      <dxi-column
+        dataField="picSubsectionName"
+        caption="Subsection"
+      ></dxi-column>
+      <dxi-column
+        dataField="picSubsectionCode"
+        caption="Subsection (Code)"
+        [visible]="false"
+      ></dxi-column>
 
       <dxi-column
         dataField="date"
@@ -448,9 +477,7 @@
               <td>{{ deviceSelected?.os }}</td>
               <td><label>Serial</label></td>
               <td>
-                {{
-                  deviceSelected?.serial ? deviceSelected?.serial : "N/A"
-                }}
+                {{ deviceSelected?.serial ? deviceSelected?.serial : "N/A" }}
               </td>
             </tr>
           </tbody>
@@ -475,7 +502,9 @@
               <td><label>Giao dịch</label></td>
               <td>{{ deviceSelected?.recordTypeName }}</td>
               <td><label>Ngày Giao/Nhận</label></td>
-              <td>{{ deviceSelected?.transactionDate | date : "yyyy-MM-dd" }}</td>
+              <td>
+                {{ deviceSelected?.transactionDate | date : "yyyy-MM-dd" }}
+              </td>
             </tr>
             <tr>
               <td><label>P.I.C</label></td>
