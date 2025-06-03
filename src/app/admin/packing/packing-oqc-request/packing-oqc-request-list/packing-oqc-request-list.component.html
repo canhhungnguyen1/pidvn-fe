@@ -609,6 +609,7 @@
               nz-input
               placeholder="Nhập ghi chú"
               [(ngModel)]="requestUpdate.remark"
+              [readOnly]="requestUpdate.isSpecialRequest"
             ></textarea>
           </td>
         </tr>
