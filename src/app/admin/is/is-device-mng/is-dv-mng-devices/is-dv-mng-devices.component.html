@@ -81,10 +81,12 @@
       <div *dxTemplate="let item of 'deviceNameTemplate'">
         <a (click)="openDeviceDetailModal(item.data)">{{ item.data.name }}</a>
       </div>
-
+      <dxi-column dataField="type" caption="Loại thiết bị"></dxi-column>
       <dxi-column dataField="serial" caption="Serial"></dxi-column>
       <dxi-column dataField="model" caption="Model"></dxi-column>
-      <dxi-column dataField="type" caption="Loại thiết bị"></dxi-column>
+      <dxi-column dataField="brand" caption="Thương hiệu"></dxi-column>
+      <dxi-column dataField="os" caption="OS"></dxi-column>
+      <dxi-column dataField="ram" caption="RAM"></dxi-column>
       <dxi-column
         dataField="faCode"
         caption="FA Code"
@@ -137,10 +139,10 @@
         ></dxi-total-item>
       </dxo-summary>
 
-      <dxo-paging [pageSize]="12"></dxo-paging>
+      <dxo-paging [pageSize]="15"></dxo-paging>
       <dxo-pager
         [showPageSizeSelector]="true"
-        [allowedPageSizes]="[10, 25, 50, 100]"
+        [allowedPageSizes]="[10, 15, 25, 50, 100]"
       >
       </dxo-pager>
     </dx-data-grid>
@@ -440,7 +442,7 @@
               <td><label>Serial</label></td>
               <td>
                 {{
-                  deviceSelected?.serialNo ? deviceSelected?.serialNo : "N/A"
+                  deviceSelected?.serial ? deviceSelected?.serial : "N/A"
                 }}
               </td>
             </tr>
@@ -466,7 +468,7 @@
               <td><label>Giao dịch</label></td>
               <td>{{ deviceSelected?.recordTypeName }}</td>
               <td><label>Ngày Giao/Nhận</label></td>
-              <td>{{ deviceSelected?.date | date : "yyyy-MM-dd" }}</td>
+              <td>{{ deviceSelected?.transactionDate | date : "yyyy-MM-dd" }}</td>
             </tr>
             <tr>
               <td><label>P.I.C</label></td>
@@ -481,7 +483,7 @@
                 </ul>
               </ng-template>
               <td><label>Vị trí</label></td>
-              <td>{{ deviceSelected?.locationName }}</td>
+              <td>{{ deviceSelected?.locationCode }}</td>
             </tr>
             <tr>
               <td><label>IT User</label></td>
