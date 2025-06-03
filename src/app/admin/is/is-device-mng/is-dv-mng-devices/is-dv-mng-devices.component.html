@@ -82,6 +82,7 @@
         <a (click)="openDeviceDetailModal(item.data)">{{ item.data.name }}</a>
       </div>
 
+      <dxi-column dataField="serial" caption="Serial"></dxi-column>
       <dxi-column dataField="model" caption="Model"></dxi-column>
       <dxi-column dataField="type" caption="Loại thiết bị"></dxi-column>
       <dxi-column
@@ -96,11 +97,11 @@
         format="yyyy-MM-dd"
         alignment="center"
       ></dxi-column>
-      <dxi-column dataField="locationName" caption="Vị trí"></dxi-column>
+      <dxi-column dataField="locationCode" caption="Vị trí"></dxi-column>
       <dxi-column
         dataField="status"
         caption="Trạng thái"
-        [visible]="true"
+        [visible]="false"
       ></dxi-column>
 
       <dxi-column
@@ -116,7 +117,7 @@
       <dxi-column dataField="picName" caption="PIC Name"></dxi-column>
       <dxi-column dataField="sectionName" caption="Section"></dxi-column>
       <dxi-column
-        dataField="date"
+        dataField="transactionDate"
         caption="Ngày Giao/Nhận"
         dataType="date"
         format="yyyy-MM-dd"
