@@ -95,7 +95,7 @@ export class QaOqcRequestComponent implements OnInit {
 
             if (!response.length) {
               notify(
-                'Vui lòng chờ người phụ trách duyệt trước khi xử lý, hoặc trong dây truyền cần scan đủ NVL lên hệ thống!',
+                'Vui lòng chờ người phụ trách duyệt trước khi xử lý, hoặc trong dây chuyền cần scan đủ NVL lên hệ thống!',
                 'error',
                 3000
               );
@@ -119,7 +119,7 @@ export class QaOqcRequestComponent implements OnInit {
               console.log('TH1: chưa scan đủ NVL => Thông báo và không cho chuyển trạng thái');
               
               notify(
-                'Vui lòng chờ người phụ trách duyệt trước khi xử lý, hoặc trong dây truyền cần scan đủ NVL lên hệ thống!',
+                'Vui lòng chờ người phụ trách duyệt trước khi xử lý, hoặc trong dây chuyền cần scan đủ NVL lên hệ thống!',
                 'error',
                 3000
               );

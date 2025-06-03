@@ -187,7 +187,7 @@ export class PackingOqcRequestListComponent implements OnInit {
     (this.requestCreate.createdBy = this.jwtHelperSvc.decodeToken(
       localStorage.getItem('accessToken')?.toString()
     ).Username),
-      (this.requestCreate.remark = 'Dây truyền không scan đủ NVL vào hệ thống');
+      (this.requestCreate.remark = 'Dây chuyền không scan đủ NVL vào hệ thống');
     this.requestCreate.isSpecialRequest = 1;
   }
 
