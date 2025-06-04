@@ -1,10 +1,3 @@
-<!-- <nz-breadcrumb>
-  <nz-breadcrumb-item>
-    <a [routerLink]="['/admin/is/is-device-mng/menu']">Device Management</a>
-  </nz-breadcrumb-item>
-  <nz-breadcrumb-item>Danh sách thiết bị</nz-breadcrumb-item>
-</nz-breadcrumb> -->
-
 <nz-tabset [(nzSelectedIndex)]="selectedTabIndex">
   <nz-tab nzTitle="Danh sách thiết bị">
     <dx-data-grid
@@ -56,7 +49,6 @@
               </dx-button>
 
               <ng-container *ngIf="selectedRows?.length">
-
                 <dx-button
                   *nzSpaceItem
                   stylingMode="contained"
@@ -111,11 +103,6 @@
         caption="Trạng thái"
         [visible]="false"
       ></dxi-column>
-
-      <dxi-column
-        dataField="recordTypeName"
-        caption="Transaction Type"
-      ></dxi-column>
       <dxi-column
         dataField="picCode"
         caption="PIC Code"
@@ -125,6 +112,10 @@
       <dxi-column dataField="picName" caption="PIC Name"></dxi-column>
       <dxi-column dataField="sectionName" caption="Section"></dxi-column>
       <dxi-column
+        dataField="recordTypeName"
+        caption="Transaction Type"
+      ></dxi-column>
+      <dxi-column
         dataField="transactionDate"
         caption="Ngày Giao/Nhận"
         dataType="date"
@@ -132,7 +123,7 @@
         alignment="center"
       ></dxi-column>
       <dxi-column
-        dataField="endDate"
+        dataField="expectedReturnDate"
         caption="Dự kiến trả"
         dataType="date"
         format="yyyy-MM-dd"
@@ -152,7 +143,7 @@
         ></dxi-total-item>
       </dxo-summary>
 
-      <dxo-paging [pageSize]="15"></dxo-paging>
+      <dxo-paging [pageSize]="10"></dxo-paging>
       <dxo-pager
         [showPageSizeSelector]="true"
         [allowedPageSizes]="[10, 15, 25, 50, 100]"
@@ -248,19 +239,13 @@
         alignment="center"
       ></dxi-column>
       <dxi-column
-        dataField="startDate"
-        caption="StartDate"
+        dataField="expectedReturnDate"
+        caption="Dự kiến trả"
         dataType="date"
         format="yyyy-MM-dd"
         alignment="center"
       ></dxi-column>
-      <dxi-column
-        dataField="endDate"
-        caption="EndDate"
-        dataType="date"
-        format="yyyy-MM-dd"
-        alignment="center"
-      ></dxi-column>
+
       <dxi-column dataField="remark" caption="Remark"></dxi-column>
 
       <dxo-editing
@@ -425,8 +410,8 @@
         >
           <tbody>
             <tr>
-              <td><label>Tên thiết bị</label></td>
-              <td>{{ deviceSelected?.name }}</td>
+              <td style="width: 20%"><label>Tên thiết bị</label></td>
+              <td style="width: 20%">{{ deviceSelected?.name }}</td>
               <td
                 rowspan="4"
                 colspan="2"
@@ -479,6 +464,10 @@
               <td>
                 {{ deviceSelected?.serial ? deviceSelected?.serial : "N/A" }}
               </td>
+            </tr>
+            <tr>
+              <td><label>Remark</label></td>
+              <td colspan="3">{{ deviceSelected?.remark }}</td>
             </tr>
           </tbody>
         </nz-table>
@@ -533,8 +522,14 @@
                   <li>Bộ phận: IT</li>
                 </ul>
               </ng-template>
+              <td><label>Dự kiến trả</label></td>
+              <td>
+                {{ deviceSelected?.expectedReturnDate | date : "yyyy-MM-dd" }}
+              </td>
+            </tr>
+            <tr>
               <td><label>Remark</label></td>
-              <td>{{ deviceSelected?.transactionRemark }}</td>
+              <td colspan="3">{{ deviceSelected?.transactionRemark }}</td>
             </tr>
           </tbody>
         </nz-table>
