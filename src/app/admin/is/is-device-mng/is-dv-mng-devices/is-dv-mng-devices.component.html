@@ -163,7 +163,6 @@
       [columnAutoWidth]="true"
       [rowAlternationEnabled]="false"
       [hoverStateEnabled]="true"
-      (onSaved)="saveTransaction($event)"
       (onCellPrepared)="onCellPreparedHistory($event)"
     >
       <dxo-header-filter [visible]="true"></dxo-header-filter>
@@ -177,6 +176,36 @@
         [title]="'Cột hiển thị'"
       >
       </dxo-column-chooser>
+
+      <dxo-toolbar>
+        <dxi-item location="before">
+          <nz-space>
+            <dx-button
+              *nzSpaceItem
+              stylingMode="contained"
+              icon="plus"
+              text="Thêm giao dịch"
+              (onClick)="openTransactionModal({})"
+            >
+            </dx-button>
+          </nz-space>
+        </dxi-item>
+        <dxi-item location="after">
+          <dx-date-range-box
+            id="range-date"
+            style="margin-top: -5px"
+            [displayFormat]="'yyyy/MM/dd'"
+            style="width: 300px"
+            startDateLabel="Trans Date (Start)"
+            endDateLabel="Trans Date (End)"
+            labelMode="static"
+          >
+          </dx-date-range-box>
+        </dxi-item>
+
+        <dxi-item name="exportButton" location="after" />
+        <dxi-item name="columnChooserButton" location="after"></dxi-item>
+      </dxo-toolbar>
 
       <dxi-column dataField="deviceName" caption="Tên thiết bị" fixed="true">
         <dxi-validation-rule
@@ -248,69 +277,18 @@
 
       <dxi-column dataField="remark" caption="Remark"></dxi-column>
 
-      <dxo-editing
-        mode="popup"
-        [allowAdding]="true"
-        [allowUpdating]="false"
-        [allowDeleting]="false"
+      <dxi-column
+        caption="Action"
+        cellTemplate="actionTemplate"
+        [fixed]="true"
+        fixedPosition="right"
+        alignment="center"
+        [visible]="false"
       >
-        <dxo-popup
-          [width]="800"
-          [height]="400"
-          title="Thông tin giao dịch"
-          [showTitle]="true"
-          [dragEnabled]="true"
-        ></dxo-popup>
-
-        <dxo-form>
-          <dxi-item
-            dataField="recordType"
-            editorType="dxSelectBox"
-            [editorOptions]="{
-              items: recordTypes,
-              valueExpr: 'id',
-              displayExpr: 'name',
-              placeholder: 'Chọn loại giao dịch',
-              searchEnabled: true
-            }"
-          ></dxi-item>
-          <dxi-item
-            dataField="picCode"
-            editorType="dxSelectBox"
-            [editorOptions]="{
-              items: users,
-              valueExpr: 'username',
-              displayExpr: 'codeName',
-              placeholder: 'Mã nhân viên',
-              searchEnabled: true
-            }"
-          ></dxi-item>
-          <dxi-item
-            dataField="deviceName"
-            editorType="dxSelectBox"
-            [editorOptions]="{
-              items: devices,
-              valueExpr: 'name',
-              displayExpr: displayDeviceName,
-              placeholder: 'Tên thiết bị',
-              searchEnabled: true
-            }"
-          ></dxi-item>
-          <dxi-item
-            dataField="locationId"
-            editorType="dxSelectBox"
-            [editorOptions]="{
-              items: locations,
-              valueExpr: 'id',
-              displayExpr: 'name',
-              placeholder: 'Vị trí',
-              searchEnabled: true
-            }"
-          ></dxi-item>
-
-          <dxi-item dataField="remark"> </dxi-item>
-        </dxo-form>
-      </dxo-editing>
+      </dxi-column>
+      <div *dxTemplate="let item of 'actionTemplate'">
+        <a (click)="openTransactionModal(item.data)">Sửa</a>
+      </div>
 
       <dxo-paging [pageSize]="12"></dxo-paging>
       <dxo-pager
@@ -383,6 +361,7 @@
   </nz-tab>
 </nz-tabset>
 
+<!-- Modal Thông tin thiết bị -->
 <nz-modal
   [(nzVisible)]="isOpenDeviceDetailModal"
   nzTitle="Thông tin thiết bị"
@@ -567,4 +546,112 @@
       </div>
     </div>
   </ng-container>
+</nz-modal>
+
+<!-- Modal Thông tin giao dịch -->
+<nz-modal
+  nzDraggable
+  nzCentered
+  [(nzVisible)]="isOpenTransactionModal"
+  nzTitle="Thông tin giao dịch"
+  (nzOnCancel)="isOpenTransactionModal = false"
+  [nzWidth]="'60vw'"
+>
+  <ng-container *nzModalContent>
+    <nz-table
+      [nzData]="['']"
+      nzBordered
+      nzSize="small"
+      [nzFrontPagination]="false"
+    >
+      <tbody>
+        <tr>
+          <td><label>Loại giao dịch</label></td>
+          <td>
+            <dx-select-box
+              labelLocation="left"
+              showColonAfterLabel="true"
+              [labelMode]="'floating'"
+              displayExpr="name"
+              valueExpr="id"
+              [dataSource]="recordTypes"
+              [showClearButton]="true"
+              placeholder="Chọn loại giao dịch"
+              [(value)]="transactionSelected.recordType"
+            ></dx-select-box>
+          </td>
+          <td><label>PIC Code</label></td>
+          <td>
+            <dx-select-box
+              labelLocation="left"
+              showColonAfterLabel="true"
+              [labelMode]="'floating'"
+              displayExpr="codeName"
+              valueExpr="username"
+              [dataSource]="users"
+              [showClearButton]="true"
+              [(value)]="transactionSelected.picCode"
+              [searchEnabled]="true"
+            ></dx-select-box>
+          </td>
+        </tr>
+        <tr>
+          <td><label>Tên thiết bị</label></td>
+          <td>
+            <dx-select-box
+              labelLocation="left"
+              showColonAfterLabel="true"
+              [labelMode]="'floating'"
+              [displayExpr]="displayDeviceName"
+              valueExpr="name"
+              [dataSource]="devices"
+              [showClearButton]="true"
+              placeholder="Chọn thiết bị"
+              [(value)]="transactionSelected.deviceName"
+              [searchEnabled]="true"
+            ></dx-select-box>
+          </td>
+          <td><label>Vị trí</label></td>
+          <td>
+            <dx-select-box
+              labelLocation="left"
+              showColonAfterLabel="true"
+              [labelMode]="'floating'"
+              displayExpr="name"
+              valueExpr="code"
+              [dataSource]="locations"
+              [showClearButton]="true"
+              placeholder="Chọn vị trí"
+              [(value)]="transactionSelected.locationCode"
+              [searchEnabled]="true"
+            ></dx-select-box>
+          </td>
+        </tr>
+        <tr>
+          <td><label>Remark</label></td>
+          <td colspan="3">
+            <dx-text-box
+              labelLocation="left"
+              showColonAfterLabel="true"
+              [labelMode]="'static'"
+              [(value)]="transactionSelected.remark"
+            ></dx-text-box>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="isOpenTransactionModal = false">
+      Đóng
+    </button>
+    <button
+      nz-button
+      nzType="primary"
+      (click)="saveTransaction()"
+      [nzLoading]="isLoading"
+    >
+      Lưu
+    </button>
+  </div>
 </nz-modal>

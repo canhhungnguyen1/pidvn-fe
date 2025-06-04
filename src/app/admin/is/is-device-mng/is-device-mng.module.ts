@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import {
   DxButtonModule,
   DxDataGridModule,
+  DxDateRangeBoxModule,
   DxSelectBoxModule,
   DxTextBoxModule,
 } from 'devextreme-angular';
@@ -30,6 +31,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { QRCodeModule } from 'angularx-qrcode';
 import { NgxPrintModule } from 'ngx-print';
+
 @NgModule({
   declarations: [
     IsDvMngMenuComponent,
@@ -61,7 +63,8 @@ import { NgxPrintModule } from 'ngx-print';
     NzToolTipModule,
     NzSpaceModule,
     QRCodeModule,
-    NgxPrintModule
+    NgxPrintModule,
+    DxDateRangeBoxModule
   ],
 })
 export class IsDeviceMngModule {}
