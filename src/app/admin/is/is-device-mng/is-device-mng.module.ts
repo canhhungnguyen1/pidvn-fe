@@ -7,6 +7,8 @@ import {
   DxDateRangeBoxModule,
   DxSelectBoxModule,
   DxTextBoxModule,
+  DxValidationGroupModule,
+  DxValidatorModule,
 } from 'devextreme-angular';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
@@ -64,7 +66,9 @@ import { NgxPrintModule } from 'ngx-print';
     NzSpaceModule,
     QRCodeModule,
     NgxPrintModule,
-    DxDateRangeBoxModule
+    DxDateRangeBoxModule,
+    DxValidatorModule,
+    DxValidationGroupModule
   ],
 })
 export class IsDeviceMngModule {}

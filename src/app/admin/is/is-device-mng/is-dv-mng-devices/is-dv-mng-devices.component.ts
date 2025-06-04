@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { DxDataGridComponent, DxValidationGroupComponent } from 'devextreme-angular';
+import { exportDataGrid } from 'devextreme/excel_exporter';
+import { Workbook } from 'exceljs';
+import saveAs from 'file-saver';
 import { ToastrService } from 'ngx-toastr';
 import { IsDeviceMngService } from '../services/is-device-mng.service';
-import { Workbook } from 'exceljs';
-import { exportDataGrid } from 'devextreme/excel_exporter';
-import saveAs from 'file-saver';
-import { DxDataGridComponent } from 'devextreme-angular';
 
 @Component({
   selector: 'app-is-dv-mng-devices',
@@ -15,6 +15,9 @@ import { DxDataGridComponent } from 'devextreme-angular';
 })
 export class IsDvMngDevicesComponent implements OnInit {
   @ViewChild('devicesGrid') devicesGrid!: DxDataGridComponent;
+
+  @ViewChild(DxValidationGroupComponent, { static: false })
+  transactionFormValidator!: DxValidationGroupComponent;
 
   constructor(
     private router: Router,
@@ -49,11 +52,11 @@ export class IsDvMngDevicesComponent implements OnInit {
   locations: any[] = [];
 
   isOpenDeviceDetailModal: boolean = false;
-  isOpenTransactionModal: boolean = false
+  isOpenTransactionModal: boolean = false;
   selectedRows: any;
   selectedTabIndex = 0;
 
-  transactionSelected: any = {}
+  transactionSelected: any = {};
   isLoading: boolean = false;
 
   onSelectionChanged(event: any) {
@@ -108,6 +111,10 @@ export class IsDvMngDevicesComponent implements OnInit {
   };
 
   saveTransaction() {
+    const result = this.transactionFormValidator.instance.validate();
+    if (!result.isValid) {
+      return;
+    }
 
     this.isLoading = true;
 
@@ -115,24 +122,23 @@ export class IsDvMngDevicesComponent implements OnInit {
       localStorage.getItem('accessToken') || ''
     )?.Username;
 
-    let obj = {...this.transactionSelected, itUserCode}
+    let obj = { ...this.transactionSelected, itUserCode };
 
     this.isDeviceMngSvc.saveTransaction(obj).subscribe(
       (response) => {
         this.toastr.success('Đã lưu lại lịch sử', 'Thành công');
         this.getDevices();
         this.getTransactions();
-        this.isOpenTransactionModal = false
+        this.isOpenTransactionModal = false;
         this.isLoading = false;
       },
       (error) => {
         this.getDevices();
         this.getTransactions();
-        this.isOpenTransactionModal = false
+        this.isOpenTransactionModal = false;
         this.isLoading = false;
       }
     );
-    
   }
 
   openDeviceDetailModal(event: any) {
@@ -142,8 +148,8 @@ export class IsDvMngDevicesComponent implements OnInit {
   }
 
   openTransactionModal(event: any) {
-    this.transactionSelected = event
-    this.isOpenTransactionModal = true
+    this.transactionSelected = event;
+    this.isOpenTransactionModal = true;
     console.log('openTransactionModal: ', event);
   }
 

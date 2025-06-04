@@ -558,88 +558,118 @@
   [nzWidth]="'60vw'"
 >
   <ng-container *nzModalContent>
-    <nz-table
-      [nzData]="['']"
-      nzBordered
-      nzSize="small"
-      [nzFrontPagination]="false"
-    >
-      <tbody>
-        <tr>
-          <td><label>Loại giao dịch</label></td>
-          <td>
-            <dx-select-box
-              labelLocation="left"
-              showColonAfterLabel="true"
-              [labelMode]="'floating'"
-              displayExpr="name"
-              valueExpr="id"
-              [dataSource]="recordTypes"
-              [showClearButton]="true"
-              placeholder="Chọn loại giao dịch"
-              [(value)]="transactionSelected.recordType"
-            ></dx-select-box>
-          </td>
-          <td><label>PIC Code</label></td>
-          <td>
-            <dx-select-box
-              labelLocation="left"
-              showColonAfterLabel="true"
-              [labelMode]="'floating'"
-              displayExpr="codeName"
-              valueExpr="username"
-              [dataSource]="users"
-              [showClearButton]="true"
-              [(value)]="transactionSelected.picCode"
-              [searchEnabled]="true"
-            ></dx-select-box>
-          </td>
-        </tr>
-        <tr>
-          <td><label>Tên thiết bị</label></td>
-          <td>
-            <dx-select-box
-              labelLocation="left"
-              showColonAfterLabel="true"
-              [labelMode]="'floating'"
-              [displayExpr]="displayDeviceName"
-              valueExpr="name"
-              [dataSource]="devices"
-              [showClearButton]="true"
-              placeholder="Chọn thiết bị"
-              [(value)]="transactionSelected.deviceName"
-              [searchEnabled]="true"
-            ></dx-select-box>
-          </td>
-          <td><label>Vị trí</label></td>
-          <td>
-            <dx-select-box
-              labelLocation="left"
-              showColonAfterLabel="true"
-              [labelMode]="'floating'"
-              displayExpr="name"
-              valueExpr="code"
-              [dataSource]="locations"
-              [showClearButton]="true"
-              placeholder="Chọn vị trí"
-              [(value)]="transactionSelected.locationCode"
-              [searchEnabled]="true"
-            ></dx-select-box>
-          </td>
-        </tr>
-        <tr>
-          <td><label>Remark</label></td>
-          <td colspan="3">
-            <dx-text-box
-              labelLocation="left"
-              showColonAfterLabel="true"
-              [labelMode]="'static'"
-              [(value)]="transactionSelected.remark"
-            ></dx-text-box>
-          </td>
-        </tr>
-      </tbody>
-    </nz-table>
+    <dx-validation-group #transactionFormValidator>
+      <nz-table
+        [nzData]="['']"
+        nzBordered
+        nzSize="small"
+        [nzFrontPagination]="false"
+      >
+        <tbody>
+          <tr>
+            <td><label>Loại giao dịch</label></td>
+            <td>
+              <dx-select-box
+                labelLocation="left"
+                showColonAfterLabel="true"
+                [labelMode]="'floating'"
+                displayExpr="name"
+                valueExpr="id"
+                [dataSource]="recordTypes"
+                [showClearButton]="true"
+                placeholder="Chọn loại giao dịch"
+                [(value)]="transactionSelected.recordType"
+              >
+                <dx-validator>
+                  <dxi-validation-rule
+                    type="required"
+                    message="Cần chọn Loại giao dịch"
+                  ></dxi-validation-rule>
+                </dx-validator>
+              </dx-select-box>
+            </td>
+            <td><label>Người giao dịch</label></td>
+            <td>
+              <dx-select-box
+                labelLocation="left"
+                showColonAfterLabel="true"
+                [labelMode]="'floating'"
+                displayExpr="codeName"
+                valueExpr="username"
+                [dataSource]="users"
+                [showClearButton]="true"
+                [(value)]="transactionSelected.picCode"
+                [searchEnabled]="true"
+              >
+                <dx-validator>
+                  <dxi-validation-rule
+                    type="required"
+                    message="Cần chọn Người giao dịch"
+                  ></dxi-validation-rule>
+                </dx-validator>
+              </dx-select-box>
+            </td>
+          </tr>
+          <tr>
+            <td><label>Tên thiết bị</label></td>
+            <td>
+              <dx-select-box
+                labelLocation="left"
+                showColonAfterLabel="true"
+                [labelMode]="'floating'"
+                [displayExpr]="displayDeviceName"
+                valueExpr="name"
+                [dataSource]="devices"
+                [showClearButton]="true"
+                placeholder="Chọn thiết bị"
+                [(value)]="transactionSelected.deviceName"
+                [searchEnabled]="true"
+              >
+                <dx-validator>
+                  <dxi-validation-rule
+                    type="required"
+                    message="Cần chọn Tên thiết bị"
+                  ></dxi-validation-rule>
+                </dx-validator>
+              </dx-select-box>
+            </td>
+            <td><label>Vị trí</label></td>
+            <td>
+              <dx-select-box
+                labelLocation="left"
+                showColonAfterLabel="true"
+                [labelMode]="'floating'"
+                displayExpr="name"
+                valueExpr="code"
+                [dataSource]="locations"
+                [showClearButton]="true"
+                placeholder="Chọn vị trí"
+                [(value)]="transactionSelected.locationCode"
+                [searchEnabled]="true"
+              >
+                <dx-validator>
+                  <dxi-validation-rule
+                    type="required"
+                    message="Cần chọn Vị trí"
+                  ></dxi-validation-rule>
+                </dx-validator>
+              </dx-select-box>
+            </td>
+          </tr>
+          <tr>
+            <td><label>Remark</label></td>
+            <td colspan="3">
+              <dx-text-box
+                labelLocation="left"
+                showColonAfterLabel="true"
+                [labelMode]="'static'"
+                [(value)]="transactionSelected.remark"
+              ></dx-text-box>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </dx-validation-group>
   </ng-container>
   <div *nzModalFooter>
     <button nz-button nzType="default" (click)="isOpenTransactionModal = false">
