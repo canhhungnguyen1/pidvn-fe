@@ -32,7 +32,7 @@ export class IsDvMngDevicesComponent implements OnInit {
     this.getUsers();
     this.getLocations();
   }
-
+  today = new Date();
   devices: any[] = [];
   deviceSelected: any;
   users: any[] = [];

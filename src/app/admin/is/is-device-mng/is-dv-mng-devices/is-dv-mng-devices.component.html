@@ -600,6 +600,7 @@
                 [showClearButton]="true"
                 [(value)]="transactionSelected.picCode"
                 [searchEnabled]="true"
+                placeholder="Chọn người giao dịch"
               >
                 <dx-validator>
                   <dxi-validation-rule
@@ -657,8 +658,21 @@
             </td>
           </tr>
           <tr>
+            <td><label>Dự kiến trả</label></td>
+            <td>
+              <dx-date-box
+                [min]="today"
+                labelLocation="left"
+                showColonAfterLabel="true"
+                [labelMode]="'static'"
+                [displayFormat]="'yyyy-MM-dd'"
+                [showClearButton]="true"
+                placeholder="Ngày trả (Dự kiến)"
+                [(value)]="transactionSelected.expectedReturnDate"
+              ></dx-date-box>
+            </td>
             <td><label>Remark</label></td>
-            <td colspan="3">
+            <td>
               <dx-text-box
                 labelLocation="left"
                 showColonAfterLabel="true"

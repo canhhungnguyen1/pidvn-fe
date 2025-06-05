@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import {
   DxButtonModule,
   DxDataGridModule,
+  DxDateBoxModule,
   DxDateRangeBoxModule,
   DxSelectBoxModule,
   DxTextBoxModule,
@@ -68,7 +69,8 @@ import { NgxPrintModule } from 'ngx-print';
     NgxPrintModule,
     DxDateRangeBoxModule,
     DxValidatorModule,
-    DxValidationGroupModule
+    DxValidationGroupModule,
+    DxDateBoxModule
   ],
 })
 export class IsDeviceMngModule {}
