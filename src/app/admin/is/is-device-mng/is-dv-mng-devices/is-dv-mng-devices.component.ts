@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { DxDataGridComponent, DxValidationGroupComponent } from 'devextreme-angular';
+import { exportDataGrid } from 'devextreme/excel_exporter';
+import { Workbook } from 'exceljs';
+import saveAs from 'file-saver';
 import { ToastrService } from 'ngx-toastr';
 import { IsDeviceMngService } from '../services/is-device-mng.service';
-import { Workbook } from 'exceljs';
-import { exportDataGrid } from 'devextreme/excel_exporter';
-import saveAs from 'file-saver';
-import { DxDataGridComponent } from 'devextreme-angular';
 
 @Component({
   selector: 'app-is-dv-mng-devices',
@@ -15,6 +15,9 @@ import { DxDataGridComponent } from 'devextreme-angular';
 })
 export class IsDvMngDevicesComponent implements OnInit {
   @ViewChild('devicesGrid') devicesGrid!: DxDataGridComponent;
+
+  @ViewChild(DxValidationGroupComponent, { static: false })
+  transactionFormValidator!: DxValidationGroupComponent;
 
   constructor(
     private router: Router,
@@ -29,7 +32,7 @@ export class IsDvMngDevicesComponent implements OnInit {
     this.getUsers();
     this.getLocations();
   }
-
+  today = new Date();
   devices: any[] = [];
   deviceSelected: any;
   users: any[] = [];
@@ -37,11 +40,11 @@ export class IsDvMngDevicesComponent implements OnInit {
   recordTypes: any[] = [
     {
       id: 'IN',
-      name: 'Nhận lại',
+      name: 'Nhận lại (IN)',
     },
     {
       id: 'OUT',
-      name: 'Bàn giao',
+      name: 'Bàn giao (OUT)',
     },
   ];
 
@@ -49,8 +52,12 @@ export class IsDvMngDevicesComponent implements OnInit {
   locations: any[] = [];
 
   isOpenDeviceDetailModal: boolean = false;
+  isOpenTransactionModal: boolean = false;
   selectedRows: any;
   selectedTabIndex = 0;
+
+  transactionSelected: any = {};
+  isLoading: boolean = false;
 
   onSelectionChanged(event: any) {
     this.selectedRows = event.selectedRowsData;
@@ -103,27 +110,33 @@ export class IsDvMngDevicesComponent implements OnInit {
     return item ? `(${item.type}) - ${item.name}` : '';
   };
 
-  saveTransaction(event: any): void {
+  saveTransaction() {
+    const result = this.transactionFormValidator.instance.validate();
+    if (!result.isValid) {
+      return;
+    }
+
+    this.isLoading = true;
+
     const itUserCode = this.jwtHelperSvc.decodeToken(
       localStorage.getItem('accessToken') || ''
     )?.Username;
 
-    const obj = {
-      ...event.changes[0].data,
-      itUserCode,
-      date: new Date(),
-      id: null,
-    };
+    let obj = { ...this.transactionSelected, itUserCode };
 
     this.isDeviceMngSvc.saveTransaction(obj).subscribe(
       (response) => {
         this.toastr.success('Đã lưu lại lịch sử', 'Thành công');
         this.getDevices();
         this.getTransactions();
+        this.isOpenTransactionModal = false;
+        this.isLoading = false;
       },
       (error) => {
         this.getDevices();
         this.getTransactions();
+        this.isOpenTransactionModal = false;
+        this.isLoading = false;
       }
     );
   }
@@ -131,7 +144,13 @@ export class IsDvMngDevicesComponent implements OnInit {
   openDeviceDetailModal(event: any) {
     this.deviceSelected = event;
     this.isOpenDeviceDetailModal = true;
-    console.log(event);
+    console.log('openDeviceDetailModal: ', event);
+  }
+
+  openTransactionModal(event: any) {
+    this.transactionSelected = event;
+    this.isOpenTransactionModal = true;
+    console.log('openTransactionModal: ', event);
   }
 
   // Style header

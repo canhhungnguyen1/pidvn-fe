@@ -128,7 +128,9 @@
       *dxTemplate="let item of 'actionTemplate'"
       style="text-align: center;"
     >
-        <a (click)="redirectAbnormalDetail(item.data)" style="color: green;">Phê duyệt Request</a>
+        <a *ngIf="item.data.acceptedBy" (click)="redirectAbnormalDetail(item.data)" style="color: green;">Đã phê duyệt</a>
+
+        <button *ngIf="!item.data.acceptedBy" nz-button (click)="redirectAbnormalDetail(item.data)">Phê duyệt</button>
 
     </div>
   </dxi-column>

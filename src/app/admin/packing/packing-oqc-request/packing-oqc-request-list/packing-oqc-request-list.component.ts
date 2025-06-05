@@ -196,7 +196,11 @@ export class PackingOqcRequestListComponent implements OnInit {
    */
   createAbnormalRequest() {
     this.isLoading = true;
-    this.packingOqcRequestSvc.createOqcRequest(this.requestCreate).subscribe(
+
+    let obj = {...this.requestCreate};
+    obj.remark = 'Dây chuyền không scan đủ NVL vào hệ thống'
+
+    this.packingOqcRequestSvc.createOqcRequest(obj).subscribe(
       (response) => {
         console.log(response);
 

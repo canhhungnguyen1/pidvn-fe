@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { RelayDateCodeService } from 'src/app/admin/relay/relay-datecode/relay-datecode.service';
-import { QaOqcService } from '../services/qa-oqc.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { ToastrService } from 'ngx-toastr';
+import { RelayDateCodeService } from 'src/app/admin/relay/relay-datecode/relay-datecode.service';
+import { QaOqcService } from '../services/qa-oqc.service';
 
 @Component({
   selector: 'app-qa-oqc-abnormal-request-detail',
@@ -31,6 +31,8 @@ export class QaOqcAbnormalRequestDetailComponent implements OnInit {
   request: any;
   isAccepted: boolean = false;
   isLoading: boolean = false;
+  materialScanned: any;
+  isAbnormalRequest: any
 
   getRequest() {
     let searchVo = {
@@ -41,7 +43,43 @@ export class QaOqcAbnormalRequestDetailComponent implements OnInit {
       console.log('getRequest: ', this.request);
 
       this.isAccepted = this.request.acceptedResult ? true : false;
+
+      this.getMaterialScanned(this.request.qaCard);
     });
+  }
+
+  
+
+  getMaterialScanned(qaCard: string) {
+    this.relayDateCodeSvc.getMaterialScanned(qaCard).subscribe((response) => {
+      this.materialScanned = response;
+
+      this.isAbnormalRequest = this.isAbnormal(this.materialScanned);
+    });
+  }
+
+
+  /**
+   * Check nếu ko scan đủ nvl => isAbnormal = true
+   * @param materialScanned 
+   * @returns 
+   */
+  isAbnormal(materialScanned: any): boolean {
+    let isAbnormal = false
+
+    if (!materialScanned.length || materialScanned.length <= 0) {
+      return true
+
+    }
+
+    // Kiểm tra nếu chưa scan NVL
+    for (let i = 0; i < materialScanned.length; i++) {
+      const element = materialScanned[i];
+      if (!element.scanQty || element.scanQty <= 0) {
+        return true;
+      }
+    }
+    return isAbnormal;
   }
 
   handleAbnormalRequest() {

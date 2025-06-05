@@ -1,8 +1,8 @@
-<div nz-row>
-  <div nz-col nzSpan="12" nzOffset="6">
+<div nz-row *ngIf="materialScanned; else errorTpl" [nzGutter]="24">
+  <div nz-col nzSpan="12">
     <nz-table
-      *ngIf="request; else errorTpl"
-      #basicTable
+      #abnormalRequestTable
+      *ngIf="isAbnormalRequest"
       [nzData]="['']"
       nzBordered
       nzSize="small"
@@ -42,7 +42,7 @@
         </tr>
         <tr>
           <td><label>Reason</label></td>
-          <td colspan="2">{{ request.remark }}</td>
+          <td colspan="2">Dây chuyền không scan đủ NVL vào hệ thống</td>
         </tr>
 
         <ng-container *ngIf="isAccepted">
@@ -59,15 +59,17 @@
             </td>
           </tr>
           <tr>
-            <td><label>Remark</label></td>
+            <td><label>Ghi chú</label></td>
             <td>
               {{ request.specialRemark }}
             </td>
             <td></td>
           </tr>
           <tr>
-            <td colspan="3">
-                <a routerLink="/admin/qa/qa-oqc-check/oqc-abnormal-requests">Đi đến trang danh sách request cần phê duyệt</a>
+            <td colspan="2">
+              <a routerLink="/admin/qa/qa-oqc-check/oqc-abnormal-requests"
+                >Đi đến trang danh sách request cần phê duyệt</a
+              >
             </td>
           </tr>
         </ng-container>
@@ -87,7 +89,7 @@
             </td>
           </tr>
           <tr>
-            <td><label>Remark</label></td>
+            <td><label>Ghi chú</label></td>
             <td>
               <input
                 nz-input
@@ -97,21 +99,159 @@
               />
             </td>
             <td>
-              <button nz-button nzType="primary" (click)="handleAbnormalRequest()" [nzLoading]="isLoading">Xác nhận</button>
+              <button
+                nz-button
+                nzType="primary"
+                (click)="handleAbnormalRequest()"
+                [nzLoading]="isLoading"
+              >
+                Xác nhận
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="3">
+              <a routerLink="/admin/qa/qa-oqc-check/oqc-abnormal-requests"
+                >Đi đến trang danh sách request cần phê duyệt</a
+              >
             </td>
           </tr>
         </ng-container>
       </tbody>
     </nz-table>
 
-    <ng-template #errorTpl>
-      <nz-spin nzTip="Hệ thống đang tải dữ liệu ..." style="margin-top: 20px">
-        <nz-alert
-          nzType="info"
-          nzMessage="Tải dữ liệu"
-          nzDescription="Hiển thị thông tin về Request"
-        ></nz-alert>
-      </nz-spin>
-    </ng-template>
+    <nz-table
+      #normalRequestTable
+      *ngIf="!isAbnormalRequest"
+      [nzData]="['']"
+      nzBordered
+      nzSize="small"
+      nzFrontPagination="false"
+    >
+      <tbody>
+        <tr>
+          <td colspan="3" style="text-align: center">
+            <label style="font-size: 20px">Thông tin request</label>
+          </td>
+        </tr>
+        <tr>
+          <td><label>Request</label></td>
+          <td colspan="2">{{ request?.reqNo }}</td>
+        </tr>
+        <tr>
+          <td><label>QA Card</label></td>
+          <td colspan="2">{{ request?.qaCard }}</td>
+        </tr>
+        <tr>
+          <td><label>DateCode</label></td>
+          <td colspan="2">
+            <ul style="margin-left: -29px" *ngIf="request?.dateCode">
+              <li *ngFor="let a of request?.dateCode.split(';')">
+                {{ a.split(":")[0] }} : {{ a.split(":")[1] | number : "1.0-3" }}
+              </li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><label>Model</label></td>
+          <td colspan="2">{{ request?.model }}</td>
+        </tr>
+        <tr>
+          <td><label>Qty</label></td>
+          <td colspan="2">{{ request?.qty | number : "1.0-3" }}</td>
+        </tr>
+        <tr>
+          <td><label>Status</label></td>
+          <td style="color: green; font-weight: bold; text-decoration: underline;">Request đã OK do trong dây chuyền đã scan đủ NVL</td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <a routerLink="/admin/qa/qa-oqc-check/oqc-abnormal-requests"
+              >Đi đến trang danh sách request cần phê duyệt</a
+            >
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+  <div nz-col nzSpan="12">
+    <nz-collapse>
+      <nz-collapse-panel [nzHeader]="'Dữ liệu scan NVL'" [nzActive]="true">
+        <dx-data-grid
+          keyExpr="model"
+          #materialTbl
+          [dataSource]="materialScanned"
+          [showColumnLines]="true"
+          [showRowLines]="true"
+          [showBorders]="true"
+          [allowColumnResizing]="true"
+          [columnAutoWidth]="true"
+          [rowAlternationEnabled]="true"
+        >
+          <dxi-column
+            dataField="model"
+            caption="Part No"
+            alignment="left"
+          ></dxi-column>
+          <dxi-column
+            dataField="receiveQty"
+            caption="Qty (Kho trung chuyển)"
+            alignment="right"
+            dataType="number"
+            format="#,##0"
+          ></dxi-column>
+          <dxi-column
+            dataField="scanQty"
+            caption="Qty (Scan trong Line)"
+            cellTemplate="scanQtyTemplate"
+          ></dxi-column>
+          <div
+            *dxTemplate="let item of 'scanQtyTemplate'"
+            style="text-align: right"
+          >
+            <nz-tag
+              *ngIf="!item.data.scanQty || item.data.scanQty == 0"
+              [nzColor]="'red'"
+              [nzBordered]="false"
+              >Chưa scan NVL</nz-tag
+            >
+            {{ item.data.scanQty | number : "1.0-3" }}
+          </div>
+
+          <dxo-summary>
+            <dxi-total-item
+              column="receiveQty"
+              summaryType="sum"
+              valueFormat="#,##0"
+              displayFormat="Tổng: {0}"
+            ></dxi-total-item>
+
+            <dxi-total-item
+              column="scanQty"
+              summaryType="sum"
+              valueFormat="#,##0"
+              displayFormat="Tổng: {0}"
+            ></dxi-total-item>
+          </dxo-summary>
+
+          <dxo-paging [pageSize]="10"></dxo-paging>
+          <dxo-pager
+            [showPageSizeSelector]="true"
+            [allowedPageSizes]="[10, 25, 50, 100]"
+          >
+          </dxo-pager>
+        </dx-data-grid>
+      </nz-collapse-panel>
+    </nz-collapse>
   </div>
 </div>
+
+<ng-template #errorTpl>
+  <nz-spin nzTip="Hệ thống đang tải dữ liệu ..." style="margin-top: 20px">
+    <nz-alert
+      nzType="info"
+      nzMessage="Tải dữ liệu"
+      nzDescription="Hiển thị thông tin về Request"
+    ></nz-alert>
+  </nz-spin>
+</ng-template>
