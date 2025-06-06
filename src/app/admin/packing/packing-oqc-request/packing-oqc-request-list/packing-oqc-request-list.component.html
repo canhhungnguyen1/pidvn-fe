@@ -638,21 +638,17 @@
   nzTitle="Yêu cầu chấp nhận đặc biệt"
   nzDraggable
   nzCentered
+  nzWidth="800px"
 >
   <ng-container *nzModalContent>
     <span style="color: red; font-style: italic"
       >(*) Chú ý: Do trong dây chuyền chưa scan đủ NVL nên request cần phải chấp
       nhận đặc biệt để cho phép OQC đánh giá</span
     >
-    <!-- <textarea
-      rows="3"
-      nz-input
-      placeholder="Nhập ghi chú"
-      [(ngModel)]="requestCreate.remark"
-      maxlength="100"
-      [readOnly]="true"
-      style="margin-top: 5px"
-    ></textarea> -->
+    <ol style="color: red; font-style: italic">
+      <li>Packing cần xác nhận với dây chuyền về việc scan NVL.</li>
+      <li>Nếu đã xác nhận và cần phê duyệt cho request => click nút "Tạo yêu cầu đặc biệt"</li>
+    </ol>
     <dx-text-area
       label="Ghi chú"
       [(value)]="requestCreate.remark"
