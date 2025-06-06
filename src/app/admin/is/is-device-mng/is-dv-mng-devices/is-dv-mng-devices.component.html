@@ -11,7 +11,7 @@
       [columnAutoWidth]="true"
       [rowAlternationEnabled]="false"
       [hoverStateEnabled]="true"
-      (onCellPrepared)="onCellPreparedHistory($event)"
+      (onCellPrepared)="onCellPrepared($event)"
       (onExporting)="onExportDevices($event)"
       (onSelectionChanged)="onSelectionChanged($event)"
     >
@@ -124,6 +124,11 @@
         caption="Transaction Type"
       ></dxi-column>
       <dxi-column
+        dataField="transactionId"
+        caption="Transaction Id"
+        [visible]="false"
+      ></dxi-column>
+      <dxi-column
         dataField="transactionDate"
         caption="Ngày Giao/Nhận"
         dataType="date"
@@ -187,7 +192,7 @@
       [columnAutoWidth]="true"
       [rowAlternationEnabled]="false"
       [hoverStateEnabled]="true"
-      (onCellPrepared)="onCellPreparedHistory($event)"
+      (onCellPrepared)="onCellPrepared($event)"
     >
       <dxo-header-filter [visible]="true"></dxo-header-filter>
       <dxo-filter-row [visible]="true"></dxo-filter-row>
@@ -698,8 +703,8 @@
         ></nz-divider>
         <dx-data-grid
           keyExpr="id"
-          #devicesGrid
-          [dataSource]="[]"
+          #licenseGrid
+          [dataSource]="licenses"
           [showColumnLines]="true"
           [showRowLines]="true"
           [showBorders]="true"
@@ -707,6 +712,7 @@
           [columnAutoWidth]="true"
           [rowAlternationEnabled]="false"
           [hoverStateEnabled]="true"
+          (onCellPrepared)="onCellPrepared($event)"
           style="margin-top: -20px"
         >
           <dxo-header-filter [visible]="true"></dxo-header-filter>
@@ -716,8 +722,8 @@
           </dxo-column-chooser>
 
           <dxi-column dataField="name" caption="Phần mềm"></dxi-column>
-          <dxi-column dataField="startDate" caption="Ngày bắt đầu"></dxi-column>
-          <dxi-column dataField="endDate" caption="Ngày kết thúc"></dxi-column>
+          <dxi-column dataField="validFrom" caption="Ngày hiệu lực"></dxi-column>
+          <dxi-column dataField="validTo" caption="Ngày hết hạn"></dxi-column>
         </dx-data-grid>
       </div>
     </div>

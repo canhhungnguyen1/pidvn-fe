@@ -69,8 +69,6 @@ export class IsDeviceMngService {
     );
   }
 
-
-
   public createDevice(device: DeviceDto): Observable<DeviceDto> {
     return this.httpClient.post<DeviceDto>(
       `${this.baseUrl}/IS/DeviceManagement/Device`,
@@ -82,6 +80,12 @@ export class IsDeviceMngService {
     return this.httpClient.put<DeviceDto>(
       `${this.baseUrl}/IS/DeviceManagement/Device`,
       device
+    );
+  }
+
+  public getLicenses(deviceName: string): Observable<any> {
+    return this.httpClient.get(
+      `${this.baseUrl}/IS/DeviceManagement/Licenses?deviceName=${deviceName}`
     );
   }
 }

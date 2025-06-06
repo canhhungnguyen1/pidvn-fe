@@ -66,6 +66,7 @@ export class IsDvMngDevicesComponent implements OnInit {
   selectedTabIndex = 0;
   transactionSelected: any = {};
   isLoading: boolean = false;
+  licenses: any [] = []
 
   onSelectionChanged(event: any) {
     this.selectedRows = event.selectedRowsData;
@@ -152,7 +153,14 @@ export class IsDvMngDevicesComponent implements OnInit {
   openDeviceDetailModal(event: any) {
     this.deviceSelected = event;
     this.isOpenDeviceDetailModal = true;
-    console.log('openDeviceDetailModal: ', event);
+
+    this.isDeviceMngSvc.getLicenses(this.deviceSelected.name).subscribe(
+      response => {
+        this.licenses = response.result.reverse();
+      }
+    )
+
+
   }
 
   openTransactionModal(event: any) {
@@ -162,7 +170,7 @@ export class IsDvMngDevicesComponent implements OnInit {
   }
 
   // Style header
-  onCellPreparedHistory(e: any) {
+  onCellPrepared(e: any) {
     if (e.rowType === 'header') {
       e.cellElement.style.backgroundColor = '#000080'; // Change background color
       e.cellElement.style.color = '#ffffff'; // Change text color for better visibility
