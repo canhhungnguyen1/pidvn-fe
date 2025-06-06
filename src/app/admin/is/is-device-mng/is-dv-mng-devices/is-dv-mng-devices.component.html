@@ -85,7 +85,7 @@
         </dxo-header-filter>
       </dxi-column>
       <div *dxTemplate="let item of 'deviceNameTemplate'">
-        <a (click)="openDeviceDetailModal(item.data)">{{ item.data.name }}</a>
+        <a class="device-name" (click)="openDeviceDetailModal(item.data)" style="color: green;">{{ item.data.name }}</a>
       </div>
       <dxi-column dataField="type" caption="Loại thiết bị"></dxi-column>
       <dxi-column dataField="serial" caption="Serial"></dxi-column>
@@ -900,6 +900,28 @@
                 [labelMode]="'static'"
                 placeholder="Nhập ghi chú"
                 [(value)]="deviceSelected.remark"
+              ></dx-text-box>
+            </td>
+          </tr>
+          <tr>
+            <td><label>Thương hiệu</label></td>
+            <td>
+              <dx-text-box
+                labelLocation="left"
+                showColonAfterLabel="true"
+                [labelMode]="'static'"
+                placeholder="ex: DELL, HP, SAMSUNG ..."
+                [(value)]="deviceSelected.brand"
+              ></dx-text-box>
+            </td>
+            <td><label>FA Code</label></td>
+            <td>
+              <dx-text-box
+                labelLocation="left"
+                showColonAfterLabel="true"
+                [labelMode]="'static'"
+                placeholder="Nhập FA Code"
+                [(value)]="deviceSelected.faCode"
               ></dx-text-box>
             </td>
           </tr>

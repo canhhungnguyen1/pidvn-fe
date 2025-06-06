@@ -77,4 +77,11 @@ export class IsDeviceMngService {
       device
     );
   }
+
+  public updateDevice(device: DeviceDto): Observable<DeviceDto> {
+    return this.httpClient.put<DeviceDto>(
+      `${this.baseUrl}/IS/DeviceManagement/Device`,
+      device
+    );
+  }
 }

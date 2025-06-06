@@ -187,11 +187,13 @@ export class IsDvMngDevicesComponent implements OnInit {
   }
 
   openDeviceCRUDModal(data?: DeviceDto) {
+    
     this.deviceSelected = new DeviceDto();
     if (data) {
-      this.deviceSelected = data;
+      this.deviceSelected = {...data};
       this.titleDeviceCRUDModal = `Cập nhật thiết bị: ${data.name}`;
       this.isOpenDeviceCRUDModal = true;
+      console.log('openDeviceCRUDModal: ', this.deviceSelected);
       return;
     }
     this.titleDeviceCRUDModal = `Thêm thiết bị mới`;
@@ -199,6 +201,9 @@ export class IsDvMngDevicesComponent implements OnInit {
     this.deviceSelected.locationCode = 'Office';
     this.deviceSelected.picCode = '1001238'; // Default PIC code
     this.isOpenDeviceCRUDModal = true;
+
+
+    console.log('openDeviceCRUDModal: ', this.deviceSelected);
     return;
   }
 
@@ -240,5 +245,18 @@ export class IsDvMngDevicesComponent implements OnInit {
 
   updateDevice() {
     console.log('updateDevice: ', this.deviceSelected);
+
+    this.isDeviceMngSvc.updateDevice(this.deviceSelected).subscribe(
+      (response) => {
+        this.toastr.success('Đã cập nhật thông tin', 'Success');
+        this.getDevices();
+        this.isOpenDeviceCRUDModal = false;
+        this.isLoading = false;
+      },
+      (error) => {
+        this.toastr.error('Lỗi khi cập nhật thông tin', 'Error');
+        this.isLoading = false;
+      }
+    );
   }
 }
