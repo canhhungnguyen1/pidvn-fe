@@ -85,7 +85,12 @@
         </dxo-header-filter>
       </dxi-column>
       <div *dxTemplate="let item of 'deviceNameTemplate'">
-        <a class="device-name" (click)="openDeviceDetailModal(item.data)" style="color: green;">{{ item.data.name }}</a>
+        <a
+          class="device-name"
+          (click)="openDeviceDetailModal(item.data)"
+          style="color: green"
+          >{{ item.data.name }}</a
+        >
       </div>
       <dxi-column dataField="type" caption="Loại thiết bị"></dxi-column>
       <dxi-column dataField="serial" caption="Serial"></dxi-column>
@@ -218,19 +223,18 @@
               (onClick)="openTransactionModal({})"
             >
             </dx-button>
+            <dx-date-range-box
+              *nzSpaceItem
+              id="range-date"
+              style="margin-top: -5px"
+              [displayFormat]="'yyyy-MM-dd'"
+              style="width: 300px"
+              startDateLabel="Trans Date (Start)"
+              endDateLabel="Trans Date (End)"
+              labelMode="static"
+            >
+            </dx-date-range-box>
           </nz-space>
-        </dxi-item>
-        <dxi-item location="after">
-          <dx-date-range-box
-            id="range-date"
-            style="margin-top: -5px"
-            [displayFormat]="'yyyy/MM/dd'"
-            style="width: 300px"
-            startDateLabel="Trans Date (Start)"
-            endDateLabel="Trans Date (End)"
-            labelMode="static"
-          >
-          </dx-date-range-box>
         </dxi-item>
 
         <dxi-item name="exportButton" location="after" />
@@ -461,11 +465,11 @@
                 showColonAfterLabel="true"
                 [labelMode]="'floating'"
                 [displayExpr]="displayDeviceName"
-                valueExpr="name"
+                valueExpr="id"
                 [dataSource]="devices"
                 [showClearButton]="true"
                 placeholder="Chọn thiết bị"
-                [(value)]="transactionSelected.deviceName"
+                [(value)]="transactionSelected.deviceId"
                 [searchEnabled]="true"
               >
                 <dx-validator>
@@ -500,9 +504,23 @@
             </td>
           </tr>
           <tr>
-            <td><label>Dự kiến trả</label></td>
+            <td><label>Remark</label></td>
+            <td>
+              <dx-text-box
+                labelLocation="left"
+                showColonAfterLabel="true"
+                [labelMode]="'static'"
+                [(value)]="transactionSelected.remark"
+              ></dx-text-box>
+            </td>
+            <td>
+              <label *ngIf="transactionSelected.recordType == 'OUT'"
+                >Dự kiến trả</label
+              >
+            </td>
             <td>
               <dx-date-box
+                *ngIf="transactionSelected.recordType == 'OUT'"
                 [min]="today"
                 labelLocation="left"
                 showColonAfterLabel="true"
@@ -512,15 +530,6 @@
                 placeholder="Ngày trả (Dự kiến)"
                 [(value)]="transactionSelected.expectedReturnDate"
               ></dx-date-box>
-            </td>
-            <td><label>Remark</label></td>
-            <td>
-              <dx-text-box
-                labelLocation="left"
-                showColonAfterLabel="true"
-                [labelMode]="'static'"
-                [(value)]="transactionSelected.remark"
-              ></dx-text-box>
             </td>
           </tr>
         </tbody>
@@ -722,7 +731,10 @@
           </dxo-column-chooser>
 
           <dxi-column dataField="name" caption="Phần mềm"></dxi-column>
-          <dxi-column dataField="validFrom" caption="Ngày hiệu lực"></dxi-column>
+          <dxi-column
+            dataField="validFrom"
+            caption="Ngày hiệu lực"
+          ></dxi-column>
           <dxi-column dataField="validTo" caption="Ngày hết hạn"></dxi-column>
         </dx-data-grid>
       </div>
