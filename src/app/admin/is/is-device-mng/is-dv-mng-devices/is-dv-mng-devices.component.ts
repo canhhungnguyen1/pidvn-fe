@@ -1,12 +1,16 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { DxDataGridComponent, DxValidationGroupComponent } from 'devextreme-angular';
+import {
+  DxDataGridComponent,
+  DxValidationGroupComponent,
+} from 'devextreme-angular';
 import { exportDataGrid } from 'devextreme/excel_exporter';
 import { Workbook } from 'exceljs';
 import saveAs from 'file-saver';
 import { ToastrService } from 'ngx-toastr';
 import { IsDeviceMngService } from '../services/is-device-mng.service';
+import { DeviceDto } from '../models/DeviceDto';
 
 @Component({
   selector: 'app-is-dv-mng-devices',
@@ -18,6 +22,9 @@ export class IsDvMngDevicesComponent implements OnInit {
 
   @ViewChild(DxValidationGroupComponent, { static: false })
   transactionFormValidator!: DxValidationGroupComponent;
+
+  @ViewChild(DxValidationGroupComponent, { static: false })
+  deviceFormValidator!: DxValidationGroupComponent;
 
   constructor(
     private router: Router,
@@ -51,13 +58,15 @@ export class IsDvMngDevicesComponent implements OnInit {
   transactions: any[] = [];
   locations: any[] = [];
 
-  isOpenDeviceDetailModal: boolean = false;
   isOpenTransactionModal: boolean = false;
+  isOpenDeviceDetailModal: boolean = false;
+  isOpenDeviceCRUDModal: boolean = false;
+  titleDeviceCRUDModal!: string;
   selectedRows: any;
   selectedTabIndex = 0;
-
   transactionSelected: any = {};
   isLoading: boolean = false;
+  licenses: any [] = []
 
   onSelectionChanged(event: any) {
     this.selectedRows = event.selectedRowsData;
@@ -144,7 +153,14 @@ export class IsDvMngDevicesComponent implements OnInit {
   openDeviceDetailModal(event: any) {
     this.deviceSelected = event;
     this.isOpenDeviceDetailModal = true;
-    console.log('openDeviceDetailModal: ', event);
+
+    this.isDeviceMngSvc.getLicenses(this.deviceSelected.name).subscribe(
+      response => {
+        this.licenses = response.result.reverse();
+      }
+    )
+
+
   }
 
   openTransactionModal(event: any) {
@@ -154,7 +170,7 @@ export class IsDvMngDevicesComponent implements OnInit {
   }
 
   // Style header
-  onCellPreparedHistory(e: any) {
+  onCellPrepared(e: any) {
     if (e.rowType === 'header') {
       e.cellElement.style.backgroundColor = '#000080'; // Change background color
       e.cellElement.style.color = '#ffffff'; // Change text color for better visibility
@@ -178,7 +194,77 @@ export class IsDvMngDevicesComponent implements OnInit {
     });
   }
 
-  printLabel() {
-    console.log(this.selectedRows);
+  openDeviceCRUDModal(data?: DeviceDto) {
+    
+    this.deviceSelected = new DeviceDto();
+    if (data) {
+      this.deviceSelected = {...data};
+      this.titleDeviceCRUDModal = `Cập nhật thiết bị: ${data.name}`;
+      this.isOpenDeviceCRUDModal = true;
+      console.log('openDeviceCRUDModal: ', this.deviceSelected);
+      return;
+    }
+    this.titleDeviceCRUDModal = `Thêm thiết bị mới`;
+    this.deviceSelected = new DeviceDto();
+    this.deviceSelected.locationCode = 'Office';
+    this.deviceSelected.picCode = '1001238'; // Default PIC code
+    this.isOpenDeviceCRUDModal = true;
+
+
+    console.log('openDeviceCRUDModal: ', this.deviceSelected);
+    return;
+  }
+
+  saveDevice() {
+    const result = this.deviceFormValidator.instance.validate();
+    if (!result.isValid) {
+      this.toastr.warning('Vui lòng kiểm tra lại thông tin', 'Warning');
+      return;
+    }
+
+    this.isLoading = true;
+
+    if (this.deviceSelected.id) {
+      this.updateDevice();
+      return;
+    }
+
+    this.createDevice();
+    return;
+  }
+
+  createDevice() {
+    console.log('createDevice: ', this.deviceSelected);
+
+    this.isDeviceMngSvc.createDevice(this.deviceSelected).subscribe(
+      (response) => {
+        this.toastr.success('Đã tạo thiết bị mới', 'Success');
+        this.getDevices();
+        this.isOpenDeviceCRUDModal = false;
+        this.isLoading = false;
+      },
+      (error) => {
+        this.toastr.error('Lỗi khi tạo thiết bị mới', 'Error');
+        this.isLoading = false;
+      }
+    );
+
+  }
+
+  updateDevice() {
+    console.log('updateDevice: ', this.deviceSelected);
+
+    this.isDeviceMngSvc.updateDevice(this.deviceSelected).subscribe(
+      (response) => {
+        this.toastr.success('Đã cập nhật thông tin', 'Success');
+        this.getDevices();
+        this.isOpenDeviceCRUDModal = false;
+        this.isLoading = false;
+      },
+      (error) => {
+        this.toastr.error('Lỗi khi cập nhật thông tin', 'Error');
+        this.isLoading = false;
+      }
+    );
   }
 }

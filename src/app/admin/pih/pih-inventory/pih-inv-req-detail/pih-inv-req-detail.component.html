@@ -322,21 +322,22 @@
               displayExpr="name"
               valueExpr="id"
               [dataSource]="[
-                { id: 'CX', name: 'Hàng chờ xuất' },
-                { id: 'CXN', name: 'Hàng chờ xác nhận' },
-                { id: 'CST', name: 'Hàng chờ sorting' },
-                { id: 'CST', name: 'Hàng WH trả về' },
-                { id: 'NG', name: 'Hàng NG' },
-                { id: 'RM', name: 'NVL thô' },
-                { id: 'TC', name: 'NVL thô - tái chế' },
-                { id: 'PIH_WH', name: 'NVL OK' },
-                { id: 'PIH_WH_SP', name: 'NVL chờ xử lý' }
+                { id: 'CX', name: ' Hàng chờ xuất: (CX)' },
+                { id: 'CXN', name: ' Hàng chờ xác nhận: (CXN)' },
+                { id: 'CST', name: ' Hàng chờ sorting: (CST)' },
+                { id: 'CST', name: ' Hàng WH trả về: (CST)' },
+                { id: 'NG', name: ' Hàng NG: (NG)' },
+                { id: 'RM', name: ' NVL thô: (RM)' },
+                { id: 'TC', name: ' NVL thô - tái chế: (TC)' },
+                { id: 'PIH_WH', name: ' NVL OK: (PIH_WH)' },
+                { id: 'PIH_WH_SP', name: ' NVL chờ xử lý: (PIH_WH_SP)' }
               ]"
               [(value)]="goodsType"
               (onValueChanged)="onChangeGoodsType($event)"
+              
             ></dx-select-box>
           </th>
-          <th>
+          <th style="width: 20%;">
             <dx-select-box
               label="Xe hàng"
               labelLocation="left"
@@ -391,7 +392,7 @@
               (onValueChanged)="onChangeMaterialTruck($event)"
             ></dx-select-box>
           </th>
-          <th>
+          <th style="width: 20%;">
             <input
               id="labelIpt"
               #labelIpt

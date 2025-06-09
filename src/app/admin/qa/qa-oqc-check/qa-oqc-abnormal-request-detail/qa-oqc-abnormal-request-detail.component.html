@@ -161,6 +161,10 @@
           <td colspan="2">{{ request?.qty | number : "1.0-3" }}</td>
         </tr>
         <tr>
+          <td><label>Creator</label></td>
+          <td colspan="2">{{ request?.createdByName }} - {{ request?.createdBy }}</td>
+        </tr>
+        <tr>
           <td><label>Status</label></td>
           <td style="color: green; font-weight: bold; text-decoration: underline;">Request đã OK do trong dây chuyền đã scan đủ NVL</td>
         </tr>

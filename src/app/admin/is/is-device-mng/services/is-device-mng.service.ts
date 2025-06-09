@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { DeviceDto } from '../models/DeviceDto';
 
 @Injectable({
   providedIn: 'root',
@@ -65,6 +66,26 @@ export class IsDeviceMngService {
   public getInventoryData(requestId: any): Observable<any> {
     return this.httpClient.get(
       `${this.baseUrl}/IS/DeviceManagement/Inventory/Data?requestId=${requestId}`
+    );
+  }
+
+  public createDevice(device: DeviceDto): Observable<DeviceDto> {
+    return this.httpClient.post<DeviceDto>(
+      `${this.baseUrl}/IS/DeviceManagement/Device`,
+      device
+    );
+  }
+
+  public updateDevice(device: DeviceDto): Observable<DeviceDto> {
+    return this.httpClient.put<DeviceDto>(
+      `${this.baseUrl}/IS/DeviceManagement/Device`,
+      device
+    );
+  }
+
+  public getLicenses(deviceName: string): Observable<any> {
+    return this.httpClient.get(
+      `${this.baseUrl}/IS/DeviceManagement/Licenses?deviceName=${deviceName}`
     );
   }
 }
