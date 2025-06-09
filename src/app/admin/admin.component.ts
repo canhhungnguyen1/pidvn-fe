@@ -312,6 +312,10 @@ export class AdminComponent implements OnInit {
   relayCqmrQualityLink!: string;
   relayCqmrLostTimeLink!: string
 
+  wfhISMLink!: string;
+
+
+
   ngOnInit(): void {
     let accessToken = localStorage.getItem('accessToken');
     let token2 = localStorage.getItem('token2');
@@ -397,6 +401,8 @@ export class AdminComponent implements OnInit {
     this.relayCqmrQuantityLink = `${this.baseUrlJava}/pidvn/admin?name=pidvn_cqmr_qty&accessToken=${token2}`;
     this.relayCqmrQualityLink = `${this.baseUrlJava}/pidvn/admin?name=pidvn_cqmr_quality&accessToken=${token2}`;
     this.relayCqmrLostTimeLink = `${this.baseUrlJava}/pidvn/admin?name=pidvn_losstime_logs&accessToken=${token2}`;
+
+    this.wfhISMLink = `${this.baseUrlJava}/pidvn/admin?name=wfh_self_inspection_checklist&accessToken=${token2}`;
   }
 
   weatherInfo: any;

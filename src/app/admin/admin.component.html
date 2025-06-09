@@ -44,7 +44,7 @@
             (click)="onHideSidebar()"
             target="_blank"
           >
-          Common Approval
+            Common Approval
           </a>
         </span>
       </li>
@@ -81,11 +81,25 @@
             (click)="onHideSidebar()"
             target="_blank"
           >
-          Dynamic System
+            Dynamic System
           </a>
         </span>
       </li>
 
+      <li nz-submenu nzTitle="ISM" nzIcon="security-scan">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a
+              class="externalLink"
+              [href]="wfhISMLink"
+              target="blank"
+              (click)="onHideSidebar()"
+            >
+              Work from Home (ISM)
+            </a>
+          </li>
+        </ul>
+      </li>
 
       <li nz-menu-item nzTooltipPlacement="right" nzMatchRouter>
         <i nz-icon nzType="upload"></i>
@@ -118,6 +132,7 @@
           >
         </span>
       </li>
+      
       <li nz-submenu nzTitle="TRUY VẾT" nzIcon="search">
         <ul>
           <li nz-menu-item nzMatchRouter>
@@ -254,28 +269,31 @@
           <li nz-submenu nzTitle="CQMR">
             <ul>
               <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
-                <a class="externalLink" [href]="relayCqmrQuantityLink" target="_blank"
+                <a
+                  class="externalLink"
+                  [href]="relayCqmrQuantityLink"
+                  target="_blank"
                   >Quantity</a
                 >
               </li>
               <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
-                <a class="externalLink" [href]="relayCqmrQualityLink" target="_blank"
+                <a
+                  class="externalLink"
+                  [href]="relayCqmrQualityLink"
+                  target="_blank"
                   >Quality</a
                 >
               </li>
               <li nz-menu-item nzMatchRouter (click)="onHideSidebar()">
-                <a class="externalLink" [href]="relayCqmrLostTimeLink" target="_blank"
+                <a
+                  class="externalLink"
+                  [href]="relayCqmrLostTimeLink"
+                  target="_blank"
                   >Loss Time</a
                 >
               </li>
             </ul>
           </li>
-
-
-
-
-
-
 
           <li nz-submenu nzTitle="Relay Process Recording">
             <ul>
@@ -868,7 +886,7 @@
               ICP Data
             </a>
           </li>
-          
+
           <li nz-menu-item nzMatchRouter>
             <a
               routerLink="/admin/qa/qa-material-checksheet"
@@ -877,8 +895,6 @@
               Check Sheet
             </a>
           </li>
-
-
         </ul>
       </li>
 
@@ -892,9 +908,7 @@
             >
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a
-              routerLink="/admin/ie/machine-document"
-              (click)="onHideSidebar()"
+            <a routerLink="/admin/ie/machine-document" (click)="onHideSidebar()"
               >Quản lý thiết bị</a
             >
           </li>
