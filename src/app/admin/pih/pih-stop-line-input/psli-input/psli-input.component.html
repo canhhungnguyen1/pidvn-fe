@@ -1,0 +1,203 @@
+<dx-data-grid
+  keyExpr="id"
+  #devicesGrid
+  [dataSource]="['']"
+  [showColumnLines]="true"
+  [showRowLines]="true"
+  [showBorders]="true"
+  [allowColumnResizing]="true"
+  [columnAutoWidth]="true"
+  [rowAlternationEnabled]="false"
+  [hoverStateEnabled]="true"
+  (onCellPrepared)="onCellPrepared($event)"
+  style="margin-top: 15px"
+>
+  <dxo-header-filter [visible]="true"></dxo-header-filter>
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
+  <dxo-export [enabled]="true"></dxo-export>
+
+  <dxo-column-chooser
+    #columnChooser
+    [enabled]="true"
+    [mode]="'select'"
+    [title]="'Cột hiển thị'"
+  >
+  </dxo-column-chooser>
+
+  <dxo-toolbar>
+    <dxi-item location="before">
+      <dx-button
+        stylingMode="contained"
+        type="success"
+        icon="plus"
+        text="Nhập dữ liệu"
+        (onClick)="isOpenInputModal = true"
+      >
+      </dx-button>
+    </dxi-item>
+
+    <dxi-item location="after">
+      <dx-date-range-box
+        id="range-date"
+        style="margin-top: -15px"
+        [displayFormat]="'yyyy-MM-dd'"
+        style="width: 300px"
+        startDateLabel="Ngày tạo (Start)"
+        endDateLabel="Ngày tạo (End)"
+        labelMode="static"
+      >
+      </dx-date-range-box>
+    </dxi-item>
+    <dxi-item location="after">
+      <dx-button
+        [stylingMode]="'outlined'"
+        icon="search"
+        text=""
+        type="default"
+      >
+      </dx-button>
+    </dxi-item>
+    <dxi-item name="exportButton" location="after" />
+    <dxi-item name="columnChooserButton" location="after"></dxi-item>
+  </dxo-toolbar>
+
+  <dxi-column dataField="type" caption="Ngày"></dxi-column>
+  <dxi-column dataField="lineName" caption="Line"></dxi-column>
+  <dxi-column dataField="model" caption="Model"></dxi-column>
+  <dxi-column dataField="group" caption="Nhớm"></dxi-column>
+</dx-data-grid>
+
+<nz-modal
+  [(nzVisible)]="isOpenInputModal"
+  [nzTitle]="'Khu vực: ' + userArea?.productTypeName"
+  (nzOnCancel)="isOpenInputModal = false"
+  [nzWidth]="'100vw'"
+  nzDraggable
+>
+  <ng-container *nzModalContent>
+    <nz-table
+      [nzData]="['']"
+      nzBordered
+      nzSize="small"
+      [nzFrontPagination]="false"
+    >
+      <tbody>
+        <tr>
+          <td style="width: 12%;"><label>Item</label></td>
+          <td colspan="3">
+            <nz-select
+              nzPlaceHolder="Chọn hạng mục"
+              nzShowSearch
+              nzAllowClear
+              style="width: 100%"
+              [(ngModel)]="stopTimeCreate.item"
+              (ngModelChange)="onChangeStopItem($event)"
+            >
+              <nz-option
+                *ngFor="let item of stopItems"
+                [nzValue]="item.id"
+                [nzLabel]="item.name"
+              ></nz-option>
+            </nz-select>
+          </td>
+        </tr>
+        <tr>
+          <td><label>Group</label></td>
+          <td>
+            <input nz-input placeholder="Nhóm" readonly [(ngModel)]="itemSelected.stopGroupName"/>
+          </td>
+          <td><label>Type</label></td>
+          <td>
+            <input nz-input placeholder="Loại" readonly [(ngModel)]="itemSelected.stopTypeName"/>
+          </td>
+        </tr>
+        <tr>
+          <td><label>Máy</label></td>
+          <td>
+            <nz-select
+              nzPlaceHolder="Chọn máy"
+              nzShowSearch
+              nzAllowClear
+              style="width: 100%"
+            >
+              <nz-option
+                *ngFor="let line of lines"
+                [nzValue]="line.id"
+                [nzLabel]="line.name"
+              ></nz-option>
+            </nz-select>
+          </td>
+          <td><label>Ca</label></td>
+          <td>
+            <nz-select
+              nzPlaceHolder="Chọn ca làm"
+              nzShowSearch
+              nzAllowClear
+              style="width: 100%"
+            >
+              <nz-option
+                *ngFor="let shift of shifts"
+                [nzValue]="shift.id"
+                [nzLabel]="shift.name"
+              ></nz-option>
+            </nz-select>
+          </td>
+        </tr>
+        <tr>
+          <td><label>Thời gian</label></td>
+          <td>
+            <nz-date-picker
+              nzShowTime
+              nzFormat="yyyy-MM-dd HH:mm"
+              nzPlaceHolder="Bắt đầu"
+              style="width: 45%"
+            ></nz-date-picker>
+            ->
+            <nz-date-picker
+              nzShowTime
+              nzFormat="yyyy-MM-dd HH:mm"
+              nzPlaceHolder="Kết thúc"
+              style="width: 45%"
+            ></nz-date-picker>
+          </td>
+          <td><label>Model</label></td>
+          <td>
+            <nz-select
+              nzPlaceHolder="Chọn Model"
+              nzShowSearch
+              nzAllowClear
+              style="width: 100%"
+            >
+              <nz-option
+                *ngFor="let model of models"
+                [nzValue]="model.id"
+                [nzLabel]="model.name"
+              ></nz-option>
+            </nz-select>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label>Ghi chú</label>
+          </td>
+          <td colspan="3">
+            <input nz-input placeholder="Nhập ghi chú" />
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="isOpenInputModal = false">
+      Đóng
+    </button>
+    <button
+      nz-button
+      nzType="primary"
+      (click)="isOpenInputModal = false"
+      [nzLoading]="isLoading"
+    >
+      Lưu
+    </button>
+  </div>
+</nz-modal>
