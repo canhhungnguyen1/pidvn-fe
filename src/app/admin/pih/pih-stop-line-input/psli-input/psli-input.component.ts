@@ -42,7 +42,8 @@ export class PsliInputComponent implements OnInit, AfterViewInit {
   stopItems: any[] = []; // Danh sách các Item dừng máy
   stopTimes: any[] = []; // Danh sách dừng máy
   itemSelected: any = {}; // Lưu thông tin item khi chọn
-  stopTimeCreate: any = {};
+
+  stopTimeSelected: any = {}; 
 
   searchVo: any = {
     dateRange: [
@@ -65,6 +66,8 @@ export class PsliInputComponent implements OnInit, AfterViewInit {
 
   /**
    * Kiểm tra user đang ở khu vực nào
+   * Lấy các master data cần thiết để hiển thị
+   * Danh sach các Line, Model, Item dừng máy, Ca làm việc
    */
   getUserArea() {
     this.pihStopLineSvc.getUserArea(this.jwt.Username).subscribe((response) => {
@@ -73,7 +76,6 @@ export class PsliInputComponent implements OnInit, AfterViewInit {
       this.getLines(this.userArea.productTypeId);
       this.getModels(this.userArea.productTypeId);
       this.getShifts();
-
       console.log('getUserArea: ', response);
     });
   }

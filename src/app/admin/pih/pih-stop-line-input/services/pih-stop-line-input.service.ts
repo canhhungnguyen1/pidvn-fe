@@ -45,4 +45,10 @@ export class PihStopLineInputService {
       searchVo
     );
   }
+
+  public getUsersArea(): Observable<any> {
+    return this.httpClient.get(
+      `${this.baseUrl}/PIH/StopLine/v2/UsersArea`
+    );
+  }
 }

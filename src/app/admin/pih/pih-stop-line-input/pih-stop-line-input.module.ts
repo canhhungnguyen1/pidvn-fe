@@ -28,11 +28,13 @@ import { PsliMenuComponent } from './psli-menu/psli-menu.component';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { FormsModule } from '@angular/forms';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { PsliUserAreaComponent } from './psli-user-area/psli-user-area.component';
 @NgModule({
   declarations: [
     PihStopLineInputComponent,
     PsliMenuComponent,
     PsliInputComponent,
+    PsliUserAreaComponent
   ],
   imports: [
     CommonModule,
