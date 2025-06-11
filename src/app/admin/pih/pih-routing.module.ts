@@ -15,6 +15,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'pih-stop-line/v2',
+        loadChildren: () =>
+          import('./pih-stop-line-input/pih-stop-line-input.module').then(
+            (m) => m.PihStopLineInputModule
+          ),
+      },
+      {
         path: 'pih-process-recording',
         loadChildren: () =>
           import('./pih-process-recording/pih-process-recording.module').then(

@@ -1,0 +1,26 @@
+.item {
+  padding: 20px 0px;
+
+  .title {
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+  }
+}
+
+.item:hover {
+  cursor: pointer;
+}
+
+// .item.receive {
+//   background: #3498db;
+// }
+.item.setup-area {
+  background-color: #e07e37;
+}
+.item.input-stop-line {
+  background-color: #63d171;
+}
+// .item.date_code {
+//   background-color: #959595c7;
+// }
