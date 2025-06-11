@@ -33,6 +33,10 @@ export class PihStopLineInputService {
     return this.httpClient.get(`${this.baseUrl}/PIH/StopLine/v2/Shifts`);
   }
 
+  public getProductTypes(): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/PIH/StopLine/v2/ProductTypes`);
+  }
+
   public getStopItems(productTypeId: number): Observable<any> {
     return this.httpClient.get(
       `${this.baseUrl}/PIH/StopLine/v2/StopItems?productTypeId=${productTypeId}`
@@ -49,6 +53,12 @@ export class PihStopLineInputService {
   public getUsersArea(): Observable<any> {
     return this.httpClient.get(
       `${this.baseUrl}/PIH/StopLine/v2/UsersArea`
+    );
+  }
+
+  public getUsers(): Observable<any> {
+    return this.httpClient.get(
+      `${this.baseUrl}/PIH/StopLine/v2/Users`
     );
   }
 }

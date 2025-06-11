@@ -1,7 +1,7 @@
 <dx-data-grid
   keyExpr="userCode"
   #userAreaGrid
-  [dataSource]="users"
+  [dataSource]="usersArea"
   [showColumnLines]="true"
   [showRowLines]="true"
   [showBorders]="true"
@@ -23,10 +23,32 @@
   >
   </dxo-column-chooser>
 
+  <dxo-editing
+    mode="popup"
+    [allowUpdating]="true"
+    [allowAdding]="true"
+    [allowDeleting]="true"
+  >
+    <dxo-popup
+      title="Phân quyền User nhập dừng máy"
+      [showTitle]="true"
+    >
+    </dxo-popup>
+    <dxo-form>
+      <dxi-item dataField="userCode"></dxi-item>
+      <dxi-item dataField="productTypeId"></dxi-item>
+    </dxo-form>
+  </dxo-editing>
 
-  <dxi-column dataField="userName" caption="Họ tên"></dxi-column>
-  <dxi-column dataField="userCode" caption="ID"></dxi-column>
+  <dxi-column dataField="userName" caption="User (Name)"></dxi-column>
+  <dxi-column dataField="userCode" caption="User (ID)">
+    <dxo-lookup [dataSource]="users" displayExpr="userName" valueExpr="userCode">
+    </dxo-lookup>
+  </dxi-column>
   <dxi-column dataField="productTypeName" caption="Tên khu vực"></dxi-column>
-  <dxi-column dataField="productTypeId" caption="Mã khu vực"></dxi-column>
+  <dxi-column dataField="productTypeId" caption="Mã khu vực">
+    <dxo-lookup [dataSource]="productTypes" displayExpr="name" valueExpr="id">
+    </dxo-lookup>
+  </dxi-column>
   <dxi-column dataField="remark" caption="Remark"></dxi-column>
 </dx-data-grid>
