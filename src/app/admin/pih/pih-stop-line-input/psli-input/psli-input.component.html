@@ -52,6 +52,7 @@
     </dxi-item>
     <dxi-item location="after">
       <dx-button
+        *ngIf="!isLoading"
         [stylingMode]="'outlined'"
         icon="search"
         text=""
@@ -59,6 +60,7 @@
         (onClick)="getStopTimes()"
       >
       </dx-button>
+      <nz-spin *ngIf="isLoading" nzSimple></nz-spin>
     </dxi-item>
     <dxi-item name="exportButton" location="after" />
     <dxi-item name="columnChooserButton" location="after"></dxi-item>

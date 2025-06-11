@@ -27,6 +27,7 @@ import { PsliInputComponent } from './psli-input/psli-input.component';
 import { PsliMenuComponent } from './psli-menu/psli-menu.component';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { FormsModule } from '@angular/forms';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 @NgModule({
   declarations: [
     PihStopLineInputComponent,
@@ -54,7 +55,8 @@ import { FormsModule } from '@angular/forms';
     NzTableModule,
     NzSelectModule,
     NzDatePickerModule,
-    NzInputModule
+    NzInputModule,
+    NzSpinModule
   ],
 })
 export class PihStopLineInputModule {}

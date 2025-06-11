@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { ToastrService } from 'ngx-toastr';
 import { PihStopLineInputService } from '../services/pih-stop-line-input.service';
@@ -16,7 +16,8 @@ export class PsliInputComponent implements OnInit, AfterViewInit {
   constructor(
     private toastr: ToastrService,
     private jwtHelperSvc: JwtHelperService,
-    private pihStopLineSvc: PihStopLineInputService
+    private pihStopLineSvc: PihStopLineInputService,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   jwt!: any;
@@ -26,13 +27,13 @@ export class PsliInputComponent implements OnInit, AfterViewInit {
   isOpenInputModal: boolean = false;
   isLoading: boolean = false;
 
-  lines: any[] = [];
-  models: any[] = [];
-  shifts: any[] = [];
-  stopItems: any[] = [];
-  stopTimes: any[] = [];
+  lines: any[] = []; // Danh sách các Line
+  models: any[] = []; // Danh sách các Model
+  shifts: any[] = []; // Danh sách ca làm việc
+  stopItems: any[] = []; // Danh sách các Item dừng máy
+  stopTimes: any[] = []; // Danh sách dừng máy
+  itemSelected: any = {}; // Lưu thông tin item khi chọn
   stopTimeCreate: any = {};
-  itemSelected: any = {};
 
   searchVo: any = {
     dateRange: [
@@ -50,6 +51,7 @@ export class PsliInputComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.getUserArea();
     this.getStopTimes();
+    this.cdr.detectChanges();
   }
 
   /**
@@ -57,10 +59,8 @@ export class PsliInputComponent implements OnInit, AfterViewInit {
    */
   getUserArea() {
     this.pihStopLineSvc.getUserArea(this.jwt.Username).subscribe((response) => {
-      // TODO
-
+      
       this.userArea = response.result;
-
       this.getStopItems(this.userArea.productTypeId);
       this.getLines(this.userArea.productTypeId);
       this.getModels(this.userArea.productTypeId);
@@ -113,15 +113,18 @@ export class PsliInputComponent implements OnInit, AfterViewInit {
     this.stopTimesGrid?.instance.beginCustomLoading(
       `Đang tải dữ liệu, vui lòng đợi...`
     )
+    this.isLoading = true;
 
     this.pihStopLineSvc.getStopTimes(this.searchVo).subscribe((response) => {
       this.stopTimes = response.result;
       console.log('getStopTimes: ', this.stopTimes);
       this.stopTimesGrid?.instance.endCustomLoading();
+      this.isLoading = false;
     }, (error) => {
       this.toastr.error('Lỗi khi tải dữ liệu', 'Error');
       console.error('Error fetching stop times:', error);
       this.stopTimesGrid?.instance.endCustomLoading();
+      this.isLoading = false;
     });
   }
 
