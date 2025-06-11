@@ -1,7 +1,7 @@
 <dx-data-grid
   keyExpr="id"
-  #devicesGrid
-  [dataSource]="['']"
+  #stopTimesGrid
+  [dataSource]="stopTimes"
   [showColumnLines]="true"
   [showRowLines]="true"
   [showBorders]="true"
@@ -31,7 +31,7 @@
         type="success"
         icon="plus"
         text="Nhập dữ liệu"
-        (onClick)="isOpenInputModal = true"
+        (onClick)="openInputModal()"
       >
       </dx-button>
     </dxi-item>
@@ -42,9 +42,11 @@
         style="margin-top: -15px"
         [displayFormat]="'yyyy-MM-dd'"
         style="width: 300px"
-        startDateLabel="Ngày tạo (Start)"
-        endDateLabel="Ngày tạo (End)"
+        startDateLabel="Start time"
+        endDateLabel="End time"
         labelMode="static"
+        [(startDate)]="searchVo.dateRange[0]"
+        [(endDate)]="searchVo.dateRange[1]"
       >
       </dx-date-range-box>
     </dxi-item>
@@ -54,6 +56,7 @@
         icon="search"
         text=""
         type="default"
+        (onClick)="getStopTimes()"
       >
       </dx-button>
     </dxi-item>
@@ -61,10 +64,60 @@
     <dxi-item name="columnChooserButton" location="after"></dxi-item>
   </dxo-toolbar>
 
-  <dxi-column dataField="type" caption="Ngày"></dxi-column>
+  <dxi-column
+    caption="Date"
+    cellTemplate="dateTemplate"
+    alignment="center"
+  >
+  </dxi-column>
+  <div *dxTemplate="let item of 'dateTemplate'" style="text-align: center">
+    {{ item.data.startTime | date:'yyyy-MM-dd' }}
+  </div>
   <dxi-column dataField="lineName" caption="Line"></dxi-column>
   <dxi-column dataField="model" caption="Model"></dxi-column>
-  <dxi-column dataField="group" caption="Nhớm"></dxi-column>
+  <dxi-column dataField="stopGroupName" caption="Nhóm"></dxi-column>
+  <dxi-column dataField="stopTypeName" caption="Loại"></dxi-column>
+  <dxi-column dataField="stopItemName" caption="Hạng mục"></dxi-column>
+  <dxi-column dataField="numBox" caption="Số hộp"></dxi-column>
+  <dxi-column
+    dataField="startTime"
+    dataType="date"
+    caption="Start Time"
+    format="yyyy-MM-dd HH:mm"
+  ></dxi-column>
+  <dxi-column
+    dataField="stopTime"
+    dataType="date"
+    caption="End Time"
+    format="yyyy-MM-dd HH:mm"
+  ></dxi-column>
+  <dxi-column dataField="duration" caption="Total Time"></dxi-column>
+  <dxi-column dataField="shiftName" caption="Ca làm việc"></dxi-column>
+  <dxi-column dataField="userName" caption="Nhân viên"></dxi-column>
+  <dxi-column dataField="remark" caption="Ghi chú"></dxi-column>
+  <dxi-column
+    caption="Action"
+    cellTemplate="cellTemplate"
+    alignment="center"
+    [fixed]="true"
+    fixedPosition="right"
+  >
+  </dxi-column>
+  <div *dxTemplate="let cell of 'cellTemplate'" style="text-align: center">
+    <a
+      style="color: red"
+      nz-popconfirm
+      nzPopconfirmTitle="Bạn có chắc chắn muốn xóa không ?"
+    >
+      Xóa
+    </a>
+  </div>
+
+  <dxo-paging [pageSize]="10"></dxo-paging>
+  <dxo-pager
+    [showPageSizeSelector]="true"
+    [allowedPageSizes]="[10, 25, 50, 100]"
+  ></dxo-pager>
 </dx-data-grid>
 
 <nz-modal
@@ -76,6 +129,7 @@
 >
   <ng-container *nzModalContent>
     <nz-table
+      id="input-form"
       [nzData]="['']"
       nzBordered
       nzSize="small"
@@ -83,7 +137,7 @@
     >
       <tbody>
         <tr>
-          <td style="width: 12%;"><label>Item</label></td>
+          <td style="width: 10%"><label>Item</label></td>
           <td colspan="3">
             <nz-select
               nzPlaceHolder="Chọn hạng mục"
@@ -104,11 +158,21 @@
         <tr>
           <td><label>Group</label></td>
           <td>
-            <input nz-input placeholder="Nhóm" readonly [(ngModel)]="itemSelected.stopGroupName"/>
+            <input
+              nz-input
+              placeholder="Nhóm"
+              readonly
+              [(ngModel)]="itemSelected.stopGroupName"
+            />
           </td>
           <td><label>Type</label></td>
           <td>
-            <input nz-input placeholder="Loại" readonly [(ngModel)]="itemSelected.stopTypeName"/>
+            <input
+              nz-input
+              placeholder="Loại"
+              readonly
+              [(ngModel)]="itemSelected.stopTypeName"
+            />
           </td>
         </tr>
         <tr>
@@ -144,7 +208,7 @@
           </td>
         </tr>
         <tr>
-          <td><label>Thời gian</label></td>
+          <td><label>Time</label></td>
           <td>
             <nz-date-picker
               nzShowTime
@@ -178,10 +242,16 @@
         </tr>
         <tr>
           <td>
-            <label>Ghi chú</label>
+            <label>Remark</label>
           </td>
-          <td colspan="3">
+          <td>
             <input nz-input placeholder="Nhập ghi chú" />
+          </td>
+          <td>
+            <label>Số hộp</label>
+          </td>
+          <td>
+            <input nz-input placeholder="Nhập số hộp" />
           </td>
         </tr>
       </tbody>

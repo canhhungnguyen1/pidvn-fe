@@ -38,4 +38,11 @@ export class PihStopLineInputService {
       `${this.baseUrl}/PIH/StopLine/v2/StopItems?productTypeId=${productTypeId}`
     );
   }
+
+  public getStopTimes(searchVo: any): Observable<any> {
+    return this.httpClient.post(
+      `${this.baseUrl}/PIH/StopLine/v2/StopTimes`,
+      searchVo
+    );
+  }
 }

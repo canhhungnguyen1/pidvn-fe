@@ -1,14 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { ToastrService } from 'ngx-toastr';
 import { PihStopLineInputService } from '../services/pih-stop-line-input.service';
+import { DxDataGridComponent } from 'devextreme-angular';
 
 @Component({
   selector: 'app-psli-input',
   templateUrl: './psli-input.component.html',
   styleUrl: './psli-input.component.scss',
 })
-export class PsliInputComponent implements OnInit {
+export class PsliInputComponent implements OnInit, AfterViewInit {
+  @ViewChild(DxDataGridComponent, { static: false })
+  stopTimesGrid!: DxDataGridComponent;
+
   constructor(
     private toastr: ToastrService,
     private jwtHelperSvc: JwtHelperService,
@@ -26,15 +30,26 @@ export class PsliInputComponent implements OnInit {
   models: any[] = [];
   shifts: any[] = [];
   stopItems: any[] = [];
-
+  stopTimes: any[] = [];
   stopTimeCreate: any = {};
+  itemSelected: any = {};
+
+  searchVo: any = {
+    dateRange: [
+      new Date(new Date().setDate(new Date().getDate() - 7)),
+      new Date(),
+    ],
+  };
 
   ngOnInit(): void {
     this.jwt = this.jwtHelperSvc.decodeToken(
       localStorage.getItem('accessToken')?.toString()
     );
+  }
 
+  ngAfterViewInit() {
     this.getUserArea();
+    this.getStopTimes();
   }
 
   /**
@@ -93,25 +108,43 @@ export class PsliInputComponent implements OnInit {
     });
   }
 
+  getStopTimes() {
 
-  itemSelected: any = {}
+    this.stopTimesGrid?.instance.beginCustomLoading(
+      `Đang tải dữ liệu, vui lòng đợi...`
+    )
+
+    this.pihStopLineSvc.getStopTimes(this.searchVo).subscribe((response) => {
+      this.stopTimes = response.result;
+      console.log('getStopTimes: ', this.stopTimes);
+      this.stopTimesGrid?.instance.endCustomLoading();
+    }, (error) => {
+      this.toastr.error('Lỗi khi tải dữ liệu', 'Error');
+      console.error('Error fetching stop times:', error);
+      this.stopTimesGrid?.instance.endCustomLoading();
+    });
+  }
+
+  openInputModal() {
+    if (!this.userArea) {
+      this.toastr.warning(
+        'User chưa được phân vào khu vực nhập dừng máy',
+        'Warning'
+      );
+      return;
+    }
+    this.isOpenInputModal = true;
+  }
 
   /**
    * Khi chọn Item
-   * @param event 
+   * @param event
    */
   onChangeStopItem(event: any) {
-
     console.log('onChangeStopItem: ', event);
-    
-    this.itemSelected = this.stopItems.find(item => item.id === event);
+
+    this.itemSelected = this.stopItems.find((item) => item.id === event);
   }
-
-  
-
-
-
-
 
   // Style header
   onCellPrepared(e: any) {
