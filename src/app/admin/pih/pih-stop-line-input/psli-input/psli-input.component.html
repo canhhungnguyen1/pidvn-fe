@@ -68,14 +68,11 @@
   </dxo-toolbar>
 
   <dxi-column
+    dataField="dateStart"
+    dataType="date"
     caption="Date"
-    cellTemplate="dateTemplate"
-    alignment="center"
-  >
-  </dxi-column>
-  <div *dxTemplate="let item of 'dateTemplate'" style="text-align: center">
-    {{ item.data.startTime | date:'yyyy-MM-dd' }}
-  </div>
+    format="yyyy-MM-dd"
+  ></dxi-column>
   <dxi-column dataField="lineName" caption="Line"></dxi-column>
   <dxi-column dataField="model" caption="Model"></dxi-column>
   <dxi-column dataField="stopGroupName" caption="Nhóm"></dxi-column>

@@ -124,7 +124,13 @@ export class PsliInputComponent implements OnInit, AfterViewInit {
 
     this.pihStopLineSvc.getStopTimes(this.searchVo).subscribe(
       (response) => {
-        this.stopTimes = response.result;
+        // this.stopTimes = response.result;
+
+        this.stopTimes = response.result.map((item: any) => ({
+          ...item,
+          dateStart: item.startTime,
+        }));
+
         console.log('getStopTimes: ', this.stopTimes);
         this.stopTimesGrid?.instance.endCustomLoading();
         this.isLoading = false;
