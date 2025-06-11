@@ -1,8 +1,17 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { ToastrService } from 'ngx-toastr';
 import { PihStopLineInputService } from '../services/pih-stop-line-input.service';
 import { DxDataGridComponent } from 'devextreme-angular';
+import { Workbook } from 'exceljs';
+import { exportDataGrid } from 'devextreme/excel_exporter';
+import saveAs from 'file-saver';
 
 @Component({
   selector: 'app-psli-input',
@@ -17,7 +26,7 @@ export class PsliInputComponent implements OnInit, AfterViewInit {
     private toastr: ToastrService,
     private jwtHelperSvc: JwtHelperService,
     private pihStopLineSvc: PihStopLineInputService,
-    private cdr: ChangeDetectorRef,
+    private cdr: ChangeDetectorRef
   ) {}
 
   jwt!: any;
@@ -59,7 +68,6 @@ export class PsliInputComponent implements OnInit, AfterViewInit {
    */
   getUserArea() {
     this.pihStopLineSvc.getUserArea(this.jwt.Username).subscribe((response) => {
-      
       this.userArea = response.result;
       this.getStopItems(this.userArea.productTypeId);
       this.getLines(this.userArea.productTypeId);
@@ -109,23 +117,25 @@ export class PsliInputComponent implements OnInit, AfterViewInit {
   }
 
   getStopTimes() {
-
     this.stopTimesGrid?.instance.beginCustomLoading(
       `Đang tải dữ liệu, vui lòng đợi...`
-    )
+    );
     this.isLoading = true;
 
-    this.pihStopLineSvc.getStopTimes(this.searchVo).subscribe((response) => {
-      this.stopTimes = response.result;
-      console.log('getStopTimes: ', this.stopTimes);
-      this.stopTimesGrid?.instance.endCustomLoading();
-      this.isLoading = false;
-    }, (error) => {
-      this.toastr.error('Lỗi khi tải dữ liệu', 'Error');
-      console.error('Error fetching stop times:', error);
-      this.stopTimesGrid?.instance.endCustomLoading();
-      this.isLoading = false;
-    });
+    this.pihStopLineSvc.getStopTimes(this.searchVo).subscribe(
+      (response) => {
+        this.stopTimes = response.result;
+        console.log('getStopTimes: ', this.stopTimes);
+        this.stopTimesGrid?.instance.endCustomLoading();
+        this.isLoading = false;
+      },
+      (error) => {
+        this.toastr.error('Lỗi khi tải dữ liệu', 'Error');
+        console.error('Error fetching stop times:', error);
+        this.stopTimesGrid?.instance.endCustomLoading();
+        this.isLoading = false;
+      }
+    );
   }
 
   openInputModal() {
@@ -147,6 +157,22 @@ export class PsliInputComponent implements OnInit, AfterViewInit {
     console.log('onChangeStopItem: ', event);
 
     this.itemSelected = this.stopItems.find((item) => item.id === event);
+  }
+
+  onExportStopTimes(event: any) {
+    const workbook = new Workbook();
+    const worksheet = workbook.addWorksheet('StopTimes');
+    exportDataGrid({
+      component: event.component,
+      worksheet: worksheet,
+    }).then(function () {
+      workbook.xlsx.writeBuffer().then(function (buffer: BlobPart) {
+        saveAs(
+          new Blob([buffer], { type: 'application/octet-stream' }),
+          'StopTimes.xlsx'
+        );
+      });
+    });
   }
 
   // Style header
