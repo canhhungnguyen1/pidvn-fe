@@ -10,6 +10,7 @@
   [rowAlternationEnabled]="false"
   [hoverStateEnabled]="true"
   (onCellPrepared)="onCellPrepared($event)"
+  (onExporting)="onExportStopTimes($event)"
   style="margin-top: 15px"
 >
   <dxo-header-filter [visible]="true"></dxo-header-filter>
