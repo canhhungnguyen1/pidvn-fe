@@ -131,10 +131,10 @@ export class PihStopLineMainComponent implements OnInit {
     
 
     // Kiểm tra user thuộc khu vực nào
-    // if (!this.productTypeSelected) {
-    //   this.toastr.warning('User chưa được set khu vực nhập dừng máy','Warning')
-    //   return
-    // }
+    if (!this.productTypeSelected) {
+      this.toastr.warning('User chưa được set khu vực nhập dừng máy','Warning')
+      return
+    }
 
     this.linesByArea = new Array();
     for (const item of this.lines) {
